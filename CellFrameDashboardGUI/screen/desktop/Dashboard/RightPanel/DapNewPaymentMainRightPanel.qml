@@ -64,7 +64,9 @@ DapNewPaymentMainRightPanelForm
                 dapTextNotEnoughTokensWarning.visible = true
                 dapButtonSend.visible = true
             }
-
+            if(dapComboboxNetwork.displayText !== "")
+                modulesController.getComission(dapComboboxNetwork.displayText)
+//            console.log("NETWORK SELECTED ", dapComboboxNetwork.displayText)
 //            dapTextInputAmountPayment.text = ""
             balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
 
@@ -143,11 +145,11 @@ DapNewPaymentMainRightPanelForm
                 var amount = mathWorker.coinsToBalance(dapTextInputAmountPayment.text)
                 var commission = mathWorker.sumCoins(dapWalletMessagePopup.feeStruct.network_fee.fee_datoshi,
                                                      dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi,
-                                                     false)
+                                                     true)
                 var fee = dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi
-                var amountWithCommission = mathWorker.sumCoins(dapTextInputAmountPayment.text, commission, true)
+//                console.log("AMOUT WITH FEE TEST: ", amount, commission)
+                var amountWithCommission = mathWorker.sumCoins(amount, commission, false)
 
-                commission = mathWorker.coinsToBalance(commission)
                 var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
 
                 console.log("amount_datoshi", amount)
@@ -158,9 +160,10 @@ DapNewPaymentMainRightPanelForm
                 if (!stringWorker.testAmount(full_balance, amountWithCommission))
                 {
                     console.log("Not enough tokens")
+                    var maxValue = mathWorker.subCoins(mathWorker.coinsToBalance(full_balance), commission, false)
                     dapTextNotEnoughTokensWarning.text =
                         qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins).arg(amountWithCommission)
+                        arg(maxValue).arg(amountWithCommission)
                 }
                 else
                 {
@@ -190,7 +193,9 @@ DapNewPaymentMainRightPanelForm
     }
     function calculatePrecentAmount(percent)
     {
-        var commission = 0.05
+        var commission = mathWorker.sumCoins(dapWalletMessagePopup.feeStruct.network_fee.fee_datoshi,
+                                             dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi,
+                                             false)
 
         if(!stringWorker.testAmount(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins, commission))
             return "0.00"

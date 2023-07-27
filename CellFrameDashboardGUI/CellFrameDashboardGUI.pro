@@ -35,6 +35,7 @@ HEADERS += $$PWD/DapServiceController.h \
     Modules/Tokens/DapModuleTokens.h \
     Modules/TxExplorer/DapModuleTxExplorer.h \
     Modules/Wallet/DapModuleWallet.h \
+    Modules/Wallet/DapTxWorker.h \
     Modules/Wallet/WalletRestore/randomfile.h \
     Modules/Wallet/WalletRestore/randomwords.h \
     Modules/Wallet/WalletRestore/wallethashmanager.h \
@@ -89,6 +90,7 @@ SOURCES += $$PWD/main.cpp \
     Modules/Tokens/DapModuleTokens.cpp \
     Modules/TxExplorer/DapModuleTxExplorer.cpp \
     Modules/Wallet/DapModuleWallet.cpp \
+    Modules/Wallet/DapTxWorker.cpp \
     Modules/Wallet/WalletRestore/randomfile.cpp \
     Modules/Wallet/WalletRestore/randomwords.cpp \
     Modules/Wallet/WalletRestore/wallethashmanager.cpp \
