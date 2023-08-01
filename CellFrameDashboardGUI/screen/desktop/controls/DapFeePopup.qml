@@ -25,26 +25,16 @@ Popup {
     property alias fee3Name  : fee3Name
     property alias fee3Value : fee3Value
 
+    property string network: ""
+
     property bool isLoading: false
 
     property var feeStruct:
     {
-        "network": "",
-        "network_fee": {
-            "fee_addr": "",
-            "fee_coins": "0.0",
-            "fee_datoshi": "0",
-            "fee_ticker": ""
-        },
-        "validator_fee": {
-            "average_fee_coins": "0.0",
-            "average_fee_datoshi": "0",
-            "fee_ticker": "",
-            "max_fee_coins": "0.0",
-            "max_fee_datoshi": "0",
-            "min_fee_coins": "0.0",
-            "min_fee_datoshi": "0"
-        }
+        "error": 1,
+        "fee_ticker": "UNKNOWN",
+        "network_fee": "0.00",
+        "validator_fee": "0.00"
     }
 
     width: 306
@@ -172,7 +162,7 @@ Popup {
                         anchors.fill: parent
                         textFont: mainFont.dapFont.medium14
                         textColor: currTheme.white
-                        fullText: feeStruct.network_fee.fee_coins + " " + feeStruct.network_fee.fee_ticker
+                        fullText: feeStruct.network_fee + " " + feeStruct.fee_ticker
                         horizontalAlign: Text.AlignRight
                     }
                 }
@@ -204,7 +194,7 @@ Popup {
                         anchors.fill: parent
                         textFont: mainFont.dapFont.medium14
                         textColor: currTheme.white
-                        fullText: feeStruct.validator_fee.average_fee_coins + " " + feeStruct.validator_fee.fee_ticker
+                        fullText: feeStruct.validator_fee + " " + feeStruct.fee_ticker
                         horizontalAlign: Text.AlignRight
                     }
                 }
@@ -312,8 +302,21 @@ Popup {
     }
 
     function smartOpen(title, contentText) {
-        dapContentTitle.text = title
-        dapContentText.text = contentText
-        dialog.open()
+        feeStruct = txWorker.getFee(network);
+
+        if(feeStruct.error === 0)
+        {
+            isLoading = true
+            dapContentTitle.text = title
+            dapContentText.text = contentText
+            dialog.open()
+        }
+        else
+        {
+            isLoading = false
+            dapContentTitle.text = title
+            dapContentText.text = qsTr("Error processing network information")
+            dialog.open()
+        }
     }
 }

@@ -36,10 +36,15 @@ public:
     void setCurrentWalletIndex(int newIndex);
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
     QString currentWalletName(){return m_currentWalletName;};
+    Q_PROPERTY(bool feeUpdate READ feeUpdate WRITE setFeeUpdate NOTIFY feeUpdateChanged)
+    bool feeUpdate(){return m_flagFeeUpdate;};
+    void setFeeUpdate(bool flag);
 
     Q_INVOKABLE void getComission(QString network);
 
     QString testData{"test data"};
+
+    QJsonDocument m_feeDoc;
 
 
     //workers
@@ -60,14 +65,16 @@ public:
 
 
 private:
-    QTimer *m_timerUpdateData;
+    QTimer *m_timerUpdateData, *m_timerUpdateFee;
     QSettings *s_settings;
 
     bool m_firstDataLoad{false};
+    bool m_flagFeeUpdate{false};
 
 public slots:
     Q_INVOKABLE void getWalletList();
     Q_INVOKABLE void getNetworkList();
+    Q_INVOKABLE void getFee();
 
 private slots:
 
@@ -83,6 +90,8 @@ signals:
     void currentWalletIndexChanged();
     void currentWalletNameChanged();
     void sigFeeRcv(const QVariant &rcvData);
+
+    void feeUpdateChanged();
 
 };
 

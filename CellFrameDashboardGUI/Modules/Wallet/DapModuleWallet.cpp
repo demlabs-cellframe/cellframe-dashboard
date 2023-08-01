@@ -5,15 +5,22 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     , m_modulesCtrl(parent)
     , m_timerUpdateWallet(new QTimer())
     , m_walletHashManager(new WalletHashManager())
+    , m_txWorker(new DapTxWorker())
 {
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
         m_walletHashManager->setContext(m_modulesCtrl->s_appEngine->rootContext());
         m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
+        m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("txWorker", m_txWorker);
 
         initConnect();
         m_timerUpdateWallet->start(2000);
 //        setStatusInit(true);
+    });
+
+    connect(m_modulesCtrl, &DapModulesController::sigFeeRcv, [=] (const QVariant &data)
+    {
+        m_txWorker->m_feeBuffer = QJsonDocument::fromJson(data.toByteArray());
     });
 }
 DapModuleWallet::~DapModuleWallet()
@@ -48,6 +55,9 @@ void DapModuleWallet::initConnect()
             this, &DapModuleWallet::rcvHistory,
             Qt::QueuedConnection);
 
+    connect(m_txWorker, &DapTxWorker::sigSendTx,
+            this, &DapModuleWallet::createTx,
+            Qt::QueuedConnection);
 
     connect(m_timerUpdateWallet, &QTimer::timeout,
             this, &DapModuleWallet::slotUpdateWallet,
@@ -111,6 +121,7 @@ void DapModuleWallet::getTxHistory(QStringList args)
 
 void DapModuleWallet::rcvWalletsInfo(const QVariant &rcvData)
 {
+    m_txWorker->m_walletBuffer = QJsonDocument::fromJson(rcvData.toByteArray());
     m_walletsModel = QJsonDocument::fromJson(rcvData.toByteArray());
     emit sigWalletsInfo(m_walletsModel.toJson());
     setStatusInit(true);
