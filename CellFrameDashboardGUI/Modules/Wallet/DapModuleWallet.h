@@ -39,6 +39,9 @@ public:
     Q_INVOKABLE void createWallet(QStringList args);
     Q_INVOKABLE void getTxHistory(QStringList args);
 
+private:
+    void updateWalletModel(QVariant, bool isSingle);
+
 signals:
     void sigWalletInfo(const QVariant& result);
     void sigWalletsInfo(const QVariant& result);

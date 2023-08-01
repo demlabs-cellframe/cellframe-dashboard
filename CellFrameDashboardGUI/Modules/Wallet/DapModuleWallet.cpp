@@ -121,8 +121,7 @@ void DapModuleWallet::getTxHistory(QStringList args)
 
 void DapModuleWallet::rcvWalletsInfo(const QVariant &rcvData)
 {
-    m_txWorker->m_walletBuffer = QJsonDocument::fromJson(rcvData.toByteArray());
-    m_walletsModel = QJsonDocument::fromJson(rcvData.toByteArray());
+    updateWalletModel(rcvData, false);
     emit sigWalletsInfo(m_walletsModel.toJson());
     setStatusInit(true);
 }
@@ -133,6 +132,7 @@ QByteArray DapModuleWallet::getWalletsModel()
 
 void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 {
+    updateWalletModel(rcvData, true);
 //    qDebug()<<rcvData;
 //    if(rcvData == "isEqual")
 //        return;
@@ -169,4 +169,49 @@ void DapModuleWallet::slotUpdateWallet()
     m_timerUpdateWallet->stop();
     getWalletInfo(QStringList()<<QString(m_modulesCtrl->m_currentWalletName) <<"false");
     m_timerUpdateWallet->start(5000);
+}
+
+void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
+{
+    QJsonDocument buff = QJsonDocument::fromJson(data.toByteArray());
+
+    if(buff.isNull() || buff.isEmpty())
+        return ;
+
+    if(!isSingle)
+    {
+        m_walletsModel = buff;
+        m_txWorker->m_walletBuffer = buff;
+    }
+    else
+    {
+        QJsonObject objBuff = buff.object();
+        QString walletNameBuff = objBuff.value("name").toString();
+
+        if(m_walletsModel.isEmpty())
+        {   QJsonArray arr;
+            arr.append(objBuff);
+            m_walletsModel.setArray(arr);
+            m_txWorker->m_walletBuffer = m_walletsModel;
+        }
+        else
+        {
+            QJsonArray arrWallet = m_walletsModel.array();
+
+            for (auto itr  = arrWallet.begin();
+                 itr != arrWallet.end(); itr++)
+            {
+                QJsonObject obj = itr->toObject();
+                if(obj["name"].toString() == walletNameBuff)
+                {
+                    arrWallet.removeAt(itr.i);
+                    arrWallet.insert(itr, objBuff);
+//                    arrWallet.at(itr.i) = objBuff;
+                    m_walletsModel.setArray(arrWallet);
+                    m_txWorker->m_walletBuffer = m_walletsModel;
+                    return ;
+                }
+            }
+        }
+    }
 }

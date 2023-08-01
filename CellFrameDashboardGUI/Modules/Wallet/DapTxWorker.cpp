@@ -242,7 +242,16 @@ QVariantMap DapTxWorker::getBalanceInfo(QString name, QString network, QString f
        balanceDatoshi.isEmpty()       || balanceCoins.isEmpty()       ||
        tokens.isEmpty())
     {
-        qWarning()<< "No tokens";
+        qWarning()<< "No tokens"       << "\n"                  <<
+            "network: "                << network               <<
+            "feeToken: "               << feeTicker             <<
+            "sendToken: "              << sendTicker            <<
+            "walletName: "             << name                  <<
+            "balancePayFeeDatoshi: "   << balancePayFeeDatoshi  <<
+            "balancePayFeeCoins: "     << balancePayFeeCoins    <<
+            "balanceDatoshi: "         << balanceDatoshi        <<
+            "balanceCoins: "           << balanceCoins          <<
+            "tokens.toVariantList(): " << tokens.toVariantList();
         return QVariantMap();
     }
 
