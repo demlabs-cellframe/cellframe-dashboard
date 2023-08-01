@@ -28,13 +28,13 @@ public:
     QJsonDocument m_walletBuffer;
 
 
-    enum Errors{
-        NO_ERROR = 0,
-        RCV_FEE_ERROR = 1,
-        NOT_ENOUGHT_TOKENS,
-        NOT_ENOUGHT_TOKENS_FOR_PAY_FEE,
-        NO_TOKENS,
-        UNKNOWN_ERROR
+    enum DapErrors{
+        DAP_NO_ERROR = 0,
+        DAP_RCV_FEE_ERROR = 1,
+        DAP_NOT_ENOUGHT_TOKENS,
+        DAP_NOT_ENOUGHT_TOKENS_FOR_PAY_FEE,
+        DAP_NO_TOKENS,
+        DAP_UNKNOWN_ERROR
     };
 
 
