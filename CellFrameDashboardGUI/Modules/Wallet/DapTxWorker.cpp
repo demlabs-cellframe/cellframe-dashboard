@@ -38,7 +38,7 @@ QVariantMap DapTxWorker::getAvailableBalance(QVariantMap data)
 
     if(m_feeBuffer.isNull())
     {
-        mapResult.insert("error", RCV_FEE_ERROR);
+        mapResult.insert("error", (int)RCV_FEE_ERROR);
         mapResult.insert("availBalance", "0.00");
         return mapResult;
     }
@@ -59,7 +59,7 @@ QVariantMap DapTxWorker::getAvailableBalance(QVariantMap data)
     QVariantMap balances = getBalanceInfo(walletName, network, feeTicker, sendTicker);
     if(balances.isEmpty())
     {
-        mapResult.insert("error", NO_TOKENS);
+        mapResult.insert("error", (int)NO_TOKENS);
         mapResult.insert("availBalance", "0.00");
         return mapResult;
     }
@@ -73,7 +73,7 @@ QVariantMap DapTxWorker::getAvailableBalance(QVariantMap data)
 
     if(!stringWorker.testAmount(balancePayFee, commission.toString()))
     {
-        mapResult.insert("error", NOT_ENOUGHT_TOKENS_FOR_PAY_FEE);
+        mapResult.insert("error", (int)NOT_ENOUGHT_TOKENS_FOR_PAY_FEE);
         mapResult.insert("availBalance", balancePayFee);
         mapResult.insert("feeSum", commission.toString());
 
@@ -100,7 +100,7 @@ QVariant DapTxWorker::calculatePrecentAmount(QVariantMap data)
     int percent = data.value("percent").toInt();
     QVariantMap balanceInfo = getAvailableBalance(data);
 
-    if(balanceInfo.value("error").toInt() == NO_ERROR)
+    if(balanceInfo.value("error").toInt() == (int)NO_ERROR)
     {
         QVariant availBalance = balanceInfo.value("availBalance");
 
