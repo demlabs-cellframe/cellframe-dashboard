@@ -55,12 +55,8 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
     isSendReqeust = false;
 //    qDebug() << "DapModuleTxExplorer::setHistoryModel"
 //             << "isEqual" << (rcvData.toString() == "isEqual");
-
-    if(rcvData.toString() == "isEqual" || rcvData.toString().isEmpty())
-    {
-        setStatusInit(true);
-        return ;
-    }
+    if(rcvData.toString() == "isEqual")
+        return;
 
     QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
 
@@ -130,6 +126,9 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 
         fullModel.insert(index, itemHistory);
     }
+
+    if(!fullModel.size())
+        setStatusInit(true);
 
     sendCurrentHistoryModel();
 }
@@ -211,7 +210,10 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
 //    model.clear();
 
     if(m_walletName != m_modulesCtrl->m_currentWalletName || !fullModel.size())
+    {
+        s_historyModel->clear();
         return;
+    }
 
     QDateTime currDate = QDateTime::currentDateTime();
 
