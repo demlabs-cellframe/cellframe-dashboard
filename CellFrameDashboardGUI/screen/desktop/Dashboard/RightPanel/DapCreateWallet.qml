@@ -46,6 +46,9 @@ DapCreateWalletForm
 
     dapButtonClose.onClicked:
     {
+        modulesController.feeUpdate = false
+        txExplorerModule.statusProcessing = true
+
         dapWalletNameWarning.text = ""
         walletModule.timerUpdateFlag(true);
         navigator.popPage()

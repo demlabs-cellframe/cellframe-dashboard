@@ -38,7 +38,10 @@ void DapModuleTxExplorer::initConnect()
     {
 //            qDebug()<<"m_statusProcessing" << m_statusProcessing;
         if(m_statusProcessing)
+        {
             m_timerHistoryUpdate->start(10000);
+            sendCurrentHistoryModel();
+        }
         else
         {
             m_timerHistoryUpdate->stop();
