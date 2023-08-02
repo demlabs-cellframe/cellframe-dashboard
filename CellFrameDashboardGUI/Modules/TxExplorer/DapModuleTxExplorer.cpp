@@ -56,13 +56,13 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 //    qDebug() << "DapModuleTxExplorer::setHistoryModel"
 //             << "isEqual" << (rcvData.toString() == "isEqual");
 
-    if(rcvData.toString() == "isEqual")
-        return;
+    if(rcvData.toString() == "isEqual" || rcvData.toString().isEmpty())
+    {
+        setStatusInit(true);
+        return ;
+    }
 
     QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
-
-//    if (!doc.isArray())
-//        return;
 
     if (!doc.isObject())
         return;
@@ -78,8 +78,6 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 
 //    qDebug() << "walletName" << doc["walletName"].toString()
 //            << "isLastActions" << doc["isLastActions"].toBool();
-
-//    historyModel.clear();
     fullModel.clear();
 
     QJsonArray historyArray = doc["history"].toArray();
@@ -131,26 +129,14 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 //                 << historyArray.at(i)["tx_hash"].toString();
 
         fullModel.insert(index, itemHistory);
-
-//        fullModel.add(itemHistory);
-
-/*        auto test = fullModel.indexOf(itemHistory);
-
-        if(test == -1)
-            fullModel.add(itemHistory);
-        else
-            fullModel.set(test, itemHistory);*/
     }
 
     sendCurrentHistoryModel();
-
-    //    emit pairModelUpdated();
 }
 
 void DapModuleTxExplorer::clearHistory()
 {
     s_historyModel->clear();
-    //    sendCurrentHistoryModel();
 }
 
 
@@ -162,9 +148,6 @@ void DapModuleTxExplorer::setLastActions(bool flag)
     {
         m_isLastActions = flag;
         sendCurrentHistoryModel();
-
-//        s_historyModel->clear();
-//        setStatusInit(false);
     }
 }
 
@@ -244,8 +227,6 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
 
     m_sectionNumber = 0;
     m_elementNumber = 0;
-
-//    qint64 date_to_secs = date.toSecsSinceEpoch();
 
     QSet<QString> weekSet;
     for (auto i = 0; i < 7; ++i)
@@ -397,11 +378,6 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
     setStatusInit(true);
 
 //    qDebug() << "DapModuleTxExplorer::sendCurrentHistoryModel" << s_historyModel->size();
-
-//    if (m_isLastActions)
-//        context->setContextProperty("modelLastActions", s_historyModel);
-//    else
-//        context->setContextProperty("modelHistory", s_historyModel);
 }
 
 void DapModuleTxExplorer::slotHistoryUpdate()
