@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QString>
+
 
 #include <dap_chain_common.h>
 
