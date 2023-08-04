@@ -148,16 +148,18 @@ DapRectangleLitAndShaded
 
                             width: 160
                         }
-                        DapBigText
+                        DapColorText
                         {
 //                            visible: fee !== "0.0"
 //                            Layout.fillHeight: true
+                            alwaysHoverShow: true
                             Layout.fillWidth: true
                             height: 15
-                            textColor: currTheme.gray
+                            textColor: currTheme.lime
+                            textHoverColor: currTheme.orange
                             horizontalAlign: Qt.AlignRight
                             verticalAlign: Qt.AlignVCenter
-                            fullText: qsTr("fee: ") + fee + " " + token
+                            fullText: qsTr("Details") //+ fee + " " + token
                             textFont: mainFont.dapFont.regular12
 
                             width: 160

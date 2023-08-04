@@ -106,11 +106,17 @@ public:
   Q_INVOKABLE QString value() const;
   Q_INVOKABLE void setValue (const QString &value);
 
+  Q_INVOKABLE QString m_value() const;
+  Q_INVOKABLE void setM_value (const QString &value);
+
   Q_INVOKABLE QString fee() const;
   Q_INVOKABLE void setFee (const QString &fee);
 
   Q_INVOKABLE QString fee_token() const;
   Q_INVOKABLE void setFee_token (const QString &fee_token);
+
+  Q_INVOKABLE QString fee_net() const;
+  Q_INVOKABLE void setFee_net (const QString &fee_token);
 protected:
   bool _beginSetValue();
   void _endSetValue();
@@ -134,8 +140,10 @@ signals:
   void tokenChanged();
   void directionChanged();
   void valueChanged();
+  void m_valueChanged();
   void feeChanged();
   void fee_tokenChanged();
+  void fee_netChanged();
   /// @}
 
   /****************************************//**
@@ -186,8 +194,10 @@ public:
     token,
     direction,
     value,
+    m_value,
     fee,
-    fee_token
+    fee_token,
+    fee_net
   };
   Q_ENUM(FieldId)
 
@@ -207,9 +217,10 @@ public:
     QString token;
     QString direction;
     QString value;
+    QString m_value;
     QString fee;
     QString fee_token;
-
+    QString fee_net;
   };
 
   typedef QList<DapHistoryModel::Item>::Iterator Iterator;
