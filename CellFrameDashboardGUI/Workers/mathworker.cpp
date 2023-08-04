@@ -8,17 +8,28 @@ MathWorker::MathWorker(QObject *parent) :
 
 void MathWorker::test()
 {
-    QString testStr =  "1000000000000000000000999";
-    QString testStr2 = "1000000000000000000000888";
 
 //    uint256_t a = dap_cvt_str_to_uint256();     //str -> uint256
 //    uint256_t b = dap_chain_coins_to_balance(); //strCoins - > uint256 balance
 //    QString c = dap_chain_balance_to_coins ();  //uint256 balance -> str coins
-//    QString d =dap_chain_balance_print ();      //uint256 balance -> str balance
+//    QString d = dap_chain_balance_print ();      //uint256 balance -> str balance
+
+    QString testStr =  "1000000000000000000";
+    QString testStr2 = "3";
+
+//    uint64_t convertTest = 0.000000000000000013f;
+//    uint256_t test = dap_chain_uint256_from(convertTest);
+//    uint64_t convertTest2 = 0.5f;
+//    uint256_t test2 = dap_chain_uint256_from(convertTest2);
 
     uint256_t test = dap_cvt_str_to_uint256(testStr.toStdString().data());
     uint256_t test2 = dap_cvt_str_to_uint256(testStr2.toStdString().data());
+//    qDebug()<< dap_chain_balance_to_coins(accum)
+
     uint256_t accum = {};
+
+    DIV_256(test, test2, &accum); // '*'
+    QString strMult_ = dap_chain_balance_to_coins(accum);
 
 
     QVariant resCompare = EQUAL_256(test, test2);

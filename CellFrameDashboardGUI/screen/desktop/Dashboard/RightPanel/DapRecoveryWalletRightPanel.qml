@@ -226,6 +226,7 @@ DapRecoveryWalletRightPanelForm
 
     dapButtonClose.onClicked:
     {
+        txExplorerModule.statusProcessing = true
         pop()
     }
 

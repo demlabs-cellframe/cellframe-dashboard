@@ -82,6 +82,8 @@ DapNewPaymentMainRightPanelForm
 
     dapButtonClose.onClicked:
     {
+        modulesController.feeUpdate = false
+        txExplorerModule.statusProcessing = true
         walletModule.timerUpdateFlag(true);
         pop()
     }
@@ -112,123 +114,91 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
-                console.log("dapWalletMessagePopup.smartOpen")
-                dapWalletMessagePopup.smartOpen(
-                            qsTr("Confirming the transaction"),
-                            qsTr("Attention, the transaction fee will be "))
+                if (dapComboBoxTokenModel === null || dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
+                {
+                    if (dapComboBoxTokenModel === null)
+                    {
+                        console.warn("dapComboBoxTokenModel === null")
+                        dapTextNotEnoughTokensWarning.text = qsTr("Error. No tokens")
+                    }
+                    if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
+                    {
+                        console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
+                        dapTextNotEnoughTokensWarning.text = qsTr("Error. No selected token")
+                    }
+                }
+                else
+                {
+                    var data = {
+                    "network"      : dapComboboxNetwork.displayText,
+                    "amount"       : dapTextInputAmountPayment.text,
+                    "send_ticker"  : dapComboBoxToken.displayText,
+                    "wallet_name"  : walletInfo.name}
 
-                modulesController.getComission(dapComboboxNetwork.displayText)
+                    var res = txWorker.approveTx(data);
 
+                    switch(res.error) {
+                    case 0:
+                        console.log("Correct tx data")
+                        console.log("dapWalletMessagePopup.smartOpen")
+                        dapWalletMessagePopup.network = dapComboboxNetwork.displayText
+                        dapWalletMessagePopup.smartOpen(
+                                    qsTr("Confirming the transaction"),
+                                    qsTr("Attention, the transaction fee will be "))
+                        break;
+                    case 1:
+                        console.warn("Rcv fee error")
+                        dapTextNotEnoughTokensWarning.text =
+                            qsTr("Error processing network information")
+                        break;
+                    case 2:
+                        console.warn("Not enough tokens")
+                        dapTextNotEnoughTokensWarning.text =
+                            qsTr("Not enough available tokens. Maximum value with fee = %1. Enter a lower value. Current value = %2")
+                                .arg(res.availBalance).arg(dapTextInputAmountPayment.text)
+                        break;
+                    case 3:
+                        console.warn("Not enough tokens for pay fee")
+                        dapTextNotEnoughTokensWarning.text =
+                            qsTr("Not enough available tokens for fee. Balance = %1. Current fee value = %2")
+                                .arg(res.availBalance).arg(res.feeSum)
+                        break;
+                    case 4:
+                        console.warn("No tokens for create transaction")
+                        dapTextNotEnoughTokensWarning.text =
+                            qsTr("No tokens for create transaction")
+                        break;
+                    default:
+                        console.warn("Unknown error")
+                        dapTextNotEnoughTokensWarning.text =
+                            qsTr("Unknown error")
+                        break;
+                    }
+                }
             }
         }
     }
 
     dapWalletMessagePopup.onSignalAccept:
     {
-        print("dapWalletMessagePopup.onSignalAccept", accept)
+        console.log("dapWalletMessagePopup.onSignalAccept", accept)
 
         if (accept)
         {
-            if (dapComboBoxTokenModel === null || dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
-            {
-                if (dapComboBoxTokenModel === null)
-                    console.warn("dapComboBoxTokenModel === null")
-//                if (dapComboBoxChainModel === null)
-//                    console.warn("dapComboBoxChainModel === null")
-                if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
-                    console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
-//                if (dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
-//                    console.warn("dapComboBoxChainModel.count <= dapComboboxChain.currentIndex")
-            }
-            else
-            {
-                var amount = mathWorker.coinsToBalance(dapTextInputAmountPayment.text)
-                var commission = mathWorker.sumCoins(dapWalletMessagePopup.feeStruct.network_fee.fee_datoshi,
-                                                     dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi,
-                                                     true)
-                var fee = dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi
-//                console.log("AMOUT WITH FEE TEST: ", amount, commission)
-                var amountWithCommission = mathWorker.sumCoins(amount, commission, false)
+            dapTextNotEnoughTokensWarning.text = ""
+            //create tx
 
-                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
+            var dataTx = {
+            "network"      : dapComboboxNetwork.displayText,
+            "amount"       : dapTextInputAmountPayment.text,
+            "send_ticker"  : dapComboBoxToken.displayText,
+            "wallet_from"  : walletInfo.name,
+            "wallet_to"    : dapTextInputRecipientWalletAddress.text}
 
-                console.log("amount_datoshi", amount)
-                console.log("comission_datoshi", commission)
-                console.log("amountWithCommission_coins", amountWithCommission)
-                console.log("full_balance_coins", full_balance)
-
-                if (!stringWorker.testAmount(full_balance, amountWithCommission))
-                {
-                    console.log("Not enough tokens")
-                    var maxValue = mathWorker.subCoins(mathWorker.coinsToBalance(full_balance), commission, false)
-                    dapTextNotEnoughTokensWarning.text =
-                        qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                        arg(maxValue).arg(amountWithCommission)
-                }
-                else
-                {
-                    console.log("Enough tokens. Correct address length.")
-                    dapTextNotEnoughTokensWarning.text = ""
-
-                    console.log("DapCreateTransactionCommand:")
-                    console.log("   network:", dapComboboxNetwork.displayText)
-                    console.log("   wallet from:", walletInfo.name)
-                    console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-                    console.log("   token:", dapComboBoxToken.displayText)
-                    console.log("   amount:", amount)
-                    console.log("   fee:", fee)
-
-
-
-                    var argsRequest = logicMainApp.createRequestToService("DapCreateTransactionCommand",
-                        dapComboboxNetwork.displayText,
-                        walletInfo.name,
-                        dapTextInputRecipientWalletAddress.text,
-                        dapComboBoxToken.displayText, amount, fee)
-
-                    walletModule.createTx(argsRequest);
-                }
-            }
+            console.info(dataTx)
+            txWorker.sendTx(dataTx)
         }
     }
-    function calculatePrecentAmount(percent)
-    {
-        var commission = mathWorker.sumCoins(dapWalletMessagePopup.feeStruct.network_fee.fee_datoshi,
-                                             dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi,
-                                             false)
-
-        if(!stringWorker.testAmount(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins, commission))
-            return "0.00"
-
-        var balanceDatoshi = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi
-        var precentDatoshi = mathWorker.coinsToBalance(percent)
-        var comissionDatoshi = mathWorker.coinsToBalance(commission)
-
-        var availBalance = mathWorker.subCoins(balanceDatoshi, comissionDatoshi, true)
-
-        var resAmount = mathWorker.multCoins(availBalance, precentDatoshi, false)
-
-
-        //down fixed
-        var digits = 6
-        const factor = 10 ** digits;
-        var abtAmount = (Math.round(parseFloat(resAmount) * factor - 0.5) / factor).toFixed(digits);
-        abtAmount = stringWorker.clearZeros(abtAmount)
-
-        var resAbt
-        if(abtAmount[0]=== ".")
-            resAbt = "~0"+abtAmount
-        else
-            resAbt = "~"+abtAmount
-
-        var res = [resAmount, resAbt]
-//        console.log(res[0], res[1])
-
-
-
-        return res
-    }
-
 
     Connections
     {
