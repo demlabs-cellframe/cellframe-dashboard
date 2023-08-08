@@ -140,9 +140,20 @@ DapRectangleLitAndShaded {
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: "Fee"
+                    title.text: "Validator fee"
                     content.text: detailsModel.get(0).fee + " " + detailsModel.get(0).fee_token
                     title.color: currTheme.gray
+                }
+                TextDetailsTx {
+                    title.text: "Fee"
+                    content.text: detailsModel.get(0).fee_net + " " + detailsModel.get(0).token
+                    title.color: currTheme.gray
+                }
+                TextDetailsTx {
+                    title.text: detailsModel.get(0).m_direction === "from" ? qsTr("Deposited") : qsTr("Burning")
+                    content.text: detailsModel.get(0).m_direction=== "from" ? "+" : "-"  + " " + detailsModel.get(0).m_value + " " + detailsModel.get(0).m_token
+                    title.color: currTheme.gray
+                    visible: detailsModel.get(0).m_value !== "0.0" && detailsModel.get(0).m_value !== ""
                 }
                 TextDetailsTx {
                     title.text: "Atom"
@@ -150,6 +161,7 @@ DapRectangleLitAndShaded {
                     title.color: currTheme.gray
                     copyButton.visible: true
                     copyButton.popupText: "Atom copied"
+                    visible: detailsModel.get(0).atom !== ""
                 }
                 Item{
                     height: 10

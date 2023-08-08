@@ -148,10 +148,34 @@ DapRectangleLitAndShaded
 
                             width: 160
                         }
-                        DapColorText
+
+                        DapTextWithList
                         {
-//                            visible: fee !== "0.0"
-//                            Layout.fillHeight: true
+                            ListModel{
+                                id: model_tooltip
+                                Component.onCompleted:
+                                {
+                                    append ({
+                                                name: qsTr("Fee: "),
+                                                number: fee_net ,
+                                                token_name: token
+                                            })
+                                    append ({
+                                                name: qsTr("Validator fee: "),
+                                                number: fee,
+                                                token_name: fee_token
+                                            })
+                                    if(m_value !== "0.0" && m_value !== "")
+                                    {
+                                        append ({
+                                                    name: m_direction === "from" ? qsTr("Deposited: ") : qsTr("Burning: "),
+                                                    number: m_direction === "from" ? "+ " : "- " + " " + m_value,
+                                                    token_name: m_token
+                                                })
+                                    }
+                                }
+                            }
+
                             alwaysHoverShow: true
                             Layout.fillWidth: true
                             height: 15
@@ -159,9 +183,9 @@ DapRectangleLitAndShaded
                             textHoverColor: currTheme.orange
                             horizontalAlign: Qt.AlignRight
                             verticalAlign: Qt.AlignVCenter
-                            fullText: qsTr("Details") //+ fee + " " + token
-                            textFont: mainFont.dapFont.regular12
-
+                            fullText: qsTr("Details")
+                            textAndMenuFont: mainFont.dapFont.regular12
+                            listView.model: model_tooltip
                             width: 160
                         }
                     }
@@ -193,26 +217,6 @@ DapRectangleLitAndShaded
                         onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
 
                     }
-
-//                    Image
-//                    {
-//                        Layout.preferredHeight: 20
-//                        Layout.preferredWidth: 20
-//    //                    innerWidth: 20
-//    //                    innerHeight: 20
-
-//                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
-
-//                        source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
-
-//                        MouseArea
-//                        {
-//                            id: mouseArea
-//                            anchors.fill: parent
-//                            hoverEnabled: true
-//                            onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
-//                        }
-//                    }
                 }
 
                 Rectangle

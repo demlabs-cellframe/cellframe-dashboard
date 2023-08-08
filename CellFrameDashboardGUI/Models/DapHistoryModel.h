@@ -37,8 +37,11 @@ protected:
   Q_PROPERTY (QString token         READ token         WRITE setToken         NOTIFY tokenChanged)
   Q_PROPERTY (QString direction     READ direction     WRITE setDirection     NOTIFY directionChanged)
   Q_PROPERTY (QString value         READ value         WRITE setValue         NOTIFY valueChanged)
+  Q_PROPERTY (QString m_value       READ m_value       WRITE setM_Value       NOTIFY m_valueChanged)
+  Q_PROPERTY (QString m_token       READ m_token       WRITE setM_token       NOTIFY m_tokenChanged)
   Q_PROPERTY (QString fee           READ fee           WRITE setFee           NOTIFY feeChanged)
   Q_PROPERTY (QString fee_token     READ fee_token     WRITE setFee_token     NOTIFY fee_tokenChanged)
+  Q_PROPERTY (QString fee_net       READ fee_net       WRITE setFee_net       NOTIFY fee_netChanged)
   /// @}
 
   /****************************************//**
@@ -107,8 +110,11 @@ public:
   Q_INVOKABLE void setValue (const QString &value);
 
   Q_INVOKABLE QString m_value() const;
-  Q_INVOKABLE void setM_value (const QString &value);
+  Q_INVOKABLE void setM_Value (const QString &m_value);
 
+  Q_INVOKABLE QString m_token() const;
+  Q_INVOKABLE void setM_token (const QString &m_token);
+  
   Q_INVOKABLE QString fee() const;
   Q_INVOKABLE void setFee (const QString &fee);
 
@@ -116,7 +122,7 @@ public:
   Q_INVOKABLE void setFee_token (const QString &fee_token);
 
   Q_INVOKABLE QString fee_net() const;
-  Q_INVOKABLE void setFee_net (const QString &fee_token);
+  Q_INVOKABLE void setFee_net (const QString &fee_net);
 protected:
   bool _beginSetValue();
   void _endSetValue();
@@ -141,6 +147,7 @@ signals:
   void directionChanged();
   void valueChanged();
   void m_valueChanged();
+  void m_tokenChanged();
   void feeChanged();
   void fee_tokenChanged();
   void fee_netChanged();
@@ -195,6 +202,7 @@ public:
     direction,
     value,
     m_value,
+    m_token,
     fee,
     fee_token,
     fee_net
@@ -218,6 +226,7 @@ public:
     QString direction;
     QString value;
     QString m_value;
+    QString m_token;
     QString fee;
     QString fee_token;
     QString fee_net;
