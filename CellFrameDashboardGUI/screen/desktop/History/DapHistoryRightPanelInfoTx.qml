@@ -151,7 +151,12 @@ DapRectangleLitAndShaded {
                 }
                 TextDetailsTx {
                     title.text: detailsModel.get(0).m_direction === "from" ? qsTr("Deposited") : qsTr("Burning")
-                    content.text: detailsModel.get(0).m_direction=== "from" ? "+" : "-"  + " " + detailsModel.get(0).m_value + " " + detailsModel.get(0).m_token
+                    content.text:
+                    {
+                        var str = detailsModel.get(0).m_direction === "from" ? "+" : "-"
+                        str += " " + detailsModel.get(0).m_value + " " + detailsModel.get(0).m_token
+                        return str
+                    }
                     title.color: currTheme.gray
                     visible: detailsModel.get(0).m_value !== "0.0" && detailsModel.get(0).m_value !== ""
                 }

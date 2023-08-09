@@ -40,6 +40,7 @@ static const QHash<QString, DapHistoryModel::DapHistoryModel::FieldId> s_fieldId
     {"value",        DapHistoryModel::FieldId::value},
     {"m_value",      DapHistoryModel::FieldId::m_value},
     {"m_token",      DapHistoryModel::FieldId::m_token},
+    {"m_direction",  DapHistoryModel::FieldId::m_direction},
     {"fee",          DapHistoryModel::FieldId::fee},
     {"fee_token",    DapHistoryModel::FieldId::fee_token},
     {"fee_net",      DapHistoryModel::FieldId::fee_net},
@@ -385,6 +386,7 @@ QVariant DapHistoryModel::_getValue (const DapHistoryModel::Item &a_item, int a_
     case DapHistoryModel::FieldId::value:         return a_item.value;
     case DapHistoryModel::FieldId::m_value:       return a_item.m_value;
     case DapHistoryModel::FieldId::m_token:       return a_item.m_token;
+    case DapHistoryModel::FieldId::m_direction:   return a_item.m_direction;
     case DapHistoryModel::FieldId::fee:           return a_item.fee;
     case DapHistoryModel::FieldId::fee_token:     return a_item.fee_token;
     case DapHistoryModel::FieldId::fee_net:       return a_item.fee_net;
@@ -414,6 +416,7 @@ void DapHistoryModel::_setValue (DapHistoryModel::Item &a_item, int a_fieldId, c
     case DapHistoryModel::FieldId::value:         a_item.value        = a_value.toString(); break;
     case DapHistoryModel::FieldId::m_value:       a_item.m_value      = a_value.toString(); break;
     case DapHistoryModel::FieldId::m_token:       a_item.m_token      = a_value.toString(); break;
+    case DapHistoryModel::FieldId::m_direction:   a_item.m_direction  = a_value.toString(); break;
     case DapHistoryModel::FieldId::fee:           a_item.fee          = a_value.toString(); break;
     case DapHistoryModel::FieldId::fee_token:     a_item.fee_token    = a_value.toString(); break;
     case DapHistoryModel::FieldId::fee_net:       a_item.fee_net      = a_value.toString(); break;
@@ -780,6 +783,20 @@ void ItemHistoryBridge::setFee_net (const QString &fee_net)
   _endSetValue();
 }
 
+QString ItemHistoryBridge::m_direction() const
+{
+  return (d && d->item) ? d->item->m_direction : QString();
+}
+
+void ItemHistoryBridge::setM_direction (const QString &m_direction)
+{
+  if (!_beginSetValue())
+    return;
+  d->item->m_direction   = m_direction;
+  emit m_directionChanged();
+  _endSetValue();
+}
+
 QString ItemHistoryBridge::m_token() const
 {
   return (d && d->item) ? d->item->m_token : QString();
@@ -839,6 +856,7 @@ QVariant ItemHistoryBridge::operator[] (const QString &a_valueName)
     case DapHistoryModel::FieldId::value:         return value();        break;
     case DapHistoryModel::FieldId::m_value:       return m_value();      break;
     case DapHistoryModel::FieldId::m_token:       return m_token();      break;
+    case DapHistoryModel::FieldId::m_direction:   return m_direction();    break;
     case DapHistoryModel::FieldId::fee:           return fee();          break;
     case DapHistoryModel::FieldId::fee_token:     return fee_token();    break;
     case DapHistoryModel::FieldId::fee_net:       return fee_net();      break;

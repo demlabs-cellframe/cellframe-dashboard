@@ -132,7 +132,7 @@ DapRectangleLitAndShaded
                     ColumnLayout
                     {
                         Layout.fillHeight: true
-                        Layout.fillWidth: true
+                        Layout.fillWidth: false
                         spacing: 0
 
                         DapBigText
@@ -167,9 +167,11 @@ DapRectangleLitAndShaded
                                             })
                                     if(m_value !== "0.0" && m_value !== "")
                                     {
+                                        var str = m_direction === "from" ? "+" : "-"
+                                        str += " "+ m_value
                                         append ({
                                                     name: m_direction === "from" ? qsTr("Deposited: ") : qsTr("Burning: "),
-                                                    number: m_direction === "from" ? "+ " : "- " + " " + m_value,
+                                                    number: str,
                                                     token_name: m_token
                                                 })
                                     }
@@ -177,7 +179,8 @@ DapRectangleLitAndShaded
                             }
 
                             alwaysHoverShow: true
-                            Layout.fillWidth: true
+                            Layout.fillWidth: false
+                            Layout.alignment: Qt.AlignRight
                             height: 15
                             textColor: currTheme.lime
                             textHoverColor: currTheme.orange
@@ -186,7 +189,7 @@ DapRectangleLitAndShaded
                             fullText: qsTr("Details")
                             textAndMenuFont: mainFont.dapFont.regular12
                             listView.model: model_tooltip
-                            width: 160
+                            width: 40
                         }
                     }
 
