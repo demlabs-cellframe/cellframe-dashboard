@@ -44,6 +44,7 @@
 #include "handlers/DapNodeRestart.h"
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
 #include "handlers/DapGetFeeCommand.h"
+#include "handlers/DapCreatePassForWallet.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -211,6 +212,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapRemoveChainsOrGdbCommand          ("DapRemoveChainsOrGdbCommand"          , m_pServer, CLI_PATH));
     m_servicePool.append(new DapGetFeeCommand                     ("DapGetFeeCommand"                     , m_pServer, CLI_PATH));
     m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
+    m_servicePool.append(new DapCreatePassForWallet                ("DapCreatePassForWallet"                , m_pServer, CLI_PATH));
 
     for(auto service: qAsConst(m_servicePool))
     {

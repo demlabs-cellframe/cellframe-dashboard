@@ -43,7 +43,9 @@ Rectangle {
     readonly property string dAppsScreen: path + "/dApps/DapAppsTab.qml"
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
-
+    
+    property alias tryCreatePasswordWalletPopup: tryCreatePasswordWalletPopup
+    property alias createPasswordWalletPopup: createPasswordWalletPopup
     property alias walletActivatePopup: walletActivatePopup
     property alias walletDeactivatePopup: walletDeactivatePopup
     property alias settingsWallet:settingsWallet
@@ -102,6 +104,20 @@ Rectangle {
     DapPopupInfo
     {
         id: popupInfo
+    }
+
+    DapTryCreatePasswordWalletPopup{
+        id: tryCreatePasswordWalletPopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapCreatePasswordWalletPopup{
+        id: createPasswordWalletPopup
+        anchors.fill: parent
+        visible: false
+        z: 10
     }
 
     DapActivateWalletPopup{
