@@ -80,7 +80,7 @@ Item
 
                 color: currTheme.white
                 text: qsTr("When restoring a wallet originally created without a password, no password will be requested")
-                font: mainFont.dapFont.medium114
+                font: mainFont.dapFont.regular14
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap
