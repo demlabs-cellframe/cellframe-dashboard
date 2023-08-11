@@ -52,19 +52,19 @@ Item
         ColumnLayout
         {
             anchors.fill: parent
-            anchors.topMargin: 24
-            anchors.bottomMargin: 24
+            anchors.topMargin: 32
+            anchors.bottomMargin: 32
             spacing: 0
 
             Text
             {
                 Layout.fillWidth: true
-                Layout.leftMargin: 50
-                Layout.rightMargin: 50
+                Layout.leftMargin: 32
+                Layout.rightMargin: 32
                 Layout.alignment: Qt.AlignHCenter
                 horizontalAlignment: Text.AlignHCenter
                 text: qsTr("Sure to Create Password?")
-                font: mainFont.dapFont.bold16
+                font: mainFont.dapFont.medium16
                 color: currTheme.white
                 elide: Text.ElideMiddle
             }
@@ -80,7 +80,7 @@ Item
 
                 color: currTheme.white
                 text: qsTr("When restoring a wallet originally created without a password, no password will be requested")
-                font: mainFont.dapFont.medium14
+                font: mainFont.dapFont.medium114
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap

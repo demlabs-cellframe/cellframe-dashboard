@@ -52,19 +52,19 @@ Item
         ColumnLayout
         {
             anchors.fill: parent
-            anchors.topMargin: 24
-            anchors.bottomMargin: 24
+            anchors.topMargin: 33
+            anchors.bottomMargin: 32
             spacing: 0
 
             Text
             {
                 Layout.fillWidth: true
-                Layout.leftMargin: 50
-                Layout.rightMargin: 50
+                Layout.leftMargin: 32
+                Layout.rightMargin: 32
                 Layout.alignment: Qt.AlignHCenter
                 horizontalAlignment: Text.AlignHCenter
                 text: qsTr("Create password")
-                font: mainFont.dapFont.bold16
+                font: mainFont.dapFont.medium16
                 color: currTheme.white
                 elide: Text.ElideMiddle
             }
@@ -72,9 +72,10 @@ Item
             Rectangle
             {
                 Layout.fillWidth: true
-                Layout.leftMargin: 18
-                Layout.rightMargin: 24
-                height: 69
+                Layout.leftMargin: 32
+                Layout.rightMargin: 32
+                Layout.topMargin: 24
+                height: 24
                 color: "transparent"
 
                 DapTextField
@@ -83,25 +84,18 @@ Item
 
                     echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
 
-
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Password")
-                    font: mainFont.dapFont.regular16
+                    font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignLeft
                     anchors.fill: parent
                     anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
-                    anchors.topMargin: 20
-                    anchors.bottomMargin: 29
-                    anchors.rightMargin: 24
 
                     validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s\-]+/}
                     bottomLineVisible: true
-                    bottomLineSpacing: 8
+                    bottomLineSpacing: 2
 
                     bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
-                    bottomLine.anchors.rightMargin: -24
-                    indicator.anchors.rightMargin: -24
-
                     indicatorVisible: true
                     indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
                     indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
@@ -120,14 +114,14 @@ Item
                 id: textExpired
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignCenter
-                Layout.topMargin: 16
+                Layout.topMargin: 24
                 Layout.leftMargin: 32
                 Layout.rightMargin: 32
 
                 color: currTheme.white
                 text: qsTr("After confirmation, you will be required to enter your password every time you use the wallet")
-                font: mainFont.dapFont.medium14
-                horizontalAlignment: Text.AlignHCenter
+                font: mainFont.dapFont.regular14
+                horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap
             }
