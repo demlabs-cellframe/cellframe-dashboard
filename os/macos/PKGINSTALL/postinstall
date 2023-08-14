@@ -16,8 +16,11 @@ mkdir -p /var/log/cellframe-dashboard/ || true
 chmod -R 777 /var/log/cellframe-dashboard/ || true
 
 mkdir -p $DAP_PREFIX
-sudo mv -f /Applications/$APP_NAME.app/Contents/Resources/etc $DAP_PREFIX
-sudo mv -f /Applications/$APP_NAME.app/Contents/Resources/share $DAP_PREFIX
+mkdir -p $DAP_PREFIX/etc
+mkdir -p $DAP_PREFIX/share 
+
+sudo cp -rf /Applications/$APP_NAME.app/Contents/Resources/etc/* $DAP_PREFIX/etc
+sudo cp -rf /Applications/$APP_NAME.app/Contents/Resources/share/* $DAP_PREFIX/share
 
 for filename in $(find $DAP_PREFIX | grep -v bugreport); do
     if [ -d $filename ]; then
