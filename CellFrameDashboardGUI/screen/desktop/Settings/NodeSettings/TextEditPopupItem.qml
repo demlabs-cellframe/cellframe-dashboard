@@ -58,6 +58,8 @@ DapRectangleLitAndShaded
 
             borderWidth: 1
             borderRadius: 3
+            selectByMouse: true
+            DapContextMenu{}
         }
 
         Item

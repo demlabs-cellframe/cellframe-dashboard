@@ -184,6 +184,9 @@ DapRectangleLitAndShaded {
                 Layout.rightMargin: 18
                 Layout.topMargin: 5
 
+                selectByMouse: true
+                DapContextMenu{}
+
                 onTextChanged: checkRequiredField()
                 onEditingFinished: {
                         checkRequiredField()
@@ -269,6 +272,9 @@ DapRectangleLitAndShaded {
                         bottomLineVisible: true
                         bottomLineSpacing: 5
                         bottomLineLeftRightMargins: 8
+
+                        selectByMouse: true
+                        DapContextMenu{}
                     }
                 }  //
             }  //optionalBodyeLayout

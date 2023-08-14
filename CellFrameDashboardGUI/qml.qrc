@@ -336,5 +336,6 @@
         <file>screen/desktop/controls/DapFeePopup.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_wiki.svg</file>
+        <file>screen/desktop/controls/DapContextMenu.qml</file>
     </qresource>
 </RCC>

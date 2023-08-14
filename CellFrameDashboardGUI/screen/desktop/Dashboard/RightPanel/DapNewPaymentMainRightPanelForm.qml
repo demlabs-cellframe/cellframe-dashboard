@@ -286,6 +286,9 @@ DapRectangleLitAndShaded
                     borderWidth: 1
                     borderRadius: 4
                     placeholderColor: currTheme.white
+
+                    selectByMouse: true
+                    DapContextMenu{}
                 }
 
                 Rectangle
@@ -499,6 +502,9 @@ DapRectangleLitAndShaded
                 bottomLineVisible: true
                 bottomLineSpacing: 6
                 bottomLineLeftRightMargins: 7
+
+                selectByMouse: true
+                DapContextMenu{}
             }
         }
 
