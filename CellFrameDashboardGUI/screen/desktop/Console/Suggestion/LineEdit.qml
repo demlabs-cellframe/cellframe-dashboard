@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import "qrc:/widgets"
+import "../../controls"
 
 FocusScope {
     // --- properties
@@ -27,6 +28,8 @@ FocusScope {
 //        {
 //            color: currTheme.backgroundElements
 //        }
+
+        DapContextMenu{}
 
         Keys.onUpPressed:{
             upButtonPressed()
