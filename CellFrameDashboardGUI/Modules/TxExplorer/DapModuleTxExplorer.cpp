@@ -99,8 +99,12 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 
         DapHistoryModel::Item itemHistory;
         itemHistory.fee_token    = historyArray.at(i)["fee_token"].toString();
+        itemHistory.fee_net      = historyArray.at(i)["fee_net"].toString();
         itemHistory.fee          = historyArray.at(i)["fee"].toString();
         itemHistory.value        = historyArray.at(i)["value"].toString();
+        itemHistory.m_value      = historyArray.at(i)["m_value"].toString();
+        itemHistory.m_token      = historyArray.at(i)["m_token"].toString();
+        itemHistory.m_direction  = historyArray.at(i)["m_direction"].toString();
         itemHistory.direction    = historyArray.at(i)["direction"].toString();
         itemHistory.token        = historyArray.at(i)["token"].toString();
         itemHistory.status       = historyArray.at(i)["status"].toString();
