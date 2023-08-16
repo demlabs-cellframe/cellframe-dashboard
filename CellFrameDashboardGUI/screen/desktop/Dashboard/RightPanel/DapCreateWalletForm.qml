@@ -148,6 +148,9 @@ DapRectangleLitAndShaded
                         bottomLineVisible: true
                         bottomLineSpacing: 6
                         bottomLineLeftRightMargins: 7
+
+                        selectByMouse: true
+                        DapContextMenu{}
                     }
                 }
 
@@ -341,6 +344,9 @@ DapRectangleLitAndShaded
                         indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
                         indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
                         indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
+
+                        selectByMouse: true
+                        DapContextMenu{isActiveCopy: false}
                     }
                 }
 

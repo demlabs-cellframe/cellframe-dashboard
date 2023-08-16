@@ -99,6 +99,9 @@ DapRectangleLitAndShaded {
                 bottomLineLeftRightMargins: 6
 
                 validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
+
+                selectByMouse: true
+                DapContextMenu{}
             }
         }
 
@@ -217,6 +220,9 @@ DapRectangleLitAndShaded {
                     borderWidth: 1
                     borderRadius: 4
                     placeholderColor: currTheme.white
+
+                    selectByMouse: true
+                    DapContextMenu{}
                 }
             }
         }

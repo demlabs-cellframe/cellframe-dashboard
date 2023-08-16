@@ -25,6 +25,9 @@ DapTextField {
     font:mainFont.dapFont.regular14
     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
+    selectByMouse: true
+    DapContextMenu{}
+
     backgroundColor: currTheme.mainBackground
 
     onTextChanged: {
