@@ -270,6 +270,8 @@
         <file>Resources/BlackTheme/icons/other/icon_eyeHide.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_infoGray.svg</file>
         <file>screen/desktop/controls/DapActivateWalletPopup.qml</file>
+        <file>screen/desktop/controls/DapCreatePasswordWalletPopup.qml</file>
+        <file>screen/desktop/controls/DapTryCreatePasswordWalletPopup.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_deactivateHover.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_deactivate.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_activateHover.svg</file>
@@ -336,6 +338,7 @@
         <file>screen/desktop/controls/DapFeePopup.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_wiki.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_activate_pass.svg</file>
         <file>screen/desktop/controls/DapContextMenu.qml</file>
     </qresource>
 </RCC>

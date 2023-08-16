@@ -38,6 +38,7 @@ public:
     Q_INVOKABLE void getWalletInfo(QStringList args);
     Q_INVOKABLE void createWallet(QStringList args);
     Q_INVOKABLE void getTxHistory(QStringList args);
+    Q_INVOKABLE void createPassword(QStringList args);
 
 private:
     void updateWalletModel(QVariant, bool isSingle);
