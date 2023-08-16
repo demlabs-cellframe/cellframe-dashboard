@@ -140,12 +140,13 @@ QJsonDocument DapWebControll::getWallets()
 
         QJsonArray jsonArr;
 
-        QRegularExpression rx(R"(^Wallet: (\S+)( (\S+))?)", QRegularExpression::MultilineOption);
+        QRegularExpression rx(REGULAR_WALLET_ACTIVE, QRegularExpression::MultilineOption);
         QRegularExpressionMatchIterator itr = rx.globalMatch(result);
         if(itr.hasNext()){
             while (itr.hasNext()){
                 QRegularExpressionMatch match = itr.next();
                 QString walletName = match.captured(1);
+                if(BACKUP == match.captured(3)) continue;
                 walletName = walletName.split("\r")[0];
                 jsonArr.append(QJsonValue(walletName));
             }

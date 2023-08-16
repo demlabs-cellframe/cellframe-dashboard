@@ -114,6 +114,11 @@ void DapModuleWallet::createWallet(QStringList args)
     s_serviceCtrl->requestToService("DapAddWalletCommand", args);
 }
 
+void DapModuleWallet::createPassword(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapCreatePassForWallet", args);
+}
+
 void DapModuleWallet::getTxHistory(QStringList args)
 {
     s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", args);

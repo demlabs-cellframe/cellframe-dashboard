@@ -86,6 +86,9 @@ private:
 
     QMap <int,QTcpSocket*> s_tcpSocketList;
 
+    const QString BACKUP = "Backup";
+    const QString REGULAR_WALLET_ACTIVE = R"(^Wallet: (\S+)( \((\S+)\))?)";
+
 signals:
     void signalConnectRequest(QString site, int index);
 
