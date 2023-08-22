@@ -22,7 +22,7 @@ QVariantMap DapTxWorker::getFee(QString network)
     QJsonObject fee      = m_feeBuffer.object()[network].toObject();
     QString feeNetwork   = fee["network_fee"].toObject()["fee_coins"].toString();
     QString feeTicker    = fee["validator_fee"].toObject()["fee_ticker"].toString();
-    QString feeValidator = fee["validator_fee"].toObject()["average_fee_coins"].toString();
+    QString feeValidator = fee["validator_fee"].toObject()["median_fee_coins"].toString();
 
     mapResult.insert("error", (int)DAP_NO_ERROR);
     mapResult.insert("fee_ticker", feeTicker);
@@ -68,7 +68,7 @@ QVariantMap DapTxWorker::getAvailableBalance(QVariantMap data)
     QString balanceDatoshi = balances.value("balanceSendDatoshi").toString();
 
     QVariant commission = mathWorker.sumCoins(fee["network_fee"].toObject()["fee_datoshi"].toVariant(),
-                                              fee["validator_fee"].toObject()["average_fee_datoshi"].toVariant(),
+                                              fee["validator_fee"].toObject()["median_fee_datoshi"].toVariant(),
                                               false);
 
     if(!stringWorker.testAmount(balancePayFee, commission.toString()))
@@ -162,7 +162,7 @@ void DapTxWorker::sendTx(QVariantMap data)
     MathWorker mathWorker;
     QString net = data.value("network").toString();
     QJsonObject fee    = m_feeBuffer.object()[net].toObject();
-    QString feeDatoshi = fee["validator_fee"].toObject()["average_fee_datoshi"].toString();
+    QString feeDatoshi = fee["validator_fee"].toObject()["median_fee_datoshi"].toString();
     QString amount = mathWorker.coinsToBalance(data.value("amount")).toString();
 
     QStringList listData;
