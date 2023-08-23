@@ -45,7 +45,6 @@ DapRectangleLitAndShaded
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
     property alias balance: balance
-//    signal calculatePrecentAmount(var precent)
 
     color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
@@ -56,18 +55,6 @@ DapRectangleLitAndShaded
     {
         id: walletMessagePopup
         dapButtonCancel.visible: true
-
-        Connections
-        {
-            target: modulesController
-            function onSigFeeRcv(feeDoc)
-            {
-                walletMessagePopup.feeStruct = JSON.parse(feeDoc)
-                walletMessagePopup.isLoading = true
-
-//                console.log(walletMessagePopup.feeStruct, feeDoc)
-            }
-        }
     }
 
     contentData:
@@ -159,6 +146,14 @@ DapRectangleLitAndShaded
                     font: mainFont.dapFont.regular16
 
                     defaultText: qsTr("Networks")
+
+                    Component.onCompleted:
+                    {
+//                        console.log("NETWORK INIT ", displayText)
+                        modulesController.getComission(displayText)
+                    }
+
+
                 }
             }
 
@@ -291,6 +286,9 @@ DapRectangleLitAndShaded
                     borderWidth: 1
                     borderRadius: 4
                     placeholderColor: currTheme.white
+
+                    selectByMouse: true
+                    DapContextMenu{}
                 }
 
                 Rectangle
@@ -344,10 +342,14 @@ DapRectangleLitAndShaded
                         button75.selected = false
                         button100.selected = false
 
-                        var res = calculatePrecentAmount(0.25)
-                        textInputAmountPayment.text = res[0]
-                        textInputAmountPayment.realAmount = res[0]
-                        textInputAmountPayment.abtAmount = res[1]
+                        var data = {
+                        "network"      : dapComboboxNetwork.displayText,
+                        "percent"      : 25,
+                        "send_ticker"   : dapComboBoxToken.displayText,
+                        "wallet_name"  : walletInfo.name}
+
+                        var res = txWorker.calculatePrecentAmount(data);
+                        textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
                 }
@@ -369,10 +371,14 @@ DapRectangleLitAndShaded
                         button75.selected = false
                         button100.selected = false
 
-                        var res = calculatePrecentAmount(0.5)
-                        textInputAmountPayment.text = res[0]
-                        textInputAmountPayment.realAmount = res[0]
-                        textInputAmountPayment.abtAmount = res[1]
+                        var data = {
+                        "network"      : dapComboboxNetwork.displayText,
+                        "percent"      : 50,
+                        "send_ticker"   : dapComboBoxToken.displayText,
+                        "wallet_name"  : walletInfo.name}
+
+                        var res = txWorker.calculatePrecentAmount(data);
+                        textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
                 }
@@ -394,10 +400,14 @@ DapRectangleLitAndShaded
                         button75.selected = true
                         button100.selected = false
 
-                        var res = calculatePrecentAmount(0.75)
-                        textInputAmountPayment.text = res[0]
-                        textInputAmountPayment.realAmount = res[0]
-                        textInputAmountPayment.abtAmount = res[1]
+                        var data = {
+                        "network"      : dapComboboxNetwork.displayText,
+                        "percent"      : 75,
+                        "send_ticker"   : dapComboBoxToken.displayText,
+                        "wallet_name"  : walletInfo.name}
+
+                        var res = txWorker.calculatePrecentAmount(data);
+                        textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
                 }
@@ -419,10 +429,14 @@ DapRectangleLitAndShaded
                         button75.selected = false
                         button100.selected = true
 
-                        var res = calculatePrecentAmount(1)
-                        textInputAmountPayment.text = res[0]
-                        textInputAmountPayment.realAmount = res[0]
-                        textInputAmountPayment.abtAmount = res[1]
+                        var data = {
+                        "network"      : dapComboboxNetwork.displayText,
+                        "percent"      : 100,
+                        "send_ticker"   : dapComboBoxToken.displayText,
+                        "wallet_name"  : walletInfo.name}
+
+                        var res = txWorker.calculatePrecentAmount(data);
+                        textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
                 }
@@ -488,6 +502,9 @@ DapRectangleLitAndShaded
                 bottomLineVisible: true
                 bottomLineSpacing: 6
                 bottomLineLeftRightMargins: 7
+
+                selectByMouse: true
+                DapContextMenu{}
             }
         }
 

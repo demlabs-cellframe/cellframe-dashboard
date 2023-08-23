@@ -31,14 +31,19 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     initModules();
 
     m_timerUpdateData = new QTimer(this);
-    connect(m_timerUpdateData, &QTimer::timeout, this, &DapModulesController::getWalletList);
-    connect(m_timerUpdateData, &QTimer::timeout, this, &DapModulesController::getNetworkList);
-    connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModulesController::rcvWalletList);
-    connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList);
-    connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModulesController::rcvFee);
+    m_timerUpdateFee = new QTimer(this);
+    connect(m_timerUpdateData, &QTimer::timeout, this, &DapModulesController::getWalletList, Qt::QueuedConnection);
+    connect(m_timerUpdateData, &QTimer::timeout, this, &DapModulesController::getNetworkList, Qt::QueuedConnection);
+    connect(m_timerUpdateFee, &QTimer::timeout, this, &DapModulesController::getFee, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModulesController::rcvWalletList, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModulesController::rcvFee, Qt::QueuedConnection);
 
-    m_timerUpdateData->start(10);
+    getNetworkList();
+    getWalletList();
     m_timerUpdateData->start(5000);
+    m_timerUpdateFee->start(1000);
+    s_serviceCtrl->requestToService("DapGetFeeCommand",QStringList()<<QString("all"));
 
 //    DapModuleTest *test = static_cast<DapModuleTest*>(getModule("testModule"));
 
@@ -217,6 +222,12 @@ void DapModulesController::restoreIndex()
     setCurrentWalletIndex(0);
 }
 
+void DapModulesController::getFee()
+{
+    if(m_flagFeeUpdate)
+        s_serviceCtrl->requestToService("DapGetFeeCommand",QStringList()<<QString("all"));
+}
+
 void DapModulesController::getComission(QString network)
 {
 //    qDebug()<<"get comisson" << token << network;
@@ -225,6 +236,13 @@ void DapModulesController::getComission(QString network)
 
 void DapModulesController::rcvFee(const QVariant &rcvData)
 {
+    m_feeDoc = QJsonDocument::fromJson(rcvData.toByteArray());
 //    qDebug()<<rcvData;
     emit sigFeeRcv(rcvData);
+}
+
+void DapModulesController::setFeeUpdate(bool flag)
+{
+    m_flagFeeUpdate = flag;
+    emit feeUpdateChanged();
 }

@@ -72,12 +72,21 @@ Controls.DapTopPanel
             radius: 4
             color: area.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
 
-            visible: !dapModelWallets.count ? false : logicWallet.walletStatus === "" ?
-                                              false : true
+            visible: !dapModelWallets.count ? false : true
             Image{
                 anchors.centerIn: parent
-                source: logicWallet.walletStatus === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
-                                                               : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
+                source:
+                {
+                    console.log(" WALLET STATUS = " + logicWallet.walletStatus)
+                    if(logicWallet.walletStatus === "")
+                    {
+                        console.log(" WALLET STATUS IN = " + logicWallet.walletStatus)
+                        return "qrc:/Resources/BlackTheme/icons/other/icon_activate_pass.svg"
+                    }
+                    console.log(" WALLET STATUS OUT = " + logicWallet.walletStatus)
+                    return logicWallet.walletStatus === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+                                                                                         : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
+                }
                 mipmap: true
             }
 
@@ -88,10 +97,18 @@ Controls.DapTopPanel
                 anchors.fill: parent
 
                 onClicked: {
-                    if(logicWallet.walletStatus === "non-Active")
+                    if(logicWallet.walletStatus === "")
+                    {
+                        tryCreatePasswordWalletPopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, createPasswordWalletPopup, false)
+                    }
+                    else if(logicWallet.walletStatus === "non-Active")
+                    {
                         walletActivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, false)
+                    }
                     else
+                    {
                         walletDeactivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name)
+                    }
                 }
             }
         }

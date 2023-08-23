@@ -55,6 +55,7 @@
 #include "handlers/DapNodeRestart.h"
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
 #include "handlers/DapGetFeeCommand.h"
+#include "handlers/DapCreatePassForWallet.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -258,6 +259,8 @@ signals:
 
     void rcvActivateOrDeactivateReply(const QVariant& rcvData);
 
+    void passwordCreated(const QVariant& rcvData);
+    
     void rcvFee(const QVariant& rcvData);
 
 

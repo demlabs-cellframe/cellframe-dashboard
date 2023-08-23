@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
+import "../../controls"
 
 DapRectangleLitAndShaded
 {
@@ -26,6 +27,7 @@ DapRectangleLitAndShaded
         {
             Layout.fillWidth: true
             height: 42 
+            visible: txExplorerModule.statusInit
 
             Text
             {
@@ -39,6 +41,37 @@ DapRectangleLitAndShaded
             }
         }
 
+        ColumnLayout{
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignHCenter
+            spacing: 16
+            visible: !txExplorerModule.statusInit
+
+            Item{Layout.fillHeight: true}
+
+            DapLoadIndicator {
+                Layout.alignment: Qt.AlignHCenter
+
+                indicatorSize: 64
+                countElements: 8
+                elementSize: 10
+
+                running: !txExplorerModule.statusInit
+            }
+
+
+            Text
+            {
+                Layout.alignment: Qt.AlignHCenter
+
+                font: mainFont.dapFont.medium16
+                color: currTheme.white
+                text: qsTr("Last Actions data loading...")
+            }
+            Item{Layout.fillHeight: true}
+        }
+
         ListView
         {
             id: lastActionsView
@@ -49,6 +82,7 @@ DapRectangleLitAndShaded
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
+            visible: txExplorerModule.statusInit
 
             section.property: "date"
             section.criteria: ViewSection.FullString
@@ -98,7 +132,7 @@ DapRectangleLitAndShaded
                     ColumnLayout
                     {
                         Layout.fillHeight: true
-                        Layout.fillWidth: true
+                        Layout.fillWidth: false
                         spacing: 0
 
                         DapBigText
@@ -114,19 +148,48 @@ DapRectangleLitAndShaded
 
                             width: 160
                         }
-                        DapBigText
+
+                        DapTextWithList
                         {
-//                            visible: fee !== "0.0"
-//                            Layout.fillHeight: true
-                            Layout.fillWidth: true
+                            ListModel{
+                                id: model_tooltip
+                                Component.onCompleted:
+                                {
+                                    append ({
+                                                name: qsTr("Fee: "),
+                                                number: fee_net ,
+                                                token_name: token
+                                            })
+                                    append ({
+                                                name: qsTr("Validator fee: "),
+                                                number: fee,
+                                                token_name: fee_token
+                                            })
+                                    if(m_value !== "0.0" && m_value !== "")
+                                    {
+                                        var str = m_direction === "from" ? "+" : "-"
+                                        str += " "+ m_value
+                                        append ({
+                                                    name: m_direction === "from" ? qsTr("Deposited: ") : qsTr("Burning: "),
+                                                    number: str,
+                                                    token_name: m_token
+                                                })
+                                    }
+                                }
+                            }
+
+                            alwaysHoverShow: true
+                            Layout.fillWidth: false
+                            Layout.alignment: Qt.AlignRight
                             height: 15
-                            textColor: currTheme.gray
+                            textColor: currTheme.lime
+                            textHoverColor: currTheme.orange
                             horizontalAlign: Qt.AlignRight
                             verticalAlign: Qt.AlignVCenter
-                            fullText: qsTr("fee: ") + fee + " " + token
-                            textFont: mainFont.dapFont.regular12
-
-                            width: 160
+                            fullText: qsTr("Details")
+                            textAndMenuFont: mainFont.dapFont.regular12
+                            listView.model: model_tooltip
+                            width: 40
                         }
                     }
 
@@ -157,26 +220,6 @@ DapRectangleLitAndShaded
                         onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
 
                     }
-
-//                    Image
-//                    {
-//                        Layout.preferredHeight: 20
-//                        Layout.preferredWidth: 20
-//    //                    innerWidth: 20
-//    //                    innerHeight: 20
-
-//                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
-
-//                        source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
-
-//                        MouseArea
-//                        {
-//                            id: mouseArea
-//                            anchors.fill: parent
-//                            hoverEnabled: true
-//                            onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
-//                        }
-//                    }
                 }
 
                 Rectangle

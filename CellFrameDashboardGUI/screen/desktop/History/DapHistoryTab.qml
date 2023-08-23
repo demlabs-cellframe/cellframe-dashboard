@@ -106,5 +106,11 @@ DapPage
         txExplorerModule.setCurrentStatus(currentStatus)
         txExplorerModule.setLastActions(false)
         logicExplorer.historyUpdate()
+        txExplorerModule.statusProcessing = true
+    }
+
+    Component.onDestruction:
+    {
+        txExplorerModule.statusProcessing = false
     }
 }

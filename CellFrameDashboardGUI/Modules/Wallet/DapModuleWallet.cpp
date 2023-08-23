@@ -5,15 +5,22 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     , m_modulesCtrl(parent)
     , m_timerUpdateWallet(new QTimer())
     , m_walletHashManager(new WalletHashManager())
+    , m_txWorker(new DapTxWorker())
 {
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
         m_walletHashManager->setContext(m_modulesCtrl->s_appEngine->rootContext());
         m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
+        m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("txWorker", m_txWorker);
 
         initConnect();
         m_timerUpdateWallet->start(2000);
-        setStatusInit(true);
+//        setStatusInit(true);
+    });
+
+    connect(m_modulesCtrl, &DapModulesController::sigFeeRcv, [=] (const QVariant &data)
+    {
+        m_txWorker->m_feeBuffer = QJsonDocument::fromJson(data.toByteArray());
     });
 }
 DapModuleWallet::~DapModuleWallet()
@@ -32,14 +39,47 @@ DapModuleWallet::~DapModuleWallet()
 
 void DapModuleWallet::initConnect()
 {
-    connect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
-    connect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
-    connect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
-    connect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
-    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
+    connect(s_serviceCtrl, &DapServiceController::walletsReceived,
+            this, &DapModuleWallet::rcvWalletsInfo,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletReceived,
+            this, &DapModuleWallet::rcvWalletInfo,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::transactionCreated,
+            this, &DapModuleWallet::rcvCreateTx,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletCreated,
+            this, &DapModuleWallet::rcvCreateWallet,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived,
+            this, &DapModuleWallet::rcvHistory,
+            Qt::QueuedConnection);
 
+    connect(m_txWorker, &DapTxWorker::sigSendTx,
+            this, &DapModuleWallet::createTx,
+            Qt::QueuedConnection);
 
-    connect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
+    connect(m_timerUpdateWallet, &QTimer::timeout,
+            this, &DapModuleWallet::slotUpdateWallet,
+            Qt::QueuedConnection);
+
+    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    {
+        qDebug()<<"m_statusProcessing" << m_statusProcessing;
+        if(m_statusProcessing)
+        {
+            QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
+            if(!doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex >= 0))
+                getWalletInfo(QStringList()<<QString(m_modulesCtrl->m_currentWalletName) << "true");
+
+            m_timerUpdateWallet->start(5000);
+        }
+        else
+        {
+            m_timerUpdateWallet->stop();
+            setStatusInit(false);
+        }
+    });
 
 
     s_serviceCtrl->requestToService("DapGetWalletsInfoCommand", QStringList()<<"true");
@@ -74,6 +114,11 @@ void DapModuleWallet::createWallet(QStringList args)
     s_serviceCtrl->requestToService("DapAddWalletCommand", args);
 }
 
+void DapModuleWallet::createPassword(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapCreatePassForWallet", args);
+}
+
 void DapModuleWallet::getTxHistory(QStringList args)
 {
     s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", args);
@@ -81,8 +126,9 @@ void DapModuleWallet::getTxHistory(QStringList args)
 
 void DapModuleWallet::rcvWalletsInfo(const QVariant &rcvData)
 {
-    m_walletsModel = QJsonDocument::fromJson(rcvData.toByteArray());
+    updateWalletModel(rcvData, false);
     emit sigWalletsInfo(m_walletsModel.toJson());
+    setStatusInit(true);
 }
 QByteArray DapModuleWallet::getWalletsModel()
 {
@@ -91,9 +137,10 @@ QByteArray DapModuleWallet::getWalletsModel()
 
 void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 {
+    updateWalletModel(rcvData, true);
 //    qDebug()<<rcvData;
-    if(rcvData == "isEqual")
-        return;
+//    if(rcvData == "isEqual")
+//        return;
     emit sigWalletInfo(rcvData);
 }
 
@@ -107,7 +154,7 @@ void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
 {
 //    qDebug()<<rcvData;
     m_modulesCtrl->getWalletList();
-    m_timerUpdateWallet->start(2000);
+    m_timerUpdateWallet->start(5000);
     emit sigWalletCreate(rcvData);
 }
 
@@ -125,6 +172,51 @@ void DapModuleWallet::slotUpdateWallet()
         return ;
 
     m_timerUpdateWallet->stop();
-    getWalletInfo(QStringList()<<QString(m_modulesCtrl->m_currentWalletName));
-    m_timerUpdateWallet->start(2000);
+    getWalletInfo(QStringList()<<QString(m_modulesCtrl->m_currentWalletName) <<"false");
+    m_timerUpdateWallet->start(5000);
+}
+
+void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
+{
+    QJsonDocument buff = QJsonDocument::fromJson(data.toByteArray());
+
+    if(buff.isNull() || buff.isEmpty())
+        return ;
+
+    if(!isSingle)
+    {
+        m_walletsModel = buff;
+        m_txWorker->m_walletBuffer = buff;
+    }
+    else
+    {
+        QJsonObject objBuff = buff.object();
+        QString walletNameBuff = objBuff.value("name").toString();
+
+        if(m_walletsModel.isEmpty())
+        {   QJsonArray arr;
+            arr.append(objBuff);
+            m_walletsModel.setArray(arr);
+            m_txWorker->m_walletBuffer = m_walletsModel;
+        }
+        else
+        {
+            QJsonArray arrWallet = m_walletsModel.array();
+
+            for (auto itr  = arrWallet.begin();
+                 itr != arrWallet.end(); itr++)
+            {
+                QJsonObject obj = itr->toObject();
+                if(obj["name"].toString() == walletNameBuff)
+                {
+                    arrWallet.removeAt(itr.i);
+                    arrWallet.insert(itr, objBuff);
+//                    arrWallet.at(itr.i) = objBuff;
+                    m_walletsModel.setArray(arrWallet);
+                    m_txWorker->m_walletBuffer = m_walletsModel;
+                    return ;
+                }
+            }
+        }
+    }
 }

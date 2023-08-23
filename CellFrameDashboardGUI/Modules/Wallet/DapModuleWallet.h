@@ -6,6 +6,7 @@
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
 #include "WalletRestore/wallethashmanager.h"
+#include "DapTxWorker.h"
 
 class DapModuleWallet : public DapAbstractModule
 {
@@ -29,15 +30,18 @@ private:
 public:
     void initConnect();
     QString testWal{"testWal"};
-    WalletHashManager* m_walletHashManager;
-
+    WalletHashManager *m_walletHashManager;
+    DapTxWorker *m_txWorker;
 
 public:
     Q_INVOKABLE void getWalletsInfo(QStringList args);
     Q_INVOKABLE void getWalletInfo(QStringList args);
-    Q_INVOKABLE void createTx(QStringList args);
     Q_INVOKABLE void createWallet(QStringList args);
     Q_INVOKABLE void getTxHistory(QStringList args);
+    Q_INVOKABLE void createPassword(QStringList args);
+
+private:
+    void updateWalletModel(QVariant, bool isSingle);
 
 signals:
     void sigWalletInfo(const QVariant& result);
@@ -57,6 +61,7 @@ private slots:
     void rcvHistory(const QVariant &rcvData);
 
     void slotUpdateWallet();
+    void createTx(QStringList args);
 };
 
 #endif // DAPMODULEWALLET_H

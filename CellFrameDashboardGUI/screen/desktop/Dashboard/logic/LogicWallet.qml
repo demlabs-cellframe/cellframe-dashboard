@@ -26,48 +26,27 @@ QtObject {
         dapModelWallets.append(jsonDocument)
 
 //        console.log("rcvWallets", "currentWalletName", modulesController.currentWalletName)
-
-//        var nameIndex = -1
-
-//        for (var i = 0; i < dapModelWallets.count; ++i)
-//        {
-//            if (dapModelWallets.get(i).name === modulesController.currentWalletName)
-//                nameIndex = i
-//        }
-
 //        console.log("rcvWallets", "nameIndex", nameIndex)
 
-//        if (nameIndex >= 0)
-//            modulesController.currentWalletIndex = nameIndex
-
-//        if (modulesController.currentWalletIndex < 0 && dapModelWallets.count > 0)
-//            modulesController.currentWalletIndex = 0
-//        if (dapModelWallets.count < 0)
-//            modulesController.currentWalletIndex = -1
-
-//        if(modulesController.currentWalletIndex !== -1)
-//        {
         if(dapModelWallets.count)
         {
             dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
             if(dashboardTab.state != "WALLETCREATE")
                 dashboardTab.state = "WALLETSHOW"
         }
-//        }
     }
 
     function updateWallet(wallet)
     {        
         var jsonDocument = JSON.parse(wallet)
 
-//        console.log("AAAAAAAAAAAAA", dapModelWallets.count, wallet, jsonDocument)
+//        console.log(dapModelWallets.count, wallet, jsonDocument)
 
         if(!jsonDocument || (!jsonDocument.status && !jsonDocument.networks.length))
         {
             dapModelWallets.clear()
             return
         }
-
         for (var i = 0; i < dapModelWallets.count; ++i)
         {
 //            console.log(dapModelWallets.get(i).name === jsonDocument.name)
@@ -80,16 +59,16 @@ QtObject {
                 {
 //                    console.log(jsonDocument.networks)
 
-                    dapModelWallets.get(i).networks.clear()
-                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
-//                    dapModelWallets.get(i).networks = jsonDocument.networks
-//                    console.log(dapModelWallets.get(i).networks)
-//                    }
+                    if(dapModelWallets.get(i).networks)
+                    {
+                        dapModelWallets.get(i).networks.clear()
+                        dapModelWallets.get(i).networks.append(jsonDocument.networks)
+                    }
+                    else
+                    {
+                        dapModelWallets.set(i, jsonDocument)
+                    }
                 }
-
-//                console.log("update model")
-//                dapModelWallets.set(i, jsonDocument)
-//                dashboardScreen.listViewWallet.update()
                 return
             }
         }

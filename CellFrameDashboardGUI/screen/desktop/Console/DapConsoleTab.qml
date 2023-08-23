@@ -15,7 +15,7 @@ DapPage
     ///@detalis rAnswer Answer for the sended command
     property string rAnswer
 
-    dapHeader.initialItem: DapTopPanel { }
+    dapHeader.initialItem: DapConsoleTopPanel { }
 
     dapScreen.initialItem:
         DapConsoleScreen

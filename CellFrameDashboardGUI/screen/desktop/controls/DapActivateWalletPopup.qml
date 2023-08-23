@@ -170,6 +170,9 @@ Item{
                     indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
                     indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
                     indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
+
+                    selectByMouse: true
+                    DapContextMenu{isActiveCopy: false}
                 }
             }
 

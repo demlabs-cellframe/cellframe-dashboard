@@ -58,10 +58,16 @@ public:
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
 
-
-
     ///TEST
     QTimer * m_testTimer;
+
+
+private:
+    QList<QThread*>       m_threadPool;
+    QList<DapRpcService*> m_servicePool;
+
+private:
+    void initServices();
     
 signals:
     /// The signal is emitted in case of successful connection of a new client.
@@ -69,8 +75,6 @@ signals:
     void onClientDisconnected();
     
 private slots:
-    /// Register command.
-    void registerCommand();
     void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
     void sendConnectRequest(QString site, int index);

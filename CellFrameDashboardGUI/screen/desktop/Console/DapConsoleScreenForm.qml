@@ -186,6 +186,7 @@ Page
                             height: 30
 
 
+
                             onSugTextChanged:
                             {
                                 suggestionsBox.model = commandCmdController.getTreeWords(text)

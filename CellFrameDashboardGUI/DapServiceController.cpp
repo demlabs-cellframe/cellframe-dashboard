@@ -292,6 +292,8 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand",m_DAPRpcSocket))), QString("rcvRemoveResult")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetFeeCommand("DapGetFeeCommand",m_DAPRpcSocket))), QString("rcvFee")));
+    // The command creates a password for the wallet
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreatePassForWallet("DapCreatePassForWallet", m_DAPRpcSocket))), QString("passwordCreated")));
 
 
 #ifdef SERVICE_IMITATOR

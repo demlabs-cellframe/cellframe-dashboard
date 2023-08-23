@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import "qrc:/widgets"
+import "../../controls"
 
 FocusScope {
     // --- properties
@@ -23,11 +24,12 @@ FocusScope {
 //        wrapMode: TextField.WrapAnywhere
         validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\<\>\@\[\]\{\}\+\s*]+/ }
         placeholderText: qsTr("Type here...")
-
 //        background: Rectangle
 //        {
 //            color: currTheme.backgroundElements
 //        }
+
+        DapContextMenu{}
 
         Keys.onUpPressed:{
             upButtonPressed()
@@ -43,6 +45,7 @@ FocusScope {
 
         Keys.onReturnPressed: {
             enterPressed()
+            focus = true
         }
 
         onTextChanged:{

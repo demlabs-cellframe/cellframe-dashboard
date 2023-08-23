@@ -53,6 +53,9 @@ DapPage
 
         function createWallet()
         {
+            modulesController.feeUpdate = false
+            txExplorerModule.statusProcessing = false
+
             state = "WALLETCREATE"
 
             logicWallet.restoreWalletMode = false
@@ -61,11 +64,17 @@ DapPage
 
         function doneWalletFunc()
         {
+            modulesController.feeUpdate = false
+            txExplorerModule.statusProcessing = true
+
             dapRightPanel.push(doneWallet)
         }
 
         function restoreWalletFunc()
         {
+            modulesController.feeUpdate = false
+            txExplorerModule.statusProcessing = false
+
             state = "WALLETCREATE"
 
             logicWallet.restoreWalletMode = true
@@ -74,20 +83,32 @@ DapPage
 
         function recoveryWalletFunc()
         {
+            modulesController.feeUpdate = false
+            txExplorerModule.statusProcessing = false
+
             dapRightPanel.push(recoveryWallet)
         }
 
         function newPayment()
         {
+            modulesController.feeUpdate = true
+            txExplorerModule.statusProcessing = false
+
             dapRightPanel.push(newPaymentMain)
         }
 
         function doneNewPayment()
         {
+            txExplorerModule.statusProcessing = true
+            modulesController.feeUpdate = false
+
            dapRightPanel.push(newPaymentDone)
         }
 
         function popPage() {
+            txExplorerModule.statusProcessing = true
+            modulesController.feeUpdate = false
+
             dapRightPanel.clear()
             dapRightPanel.push(lastActionsWallet)
 
@@ -249,6 +270,29 @@ DapPage
 
     Component.onCompleted:
     {
-        walletModule.getWalletsInfo("true")
+//        console.log(dashboardScreen.listViewWallet.model)
+//        console.log(dapModelWallets.get(modulesController.currentWalletIndex).networks)
+//        dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+//
+
+        if(dapModelWallets.count)
+        {
+            dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+            if(dashboardTab.state != "WALLETCREATE")
+                dashboardTab.state = "WALLETSHOW"
+        }
+        else
+        {
+            walletModule.getWalletsInfo("true")
+        }
+
+        walletModule.statusProcessing = true
+        txExplorerModule.statusProcessing = true
+    }
+
+    Component.onDestruction:
+    {
+        walletModule.statusProcessing = false
+        txExplorerModule.statusProcessing = false
     }
 }

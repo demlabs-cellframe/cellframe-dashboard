@@ -19,10 +19,10 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
     , m_logReader(new DapLogsReader(this))
-    , nodeLog(getNodeLogPath(), "cellframe-node", false)
-    , guiLog(getBrandLogPath(), "Cellframe-DashboardGUI", true)
-    , serviceLog(getBrandLogPath(), "Cellframe-DashboardService", true)
-    , currentLog(&nodeLog)
+//    , nodeLog(getNodeLogPath(), "cellframe-node", false)
+//    , guiLog(getBrandLogPath(), "Cellframe-DashboardGUI", true)
+//    , serviceLog(getBrandLogPath(), "Cellframe-DashboardService", true)
+//    , currentLog(&nodeLog)
 {
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("logModel", s_logModel);
 
@@ -96,9 +96,9 @@ void DapModuleLog::exportLog(QString newPath, int type, QString period)
 
 void DapModuleLog::fullUpdate()
 {
-    nodeLog.updateAll();
-    guiLog.updateAll();
-    serviceLog.updateAll();
+//    nodeLog.updateAll();
+//    guiLog.updateAll();
+//    serviceLog.updateAll();
 }
 
 void DapModuleLog::selectLog(const QString &name)
@@ -200,50 +200,50 @@ QString DapModuleLog::getLogFileName(QString folder, LogType type)
 
 void DapModuleLog::setPosition(double pos)
 {
-    currentIndex = currentLog->getLength() * pos;
+//    currentIndex = currentLog->getLength() * pos;
 
-    if (currentIndex < 0)
-        currentIndex = 0;
-    if (currentIndex >= currentLog->getLength())
-        currentIndex = currentLog->getLength()-1;
+//    if (currentIndex < 0)
+//        currentIndex = 0;
+//    if (currentIndex >= currentLog->getLength())
+//        currentIndex = currentLog->getLength()-1;
 
-//    qDebug() << "DapModuleLog::setPosition" << pos
-//             << "currentIndex" << currentIndex
-//             << "currentLog->getLength()" << currentLog->getLength();
+////    qDebug() << "DapModuleLog::setPosition" << pos
+////             << "currentIndex" << currentIndex
+////             << "currentLog->getLength()" << currentLog->getLength();
 
-    currentLog->updateLines(currentIndex, bufferSize);
+//    currentLog->updateLines(currentIndex, bufferSize);
 
-    updateModel();
+//    updateModel();
 }
 
 void DapModuleLog::changePosition(double step)
 {
-    currentIndex += step * bufferSize;
+//    currentIndex += step * bufferSize;
 
-    if (currentIndex < 0)
-        currentIndex = 0;
-    if (currentIndex >= currentLog->getLength())
-        currentIndex = currentLog->getLength()-1;
+//    if (currentIndex < 0)
+//        currentIndex = 0;
+//    if (currentIndex >= currentLog->getLength())
+//        currentIndex = currentLog->getLength()-1;
 
-//    qDebug() << "DapModuleLog::changePosition" << step
-//             << "currentIndex" << currentIndex
-//             << "currentLog->getLength()" << currentLog->getLength();
+////    qDebug() << "DapModuleLog::changePosition" << step
+////             << "currentIndex" << currentIndex
+////             << "currentLog->getLength()" << currentLog->getLength();
 
-    currentLog->updateLines(currentIndex, bufferSize);
+//    currentLog->updateLines(currentIndex, bufferSize);
 
-    updateModel();
+//    updateModel();
 }
 
 double DapModuleLog::getPosition()
 {
-    double pos = static_cast<double>(currentIndex)/currentLog->getLength();
-    return pos;
+//    double pos = static_cast<double>(currentIndex)/currentLog->getLength();
+//    return pos;
 }
 
 double DapModuleLog::getScrollSize()
 {
-    double pos = static_cast<double>(bufferSize)/currentLog->getLength();
-    return pos;
+//    double pos = static_cast<double>(bufferSize)/currentLog->getLength();
+//    return pos;
 }
 
 QString DapModuleLog::getLineText(qint64 index)
@@ -264,7 +264,7 @@ QString DapModuleLog::getLineText(qint64 index)
 
 void DapModuleLog::updateLog()
 {
-    currentLog->updateLog();
+//    currentLog->updateLog();
 }
 
 QString DapModuleLog::getNodeLogPath()
