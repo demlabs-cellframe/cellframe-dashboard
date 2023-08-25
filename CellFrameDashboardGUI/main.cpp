@@ -127,7 +127,7 @@ const int OS_WIN_FLAG = 1;
 //#endif
 
 
-const int USING_NOTIFY = 0;
+const int USING_NOTIFY = 1;
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {
