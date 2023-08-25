@@ -29,12 +29,15 @@ Popup {
 
     property bool isLoading: false
 
-    property var feeStruct:
+    property var feeData:
     {
         "error": 1,
         "fee_ticker": "UNKNOWN",
         "network_fee": "0.00",
-        "validator_fee": "0.00"
+        "validator_fee": "0.00",
+        "validator_fee_min": "0.00",
+        "validator_fee_max": "0.00",
+        "validator_selected_fee": "0.0"
     }
 
     width: 306
@@ -162,7 +165,7 @@ Popup {
                         anchors.fill: parent
                         textFont: mainFont.dapFont.medium14
                         textColor: currTheme.white
-                        fullText: feeStruct.network_fee + " " + feeStruct.fee_ticker
+                        fullText: feeData.network_fee + " " + feeData.fee_ticker
                         horizontalAlign: Text.AlignRight
                     }
                 }
@@ -194,7 +197,7 @@ Popup {
                         anchors.fill: parent
                         textFont: mainFont.dapFont.medium14
                         textColor: currTheme.white
-                        fullText: feeStruct.validator_fee + " " + feeStruct.fee_ticker
+                        fullText: feeData.validator_selected_fee + " " + feeData.fee_ticker
                         horizontalAlign: Text.AlignRight
                     }
                 }
@@ -302,9 +305,9 @@ Popup {
     }
 
     function smartOpen(title, contentText) {
-        feeStruct = txWorker.getFee(network);
+        feeData = feeStruct;
 
-        if(feeStruct.error === 0)
+        if(feeData.error === 0)
         {
             isLoading = true
             dapContentTitle.text = title

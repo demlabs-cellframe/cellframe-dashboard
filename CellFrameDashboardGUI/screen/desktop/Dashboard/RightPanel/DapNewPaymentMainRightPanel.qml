@@ -26,6 +26,8 @@ DapNewPaymentMainRightPanelForm
 
         balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
 
+        feeStruct = txWorker.getFee(dapComboboxNetwork.displayText)
+
 //        dapTextInputAmountPayment.text = "0.0"
     }
     dapComboboxNetwork.onCurrentIndexChanged:
@@ -69,7 +71,6 @@ DapNewPaymentMainRightPanelForm
 //            console.log("NETWORK SELECTED ", dapComboboxNetwork.displayText)
 //            dapTextInputAmountPayment.text = ""
             balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
-
         }
     }
 

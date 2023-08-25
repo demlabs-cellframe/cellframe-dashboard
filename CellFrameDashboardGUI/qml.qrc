@@ -340,5 +340,11 @@
         <file>Resources/BlackTheme/icons/other/icon_wiki.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_activate_pass.svg</file>
         <file>screen/desktop/controls/DapContextMenu.qml</file>
+        <file>screen/desktop/controls/CustomSpinBox.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_minus_default.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_minus_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_plus_default.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_plus_hover.svg</file>
+        <file>screen/desktop/controls/CustomFeeIndicator.qml</file>
     </qresource>
 </RCC>

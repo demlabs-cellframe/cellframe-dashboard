@@ -9,25 +9,41 @@ DapTxWorker::DapTxWorker(QObject *parent)
 QVariantMap DapTxWorker::getFee(QString network)
 {
     QVariantMap mapResult;
+    MathWorker mathWorker;
 
-    if(m_feeBuffer.isNull())
+    if(m_feeBuffer.isNull() || network.isEmpty())
     {
         mapResult.insert("error", (int)DAP_RCV_FEE_ERROR);
         mapResult.insert("fee_ticker","UNKNOWN");
-        mapResult.insert("network_fee", "0.00");
-        mapResult.insert("validator_fee", "0.00");
+        mapResult.insert("network_fee", 0.00f);
+        mapResult.insert("validator_fee", 0.00f);
+        mapResult.insert("validator_fee_min", 0.00f);
+        mapResult.insert("validator_fee_max", 0.00f);
         return mapResult;
     }
 
-    QJsonObject fee      = m_feeBuffer.object()[network].toObject();
-    QString feeNetwork   = fee["network_fee"].toObject()["fee_coins"].toString();
-    QString feeTicker    = fee["validator_fee"].toObject()["fee_ticker"].toString();
-    QString feeValidator = fee["validator_fee"].toObject()["median_fee_coins"].toString();
+    QJsonObject fee         = m_feeBuffer.object()[network].toObject();
+    QString feeNetwork      = fee["network_fee"].toObject()["fee_coins"].toString();
+    QString feeTicker       = fee["validator_fee"].toObject()["fee_ticker"].toString();
+
+    QVariant feeValidator    = fee["validator_fee"].toObject()["median_fee_coins"].toVariant();
+    QVariant feeValidatorMin = fee["validator_fee"].toObject()["min_fee_coins"].toVariant();
+    QVariant feeValidatorMax = fee["validator_fee"].toObject()["max_fee_coins"].toVariant();
+
+    QVariant feeValidatorDatoshi    = fee["validator_fee"].toObject()["median_fee_datoshi"].toVariant();
+    QVariant feeValidatorMinDatoshi = fee["validator_fee"].toObject()["min_fee_datoshi"].toVariant();
+    QVariant feeValidatorMaxDatoshi = fee["validator_fee"].toObject()["max_fee_datoshi"].toVariant();
+
+
+    if(mathWorker.subCoins(feeValidatorDatoshi, feeValidatorMinDatoshi) < 0.02f)
+
 
     mapResult.insert("error", (int)DAP_NO_ERROR);
-    mapResult.insert("fee_ticker", feeTicker);
-    mapResult.insert("network_fee", feeNetwork);
-    mapResult.insert("validator_fee", feeValidator);
+    mapResult.insert("fee_ticker", feeTicker.toDouble());
+    mapResult.insert("network_fee", feeNetwork.toDouble());
+    mapResult.insert("validator_fee", feeValidator.toDouble());
+    mapResult.insert("validator_fee_min", feeValidatorMin.toDouble());
+    mapResult.insert("validator_fee_max", feeValidatorMax.toDouble());
 
     return mapResult;
 }
