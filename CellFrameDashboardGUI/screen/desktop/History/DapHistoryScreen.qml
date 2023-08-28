@@ -189,7 +189,6 @@ Page
                 }
 
                 Item{
-//                    visible: fee !== "0.0"
                     Layout.minimumWidth: 142
                     Layout.fillHeight: true
 
@@ -199,7 +198,7 @@ Page
                         anchors.fill: parent
                         textFont: mainFont.dapFont.regular12
                         textColor: currTheme.gray
-                        fullText: qsTr("fee: ") + fee + " " + token
+                        fullText: qsTr("fee: ") + fee + " " + fee_token
                         horizontalAlign: Text.AlignRight
                     }
                 }
