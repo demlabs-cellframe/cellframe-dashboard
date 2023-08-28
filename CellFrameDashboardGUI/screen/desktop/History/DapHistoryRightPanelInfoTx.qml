@@ -146,7 +146,7 @@ DapRectangleLitAndShaded {
                 }
                 TextDetailsTx {
                     title.text: "Fee"
-                    content.text: detailsModel.get(0).fee_net + " " + detailsModel.get(0).token
+                    content.text: detailsModel.get(0).fee_net + " " + detailsModel.get(0).fee_token
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {

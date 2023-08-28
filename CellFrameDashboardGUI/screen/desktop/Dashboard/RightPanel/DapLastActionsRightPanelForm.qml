@@ -158,7 +158,7 @@ DapRectangleLitAndShaded
                                     append ({
                                                 name: qsTr("Fee: "),
                                                 number: fee_net ,
-                                                token_name: token
+                                                token_name: fee_token
                                             })
                                     append ({
                                                 name: qsTr("Validator fee: "),
