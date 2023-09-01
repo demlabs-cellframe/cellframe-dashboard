@@ -24,8 +24,19 @@ public:
     Q_INVOKABLE QVariantMap approveTx(QVariantMap);
     Q_INVOKABLE void sendTx(QVariantMap);
 
+    Q_PROPERTY(QVariantMap m_feeData READ feeData WRITE setFeeData NOTIFY feeDataChanged)
+    Q_INVOKABLE void setFeeData(QVariantMap);
+    Q_INVOKABLE QVariantMap feeData();
+
+    Q_INVOKABLE void clearFeeData();
+    Q_INVOKABLE QVariantMap generateFeeData(QString network);
+    Q_INVOKABLE QVariantMap feeIncrement();
+    Q_INVOKABLE QVariantMap feeDecrement();
+
     QJsonDocument m_feeBuffer;
     QJsonDocument m_walletBuffer;
+    QVariantMap m_feeData;
+
 
 
     enum DapErrors{
@@ -42,8 +53,8 @@ private:
     QVariantMap getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker);
 
 signals:
-
     void sigSendTx(QStringList);
+    void feeDataChanged();
 
 };
 

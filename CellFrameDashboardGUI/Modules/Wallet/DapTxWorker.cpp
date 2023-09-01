@@ -9,7 +9,6 @@ DapTxWorker::DapTxWorker(QObject *parent)
 QVariantMap DapTxWorker::getFee(QString network)
 {
     QVariantMap mapResult;
-    MathWorker mathWorker;
 
     if(m_feeBuffer.isNull() || network.isEmpty())
     {
@@ -26,24 +25,16 @@ QVariantMap DapTxWorker::getFee(QString network)
     QString feeNetwork      = fee["network_fee"].toObject()["fee_coins"].toString();
     QString feeTicker       = fee["validator_fee"].toObject()["fee_ticker"].toString();
 
-    QVariant feeValidator    = fee["validator_fee"].toObject()["median_fee_coins"].toVariant();
-    QVariant feeValidatorMin = fee["validator_fee"].toObject()["min_fee_coins"].toVariant();
-    QVariant feeValidatorMax = fee["validator_fee"].toObject()["max_fee_coins"].toVariant();
-
-    QVariant feeValidatorDatoshi    = fee["validator_fee"].toObject()["median_fee_datoshi"].toVariant();
-    QVariant feeValidatorMinDatoshi = fee["validator_fee"].toObject()["min_fee_datoshi"].toVariant();
-    QVariant feeValidatorMaxDatoshi = fee["validator_fee"].toObject()["max_fee_datoshi"].toVariant();
-
-
-    if(mathWorker.subCoins(feeValidatorDatoshi, feeValidatorMinDatoshi) < 0.02f)
-
+    QString feeValidator    = fee["validator_fee"].toObject()["median_fee_coins"].toString();
+    QString feeValidatorMin = fee["validator_fee"].toObject()["min_fee_coins"].toString();
+    QString feeValidatorMax = fee["validator_fee"].toObject()["max_fee_coins"].toString();
 
     mapResult.insert("error", (int)DAP_NO_ERROR);
-    mapResult.insert("fee_ticker", feeTicker.toDouble());
-    mapResult.insert("network_fee", feeNetwork.toDouble());
-    mapResult.insert("validator_fee", feeValidator.toDouble());
-    mapResult.insert("validator_fee_min", feeValidatorMin.toDouble());
-    mapResult.insert("validator_fee_max", feeValidatorMax.toDouble());
+    mapResult.insert("fee_ticker", feeTicker);
+    mapResult.insert("network_fee", feeNetwork);
+    mapResult.insert("validator_fee", feeValidator);
+    mapResult.insert("validator_fee_min", feeValidatorMin);
+    mapResult.insert("validator_fee_max", feeValidatorMax);
 
     return mapResult;
 }
@@ -278,4 +269,154 @@ QVariantMap DapTxWorker::getBalanceInfo(QString name, QString network, QString f
     mapResult.insert("balanceSendCoins"    , balanceCoins);
 
     return mapResult;
+}
+
+void DapTxWorker::setFeeData(QVariantMap data)
+{
+    m_feeData = data;
+    emit feeDataChanged();
+}
+
+QVariantMap DapTxWorker::feeData()
+{
+    return m_feeData;
+}
+
+void DapTxWorker::clearFeeData()
+{
+    m_feeData.clear();
+    emit feeDataChanged();
+}
+
+QVariantMap DapTxWorker::generateFeeData(QString network)
+{
+    QVariantMap feeBuf = getFee(network);
+    QVariantMap result;
+
+    if(feeBuf.value("error").toInt() = DAP_NO_ERROR)
+    {
+        MathWorker mathWrkr;
+        QString currPos;
+        QVariant minFee, maxFee, midFee, currValue, currIndex;
+        QVariant posVeryLow = -1, posLow = -1, posMid = -1, posHigh = -1, posVeryHigh = -1;
+        QVariant minFee_datoshi, maxFee_datoshi, midFee_datoshi;
+
+        currPos = "Mid";
+
+        minFee  = feeBuf.value("validator_fee_min");
+        maxFee  = feeBuf.value("validator_fee_max");
+        midFee  = feeBuf.value("validator_fee");
+
+        minFee_datoshi  = mathWrkr.coinsToBalance(minFee);
+        maxFee_datoshi  = mathWrkr.coinsToBalance(maxFee);
+        midFee_datoshi  = mathWrkr.coinsToBalance(midFee);
+
+
+        if( mathWrkr.isEqual(minFee_datoshi, midFee_datoshi).toBool() &&
+           !mathWrkr.isEqual(maxFee_datoshi, midFee_datoshi).toBool())
+        {
+            qDebug()<<"min and mid is equal";
+            posMid = midFee;
+            //posHigh coins = (max - mid)/2 + mid
+            posHigh = mathWrkr.sumCoins(mathWrkr.divCoins(mathWrkr.subCoins(maxFee_datoshi, midFee_datoshi, true), "2", true), midFee_datoshi, false);
+            posVeryHigh = maxFee;
+        }
+        if( mathWrkr.isEqual(maxFee_datoshi, midFee_datoshi).toBool() &&
+           !mathWrkr.isEqual(minFee_datoshi, midFee_datoshi).toBool())
+        {
+            qDebug()<<"max and mid is equal";
+
+            posVeryLow = minFee;
+            //posLow coins = (mid - min)/2 + min
+            posLow = mathWrkr.sumCoins(mathWrkr.divCoins(mathWrkr.subCoins(midFee_datoshi, minFee_datoshi, true), "2", true), minFee_datoshi, false);
+            posMid = midFee;
+        }
+        if(!mathWrkr.isEqual(maxFee_datoshi, midFee_datoshi).toBool() &&
+           !mathWrkr.isEqual(minFee_datoshi, midFee_datoshi).toBool())
+        {
+            posVeryLow = minFee;
+            //posLow coins = (mid - min)/2 + min
+            posLow = mathWrkr.sumCoins(mathWrkr.divCoins(mathWrkr.subCoins(midFee_datoshi, minFee_datoshi, true), "2", true), minFee_datoshi, false);
+            posMid = midFee;
+            //posHigh coins = (max - mid)/2 + mid
+            posHigh = mathWrkr.sumCoins(mathWrkr.divCoins(mathWrkr.subCoins(maxFee_datoshi, midFee_datoshi, true), "2", true), midFee_datoshi, false);
+            posVeryHigh = maxFee;
+        }
+
+        result.insert("minFee", minFee);
+        result.insert("maxFee", maxFee);
+        result.insert("midFee", midFee);
+        result.insert("currPos", currPos);
+        result.insert("VeryLow", posVeryLow);
+        result.insert("Low", posLow);
+        result.insert("Mid", posMid);
+        result.insert("High", posHigh);
+        result.insert("VeryHigh", posVeryHigh);
+        result.insert("currIndex", 2); // VeryLow = 0, Low = 1 ... VeryHigh = 4
+        result.insert("currValue", result.value(currPos)); // insert currentValue at current position
+    }
+    else
+    {
+        result.insert("minFee", "-1");
+        result.insert("maxFee", "-1");
+        result.insert("midFee", "-1");
+        result.insert("currPos", "-1");
+        result.insert("VeryLow", "-1");
+        result.insert("Low", "-1");
+        result.insert("Mid", "-1");
+        result.insert("High", "-1");
+        result.insert("VeryHigh", "-1");
+        result.insert("currIndex", "-1");
+        result.insert("currValue", "-1");
+
+        qDebug()<<"bad data fee";
+    }
+    setFeeData(result);
+    return result;
+}
+
+QVariantMap DapTxWorker::feeIncrement()
+{
+    QVariantMap result;
+    QVariantMap feeBuf = m_feeData;
+    QString currPos = feeBuf.value("currPos").toString();
+    int currIndex = feeBuf.value("currIndex").toInt();
+    QString currValue = feeBuf.value("currValue").toString();
+
+    if(currPos != "-1")
+    {
+
+
+        if(currPos == "VeryHigh")
+            currPos = "High";
+        else if(currPos == "High")
+            currPos = "Mid";
+        else if(currPos == "Mid")
+            currPos = "Low";
+        else if(currPos == "Low")
+            currPos = "VeryLow";
+        else if(currPos == "VeryLow")
+            currPos = "VeryHigh";
+
+        if(currValue != "-1")
+        {
+            feeBuf.insert("currPos", currPos);
+            feeBuf.insert("currValue", feeBuf.value(currPos)); // insert currentValue at current position
+        }
+        else
+        {
+
+        }
+    }
+    else
+    {
+        result = feeBuf;
+    }
+
+    return result;
+}
+
+QVariantMap DapTxWorker::feeDecrement()
+{
+
 }
