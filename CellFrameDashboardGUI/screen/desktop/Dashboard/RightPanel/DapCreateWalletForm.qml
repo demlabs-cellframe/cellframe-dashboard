@@ -35,13 +35,18 @@ DapRectangleLitAndShaded
         {
             name: "Bliss"
             sign: "sig_bliss"
-            secondname: ""
+            secondname: "Depricated"
         }
         ListElement
         {
             name: "Picnic"
             sign: " sig_picnic"
             secondname: ""
+        }
+
+        // delete "bliss" if not restore mode
+        Component.onCompleted: {
+            if (!logicWallet.restoreWalletMode) remove(1);
         }
     }
 
