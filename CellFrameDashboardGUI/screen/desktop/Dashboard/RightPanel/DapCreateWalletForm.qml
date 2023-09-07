@@ -25,28 +25,24 @@ DapRectangleLitAndShaded
     ListModel
     {
         id: signatureTypeWallet
-        ListElement
-        {
-            name: "Dilithium"
-            sign: "sig_dil"
-            secondname: "Recommended"
-        }
-        ListElement
-        {
-            name: "Bliss"
-            sign: "sig_bliss"
-            secondname: "Depricated"
-        }
-        ListElement
-        {
-            name: "Picnic"
-            sign: " sig_picnic"
-            secondname: ""
-        }
 
-        // delete "bliss" if not restore mode
         Component.onCompleted: {
-            if (!logicWallet.restoreWalletMode) remove(1);
+            append({
+                       "name": "Dilithium",
+                       "sign": "sig_dil",
+                       "secondname": "Recommended"
+                   })
+            // bliss only for restore mode
+            if(logicWallet.restoreWalletMode) append({
+                       "name": "Bliss",
+                       "sign": "sig_bliss",
+                       "secondname": "Depricated"
+                   })
+            append({
+                       "name": "Picnic",
+                       "sign": " sig_picnic",
+                       "secondname": ""
+                   })
         }
     }
 

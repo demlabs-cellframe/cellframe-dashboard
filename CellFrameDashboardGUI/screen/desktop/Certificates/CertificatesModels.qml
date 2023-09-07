@@ -97,12 +97,12 @@ Item {
             signature: "sig_dil"
             secondname: "Recommended"
         }
-        ListElement
-        {
-            name: "Bliss"
-            signature: "sig_bliss"
-            secondname: ""
-        }
+//        ListElement
+//        {
+//            name: "Bliss"
+//            signature: "sig_bliss"
+//            secondname: ""
+//        }
         ListElement
         {
             name: "Picnic"
