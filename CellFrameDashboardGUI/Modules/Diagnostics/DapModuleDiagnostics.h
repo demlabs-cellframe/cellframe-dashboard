@@ -94,6 +94,9 @@ private slots:
     void slot_uptime();
     void slot_update_node_list();
 
+private:
+    void try_update_data(const QJsonDocument list, const QJsonDocument data);
+
 public:
 
     QTimer *s_uptime_timer, *s_node_list_timer;

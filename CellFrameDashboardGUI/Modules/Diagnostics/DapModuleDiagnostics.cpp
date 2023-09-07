@@ -144,13 +144,26 @@ void DapModuleDiagnostics::slot_uptime()
 }
 void DapModuleDiagnostics::slot_update_node_list()
 {
-    QJsonDocument buff = m_diagnostic->get_list_nodes();
+#ifdef NETWORK_DIAGNOSTIC
+    m_diagnostic->read_full_data([this]{
+        auto vData = m_diagnostic->get_list_and_data_json();
+        QJsonDocument* list = vData[0];
+        QJsonDocument* data = vData[1];
+        try_update_data(*list, *data);
+    });
+#else
+    try_update_data(m_diagnostic->get_list_nodes(), m_diagnostic->read_data());
+#endif
+}
+
+void DapModuleDiagnostics::try_update_data(const QJsonDocument list, const QJsonDocument data)
+{
+    QJsonDocument buff = list;//m_diagnostic->get_list_nodes();
     if(buff.toJson() != s_node_list.toJson())
     {
         s_node_list = buff;
         emit nodeListChanged();
     }
-
 
     buff.setArray(m_diagnostic->s_selected_nodes_list);
     if(buff.toJson() != s_node_list_selected.toJson())
@@ -159,7 +172,7 @@ void DapModuleDiagnostics::slot_update_node_list()
         emit nodeListSelectedChanged();
     }
 
-    buff = m_diagnostic->read_data();
+    buff = data;//m_diagnostic->read_data();
     if(buff.toJson() != s_data_selected_nodes.toJson())
     {
         s_data_selected_nodes = buff;
