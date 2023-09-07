@@ -89,9 +89,10 @@ public:
 
     void read_full_data(Callback hendler);
 
+protected slots:
+    void on_reply_finished(QNetworkReply *reply);
+
 private:
-    void read_list_nodes_from_network();
-    void read_data_from_network();
     void clearData();
     void send_data();
 protected:
@@ -105,12 +106,7 @@ protected:
     QJsonDocument m_jsonData;
 
     QNetworkAccessManager* m_manager = nullptr;
-    QNetworkReply* m_reply_list = nullptr;
-    QNetworkReply* m_reply_data = nullptr;
-    QNetworkReply* m_reply_post = nullptr;
 #endif
-
-
 
 /// ---------------------------------------------------------------
 

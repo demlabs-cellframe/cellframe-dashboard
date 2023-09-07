@@ -20,6 +20,8 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
             this, &AbstractDiagnostic::write_data,
             Qt::QueuedConnection);
 
+    connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
+
     s_mac = get_mac();
 }
 
@@ -231,51 +233,15 @@ void AbstractDiagnostic::read_full_data(Callback hendler)
 {
     full_data_loaded_callback = hendler;
     clearData();
-    read_list_nodes_from_network();
-    read_data_from_network();
+    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_KEYS)));
+    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_VIEW)));
 }
 
-void AbstractDiagnostic::read_list_nodes_from_network()
+void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
 {
-    QUrl url(NETWORK_ADDR_GET_KEYS);
-    if(m_reply_list)
+    if(reply->url() == NETWORK_ADDR_GET_VIEW)
     {
-        m_reply_list = nullptr;
-    }
-    m_reply_list = m_manager->get(QNetworkRequest(url));
-
-    QObject::connect(m_reply_list, &QNetworkReply::finished, [this]() {
-        QByteArray data = m_reply_list->readAll();
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
-        if(!jsonDoc.isEmpty())
-        {
-            QJsonArray list = jsonDoc.array();
-            QJsonArray resultList;
-            for(int i = 0; i < list.count(); ++i)
-            {
-                QJsonObject tmpData;
-                tmpData["mac"] = list[i];
-                resultList.append(tmpData);
-            }
-            m_jsonListNode.setArray(std::move(resultList));
-
-            send_data();
-            m_reply_list->deleteLater();
-        }
-    });
-}
-
-void AbstractDiagnostic::read_data_from_network()
-{
-    QUrl url(NETWORK_ADDR_GET_VIEW);
-    if(m_reply_data)
-    {
-        m_reply_data = nullptr;
-    }
-    m_reply_data = m_manager->get(QNetworkRequest(url));
-
-    QObject::connect(m_reply_data, &QNetworkReply::finished, [this]() {
-        QByteArray data = m_reply_data->readAll();
+        QByteArray data = reply->readAll();
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
         if(!jsonDoc.isEmpty())
         {
@@ -304,9 +270,27 @@ void AbstractDiagnostic::read_data_from_network()
             }
             m_jsonData.setArray(nodesArray);
             send_data();
-            m_reply_data->deleteLater();
         }
-    });
+    }
+    else if(reply->url() == NETWORK_ADDR_GET_KEYS)
+    {
+        QByteArray data = reply->readAll();
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if(!jsonDoc.isEmpty())
+        {
+            QJsonArray list = jsonDoc.array();
+            QJsonArray resultList;
+            for(int i = 0; i < list.count(); ++i)
+            {
+                QJsonObject tmpData;
+                tmpData["mac"] = list[i];
+                resultList.append(tmpData);
+            }
+            m_jsonListNode.setArray(std::move(resultList));
+
+            send_data();
+        }
+    }
 }
 #endif
 
@@ -373,27 +357,23 @@ void AbstractDiagnostic::write_data()
 {
 #ifdef NETWORK_DIAGNOSTIC
 
-    QUrl url = QUrl(NETWORK_ADDR_SENDER);
+    QString urls = NETWORK_ADDR_SENDER;
+    QUrl url = QUrl(urls);
+
+    QNetworkAccessManager * mgr = new QNetworkAccessManager(this);
+
+    connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
+            {qDebug() << "data sent " << urls << " " << r->error();});
+    connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,  SLOT(deleteLater()));
+
     auto req = QNetworkRequest(url);
     req.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
-
     QString key = s_mac.toString();
     QJsonDocument docBuff = s_full_info;
     QJsonObject obj = docBuff.object();
     obj.insert("mac",key);
     docBuff.setObject(obj);
-
-    if(m_reply_post)
-    {
-        m_reply_post = nullptr;
-    }
-
-    m_reply_post = m_manager->post(req, docBuff.toJson());
-    QObject::connect(m_reply_post, &QNetworkReply::finished, [this]{
-        qDebug() << "data sent " << m_reply_post->url() << " " << m_reply_post->error();
-        m_reply_post->deleteLater();
-    });
-
+    mgr->post(req, docBuff.toJson());
 #else
     if(s_full_info.isEmpty() || s_full_info.isNull())
         return;
