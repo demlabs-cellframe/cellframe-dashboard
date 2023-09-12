@@ -393,10 +393,25 @@ QJsonObject AbstractDiagnostic::get_diagnostic_data_item(const QJsonDocument& js
     QJsonObject sys_mem = system["memory"].toObject();
     QJsonObject proc = jsonDoc["process"].toObject();
 
-    if(sys_mem["total"].toString() != "blocked")
-        sys_mem.insert("total", get_memory_string(sys_mem["total"].toString().toUInt()));
-    if(sys_mem["free"].toString() != "blocked")
-        sys_mem.insert("free", get_memory_string(sys_mem["free"].toString().toUInt()));
+    auto getString = [](const QJsonValue& value) -> QString
+    {
+        QString resultStr = value.toString();
+        if(resultStr.isEmpty())
+        {
+            int totalInt = value.toInt();
+            if(totalInt > 0)
+            {
+                resultStr = QString::number(totalInt);
+            }
+        }
+        return resultStr;
+    };
+    QString total = getString(sys_mem["total"]);
+    if(total != "blocked")
+        sys_mem.insert("total", get_memory_string(total.toUInt()));
+    QString free = getString(sys_mem["free"]);
+    if(free != "blocked")
+        sys_mem.insert("free", get_memory_string(free.toUInt()));
 
     proc.insert("memory_use_value", get_memory_string(proc["memory_use_value"].toString().toUInt()));
     proc.insert("log_size", get_memory_string(proc["log_size"].toString().toUInt()));
