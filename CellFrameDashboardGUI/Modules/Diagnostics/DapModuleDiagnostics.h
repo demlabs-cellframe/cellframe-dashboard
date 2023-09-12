@@ -96,15 +96,13 @@ private slots:
 
 private:
     void try_update_data(const QJsonDocument list, const QJsonDocument data);
+    void updateNode(const QJsonArray& array);
 
-public:
+    QJsonDocument s_node_list, s_node_list_selected, s_data_selected_nodes;
 
     QTimer *s_uptime_timer, *s_node_list_timer;
     QElapsedTimer *s_elapsed_timer;
     QString s_uptime{"00:00:00"};
-
-    QJsonDocument s_node_list, s_node_list_selected, s_data_selected_nodes;
-
 
 signals:
     void signalDiagnosticData(QByteArray);

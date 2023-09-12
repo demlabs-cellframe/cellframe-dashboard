@@ -83,27 +83,20 @@ public:
 public:
     using Callback = std::function<void()>;
 
-    /// index [0] - m_jsonListNode
-    /// index [1] - m_jsonData
-    QVector<QJsonDocument *> get_list_and_data_json();
+    const QJsonDocument get_list_keys(QJsonArray &listNoMacInfo);
+    const QJsonDocument get_list_data(QJsonArray &listNoMacInfo);
 
-    void read_full_data(Callback hendler);
-
-protected slots:
+public slots:
     void on_reply_finished(QNetworkReply *reply);
+    void update_full_data(/*Callback hendler = nullptr*/);
 
-private:
-    void clearData();
-    void send_data();
 protected:
     const QString NETWORK_ADDR_SENDER = "https://engine-minkowski.kelvpn.com/diag_report";
     const QString NETWORK_ADDR_GET_VIEW = "https://engine-minkowski.kelvpn.com/diag?method=view";
     const QString NETWORK_ADDR_GET_KEYS = "https://engine-minkowski.kelvpn.com/diag?method=keys";
 
-    Callback full_data_loaded_callback = nullptr;
-
-    QJsonDocument m_jsonListNode;
-    QJsonDocument m_jsonData;
+    QJsonDocument* m_jsonListNode;
+    QJsonDocument* m_jsonData;
 
     QNetworkAccessManager* m_manager = nullptr;
 #endif

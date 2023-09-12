@@ -1,4 +1,6 @@
 #include "DapModuleDiagnostics.h"
+#include <algorithm>
+#include <QJsonValue>
 
 namespace sendFlagsData
 {
@@ -145,12 +147,11 @@ void DapModuleDiagnostics::slot_uptime()
 void DapModuleDiagnostics::slot_update_node_list()
 {
 #ifdef NETWORK_DIAGNOSTIC
-    m_diagnostic->read_full_data([this]{
-        auto vData = m_diagnostic->get_list_and_data_json();
-        QJsonDocument* list = vData[0];
-        QJsonDocument* data = vData[1];
-        try_update_data(*list, *data);
-    });
+    QJsonArray listNoMacInfo;
+    QJsonDocument data = m_diagnostic->get_list_data(listNoMacInfo);
+    QJsonDocument keys = m_diagnostic->get_list_keys(listNoMacInfo);
+    try_update_data(keys, data);
+    m_diagnostic->update_full_data();
 #else
     try_update_data(m_diagnostic->get_list_nodes(), m_diagnostic->read_data());
 #endif
@@ -158,24 +159,24 @@ void DapModuleDiagnostics::slot_update_node_list()
 
 void DapModuleDiagnostics::try_update_data(const QJsonDocument list, const QJsonDocument data)
 {
-    QJsonDocument buff = list;//m_diagnostic->get_list_nodes();
-    if(buff.toJson() != s_node_list.toJson())
+    QJsonDocument buffListNode = list;
+    if(buffListNode.toJson() != s_node_list.toJson())
     {
-        s_node_list = buff;
+        s_node_list = buffListNode;
         emit nodeListChanged();
     }
 
-    buff.setArray(m_diagnostic->s_selected_nodes_list);
-    if(buff.toJson() != s_node_list_selected.toJson())
+    buffListNode.setArray(m_diagnostic->s_selected_nodes_list);
+    if(buffListNode.toJson() != s_node_list_selected.toJson())
     {
-        s_node_list_selected = buff;
+        s_node_list_selected = std::move(buffListNode);
         emit nodeListSelectedChanged();
     }
 
-    buff = data;//m_diagnostic->read_data();
-    if(buff.toJson() != s_data_selected_nodes.toJson())
+    QJsonDocument buffData = data;
+    if(buffData.toJson() != s_data_selected_nodes.toJson())
     {
-        s_data_selected_nodes = buff;
+        s_data_selected_nodes = std::move(buffData);
         DapDiagnosticModel().setModel(&s_data_selected_nodes);
     }
 
@@ -185,16 +186,17 @@ void DapModuleDiagnostics::try_update_data(const QJsonDocument list, const QJson
 void DapModuleDiagnostics::addNodeToList(QString mac)
 {
     QJsonArray arr = s_node_list_selected.array();
+    for(const QJsonValue& objectJson: qAsConst(arr))
+    {
+        if(objectJson.toObject()["mac"].toString() == mac)
+        {
+            return;
+        }
+    }
     QJsonObject obj;
     obj.insert("mac", mac);
     arr.append(obj);
-    s_node_list_selected.setArray(arr);
-
-    m_settings.setValue("s_node_list_selected", s_node_list_selected);
-    m_diagnostic->set_node_list(s_node_list_selected);
-
-    emit nodeListSelectedChanged();
-    slot_update_node_list();
+    updateNode(arr);
 }
 
 void DapModuleDiagnostics::removeNodeFromList(QString mac)
@@ -211,7 +213,12 @@ void DapModuleDiagnostics::removeNodeFromList(QString mac)
         }
     }
 
-    s_node_list_selected.setArray(arr);
+    updateNode(arr);
+}
+
+void DapModuleDiagnostics::updateNode(const QJsonArray& array)
+{
+    s_node_list_selected.setArray(array);
 
     m_settings.setValue("s_node_list_selected", s_node_list_selected);
     m_diagnostic->set_node_list(s_node_list_selected);
