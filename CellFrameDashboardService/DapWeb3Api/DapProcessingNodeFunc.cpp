@@ -227,11 +227,11 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
         QString result = send_cmd(command);
 
 #ifdef Q_OS_WIN
-        QRegularExpression regex(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
-        QRegularExpression regex2(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
+        QRegularExpression regex(R"(wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
+        QRegularExpression regex2(R"(wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
 #else
-        QRegularExpression regex(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance: (\S+))");
-        QRegularExpression regex2(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance:)");
+        QRegularExpression regex(R"(wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance: (\S+))");
+        QRegularExpression regex2(R"(wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance:)");
 #endif
         QRegularExpressionMatch match = regex.match(result).hasMatch()?regex.match(result): regex2.match(result);
 
