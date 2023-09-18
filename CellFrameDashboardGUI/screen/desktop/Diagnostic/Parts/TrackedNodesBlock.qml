@@ -50,7 +50,7 @@ ColumnLayout {
         Text{
             font: mainFont.dapFont.bold14
             color: currTheme.white
-            text: qsTr("Tracked Nodes ")
+            text: qsTr("Tracked nodes ")
             verticalAlignment: Text.AlignVCenter
         }
         Text{

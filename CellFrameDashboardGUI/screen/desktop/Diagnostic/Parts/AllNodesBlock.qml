@@ -50,7 +50,7 @@ ColumnLayout {
         Text{
             font: mainFont.dapFont.bold14
             color: currTheme.white
-            text: qsTr("All nodes ")
+            text: qsTr("Available nodes ")
             verticalAlignment: Text.AlignVCenter
         }
         Text{
@@ -97,7 +97,6 @@ ColumnLayout {
                 filtering.clear()
                 diagnosticsModule.searchAllNodes(text)
                 filtr = text
-//                root.findHandler(text)
             }
 
             filtering.waitInputInterval: 100
@@ -105,9 +104,7 @@ ColumnLayout {
             filtering.onAwaitingFinished: {
                 diagnosticsModule.searchAllNodes(text)
                 filtr = text
-//                root.findHandler(text)
             }
-
         }
     }
 
@@ -115,9 +112,8 @@ ColumnLayout {
         Layout.leftMargin: 16
         Layout.rightMargin: 16
         Layout.fillWidth: true
-//        Layout.topMargin: -2
         height: 1
-        color: currTheme.gray //currTheme.borderColor
+        color: currTheme.gray
     }
 
     ListView{
