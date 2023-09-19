@@ -64,7 +64,7 @@ sudo chmod 644 /Applications/"$APP_NAME".app/Contents/Resources/$NODE.plist
  sudo -u $USER launchctl load -w /Users/$USER/Library/LaunchAgents/$SERVICE.plist
 
 # rm -r $DAP_PREFIX/var/lib/global_db/ || true
- rm -r $DAP_PREFIX/var/lib/network/ || true
+# rm -r $DAP_PREFIX/var/lib/network/ || true
 
  sudo -u $USER launchctl start $NODE
  sudo -u $USER launchctl start $SERVICE

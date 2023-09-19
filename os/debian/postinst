@@ -34,7 +34,7 @@ case "$1" in
     ;;
 esac
 
-rm -r /opt/cellframe-node/var/lib/network/ || true
+#rm -r /opt/cellframe-node/var/lib/network/ || true
 #rm -r /opt/cellframe-node/var/lib/global_db/ || true
 
 service cellframe-dashboard start || true
