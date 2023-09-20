@@ -164,6 +164,7 @@ Page
                            text === "Error" ||
                            text === "Declined" ?  currTheme.red :
                            text === "Received"  ? currTheme.lightGreen :
+                           text === "Unknown"   ? currTheme.mainButtonColorNormal0 :
                                                   currTheme.white
 
                     font:  mainFont.dapFont.regular14
