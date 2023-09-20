@@ -40,6 +40,7 @@
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
 #include "handlers/DapGetWordBook.h"
+#include "handlers/DapDictionaryCommand.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
@@ -199,6 +200,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetXchangeTokenPriceAverage       ("DapGetXchangeTokenPriceAverage"       , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeTokenPriceHistory       ("DapGetXchangeTokenPriceHistory"       , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetWordBook                       ("DapGetWordBook"                       , nullptr, CLI_PATH));
+    m_servicePool.append(new DapDictionaryCommand                 ("DapDictionaryCommand"                 , nullptr, CLI_PATH));
     m_servicePool.append(new DapXchangeOrderPurchase              ("DapXchangeOrderPurchase"              , nullptr));
     m_servicePool.append(new DapWalletActivateOrDeactivateCommand ("DapWalletActivateOrDeactivateCommand" , nullptr, CLI_PATH));
     m_servicePool.append(new DapNodeRestart                       ("DapNodeRestart"                       , nullptr, CLI_PATH));

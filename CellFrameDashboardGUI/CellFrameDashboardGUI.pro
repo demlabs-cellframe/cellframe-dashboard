@@ -8,6 +8,7 @@ DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
     DAP_SETTINGS_FILE=\\\"settings.json\\\"
 
 HEADERS += $$PWD/DapServiceController.h \
+    Autocomplete/CommandHelperController.h \
     Autocomplete/CommandCmdController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
@@ -66,6 +67,7 @@ HEADERS += $$PWD/DapServiceController.h \
 SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     Autocomplete/CommandCmdController.cpp \
+    Autocomplete/CommandHelperController.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \

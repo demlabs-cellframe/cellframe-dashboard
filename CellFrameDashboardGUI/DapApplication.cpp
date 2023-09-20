@@ -16,6 +16,7 @@
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
+
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
@@ -58,6 +59,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
+    m_commandHelper = new CommandHelperController();
 
 //    m_mathBigNumbers = new DapMath();
 
@@ -191,5 +193,6 @@ void DapApplication::setContextProperties()
 //    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
+    m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
 }

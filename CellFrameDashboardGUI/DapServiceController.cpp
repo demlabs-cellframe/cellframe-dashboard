@@ -283,6 +283,8 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWordBook("DapGetWordBook",m_DAPRpcSocket))), QString("rcvWordBook")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapDictionaryCommand("DapDictionaryCommand",m_DAPRpcSocket))), QString("rcvDictionary")));
+
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapXchangeOrderPurchase("DapXchangeOrderPurchase",m_DAPRpcSocket))), QString("rcvXchangePurchase")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand",m_DAPRpcSocket))), QString("rcvActivateOrDeactivateReply")));
