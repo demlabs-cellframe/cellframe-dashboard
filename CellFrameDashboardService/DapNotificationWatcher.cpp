@@ -56,41 +56,41 @@ bool DapNotificationWatcher::initWatcher()
 
         if (!m_listenPath.isEmpty())
         {
-            socket = new QLocalSocket(this);
-            connect((QLocalSocket*)socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error),
+            m_socket = new QLocalSocket(this);
+            connect((QLocalSocket*)m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error),
                     this, &DapNotificationWatcher::slotError);
 
-            connect((QLocalSocket*)socket, &QLocalSocket::connected,
+            connect((QLocalSocket*)m_socket, &QLocalSocket::connected,
                     this, &DapNotificationWatcher::socketConnected);
 
-            connect((QLocalSocket*)socket, &QLocalSocket::disconnected,
+            connect((QLocalSocket*)m_socket, &QLocalSocket::disconnected,
                     this, &DapNotificationWatcher::socketDisconnected);
 
-            connect((QLocalSocket*)socket, &QLocalSocket::stateChanged,
+            connect((QLocalSocket*)m_socket, &QLocalSocket::stateChanged,
                     this, &DapNotificationWatcher::socketStateChanged);
 
-            ((QLocalSocket*)socket)->connectToServer(m_listenPath);
-            ((QLocalSocket*)socket)->waitForConnected();
+            ((QLocalSocket*)m_socket)->connectToServer(m_listenPath);
+            ((QLocalSocket*)m_socket)->waitForConnected();
         }
         else
         {
-            socket = new QTcpSocket(this);
-            connect((QTcpSocket*)socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+            m_socket = new QTcpSocket(this);
+            connect((QTcpSocket*)m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
                     this, &DapNotificationWatcher::slotError);
 
-            connect((QTcpSocket*)socket, &QTcpSocket::connected,
+            connect((QTcpSocket*)m_socket, &QTcpSocket::connected,
                     this, &DapNotificationWatcher::socketConnected);
 
-            connect((QTcpSocket*)socket, &QTcpSocket::disconnected,
+            connect((QTcpSocket*)m_socket, &QTcpSocket::disconnected,
                     this, &DapNotificationWatcher::socketDisconnected);
 
-            connect((QTcpSocket*)socket, &QTcpSocket::stateChanged,
+            connect((QTcpSocket*)m_socket, &QTcpSocket::stateChanged,
                     this, &DapNotificationWatcher::tcpSocketStateChanged);
 
-            connect(socket, &QTcpSocket::readyRead, this, &DapNotificationWatcher::socketReadyRead);
+            connect(m_socket, &QTcpSocket::readyRead, this, &DapNotificationWatcher::socketReadyRead);
 
-            ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
-            ((QTcpSocket*)socket)->waitForConnected();
+            ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
+            ((QTcpSocket*)m_socket)->waitForConnected();
         }
         return true;
     }
@@ -100,15 +100,15 @@ bool DapNotificationWatcher::initWatcher()
 
 void DapNotificationWatcher::slotError()
 {
-    qWarning() << "Notify socket error" << socket->errorString();
+    qWarning() << "Notify socket error" << m_socket->errorString();
     reconnectFunc();
 }
 
 void DapNotificationWatcher::slotReconnect()
 {
     qInfo()<<"DapNotificationWatcher::slotReconnect()" << m_listenAddr << m_listenPort;
-    ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
-    ((QTcpSocket*)socket)->waitForConnected(3000);
+    ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
+    ((QTcpSocket*)m_socket)->waitForConnected(3000);
 
     sendNotifyState("Notify socket error");
 
@@ -127,7 +127,7 @@ void DapNotificationWatcher::socketConnected()
 {
     qInfo() << "Notify socket connected";
     m_reconnectTimer->stop();
-    socket->waitForReadyRead(4000);
+    m_socket->waitForReadyRead(4000);
     sendNotifyState("Notify socket connected");
 }
 
@@ -145,7 +145,7 @@ void DapNotificationWatcher::socketStateChanged(QLocalSocket::LocalSocketState s
 void DapNotificationWatcher::socketReadyRead()
 {
 //    qDebug() << "Ready Read";
-    QByteArray data = socket->readLine();
+    QByteArray data = m_socket->readLine();
 //    QByteArray data = socket->readAll();
     if (data[data.length() - 1] != '}')
         data = data.left(data.length() - 1);
@@ -195,8 +195,8 @@ void DapNotificationWatcher::reconnectFunc()
 
 void DapNotificationWatcher::frontendConnected()
 {
-    if(m_socketState != ((QTcpSocket*)socket)->state())
-        m_socketState = ((QTcpSocket*)socket)->state();
+    if(m_socketState != ((QTcpSocket*)m_socket)->state())
+        m_socketState = ((QTcpSocket*)m_socket)->state();
 
     if(m_socketState == QAbstractSocket::SocketState::ConnectedState)
         sendNotifyState("Notify socket connected");

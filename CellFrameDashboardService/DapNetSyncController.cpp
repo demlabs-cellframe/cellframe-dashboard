@@ -4,7 +4,7 @@ DapNetSyncController::DapNetSyncController(DapNotificationWatcher* watcher, QObj
     : QObject{parent}
 {
     m_notifWatch = watcher;
-    m_nodeState = watcher->m_socketState;
+    m_nodeState = watcher->getSocketState();
     updateTick();
 
     m_timerSync = new QTimer(this);
