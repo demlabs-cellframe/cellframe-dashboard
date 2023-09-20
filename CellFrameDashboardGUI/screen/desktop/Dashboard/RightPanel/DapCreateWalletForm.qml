@@ -32,17 +32,19 @@ DapRectangleLitAndShaded
                        "sign": "sig_dil",
                        "secondname": "Recommended"
                    })
-            // bliss only for restore mode
-            if(logicWallet.restoreWalletMode) append({
-                       "name": "Bliss",
-                       "sign": "sig_bliss",
-                       "secondname": "Depricated"
-                   })
-            append({
-                       "name": "Picnic",
-                       "sign": " sig_picnic",
-                       "secondname": ""
-                   })
+            // 'bliss' and 'picnic' only for restore mode
+            if(logicWallet.restoreWalletMode) {
+                append({
+                           "name": "Bliss",
+                           "sign": "sig_bliss",
+                           "secondname": "Depricated"
+                       })
+                append({
+                           "name": "Picnic",
+                           "sign": " sig_picnic",
+                           "secondname": "Depricated"
+                       })
+            }
         }
     }
 
