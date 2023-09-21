@@ -1,7 +1,4 @@
 Var /GLOBAL net1
-;Var /GLOBAL net2
-Var /GLOBAL net3
-Var /GLOBAL net4
 
 Function AdvReplaceInFile
 	Exch $0

@@ -120,10 +120,10 @@ true:
 	RMDir /r "$ConfigPath\etc\network"
 	Delete "$ConfigPath\etc\${NODE_NAME}.cfg"
 ;    RMDir /r "$ConfigPath\var\lib\global_db"
-    RMDir /r "$ConfigPath\var\lib\network"
-false:	
+;    RMDir /r "$ConfigPath\var\lib\network"
+false:
 ;    RMDir /r "$ConfigPath\var\lib\global_db"
-    RMDir /r "$ConfigPath\var\lib\network"
+;    RMDir /r "$ConfigPath\var\lib\network"
 end:
 !macroend
 
@@ -171,15 +171,9 @@ Section "${APP_NAME}" CORE
 	File /r "opt/cellframe-node/share/*"
 	
 	CopyFiles "$ConfigPath\share\configs\${NODE_NAME}.cfg.tpl" "$ConfigPath\etc\${NODE_NAME}.cfg"
-	StrCpy $net1 "Backbone"
-	;StrCpy $net2 "raiden"
-	StrCpy $net3 "riemann"
-	StrCpy $net4 "KelVPN"
+	StrCpy $net1 "mileena"
 	
 	CopyFiles "$ConfigPath\share\configs\network\$net1.cfg.tpl" "$ConfigPath\etc\network\$net1.cfg"
-	;CopyFiles "$ConfigPath\share\configs\network\$net2.cfg.tpl" "$ConfigPath\etc\network\$net2.cfg"
-	CopyFiles "$ConfigPath\share\configs\network\$net3.cfg.tpl" "$ConfigPath\etc\network\$net3.cfg"
-	CopyFiles "$ConfigPath\share\configs\network\$net4.cfg.tpl" "$ConfigPath\etc\network\$net4.cfg"
 	
 !insertmacro modifyConfigFiles
 	WriteRegStr HKLM "${UNINSTALL_PATH}" "DisplayName" "${APP_NAME} ${APP_VER}"
