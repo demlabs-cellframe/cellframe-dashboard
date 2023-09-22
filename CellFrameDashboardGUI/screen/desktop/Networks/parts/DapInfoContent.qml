@@ -268,9 +268,9 @@ Item {
 //                smooth: false
                 fillMode: Image.PreserveAspectFit
 
-                source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
+                source: networkState === "OFFLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg" :
                         networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
-                                                    "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg"
+                                                    "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg"
 
                 opacity: networkState !== targetState? animationController.opacity : 1
             }

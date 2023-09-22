@@ -124,7 +124,9 @@ DapRectangleLitAndShaded
                                    text === "Error" ||
                                    text === "Declined" ?  currTheme.red :
                                    text === "Received"  ? currTheme.lightGreen :
+                                   text === "Unknown"   ? currTheme.mainButtonColorNormal0 :
                                                           currTheme.white
+
                             font: mainFont.dapFont.regular12
                         }
                     }
@@ -158,7 +160,7 @@ DapRectangleLitAndShaded
                                     append ({
                                                 name: qsTr("Fee: "),
                                                 number: fee_net ,
-                                                token_name: token
+                                                token_name: fee_token
                                             })
                                     append ({
                                                 name: qsTr("Validator fee: "),
