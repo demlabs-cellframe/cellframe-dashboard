@@ -164,6 +164,7 @@ Page
                            text === "Error" ||
                            text === "Declined" ?  currTheme.red :
                            text === "Received"  ? currTheme.lightGreen :
+                           text === "Unknown"   ? currTheme.mainButtonColorNormal0 :
                                                   currTheme.white
 
                     font:  mainFont.dapFont.regular14
@@ -189,7 +190,6 @@ Page
                 }
 
                 Item{
-//                    visible: fee !== "0.0"
                     Layout.minimumWidth: 142
                     Layout.fillHeight: true
 
@@ -199,7 +199,7 @@ Page
                         anchors.fill: parent
                         textFont: mainFont.dapFont.regular12
                         textColor: currTheme.gray
-                        fullText: qsTr("fee: ") + fee + " " + token
+                        fullText: qsTr("fee: ") + fee + " " + fee_token
                         horizontalAlign: Text.AlignRight
                     }
                 }

@@ -2,17 +2,7 @@ import QtQuick 2.4
 
 DapCreateWalletForm
 {
-//    dapNextRightPanel: recoveryWallet
-//    dapPreviousRightPanel: ""
-
     Component.onCompleted: walletModule.timerUpdateFlag(false);
-
-    property string dapSignatureTypeWallet
-
-    dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
-    {
-        dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
-    }
 
     dapButtonNext.onClicked:
     {
@@ -30,6 +20,8 @@ DapCreateWalletForm
         }
         else
         {
+            var index = dapComboBoxSignatureTypeWallet.currentIndex === -1 ? 0 : dapComboBoxSignatureTypeWallet.currentIndex
+            var dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(index).sign
             dapWalletNameWarning.text = ""
 
             walletInfo.name = dapTextInputNameWallet.text
