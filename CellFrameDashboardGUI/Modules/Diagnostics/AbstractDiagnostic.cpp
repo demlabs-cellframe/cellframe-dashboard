@@ -1,23 +1,45 @@
 #include "AbstractDiagnostic.h"
 
+#include <QNetworkAccessManager>
+#include <QHttpPart>
+#include <QHttpMultiPart>
+#include <QNetworkReply>
+#include <QJsonDocument>
+
 static QString group = "global.users.statistic";
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     :QObject(parent)
+    , s_timer_update(new QTimer())
+    , s_timer_write(new QTimer())
+#ifdef NETWORK_DIAGNOSTIC
+    , m_jsonListNode(new QJsonDocument())
+    , m_jsonData(new QJsonDocument())
+    , m_manager(new QNetworkAccessManager())
+#endif
 {
-    s_timer_update = new QTimer();
-    s_timer_write = new QTimer();
-
     connect(s_timer_write, &QTimer::timeout,
             this, &AbstractDiagnostic::write_data,
             Qt::QueuedConnection);
 
     s_mac = get_mac();
+
+#ifdef NETWORK_DIAGNOSTIC
+
+    connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
+#endif
 }
 
 AbstractDiagnostic::~AbstractDiagnostic()
 {
     delete s_timer_update;
+
+#ifdef NETWORK_DIAGNOSTIC
+    m_manager->deleteLater();
+    if(m_jsonListNode) delete m_jsonListNode;
+    if(m_jsonData) delete m_jsonData;
+#endif
+
 }
 
 void AbstractDiagnostic::set_timeout(int timeout){
@@ -38,7 +60,6 @@ void AbstractDiagnostic::stop_diagnostic()
 
 QJsonValue AbstractDiagnostic::get_mac()
 {
-//    qInfo()<<"AbstractDiagnostic::get_mac ";
     QString MAC{"unknown"};
     foreach(QNetworkInterface netInterface, QNetworkInterface::allInterfaces())
     {
@@ -57,8 +78,6 @@ QJsonValue AbstractDiagnostic::get_mac()
 
 QString AbstractDiagnostic::get_uptime_string(long sec)
 {
-//    qInfo()<<"AbstractDiagnostic::get_uptime_string " << sec;
-
     QTime time(0, 0);
     time = time.addSecs(sec);
     int fullHours = sec/3600;
@@ -76,8 +95,6 @@ QString AbstractDiagnostic::get_uptime_string(long sec)
 
 quint64 AbstractDiagnostic::get_file_size (QString flag, QString path )
 {
-//    qInfo()<<"AbstractDiagnostic::get_file_size " << flag << path;
-
     if(flag == "log")
         path += "/var/log";
     else
@@ -122,7 +139,6 @@ quint64 AbstractDiagnostic::get_file_size (QString flag, QString path )
 
 QString AbstractDiagnostic::get_memory_string(size_t num)
 {
-//    qInfo()<<"AbstractDiagnostic::get_memory_string " << num;
     size_t bytes = num * 1024;
     if (bytes == 0) return "0 KB";
     int k = 1024,
@@ -138,28 +154,10 @@ QString AbstractDiagnostic::get_memory_string(size_t num)
         return "Unknown";
 
     return QString(res_val + " " + res_m);
-
-
-//    QString result;
-//    int gb = (num / 1024) / 1024;
-//    int mb = (num-gb*1024*1024) /1024;
-//    int kb = (num - (gb*1024*1024+mb*1024));
-//    if (gb > 0)
-//       result = QString::number(gb) + QString(" Gb ");
-//    else
-//       result = QString("");
-//    if (mb > 0)
-//       result += QString::number(mb) + QString(" Mb ");
-//    if (kb > 0)
-//       result += QString::number(kb) + QString(" Kb ");
-
-//    return result;
 }
 
 void AbstractDiagnostic::start_write(bool isStart)
 {
-//    qInfo()<<"AbstractDiagnostic::start_write " << isStart;
-
     if(isStart && !s_timer_write->isActive()){
         write_data();
         s_timer_write->start(5000);
@@ -171,8 +169,6 @@ void AbstractDiagnostic::start_write(bool isStart)
 
 void AbstractDiagnostic::remove_data()
 {
-//    qInfo()<<"AbstractDiagnostic::remove_data";
-
     QString key = s_mac.toString();
     QProcess proc;
     QString program = QString(CLI_PATH);
@@ -181,14 +177,115 @@ void AbstractDiagnostic::remove_data()
     proc.start(program, arguments);
     proc.waitForFinished(5000);
     QString res = proc.readAll();
-
-//    qDebug()<<res;
 }
+
+#ifdef NETWORK_DIAGNOSTIC
+
+void AbstractDiagnostic::update_full_data()
+{
+    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_KEYS)));
+    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_VIEW)));
+}
+
+const QJsonDocument AbstractDiagnostic::get_list_keys(QJsonArray& listNoMacInfo)
+{
+    if(!m_jsonListNode || m_jsonListNode->isEmpty())
+    {
+        return {};
+    }
+    QJsonArray list = m_jsonListNode->array();
+    QJsonArray resultList;
+
+    auto isContains = [this](const QString& mac) -> bool
+    {
+        for(const auto &item: s_selected_nodes_list)
+        {
+            if(item.toObject()["mac"].toString() == mac)
+            {
+                return true;
+            }
+        }
+        return false;
+    };
+    for(int i = 0; i < list.count(); ++i)
+    {
+        if(isContains(list[i].toString()))
+        {
+            continue;
+        }
+        QJsonObject tmpData;
+        tmpData["mac"] = list[i];
+        if(!listNoMacInfo.isEmpty())
+        {
+            if(listNoMacInfo.contains(isContains(list[i].toString())))
+            {
+                tmpData["noInfoMac"] = list[i];
+            }
+        }
+
+        resultList.append(std::move(tmpData));
+    }
+    return QJsonDocument(std::move(resultList));
+}
+
+const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
+{
+    if(!m_jsonData || m_jsonData->isEmpty())
+    {
+        return {};
+    }
+
+    QJsonObject list = m_jsonData->object();
+    QJsonArray nodesArray;
+    for(const QJsonValue mac : s_selected_nodes_list)
+    {
+        if(list.contains(mac["mac"].toString()))
+        {
+            QJsonObject resultObj = get_diagnostic_data_item(QJsonDocument(list[mac["mac"].toString()].toObject()));
+            nodesArray.append(resultObj);
+        }
+        else
+        {
+            listNoMacInfo.append(mac["mac"].toString());
+        }
+    }
+
+    return QJsonDocument(std::move(nodesArray));
+}
+
+void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
+{
+    if(reply->url() == NETWORK_ADDR_GET_VIEW)
+    {
+        QByteArray data = reply->readAll();
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if(!jsonDoc.isEmpty())
+        {
+            QJsonArray list = jsonDoc.array();
+            QJsonObject resultObject;
+            for(int i = 0; i < list.count(); ++i)
+            {
+                QJsonObject tmpObject = list[i].toObject();
+                resultObject.insert(tmpObject["mac"].toString(), tmpObject);
+            }
+
+            m_jsonData->setObject(std::move(resultObject));// setArray(std::move(jsonDoc.array()));
+        }
+    }
+    else if(reply->url() == NETWORK_ADDR_GET_KEYS)
+    {
+        QByteArray data = reply->readAll();
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if(!jsonDoc.isEmpty())
+        {
+            m_jsonListNode->setArray(std::move(jsonDoc.array()));
+        }
+    }
+}
+#endif
 
 QJsonDocument AbstractDiagnostic::get_list_nodes()
 {
-//    qInfo()<<"AbstractDiagnostic::get_list_nodes";
-
     QJsonDocument nodes;
     QProcess proc;
     QString program = QString(CLI_PATH);
@@ -230,8 +327,8 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
     foreach (QString node, resSplit)
     {
         if(node != s_mac.toString()
-                && re.exactMatch(node)
-                && !check_contains(s_selected_nodes_list, node, "mac"))
+            && re.exactMatch(node)
+            && !check_contains(s_selected_nodes_list, node, "mac"))
         {
             QJsonObject obj;
             obj.insert("mac", node);
@@ -246,8 +343,26 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
 
 void AbstractDiagnostic::write_data()
 {
-//    qInfo()<<"AbstractDiagnostic::write_data";
+#ifdef NETWORK_DIAGNOSTIC
 
+    QString urls = NETWORK_ADDR_SENDER;
+    QUrl url = QUrl(urls);
+
+    QNetworkAccessManager * mgr = new QNetworkAccessManager(this);
+
+    connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
+            {qDebug() << "data sent " << urls << " " << r->error();});
+    connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,  SLOT(deleteLater()));
+
+    auto req = QNetworkRequest(url);
+    req.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
+    QString key = s_mac.toString();
+    QJsonDocument docBuff = s_full_info;
+    QJsonObject obj = docBuff.object();
+    obj.insert("mac",key);
+    docBuff.setObject(obj);
+    mgr->post(req, docBuff.toJson());
+#else
     if(s_full_info.isEmpty() || s_full_info.isNull())
         return;
 
@@ -262,15 +377,56 @@ void AbstractDiagnostic::write_data()
               << "-key" << QString(key) << "-value" << QByteArray(docBuff.toJson());
     proc.start(program, arguments);
     proc.waitForFinished(5000);
-    QString res = proc.readAll();
 
-//    qDebug()<<res;
+#endif
+}
+
+QJsonObject AbstractDiagnostic::get_diagnostic_data_item(const QJsonDocument& jsonDoc)
+{
+    if(jsonDoc.isEmpty())
+    {
+        return {};
+    }
+
+    QJsonObject obj = jsonDoc.object();
+    QJsonObject system = jsonDoc["system"].toObject();
+    QJsonObject sys_mem = system["memory"].toObject();
+    QJsonObject proc = jsonDoc["process"].toObject();
+
+    auto getString = [](const QJsonValue& value) -> QString
+    {
+        QString resultStr = value.toString();
+        if(resultStr.isEmpty())
+        {
+            int totalInt = value.toInt();
+            if(totalInt > 0)
+            {
+                resultStr = QString::number(totalInt);
+            }
+        }
+        return resultStr;
+    };
+    QString total = getString(sys_mem["total"]);
+    if(total != "blocked")
+        sys_mem.insert("total", get_memory_string(total.toUInt()));
+    QString free = getString(sys_mem["free"]);
+    if(free != "blocked")
+        sys_mem.insert("free", get_memory_string(free.toUInt()));
+
+    proc.insert("memory_use_value", get_memory_string(proc["memory_use_value"].toString().toUInt()));
+    proc.insert("log_size", get_memory_string(proc["log_size"].toString().toUInt()));
+    proc.insert("DB_size", get_memory_string(proc["DB_size"].toString().toUInt()));
+    proc.insert("chain_size", get_memory_string(proc["chain_size"].toString().toUInt()));
+
+    system.insert("memory",sys_mem);
+    obj.insert("system",system);
+    obj.insert("process",proc);
+
+    return obj;
 }
 
 QJsonDocument AbstractDiagnostic::read_data()
 {
-//    qInfo()<<"AbstractDiagnostic::read_data";
-
     QJsonArray nodes_array;
     QJsonDocument nodes_doc;
 
@@ -297,26 +453,7 @@ QJsonDocument AbstractDiagnostic::read_data()
         QJsonDocument doc = QJsonDocument::fromJson(res.split("data:")[1].toStdString().data(), &err);
         if(err.error == QJsonParseError::NoError && !doc.isEmpty())
         {
-            // calculate sizes
-
-            QJsonObject obj = doc.object();
-            QJsonObject system = doc["system"].toObject();
-            QJsonObject sys_mem = system["memory"].toObject();
-            QJsonObject proc = doc["process"].toObject();
-
-            if(sys_mem["total"].toString() != "blocked")
-                sys_mem.insert("total", get_memory_string(sys_mem["total"].toString().toUInt()));
-            if(sys_mem["free"].toString() != "blocked")
-                sys_mem.insert("free", get_memory_string(sys_mem["free"].toString().toUInt()));
-
-            proc.insert("memory_use_value", get_memory_string(proc["memory_use_value"].toString().toUInt()));
-            proc.insert("log_size", get_memory_string(proc["log_size"].toString().toUInt()));
-            proc.insert("DB_size", get_memory_string(proc["DB_size"].toString().toUInt()));
-            proc.insert("chain_size", get_memory_string(proc["chain_size"].toString().toUInt()));
-
-            system.insert("memory",sys_mem);
-            obj.insert("system",system);
-            obj.insert("process",proc);
+            QJsonObject obj = get_diagnostic_data_item(doc);
             doc.setObject(obj);
 
             nodes_array.append(doc.object());
@@ -331,13 +468,12 @@ QJsonDocument AbstractDiagnostic::read_data()
 }
 
 void AbstractDiagnostic::set_node_list(QJsonDocument arr){
-//    qInfo()<<"AbstractDiagnostic::set_node_list" << arr;
+    qInfo()<<"AbstractDiagnostic::set_node_list" << arr;
     s_selected_nodes_list = arr.array();
 }
 
 bool AbstractDiagnostic::check_contains(QJsonArray array, QString item, QString flag)
 {
-//    qInfo()<<"AbstractDiagnostic::check_contains" << array << item << flag;
     for (auto itr = array.begin(); itr != array.end(); itr++)
     {
         QJsonObject obj = itr->toObject();
@@ -350,7 +486,6 @@ bool AbstractDiagnostic::check_contains(QJsonArray array, QString item, QString 
 
 QJsonObject AbstractDiagnostic::roles_processing()
 {
-//    qInfo()<<"AbstractDiagnostic::roles_processing";
     QJsonObject rolesObject;
 
     QDir currentFolder("/opt/cellframe-node/etc/network");

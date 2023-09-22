@@ -227,11 +227,11 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
         QString result = send_cmd(command);
 
 #ifdef Q_OS_WIN
-        QRegularExpression regex(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
-        QRegularExpression regex2(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
+        QRegularExpression regex(R"(wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
+        QRegularExpression regex2(R"(wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
 #else
-        QRegularExpression regex(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance: (\S+))");
-        QRegularExpression regex2(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance:)");
+        QRegularExpression regex(R"(wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance: (\S+))");
+        QRegularExpression regex2(R"(wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance:)");
 #endif
         QRegularExpressionMatch match = regex.match(result).hasMatch()?regex.match(result): regex2.match(result);
 
@@ -628,7 +628,7 @@ QJsonDocument DapWebControll::createCertificate(QString type, QString name, QStr
 
 QJsonDocument DapWebControll::stakeLockHold(QString tokenName, QString walletName,  QString time_staking,  QString net, QString coins, QString reinvest, QString noBaseFlag)
 {
-    QString command = QString("%1 stake_lock hold -net %2 -wallet %3 -time_staking %4 "
+    QString command = QString("%1 stake_lock hold -net %2 -w %3 -time_staking %4 "
                               "-coins %5 -token %6 -reinvest %7 %8").arg(CLI_PATH);
 
     command = command.arg(net);
@@ -667,7 +667,7 @@ QJsonDocument DapWebControll::stakeLockHold(QString tokenName, QString walletNam
 
 QJsonDocument DapWebControll::stakeLockTake(QString walletName, QString net, QString hash)
 {
-    QString command = QString("%1 stake_lock take -net %2 -tx %3 -wallet %4").arg(CLI_PATH);
+    QString command = QString("%1 stake_lock take -net %2 -tx %3 -w %4").arg(CLI_PATH);
 
     command = command.arg(net);
     command = command.arg(hash);

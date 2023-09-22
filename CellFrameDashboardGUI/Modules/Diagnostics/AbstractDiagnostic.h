@@ -1,6 +1,8 @@
 #ifndef ABSTRACTDIAGNOSTIC_H
 #define ABSTRACTDIAGNOSTIC_H
 
+#define NETWORK_DIAGNOSTIC
+
 #include <QObject>
 #include "qtimer.h"
 #include <QJsonDocument>
@@ -20,6 +22,7 @@
 
 #include <QDir>
 #include <QNetworkInterface>
+#include <QNetworkAccessManager>
 
 class AbstractDiagnostic : public QObject
 {
@@ -62,15 +65,41 @@ public:
     void set_node_list(QJsonDocument);
     bool check_contains(QJsonArray array, QString item, QString flag);
 
+private:
+    QJsonObject get_diagnostic_data_item(const QJsonDocument& jsonDoc);
+
 private slots:
     void write_data();
     void remove_data();
+
 
 public:
     QTimer *s_timer_write, *s_timer_read;
 
     QJsonArray s_selected_nodes_list;
     QJsonDocument s_all_nodes_list;
+
+#ifdef NETWORK_DIAGNOSTIC
+public:
+    using Callback = std::function<void()>;
+
+    const QJsonDocument get_list_keys(QJsonArray &listNoMacInfo);
+    const QJsonDocument get_list_data(QJsonArray &listNoMacInfo);
+
+public slots:
+    void on_reply_finished(QNetworkReply *reply);
+    void update_full_data(/*Callback hendler = nullptr*/);
+
+protected:
+    const QString NETWORK_ADDR_SENDER = "https://engine-minkowski.kelvpn.com/diag_report";
+    const QString NETWORK_ADDR_GET_VIEW = "https://engine-minkowski.kelvpn.com/diag?method=view";
+    const QString NETWORK_ADDR_GET_KEYS = "https://engine-minkowski.kelvpn.com/diag?method=keys";
+
+    QJsonDocument* m_jsonListNode;
+    QJsonDocument* m_jsonData;
+
+    QNetworkAccessManager* m_manager = nullptr;
+#endif
 
 /// ---------------------------------------------------------------
 
