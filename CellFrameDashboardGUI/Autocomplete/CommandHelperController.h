@@ -17,10 +17,14 @@ public:
 
     void loadNewDictionary();
     void loadDictionary();
+    void loadData();
+
+signals:
+    void helpListGeted(const QStringList& list);
 
 public slots:
-    QStringList getHelpList(const QString& text, int cursorPosition);
-
+    void tryListGetting(const QString& text, int cursorPosition);
+    void tryDataUpdate();
 private:
     DapServiceController  *s_serviceCtrl;
     HelpDictionaryController* m_helpController = nullptr;

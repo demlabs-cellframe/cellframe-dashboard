@@ -49,7 +49,6 @@
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
-#include "handlers/DapGetWordBook.h"
 #include "handlers/DapDictionaryCommand.h"
 #include "handlers/DapXchangeOrderPurchase.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"

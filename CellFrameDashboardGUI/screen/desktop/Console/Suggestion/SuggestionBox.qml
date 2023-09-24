@@ -40,7 +40,6 @@ Image {
     onModelChanged:
     {
         selectedIndex = 0
-        maxLenIndex = commandCmdController.maxLengthText(model)
     }
 
     // --- behaviours

@@ -196,11 +196,17 @@ Page
                             anchors.right: parent.right
                             height: 30
 
-
+                            Connections{
+                                target: commandHelperController
+                                onHelpListGeted:
+                                {
+                                    suggestionsBox.model = list
+                                }
+                            }
 
                             onSugTextChanged:
                             {
-                                suggestionsBox.model = commandHelperController.getHelpList(text, inputField.textInput.cursorPosition)
+                                commandHelperController.tryListGetting(text, inputField.textInput.cursorPosition)
                             }
 
                             onEnterPressed:

@@ -9,23 +9,45 @@ CommandHelperController::CommandHelperController(QObject *parent)
 
 {
     loadDictionary();
-    connect(s_serviceCtrl, &DapServiceController::rcvDictionary, [this] (const QVariant& rcvData)
-    {
-        QJsonDocument data;
-        QByteArray byteData = QByteArray::fromHex(rcvData.toByteArray());
-        QDataStream streamer(&byteData, QIODevice::ReadOnly);
-        streamer >> data;
+    loadData();
 
-        //QJsonDocument obj_result = rcvData.toJsonDocument();
-        if(!data.isEmpty())
-        {
-            m_helpController->setDictionary(std::move(data.object()));
-        }
-        else
-        {
-            qWarning() << "An unexpected response was received";
-        }
-    });
+    connect(s_serviceCtrl, &DapServiceController::rcvDictionary, [this] (const QVariant& rcvData)
+            {
+                QJsonDocument data;
+                QByteArray byteData = QByteArray::fromHex(rcvData.toByteArray());
+                QDataStream streamer(&byteData, QIODevice::ReadOnly);
+                streamer >> data;
+
+                if(!data.isEmpty())
+                {
+                    QJsonObject mainObject = data.object();
+                    if(mainObject.contains("head") && mainObject.contains("data"))
+                    {
+                        if(mainObject["head"] == "dictionary")
+                        {
+                            m_helpController->setNodeVersion(mainObject["version"].toString());
+                            m_helpController->setDictionary(std::move(mainObject["data"].toObject()));
+                        }
+                        else if(mainObject["head"] == "data")
+                        {
+                            m_helpController->setData(std::move(mainObject["data"].toObject()));
+                        }
+                        else
+                        {
+                            qWarning() << "The structure of the response from the service has changed, it is not possible to load the dictionary";
+                        }
+                    }
+                }
+                else
+                {
+                    qWarning() << "An unexpected response was received";
+                }
+            });
+}
+
+void CommandHelperController::tryListGetting(const QString& text, int cursorPosition)
+{
+    emit helpListGeted(m_helpController->getHelpList(text, cursorPosition));
 }
 
 void CommandHelperController::loadNewDictionary()
@@ -38,14 +60,19 @@ void CommandHelperController::loadDictionary()
     s_serviceCtrl->requestToService("DapDictionaryCommand", "getDictionary");
 }
 
+void CommandHelperController::loadData()
+{
+    s_serviceCtrl->requestToService("DapDictionaryCommand", "getData");
+}
+
+void CommandHelperController::tryDataUpdate()
+{
+    s_serviceCtrl->requestToService("DapDictionaryCommand", "updateData");
+}
+
 CommandHelperController::~CommandHelperController()
 {
     delete m_helpController;
-}
-
-QStringList CommandHelperController::getHelpList(const QString& text, int cursorPosition)
-{
-    return m_helpController->getHelpList(text, cursorPosition);
 }
 
 bool CommandHelperController::isDictionary()

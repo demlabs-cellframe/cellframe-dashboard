@@ -11,7 +11,6 @@
 #include "DapVpnOrdersModel.h"
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
-#include "Autocomplete/CommandCmdController.h"
 #include "Autocomplete/CommandHelperController.h"
 //#include "DapMath.h"
 //#include "DiagnosticWorker/models/NodeModel.h"
@@ -54,7 +53,6 @@ public:
     Q_INVOKABLE void notifyService(QVariant sName, QVariantList sArgs);
 
     DapVpnOrdersModel* getVpnOrdersModel();
-    CommandCmdController *commandCmdController;
 
     DapModulesController *s_modulesInit;
 

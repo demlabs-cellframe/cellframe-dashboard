@@ -9,7 +9,6 @@ DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
 
 HEADERS += $$PWD/DapServiceController.h \
     Autocomplete/CommandHelperController.h \
-    Autocomplete/CommandCmdController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
@@ -66,7 +65,6 @@ HEADERS += $$PWD/DapServiceController.h \
 
 SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
-    Autocomplete/CommandCmdController.cpp \
     Autocomplete/CommandHelperController.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
