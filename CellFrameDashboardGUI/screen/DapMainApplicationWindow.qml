@@ -164,6 +164,34 @@ Rectangle {
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
 
+    function serializeWebSite()
+    {
+        var result = "";
+        for(var i = 0; i < dapWebSites.count; i++) {
+            var line = dapWebSites.get(i).site + "," + dapWebSites.get(i).enabled;
+            result = result + line + ";";
+        }
+        result = result.slice(0,-1); // remove last ';'
+        return result;
+    }
+
+    Settings {
+        id: banSettings
+        property string webSites: serializeWebSite()
+
+        Component.onCompleted: {
+            if(webSites !== "") {
+                dapWebSites.clear();
+                var lines = webSites.split(";");
+                for(var i = 0; i < lines.length; i++) {
+                    var parts = lines[i].split(",");
+                    dapWebSites.append({site: parts[0], enabled: JSON.parse(parts[1])});
+                }
+            }
+        }
+    }
+
+
     //Models
 
     ListModel{id: dapNetworkModel}
@@ -176,7 +204,13 @@ Rectangle {
     ListModel{id: dapModelXchangeOrders}
 //    ListModel{id: dapPairModel}
 //    ListModel{id: dapTokenPriceHistory}
-    ListModel{id: dapWebSites}
+    ListModel{
+        id: dapWebSites
+
+        onCountChanged: {
+            banSettings.webSites = serializeWebSite()
+        }
+    }
 
     ListModel{id: fakeWallet}
 

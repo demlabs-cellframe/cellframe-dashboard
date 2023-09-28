@@ -130,9 +130,10 @@ ColumnLayout
                         borderColor: currTheme.reflectionLight
                         shadowColor: currTheme.shadowColor
 
-                        checked: enabled
+                        checked: dapWebSites.get(index).enabled
                         onToggled: {
                             dapWebSites.get(index).enabled = checked
+                            banSettings.webSites = serializeWebSite()
                         }
                     }
                 }
