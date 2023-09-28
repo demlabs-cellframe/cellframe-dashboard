@@ -10,6 +10,14 @@ CommandHelperController::CommandHelperController(QObject *parent)
 {
     loadDictionary();
     loadData();
+    connect(s_serviceCtrl, &DapServiceController::signalNetState,[this](QVariantMap netState){
+        bool a=0;
+        if(netState.contains("targetState") &&
+            netState["targetState"] == "NET_STATE_ONLINE" && !isDictionary())
+        {
+            loadNewDictionary();
+        }
+    });
 
     connect(s_serviceCtrl, &DapServiceController::rcvDictionary, [this] (const QVariant& rcvData)
             {
@@ -25,8 +33,12 @@ CommandHelperController::CommandHelperController(QObject *parent)
                     {
                         if(mainObject["head"] == "dictionary")
                         {
-                            m_helpController->setNodeVersion(mainObject["version"].toString());
-                            m_helpController->setDictionary(std::move(mainObject["data"].toObject()));
+                            QString version = mainObject["version"].toString();
+                            if(version != m_helpController->getNodeVersion())
+                            {
+                                m_helpController->setNodeVersion(version);
+                                m_helpController->setDictionary(std::move(mainObject["data"].toObject()));
+                            }
                         }
                         else if(mainObject["head"] == "data")
                         {
