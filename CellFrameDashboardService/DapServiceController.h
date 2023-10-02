@@ -29,8 +29,6 @@ typedef class DapRpcLocalServer DapUiService;
 #include "DapNotificationWatcher.h"
 #include "DapNetSyncController.h"
 
-#include "QTimer"
-
 /**
  * @brief The DapServiceController class
  * Service class which provide handle operations with dashboard.
@@ -40,14 +38,6 @@ typedef class DapRpcLocalServer DapUiService;
 class DapServiceController : public QObject
 {
     Q_OBJECT
-
-    /// Service core.
-    DapUiService        *m_pServer {nullptr};
-
-    DapNotificationWatcher *watcher;
-    DapNetSyncController *m_syncControll;
-    DapWebControll *m_web3Controll;
-
 public:
     /// Standard constructor.
     /// @param parent Parent.
@@ -57,14 +47,6 @@ public:
     /// Start service: creating server and socket.
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
-
-    ///TEST
-    QTimer * m_testTimer;
-
-
-private:
-    QList<QThread*>       m_threadPool;
-    QList<DapRpcService*> m_servicePool;
 
 private:
     void initServices();
@@ -78,6 +60,18 @@ private slots:
     void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
     void sendConnectRequest(QString site, int index);
+
+private:
+    /// Service core.
+    DapUiService        *m_pServer {nullptr};
+
+    DapNotificationWatcher *m_watcher;
+    DapNetSyncController *m_syncControll;
+    DapWebControll *m_web3Controll;
+
+    QList<QThread*> m_threadPool;
+    QThread* m_threadNotify;
+    QList<DapRpcService*> m_servicePool;
 };
 
 #endif // DAPSERVICECONTROLLER_H
