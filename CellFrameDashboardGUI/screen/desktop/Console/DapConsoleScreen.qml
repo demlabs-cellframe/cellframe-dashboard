@@ -19,14 +19,11 @@ DapConsoleScreenForm
         consoleHistoryIndex = -1
         //Set focus to console input
         consoleInput.forceActiveFocus()
-
-        commandCmdController.StatusPage = true
     }
 
     Component.onDestruction:
     {
         consoleModule.clearModel()
-        commandCmdController.StatusPage = false
     }
 
     Component

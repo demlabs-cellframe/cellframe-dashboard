@@ -14,38 +14,37 @@ void DapNotifyController::rcvData(QVariant data)
     QJsonDocument doc = QJsonDocument::fromJson(data.toString().toUtf8());
     QVariantMap map = doc.object().toVariantMap();
 
-    for(auto it=map.begin(); it!=map.end(); it++)
+    if(map.contains("connect_state"))
     {
-        if(it.key()=="connect_state")
+        QVariant value = map["connect_state"];
+        if(value.toString() != QAbstractSocket::SocketState::ConnectedState &&
+            value.toString() != QAbstractSocket::SocketState::ConnectingState)
+
         {
-            if(it.value().toString() != QAbstractSocket::SocketState::ConnectedState &&
-               it.value().toString() != QAbstractSocket::SocketState::ConnectingState)
+            bool isFirst = false;
+            if(value.toString() != m_connectState)
+                isFirst = true;
 
-            {
-                bool isFirst = false;
-                if(it.value().toString() != m_connectState)
-                    isFirst = true;
-
-                m_connectState = it.value().toInt();
-                emit socketState(m_connectState, true, isFirst);
-            }
-            else
-            {
-                m_connectState = it.value().toString();
-                emit socketState(m_connectState, false, false);
-            }
+            m_connectState = value.toInt();
+            emit socketState(m_connectState, true, isFirst);
         }
-        if(it.key()=="class")
+        else
         {
-//            TODO: notify net update disabled
-            if(it.value().toString() == "Wallet")
-            {
-                  //qDebug()<<"";
-            }
-            else if(it.value().toString() == "NetStates")
-            {
-                    emit netStates(map);
-            }
+            m_connectState = value.toString();
+            emit socketState(m_connectState, false, false);
+        }
+    }
+    if(map.contains("class"))
+    {
+        QVariant value = map["class"];
+//      TODO: notify net update disabled
+        if(value.toString() == "Wallet")
+        {
+            //qDebug()<<"";
+        }
+        else if(value.toString() == "NetStates")
+        {
+            emit netStates(map);
         }
     }
 }
