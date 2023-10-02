@@ -41,7 +41,7 @@
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
-#include "handlers/DapGetWordBook.h"
+#include "handlers/DapDictionaryCommand.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
@@ -150,12 +150,6 @@ bool DapServiceController::start()
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
         connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
-        // Update blocklist from client
-        DapAbstractCommand * blockList = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebBlockList"));
-        connect(blockList,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvBlockListFromClient);
-
-        DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
-        initBook->respondToClient("init");
     }
 #endif
     else
@@ -233,7 +227,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetXchangeTokenPair               ("DapGetXchangeTokenPair"               , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeTokenPriceAverage       ("DapGetXchangeTokenPriceAverage"       , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeTokenPriceHistory       ("DapGetXchangeTokenPriceHistory"       , nullptr, CLI_PATH));
-    m_servicePool.append(new DapGetWordBook                       ("DapGetWordBook"                       , nullptr, CLI_PATH));
+    m_servicePool.append(new DapDictionaryCommand                 ("DapDictionaryCommand"                 , nullptr, CLI_PATH));
     m_servicePool.append(new DapXchangeOrderPurchase              ("DapXchangeOrderPurchase"              , nullptr));
     m_servicePool.append(new DapWalletActivateOrDeactivateCommand ("DapWalletActivateOrDeactivateCommand" , nullptr, CLI_PATH));
     m_servicePool.append(new DapNodeRestart                       ("DapNodeRestart"                       , nullptr, CLI_PATH));

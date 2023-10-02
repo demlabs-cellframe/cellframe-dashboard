@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
-//import CommandCmdController 1.0
 import "qrc:/"
 import "Suggestion"
 
@@ -84,7 +83,19 @@ Page
                 x: 20
                 z: 4
 
-                onWordSelected: inputField.text = word
+                onWordSelected: {
+                console.log("the text")
+                var cursorPos = inputField.textInput.cursorPosition
+                var spaceBefore = inputField.text.lastIndexOf(" ", cursorPos - 1);
+                
+                if (spaceBefore === -1) {
+                    spaceBefore = 0;
+                } else {
+                    spaceBefore += 1;
+                }
+                inputField.text = inputField.text.substring(0, spaceBefore) + word + " "
+                }
+
 
                 Rectangle
                 {
@@ -185,11 +196,17 @@ Page
                             anchors.right: parent.right
                             height: 30
 
-
+                            Connections{
+                                target: commandHelperController
+                                onHelpListGeted:
+                                {
+                                    suggestionsBox.model = list
+                                }
+                            }
 
                             onSugTextChanged:
                             {
-                                suggestionsBox.model = commandCmdController.getTreeWords(text)
+                                commandHelperController.tryListGetting(text, inputField.textInput.cursorPosition)
                             }
 
                             onEnterPressed:
@@ -204,7 +221,20 @@ Page
 
                                 else
                                 {
-                                    inputField.text = suggestionsBox.model[suggestionsBox.selectedIndex].str
+
+                                    var cursorPos = inputField.textInput.cursorPosition
+                                    var spaceBefore = text.lastIndexOf(" ", cursorPos - 1);
+                                    var spaceAfter = text.indexOf(" ", cursorPos);
+                                    if (spaceBefore === -1) {
+                                        spaceBefore = 0;
+                                    } else {
+                                        spaceBefore += 1;
+                                    }
+                                    if (spaceAfter === -1) {
+                                        spaceAfter = text.length;
+                                    }
+
+                                    inputField.text = text.substring(0, spaceBefore) + suggestionsBox.model[suggestionsBox.selectedIndex] + " "
                                     suggestionsBox.selectedIndex = 0
                                 }
                             }
