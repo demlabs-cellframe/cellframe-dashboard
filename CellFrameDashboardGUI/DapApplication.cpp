@@ -16,6 +16,7 @@
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
+
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
@@ -54,10 +55,8 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 //    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
 //            m_historyWorker, &HistoryWorker::setHistoryModel,
-//            Qt::QueuedConnection);
-
-    commandCmdController = new CommandCmdController();
-    commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
+//            Qt::QueuedConnection);  
+    m_commandHelper = new CommandHelperController();
 
 //    m_mathBigNumbers = new DapMath();
 
@@ -88,12 +87,15 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 
     s_modulesInit = new DapModulesController(qmlEngine());
+    connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
+    connect(s_modulesInit, &DapModulesController::netListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
 }
 
 DapApplication::~DapApplication()
 {
     delete stockDataWorker;
     delete configWorker;
+    delete m_commandHelper;
 //    delete m_diagnosticWorker;
 //    delete stringWorker;
 
@@ -151,8 +153,6 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
     qRegisterMetaType<DapVpnOrder>();
 
-    qmlRegisterType<CommandCmdController>("CommandCmdController", 1, 0, "CommandCmdController");
-
     qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
     qmlRegisterType<DapVPNOrdersController>("VPNOrdersController", 1,0, "VPNOrdersController");
 
@@ -190,6 +190,6 @@ void DapApplication::setContextProperties()
 //    m_engine.rootContext()->setContextProperty("networks", this->networks());
 //    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
-    m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
+    m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
 }

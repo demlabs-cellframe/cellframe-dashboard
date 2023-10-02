@@ -40,7 +40,6 @@ Image {
     onModelChanged:
     {
         selectedIndex = 0
-        maxLenIndex = commandCmdController.maxLengthText(model)
     }
 
     // --- behaviours
@@ -109,21 +108,21 @@ Image {
                 Text {
                     id: textComponent
                     color: index === selectedIndex ?  currTheme.boxes : currTheme.white
-                    text: modelData.word
+                    text: modelData
                     y: parent.height * 0.5 - height * 0.5
                     x: 20 
                     font: mainFont.dapFont.regular14
 
                     Component.onCompleted:
                     {
-                        if (maxLenIndex == index)
+                        if (maxLenIndex === index)
                             container.width = width + 50 
                     }
                 }
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: container.wordSelected(modelData.str)
+                    onClicked: container.wordSelected(modelData)
                 }
             }
         }

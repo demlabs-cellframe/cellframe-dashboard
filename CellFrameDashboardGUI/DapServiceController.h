@@ -49,7 +49,7 @@
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
-#include "handlers/DapGetWordBook.h"
+#include "handlers/DapDictionaryCommand.h"
 #include "handlers/DapXchangeOrderPurchase.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
@@ -270,6 +270,8 @@ signals:
 //    void replyClientRequestConnect(QString, int);
 
     void rcvWordBook(const QVariant& rcvData);
+
+    void rcvDictionary(const QVariant& rcvData);
 
     void nodeRestart();
 
