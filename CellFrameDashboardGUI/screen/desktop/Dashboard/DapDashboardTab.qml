@@ -125,6 +125,7 @@ DapPage
         {
             id: dashboardTopPanel
             onChangeWalletIndex:{
+                dashboardScreen.listViewWallet.model = ""
                 dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
                 txExplorerModule.setWalletName(modulesController.currentWalletName)
                 txExplorerModule.updateHistory(true)
