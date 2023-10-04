@@ -119,8 +119,8 @@ yesDashData:
 true:
 	RMDir /r "$ConfigPath\etc\network"
 	Delete "$ConfigPath\etc\${NODE_NAME}.cfg"
-    RMDir /r "$ConfigPath\var\lib\global_db"
-    RMDir /r "$ConfigPath\var\lib\network"
+;    RMDir /r "$ConfigPath\var\lib\global_db"
+;    RMDir /r "$ConfigPath\var\lib\network"
 false:	
     RMDir /r "$ConfigPath\var\lib\global_db"
     RMDir /r "$ConfigPath\var\lib\network"
