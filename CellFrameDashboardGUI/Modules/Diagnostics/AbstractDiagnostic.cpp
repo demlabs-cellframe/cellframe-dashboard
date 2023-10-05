@@ -351,7 +351,12 @@ void AbstractDiagnostic::write_data()
     QNetworkAccessManager * mgr = new QNetworkAccessManager(this);
 
     connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
-            {qDebug() << "data sent " << urls << " " << r->error();});
+    {
+        if(QNetworkReply::NetworkError::NoError !=  r->error())
+        {
+            qWarning() << "data sent " << urls << " " << r->error();
+        }
+    });
     connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,  SLOT(deleteLater()));
 
     auto req = QNetworkRequest(url);
