@@ -122,8 +122,8 @@ true:
 ;    RMDir /r "$ConfigPath\var\lib\global_db"
 ;    RMDir /r "$ConfigPath\var\lib\network"
 false:	
-    RMDir /r "$ConfigPath\var\lib\global_db"
-    RMDir /r "$ConfigPath\var\lib\network"
+;    RMDir /r "$ConfigPath\var\lib\global_db"
+;    RMDir /r "$ConfigPath\var\lib\network"
 end:
 !macroend
 
