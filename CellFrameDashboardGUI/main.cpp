@@ -58,10 +58,11 @@ bool SingleApplicationTest(const QString &appName)
 
     if(is_running)
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
-        msgBox.exec();
+        const char* msg = QString("The application '%1' is already running.").arg(appName).toUtf8().constData();
+        const char* head = appName.toUtf8().constData();
+
+        MessageBoxA(NULL, msg, head, MB_ICONWARNING  | MB_OK);
+
         return false;
     }
 
