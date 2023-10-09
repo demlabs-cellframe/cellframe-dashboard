@@ -500,6 +500,29 @@ QtObject {
 //        }
 //    }
 
+    function serializeWebSite()
+    {
+        var result = "";    // for save settings
+        var blocklist = ""; // only blocked sites for service
+
+        for(var i = 0; i < dapWebSites.count; i++) {
+            var line = dapWebSites.get(i).site + "," + dapWebSites.get(i).enabled;
+            result = result + line + ";";
+
+            if(dapWebSites.get(i).enabled === false) blocklist = blocklist + dapWebSites.get(i).site + ";";
+        }
+
+        if(result.length > 0) {
+            // remove last ';'
+            result = result.slice(0,-1);
+            blocklist = blocklist.slice(0,-1);
+
+            notifyService("DapWebBlockList", blocklist);
+        }
+
+        return result;
+    }
+
     function rcvWebConnectRequest(rcvData)
     {
         var data = JSON.parse(rcvData)

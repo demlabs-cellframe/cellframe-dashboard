@@ -164,20 +164,11 @@ Rectangle {
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
 
-    function serializeWebSite()
-    {
-        var result = "";
-        for(var i = 0; i < dapWebSites.count; i++) {
-            var line = dapWebSites.get(i).site + "," + dapWebSites.get(i).enabled;
-            result = result + line + ";";
-        }
-        result = result.slice(0,-1); // remove last ';'
-        return result;
-    }
+
 
     Settings {
         id: banSettings
-        property string webSites: serializeWebSite()
+        property string webSites: logicMainApp.serializeWebSite()
 
         Component.onCompleted: {
             if(webSites !== "") {
@@ -208,7 +199,7 @@ Rectangle {
         id: dapWebSites
 
         onCountChanged: {
-            banSettings.webSites = serializeWebSite()
+            banSettings.webSites = logicMainApp.serializeWebSite()
         }
     }
 

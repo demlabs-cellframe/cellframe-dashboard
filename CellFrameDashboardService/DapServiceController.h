@@ -77,6 +77,7 @@ signals:
 private slots:
     void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
+    void rcvBlockListFromClient(QVariant);
     void sendConnectRequest(QString site, int index);
 };
 
