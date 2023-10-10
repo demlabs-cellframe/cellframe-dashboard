@@ -30,6 +30,7 @@
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapGetListTokensCommand.h"
 #include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapWebBlockList.h"
 #include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
@@ -146,6 +147,9 @@ bool DapServiceController::start()
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
         connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
+        // Update blocklist from client
+        DapAbstractCommand * blockList = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebBlockList"));
+        connect(blockList,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvBlockListFromClient);
 
         DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
         initBook->respondToClient("init");
@@ -181,6 +185,13 @@ void DapServiceController::rcvReplyFromClient(QVariant result)
     QJsonDocument doc = QJsonDocument::fromJson(result.toString().toUtf8());
     QJsonArray arr = doc.array();
     m_web3Controll->rcvAccept(arr.at(0).toBool(), arr.at(1).toInt());
+}
+
+void DapServiceController::rcvBlockListFromClient(QVariant result)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(result.toString().toUtf8());
+    QJsonArray arr = doc.array();
+    m_web3Controll->parseBlockList(arr.at(0).toString());
 }
 
 void DapServiceController::initServices()
@@ -241,6 +252,7 @@ void DapServiceController::initServices()
     //Need server parent for work.
     m_pServer->addService(new DapVersionController      ("DapVersionController"      , m_pServer));
     m_pServer->addService(new DapWebConnectRequest      ("DapWebConnectRequest"      , m_pServer));
+    m_pServer->addService(new DapWebBlockList           ("DapWebBlockList"           , m_pServer));
     m_pServer->addService(new DapRcvNotify              ("DapRcvNotify"              , m_pServer));
     m_pServer->addService(new DapQuitApplicationCommand ("DapQuitApplicationCommand" , m_pServer));
 

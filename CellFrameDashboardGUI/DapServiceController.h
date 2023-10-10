@@ -42,6 +42,7 @@
 #include "handlers/DapGetListTokensCommand.h"
 #include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapWebBlockList.h"
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
 #include "handlers/DapXchangeOrderCreate.h"
@@ -267,6 +268,7 @@ signals:
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
     void dapWebConnectRequest(const QVariant& rcvData);
+    void dapWebBlockList(const QVariant& rcvData);
 //    void replyClientRequestConnect(QString, int);
 
     void rcvWordBook(const QVariant& rcvData);
