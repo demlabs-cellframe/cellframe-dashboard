@@ -3,8 +3,8 @@ import os
 import multiprocessing
 import shutil
 
-if os.path.exists('build'):
-    shutil.rmtree('build')
+if os.path.exists('../../node_build'):
+    shutil.rmtree('../../node_build')
 
 os.chdir('../../')
 
