@@ -60,8 +60,20 @@ bool SingleApplicationTest(const QString &appName)
     {
         const char* msg = QString("The application '%1' is already running.").arg(appName).toUtf8().constData();
         const char* head = appName.toUtf8().constData();
-
+#ifdef Q_OS_WIN
+        // Using 'MessageBoxA' for win
         MessageBoxA(NULL, msg, head, MB_ICONWARNING  | MB_OK);
+#else
+    // Using 'zenity' for linux
+        QProcess zenityProcess;
+        QStringList arguments;
+        arguments << "--warning";
+        arguments << "--text" << msg;
+        arguments << "--title" << head;
+        qDebug() << "args: " << arguments;
+        zenityProcess.start("zenity", arguments);
+        zenityProcess.waitForFinished();
+#endif
 
         return false;
     }
