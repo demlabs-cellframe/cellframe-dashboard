@@ -165,7 +165,7 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "State: "
+            staticText.text: qsTr("State: ")
             dynamicText.text: networkState
             onTextChangedSign: buttonNetwork.setText()
         }
@@ -192,7 +192,7 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "Target state: "
+            staticText.text: qsTr("Target state: ")
             dynamicText.text: targetState
             onTextChangedSign: buttonNetwork.setText()
         }
@@ -203,7 +203,7 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "Active links: "
+            staticText.text: qsTr("Active links: ")
             dynamicText.text: activeLinksCount + " of " + linksCount
         }
 
@@ -213,7 +213,7 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "Address: "
+            staticText.text: qsTr("Address: ")
             dynamicText.text: nodeAddress + " "
 
             DapCopyButton

@@ -153,7 +153,7 @@ Item
                         Layout.leftMargin: 15 * pt
                         color: currTheme.textColor
                         font: mainFont.dapFont.regular12
-                        text: "5m 12d 13h at the current price"
+                        text: qsTr("5m 12d 13h at the current price")
                     }
                 }
 
@@ -214,7 +214,7 @@ Item
                                 {
                                     color: currTheme.textColor
                                     font: mainFont.dapFont.regular16
-                                    text: "Limit"
+                                    text: qsTr("Limit")
                                 }
 
                                 Controls.TextField

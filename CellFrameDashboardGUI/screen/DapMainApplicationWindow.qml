@@ -59,15 +59,23 @@ Rectangle {
         property alias menuTabStates: logicMainApp.menuTabStates
         property string currentWalletName: logicMainApp.currentWalletName
         property string currentNetworkName: logicMainApp.currentNetworkName
+        property int currentLanguageIndex: logicMainApp.currentLanguageIndex
+        property string currentLanguageName: logicMainApp.currentLanguageName
         //property string currentWalletIndex: logicMainApp.currentWalletIndex
 
         Component.onCompleted:
         {
+//            translator.setLanguage(
+//                        modelLanguages.get(currentLanguageIndex).tag)
+
             console.log("Settings", "currentWalletName", currentWalletName)
             console.log("Settings", "currentNetworkName", currentNetworkName)
+            console.log("Settings", "currentLanguageIndex", currentLanguageIndex)
+            console.log("Settings", "currentLanguageName", currentLanguageName)
 
             logicMainApp.currentWalletName = currentWalletName
             logicMainApp.currentNetworkName = currentNetworkName
+            logicMainApp.currentLanguageIndex = currentLanguageIndex
 //            logicMainApp.currentWalletIndex = currentWalletIndex
 
         }
@@ -295,6 +303,24 @@ Rectangle {
         }
     }
 
+    ListModel
+    {
+        id: modelLanguages
+        ListElement { tag: "en"
+            name: "English"}
+        ListElement { tag: "zh"
+            name: "Chinese"}
+        ListElement { tag: "cs"
+            name: "Czech"}
+        ListElement { tag: "nl"
+            name: "Dutch"}
+        ListElement { tag: "pt"
+            name: "Portuguese"}
+        ListElement { tag: "ru"
+            name: "Russian"}
+    }
+
+
     //----------------------//
 
 
@@ -463,6 +489,9 @@ Rectangle {
 
     Component.onCompleted:
     {
+//        console.log("Component.onCompleted", "modelLanguages", modelLanguages)
+
+//        translator.setLanguage("ru")
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
 //        logicMainApp.requestToService("DapVersionController", "version")
 

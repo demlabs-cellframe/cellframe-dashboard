@@ -26,6 +26,8 @@
 //#include "Workers/stringworker.h"
 //#include "Workers/dateworker.h"
 
+#include "Translator/qmltranslator.h"
+
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #endif
@@ -77,6 +79,8 @@ private:
     ConfigWorker *configWorker;
 //    StringWorker *stringWorker;
     DateWorker   *dateWorker;
+
+    QMLTranslator * translator;
 };
 
 #endif // DAPAPPLICATION_H

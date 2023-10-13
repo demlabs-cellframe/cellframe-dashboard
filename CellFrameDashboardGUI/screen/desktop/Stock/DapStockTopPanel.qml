@@ -90,7 +90,7 @@ Controls.DapTopPanel
         {
             id: headerWalletToken
             Layout.leftMargin: 32
-            text: "Token: "
+            text: qsTr("Token: ")
             font: mainFont.dapFont.regular14
             color: currTheme.gray
         }

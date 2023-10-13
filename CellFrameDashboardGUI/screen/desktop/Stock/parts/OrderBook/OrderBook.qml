@@ -236,7 +236,7 @@ Page
                     Layout.minimumWidth: 100
                     color: currTheme.white
                     font: mainFont.dapFont.medium12
-                    text: "Price("+tokenPairsWorker.tokenSell+")"
+                    text: qsTr("Price") + "("+tokenPairsWorker.tokenSell+")"
                 }
 
                 Text
@@ -244,7 +244,7 @@ Page
                     Layout.fillWidth: true
                     color: currTheme.white
                     font: mainFont.dapFont.medium12
-                    text: "Amount("+tokenPairsWorker.tokenBuy+")"
+                    text: qsTr("Amount") + "("+tokenPairsWorker.tokenBuy+")"
                 }
 
                 Text
@@ -252,7 +252,7 @@ Page
                     horizontalAlignment: Qt.AlignRight
                     color: currTheme.white
                     font: mainFont.dapFont.medium12
-                    text: "Total"
+                    text: qsTr("Total")
                 }
             }
         }
