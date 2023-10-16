@@ -217,13 +217,13 @@ Page {
             checkButton.visible = false
             webSite = text
             indexUser = index
-            infoText.text = "The site " + text + " requests permission to work with your wallet"
+            infoText.text = qsTr("The site ") + text + qsTr(" requests permission to work with your wallet")
         }
         else
         {
             buttonsLayout.visible = false
             checkButton.visible = true
-            infoText.text = "You have " + text + " requests permission to work with your wallet"
+            infoText.text = qsTr("You have ") + text + qsTr(" requests permission to work with your wallet")
 
             if(isOpen)
                 y = stopY

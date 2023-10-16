@@ -203,7 +203,7 @@ Item{
                                         191,0,
                                         dapMainWindow.width*0.5,
                                         8,
-                                        "Wallet deactivated",
+                                        qsTr("Wallet deactivated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
 
                             hide()

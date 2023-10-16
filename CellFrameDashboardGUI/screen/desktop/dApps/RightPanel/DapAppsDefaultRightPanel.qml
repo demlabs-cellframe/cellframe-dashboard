@@ -130,7 +130,7 @@ Item
                     title: qsTr("Please choose a *.zip file")
                     folder: "~"
                     visible: false
-                    nameFilters: [qsTr("Zip files (*.zip)"), "All files (*.*)"]
+                    nameFilters: [qsTr("Zip files (*.zip)"), qsTr("All files (*.*)")]
                     defaultSuffix: "qml"
                     onAccepted:
                     {

@@ -204,7 +204,7 @@ Item {
             Layout.preferredHeight: 15
 
             staticText.text: qsTr("Active links: ")
-            dynamicText.text: activeLinksCount + " of " + linksCount
+            dynamicText.text: activeLinksCount + qsTr(" of ") + linksCount
         }
 
         DapRowInfoText

@@ -265,7 +265,7 @@ DapMessagePopup {
     FileDialog
     {
         id: exportDialog
-        title: qsTr("Export " + comboboxLogs.displayText)
+        title: qsTr("Export ") + comboboxLogs.displayText
         fileMode: FileDialog.SaveFile
         nameFilters: filterFileArray
         selectedNameFilter.index: 0

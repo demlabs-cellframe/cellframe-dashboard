@@ -361,7 +361,7 @@ Item{
                                         174,0,
                                         dapMainWindow.width*0.5,
                                         8,
-                                        "Wallet activated",
+                                        qsTr("Wallet activated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletUnlocked.svg")
                             hide()
                         }else{
