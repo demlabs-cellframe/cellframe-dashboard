@@ -64,7 +64,7 @@ ColumnLayout
             anchors.bottomMargin: 0
             anchors.topMargin: 5
             anchors.leftMargin: 10
-            backgroundColor: currTheme.secondaryBackground
+            backgroundColorNormal: currTheme.secondaryBackground
 
             font: mainFont.dapFont.regular16
 
