@@ -200,7 +200,24 @@ Page
                                 target: commandHelperController
                                 onHelpListGeted:
                                 {
+                                    findMaxLenIndex(list)
                                     suggestionsBox.model = list
+
+                                }
+
+                                function findMaxLenIndex(lst)
+                                {
+                                    var maxCount = 0
+                                    for(var i = 0; i < lst.length; i++)
+                                    {
+                                        var tmpStr = lst[i]
+
+                                        if(maxCount < tmpStr.length)
+                                        {
+                                            maxCount = tmpStr.length
+                                            suggestionsBox.maxLenIndex = i
+                                        }
+                                    }
                                 }
                             }
 
