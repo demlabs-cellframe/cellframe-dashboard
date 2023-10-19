@@ -189,6 +189,11 @@ Page
                         anchors.bottom: parent.bottom
                         x: promt.x + promt.width + 5 
 
+                        FontMetrics {
+                            id: metrics
+                            font: suggestionsBox.itemFont
+                        }
+
                         LineEdit {
                             id: inputField
                             anchors.top: parent.top
@@ -202,22 +207,38 @@ Page
                                 {
                                     findMaxLenIndex(list)
                                     suggestionsBox.model = list
-
                                 }
 
                                 function findMaxLenIndex(lst)
                                 {
-                                    var maxCount = 0
+                                    var resultIndex = 0
+                                    var maxLen = 0
+                                    var maxWidth = 0
+                                    var maxStr;
+
                                     for(var i = 0; i < lst.length; i++)
                                     {
                                         var tmpStr = lst[i]
-
-                                        if(maxCount < tmpStr.length)
+                                        if(maxLen <= tmpStr.length)
                                         {
-                                            maxCount = tmpStr.length
-                                            suggestionsBox.maxLenIndex = i
+                                            var tmpWidth = getStrWidth(tmpStr)
+                                            if(maxWidth < tmpWidth) {
+                                                maxLen = tmpStr.length
+                                                maxWidth = tmpWidth
+                                                maxStr = tmpStr
+                                                resultIndex = i
+                                            }
                                         }
                                     }
+
+                                    suggestionsBox.maxLenIndex = resultIndex
+                                    suggestionsBox.itemWidth = maxWidth;
+                                }
+                                
+                                function getStrWidth(str) {
+                                    var limit = 500
+                                    var width = metrics.boundingRect(str).width
+                                    return limit < width ? limit : width
                                 }
                             }
 

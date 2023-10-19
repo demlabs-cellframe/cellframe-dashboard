@@ -17,7 +17,7 @@
     Boston, MA 02110-1301, USA.
 */
 
-import QtQuick 2.4
+import QtQuick 2.0
 
 Image {
     id: container
@@ -33,6 +33,8 @@ Image {
     property int maxLenIndex: 0
     property int maxWidth: 500
     property int itemHeight: 24
+    property int itemWidth: 50
+    property font itemFont: mainFont.dapFont.regular14
 
     Component.onCompleted:
     {
@@ -41,6 +43,7 @@ Image {
 
     onModelChanged:
     {
+        flickContY = 0
         selectedIndex = 0
     }
 
@@ -119,24 +122,9 @@ Image {
                     Component.onCompleted:
                     {
                         if (maxLenIndex === index) {
-                            container.width = x + getStrWidth() + x + 7
+                            container.width = x + itemWidth + x + 7
                         }
                     }
-
-                    function getStrWidth()
-                    {
-                        var maxStr = container.model[maxLenIndex]
-                        var widthStr = metrics.boundingRect(maxStr).width
-
-                        if(maxWidth < widthStr) widthStr = maxWidth
-
-                        return widthStr
-                    }
-                }
-
-                FontMetrics {
-                    id: metrics
-                    font: textComponent.font
                 }
 
                 MouseArea {
