@@ -122,7 +122,7 @@ Image {
                     Component.onCompleted:
                     {
                         if (maxLenIndex === index) {
-                            container.width = x + itemWidth + x + 7
+                            container.width = x + itemWidth + x + 6
                         }
                     }
                 }
