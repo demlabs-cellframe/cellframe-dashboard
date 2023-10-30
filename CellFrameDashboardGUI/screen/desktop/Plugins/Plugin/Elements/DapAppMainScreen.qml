@@ -36,8 +36,8 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
-            leftButton.textButton: "Get Wallets"
-            rightButton.textButton: "Create Wallet"
+            leftButton.textButton: qsTr("Get Wallets")
+            rightButton.textButton: qsTr("Create Wallet")
 
             leftButton.onClicked: {
                 loader.source = showWallets
@@ -55,8 +55,8 @@ Rectangle {
             Layout.rowSpan:1
             Layout.fillHeight: true
             Layout.fillWidth: true
-            leftButton.textButton: "Get Certificates"
-            rightButton.textButton: "Create Certificate"
+            leftButton.textButton: qsTr("Get Certificates")
+            rightButton.textButton: qsTr("Create Certificate")
 
             leftButton.onClicked: {
                 loader.source = showCertificates
@@ -74,7 +74,7 @@ Rectangle {
             Layout.rowSpan:1
             Layout.fillHeight: true
             Layout.fillWidth: true
-            leftButton.textButton: "Open Orders"
+            leftButton.textButton: qsTr("Open Orders")
             rightButton.visible: false
 
             leftButton.onClicked: {
@@ -89,7 +89,7 @@ Rectangle {
             Layout.rowSpan:1
             Layout.fillHeight: true
             Layout.fillWidth: true
-            leftButton.textButton: "Open Last Actions"
+            leftButton.textButton: qsTr("Open Last Actions")
             rightButton.visible: false
 
             leftButton.onClicked: {
@@ -103,7 +103,7 @@ Rectangle {
             Layout.rowSpan:1
             Layout.fillHeight: true
             Layout.fillWidth: true
-            leftButton.textButton: "Open Console"
+            leftButton.textButton: qsTr("Open Console")
             rightButton.visible: false
 
             leftButton.onClicked: {

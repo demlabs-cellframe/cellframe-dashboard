@@ -28,6 +28,80 @@ ColumnLayout
         }
     }
 
+    Rectangle
+    {
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("GUI language")
+        }
+    }
+
+    Item {
+        height: 60
+        Layout.fillWidth: true
+        Layout.bottomMargin: 8
+
+        DapCustomComboBox
+        {
+            id: comboBoxLanguage
+
+            property bool init: false
+
+            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: 10
+            anchors.bottomMargin: 0
+            anchors.topMargin: 5
+            anchors.leftMargin: 10
+            backgroundColorShow: currTheme.secondaryBackground
+
+            font: mainFont.dapFont.regular16
+
+            model: modelLanguages
+
+//            defaultText: qsTr("Networks")
+
+//            currentIndex: logicMainApp.currentNetwork
+            Component.onCompleted:
+            {
+                init = true
+
+                console.log("comboBoxLanguage onCompleted",
+                            logicMainApp.currentLanguageIndex)
+                setCurrentIndex(logicMainApp.currentLanguageIndex)
+            }
+
+            onCurrentIndexChanged:
+            {
+                if (init)
+                {
+                    console.log("comboBoxLanguage",
+                                currentIndex,
+                                modelLanguages.get(currentIndex).tag)
+
+                    translator.setLanguage(modelLanguages.get(currentIndex).tag)
+
+                    logicMainApp.currentLanguageIndex = currentIndex
+                    logicMainApp.currentLanguageName =
+                            modelLanguages.get(currentIndex).tag
+
+                    console.log("logicMainApp.currentLanguageIndex",
+                                logicMainApp.currentLanguageIndex)
+                }
+            }
+        }
+    }
 
     Rectangle
     {
@@ -139,7 +213,7 @@ ColumnLayout
 
                 onClicked: {
                     newScale = 1.0
-                    restartPopup.smartOpen("Confirm reboot", "You must restart the application to apply the new scale. Do you want to restart now?")
+                    restartPopup.smartOpen(qsTr("Confirm reboot"), qsTr("You must restart the application to apply the new scale. Do you want to restart now?"))
                 }
             }
 
@@ -161,7 +235,7 @@ ColumnLayout
 
                 onClicked: {
                     newScale = scaleSpinbox.realValue
-                    restartPopup.smartOpen("Confirm reboot", "You must restart the application to apply the new scale. Do you want to restart now?")
+                    restartPopup.smartOpen(qsTr("Confirm reboot"), qsTr("You must restart the application to apply the new scale. Do you want to restart now?"))
                 }
             }
         }

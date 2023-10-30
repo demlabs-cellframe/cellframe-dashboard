@@ -15,49 +15,49 @@ Item {
 
         ListElement
         {
-            key : "Service type"
+            key : qsTr("Service type")
             value : "VPN"
         }
 
         ListElement
         {
-            key : "Units"
+            key : qsTr("Units")
             value : "3600 hours"
         }
 
         ListElement
         {
-            key : "Value Token"
+            key : qsTr("Value Token")
             value : "25.098 KELT"
         }
 
         ListElement
         {
-            key : "Service public key hash"
+            key : qsTr("Service public key hash")
             value : "9687c3900da10c0b97afaa615b523a9e5909349dc730e2323cd6e32529cb95f0"
         }
 
         ListElement
         {
-            key : "Client public key hash"
+            key : qsTr("Client public key hash")
             value : "111e354bba8ddd407fe7ba0e708d333147df1c1a774d7d121ddfd2dbf37a3050"
         }
 
         ListElement
         {
-            key : "Max value"
+            key : qsTr("Max value")
             value : "-"
         }
 
         ListElement
         {
-            key : "Region, Country"
+            key : qsTr("Region, Country")
             value : "Europe, Ireland"
         }
 
         ListElement
         {
-            key : "Min speed"
+            key : qsTr("Min speed")
             value : "Ireland"
         }
     }

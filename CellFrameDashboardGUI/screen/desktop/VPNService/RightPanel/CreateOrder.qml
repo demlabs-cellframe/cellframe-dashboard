@@ -24,8 +24,8 @@ Page {
     ListModel {
         id: regionOrder
         ListElement { region: qsTr("Europe, France") }
-        ListElement { region: qsTr("123123") }
-        ListElement { region: qsTr("123123123") }
+        ListElement { region: "123123" }
+        ListElement { region: "123123123" }
     }
 
     ColumnLayout {

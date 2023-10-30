@@ -108,7 +108,7 @@ Component {
                             {
                                 id:toolTip
                                 visible: area.containsMouse? true : false
-                                text: "Click to Copy Address"
+                                text: qsTr("Click to Copy Address")
                                 scale: mainWindow.scale
 
                                 contentItem: Text {

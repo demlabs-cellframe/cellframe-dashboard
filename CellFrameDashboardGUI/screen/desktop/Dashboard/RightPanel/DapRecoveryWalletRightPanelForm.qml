@@ -64,7 +64,7 @@ DapRectangleLitAndShaded
                             0,0,
                             dapMainWindow.width*0.5,
                             8,
-                            "Words copied",
+                            qsTr("Words copied"),
                             "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
             }
        }
