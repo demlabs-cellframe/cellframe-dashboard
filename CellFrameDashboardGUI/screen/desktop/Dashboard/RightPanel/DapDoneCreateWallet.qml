@@ -21,7 +21,7 @@ DapRightPanelDone
         {
             messageImage = iconBad
             headerText = qsTr("Creating wallet error")
-            messageText = qsTr(commandResult.message)
+            messageText = commandResult.message
         }
     }
 }

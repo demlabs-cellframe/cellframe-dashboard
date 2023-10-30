@@ -288,7 +288,7 @@ Page
                                             anchors.leftMargin: 14 
 //                                            horizontalAlignment: Text.AlignLeft
 
-                                            text: status === "1" ? "Activated":"Unactivated"
+                                            text: status === "1" ? qsTr("Activated") : qsTr("Unactivated")
                                             color: currTheme.white
                                             font:  mainFont.dapFont.regular12
                                         }

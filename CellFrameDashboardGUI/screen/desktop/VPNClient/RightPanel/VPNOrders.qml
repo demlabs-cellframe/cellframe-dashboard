@@ -52,7 +52,7 @@ Item
         anchors.centerIn: parent
         color: currTheme.textColor
         font: mainFont.dapFont.medium16
-        text: "Connecting..."
+        text: qsTr("Connecting...")
     }
 
     Item
@@ -67,7 +67,7 @@ Item
             anchors.centerIn: parent
             color: currTheme.textColor
             font: mainFont.dapFont.medium16
-            text: "Connection error"
+            text: qsTr("Connection error")
         }
 
         DapButton {

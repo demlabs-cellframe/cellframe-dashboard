@@ -20,6 +20,9 @@ QtObject {
     property string currentWalletName: ""
     property string currentNetworkName: ""
 
+    property int currentLanguageIndex: 0
+    property string currentLanguageName: "en"
+
     readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
 

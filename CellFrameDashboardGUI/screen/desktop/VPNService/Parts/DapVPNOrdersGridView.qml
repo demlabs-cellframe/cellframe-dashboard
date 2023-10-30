@@ -91,7 +91,7 @@ GridView {
                             font:  mainFont.dapFont.medium12
                             elide: Text.ElideRight
                             color: currTheme.textColor
-                            text: "VPN Order " + model.index
+                            text: qsTr("VPN Order ") + model.index
                         }
 
                         Image {

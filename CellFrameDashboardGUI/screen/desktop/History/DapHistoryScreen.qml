@@ -256,4 +256,30 @@ Page
             }
         }
     }
+
+    function getStatusName(tx_status, status)
+    {
+        if (tx_status !== "ACCEPTED")
+            return qsTr("Declined")
+        if (status === "Sent")
+            return qsTr("Sent")
+        if (status === "Error")
+            return qsTr("Error")
+        if (status === "Declined")
+            return qsTr("Declined")
+        if (status === "Received")
+            return qsTr("Received")
+        return status
+    }
+
+    function getStatusColor(tx_status, status)
+    {
+        if (tx_status !== "ACCEPTED" || status === "Error")
+            return currTheme.red
+        if (status === "Sent")
+            return currTheme.orange
+        if (status === "Received")
+            return currTheme.lightGreen
+        return currTheme.white
+    }
 }

@@ -23,11 +23,18 @@ DapApplication::DapApplication(int &argc, char **argv)
     , configWorker(new ConfigWorker(this))
 //    , stringWorker(new StringWorker(this))
     , dateWorker(new DateWorker(this))
+    , translator(new QMLTranslator(&m_engine, this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
+
+    QString lang = QSettings().value("currentLanguageName", "en").toString();
+    qDebug() << "DapApplication"
+             << "currentLanguageName" << lang;
+
+    translator->setLanguage(lang);
 
     qDebug()<<QString(DAP_SERVICE_NAME);
 
@@ -192,4 +199,5 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
+    m_engine.rootContext()->setContextProperty("translator", translator);
 }
