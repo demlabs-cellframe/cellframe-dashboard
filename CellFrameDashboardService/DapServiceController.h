@@ -68,11 +68,13 @@ private:
 
 private:
     void initServices();
+    void initAdditionalParamrtrsService();
     
 signals:
     /// The signal is emitted in case of successful connection of a new client.
     void onNewClientConnected();
     void onClientDisconnected();
+    void onServiceStarted();
     
 private slots:
     void sendNotifyDataToGui(QVariant);

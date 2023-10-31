@@ -91,7 +91,9 @@ QtObject {
                 networksModel.get(i).tokens.append(
                     { "name" : tempNetworks.get(i).tokens.get(j).name,
                       "datoshi": tempNetworks.get(i).tokens.get(j).datoshi,
-                      "coins": tempNetworks.get(i).tokens.get(j).coins})
+                      "coins": tempNetworks.get(i).tokens.get(j).coins,
+                      "availableDatoshi": tempNetworks.get(i).tokens.get(j).availableDatoshi,
+                      "availableCoins": tempNetworks.get(i).tokens.get(j).availableCoins})
             }
         }
     }

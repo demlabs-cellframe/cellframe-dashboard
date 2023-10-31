@@ -5,7 +5,7 @@ import "../../controls"
 
 DapRightPanelDone
 {
-    headerText: qsTr("Placed to mempool")
+    headerText: qsTr("Placed to queue")
     messageText: qsTr("Pending")
 
     doneButton.onClicked:
@@ -18,7 +18,7 @@ DapRightPanelDone
         if(commandResult.success)
         {
             messageImage = iconOk
-            headerText = qsTr("Placed to mempool")
+            headerText = qsTr("Placed to queue")
             messageText = qsTr("Pending")
         }
         else

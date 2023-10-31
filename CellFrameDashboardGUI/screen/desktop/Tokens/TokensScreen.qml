@@ -70,14 +70,14 @@ Page
                     Rectangle
                     {
                         id: stockNameBlock
-                        height: 30 
+                        height: 30
                         width: parent.width
                         color: currTheme.mainBackground
 
                         Text
                         {
                             anchors.left: parent.left
-                            anchors.leftMargin: 16 
+                            anchors.leftMargin: 16
                             anchors.verticalCenter: parent.verticalCenter
                             font: mainFont.dapFont.medium12
                             color: currTheme.white
@@ -96,7 +96,7 @@ Page
                         {
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: 50 
+                            height: 50
                             color: currTheme.secondaryBackground
 
                             RowLayout
@@ -104,7 +104,7 @@ Page
                                 anchors.fill: parent
                                 anchors.leftMargin: 16
                                 anchors.rightMargin: 16
-                                spacing: 10 
+                                spacing: 10
 
                                 Text
                                 {
@@ -112,7 +112,7 @@ Page
                                     font: mainFont.dapFont.regular16
                                     color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
                                     text: name
-                                    width: 172 
+                                    width: 172
                                     horizontalAlignment: Text.AlignLeft
                                 }
 

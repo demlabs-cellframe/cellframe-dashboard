@@ -111,11 +111,14 @@ DapRectangleLitAndShaded {
                     title.text: "Status"
                     content.text: detailsModel.get(0).status
                     title.color: currTheme.gray
-                    content.color: detailsModel.get(0).status === "Sent"     ?  currTheme.orange :
-                                   detailsModel.get(0).status === "Pending"  ?  currTheme.neon :
-                                   detailsModel.get(0).status === "Error"    ?  currTheme.red :
-                                   detailsModel.get(0).status === "Received" ?  currTheme.lightGreen :
-                                                                         currTheme.white
+                    content.color: text === "Sent"      ? currTheme.orange :
+                                   text === "Pending"   ? currTheme.darkYellow :
+                                   text === "Error" ||
+                                   text === "Declined"  ? currTheme.red :
+                                   text === "Received"  ? currTheme.lightGreen :
+                                   text === "Queued"    ? currTheme.textColorLightBlue :
+                                   text === "Unknown"   ? currTheme.textColorPurple :
+                                                          currTheme.white
                 }
                 TextDetailsTx {
                     title.text: "From"

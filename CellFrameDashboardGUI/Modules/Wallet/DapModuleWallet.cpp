@@ -82,7 +82,7 @@ void DapModuleWallet::initConnect()
     });
 
 
-    s_serviceCtrl->requestToService("DapGetWalletsInfoCommand", QStringList()<<"true");
+    getWalletsInfo(QStringList()<<"true");
 }
 
 void DapModuleWallet::timerUpdateFlag(bool flag)

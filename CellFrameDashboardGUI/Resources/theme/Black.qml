@@ -38,6 +38,21 @@ QtObject {
     readonly property color neon                          : "#79FFFA"
     readonly property color lime                          : "#DBFF71"
 
+    //Text colors
+    readonly property color textColor              : "#ffffff" 
+    readonly property color textColorGray          : "#B4B1BD" 
+    readonly property color textColorGrayTwo       : "#B2B2B2" 
+    readonly property color textColorGrayThree     : "#B0AEB9" 
+    readonly property color placeHolderTextColor   : "#C7C6CE" 
+    readonly property color textColorYellow        : "#FFCD44" 
+    readonly property color textColorLightBlue     : "#79FFFA" 
+    readonly property color textColorLightGreen    : "#CAFC33" 
+    readonly property color textColorGreen         : "#84BE00" 
+    readonly property color textColorRed           : "#FF5F5F" 
+    readonly property color textColorGreenHovered  : "#73A500" 
+    readonly property color textColorRedHovered    : "#EA2626" 
+    readonly property color textColorPurple        : "#9580FF"
+
     //Params
     readonly property real frameRadius                    : 12
     readonly property real popupRadius                    : 16

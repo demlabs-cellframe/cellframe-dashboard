@@ -22,6 +22,7 @@
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentAddedQueueRightPanel.qml</file>
         <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
         <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
         <file>screen/desktop/Certificates/CertificatesModels.qml</file>

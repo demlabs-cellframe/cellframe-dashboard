@@ -119,13 +119,14 @@ DapRectangleLitAndShaded
                         {
                             Layout.fillWidth: true
                             text: tx_status === "ACCEPTED" || tx_status === "PROCESSING" ? status : "Declined"
-                            color: text === "Sent" ?      currTheme.orange :
-                                   text === "Pending" ?   currTheme.neon :
-                                   text === "Error" ||
-                                   text === "Declined" ?  currTheme.red :
-                                   text === "Received"  ? currTheme.lightGreen :
-                                   text === "Unknown"   ? currTheme.mainButtonColorNormal0 :
-                                                          currTheme.white
+                            color: text === "Sent"      ? currTheme.orange :
+                                text === "Pending"   ? currTheme.darkYellow :
+                                text === "Error" ||
+                                text === "Declined"  ? currTheme.red :
+                                text === "Received"  ? currTheme.lightGreen :
+                                text === "Queued"    ? currTheme.textColorLightBlue :
+                                text === "Unknown"   ? currTheme.textColorPurple :
+                                                        currTheme.white
 
                             font: mainFont.dapFont.regular12
                         }
