@@ -170,6 +170,7 @@ Page {
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked:{
+                    console.log("Connection window the Allow button is clicked");
                     logicMainApp.notifyService("DapWebConnectRequest",true, indexUser)
                     eventMessage("Allowed")
                 }
@@ -185,6 +186,7 @@ Page {
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: {
+                    console.log("Connection window the Allow button is clicked");
                     logicMainApp.notifyService("DapWebConnectRequest",false, indexUser)
                     eventMessage("Denied")
                 }
@@ -243,6 +245,7 @@ Page {
 
     function open()
     {
+        console.log("[Open] Open the connection window with the client via Web3");
         isOpen = true
         y = stopY
     }
