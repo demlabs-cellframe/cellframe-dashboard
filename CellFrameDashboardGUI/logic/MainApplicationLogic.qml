@@ -529,7 +529,7 @@ QtObject {
     function rcvWebConnectRequest(rcvData)
     {
         var data = JSON.parse(rcvData)
-//        console.log(data, rcvData, data[0], data[1], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        console.log("[rcvWebConnectRequest] Received a signal from Web3")
         var isEqual = false
         //filtering equeal sites requests
         for(var i = 0; i < dapMessageBuffer.count; i++)
