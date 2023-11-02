@@ -32,17 +32,19 @@ DapRectangleLitAndShaded
                        "sign": "sig_dil",
                        "secondname": "Recommended"
                    })
-            // bliss only for restore mode
-            if(logicWallet.restoreWalletMode) append({
-                       "name": "Bliss",
-                       "sign": "sig_bliss",
-                       "secondname": "Depricated"
-                   })
-            append({
-                       "name": "Picnic",
-                       "sign": " sig_picnic",
-                       "secondname": ""
-                   })
+            // 'bliss' and 'picnic' only for restore mode
+            if(logicWallet.restoreWalletMode) {
+                append({
+                           "name": "Bliss",
+                           "sign": "sig_bliss",
+                           "secondname": "Depricated"
+                       })
+                append({
+                           "name": "Picnic",
+                           "sign": " sig_picnic",
+                           "secondname": "Depricated"
+                       })
+            }
         }
     }
 
@@ -331,7 +333,7 @@ DapRectangleLitAndShaded
                         anchors.bottomMargin: 20
                         anchors.rightMargin: 24
 
-                        validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s\-]+/}
+                        validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
 //                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*\!\$\#]+/ }
                         bottomLineVisible: true
                         bottomLineSpacing: 6

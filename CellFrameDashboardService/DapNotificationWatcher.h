@@ -12,15 +12,12 @@
 class DapNotificationWatcher : public QObject
 {
     Q_OBJECT
-    QIODevice *socket;
-
-    QByteArrayList jsonListFromData(QByteArray data);
-
 public:
     DapNotificationWatcher(QObject *parent = 0);
     ~DapNotificationWatcher();
 
     bool initWatcher();
+    const QString& getSocketState() const {return m_socketState;}
 public slots:
     void slotError();
     void socketConnected();
@@ -41,17 +38,16 @@ signals:
 private:
     void reconnectFunc();
     void sendNotifyState(QVariant);
-
+    QByteArrayList jsonListFromData(QByteArray data);
 private:
+    QIODevice *m_socket;
     QString m_listenPath;
     QString m_listenAddr;
     uint16_t m_listenPort;
     QTimer * m_reconnectTimer;
     QTimer * m_initTimer;
 
-public:
     QString m_socketState;
-
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H
