@@ -19,7 +19,7 @@
 
 import QtQuick 2.0
 
-Image {
+Rectangle {
     id: container
 
     // --- properties
@@ -27,13 +27,17 @@ Image {
     property Item delegate
     signal itemSelected(variant item)
     signal wordSelected(var word)
-    source: "qrc:/Resources/ui_menu_light.png"
+
+    color:  "#2d3037"
 
     property int selectedIndex: 0
     property int maxLenIndex: 0
     property int maxWidth: 500
     property int itemHeight: 24
     property int itemWidth: 50
+
+    property int tail: 6
+
     property font itemFont: mainFont.dapFont.regular14
 
     Component.onCompleted:
@@ -51,7 +55,7 @@ Image {
     z: parent.z + 100
     visible: model.length > 0
     height: model.length * itemHeight < 240 * pt ? model.length * itemHeight : 240 * pt
-
+    radius: 5
 
     // --- UI
     property int flickContY: 0
@@ -59,7 +63,7 @@ Image {
     onSelectedIndexChanged:
     {
         if (selectedIndex == model.length - 1)
-            flickContY = model.length * itemHeight * pt - height
+            flickContY = model.length * itemHeight * pt - height + tail * 2
         else
         if (selectedIndex == 0)
             flickContY = 0
@@ -74,6 +78,8 @@ Image {
     Flickable
     {
         anchors.fill: parent
+        anchors.topMargin: tail
+        anchors.bottomMargin: tail
         contentHeight: container.model.length * itemHeight
         clip: true
         contentY: flickContY
@@ -81,9 +87,8 @@ Image {
         id: popup
         clip: true
         height: model.length * itemHeight
-        width: parent.width - 6
+        width: parent.width
         anchors.centerIn: parent
-
 
         property int selectedIndex
         property variant selectedItem: selectedIndex == -1 ? null : model[selectedIndex]
@@ -93,6 +98,7 @@ Image {
         Behavior on opacity {
             NumberAnimation { }
         }
+
         Repeater {
             id: repeater
             model: container.model
@@ -122,7 +128,7 @@ Image {
                     Component.onCompleted:
                     {
                         if (maxLenIndex === index) {
-                            container.width = x + itemWidth + x + 6
+                            container.width = x + itemWidth + x
                         }
                     }
                 }
@@ -134,6 +140,5 @@ Image {
             }
         }
         }
-    }
-
+    } 
 }

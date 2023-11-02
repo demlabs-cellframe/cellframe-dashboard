@@ -87,7 +87,7 @@ Page
                 console.log("the text")
                 var cursorPos = inputField.textInput.cursorPosition
                 var spaceBefore = inputField.text.lastIndexOf(" ", cursorPos - 1);
-                
+
                 if (spaceBefore === -1) {
                     spaceBefore = 0;
                 } else {
@@ -95,29 +95,28 @@ Page
                 }
                 inputField.text = inputField.text.substring(0, spaceBefore) + word + " "
                 }
+            }
 
-
-                Rectangle
-                {
-                    width: parent.width
-                    height: 1
-                    color: currTheme.reflection
-                }
-
-                Rectangle
-                {
-                    width: 1
-                    height: parent.height
-                    color: currTheme.reflection
-                }
+            InnerShadow {
+                anchors.fill: suggestionsBox
+                horizontalOffset: 1
+                verticalOffset: 1
+                samples: 4
+                cached: true
+                opacity: 1.0
+                color: currTheme.reflection
+                source: suggestionsBox
+                visible: suggestionsBox.visible
+                z: 4 + 100
             }
 
             DropShadow {
                     anchors.fill: suggestionsBox
-                    horizontalOffset: 3
-                    verticalOffset: 3
+                    horizontalOffset: 6
+                    verticalOffset: 6
                     radius: 8.0
                     samples: 17
+                    opacity: 0.7
                     color: "#80000000"
                     source: suggestionsBox
                     visible: suggestionsBox.visible
