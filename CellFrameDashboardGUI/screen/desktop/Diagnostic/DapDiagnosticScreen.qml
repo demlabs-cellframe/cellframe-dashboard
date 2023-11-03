@@ -86,15 +86,19 @@ Page
 
                             }
 
-                            Text{
+                            Rectangle {
                                 Layout.alignment: Qt.AlignRight
-                                Layout.leftMargin: 16
-                                font: mainFont.dapFont.medium13
-                                color: currTheme.gray
-                                verticalAlignment: Text.AlignVCenter
+                                width: 180
+                                Text{
+                                    Layout.alignment: Qt.AlignLeft
+                                    Layout.leftMargin: 16
+                                    anchors.fill: parent
+                                    font: mainFont.dapFont.medium13
+                                    color: currTheme.gray
+                                    verticalAlignment: Text.AlignVCenter
 
-                                text: qsTr("Last update: ") + system_time_update
-
+                                    text: qsTr("Last update: ") + system_time_update
+                                }
                             }
 
                             Image{
