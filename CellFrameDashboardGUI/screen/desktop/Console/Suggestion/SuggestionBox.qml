@@ -54,7 +54,7 @@ Rectangle {
     // --- behaviours
     z: parent.z + 100
     visible: model.length > 0
-    height: model.length * itemHeight < 240 * pt ? model.length * itemHeight : 240 * pt
+    height: model.length * itemHeight < 240 * pt ? model.length * itemHeight + tail * 2 : 240 * pt + tail * 2
     radius: 5
 
     // --- UI
