@@ -48,14 +48,6 @@ LIBS += -L$$NODE_BUILD_PATH/dap-sdk/net/client/ -ldap_client \
     -L$$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/ -ldap_json_rpc \
     -L$$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/ -ldap_notify_srv
 
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/net/client/libdap_client.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/core/libdap_server_core.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/enc_server/libdap_enc_server.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/http_server/libdap_http_server.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/libdap_json_rpc.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/libdap_notify_srv.a
-
-
 INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/net/client/include/ \
     $$PWD/../cellframe-node/dap-sdk/io/include/ \
     $$PWD/../cellframe-node/dap-sdk/net/server/enc_server/include/ \
@@ -68,12 +60,10 @@ INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/net/client/include/ \
     $$PWD/../cellframe-node/dap-sdk/net/stream/session/include/
 
 LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/modules/common/ -ldap_chain_common
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/modules/common/libdap_chain_common.a
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/modules/common/include/
 
 LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/ -ldap_crypto
 LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/src/Kyber/crypto_kem/kyber512/optimized/ -ldap_crypto_kyber512
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/crypto/libdap_crypto.a
 INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/crypto/include/ \
     $$PWD/../cellframe-node/dap-sdk/crypto/src/rand/ \
     $$PWD/../cellframe-node/dap-sdk/crypto/src/ \
@@ -91,6 +81,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/ \
 
 INCLUDEPATH += $$NODE_BUILD_PATH/dap-sdk/deps/include/json-c/
 LIBS += -L$$NODE_BUILD_PATH/dap-sdk/deps/lib/ -ldap_json-c
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/ -ldap_json_rpc
 #PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/deps/lib/libdap_json-c.a
 
 linux-* {
