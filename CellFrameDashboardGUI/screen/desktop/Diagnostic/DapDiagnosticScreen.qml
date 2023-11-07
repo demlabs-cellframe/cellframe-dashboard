@@ -83,28 +83,30 @@ Page
                                 verticalAlignment: Text.AlignVCenter
 
                                 text: system_node_name === "" ? system_mac : system_node_name
+                            }
 
+                            Item {
+                                Layout.fillWidth: true
                             }
 
                             Item {
                                 Layout.alignment: Qt.AlignRight
-                                anchors.right: expand.left
-                                width: 200
+                                Layout.leftMargin: 16
+                                width: 190
 
-                                    Text{
-                                        Layout.alignment: Qt.AlignLeft
-                                        Layout.rightMargin: 16
-                                        anchors.fill: parent
-                                        font: mainFont.dapFont.medium13
-                                        color: currTheme.gray
-                                        verticalAlignment: Text.AlignVCenter
+                                Text{
+                                    anchors.fill: parent
+                                    font: mainFont.dapFont.medium13
+                                    color: currTheme.gray
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignLeft
 
-                                        text: qsTr("Last update: ") + system_time_update
-                                    }
+                                    text: qsTr("Last update: ") + system_time_update
+                                }
                             }
 
+
                             Image{
-                                id: expand
                                 Layout.alignment: Qt.AlignRight
                                 Layout.rightMargin: 16
                                 rotation: layout.isShow? 180 : 0
