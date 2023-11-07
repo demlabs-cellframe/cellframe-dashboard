@@ -91,9 +91,6 @@ Page
                                 anchors.right: expand.left
                                 width: 200
 
-//                                RowLayout{
-//                                    anchors.fill: parent
-
                                     Text{
                                         Layout.alignment: Qt.AlignLeft
                                         Layout.rightMargin: 16
@@ -104,11 +101,6 @@ Page
 
                                         text: qsTr("Last update: ") + system_time_update
                                     }
-
-//                                    Item {
-//                                        Layout.fillWidth: parent
-//                                    }
-//                                }
                             }
 
                             Image{
