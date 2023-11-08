@@ -234,6 +234,24 @@ DapRectangleLitAndShaded
             }
         }
     }
+
+    function getStatusName(tx_status, status)
+    {
+//        return "TEST"
+        var st = "TST"
+
+        if (tx_status !== "ACCEPTED")
+            st = qsTr("Declined")
+        if (status === "Sent")
+            st = qsTr("Sent")
+        if (status === "Error")
+            st = qsTr("Error")
+        if (status === "Declined")
+            st = qsTr("Declined")
+        if (status === "Received")
+            st = qsTr("Received")
+
+        console.log("getStatusName", tx_status, status, st)
+        return st
+    }
 }
-
-

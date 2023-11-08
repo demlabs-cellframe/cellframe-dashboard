@@ -23,7 +23,7 @@ DapRightPanelDone {
         {
             logicStock.resultCreate = iconBad
             headerText = qsTr("Order creation\nerror!")
-            messageText = qsTr(logicStock.resultCreate.message)
+            messageText = logicStock.resultCreate.message
         }
     }
 }

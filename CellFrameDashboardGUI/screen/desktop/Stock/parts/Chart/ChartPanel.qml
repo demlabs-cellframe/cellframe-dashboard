@@ -178,40 +178,40 @@ Item
         ListModel {
             id: selectorModel
             ListElement {
-                name: "1m"
+                name: qsTr("1m")
             }
             ListElement {
-                name: "2m"
+                name: qsTr("2m")
             }
             ListElement {
-                name: "5m"
+                name: qsTr("5m")
             }
             ListElement {
-                name: "15m"
+                name: qsTr("15m")
             }
             ListElement {
-                name: "30m"
+                name: qsTr("30m")
             }
             ListElement {
-                name: "1h"
+                name: qsTr("1h")
             }
             ListElement {
-                name: "4h"
+                name: qsTr("4h")
             }
             ListElement {
-                name: "12h"
+                name: qsTr("12h")
             }
             ListElement {
-                name: "24h"
+                name: qsTr("24h")
             }
             ListElement {
-                name: "7D"
+                name: qsTr("7D")
             }
             ListElement {
-                name: "14D"
+                name: qsTr("14D")
             }
             ListElement {
-                name: "1M"
+                name: qsTr("1M")
             }
         }
 

@@ -11,7 +11,7 @@ Controls.DapTopPanel {
     {
         enabled: false
         id: addOrderButton
-        textButton: "New VPN order"
+        textButton: qsTr("New VPN order")
         anchors.right: parent.right
         anchors.rightMargin: 24 
         anchors.verticalCenter: parent.verticalCenter

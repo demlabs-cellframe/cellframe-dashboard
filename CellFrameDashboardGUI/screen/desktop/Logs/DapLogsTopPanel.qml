@@ -14,7 +14,7 @@ Controls.DapTopPanel
     Widgets.DapButton
     {
         id: exportLogButton
-        textButton: "Export log"
+        textButton: qsTr("Export log")
         anchors.right: parent.right
         anchors.rightMargin: 24
         anchors.verticalCenter: parent.verticalCenter
@@ -54,7 +54,7 @@ Controls.DapTopPanel
         FileDialog
         {
             id: saveDialog
-            title: "Save the file"
+            title: qsTr("Save the file")
             fileMode: FileDialog.SaveFile
             nameFilters: filterFileArray
             selectedNameFilter.index: 0

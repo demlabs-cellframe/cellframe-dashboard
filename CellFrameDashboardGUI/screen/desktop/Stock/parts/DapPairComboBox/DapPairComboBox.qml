@@ -238,7 +238,7 @@ ComboBox {
                             Text{
                                 anchors.left: parent.left
                                 anchors.verticalCenter: parent.verticalCenter
-                                text:"Pair"
+                                text: qsTr("Pair")
                                 font: mainFont.dapFont.medium12
                                 color: currTheme.white
 
@@ -247,7 +247,7 @@ ComboBox {
                                 anchors.left: parent.left
                                 anchors.leftMargin: 132
                                 anchors.verticalCenter: parent.verticalCenter
-                                text:"Price"
+                                text: qsTr("Price")
                                 font: mainFont.dapFont.medium12
                                 color: currTheme.white
 
@@ -255,7 +255,7 @@ ComboBox {
 //                            Text{
 //                                anchors.right: parent.right
 //                                anchors.verticalCenter: parent.verticalCenter
-//                                text:"Change"
+//                                text: qsTr("Change")
 //                                font: mainFont.dapFont.medium12
 //                                color: currTheme.textColor
 //                            }

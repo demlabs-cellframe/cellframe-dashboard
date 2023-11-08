@@ -467,8 +467,8 @@ DapRectangleLitAndShaded
                         Layout.fillWidth: true
                         font: mainFont.dapFont.regular14
                         color: currTheme.white
-                        text: logicWallet.restoreWalletMode ? "I understand that if I enter my\npassword incorrectly, I will not be\nable to restore my wallet"
-                                                            : "I understand that if I lose my\npassword, I will not be able to restore \nmy wallet"
+                        text: logicWallet.restoreWalletMode ? qsTr("I understand that if I enter my\npassword incorrectly, I will not be\nable to restore my wallet")
+                                                            : qsTr("I understand that if I lose my\npassword, I will not be able to restore \nmy wallet")
                         wrapMode: Text.WordWrap
                         MouseArea{
                             anchors.fill: parent

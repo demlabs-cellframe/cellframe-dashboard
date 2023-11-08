@@ -61,7 +61,7 @@ Item {
 
     Text {
         id: infoText
-        text: qsTr("0")
+        text: "0"
         height: parent.height
         anchors.right: parent.right
         anchors.rightMargin: activeBtn? 50  : 10 

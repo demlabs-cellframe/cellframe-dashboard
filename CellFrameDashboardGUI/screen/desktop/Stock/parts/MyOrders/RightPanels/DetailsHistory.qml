@@ -72,62 +72,62 @@ DapRectangleLitAndShaded {
                 spacing: 16
 
                 DetailsText {
-                    title.text: "Date"
+                    title.text: qsTr("Date")
                     content.text: bufferDetails.get(0).date
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Closed date"
+                    title.text: qsTr("Closed date")
                     content.text: bufferDetails.get(0).closedDate
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Pair"
+                    title.text: qsTr("Pair")
                     content.text: bufferDetails.get(0).pair
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Type"
+                    title.text: qsTr("Type")
                     content.text: bufferDetails.get(0).type
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Side"
+                    title.text: qsTr("Side")
                     content.text: bufferDetails.get(0).side
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Average price"
+                    title.text: qsTr("Average price")
                     content.text: bufferDetails.get(0).averagePrice
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Price"
+                    title.text: qsTr("Price")
                     content.text: bufferDetails.get(0).price
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Filled"
+                    title.text: qsTr("Filled")
                     content.text: bufferDetails.get(0).filled
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Amount"
+                    title.text: qsTr("Amount")
                     content.text: bufferDetails.get(0).amount
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Total"
+                    title.text: qsTr("Total")
                     content.text: bufferDetails.get(0).total
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Trigger condition"
+                    title.text: qsTr("Trigger condition")
                     content.text: bufferDetails.get(0).triggerCondition
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Status"
+                    title.text: qsTr("Status")
                     content.text: bufferDetails.get(0).status
                     title.color: currTheme.gray
                 }
