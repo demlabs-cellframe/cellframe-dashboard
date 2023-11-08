@@ -8,6 +8,7 @@
 #include <QSharedMemory>
 #include <QScreen>
 #include <sys/stat.h>
+#include <memory>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -70,7 +71,7 @@ bool SingleApplicationTest(const QString &appName)
 
 void createDapLogger()
 {
-    DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI");
+    DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
     QString logPath = DapDataLocal::instance()->getLogFilePath();
 
 #if defined(QT_DEBUG) && defined(ANDROID)
@@ -177,7 +178,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(DAP_BRAND);
 
     createDapLogger();
-
+    //std::unique_ptr<DapLogger> logger_ptr = DapLogger::instance();
     int result = RESTART_CODE;
 
 
@@ -213,6 +214,8 @@ int main(int argc, char *argv[])
         result = app->exec();
         delete app;
     }
+
+    DapLogger::deleteLogger();
 
     return result;
 }
