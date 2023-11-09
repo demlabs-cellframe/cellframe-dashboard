@@ -32,12 +32,12 @@ Item {
             ListElement
             {
                 name: "Picnic"
-                sign: " sig_picnic"
+                sign: "sig_picnic"
             }
             ListElement
             {
                 name: "Tesla"
-                sign: " sig_tesla"
+                sign: "sig_tesla"
             }
         }
 
@@ -93,7 +93,7 @@ Item {
                 Layout.maximumWidth: 120
                 radius: 16
 
-                textButton: "Create"
+                textButton: qsTr("Create")
 
                 fontButton.family: "Qicksand"
                 fontButton.pixelSize: 20

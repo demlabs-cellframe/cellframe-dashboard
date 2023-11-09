@@ -27,19 +27,19 @@ DapRectangleLitAndShaded
     {
         id: nodeRole
         ListElement{
-            name: "Full"
+            name: qsTr("Full")
             value: "full" }
         ListElement{
-            name: "Light"
+            name: qsTr("Light")
             value: "light" }
         ListElement{
-            name: "Master"
+            name: qsTr("Master")
             value: "master" }
         ListElement{
-            name: "Archive"
+            name: qsTr("Archive")
             value: "archive" }
         ListElement{
-            name: "Root"
+            name: qsTr("Root")
             value: "root" }
     }
 
@@ -69,7 +69,7 @@ DapRectangleLitAndShaded
 
         HeaderItem
         {
-            headerName: "Select " + networkFullName + " node role"
+            headerName: qsTr("Select ") + networkFullName + qsTr(" node role")
         }
 
         DapCustomComboBox

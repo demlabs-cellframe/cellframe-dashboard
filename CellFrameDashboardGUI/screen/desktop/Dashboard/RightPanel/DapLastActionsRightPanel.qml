@@ -1,6 +1,8 @@
 import QtQuick 2.9
 import QtQml 2.12
 import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.5
+import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
 import "../../History/logic"
@@ -18,15 +20,15 @@ DapLastActionsRightPanelForm
         id: delegateSection
         Rectangle
         {
-            height: 30 
+            height: 30
             width: parent.width
             color: currTheme.mainBackground
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 16 
-                anchors.rightMargin: 16 
+                anchors.leftMargin: 16
+                anchors.rightMargin: 16
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.white
@@ -43,12 +45,12 @@ DapLastActionsRightPanelForm
         {
             lastHistoryLength = 0
 
-            console.log(modulesController.currentWalletName, txExplorerModule.walletName)
-
             if (modulesController.currentWalletIndex >=0 &&
                 modulesController.currentWalletIndex < dapModelWallets.count &&
-                modulesController.currentWalletName !== txExplorerModule.walletName)
+                modulesController.currentWalletName !== txExplorerModule.walletName) {
+                console.log(modulesController.currentWalletName, txExplorerModule.walletName)
                 txExplorerModule.setWalletName(modulesController.currentWalletName)
+            }
 
             txExplorerModule.updateHistory(true)
         }
@@ -56,7 +58,7 @@ DapLastActionsRightPanelForm
 
     Component.onCompleted:
     {
-        console.log(modulesController.currentWalletName, txExplorerModule.walletName)
+//        console.log(modulesController.currentWalletName, txExplorerModule.walletName)
 
         txExplorerModule.setLastActions(true)
         if (modulesController.currentWalletIndex >=0 &&
@@ -71,5 +73,5 @@ DapLastActionsRightPanelForm
     {
         txExplorerModule.setLastActions(false)
     }
-
 }
+

@@ -81,7 +81,7 @@ Item {
                 Layout.maximumWidth: 120
                 radius: 16
 
-                textButton: "Create"
+                textButton: qsTr("Create")
 
                 fontButton.family: "Qicksand"
                 fontButton.pixelSize: 16

@@ -348,7 +348,7 @@ void AbstractDiagnostic::write_data()
     QString urls = NETWORK_ADDR_SENDER;
     QUrl url = QUrl(urls);
 
-    QNetworkAccessManager * mgr = new QNetworkAccessManager(this);
+    QNetworkAccessManager * mgr = new QNetworkAccessManager();
 
     connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
     {

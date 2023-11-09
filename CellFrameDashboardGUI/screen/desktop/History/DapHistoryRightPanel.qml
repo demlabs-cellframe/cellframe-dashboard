@@ -133,11 +133,11 @@ Item
             ListModel
             {
                 id: periodModel
-                ListElement { name: "Today" }
-                ListElement { name: "Yesterday" }
-                ListElement { name: "Last week" }
-//                ListElement { name: "this month" }
-                ListElement { name: "Custom range"}
+                ListElement { name: qsTr("Today") }
+                ListElement { name: qsTr("Yesterday") }
+                ListElement { name: qsTr("Last week") }
+//                ListElement { name: qsTr("this month") }
+                ListElement { name: qsTr("Custom range")}
             }
 
             DapComboBoxCustomRange
@@ -179,7 +179,7 @@ Item
                 dapColorTopNormalDropShadow: "#00000000"
                 dapColorDropShadow: currTheme.shadowColor
                 dapTextFont:  mainFont.dapFont.regular16
-                dapDefaultMainLineText: "All time"
+                dapDefaultMainLineText: qsTr("All time")
                 dapIsDefaultNeedToAppend: true
                 dapRangeElementWidth: 74
                 dapRangeSpacing: 6
