@@ -47,6 +47,10 @@ Item
               "popupListView.currentIndex", popupListView.currentIndex,
               "name", model.get(modulesController.currentWalletIndex).name)
 
+        // Check and fix different between models
+        if(model.count !== dapModelWallets.count)
+            walletModule.getWalletsInfo("true")
+
         if (popupListView.currentIndex < 0)
 //            displayText = getModelData(0, mainTextRole)
             displayText = defaultText

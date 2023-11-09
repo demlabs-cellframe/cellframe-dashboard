@@ -126,6 +126,13 @@ DapPage
             id: dashboardTopPanel
             onChangeWalletIndex:{
                 dashboardScreen.listViewWallet.model = ""
+
+                // clear screen if models is not equals
+                if(walletListModel.count !== dapModelWallets.count) {
+                    navigator.popPage()
+                    return
+                }
+
                 dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
                 txExplorerModule.setWalletName(modulesController.currentWalletName)
                 txExplorerModule.updateHistory(true)
