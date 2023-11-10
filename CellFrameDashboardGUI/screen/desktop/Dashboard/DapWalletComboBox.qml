@@ -48,8 +48,15 @@ Item
               "name", model.get(modulesController.currentWalletIndex).name)
 
         // Check and fix different between models
-        if(model.count !== dapModelWallets.count)
+        if(model.count !== dapModelWallets.count) {
+            console.log("DapCustomComboBox", "onModelChanged.", "Different models. Repeat wallets request.")
+            //dashboardScreen.listViewWallet.model.clear()
+            //dashboardScreen.visible = false
+            //dashboardTab.state = "WALLETDEFAULT"
+            dapModelWallets.clear()
             walletModule.getWalletsInfo("true")
+
+        }
 
         if (popupListView.currentIndex < 0)
 //            displayText = getModelData(0, mainTextRole)
