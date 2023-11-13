@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
-
+        DapLogger::instance()->startUpdateTimer();
         result = app->exec();
         delete app;
     }
