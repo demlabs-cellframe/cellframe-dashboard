@@ -58,11 +58,12 @@ Component
             {
                 id: textSatus
                 Layout.minimumWidth: 60 
-                text: tx_status === "ACCEPTED" ? status : "Declined"
-                color: text === "Sent" ?      "#FFCD44" :
-                       text === "Error" ||
-                       text === "Declined" ?  "#FF5F5F" :
-                       text === "Received"  ? "#CAFC33" : "#ffffff"
+                text: getStatusName(tx_status, status)
+                color: getStatusColor(tx_status, status)
+//                color: text === "Sent" ?      "#FFCD44" :
+//                       text === "Error" ||
+//                       text === "Declined" ?  "#FF5F5F" :
+//                       text === "Received"  ? "#CAFC33" : "#ffffff"
                 font.family: "Quicksand"
                 font.pixelSize: 14
             }
@@ -93,5 +94,31 @@ Component
             height: 1 
             color: "#292929"
         }
+    }
+
+    function getStatusName(tx_status, status)
+    {
+        if (tx_status !== "ACCEPTED")
+            return qsTr("Declined")
+        if (status === "Sent")
+            return qsTr("Sent")
+        if (status === "Error")
+            return qsTr("Error")
+        if (status === "Declined")
+            return qsTr("Declined")
+        if (status === "Received")
+            return qsTr("Received")
+        return status
+    }
+
+    function getStatusColor(tx_status, status)
+    {
+        if (tx_status !== "ACCEPTED" || status === "Error")
+            return "#FF5F5F"
+        if (status === "Sent")
+            return "#FFCD44"
+        if (status === "Received")
+            return "#CAFC33"
+        return "#ffffff"
     }
 }

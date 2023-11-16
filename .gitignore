@@ -17,3 +17,4 @@ moc_*
 .qmake_stash
 qrc_*
 rcc/*
+node_build

@@ -28,6 +28,8 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
 
     connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
 #endif
+
+    qInfo() << "Current MAC" << s_mac.toString();
 }
 
 AbstractDiagnostic::~AbstractDiagnostic()
@@ -343,12 +345,49 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
 
 void AbstractDiagnostic::write_data()
 {
+    {
+        QJsonObject mainObject = s_full_info.object();
+        if(mainObject.contains("process"))
+        {
+            QJsonObject processObject = mainObject["process"].toObject();
+            qInfo() << "Process info:";
+            if(processObject.contains("DB_size"))
+            {
+                qInfo() << "DB_size - " << processObject["DB_size"].toString();
+            }
+            if(processObject.contains("chain_size"))
+            {
+                qInfo() << "Chain size - " << processObject["chain_size"].toString();
+            }
+            if(processObject.contains("log_size"))
+            {
+                qInfo() << "Log size - " << processObject["log_size"].toString();
+            }
+            if(processObject.contains("status"))
+            {
+                qInfo() << "Status - " << processObject["status"].toString();
+            }
+        }
+        if(mainObject.contains("system"))
+        {
+            QJsonObject systemObject = mainObject["system"].toObject();
+            qInfo() << "System info:";
+            if(systemObject.contains("memory"))
+            {
+                QJsonObject memoryObject = systemObject["memory"].toObject();
+                qInfo() << "memory free - " << memoryObject["free"].toString();
+                qInfo() << "memory load - " << memoryObject["load"].toString();
+                qInfo() << "memory total - " << memoryObject["total"].toString();
+            }
+        }
+    }
+
 #ifdef NETWORK_DIAGNOSTIC
 
     QString urls = NETWORK_ADDR_SENDER;
     QUrl url = QUrl(urls);
 
-    QNetworkAccessManager * mgr = new QNetworkAccessManager(this);
+    QNetworkAccessManager * mgr = new QNetworkAccessManager();
 
     connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
     {

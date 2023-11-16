@@ -35,7 +35,7 @@ QtObject
                                      amount: order.amount,
                                      total: order.total,
                                      triggerCondition: order.triggerCondition,
-                                     status: "Cancelled"
+                                     status: qsTr("Cancelled")
                                    })
 
         var value
