@@ -19,6 +19,7 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
     , m_logReader(new DapLogsReader(this))
+    , m_timerCheckLogFile(new QTimer())
 //    , nodeLog(getNodeLogPath(), "cellframe-node", false)
 //    , guiLog(getBrandLogPath(), "Cellframe-DashboardGUI", true)
 //    , serviceLog(getBrandLogPath(), "Cellframe-DashboardService", true)
@@ -35,7 +36,9 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
         m_configLog.first = LogType::NodeLog;
         m_configLog.second = getLogFileName(getNodeLogPath(), m_configLog.first);
         m_logReader->setLogType(m_configLog.second);
+        m_lastPath = m_configLog.second;
         setStatusInit(true);
+        m_timerCheckLogFile->start(TIMEOUT_CHECK_FILE);
     });
 
     connect(s_serviceCtrl, &DapServiceController::exportLogs, [=] (const QVariant& rcvData)
@@ -43,7 +46,7 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
         emit logsExported(rcvData.toBool());
     });
 
-
+    connect(m_timerCheckLogFile, &QTimer::timeout, this, &DapModuleLog::checkLogFiles);
 //    nodeLog.updateLog();
 //    guiLog.updateLog();
 //    serviceLog.updateLog();
@@ -63,6 +66,12 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
 //             << DAP_BRAND
 //             << DAP_BRAND_BASE_LO
     //             << DAP_BRAND_LO;
+}
+
+DapModuleLog::~DapModuleLog()
+{
+    delete m_logReader;
+    delete m_timerCheckLogFile;
 }
 
 bool DapModuleLog::flagLogUpdate()
@@ -116,6 +125,8 @@ void DapModuleLog::selectLog(const QString &name)
 
     m_logReader->setLogType(m_configLog.second);
 
+    m_lastPath = m_configLog.second;
+
     emit currentTypeChanged();
 
 //    currentIndex = 0;
@@ -154,48 +165,26 @@ QString DapModuleLog::getLogFileName(QString folder, LogType type)
 
     QFileInfoList folderitems(currentFolder.entryInfoList());
 
-    QString fileName = type == LogType::NodeLog    ? "cellframe-node"
-                     : type == LogType::ServiceLog ? "Cellframe-DashboardService"
-                                                   : "Cellframe-DashboardGUI";
+    QString prefixFileName = type == LogType::NodeLog    ? "cellframe-node"
+                             : type == LogType::ServiceLog ? "Cellframe-DashboardService"
+                                                           : "Cellframe-DashboardGUI";
 
-    QStringList filesList;
+    QDateTime maxData;
+    QString resuiltFileName = "";
 
-    foreach ( QFileInfo i, folderitems ) {
-        QString iname( i.fileName() );
-        if ( iname == "." || iname == ".." || iname.isEmpty() )
-            continue;
-        if(i.suffix() == "log" && i.completeBaseName().contains(fileName))
-        {
-            filesList.append(i.absoluteFilePath());
-        }
-    }
-    if(filesList.isEmpty())
-        return "";
-
-    if(filesList.count() == 1)
-        return filesList.first();
-    else if(filesList.count() > 1)
+    for(QFileInfo file: folderitems)
     {
-        quint64 dates[filesList.count()];
-
-        for(int i = 0; i < filesList.count(); i++)
+        if(file.fileName().contains(prefixFileName))
         {
-            QRegularExpression regex(
-                "("+fileName+"_(.+).log)");
-            QRegularExpressionMatch match = regex.match(filesList[i]);
-
-            if(!match.captured(2).isEmpty())
-                dates[i] = QDateTime::fromString(match.captured(2),"dd-MM-yyyy").toSecsSinceEpoch();
+            if(maxData < file.lastModified())
+            {
+                maxData = file.lastModified();
+                resuiltFileName = file.filePath();
+            }
         }
-
-        int maxIdx = 0;
-        for(int i = 1; i < filesList.count(); i++)
-            maxIdx = dates[i] > dates[maxIdx] ? i : maxIdx;
-
-        return filesList.at(maxIdx);
     }
-    else
-        return QString();
+
+    return resuiltFileName;
 }
 
 void DapModuleLog::setPosition(double pos)
@@ -380,6 +369,20 @@ void DapModuleLog::updateModel()
         }
     }
 
-    if(m_logReader->m_path.isEmpty())
-        m_logReader->m_path = getLogPath(m_configLog.first);
+    if(m_logReader->getPath().isEmpty())
+    {
+        QString path = getLogPath(m_configLog.first);
+        m_lastPath = path;
+        m_logReader->setPath(std::move(path));
+    }
+}
+
+void DapModuleLog::checkLogFiles()
+{
+    QString path = getLogPath(m_configLog.first);
+    if(m_lastPath != path)
+    {
+        m_lastPath = path;
+        m_logReader->setPath(std::move(path));
+    }
 }
