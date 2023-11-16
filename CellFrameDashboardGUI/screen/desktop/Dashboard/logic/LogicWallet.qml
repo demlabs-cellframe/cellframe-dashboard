@@ -7,6 +7,8 @@ QtObject {
     property string walletType: "Standart"
     property string walletRecoveryType: "Words"
     property string walletStatus: ""
+    property bool spiner: false
+    property int modelSize: 0
 
     function updateWalletsModel(model)
     {
@@ -31,8 +33,16 @@ QtObject {
         if(dapModelWallets.count)
         {
             dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
-            if(dashboardTab.state != "WALLETCREATE")
+            if(dashboardTab.state != "WALLETCREATE") {
                 dashboardTab.state = "WALLETSHOW"
+
+            }
+        }
+
+        if(logicWallet.modelSize !== dapModelWallets.count) {
+            spiner = true
+        } else {
+            spiner = false
         }
     }
 
