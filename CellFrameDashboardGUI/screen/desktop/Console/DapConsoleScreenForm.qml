@@ -49,7 +49,7 @@ Page
                 anchors.fill: parent
                 anchors.bottomMargin: 40
                 anchors.leftMargin: 20 *pt
-                anchors.topMargin: 24
+                anchors.topMargin: 20 *pt
                 height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
                             contentHeight :
                             (consoleRectangle.height - inputCommand.height)
@@ -58,7 +58,7 @@ Page
                 delegate: delegateConsoleCommand
                 cacheBuffer: 10000
 
-                spacing: 0
+                spacing: 5
 
                 currentIndex: count - 1
                 highlightFollowsCurrentItem: true
