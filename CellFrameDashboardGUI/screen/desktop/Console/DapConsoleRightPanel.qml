@@ -67,7 +67,7 @@ Page
                     anchors.leftMargin: 5 
                     anchors.rightMargin: 5
                     width: listViewHistoryConsole.width
-                    height: textCommand.implicitHeight + 6 + textDateTime.height
+                    implicitHeight: textCommand.contentHeight + 6 + textDateTime.contentHeight
 
                     Text
                     {
@@ -103,7 +103,6 @@ Page
                         text: datetime
                         color: "#B2B2B2"
 
-                        wrapMode: Text.Wrap
                         font.family: "Quicksand"
                         font.pixelSize: 11
                     }

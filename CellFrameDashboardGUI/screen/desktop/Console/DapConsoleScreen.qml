@@ -39,7 +39,7 @@ DapConsoleScreenForm
             {
                 Layout.fillWidth: true
                 Layout.rightMargin: 10
-                height: textQuery.height
+                implicitHeight: textQuery.height
                 radius: 2
                 color: currTheme.secondaryBackground
 
@@ -67,14 +67,14 @@ DapConsoleScreenForm
                 TextEdit
                 {
                     width: parent.width
-                    verticalAlignment: Qt.AlignVCenter
-                    anchors.verticalCenter: parent.verticalCenter
+                    verticalAlignment: Qt.AlignTop
                     leftPadding: 5
+                    topPadding: 1
                     readOnly: true
                     selectByMouse: true
                     id: textQueryArrow
                     text: "➜"
-                    wrapMode: TextEdit.Wrap
+                    wrapMode: TextEdit.NoWrap
                     font.family: "Quicksand"
                     font.pixelSize: 13
                     color: "#9580FF"
@@ -85,8 +85,8 @@ DapConsoleScreenForm
                 TextEdit
                 {
                     width: parent.width
-                    verticalAlignment: Qt.AlignVCenter
                     leftPadding: 22
+                    bottomPadding: 3
                     readOnly: true
                     selectByMouse: true
                     id: textQuery
@@ -97,6 +97,7 @@ DapConsoleScreenForm
                     color: "#87DCE7"
                     selectionColor: "#87DCE7"
                     selectedTextColor: "#2E3138"
+
                 }
             }
 
@@ -133,6 +134,7 @@ DapConsoleScreenForm
                 {
                     width: parent.width
                     leftPadding: 5
+                    bottomPadding: 3
                     readOnly: true
                     selectByMouse: true
                     id: textResponse
