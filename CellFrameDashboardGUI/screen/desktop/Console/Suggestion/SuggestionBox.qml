@@ -19,7 +19,7 @@
 
 import QtQuick 2.0
 
-Image {
+Rectangle {
     id: container
 
     // --- properties
@@ -27,10 +27,18 @@ Image {
     property Item delegate
     signal itemSelected(variant item)
     signal wordSelected(var word)
-    source: "qrc:/Resources/ui_menu_light.png"
+
+    color:  "#2d3037"
 
     property int selectedIndex: 0
     property int maxLenIndex: 0
+    property int maxWidth: 500
+    property int itemHeight: 24
+    property int itemWidth: 50
+
+    property int tail: 6
+
+    property font itemFont: mainFont.dapFont.regular14
 
     Component.onCompleted:
     {
@@ -39,14 +47,15 @@ Image {
 
     onModelChanged:
     {
+        flickContY = 0
         selectedIndex = 0
     }
 
     // --- behaviours
     z: parent.z + 100
     visible: model.length > 0
-    height: model.length * 30 < 240 * pt ? model.length * 30 : 240 * pt
-
+    height: model.length * itemHeight < 240 * pt ? model.length * itemHeight + tail * 2 : 240 * pt + tail * 2
+    radius: 5
 
     // --- UI
     property int flickContY: 0
@@ -54,31 +63,32 @@ Image {
     onSelectedIndexChanged:
     {
         if (selectedIndex == model.length - 1)
-            flickContY = model.length * 30 * pt - height
+            flickContY = model.length * itemHeight * pt - height + tail * 2
         else
         if (selectedIndex == 0)
             flickContY = 0
         else
-        if (selectedIndex * 30 > flickContY + height - 30 * pt)
-            flickContY += 30 * pt
+        if (selectedIndex * itemHeight > flickContY + height - itemHeight * pt)
+            flickContY += itemHeight * pt
         else
-        if (selectedIndex * 30 - 30 * pt < flickContY)
-            flickContY -= 30 * pt
+        if (selectedIndex * itemHeight - itemHeight * pt < flickContY)
+            flickContY -= itemHeight * pt
     }
 
     Flickable
     {
         anchors.fill: parent
-        contentHeight: container.model.length * 30
+        anchors.topMargin: tail
+        anchors.bottomMargin: tail
+        contentHeight: container.model.length * itemHeight
         clip: true
         contentY: flickContY
     Column {
         id: popup
         clip: true
-        height: model.length * 30
-        width: parent.width - 6
+        height: model.length * itemHeight
+        width: parent.width
         anchors.centerIn: parent
-
 
         property int selectedIndex
         property variant selectedItem: selectedIndex == -1 ? null : model[selectedIndex]
@@ -88,6 +98,7 @@ Image {
         Behavior on opacity {
             NumberAnimation { }
         }
+
         Repeater {
             id: repeater
             model: container.model
@@ -95,7 +106,7 @@ Image {
                 id: delegateItem
                 property variant suggestion: model
 
-                height: 25 
+                height: itemHeight
                 width: container.width
 
                 Rectangle
@@ -103,20 +114,22 @@ Image {
                     anchors.fill: parent
                     color: currTheme.lime
                     visible: index === selectedIndex
+                    radius: 1
                 }
 
                 Text {
                     id: textComponent
                     color: index === selectedIndex ?  currTheme.boxes : currTheme.white
                     text: modelData
-                    y: parent.height * 0.5 - height * 0.5
-                    x: 20 
+                    y: parent.height * 0.5 - height * 0.5 - 1
+                    x: 10
                     font: mainFont.dapFont.regular14
 
                     Component.onCompleted:
                     {
-                        if (maxLenIndex === index)
-                            container.width = width + 50 
+                        if (maxLenIndex === index) {
+                            container.width = x + itemWidth + x
+                        }
                     }
                 }
 
@@ -127,6 +140,5 @@ Image {
             }
         }
         }
-    }
-
+    } 
 }
