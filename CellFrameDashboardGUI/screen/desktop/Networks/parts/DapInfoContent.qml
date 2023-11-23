@@ -132,11 +132,14 @@ Item {
 
             DapInfoButton {
                 id: buttonNetwork
+                isFakeStateButton: false
                 enabled: false
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Component.onCompleted: setText()
                 onClicked: {
+                    console.log("onClicked on/off network")
+                    buttonNetwork.updateFakeButton(true)
                     if (targetState !== "ONLINE" && networkState !== "ONLINE" )
                         logicMainApp.requestToService("DapNetworkGoToCommand", name, true)
                     else
@@ -148,6 +151,8 @@ Item {
 
                 function setText()
                 {
+                    console.log("setText()")
+                    buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
                     if (targetState !== "ONLINE" && networkState !== "ONLINE" )
                         buttonNetwork.textBut = qsTr("On network")
                     else
@@ -269,6 +274,7 @@ Item {
                 fillMode: Image.PreserveAspectFit
 
                 source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
+                        networkState !== targetState ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
                         networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg"
 
