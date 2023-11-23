@@ -43,9 +43,10 @@ Item
 
     onModelChanged:
     {
-        print("DapCustomComboBox", "onModelChanged",
-              "popupListView.currentIndex", popupListView.currentIndex,
-              "name", model.get(modulesController.currentWalletIndex).name)
+//        print("DapCustomComboBox", "onModelChanged",
+//              "popupListView.currentIndex", popupListView.currentIndex,
+//              "name", model.get(modulesController.currentWalletIndex).name)
+
 
         if (popupListView.currentIndex < 0)
 //            displayText = getModelData(0, mainTextRole)
@@ -56,9 +57,8 @@ Item
 
     onCountChanged:
     {
-        print("DapCustomComboBox", "onCountChanged",
-              "popupListView.currentIndex", popupListView.currentIndex)
-
+//        print("DapCustomComboBox", "onCountChanged",
+//              "popupListView.currentIndex", popupListView.currentIndex)
         if (popupListView.currentIndex < 0)
             displayText = model.get(0).name
         else
@@ -340,6 +340,18 @@ Item
 
     function setCurrentIndex(index)
     {
+        // Check and fix different between models
+        if(logicWallet.modelSize !== popupListView.count) logicWallet.modelSize = popupListView.count
+        if(popupListView.count !== dapModelWallets.count) {
+            console.log("[BrokenWallet]", "setCurrentIndex.", "Different models. Repeat wallets request.", "spinner ON")
+            logicWallet.spiner = true
+            dashboardTab.state = "WALLETDEFAULT"
+            walletModule.getWalletsInfo("true")
+        } else {
+            console.log("[BrokenWallet]", "setCurrentIndex.", "Models is equal.", "spinner OFF")
+            logicWallet.spiner = false
+        }
+
         popupListView.currentIndex = index
         mainItem.currentIndex = index
 //        currentIndex = index

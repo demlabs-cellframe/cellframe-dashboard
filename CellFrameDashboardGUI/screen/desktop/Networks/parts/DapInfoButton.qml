@@ -7,13 +7,34 @@ import "qrc:/widgets"
 
 
 Item {
+    property bool isFakeStateButton: false
+    property alias fakeButtonText: fakeButtonText.text
+    property string fakeButtonUrlSpinner: "qrc:/Resources/"+ pathTheme +"/icons/other/spinner_network.svg"
+
     property bool isSynch : false
     property alias textBut: button_caption.text
     property alias button: control
 
     signal clicked()
 
+    function updateFakeButton(isFake)
+    {
+        isFakeStateButton = isFake
+        fakeButtonText.visible = isFake
+        indicatorNetwork.visible = isFake
+        button_caption.visible = !isFake
+        baseImage.visible = !isFake
+    }
+
     id: control
+
+    onEnabledChanged:
+    {
+        if(isFakeStateButton)
+        {
+            animatorIndicator.start()
+        }
+    }
 
     MouseArea{
         id: mouseArea
@@ -23,7 +44,13 @@ Item {
         onEntered: if(control.enabled)mouseEnterAnim.start()
         onExited: if(control.enabled)mouseExitedAnim.start()
 
-        onClicked: control.clicked()
+        onClicked:
+        {
+            if(!isFakeStateButton)
+            {
+                control.clicked()
+            }
+        }
     }
 
     Rectangle {
@@ -160,6 +187,7 @@ Item {
         spacing: 0
 
         Image {
+            id: baseImage
             Layout.leftMargin: isSynch ? 23  : 29
             Layout.alignment: Qt.AlignVCenter
 
@@ -179,6 +207,38 @@ Item {
             font: mainFont.dapFont.medium12
             color: currTheme.white
             text: isSynch ? qsTr("Sync network") : qsTr("On network")
+        }
+
+        Image {
+            id: indicatorNetwork
+            Layout.leftMargin: 27
+            Layout.alignment: Qt.AlignVCenter
+            sourceSize: Qt.size(24,24)
+            smooth: true
+            antialiasing: true
+            fillMode: Image.PreserveAspectFit
+
+            source: fakeButtonUrlSpinner
+
+            RotationAnimator
+            {
+                id: animatorIndicator
+                target: indicatorNetwork
+                from: 0
+                to: 360
+                duration: 1000
+                loops: Animation.Infinite
+                running: isFakeStateButton
+            }
+        }
+
+        Text {
+            id: fakeButtonText
+            Layout.alignment: Qt.AlignVCenter
+            Layout.rightMargin: 27
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            text: qsTr("Processing...")
         }
     }
 }

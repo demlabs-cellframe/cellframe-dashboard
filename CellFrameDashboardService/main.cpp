@@ -25,7 +25,7 @@ void processArgs();
 
 void createDapLogger()
 {
-    DapLogger *dapLogger = new DapLogger (QCoreApplication::instance(), "Service");
+    DapLogger *dapLogger = new DapLogger (QCoreApplication::instance(), "Service", 10,  TypeLogCleaning::FULL_FILE_SIZE);
     QString logPath = DapDataLocal::instance()->getLogFilePath();
 
 #if defined(QT_DEBUG) && defined(ANDROID)
@@ -221,7 +221,9 @@ int main(int argc, char *argv[])
     serviceController.start();
     qDebug() << "SERVICE STARTED";
     
-    return a.exec();
+    auto result = a.exec();
+    DapLogger::deleteLogger();
+    return result;
 }
 
 #endif
