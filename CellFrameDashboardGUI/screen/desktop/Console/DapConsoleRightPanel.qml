@@ -28,23 +28,26 @@ Page
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 18 * pt
+        //spacing: 18 * pt
 
         Item
         {
             Layout.fillWidth: true
-            height: 40
+            height: 42
 
             Text
             {
                 id: textHeader
                 anchors.fill: parent
                 anchors.leftMargin: 16
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Last actions")
-                verticalAlignment: Qt.AlignVCenter
+                anchors.topMargin: 11
+                anchors.bottomMargin: 13
+                verticalAlignment: Text.AlignBottom
                 horizontalAlignment: Text.AlignLeft
-                font: mainFont.dapFont.bold14
+                text: qsTr("Last actions")
+                font.family: "Quicksand"
+                font.pixelSize: 14
+                font.bold: true
                 color: currTheme.white
             }
         }
@@ -54,36 +57,34 @@ Page
             id: listViewHistoryConsole
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.topMargin: 4
             clip: true
-            spacing: 20
+            spacing: 12
             model: modelHistoryConsole
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
 
+
             delegate:
                 Item
                 {
-                    anchors.leftMargin: 5 
-                    anchors.rightMargin: 5
-                    width: listViewHistoryConsole.width
-                    implicitHeight: textCommand.contentHeight + 6 + textDateTime.contentHeight
+                    width: listViewHistoryConsole.width - 32
+                    x: 16
+                    height: textCommand.implicitHeight + textDateTime.implicitHeight + 4
 
                     Text
                     {
-                        anchors.fill: parent
-                        anchors.rightMargin: 16
-                        anchors.leftMargin: 16 
-                        verticalAlignment: Qt.AlignTop
-
                         id: textCommand
                         text: query
+                        width: parent.width
+                        height: contentHeight
+                        anchors.fill: parent
+                        verticalAlignment: Qt.AlignTop
                         color: currTheme.white
-
                         wrapMode: Text.Wrap
                         font.family: "Quicksand"
                         font.pixelSize: 13
-
                         //For the automatic sending selected command from history
                         MouseArea
                         {
@@ -94,15 +95,14 @@ Page
                     }
                     Text
                     {
-                        anchors.fill: parent
-                        anchors.rightMargin: 16
-                        anchors.leftMargin: 16
-                        verticalAlignment: Qt.AlignBottom
-
                         id: textDateTime
                         text: datetime
+                        width: parent.width
+                        height: contentHeight
+                        verticalAlignment: Qt.AlignBottom
+                        anchors.fill: parent
+                        anchors.bottomMargin: 4
                         color: "#B2B2B2"
-
                         font.family: "Quicksand"
                         font.pixelSize: 11
                     }
@@ -122,8 +122,8 @@ Page
     // Parsing query and time from history
     function parsingTime(str, mode) {
         // mode 0 - return boolean result
-        // mode 1 - return query
-        // mode 2 - return time
+        // mode 1 - return only query
+        // mode 2 - return only time
         var regex = /\[\d{2}\.\d{2}\.\d{2}\s-\s\d{2}:\d{2}:\d{2}\]/
         var match = regex.exec(str)
 

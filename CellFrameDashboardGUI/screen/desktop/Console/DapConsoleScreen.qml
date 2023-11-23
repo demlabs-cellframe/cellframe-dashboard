@@ -38,10 +38,49 @@ DapConsoleScreenForm
             Rectangle
             {
                 Layout.fillWidth: true
-                Layout.rightMargin: 10
+                //Layout.rightMargin: 15
+                //Layout.leftMargin: 15
                 implicitHeight: textQuery.height
                 radius: 2
                 color: currTheme.secondaryBackground
+
+                TextEdit
+                {
+                    width: parent.width
+                    verticalAlignment: Qt.AlignTop
+                    leftPadding: 4
+                    topPadding: 3
+                    bottomPadding: 3
+                    readOnly: true
+                    selectByMouse: true
+                    id: textQueryArrow
+                    text: "➜"
+                    wrapMode: TextEdit.NoWrap
+                    font.family: "Quicksand"
+                    font.pixelSize: 13
+                    color: "#9580FF"
+                    selectionColor: "#87DCE7"
+                    selectedTextColor: "#2E3138"
+                }
+
+                TextEdit
+                {
+                    width: parent.width
+                    leftPadding: 21
+                    topPadding: 2
+                    bottomPadding: 3
+                    readOnly: true
+                    selectByMouse: true
+                    id: textQuery
+                    text: modelData.query
+                    wrapMode: TextEdit.Wrap
+                    font.family: "Quicksand"
+                    font.pixelSize: 13
+                    color: "#87DCE7"
+                    selectionColor: "#87DCE7"
+                    selectedTextColor: "#2E3138"
+
+                }
 
                 LinearGradient
                 {
@@ -63,49 +102,14 @@ DapConsoleScreenForm
                             }
                         }
                 }
-
-                TextEdit
-                {
-                    width: parent.width
-                    verticalAlignment: Qt.AlignTop
-                    leftPadding: 5
-                    topPadding: 1
-                    readOnly: true
-                    selectByMouse: true
-                    id: textQueryArrow
-                    text: "➜"
-                    wrapMode: TextEdit.NoWrap
-                    font.family: "Quicksand"
-                    font.pixelSize: 13
-                    color: "#9580FF"
-                    selectionColor: "#87DCE7"
-                    selectedTextColor: "#2E3138"
-                }
-
-                TextEdit
-                {
-                    width: parent.width
-                    leftPadding: 22
-                    bottomPadding: 3
-                    readOnly: true
-                    selectByMouse: true
-                    id: textQuery
-                    text: modelData.query
-                    wrapMode: TextEdit.Wrap
-                    font.family: "Quicksand"
-                    font.pixelSize: 13
-                    color: "#87DCE7"
-                    selectionColor: "#87DCE7"
-                    selectedTextColor: "#2E3138"
-
-                }
             }
 
             Rectangle
             {
                 Layout.fillWidth: true
-                Layout.rightMargin: 10
-                height: textResponse.height
+                Layout.topMargin: 0
+                Layout.alignment: Qt.AlignTop
+                implicitHeight: textResponse.height
                 radius: 2
                 color: currTheme.secondaryBackground
 
@@ -133,8 +137,9 @@ DapConsoleScreenForm
                 TextEdit
                 {
                     width: parent.width
-                    leftPadding: 5
+                    leftPadding: 4
                     bottomPadding: 3
+                    topPadding: 1
                     readOnly: true
                     selectByMouse: true
                     id: textResponse
@@ -146,6 +151,10 @@ DapConsoleScreenForm
                     selectionColor: "#AABCDE"
                     selectedTextColor: "#2E3138"
                 }
+            }
+
+            Item {
+                Layout.fillHeight: true
             }
         }
     }

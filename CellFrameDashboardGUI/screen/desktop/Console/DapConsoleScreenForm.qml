@@ -47,9 +47,12 @@ Page
             {
                 id: listViewConsoleCommand
                 anchors.fill: parent
-                anchors.bottomMargin: 40
-                anchors.leftMargin: 20 *pt
-                anchors.topMargin: 20 *pt
+                anchors.bottomMargin: 16 *pt
+
+                anchors.leftMargin: 16 *pt
+                anchors.rightMargin: 16 *pt
+
+                anchors.topMargin: 16 *pt
                 height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
                             contentHeight :
                             (consoleRectangle.height - inputCommand.height)
@@ -58,7 +61,7 @@ Page
                 delegate: delegateConsoleCommand
                 cacheBuffer: 10000
 
-                spacing: 5
+                spacing: 0
 
                 currentIndex: count - 1
                 highlightFollowsCurrentItem: true
