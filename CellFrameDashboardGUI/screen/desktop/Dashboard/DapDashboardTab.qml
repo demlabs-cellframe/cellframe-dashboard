@@ -67,6 +67,8 @@ DapPage
             modulesController.feeUpdate = false
             txExplorerModule.statusProcessing = true
 
+            state = "WALLETSHOW"
+
             dapRightPanel.push(doneWallet)
         }
 
@@ -112,7 +114,7 @@ DapPage
             dapRightPanel.clear()
             dapRightPanel.push(lastActionsWallet)
 
-            if(!dapModelWallets.count)
+            if(!walletModelList.count)
                 state = "WALLETDEFAULT"
             else
                 state = "WALLETSHOW"
@@ -124,13 +126,6 @@ DapPage
         DapDashboardTopPanel
         {
             id: dashboardTopPanel
-            onChangeWalletIndex:{
-                dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
-                txExplorerModule.setWalletName(modulesController.currentWalletName)
-                txExplorerModule.updateHistory(true)
-                navigator.popPage()
-                logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
-            }
         }
 
     dapScreen.initialItem:
@@ -147,144 +142,70 @@ DapPage
 
     state: "WALLETDEFAULT"
 
-    states:
-    [
-        State
-        {
-            name: "WALLETDEFAULT"
-            PropertyChanges
-            {
-                target: dashboardScreen.walletDefaultFrame
-                visible: true
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.walletShowFrame
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.layout
-                visible: false
-            }
-
-            //...
-            PropertyChanges
-            {
-                target: dashboardScreen.walletCreateFrame;
-                visible: false
-            }
-        },
-        State
-        {
-            name: "WALLETSHOW"
-            PropertyChanges
-            {
-                target: dashboardScreen.walletDefaultFrame
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.walletShowFrame
-                visible: true
-            }
-
-            PropertyChanges
-            {
-                target: dashboardTopPanel.layout
-                visible: true
-            }
-
-            //...
-            PropertyChanges
-            {
-                target: dashboardScreen.walletCreateFrame;
-                visible: false
-            }
-        },
-        State
-        {
-            name: "WALLETCREATE"
-            PropertyChanges
-            {
-                target: dashboardScreen.walletDefaultFrame;
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.walletShowFrame
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.layout
-                visible: false
-            }
-
-            //...
-            PropertyChanges
-            {
-                target: dashboardScreen.walletCreateFrame;
-                visible: true
-            }
-        }
-    ]
 
 
     Connections
     {
         target: walletModule
-        function onSigWalletsInfo(model)
-        {
-            logicWallet.updateWalletsModel(model)
-
-            if(!dapModelWallets.count)
-            {
-                if(state !== "WALLETCREATE")
-                {
-                    state = "WALLETDEFAULT"
-                    navigator.popPage()
-                    txExplorerModule.clearHistory()
-                }
-            }
-            walletsUpdated()
-
-            var item = dapModelWallets.get(modulesController.currentWalletIndex);
-            if(modulesController.currentWalletIndex >= 0 && item.status)
-                logicWallet.walletStatus = item.status || ""
-        }
         function onSigWalletInfo(model)
         {
 
-            var item = dapModelWallets.get(modulesController.currentWalletIndex);
+            var item = walletModelList.get(walletModule.getCurrentIndex());
 
-//            console.log(model)
+            if(walletModule.getCurrentIndex() >= 0 && item.statusProtected)
+                walletModelList.get(walletModule.getCurrentIndex()).statusProtected = item.statusProtected || ""
 
-            logicWallet.updateWallet(model)
+        }
+    }
 
-            if(modulesController.currentWalletIndex >= 0 && item.status)
-                logicWallet.walletStatus = item.status || ""
+    function updateScreen()
+    {
+        console.log("UPDATE")
+        console.log("UPDATE walletModelList.count = " + walletModelList.count)
+        console.log("UPDATE walletModelList.get(walletModule.getCurrentIndex()).walletName = " + walletModelList.get(walletModule.getCurrentIndex()).walletName)
+        console.log("UPDATE walletModelList.get(walletModule.getCurrentIndex()).isLoad = " + walletModelList.get(walletModule.getCurrentIndex()).isLoad)
+        // top panel
+        // If there are no wallets, then remove the top panel
+        dashboardTopPanel.layout.visible = walletModelList.count 
 
+        // If there are no wallets or the data has not loaded.
+        dashboardScreen.walletDefaultFrame.visible = (walletModelList.count || !walletModelList.get(walletModule.getCurrentIndex()).isLoad)
+
+        dashboardScreen.walletShowFrame.visible = (walletModelList.count && walletModelList.get(walletModule.getCurrentIndex()).isLoad)
+
+        dashboardScreen.walletCreateFrame.visible = (state === "WALLETCREATE" &&  !walletModelList.count)
+    }
+
+    Connections
+    {
+        target: walletModule
+
+        function onCurrentWalletChanged()
+        {
+            console.log("onCurrentWalletChanged")
+            updateScreen()
+            txExplorerModule.setWalletName(walletModule.getCurrentWalletName())
+            txExplorerModule.clearHistory()
+            txExplorerModule.updateHistory(true)
+        }
+
+        function onListWalletChanged()
+        {
+            console.log("onListWalletChanged")
+            updateScreen()                    
+        }
+
+        function onWalletsModelChanged()
+        {
+            console.log("onWalletsModelChanged")
+            updateScreen()
         }
     }
 
     Component.onCompleted:
     {
-//        console.log(dashboardScreen.listViewWallet.model)
-//        console.log(dapModelWallets.get(modulesController.currentWalletIndex).networks)
-//        dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
-//
-
-        if(dapModelWallets.count)
-        {
-            dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
-            if(dashboardTab.state != "WALLETCREATE")
-                dashboardTab.state = "WALLETSHOW"
-        }
-        else
-        {
-            walletModule.getWalletsInfo("true")
-        }
+        console.log("onCompleted")
+        updateScreen()
 
         walletModule.statusProcessing = true
         txExplorerModule.statusProcessing = true

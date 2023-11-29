@@ -59,7 +59,7 @@ DapPage
         onTriggered:
         {
             logicMainApp.requestToService("DapGetXchangeOrdersList")
-            logicMainApp.requestToService("DapGetWalletsInfoCommand","true");
+//            logicMainApp.requestToService("DapGetWalletsInfoCommand","true");
         }
     }
 

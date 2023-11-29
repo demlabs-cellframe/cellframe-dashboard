@@ -1,7 +1,7 @@
 QT += qml quick widgets svg network
 
 include(../config.pri)
-
+include (Models/Models.pri)
 TARGET = $${BRAND}
 
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
@@ -12,11 +12,6 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
-    Models/AbstractModels/DapAbstractDiagnosticModel.h \
-    Models/AbstractModels/DapAbstractWalletList.h \
-    Models/DapDiagnosticModel.h \
-    Models/DapHistoryModel.h \
-    Models/DapWalletListModel.h \
     Modules/Certificates/DapModuleCertificates.h \
     Modules/Console/DapModuleConsole.h \
     Modules/Console/consoleitem.h \
@@ -31,9 +26,9 @@ HEADERS += $$PWD/DapServiceController.h \
     Modules/Logs/logmodel.h \
     Modules/Logs/logreader.h \
     Modules/Settings/DapModuleSettings.h \
-    Modules/Test/DapModuleTest.h \
     Modules/Tokens/DapModuleTokens.h \
     Modules/TxExplorer/DapModuleTxExplorer.h \
+    Modules/Wallet/CommonWallet/DapWalletInfo.h \
     Modules/Wallet/DapModuleWallet.h \
     Modules/Wallet/DapTxWorker.h \
     Modules/Wallet/WalletRestore/randomfile.h \
@@ -69,11 +64,6 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
-    Models/AbstractModels/DapAbstractDiagnosticModel.cpp \
-    Models/AbstractModels/DapAbstractWalletList.cpp \
-    Models/DapDiagnosticModel.cpp \
-    Models/DapHistoryModel.cpp \
-    Models/DapWalletListModel.cpp \
     Modules/Certificates/DapModuleCertificates.cpp \
     Modules/Console/DapModuleConsole.cpp \
     Modules/DapAbstractModule.cpp \
@@ -86,7 +76,6 @@ SOURCES += $$PWD/main.cpp \
     Modules/Logs/logmodel.cpp \
     Modules/Logs/logreader.cpp \
     Modules/Settings/DapModuleSettings.cpp \
-    Modules/Test/DapModuleTest.cpp \
     Modules/Tokens/DapModuleTokens.cpp \
     Modules/TxExplorer/DapModuleTxExplorer.cpp \
     Modules/Wallet/DapModuleWallet.cpp \

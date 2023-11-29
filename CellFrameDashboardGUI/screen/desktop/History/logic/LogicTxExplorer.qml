@@ -17,7 +17,7 @@ QtObject {
     {
 //        console.log(modulesController.currentWalletName, txExplorerModule.walletName)
 
-        if (modulesController.currentWalletIndex >=0 && modulesController.currentWalletName !== txExplorerModule.walletName)
+        if (walletModule.getCurrentIndex() >=0 && modulesController.currentWalletName !== txExplorerModule.walletName)
             txExplorerModule.setWalletName(modulesController.currentWalletName)
         txExplorerModule.updateHistory(true)
     }

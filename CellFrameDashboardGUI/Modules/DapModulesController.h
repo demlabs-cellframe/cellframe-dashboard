@@ -19,17 +19,24 @@ public:
     DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent = nullptr);
     ~DapModulesController();
 
+    DapServiceController* getServiceController() {return s_serviceCtrl;}
+    QSettings* getSettings() {return s_settings;}
+    void tryStartModules() { emit initDone(); }
+    const QStringList& getNetworkList() const {return m_netList;}
+    void setCurrentWallet(const QPair<int,QString>& dataWallet);
+    void setWalletList(const QStringList& walletList);
+    const QStringList& getWalletList() const { return m_walletList; }
+    int getCurrentWalletIndex() const { return m_currentWalletIndex; }
+    const QString& getCurrentWalletName() const { return m_currentWalletName; }
+
     QQmlApplicationEngine *s_appEngine;
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
     QMap<QString, QObject*> m_listWorkers;
 
-    DapServiceController *s_serviceCtrl;
+    DapServiceController *s_serviceCtrl;   
+    // QByteArray m_walletList;
 
-    QVariantList m_netList;
-    QByteArray m_walletList;
-    int m_currentWalletIndex{-1};
-    QString m_currentWalletName{""};
 
     Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
     int currentWalletIndex(){return m_currentWalletIndex;};
@@ -62,7 +69,7 @@ public:
 
     void addWorker(const QString &key, QObject *p_worker);
     QObject* getWorker(const QString &key);
-
+    QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
 private:
     QTimer *m_timerUpdateData, *m_timerUpdateFee;
@@ -70,15 +77,19 @@ private:
 
     bool m_firstDataLoad{false};
     bool m_flagFeeUpdate{false};
+    
+    QStringList m_netList;
 
+    QStringList m_walletList;
+    int m_currentWalletIndex{-1};
+    QString m_currentWalletName{""};
 public slots:
-    Q_INVOKABLE void getWalletList();
-    Q_INVOKABLE void getNetworkList();
+    Q_INVOKABLE void updateListWallets();
+    Q_INVOKABLE void updateListNetwork();
     Q_INVOKABLE void getFee();
 
 private slots:
 
-    void rcvWalletList(const QVariant &rcvData);
     void rcvNetList(const QVariant &rcvData);
     void rcvFee(const QVariant &rcvData);
 

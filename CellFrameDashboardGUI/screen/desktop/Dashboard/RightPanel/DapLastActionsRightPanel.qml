@@ -45,8 +45,8 @@ DapLastActionsRightPanelForm
 
             console.log(modulesController.currentWalletName, txExplorerModule.walletName)
 
-            if (modulesController.currentWalletIndex >=0 &&
-                modulesController.currentWalletIndex < dapModelWallets.count &&
+            if (walletModule.getCurrentIndex() >=0 &&
+                walletModule.getCurrentIndex() < walletModelList.count &&
                 modulesController.currentWalletName !== txExplorerModule.walletName)
                 txExplorerModule.setWalletName(modulesController.currentWalletName)
 
@@ -59,8 +59,8 @@ DapLastActionsRightPanelForm
         console.log(modulesController.currentWalletName, txExplorerModule.walletName)
 
         txExplorerModule.setLastActions(true)
-        if (modulesController.currentWalletIndex >=0 &&
-            modulesController.currentWalletIndex < dapModelWallets.count &&
+        if (walletModule.getCurrentIndex() >=0 &&
+            walletModule.getCurrentIndex() < walletModelList.count &&
             modulesController.currentWalletName !== txExplorerModule.walletName)
             txExplorerModule.setWalletName(modulesController.currentWalletName)
         lastHistoryLength = 0
