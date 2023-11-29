@@ -39,20 +39,19 @@ Item
     property string enabledIcon:""
     property string disabledIcon:""
 
-    signal itemSelected(var index)
+    // signal itemSelected(var index)
 
     onModelChanged:
     {
-//        print("DapCustomComboBox", "onModelChanged",
-//              "popupListView.currentIndex", popupListView.currentIndex,
-//              "name", model.get(modulesController.currentWalletIndex).name)
-
+        print("DapCustomComboBox", "onModelChanged",
+              "popupListView.currentIndex", popupListView.currentIndex,
+              "name", model.get(walletModule.getCurrentIndex()).walletName)
 
         if (popupListView.currentIndex < 0)
 //            displayText = getModelData(0, mainTextRole)
             displayText = defaultText
         else
-            displayText = model.get(modulesController.currentWalletIndex).name
+            displayText = model.get(walletModule.getCurrentIndex()).walletName
     }
 
     onCountChanged:
@@ -60,9 +59,9 @@ Item
 //        print("DapCustomComboBox", "onCountChanged",
 //              "popupListView.currentIndex", popupListView.currentIndex)
         if (popupListView.currentIndex < 0)
-            displayText = model.get(0).name
+            displayText = model.get(0).walletName
         else
-            displayText = model.get(modulesController.currentWalletIndex).name
+            displayText = model.get(walletModule.getCurrentIndex()).walletName
     }
 
     Rectangle
@@ -150,9 +149,6 @@ Item
 
             popup.visible = popupVisible
 
-//            print("DapCustomComboBox", "mouseArea",
-//                  "popupVisible", popupVisible)
-
             if (popupVisible)
             {
                 popupListView.positionViewAtIndex(
@@ -165,12 +161,7 @@ Item
     {
         id: popup
 
-//        visible: popupVisible
-
         scale: mainWindow.scale
-
-//        x: 0
-//        y: mainItem.height
 
         x: -width*(1/scale-1)*0.5
         y: mainItem.height - height*(1/scale-1)*0.5
@@ -182,10 +173,6 @@ Item
 
         onVisibleChanged:
         {
-//            print("DapCustomComboBox", "onVisibleChanged",
-//                  "visible", visible,
-//                  "popupVisible", popupVisible)
-
             if (!mouseArea.containsMouse &&
                 visible === false && popupVisible === true)
                 popupVisible = false
@@ -206,8 +193,6 @@ Item
             ListView
             {
                 id: popupListView
-
-//                visible: popupVisible
 
                 x: popupBackground.border.width
                 y: popupBackground.border.width
@@ -241,7 +226,7 @@ Item
                         Text
                         {
                             Layout.fillWidth: true
-                            text: name
+                            text: walletName
                             color: area.containsMouse ?
                                        currTheme.boxes :
                                        currTheme.white
@@ -250,23 +235,11 @@ Item
                             verticalAlignment: Text.AlignVCenter
                         }
 
-//                        Text
-//                        {
-//                            text: getModelData(index, secondTextRole)
-//                            color: area.containsMouse ?
-//                                       currTheme.boxes :
-//                                       currTheme.white
-//                            font.family: mainItem.font.family
-//                            font.pointSize: mainItem.font.pointSize - 3
-//                            elide: Text.ElideRight
-//                            verticalAlignment: Text.AlignVCenter
-//                        }
-
                         Image{
                             id: statusIcon
-                            visible: statusProtect === "" ? false : true
+                            visible: statusProtected === "" ? false : true
                             // wallets combobox
-                            source: statusProtect === "Active" ? enabledIcon : disabledIcon
+                            source: statusProtected === "Active" ? enabledIcon : disabledIcon
                             mipmap: true
 
                         }
@@ -281,15 +254,15 @@ Item
                         {
                             popupListView.currentIndex = index
                             popup.visible = false
-                            itemSelected(index)
+                            walletModule.setCurrentWallet(walletName)
                         }
                     }
                 }
 
                 onCurrentIndexChanged:
                 {
-                    displayText = model.get(currentIndex).name
-                    mainItem.currentIndex = currentIndex
+                    displayText = walletModule.getCurrentWalletName()
+                    mainItem.currentIndex = walletModule.getCurrentIndex()
                 }
 
             }
@@ -322,22 +295,6 @@ Item
         }
     }
 
-//    function getModelData(index, role)
-//    {
-//        if(count <= 0)
-//            return ""
-
-//        if (model.get(index) === undefined)
-//            return ""
-
-//        var text = model.get(index)[role]
-
-//        if (text === undefined)
-//            return ""
-//        else
-//            return text;
-//    }
-
     function setCurrentIndex(index)
     {
         // Check and fix different between models
@@ -354,6 +311,5 @@ Item
 
         popupListView.currentIndex = index
         mainItem.currentIndex = index
-//        currentIndex = index
     }
 }

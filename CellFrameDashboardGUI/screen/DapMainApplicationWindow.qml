@@ -624,21 +624,6 @@ Rectangle {
 //            logicMainApp.rcvWallet(wallet)
 //        }
 
-        function onCurrentNetworkChanged()
-        {
-            for(var x = 0; x < dapModelWallets.count; x++)
-            {
-                if(dapModelWallets.get(x).networks)
-                {
-                    if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentWalletIndextIndex).name)
-                        for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
-                        {
-                            if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
-                                vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
-                        }
-                }
-            }
-        }
 
 //        function onOrdersReceived(orderList)
 //        {

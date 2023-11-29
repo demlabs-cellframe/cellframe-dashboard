@@ -23,6 +23,10 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
         initConnect();
         updateHistory(true);
     });
+    connect(m_modulesCtrl, &DapModulesController::currentWalletNameChanged, [this] ()
+            {
+                this->setWalletName(m_modulesCtrl->getCurrentWalletName());
+            });
 }
 
 void DapModuleTxExplorer::initConnect()
@@ -213,7 +217,7 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
 {
 //    model.clear();
 
-    if(m_walletName != m_modulesCtrl->m_currentWalletName || !fullModel.size())
+    if(m_walletName != m_modulesCtrl->getCurrentWalletName() || !fullModel.size())
     {
         s_historyModel->clear();
         return;
@@ -393,19 +397,13 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
+    QString currantWalletName = m_modulesCtrl->currentWalletName();
 
-    if(doc.array().isEmpty())
-    {
-        setStatusInit(true);
-        setWalletName("");
-    }
-
-    if((doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0)) || isSendReqeust)
+    if((currantWalletName.isEmpty() && (m_modulesCtrl->getCurrentWalletIndex() < 0)) || isSendReqeust)
         return ;
 
     m_timerHistoryUpdate->stop();
-    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->m_currentWalletName << flag << m_isLastActions);
+    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->getCurrentWalletName() << flag << m_isLastActions);
     m_timerHistoryUpdate->start(10000);
     isSendReqeust = true;
 }

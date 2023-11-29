@@ -44,7 +44,7 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
             Layout.fillHeight: true
             spacing: 16
-            visible: logicWallet.spiner === true
+            visible: !listViewWallet.visible 
 
             Item{Layout.fillHeight: true}
 
@@ -100,7 +100,7 @@ DapRectangleLitAndShaded
                 textButton: qsTr("Unlock wallet")
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText:Qt.AlignCenter
-                onClicked: walletActivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, false)
+                onClicked: walletActivatePopup.show(dapModelWallets.get(walletModule.getCurrentIndex()).name, false)
             }
 
             Item{Layout.fillHeight: true}
@@ -112,7 +112,8 @@ DapRectangleLitAndShaded
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
-            visible: logicWallet.walletStatus !== "non-Active" && logicWallet.spiner !== true
+            visible: walletModelList.get(walletModule.getCurrentIndex()).statusProtected !== "non-Active"
+            model:walletModelInfo
 
             delegate: delegateTokenView
         }
@@ -144,7 +145,7 @@ DapRectangleLitAndShaded
                             font: mainFont.dapFont.medium12
                             color: currTheme.white
                             verticalAlignment: Qt.AlignVCenter
-                            text: name
+                            text: networkName
                         }
 
                         Item{Layout.fillWidth: true}
@@ -172,27 +173,16 @@ DapRectangleLitAndShaded
                             id: networkAddressCopyButton
                             onCopyClicked: textMetworkAddress.copyFullText()
                             Layout.alignment: Qt.AlignRight
-//                                    anchors.verticalCenter: parent.verticalCenter
-//                                    anchors.right: parent.right
-//                                    anchors.rightMargin: 16
                             popupText: qsTr("Address copied")
                         }
                     }
-
-/*                            CopyButton
-                    {
-                        id: networkAddressCopyButton
-                        onCopyClicked: textMetworkAddress.copyFullText()
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: 16 * pt
-                    }*/
                 }
 
                 Repeater
                 {
                     width: parent.width
-                    model: tokens
+                    model: networkTokensModel
+
 
                     Rectangle
                     {
@@ -213,7 +203,7 @@ DapRectangleLitAndShaded
                                 id: currencyName
                                 font: mainFont.dapFont.regular16
                                 color: currTheme.white
-                                text: name
+                                text: tokenName
                                 width: 172
                                 horizontalAlignment: Text.AlignLeft
                             }
@@ -227,7 +217,7 @@ DapRectangleLitAndShaded
                                     id: currencySum
                                     anchors.fill: parent
                                     textFont: mainFont.dapFont.regular14
-                                    fullText: coins
+                                    fullText: value
                                     horizontalAlign: Text.AlignRight
                                 }
                             }
@@ -239,7 +229,7 @@ DapRectangleLitAndShaded
                                 id: currencyCode
                                 font: mainFont.dapFont.regular14
                                 color: currTheme.white
-                                text: name
+                                text: tiker
                                 horizontalAlignment: Text.AlignRight
                             }
                         }
@@ -256,6 +246,29 @@ DapRectangleLitAndShaded
                     }
                 }
             }
+        }
+    }
+
+    function updateVisibleList()
+    {
+        console.log("MODEL = " + walletModelList)
+        console.log("index = " + walletModule.getCurrentIndex())
+        console.log("STATUS = " + walletModelList.get(walletModule.getCurrentIndex()).statusProtected)
+        listViewWallet.visible = walletModelList.get(walletModule.getCurrentIndex()).statusProtected !== "non-Active"
+    }
+
+    Connections
+    {
+        target: walletModule
+
+        function onCurrentWalletChanged()
+        {
+            updateVisibleList()
+        }
+
+        function onWalletsModelChanged()
+        {
+            updateVisibleList()
         }
     }
 }

@@ -1,7 +1,7 @@
 QT += qml quick widgets svg network
 
 include(../config.pri)
-
+include (Models/Models.pri)
 TARGET = $${BRAND}
 
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
@@ -14,12 +14,6 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
-    Models/AbstractModels/DapAbstractDiagnosticModel.h \
-    Models/AbstractModels/DapAbstractWalletList.h \
-    Models/DapDiagnosticModel.h \
-    Models/DapHistoryModel.h \
-    Models/DapOrdersModel.h \
-    Models/DapWalletListModel.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
     Workers/mathworker.h \
@@ -41,12 +35,6 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
-    Models/AbstractModels/DapAbstractDiagnosticModel.cpp \
-    Models/AbstractModels/DapAbstractWalletList.cpp \
-    Models/DapDiagnosticModel.cpp \
-    Models/DapHistoryModel.cpp \
-    Models/DapOrdersModel.cpp \
-    Models/DapWalletListModel.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \
     Workers/mathworker.cpp \
