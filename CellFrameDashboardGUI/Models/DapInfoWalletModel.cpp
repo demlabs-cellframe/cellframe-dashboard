@@ -360,3 +360,20 @@ DapTokensWalletModel* DapInfoWalletModel::getModel(int index) const
     }
     return m_items[index]->networkTokensModel;
 }
+
+DapTokensWalletModel* DapInfoWalletModel::getModel(const QString& networkName) const
+{
+    if( m_items.isEmpty())
+    {
+        return new DapTokensWalletModel();
+    }
+
+    for(const auto& item: m_items)
+    {
+        if(item->networkName == networkName)
+        {
+            return item->networkTokensModel;
+        }
+    }
+    return new DapTokensWalletModel();
+}

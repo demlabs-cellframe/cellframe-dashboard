@@ -302,7 +302,7 @@ Popup {
     }
 
     function smartOpen(title, contentText) {
-        feeStruct = txWorker.getFee(network);
+        feeStruct = walletModule.getFee(network);
 
         if(feeStruct.error === 0)
         {

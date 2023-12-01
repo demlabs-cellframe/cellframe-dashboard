@@ -106,6 +106,7 @@ public:
     void updateModel(const QMap<QString, CommonWallet::WalletNetworkInfo>& networksInfo);
 
     Q_INVOKABLE DapTokensWalletModel* getModel(int index) const;
+    Q_INVOKABLE DapTokensWalletModel* getModel(const QString& networkName) const;
     /// remove one item
     Q_INVOKABLE void remove (int a_index);
     /// access item by index

@@ -65,7 +65,6 @@ Controls.DapTopPanel
             color: area.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
 
             visible: isModel
-            
             Image{
                 anchors.centerIn: parent
                 source:
@@ -73,10 +72,8 @@ Controls.DapTopPanel
                     console.log(" WALLET STATUS = " + statusProtected)
                     if(statusProtected === "")
                     {
-                        console.log(" WALLET STATUS IN = " + statusProtected)
                         return "qrc:/Resources/BlackTheme/icons/other/icon_activate_pass.svg"
                     }
-                    console.log(" WALLET STATUS OUT = " + statusProtected)
                     return statusProtected === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
                                                                                          : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
                 }
@@ -162,26 +159,26 @@ Controls.DapTopPanel
         }
     }
 
-    function updateStatusProtected()
+    function updateStatusWalletInfo()
     {
+        isModel = !walletModelList.count ? false : true
         statusProtected = walletModelList.get(walletModule.getCurrentIndex()).statusProtected
     }
-
+    
     Connections
     {
         target: walletModule
 
         function onCurrentWalletChanged()
         {
-            updateStatusProtected()
+            updateStatusWalletInfo()
             comboBoxCurrentWallet.setCurrentIndex(walletModule.getCurrentIndex())
             comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
         }
 
         function onWalletsModelChanged()
         {
-            isModel = !walletModelList.count ? false : true
-            updateStatusProtected()
+            updateStatusWalletInfo()
         }
 
         function onListWalletChanged()
@@ -196,5 +193,10 @@ Controls.DapTopPanel
                 comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
             }
         }
+    }
+    
+    Component.onCompleted:
+    {
+        updateStatusWalletInfo()
     }
 }

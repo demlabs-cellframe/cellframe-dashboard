@@ -59,13 +59,13 @@ Controls.DapTopPanel
         {
             id: textNameWallet
             height: 42
-//            text: dapModelWallets.get(logicMainApp.currentWalletIndex).name
+//            text: walletModelList.get(walletModule.getCurrentIndex()).walletName
             Layout.alignment: Qt.AlignVCenter
             Layout.maximumWidth: 220
             Layout.minimumWidth: 220
 //            Layout.leftMargin: 4
             Layout.leftMargin: 19
-            fullText: dapModelWallets.get(logicMainApp.currentWalletIndex).name
+            fullText: walletModelList.get(walletModule.getCurrentIndex()).walletName
 
             textFont: mainFont.dapFont.regular14
         }
