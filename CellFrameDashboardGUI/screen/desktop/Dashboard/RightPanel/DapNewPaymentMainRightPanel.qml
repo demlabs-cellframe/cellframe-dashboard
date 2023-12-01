@@ -4,47 +4,28 @@ DapNewPaymentMainRightPanelForm
 {
     Component.onCompleted:
     {
-//        updateWalletTimer.stop()
         walletModule.timerUpdateFlag(false);
-
-        logicWallet.initNetworks()
 
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
         else
             dapChainGroup.visible = false
 
-        dapComboBoxNetworkModel = dapNetworkModel
-
         dapTextNotEnoughTokensWarning.text = ""
+        walletModule.startUpdateFee()
+        balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+                         + " " + dapComboBoxToken.displayText
 
-        dapComboBoxTokenModel = networksModel.
-            get(dapComboboxNetwork.currentIndex).tokens
-
-        dapComboBoxChainModel = networksModel.
-            get(dapComboboxNetwork.currentIndex).chains
-
-        balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
-
-//        dapTextInputAmountPayment.text = "0.0"
     }
     dapComboboxNetwork.onCurrentIndexChanged:
     {
-        if (networksModel.count <= dapComboboxNetwork.currentIndex)
+        if (walletModelInfo.count <= dapComboboxNetwork.currentIndex)
         {
-            console.warn("networksModel.count <= dapComboboxNetwork.currentIndex")
+            console.warn("walletModelInfo.count <= dapComboboxNetwork.currentIndex")
         }
         else
         {
             console.log("dapComboboxNetwork.onCurrentIndexChanged")
-
-            dapComboBoxTokenModel = networksModel.
-                get(dapComboboxNetwork.currentIndex).tokens
-
-            dapComboBoxChainModel = networksModel.
-                get(dapComboboxNetwork.currentIndex).chains
-
-            console.log("dapComboBoxTokenModel length", dapComboBoxTokenModel.count)
 
             if (dapComboBoxTokenModel.count === 0)
             {
@@ -65,24 +46,22 @@ DapNewPaymentMainRightPanelForm
                 dapButtonSend.visible = true
             }
             if(dapComboboxNetwork.displayText !== "")
-                modulesController.getComission(dapComboboxNetwork.displayText)
-//            console.log("NETWORK SELECTED ", dapComboboxNetwork.displayText)
-//            dapTextInputAmountPayment.text = ""
-            balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
+                walletModule.getComission(dapComboboxNetwork.displayText)
+
+            balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+                                 + " " + dapComboBoxToken.displayText
 
         }
     }
 
     dapComboBoxToken.onCurrentIndexChanged:
     {
-//        dapTextInputAmountPayment.text = ""
-        balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
-
+        balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+                                 + " " + dapComboBoxToken.displayText
     }
 
     dapButtonClose.onClicked:
     {
-        modulesController.feeUpdate = false
         txExplorerModule.statusProcessing = true
         walletModule.timerUpdateFlag(true);
         pop()
@@ -96,7 +75,7 @@ DapNewPaymentMainRightPanelForm
         }
         else
         {
-            console.log("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi)
+            console.log("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).valueDatoshi)
             console.log("amount:", dapTextInputAmountPayment.text)
             console.log("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
@@ -135,12 +114,13 @@ DapNewPaymentMainRightPanelForm
                     "send_ticker"  : dapComboBoxToken.displayText,
                     "wallet_name"  : walletInfo.name}
 
-                    var res = txWorker.approveTx(data);
+                    var res = walletModule.approveTx(data);
 
                     switch(res.error) {
                     case 0:
                         console.log("Correct tx data")
                         console.log("dapWalletMessagePopup.smartOpen")
+                        walletModule.stopUpdateFee()
                         dapWalletMessagePopup.network = dapComboboxNetwork.displayText
                         dapWalletMessagePopup.smartOpen(
                                     qsTr("Confirming the transaction"),
@@ -179,6 +159,12 @@ DapNewPaymentMainRightPanelForm
         }
     }
 
+    Component.onDestruction:
+    {
+        console.log("The right panel for transferring funds was closed")
+        walletModule.stopUpdateFee()
+    }
+
     dapWalletMessagePopup.onSignalAccept:
     {
         console.log("dapWalletMessagePopup.onSignalAccept", accept)
@@ -196,7 +182,11 @@ DapNewPaymentMainRightPanelForm
             "wallet_to"    : dapTextInputRecipientWalletAddress.text}
 
             console.info(dataTx)
-            txWorker.sendTx(dataTx)
+            walletModule.sendTx(dataTx)
+        }
+        else
+        {
+            walletModule.startUpdateFee()
         }
     }
 

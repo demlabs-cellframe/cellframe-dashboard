@@ -100,7 +100,7 @@ DapRectangleLitAndShaded
                 textButton: qsTr("Unlock wallet")
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText:Qt.AlignCenter
-                onClicked: walletActivatePopup.show(dapModelWallets.get(walletModule.getCurrentIndex()).name, false)
+                onClicked: walletActivatePopup.show(walletModelList.get(walletModule.getCurrentIndex()).walletName, false)
             }
 
             Item{Layout.fillHeight: true}

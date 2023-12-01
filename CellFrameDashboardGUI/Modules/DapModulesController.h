@@ -43,16 +43,8 @@ public:
     void setCurrentWalletIndex(int newIndex);
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
     QString currentWalletName(){return m_currentWalletName;};
-    Q_PROPERTY(bool feeUpdate READ feeUpdate WRITE setFeeUpdate NOTIFY feeUpdateChanged)
-    bool feeUpdate(){return m_flagFeeUpdate;};
-    void setFeeUpdate(bool flag);
-
-    Q_INVOKABLE void getComission(QString network);
 
     QString testData{"test data"};
-
-    QJsonDocument m_feeDoc;
-
 
     //workers
     DateWorker * m_dateWorker;
@@ -72,12 +64,10 @@ public:
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
 private:
-    QTimer *m_timerUpdateData, *m_timerUpdateFee;
+    QTimer *m_timerUpdateData;
     QSettings *s_settings;
 
-    bool m_firstDataLoad{false};
-    bool m_flagFeeUpdate{false};
-    
+    bool m_firstDataLoad{false}; 
     QStringList m_netList;
 
     QStringList m_walletList;
@@ -86,12 +76,10 @@ private:
 public slots:
     Q_INVOKABLE void updateListWallets();
     Q_INVOKABLE void updateListNetwork();
-    Q_INVOKABLE void getFee();
 
 private slots:
 
     void rcvNetList(const QVariant &rcvData);
-    void rcvFee(const QVariant &rcvData);
 
 signals:
     void initDone();
@@ -103,7 +91,6 @@ signals:
     void sigFeeRcv(const QVariant &rcvData);
 
     void feeUpdateChanged();
-
 };
 
 #endif // DAPMODULESCONTROLLER_H

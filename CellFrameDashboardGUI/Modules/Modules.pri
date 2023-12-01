@@ -25,7 +25,6 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Tokens/DapModuleTokens.h \
     $$PWD/dApps/DapDappsNetworkManager.h \
     $$PWD/dApps/DapModuledApps.h \
-    $$PWD/Wallet/DapTxWorker.h \
     $$PWD/Wallet/WalletRestore/wallethashmanager.h \
     $$PWD/Wallet/WalletRestore/randomwords.h \
     $$PWD/Wallet/WalletRestore/randomfile.h \
@@ -53,7 +52,6 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/dApps/DapDappsNetworkManager.cpp \
     $$PWD/dApps/DapModuledApps.cpp \
     $$PWD/DapAbstractModule.cpp \
-    $$PWD/Wallet/DapTxWorker.cpp \
     $$PWD/Wallet/WalletRestore/wallethashmanager.cpp \
     $$PWD/Wallet/WalletRestore/randomwords.cpp \
     $$PWD/Wallet/WalletRestore/randomfile.cpp \

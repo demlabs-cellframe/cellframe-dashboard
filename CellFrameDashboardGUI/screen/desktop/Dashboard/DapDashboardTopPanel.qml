@@ -65,7 +65,6 @@ Controls.DapTopPanel
             color: area.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
 
             visible: isModel
-            
             Image{
                 anchors.centerIn: parent
                 source:
@@ -159,26 +158,26 @@ Controls.DapTopPanel
         }
     }
 
-    function updateStatusProtected()
+    function updateStatusWalletInfo()
     {
+        isModel = !walletModelList.count ? false : true
         statusProtected = walletModelList.get(walletModule.getCurrentIndex()).statusProtected
     }
-
+    
     Connections
     {
         target: walletModule
 
         function onCurrentWalletChanged()
         {
-            updateStatusProtected()
+            updateStatusWalletInfo()
             comboBoxCurrentWallet.setCurrentIndex(walletModule.getCurrentIndex())
             comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
         }
 
         function onWalletsModelChanged()
         {
-            isModel = !walletModelList.count ? false : true
-            updateStatusProtected()
+            updateStatusWalletInfo()
         }
 
         function onListWalletChanged()
@@ -193,5 +192,10 @@ Controls.DapTopPanel
                 comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
             }
         }
+    }
+    
+    Component.onCompleted:
+    {
+        updateStatusWalletInfo()
     }
 }

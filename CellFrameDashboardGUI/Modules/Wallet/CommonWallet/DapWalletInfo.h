@@ -31,6 +31,11 @@ namespace CommonWallet
         // networkName info
         QMap<QString, WalletNetworkInfo> walletInfo;
     };
-}
 
+    struct FeeInfo
+    {
+        QMap<QString, QString> netFee;
+        QMap<QString, QString> validatorFee;
+    };
+}
 #endif // DAPWALLETINFO_H

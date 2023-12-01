@@ -59,7 +59,15 @@ Controls.DapTopPanel
         
         DapWalletComboBox
         {
-            id: comboBoxCurrentWallet
+            id: textNameWallet
+            height: 42
+//            text: walletModelList.get(walletModule.getCurrentIndex()).walletName
+            Layout.alignment: Qt.AlignVCenter
+            Layout.maximumWidth: 220
+            Layout.minimumWidth: 220
+//            Layout.leftMargin: 4
+            Layout.leftMargin: 19
+            fullText: walletModelList.get(walletModule.getCurrentIndex()).walletName
 
             Layout.fillHeight: true
             Layout.topMargin: 9

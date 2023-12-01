@@ -53,7 +53,6 @@ DapPage
 
         function createWallet()
         {
-            modulesController.feeUpdate = false
             txExplorerModule.statusProcessing = false
 
             state = "WALLETCREATE"
@@ -64,7 +63,6 @@ DapPage
 
         function doneWalletFunc()
         {
-            modulesController.feeUpdate = false
             txExplorerModule.statusProcessing = true
 
             state = "WALLETSHOW"
@@ -74,7 +72,6 @@ DapPage
 
         function restoreWalletFunc()
         {
-            modulesController.feeUpdate = false
             txExplorerModule.statusProcessing = false
 
             state = "WALLETCREATE"
@@ -85,7 +82,6 @@ DapPage
 
         function recoveryWalletFunc()
         {
-            modulesController.feeUpdate = false
             txExplorerModule.statusProcessing = false
 
             dapRightPanel.push(recoveryWallet)
@@ -93,7 +89,6 @@ DapPage
 
         function newPayment()
         {
-            modulesController.feeUpdate = true
             txExplorerModule.statusProcessing = false
 
             dapRightPanel.push(newPaymentMain)
@@ -102,14 +97,12 @@ DapPage
         function doneNewPayment()
         {
             txExplorerModule.statusProcessing = true
-            modulesController.feeUpdate = false
 
            dapRightPanel.push(newPaymentDone)
         }
 
         function popPage() {
             txExplorerModule.statusProcessing = true
-            modulesController.feeUpdate = false
 
             dapRightPanel.clear()
             dapRightPanel.push(lastActionsWallet)
@@ -204,7 +197,6 @@ DapPage
 
     Component.onCompleted:
     {
-        console.log("onCompleted")
         updateScreen()
 
         walletModule.statusProcessing = true
