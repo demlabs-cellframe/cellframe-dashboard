@@ -161,6 +161,7 @@
         <file>Resources/BlackTheme/icons/other/radio_btn_on.png</file>
         <file>Resources/BlackTheme/icons/other/receipt_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/search.svg</file>
+        <file>Resources/BlackTheme/icons/other/spinner_network.svg</file>
         <file>Resources/BlackTheme/icons/other/sync.svg</file>
         <file>Resources/BlackTheme/Illustratons/comingsoon_illustration.png</file>
         <file>Resources/BlackTheme/Illustratons/illustration_vpn-service.svg</file>
@@ -340,5 +341,10 @@
         <file>Resources/BlackTheme/icons/other/icon_wiki.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_activate_pass.svg</file>
         <file>screen/desktop/controls/DapContextMenu.qml</file>
+        <file>Resources/Translations/Translation_ru.qm</file>
+        <file>Resources/Translations/Translation_cs.qm</file>
+        <file>Resources/Translations/Translation_nl.qm</file>
+        <file>Resources/Translations/Translation_pt.qm</file>
+        <file>Resources/Translations/Translation_zh.qm</file>
     </qresource>
 </RCC>

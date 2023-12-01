@@ -10,7 +10,7 @@ DapPage
 {
     property string currentString: ""
     property string currentStatus: "All statuses"
-    property string currentPeriod: "all time"
+    property string currentPeriod: qsTr("All time")
     property bool isCurrentRange: false
     readonly property string infoAboutTx: path + "/History/DapHistoryRightPanelInfoTx.qml"
 

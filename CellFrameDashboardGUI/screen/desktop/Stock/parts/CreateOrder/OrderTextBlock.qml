@@ -45,7 +45,7 @@ Rectangle
             selectByMouse: true
             validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/}
 
-            placeholderText: qsTr("0.0")
+            placeholderText: "0.0"
             textColor: parent.enabled? currTheme.white: currTheme.gray
             font: mainFont.dapFont.regular16
             text: ""

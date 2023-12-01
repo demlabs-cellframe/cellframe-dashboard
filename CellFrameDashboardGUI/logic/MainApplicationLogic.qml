@@ -20,6 +20,9 @@ QtObject {
     property string currentWalletName: ""
     property string currentNetworkName: ""
 
+    property int currentLanguageIndex: 0
+    property string currentLanguageName: "en"
+
     readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
 
@@ -500,10 +503,33 @@ QtObject {
 //        }
 //    }
 
+    function serializeWebSite()
+    {
+        var result = "";    // for save settings
+        var blocklist = ""; // only blocked sites for service
+
+        for(var i = 0; i < dapWebSites.count; i++) {
+            var line = dapWebSites.get(i).site + "," + dapWebSites.get(i).enabled;
+            result = result + line + ";";
+
+            if(dapWebSites.get(i).enabled === false) blocklist = blocklist + dapWebSites.get(i).site + ";";
+        }
+
+        if(result.length > 0) {
+            // remove last ';'
+            result = result.slice(0,-1);
+            blocklist = blocklist.slice(0,-1);
+
+            notifyService("DapWebBlockList", blocklist);
+        }
+
+        return result;
+    }
+
     function rcvWebConnectRequest(rcvData)
     {
         var data = JSON.parse(rcvData)
-//        console.log(data, rcvData, data[0], data[1], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        console.log("[rcvWebConnectRequest] Received a signal from Web3")
         var isEqual = false
         //filtering equeal sites requests
         for(var i = 0; i < dapMessageBuffer.count; i++)

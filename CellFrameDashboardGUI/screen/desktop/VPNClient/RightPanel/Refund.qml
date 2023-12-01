@@ -258,7 +258,7 @@ Item
                             horizontalAlignment: Qt.AlignRight
                             color: currTheme.textColorGray
                             font: mainFont.dapFont.medium12
-                            text: "Available " + balance + " " + token
+                            text: qsTr("Available ") + balance + " " + token
                         }
                     }
                 }

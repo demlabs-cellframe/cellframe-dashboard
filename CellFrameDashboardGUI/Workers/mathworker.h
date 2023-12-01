@@ -7,12 +7,13 @@
 
 
 #include <dap_chain_common.h>
-
+#define dap_uint256_scan_uninteger dap_cvt_str_to_uint256
 class MathWorker : public QObject
 {
     Q_OBJECT
 
 public:
+
     MathWorker(QObject *parent = nullptr);
 
     Q_INVOKABLE QVariant multCoins(QVariant arg1, QVariant arg2,  QVariant getDatoshi);

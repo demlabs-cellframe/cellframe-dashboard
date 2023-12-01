@@ -132,11 +132,14 @@ Item {
 
             DapInfoButton {
                 id: buttonNetwork
+                isFakeStateButton: false
                 enabled: false
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Component.onCompleted: setText()
                 onClicked: {
+                    console.log("onClicked on/off network")
+                    buttonNetwork.updateFakeButton(true)
                     if (targetState !== "ONLINE" && networkState !== "ONLINE" )
                         logicMainApp.requestToService("DapNetworkGoToCommand", name, true)
                     else
@@ -148,6 +151,8 @@ Item {
 
                 function setText()
                 {
+                    console.log("setText()")
+                    buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
                     if (targetState !== "ONLINE" && networkState !== "ONLINE" )
                         buttonNetwork.textBut = qsTr("On network")
                     else
@@ -165,7 +170,7 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "State: "
+            staticText.text: qsTr("State: ")
             dynamicText.text: networkState
             onTextChangedSign: buttonNetwork.setText()
         }
@@ -192,7 +197,7 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "Target state: "
+            staticText.text: qsTr("Target state: ")
             dynamicText.text: targetState
             onTextChangedSign: buttonNetwork.setText()
         }
@@ -203,8 +208,8 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "Active links: "
-            dynamicText.text: activeLinksCount + " of " + linksCount
+            staticText.text: qsTr("Active links: ")
+            dynamicText.text: activeLinksCount + qsTr(" of ") + linksCount
         }
 
         DapRowInfoText
@@ -213,7 +218,7 @@ Item {
             Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
             Layout.preferredHeight: 15
 
-            staticText.text: "Address: "
+            staticText.text: qsTr("Address: ")
             dynamicText.text: nodeAddress + " "
 
             DapCopyButton
@@ -268,7 +273,8 @@ Item {
 //                smooth: false
                 fillMode: Image.PreserveAspectFit
 
-                source: networkState === "OFFLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg" :
+                source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
+                        networkState !== targetState ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
                         networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg"
 
