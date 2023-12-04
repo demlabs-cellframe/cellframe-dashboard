@@ -317,7 +317,7 @@ DapRectangleLitAndShaded {
 //                radius: currTheme.frameRadius
 
                 id:reloadDownload
-                textButton: "Reload"
+                textButton: qsTr("Reload")
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
             }
@@ -332,7 +332,7 @@ DapRectangleLitAndShaded {
 //                radius: currTheme.frameRadius
 
                 id: canceledDownload
-                textButton: "Cancel"
+                textButton: qsTr("Cancel")
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
             }

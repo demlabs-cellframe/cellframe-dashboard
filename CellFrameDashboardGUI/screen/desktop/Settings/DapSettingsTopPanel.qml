@@ -135,7 +135,7 @@ Controls.DapTopPanel
                 Text {
                     Layout.alignment: Qt.AlignLeft
 
-                    text: qsTr( "|" )
+                    text: "|"
                     font: mainFont.dapFont.regular13
                     color: currTheme.gray
                     elide: Text.ElideMiddle

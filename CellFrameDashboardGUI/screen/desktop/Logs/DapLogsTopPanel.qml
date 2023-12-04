@@ -59,7 +59,7 @@ Controls.DapTopPanel
         FileDialog
         {
             id: saveDialog
-            title: "Save the file"
+            title: qsTr("Save the file")
             fileMode: FileDialog.SaveFile
             nameFilters: filterFileArray
             selectedNameFilter.index: 0

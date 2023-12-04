@@ -9,7 +9,7 @@ MathWorker::MathWorker(QObject *parent) :
 void MathWorker::test()
 {
 
-//    uint256_t a = dap_cvt_str_to_uint256();     //str -> uint256
+//    uint256_t a = dap_uint256_scan_uninteger();     //str -> uint256
 //    uint256_t b = dap_chain_coins_to_balance(); //strCoins - > uint256 balance
 //    QString c = dap_chain_balance_to_coins ();  //uint256 balance -> str coins
 //    QString d = dap_chain_balance_print ();      //uint256 balance -> str balance
@@ -22,8 +22,8 @@ void MathWorker::test()
 //    uint64_t convertTest2 = 0.5f;
 //    uint256_t test2 = dap_chain_uint256_from(convertTest2);
 
-    uint256_t test = dap_cvt_str_to_uint256(testStr.toStdString().data());
-    uint256_t test2 = dap_cvt_str_to_uint256(testStr2.toStdString().data());
+    uint256_t test = dap_uint256_scan_uninteger(testStr.toStdString().data());
+    uint256_t test2 = dap_uint256_scan_uninteger(testStr2.toStdString().data());
 //    qDebug()<< dap_chain_balance_to_coins(accum)
 
     uint256_t accum = {};
@@ -62,8 +62,8 @@ QVariant MathWorker::multCoins(QVariant  arg1, QVariant arg2, QVariant getDatosh
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
 
-    uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
-    uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
+    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
     uint256_t accum = {};
 
     MULT_256_COIN(arg1_256, arg2_256, &accum);
@@ -79,8 +79,8 @@ QVariant MathWorker::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
 
-    uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
-    uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
+    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
 
     uint256_t accum = {};
 
@@ -97,8 +97,8 @@ QVariant MathWorker::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDato
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
 
-    uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
-    uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
+    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
     uint256_t accum = {};
 
     MULT_256_256(arg1_256, arg2_256, &accum);
@@ -114,8 +114,8 @@ QVariant MathWorker::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatos
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
 
-    uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
-    uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
+    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
 
     uint256_t accum = {};
 
@@ -131,8 +131,8 @@ QVariant MathWorker::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return "0";
 
-    uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
-    uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
+    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
     uint256_t accum = {};
 
     SUM_256_256(arg1_256, arg2_256, &accum);
@@ -147,8 +147,8 @@ QVariant MathWorker::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return "0";
 
-    uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
-    uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
+    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
     uint256_t accum = {};
 
     SUBTRACT_256_256(arg1_256, arg2_256, &accum);
@@ -163,8 +163,8 @@ QVariant MathWorker::isEqual(QVariant arg1, QVariant arg2)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return true;
 
-    uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
-    uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
+    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
 
     return EQUAL_256(arg1_256, arg2_256);
 }
@@ -188,6 +188,6 @@ QVariant MathWorker::balanceToCoins(QVariant balance)
 {
     if(balance.toString().isEmpty()) return "0";
 
-    uint256_t convert =  dap_cvt_str_to_uint256(balance.toString().toStdString().data());
+    uint256_t convert =  dap_uint256_scan_uninteger(balance.toString().toStdString().data());
     return dap_chain_balance_to_coins(convert);
 }

@@ -246,7 +246,7 @@ DapRectangleLitAndShaded {
             Layout.maximumWidth: 281
 
             color: "#79FFFA"
-            text: qsTr("")
+            text: ""
             font: mainFont.dapFont.regular14
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter

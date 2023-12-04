@@ -13,6 +13,7 @@ class MathWorker : public QObject
     Q_OBJECT
 
 public:
+
     MathWorker(QObject *parent = nullptr);
 
     Q_INVOKABLE QVariant multCoins(QVariant arg1, QVariant arg2,  QVariant getDatoshi);

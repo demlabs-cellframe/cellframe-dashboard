@@ -190,6 +190,7 @@ FunctionEnd
 
 !macro modifyConfigFiles
 !insertmacro modifyConfigEntry "{DEBUG_MODE}" 			"false" "$ConfigPath\etc\${NODE_NAME}.cfg"
+!insertmacro modifyConfigEntry "{DB_DRIVER}" 			"mdbx" "$ConfigPath\etc\${NODE_NAME}.cfg"
 !insertmacro modifyConfigEntry "{DEBUG_STREAM_HEADERS}"	"false" "$ConfigPath\etc\${NODE_NAME}.cfg"
 !insertmacro modifyConfigEntry "{AUTO_ONLINE}"			"true"		"$ConfigPath\etc\${NODE_NAME}.cfg"
 !insertmacro modifyConfigEntry "{SERVER_ENABLED}"		"true"		"$ConfigPath\etc\${NODE_NAME}.cfg"

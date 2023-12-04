@@ -10,27 +10,27 @@ Item
     ListModel {
         id: statisticsModel
         ListElement {
-            name: "Download speed"
+            name: qsTr("Download speed")
             value: "10205 Mbps"
         }
         ListElement {
-            name: "Upload speed"
+            name: qsTr("Upload speed")
             value: "10205 Mbps"
         }
         ListElement {
-            name: "Download"
+            name: qsTr("Download")
             value: "20 896 Mb"
         }
         ListElement {
-            name: "Upload"
+            name: qsTr("Upload")
             value: "8 896 Mb"
         }
         ListElement {
-            name: "Packets received"
+            name: qsTr("Packets received")
             value: "4 086"
         }
         ListElement {
-            name: "Packets sent"
+            name: qsTr("Packets sent")
             value: "1 086"
         }
     }

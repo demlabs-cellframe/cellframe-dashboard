@@ -13,23 +13,23 @@ Item
     ListModel {
         id: infoModel
         ListElement {
-            name: "Escrow payment"
+            name: qsTr("Escrow payment")
             value: "500.22 KEL"
         }
         ListElement {
-            name: "Escrow spent"
+            name: qsTr("Escrow spent")
             value: "60 KEL"
         }
         ListElement {
-            name: "Escrow left"
+            name: qsTr("Escrow left")
             value: "440.22 KEL for 2m 30d 5h"
         }
         ListElement {
-            name: "Summary spent"
+            name: qsTr("Summary spent")
             value: "476 KEL"
         }
         ListElement {
-            name: "Summary left"
+            name: qsTr("Summary left")
             value: "476 KEL for 6m 10d 10h"
         }
     }

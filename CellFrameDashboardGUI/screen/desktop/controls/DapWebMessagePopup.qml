@@ -170,6 +170,7 @@ Page {
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked:{
+                    console.log("Connection window the Allow button is clicked");
                     logicMainApp.notifyService("DapWebConnectRequest",true, indexUser)
                     eventMessage("Allowed")
                 }
@@ -185,6 +186,7 @@ Page {
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: {
+                    console.log("Connection window the Allow button is clicked");
                     logicMainApp.notifyService("DapWebConnectRequest",false, indexUser)
                     eventMessage("Denied")
                 }
@@ -217,13 +219,13 @@ Page {
             checkButton.visible = false
             webSite = text
             indexUser = index
-            infoText.text = "The site " + text + " requests permission to work with your wallet"
+            infoText.text = qsTr("The site ") + text + qsTr(" requests permission to work with your wallet")
         }
         else
         {
             buttonsLayout.visible = false
             checkButton.visible = true
-            infoText.text = "You have " + text + " requests permission to work with your wallet"
+            infoText.text = qsTr("You have ") + text + qsTr(" requests permission to work with your wallet")
 
             if(isOpen)
                 y = stopY
@@ -243,6 +245,7 @@ Page {
 
     function open()
     {
+        console.log("[Open] Open the connection window with the client via Web3");
         isOpen = true
         y = stopY
     }
