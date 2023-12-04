@@ -5,7 +5,8 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "../../controls"
 import "qrc:/widgets"
-
+import "../../"
+import "qrc:/logic"
 import "qrc:/screen"
 
 ColumnLayout
@@ -130,9 +131,10 @@ ColumnLayout
                         borderColor: currTheme.reflectionLight
                         shadowColor: currTheme.shadowColor
 
-                        checked: enabled
+                        checked: dapWebSites.get(index).enabled
                         onToggled: {
                             dapWebSites.get(index).enabled = checked
+                            banSettings.webSites = logicMainApp.serializeWebSite()
                         }
                     }
                 }

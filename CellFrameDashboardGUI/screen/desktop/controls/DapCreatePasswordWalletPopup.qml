@@ -178,7 +178,7 @@ Item
                                      180,0,
                                      dapMainWindow.width*0.5,
                                      8,
-                                     "Wallet converted",
+                                     qsTr("Wallet converted"),
                                      "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
 
 
@@ -189,7 +189,7 @@ Item
                                      210,0,
                                      dapMainWindow.width*0.5,
                                      8,
-                                     "Error wallet convert",
+                                     qsTr("Error wallet convert"),
                                      "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
                      }
                      hide()
