@@ -30,7 +30,7 @@ DapTopPanel {
             Layout.fillWidth: true
             color: currTheme.textColor
             font: mainFont.dapFont.regular16
-            text: "1d 16h 34m 18s"
+            text: qsTr("1d 16h 34m 18s")
         }
 
         HeaderButtonForRightPanels

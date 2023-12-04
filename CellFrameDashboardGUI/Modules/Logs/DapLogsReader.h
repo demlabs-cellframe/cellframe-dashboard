@@ -10,13 +10,13 @@ class DapLogsReader : public QObject
 public:
     explicit DapLogsReader(QObject *parent = nullptr);
 
-// params
-public:
-    QString m_path;
+    QString getPath() const {return m_path;}
+    void setPath(const QString& path){m_path = path;}
 
     void setStatusUpdate(bool status);
 
 private:
+    QString m_path;
     int m_bufferSize{1000};
     QStringList m_logList;
     QTimer *m_timerLogUpdate;

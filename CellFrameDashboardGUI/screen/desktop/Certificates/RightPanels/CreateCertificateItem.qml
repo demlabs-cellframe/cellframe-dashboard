@@ -44,7 +44,7 @@ DapRectangleLitAndShaded {
                         //messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                           //                     , "Please fill field correctly.")
                         dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml",
-                                           {"accept": false, "titleText": "Certificate not created.",
+                                           {"accept": false, "titleText": qsTr("Certificate not created."),
                                            "contentText": qsTr("%1 not correct. Please fill field correctly.").arg(optionalField.placeHolderText)})
 
                         return false;
@@ -68,7 +68,7 @@ DapRectangleLitAndShaded {
                         //messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                           //                     , "Please fill field correctly.")
                         dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml",
-                                           {"accept": false, "titleText": "Certificate not created.",
+                                           {"accept": false, "titleText": qsTr("Certificate not created."),
                                            "contentText": qsTr("%1 not correct. Please fill field correctly.").arg(optionalField.placeHolderText)})
                         return false;
                     }
@@ -79,7 +79,7 @@ DapRectangleLitAndShaded {
                         //messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                                                //, "Please fill field correctly.")
                         dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml",
-                                           {"accept": false, "titleText": "Certificate not created.",
+                                           {"accept": false, "titleText": qsTr("Certificate not created."),
                                            "contentText": qsTr("%1 not correct. Please fill field correctly.").arg(optionalField.placeHolderText)})
                         return false;
                     }

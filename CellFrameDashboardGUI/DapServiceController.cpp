@@ -289,6 +289,8 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebBlockList("DapWebBlockList",m_DAPRpcSocket))), QString("dapWebBlockList")));
+
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand",m_DAPRpcSocket))), QString("rcvRemoveResult")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetFeeCommand("DapGetFeeCommand",m_DAPRpcSocket))), QString("rcvFee")));
@@ -483,6 +485,11 @@ void DapServiceController::registerCommand()
     {
         qDebug()<<"Rcv web request " << rcvData;
     });
+
+    connect(this, &DapServiceController::dapWebBlockList, [=] (const QVariant& rcvData)
+            {
+                qDebug() << "Rcv blocklist " << rcvData;
+            });
 
     connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
     {
