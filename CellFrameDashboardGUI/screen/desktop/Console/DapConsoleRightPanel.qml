@@ -28,7 +28,6 @@ Page
     ColumnLayout
     {
         anchors.fill: parent
-        //spacing: 18 * pt
 
         Item
         {
@@ -64,7 +63,6 @@ Page
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
-
 
             delegate:
                 Item

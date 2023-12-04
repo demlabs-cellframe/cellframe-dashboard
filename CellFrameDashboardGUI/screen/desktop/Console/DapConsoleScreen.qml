@@ -38,8 +38,6 @@ DapConsoleScreenForm
             Rectangle
             {
                 Layout.fillWidth: true
-                //Layout.rightMargin: 15
-                //Layout.leftMargin: 15
                 implicitHeight: textQuery.height
                 radius: 2
                 color: currTheme.secondaryBackground
@@ -79,7 +77,6 @@ DapConsoleScreenForm
                     color: "#87DCE7"
                     selectionColor: "#87DCE7"
                     selectedTextColor: "#2E3138"
-
                 }
 
                 LinearGradient
