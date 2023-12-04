@@ -14,7 +14,7 @@ Controls.DapTopPanel
     Widgets.DapButton
     {
         id: exportLogButton
-        textButton: "Export log"
+        textButton: qsTr("Export log")
         anchors.right: parent.right
         anchors.rightMargin: 24
         anchors.verticalCenter: parent.verticalCenter
@@ -24,6 +24,11 @@ Controls.DapTopPanel
         horizontalAligmentText: Text.AlignHCenter
 
         onClicked: exportPopup.open()
+
+        Widgets.DapCustomToolTip{
+            contentText: qsTr("Export log to file")
+            isUnderDirection: true
+        }
     }
 
 //    ///Handler for clicking the button exportLogButton

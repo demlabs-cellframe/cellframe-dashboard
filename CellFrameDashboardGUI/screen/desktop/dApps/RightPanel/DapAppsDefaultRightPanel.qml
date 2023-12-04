@@ -119,7 +119,7 @@ Item
                 implicitWidth: 350 
 
                 id:loadPlug
-                textButton: "Add dApp"
+                textButton: qsTr("Add dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
@@ -145,6 +145,10 @@ Item
                     dialogSelectPlug.open()
     //                messagePopup.smartOpen(qsTr("Add Plugin"),qsTr("Input name plugin"))
                 }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Add dApp")
+                }
             }
             DapButton
             {
@@ -154,7 +158,7 @@ Item
                 implicitWidth: 350 
 
                 id:installPlug
-                textButton: "Activate dApp"
+                textButton: qsTr("Activate dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
@@ -167,6 +171,10 @@ Item
                     defaultRightPanel.setEnableButtons()
                     logicMainApp.activePlugin = currentPlugin
                 }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Activate dApp")
+                }
             }
             DapButton
             {
@@ -176,7 +184,7 @@ Item
                 implicitWidth: 350 
 
                 id:uninstallPlug
-                textButton: "Deactivate dApp"
+                textButton: qsTr("Deactivate dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
@@ -193,6 +201,10 @@ Item
 
                     defaultRightPanel.setEnableButtons()
                 }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Deactivate dApp")
+                }
             }
             DapButton
             {
@@ -202,7 +214,7 @@ Item
                 implicitWidth: 350 
 
                 id:deletePlug
-                textButton: "Delete dApp"
+                textButton: qsTr("Delete dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
@@ -240,6 +252,10 @@ Item
                             break;
                         }
                     }
+                }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Delete dApp")
                 }
             }
         }

@@ -77,6 +77,10 @@ Item
                     {
                         changeRightPage("CreateOrder/OrderCreate.qml")
                     }
+
+                    DapCustomToolTip{
+                        contentText: qsTr("Create order")
+                    }
                 }
 
                 DapButton
@@ -96,6 +100,10 @@ Item
                                     "parts/MyOrders/MyOrdersTab.qml")
 //                        changeRightPage("CreateOrder.qml")
 
+                    }
+
+                    DapCustomToolTip{
+                        contentText: qsTr("My orders")
                     }
                 }
             }

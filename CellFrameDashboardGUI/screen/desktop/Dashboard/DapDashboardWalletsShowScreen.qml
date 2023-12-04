@@ -70,6 +70,10 @@ DapRectangleLitAndShaded
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText:Qt.AlignCenter
                 onClicked: walletActivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, false)
+
+                DapCustomToolTip{
+                    contentText: qsTr("Unlock wallet")
+                }
             }
 
             Item{Layout.fillHeight: true}
@@ -141,21 +145,9 @@ DapRectangleLitAndShaded
                             id: networkAddressCopyButton
                             onCopyClicked: textMetworkAddress.copyFullText()
                             Layout.alignment: Qt.AlignRight
-//                                    anchors.verticalCenter: parent.verticalCenter
-//                                    anchors.right: parent.right
-//                                    anchors.rightMargin: 16
                             popupText: qsTr("Address copied")
                         }
                     }
-
-/*                            CopyButton
-                    {
-                        id: networkAddressCopyButton
-                        onCopyClicked: textMetworkAddress.copyFullText()
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: 16 * pt
-                    }*/
                 }
 
                 Repeater

@@ -66,7 +66,7 @@ DapPage
         DapButton
             {
                 id: newTokenButton
-                textButton: "New Token"
+                textButton: qsTr("New Token")
                 anchors.right: parent.right
                 anchors.rightMargin: 24
                 anchors.verticalCenter: parent.verticalCenter
@@ -76,6 +76,11 @@ DapPage
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked: navigator.createToken()
+
+                DapCustomToolTip{
+                    contentText: qsTr("New Token")
+                    isUnderDirection: true
+                }
             }
         isVisibleSearch: false
 

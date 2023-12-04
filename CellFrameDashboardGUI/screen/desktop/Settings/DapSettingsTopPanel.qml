@@ -193,7 +193,7 @@ Controls.DapTopPanel
         Widgets.DapButton
         {
             id: checkUpdate
-            textButton: "Check update"
+            textButton: qsTr("Check update")
             Layout.alignment: Qt.AlignRight
 
             implicitHeight: 36
@@ -218,6 +218,11 @@ Controls.DapTopPanel
             onClicked:
             {
                 settingsModule.guiVersionRequest()
+            }
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Check update")
+                isUnderDirection: true
             }
         }
 
