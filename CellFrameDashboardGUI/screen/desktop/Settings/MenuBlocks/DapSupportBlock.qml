@@ -85,12 +85,7 @@ ColumnLayout
         }
 
         DapCustomToolTip{
-            id: toolTip
-            visible: area.containsMouse? true : false
             contentText: tgFrame.tgLink
-            textFont: mainFont.dapFont.regular14
-            onVisibleChanged: updatePos()
-//            y: 0
         }
 
         MouseArea{
@@ -150,6 +145,10 @@ ColumnLayout
             textButton: qsTr("Contact us")
 
             onClicked: Qt.openUrlExternally(bugreportBlock.bugreportLink)
+
+            DapCustomToolTip{
+                contentText: qsTr("Contact us")
+            }
         }
     }
 }
