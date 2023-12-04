@@ -253,8 +253,9 @@ Page
                             {
                                 if (!suggestionsBox.visible)
                                 {
-                                    textInput.text.length > 0 ?
-                                                sendedCommand = textInput.text :
+                                    var str = textInput.text.trim()
+                                    str.length > 0 ?
+                                                sendedCommand = str :
                                                 sendedCommand = ""
                                     textInput.text = ""
                                 }
