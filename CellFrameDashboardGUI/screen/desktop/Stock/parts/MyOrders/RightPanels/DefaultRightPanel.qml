@@ -290,14 +290,7 @@ Item
                 onClicked:
                 {
                     resetButtons()
-
-                    button1Day.selected = true
-                    button1Week.selected = false
-                    button1Month.selected = false
-                    button3Month.selected = false
-                    button6Month.selected = false
-                    button1Year.selected = false
-
+                    selected = true
                     setFilterPeriod("1 Day")
                 }
             }
@@ -315,14 +308,7 @@ Item
                 onClicked:
                 {
                     resetButtons()
-
-                    button1Day.selected = false
-                    button1Week.selected = true
-                    button1Month.selected = false
-                    button3Month.selected = false
-                    button6Month.selected = false
-                    button1Year.selected = false
-
+                    selected = true
                     setFilterPeriod("1 Week")
                 }
             }
@@ -340,14 +326,7 @@ Item
                 onClicked:
                 {
                     resetButtons()
-
-                    button1Day.selected = false
-                    button1Week.selected = false
-                    button1Month.selected = true
-                    button3Month.selected = false
-                    button6Month.selected = false
-                    button1Year.selected = false
-
+                    selected = true
                     setFilterPeriod("1 Month")
                 }
             }
@@ -375,14 +354,7 @@ Item
                 onClicked:
                 {
                     resetButtons()
-
-                    button1Day.selected = false
-                    button1Week.selected = false
-                    button1Month.selected = false
-                    button3Month.selected = true
-                    button6Month.selected = false
-                    button1Year.selected = false
-
+                    selected = true
                     setFilterPeriod("3 Month")
                 }
             }
@@ -400,14 +372,7 @@ Item
                 onClicked:
                 {
                     resetButtons()
-
-                    button1Day.selected = false
-                    button1Week.selected = false
-                    button1Month.selected = false
-                    button3Month.selected = false
-                    button6Month.selected = true
-                    button1Year.selected = false
-
+                    selected = true
                     setFilterPeriod("6 Month")
                 }
             }
@@ -425,18 +390,10 @@ Item
                 onClicked:
                 {
                     resetButtons()
-
-                    button1Day.selected = false
-                    button1Week.selected = false
-                    button1Month.selected = false
-                    button3Month.selected = false
-                    button6Month.selected = false
-                    button1Year.selected = true
-
+                    selected = true
                     setFilterPeriod("1 Year")
                 }
             }
-
         }
 
 /*        DapComboBox

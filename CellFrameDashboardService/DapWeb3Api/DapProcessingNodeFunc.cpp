@@ -418,11 +418,7 @@ QJsonDocument DapWebControll::sendJsonTransaction(QJsonDocument jsonCommand)
     QJsonDocument docResult;
     if(result.isEmpty())
         docResult = processingResult("bad", QString("Node is offline"));
-<<<<<<< HEAD
-    else if(result.contains("No valid items") || result.contains("Not found") || result.contains("error") || result.contains("Error"))
-=======
     else if(result.contains("No valid items") || result.contains("Can't create") || result.contains("Not found") || result.contains("error") || result.contains("Error"))
->>>>>>> 91df5d336742da0a454a1833dd6b8e91bf8349a3
         docResult = processingResult("bad", result);
     else
         docResult = processingResult("ok", "", result);

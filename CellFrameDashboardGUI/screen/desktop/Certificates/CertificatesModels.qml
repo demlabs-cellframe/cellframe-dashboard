@@ -95,7 +95,7 @@ Item {
         {
             name: "Crystal-Dylithium"
             signature: "sig_dil"
-            secondname: "Recommended"
+            secondname: qsTr("Recommended")
         }
 //        ListElement
 //        {
@@ -103,12 +103,12 @@ Item {
 //            signature: "sig_bliss"
 //            secondname: ""
 //        }
-        ListElement
-        {
-            name: "Picnic"
-            signature: "sig_picnic"
-            secondname: ""
-        }
+//        ListElement
+//        {
+//            name: "Picnic"
+//            signature: "sig_picnic"
+//            secondname: ""
+//        }
     }
 
 

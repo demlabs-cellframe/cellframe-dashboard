@@ -26,11 +26,6 @@ Item {
                 name: "Dilithium"
                 sign: "sig_dil"
             }
-            ListElement
-            {
-                name: "Picnic"
-                sign: " sig_picnic"
-            }
         }
 
         ColumnLayout
@@ -86,7 +81,7 @@ Item {
                 Layout.maximumWidth: 120
                 radius: 16
 
-                textButton: "Create"
+                textButton: qsTr("Create")
 
                 fontButton.family: "Qicksand"
                 fontButton.pixelSize: 16

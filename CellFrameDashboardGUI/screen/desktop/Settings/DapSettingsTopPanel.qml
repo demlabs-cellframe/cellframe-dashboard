@@ -135,7 +135,7 @@ Controls.DapTopPanel
                 Text {
                     Layout.alignment: Qt.AlignLeft
 
-                    text: qsTr( "|" )
+                    text: "|"
                     font: mainFont.dapFont.regular13
                     color: currTheme.gray
                     elide: Text.ElideMiddle
@@ -193,7 +193,7 @@ Controls.DapTopPanel
         Widgets.DapButton
         {
             id: checkUpdate
-            textButton: "Check update"
+            textButton: qsTr("Check update")
             Layout.alignment: Qt.AlignRight
 
             implicitHeight: 36

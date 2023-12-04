@@ -145,7 +145,7 @@ Popup {
                 Text{
                     id:fee1Name
                     Layout.fillWidth: true
-                    text:"Network:"
+                    text: qsTr("Network:")
                     color: currTheme.gray
                     font: mainFont.dapFont.medium14
                     verticalAlignment: Text.AlignVCenter
@@ -177,7 +177,7 @@ Popup {
                 Text{
                     id:fee2Name
                     Layout.fillWidth: true
-                    text:"Validator:"
+                    text: qsTr("Validator:")
                     color: currTheme.gray
                     font: mainFont.dapFont.medium14
                     verticalAlignment: Text.AlignVCenter
@@ -210,7 +210,7 @@ Popup {
                 Text{
                     id:fee3Name
                     Layout.fillWidth: true
-                    text:"Service:"
+                    text: qsTr("Service:")
                     color: currTheme.gray
                     font: mainFont.dapFont.medium14
                     verticalAlignment: Text.AlignVCenter
