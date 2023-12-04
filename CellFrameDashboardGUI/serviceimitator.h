@@ -1,6 +1,7 @@
 #ifndef SERVICEIMITATOR_H
 #define SERVICEIMITATOR_H
 
+#include <QVariant>
 #include <QObject>
 
 class ServiceImitator : public QObject
@@ -9,12 +10,7 @@ class ServiceImitator : public QObject
 public:
     explicit ServiceImitator(QObject *parent = nullptr);
 
-    void requestToService(const QString& asServiceName, const QVariant &arg1,
-                             const QVariant &arg2, const QVariant &arg3,
-                             const QVariant &arg4, const QVariant &arg5,
-                             const QVariant &arg6, const QVariant &arg7,
-                             const QVariant &arg8, const QVariant &arg9,
-                             const QVariant &arg10);
+    void requestToService(const QString& asServiceName, const QVariant &args = QVariant());
 signals:
     void versionControllerResult(const QVariant& versionResult);
 
@@ -35,29 +31,21 @@ signals:
     void rcvXchangeTxList(const QVariant& rcvData);
 
 private:
-    void DapVersionController(const QString& arg1);
+    void DapVersionController(const QStringList &arg);
 
     void DapGetWalletsInfoCommand();
 
-    void DapGetXchangeTokenPair(const QString &arg1, const QString &arg2);
+    void DapGetXchangeTokenPair(const QStringList &args);
 
-    void DapGetXchangeTokenPriceAverage(
-            const QString &arg1, const QString &arg2, const QString &arg3,
-            const QString &arg4, const QString &arg5);
+    void DapGetXchangeTokenPriceAverage(const QStringList &args);
 
-    void DapGetXchangeTokenPriceHistory(
-            const QString &arg1, const QString &arg2, const QString &arg3,
-            const QString &arg4, const QString &arg5);
+    void DapGetXchangeTokenPriceHistory(const QStringList& args);
 
     void DapGetXchangeOrdersList();
 
-    void DapXchangeOrderCreate(
-            const QString &arg1, const QString &arg2, const QString &arg3,
-            const QString &arg4, const QString &arg5, const QString &arg6);
+    void DapXchangeOrderCreate(const QStringList &args);
 
-    void DapGetXchangeTxList(
-            const QString &arg1, const QString &arg2, const QString &arg3,
-            const QString &arg4, const QString &arg5);
+    void DapGetXchangeTxList(const QStringList &args);
 
 };
 

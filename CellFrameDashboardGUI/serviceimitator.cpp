@@ -14,48 +14,36 @@ ServiceImitator::ServiceImitator(QObject *parent) : QObject(parent)
 }
 
 void ServiceImitator::requestToService(const QString &asServiceName,
-    const QVariant &arg1, const QVariant &arg2,
-    const QVariant &arg3, const QVariant &arg4,
-    const QVariant &arg5, const QVariant &arg6,
-    const QVariant &arg7, const QVariant &arg8,
-    const QVariant &arg9, const QVariant &arg10)
+    const QVariant &args)
 {
+    QStringList params = args.toStringList();
+
     qDebug() << "ServiceImitator::requestToService" << asServiceName
-        << arg1.toString() << arg2.toString()
-        << arg3.toString() << arg4.toString()
-        << arg5.toString() << arg6.toString();
+        << params;
 
     if (asServiceName == "DapVersionController")
-        DapVersionController(arg1.toString());
+        DapVersionController(params);
 
     if (asServiceName == "DapGetWalletsInfoCommand")
         DapGetWalletsInfoCommand();
 
     if (asServiceName == "DapGetXchangeTokenPair")
-        DapGetXchangeTokenPair(arg1.toString(), arg2.toString());
+        DapGetXchangeTokenPair(params);
 
     if (asServiceName == "DapGetXchangeTokenPriceAverage")
-        DapGetXchangeTokenPriceAverage(
-                    arg1.toString(), arg2.toString(), arg3.toString(),
-                    arg4.toString(), arg5.toString());
+        DapGetXchangeTokenPriceAverage(params);
 
     if (asServiceName == "DapGetXchangeTokenPriceHistory")
-        DapGetXchangeTokenPriceHistory(
-                    arg1.toString(), arg2.toString(), arg3.toString(),
-                    arg4.toString(), arg5.toString());
+        DapGetXchangeTokenPriceHistory(params);
 
     if (asServiceName == "DapGetXchangeOrdersList")
         DapGetXchangeOrdersList();
 
     if (asServiceName == "DapXchangeOrderCreate")
-        DapXchangeOrderCreate(
-                    arg1.toString(), arg2.toString(), arg3.toString(),
-                    arg4.toString(), arg5.toString(), arg6.toString());
+        DapXchangeOrderCreate(params);
 
     if (asServiceName == "DapGetXchangeTxList")
-        DapGetXchangeTxList(
-                    arg1.toString(), arg2.toString(), arg3.toString(),
-                    arg4.toString(), arg5.toString());
+        DapGetXchangeTxList(params);
 
 }
 
@@ -64,13 +52,13 @@ const QString HAS_UPDATE = "hasUpdate";
 const QString MESSAGE = "message";
 const QString URL = "url";
 
-void ServiceImitator::DapVersionController(const QString& arg1)
+void ServiceImitator::DapVersionController(const QStringList& arg)
 {
-    qDebug() << "ServiceImitator::DapVersionController" << arg1;
+    qDebug() << "ServiceImitator::DapVersionController" << arg[0];
 
     QJsonObject resultObj;
 
-    if(arg1 == "version")
+    if(arg[0] == "version")
     {
         resultObj.insert(LAST_VERSION,QJsonValue("2 . 10 - 444"));
         resultObj.insert(HAS_UPDATE,QJsonValue(true));
@@ -146,16 +134,16 @@ void ServiceImitator::DapGetWalletsInfoCommand()
 }
 
 void ServiceImitator::DapGetXchangeTokenPair(
-        const QString& arg1, const QString& arg2)
+        const QStringList& args)
 {
     qDebug() << "ServiceImitator::DapGetXchangeTokenPair";
 
     QJsonArray arrPairs;
 
-    QString fullInfo = arg1;
+    QString fullInfo = args[0];
 
     bool update = false;
-    if (arg1 == "update" || arg2 == "update")
+    if (fullInfo == "update" || args[1] == "update")
         update = true;
 
     QStringList netlist {"Backbone", "private"};
@@ -205,14 +193,13 @@ void ServiceImitator::DapGetXchangeTokenPair(
 double currentTokenPrice {2.5631};
 
 void ServiceImitator::DapGetXchangeTokenPriceAverage(
-        const QString &arg1, const QString &arg2, const QString &arg3,
-        const QString &arg4, const QString &arg5)
+        const QStringList& args)
 {
     qDebug() << "ServiceImitator::DapGetXchangeTokenPriceAverage";
 
-    QString net = arg1;
-    QString token1 = arg2;
-    QString token2 = arg3;
+    QString net = args[0];
+    QString token1 = args[1];
+    QString token2 = args[2];
 
 //    currentTokenPrice +=
 //        QRandomGenerator::global()->generateDouble()*0.00004 - 0.00002;
@@ -230,15 +217,13 @@ void ServiceImitator::DapGetXchangeTokenPriceAverage(
     emit rcvXchangeTokenPriceAverage(resultObj);
 }
 
-void ServiceImitator::DapGetXchangeTokenPriceHistory(
-        const QString &arg1, const QString &arg2, const QString &arg3,
-        const QString &arg4, const QString &arg5)
+void ServiceImitator::DapGetXchangeTokenPriceHistory(const QStringList &args)
 {
     qDebug() << "ServiceImitator::DapGetXchangeTokenPriceHistory";
 
-    QString net = arg1;
-    QString token1 = arg2;
-    QString token2 = arg3;
+    QString net = args[0];
+    QString token1 = args[1];
+    QString token2 = args[2];
 
     QJsonArray arrHistory;
 
@@ -359,27 +344,25 @@ void ServiceImitator::DapGetXchangeOrdersList()
 
 const QString SUCCESS = "success";
 
-void ServiceImitator::DapXchangeOrderCreate(
-        const QString &arg1, const QString &arg2, const QString &arg3,
-        const QString &arg4, const QString &arg5, const QString &arg6)
+void ServiceImitator::DapXchangeOrderCreate(const QStringList& args)
 {
     qDebug() << "ServiceImitator::DapXchangeOrderCreate";
 
-    QString net = arg1;
-    QString tokenSell = arg2;
-    QString tokenBuy = arg3;
+    QString net = args[0];
+    QString tokenSell = args[1];
+    QString tokenBuy = args[2];
 
-    QString wallet = arg4;
-    QString coins = arg5;
+    QString wallet = args[3];
+    QString coins = args[4];
 
-    QString checkPut = arg6;
+    QString checkPut = args[5];
 
     QString rate;
 
     if(checkPut.contains(".") && checkPut[checkPut.length() - 1] != ".")
         rate = checkPut;
     else
-        rate = QString::number(arg6.toDouble(), 'f', 1);
+        rate = QString::number(args[5].toDouble(), 'f', 1);
 
     QJsonObject resultObj;
 
@@ -404,17 +387,15 @@ void ServiceImitator::DapXchangeOrderCreate(
     emit rcvXchangeCreate(resultObj);
 }
 
-void ServiceImitator::DapGetXchangeTxList(
-        const QString &arg1, const QString &arg2, const QString &arg3,
-        const QString &arg4, const QString &arg5)
+void ServiceImitator::DapGetXchangeTxList(const QStringList& args)
 {
     qDebug() << "ServiceImitator::DapGetXchangeTxList";
 
-    QString cmd = arg1;
-    QString net = arg2;
-    QString addr = arg3;
-    QString timeFrom = arg4;
-    QString timeTo = arg5;
+    QString cmd = args[0];
+    QString net = args[1];
+    QString addr = args[2];
+    QString timeFrom = args[3];
+    QString timeTo = args[4];
 
     qDebug() << "cmd" << cmd
              << "net" << net

@@ -5,7 +5,7 @@
 
 #include "dapconfigreader.h"
 
-//#define SERVICE_IMITATOR
+#define SERVICE_IMITATOR
 
 /// Standard constructor.
 /// @param apParent Parent.
