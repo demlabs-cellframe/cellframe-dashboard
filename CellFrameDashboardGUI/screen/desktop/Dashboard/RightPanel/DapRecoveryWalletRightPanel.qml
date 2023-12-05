@@ -22,7 +22,7 @@ DapRecoveryWalletRightPanelForm
                         220,60,
                         dapMainWindow.width*0.5,
                         8,
-                        "The clipboard does not\ncontain 24 words",
+                        qsTr("The clipboard does not\ncontain 24 words"),
                         "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
 
         }
@@ -48,9 +48,9 @@ DapRecoveryWalletRightPanelForm
         function onSetFileName(fileName)
         {
             if (!logicWallet.restoreWalletMode)
-                dapBackupFileName.text = qsTr("File saved\n") + fileName
+                dapBackupFileName.text = qsTr("File saved") + "\n" + fileName
             else
-                dapBackupFileName.text = qsTr("File loaded\n") + fileName
+                dapBackupFileName.text = qsTr("File loaded") + "\n" + fileName
         }
     }
 
@@ -166,7 +166,7 @@ DapRecoveryWalletRightPanelForm
                             0,0,
                             dapMainWindow.width*0.5,
                             8,
-                            "Words copied",
+                            qsTr("Words copied"),
                             "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
             }
             else
@@ -197,7 +197,7 @@ DapRecoveryWalletRightPanelForm
         title: qsTr("Save wallet recovery file...")
         fileMode: FileDialog.SaveFile
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-        nameFilters: [qsTr("Wallet recovery files (*.walletbackup)"), "All files (*.*)"]
+        nameFilters: [qsTr("Wallet recovery files (*.walletbackup)"), qsTr("All files (*.*)")]
         defaultSuffix: "walletbackup"
         onAccepted:
         {
@@ -214,7 +214,7 @@ DapRecoveryWalletRightPanelForm
         title: qsTr("Open wallet recovery file...")
         fileMode: FileDialog.OpenFile
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-        nameFilters: [qsTr("Wallet recovery files (*.walletbackup)"), "All files (*.*)"]
+        nameFilters: [qsTr("Wallet recovery files (*.walletbackup)"), qsTr("All files (*.*)")]
         defaultSuffix: "walletbackup"
         onAccepted:
         {

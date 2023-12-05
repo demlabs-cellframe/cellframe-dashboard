@@ -270,7 +270,7 @@ DapRectangleLitAndShaded
                     width: 171
                     Layout.minimumHeight: 40
                     Layout.maximumHeight: 40
-                    placeholderText: qsTr("0.0")
+                    placeholderText: "0.0"
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
@@ -490,7 +490,7 @@ DapRectangleLitAndShaded
                 anchors.fill: parent
                 anchors.topMargin: 20
 
-                placeholderText: qsTr("nTSTphWddAcMUpSNXEOTztqLUifmLuhbZMycDbGNVZCdQEelLewojIrlyQtRvwZtIFYuLEKOMoulwTEyotCdUjdZnzBEqkLnaGpQxp")
+                placeholderText: "nTSTphWddAcMUpSNXEOTztqLUifmLuhbZMycDbGNVZCdQEelLewojIrlyQtRvwZtIFYuLEKOMoulwTEyotCdUjdZnzBEqkLnaGpQxp"
                 validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
                 font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft

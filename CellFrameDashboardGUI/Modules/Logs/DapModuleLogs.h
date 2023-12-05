@@ -14,6 +14,7 @@ class DapModuleLog : public DapAbstractModule
     Q_OBJECT
 public:
     explicit DapModuleLog(DapModulesController *parent);
+    ~DapModuleLog();
 
     enum LogType{
         NodeLog = 0,
@@ -55,9 +56,23 @@ public:
 
     QString getLogPath(LogType type);
 
+signals:
+    void currentTypeChanged();
+    void flagLogUpdateChanged();
+    void logsExported(bool status);
+
+private slots:
+    void checkLogFiles();
+private:
+    void updateModel();
+    void readLog();
+
+    QString getLogFileName(QString folder, LogType type);
+
 private:
     DapModulesController* m_modulesCtrl;
     DapLogsReader * m_logReader;
+    QTimer *m_timerCheckLogFile = nullptr;
 
     bool m_flagLogUpdate{true};
 
@@ -75,22 +90,13 @@ private:
 
     qint64 currentIndex {0};
 
-
-
     QPair<LogType, QString> m_configLog;
 
 //    quint64 currentPos{0};
 
-private:
-    void updateModel();
-    void readLog();
+    QString m_lastPath;
 
-    QString getLogFileName(QString folder, LogType type);
-
-signals:
-    void currentTypeChanged();
-    void flagLogUpdateChanged();
-    void logsExported(bool status);
+    const int TIMEOUT_CHECK_FILE = 30000;
 };
 
 #endif // DAPMODULELOGS_H

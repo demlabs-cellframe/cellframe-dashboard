@@ -108,7 +108,7 @@ GridView {
                     font.pixelSize: 12
                     elide: Text.ElideRight
                     color: "#ffffff"
-                    text: "VPN Order " + model.index
+                    text: qsTr("VPN Order ") + model.index
                 }
                 Rectangle
                 {

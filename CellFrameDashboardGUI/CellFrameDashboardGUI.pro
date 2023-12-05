@@ -47,6 +47,7 @@ HEADERS += $$PWD/DapServiceController.h \
     Workers/dateworker.h \
     Workers/mathworker.h \
     Workers/stringworker.h \
+    Translator/qmltranslator.h \
     dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
@@ -92,6 +93,7 @@ SOURCES += $$PWD/main.cpp \
     Workers/dateworker.cpp \
     Workers/mathworker.cpp \
     Workers/stringworker.cpp \
+    Translator/qmltranslator.cpp \
     dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
@@ -133,6 +135,13 @@ OTHER_FILES += libdap-qt-ui-qml \
 
 RESOURCES += $$PWD/qml.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
+
+TRANSLATIONS += \
+    Resources/Translations/Translation_ru.ts \
+    Resources/Translations/Translation_zh.ts \
+    Resources/Translations/Translation_cs.ts \
+    Resources/Translations/Translation_pt.ts \
+    Resources/Translations/Translation_nl.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 #QML_IMPORT_PATH =

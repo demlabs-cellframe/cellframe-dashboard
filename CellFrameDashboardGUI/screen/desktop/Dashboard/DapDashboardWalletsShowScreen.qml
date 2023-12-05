@@ -24,7 +24,7 @@ DapRectangleLitAndShaded
             id: walletShowHeader
             Layout.fillWidth: true
             height: 42
-            visible: listViewWallet.visible
+            visible: listViewWallet.visible  && logicWallet.spiner !== true
 
             Text
             {
@@ -43,9 +43,40 @@ DapRectangleLitAndShaded
             Layout.alignment: Qt.AlignCenter
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 16
+            visible: logicWallet.spiner === true
+
+            Item{Layout.fillHeight: true}
+
+            DapLoadIndicator {
+                Layout.alignment: Qt.AlignHCenter
+
+                indicatorSize: 64
+                countElements: 8
+                elementSize: 10
+
+                running: !listViewWallet.visible
+            }
+
+            Text
+            {
+                Layout.alignment: Qt.AlignHCenter
+
+                font: mainFont.dapFont.medium16
+                color: currTheme.white
+                text: qsTr("Wallets loading...")
+            }
+            Item{Layout.fillHeight: true}
+        }
+
+        ColumnLayout
+        {
+            Layout.alignment: Qt.AlignCenter
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             spacing: 0
 
-            visible: !listViewWallet.visible
+            visible: !listViewWallet.visible && logicWallet.spiner !== true
 
             Item{Layout.fillHeight: true}
 

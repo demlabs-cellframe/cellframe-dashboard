@@ -75,7 +75,7 @@ Item{
                 Layout.rightMargin: 50
                 Layout.alignment: Qt.AlignHCenter
                 horizontalAlignment: Text.AlignHCenter
-                text: "Deactivate " + "'" + nameWallet + "'" + " wallet"
+                text: qsTr("Deactivate ") + "'" + nameWallet + "'" + qsTr(" wallet")
                 font: mainFont.dapFont.bold14
                 color: currTheme.white
                 elide: Text.ElideMiddle
@@ -133,7 +133,7 @@ Item{
                     anchors.rightMargin: 24
 
 
-                    validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s\-]+/}
+                    validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
 //                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*]+/ }
                     bottomLineVisible: true
                     bottomLineSpacing: 8
@@ -203,7 +203,7 @@ Item{
                                         191,0,
                                         dapMainWindow.width*0.5,
                                         8,
-                                        "Wallet deactivated",
+                                        qsTr("Wallet deactivated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
 
                             hide()

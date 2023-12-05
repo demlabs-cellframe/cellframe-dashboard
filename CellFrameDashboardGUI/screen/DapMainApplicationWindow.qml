@@ -59,15 +59,23 @@ Rectangle {
         property alias menuTabStates: logicMainApp.menuTabStates
         property string currentWalletName: logicMainApp.currentWalletName
         property string currentNetworkName: logicMainApp.currentNetworkName
+        property int currentLanguageIndex: logicMainApp.currentLanguageIndex
+        property string currentLanguageName: logicMainApp.currentLanguageName
         //property string currentWalletIndex: logicMainApp.currentWalletIndex
 
         Component.onCompleted:
         {
+//            translator.setLanguage(
+//                        modelLanguages.get(currentLanguageIndex).tag)
+
             console.log("Settings", "currentWalletName", currentWalletName)
             console.log("Settings", "currentNetworkName", currentNetworkName)
+            console.log("Settings", "currentLanguageIndex", currentLanguageIndex)
+            console.log("Settings", "currentLanguageName", currentLanguageName)
 
             logicMainApp.currentWalletName = currentWalletName
             logicMainApp.currentNetworkName = currentNetworkName
+            logicMainApp.currentLanguageIndex = currentLanguageIndex
 //            logicMainApp.currentWalletIndex = currentWalletIndex
 
         }
@@ -164,6 +172,25 @@ Rectangle {
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
 
+
+
+    Settings {
+        id: banSettings
+        property string webSites: logicMainApp.serializeWebSite()
+
+        Component.onCompleted: {
+            if(webSites !== "") {
+                dapWebSites.clear();
+                var lines = webSites.split(";");
+                for(var i = 0; i < lines.length; i++) {
+                    var parts = lines[i].split(",");
+                    dapWebSites.append({site: parts[0], enabled: JSON.parse(parts[1])});
+                }
+            }
+        }
+    }
+
+
     //Models
 
     ListModel{id: dapNetworkModel}
@@ -176,7 +203,13 @@ Rectangle {
     ListModel{id: dapModelXchangeOrders}
 //    ListModel{id: dapPairModel}
 //    ListModel{id: dapTokenPriceHistory}
-    ListModel{id: dapWebSites}
+    ListModel{
+        id: dapWebSites
+
+        onCountChanged: {
+            banSettings.webSites = logicMainApp.serializeWebSite()
+        }
+    }
 
     ListModel{id: fakeWallet}
 
@@ -294,6 +327,24 @@ Rectangle {
             pluginsTabChanged(true,false,"")
         }
     }
+
+    ListModel
+    {
+        id: modelLanguages
+        ListElement { tag: "en"
+            name: "English"}
+        ListElement { tag: "zh"
+            name: "Chinese"}
+        ListElement { tag: "cs"
+            name: "Czech"}
+        ListElement { tag: "nl"
+            name: "Dutch"}
+        ListElement { tag: "pt"
+            name: "Portuguese"}
+        ListElement { tag: "ru"
+            name: "Russian"}
+    }
+
 
     //----------------------//
 
@@ -463,6 +514,9 @@ Rectangle {
 
     Component.onCompleted:
     {
+//        console.log("Component.onCompleted", "modelLanguages", modelLanguages)
+
+//        translator.setLanguage("ru")
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
 //        logicMainApp.requestToService("DapVersionController", "version")
 

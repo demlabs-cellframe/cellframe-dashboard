@@ -26,12 +26,13 @@ void TokenPairsWorker::setPairModel(const QByteArray &json)
 
     for(auto i = 0; i < pairArray.size(); i++)
     {
-        qDebug() << i << pairArray.at(i)["token1"].toString()
-                 << pairArray.at(i)["token2"].toString()
-                 << pairArray.at(i)["network"].toString()
-                 << pairArray.at(i)["rate"].toString()
-                 << pairArray.at(i)["rate"].toString().toDouble()
-                 << pairArray.at(i)["change"].toString();
+        /// TODO: Causes redundancy of logs but there may be a need in the future
+//        qDebug() << i << pairArray.at(i)["token1"].toString()
+//                 << pairArray.at(i)["token2"].toString()
+//                 << pairArray.at(i)["network"].toString()
+//                 << pairArray.at(i)["rate"].toString()
+//                 << pairArray.at(i)["rate"].toString().toDouble()
+//                 << pairArray.at(i)["change"].toString();
 
         QString tokenBuy = pairArray.at(i)["token1"].toString(); // token1
         QString tokenSell = pairArray.at(i)["token2"].toString(); // token2

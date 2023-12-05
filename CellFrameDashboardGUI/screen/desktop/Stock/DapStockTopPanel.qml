@@ -30,7 +30,7 @@ Controls.DapTopPanel
             Layout.rightMargin: 40
             font: mainFont.dapFont.regular16
             color: currTheme.white
-            text: qsTr(" <  DEX")
+            text: " <  " + qsTr("DEX")
             visible: false
 
             MouseArea
@@ -90,7 +90,7 @@ Controls.DapTopPanel
         {
             id: headerWalletToken
             Layout.leftMargin: 32
-            text: "Token: "
+            text: qsTr("Token: ")
             font: mainFont.dapFont.regular14
             color: currTheme.gray
         }

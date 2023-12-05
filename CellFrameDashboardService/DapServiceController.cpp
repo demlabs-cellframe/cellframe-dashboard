@@ -30,6 +30,7 @@
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapGetListTokensCommand.h"
 #include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapWebBlockList.h"
 #include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
@@ -70,7 +71,7 @@ DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
 {
     connect(this, &DapServiceController::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";
-        watcher->frontendConnected();
+        m_watcher->frontendConnected();
         m_web3Controll->rcvFrontendConnectStatus(true);
     });
 
@@ -85,13 +86,25 @@ DapServiceController::~DapServiceController()
 {
 
     for(QThread *thread : qAsConst(m_threadPool))
-        thread->deleteLater();
+    {
+        thread->quit();
+        thread->wait();
+        delete thread;
+    }
 
     for(DapRpcService *service : qAsConst(m_servicePool))
         service->deleteLater();
 
     m_threadPool.clear();
     m_servicePool.clear();
+
+    if(m_threadNotify)
+    {
+        m_threadNotify->quit();
+        m_threadNotify->wait();
+        delete m_threadNotify;
+    }
+
 }
 
 /// Start service: creating server and socket.
@@ -100,7 +113,15 @@ bool DapServiceController::start()
 {
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
-    watcher = new DapNotificationWatcher(this);
+
+    m_threadNotify = new QThread();
+    m_watcher = new DapNotificationWatcher();
+    m_watcher->moveToThread(m_threadNotify);
+
+    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
+    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
+    m_threadNotify->start();
+
 //    m_syncControll = new DapNetSyncController(watcher, this);
     m_web3Controll = new DapWebControll(this);
 //    m_versionController = new DapUpdateVersionController(this);
@@ -120,12 +141,18 @@ bool DapServiceController::start()
         // Register command
         initServices();
         // Send data from notify socket to client
-        connect(watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
-        connect(watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
+        connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
+        connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
         // Channel req\rep for web 3 API
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
         connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
+        // Update blocklist from client
+        DapAbstractCommand * blockList = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebBlockList"));
+        connect(blockList,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvBlockListFromClient);
+
+        DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
+        initBook->respondToClient("init");
     }
 #endif
     else
@@ -158,6 +185,13 @@ void DapServiceController::rcvReplyFromClient(QVariant result)
     QJsonDocument doc = QJsonDocument::fromJson(result.toString().toUtf8());
     QJsonArray arr = doc.array();
     m_web3Controll->rcvAccept(arr.at(0).toBool(), arr.at(1).toInt());
+}
+
+void DapServiceController::rcvBlockListFromClient(QVariant result)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(result.toString().toUtf8());
+    QJsonArray arr = doc.array();
+    m_web3Controll->parseBlockList(arr.at(0).toString());
 }
 
 void DapServiceController::initServices()
@@ -207,6 +241,8 @@ void DapServiceController::initServices()
     {
         QThread * thread = new QThread(m_pServer);
         service->moveToThread(thread);
+        connect(thread, &QThread::finished, m_pServer, &QObject::deleteLater);
+        connect(thread, &QThread::finished, thread, &QObject::deleteLater);
         thread->start();
 
         m_threadPool.append(thread);
@@ -216,6 +252,7 @@ void DapServiceController::initServices()
     //Need server parent for work.
     m_pServer->addService(new DapVersionController      ("DapVersionController"      , m_pServer));
     m_pServer->addService(new DapWebConnectRequest      ("DapWebConnectRequest"      , m_pServer));
+    m_pServer->addService(new DapWebBlockList           ("DapWebBlockList"           , m_pServer));
     m_pServer->addService(new DapRcvNotify              ("DapRcvNotify"              , m_pServer));
     m_pServer->addService(new DapQuitApplicationCommand ("DapQuitApplicationCommand" , m_pServer));
 
