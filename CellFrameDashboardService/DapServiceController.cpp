@@ -150,9 +150,6 @@ bool DapServiceController::start()
         // Update blocklist from client
         DapAbstractCommand * blockList = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebBlockList"));
         connect(blockList,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvBlockListFromClient);
-
-        DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
-        initBook->respondToClient("init");
     }
 #endif
     else

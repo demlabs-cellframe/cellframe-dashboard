@@ -127,12 +127,6 @@ DapPage
             id: dashboardScreen
         }
 
-    dapRightPanel.initialItem:
-        DapLastActionsRightPanel
-        {
-            id: lastActions
-        }
-
     state: "WALLETDEFAULT"
 
 
