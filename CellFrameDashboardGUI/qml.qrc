@@ -356,5 +356,8 @@
         <file>screen/desktop/Orders/Parts/DapOrderInfoLine.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrdersGridView.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrderHeader.qml</file>
+        <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
+        <file>screen/desktop/controls/DapRemoveWalletPopup.qml</file>
     </qresource>
 </RCC>

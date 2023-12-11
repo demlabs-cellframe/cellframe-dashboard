@@ -39,6 +39,15 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
 
 DapModuleWallet::~DapModuleWallet()
 {
+    disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
+    disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
+    disconnect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
+    disconnect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
+    disconnect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
+    disconnect(s_serviceCtrl, &DapServiceController::walletRemoved,            this, &DapModuleWallet::rcvRemoveWallet);
+
+    disconnect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
+
     delete m_timerUpdateListWallets;
     delete m_timerUpdateWallet;
     delete m_timerFeeUpdateWallet;
@@ -53,10 +62,11 @@ void DapModuleWallet::initConnect()
     connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModuleWallet::rcvFee, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletsReceived, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletReceived, this, &DapModuleWallet::rcvWalletInfo, Qt::QueuedConnection);
-
+    connect(s_serviceCtrl, &DapServiceController::walletRemoved, this, &DapModuleWallet::rcvRemoveWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletCreated, this, &DapModuleWallet::rcvCreateWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory, Qt::QueuedConnection);
+
     connect(m_timerFeeUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::tryUpdateFee, Qt::QueuedConnection);
     connect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet, Qt::QueuedConnection);
 
@@ -295,6 +305,12 @@ void DapModuleWallet::createWallet(QStringList args)
     s_serviceCtrl->requestToService("DapAddWalletCommand", args);
 }
 
+void DapModuleWallet::removeWallet(QStringList args)
+{
+    m_timerUpdateWallet->stop();
+    s_serviceCtrl->requestToService("DapRemoveWalletCommand", args);
+}
+
 void DapModuleWallet::createPassword(QStringList args)
 {
     s_serviceCtrl->requestToService("DapCreatePassForWallet", args);
@@ -325,6 +341,13 @@ void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
     m_modulesCtrl->updateListWallets();
     m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
     emit sigWalletCreate(rcvData);
+}
+
+void DapModuleWallet::rcvRemoveWallet(const QVariant &rcvData)
+{
+    m_modulesCtrl->getWalletList();
+    m_timerUpdateWallet->start(5000);
+    emit sigWalletRemove(rcvData);
 }
 
 void DapModuleWallet::rcvHistory(const QVariant &rcvData)
