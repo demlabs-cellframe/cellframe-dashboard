@@ -53,10 +53,6 @@ Controls.DapTopPanel
                     Text{
                         id: value
                         anchors.fill: parent
-    //                    anchors.leftMargin: 6
-    //                    anchors.rightMargin: 6
-    //                    anchors.topMargin: 2
-    //                    anchors.bottomMargin: 2
                         text: logicMainApp.requestsMessageCounter
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -84,6 +80,46 @@ Controls.DapTopPanel
 
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
+            spacing: 2
+
+            RowLayout{
+                spacing: 8
+
+                Text {
+                    Layout.alignment: Qt.AlignLeft
+                    text: qsTr( "Wallet controller" )
+                    font: mainFont.dapFont.regular13
+                    color: currTheme.white
+                    elide: Text.ElideMiddle
+                }
+            }
+
+            RowLayout{
+                spacing: 8
+
+                Text {
+                    Layout.alignment: Qt.AlignLeft
+                    text: qsTr( "Edit wallets list" )
+                    font: mainFont.dapFont.regular13
+                    color: walletsArea.containsMouse ? currTheme.orange
+                                                      : currTheme.lime
+                    elide: Text.ElideMiddle
+
+                    MouseArea{
+                        id: walletsArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            navigator.openWalletsController()
+                        }
+                    }
+                }
+            }
+        }
+
+        ColumnLayout{
+            Layout.alignment: Qt.AlignRight
+            Layout.leftMargin: 45
             spacing: 2
 
             RowLayout{

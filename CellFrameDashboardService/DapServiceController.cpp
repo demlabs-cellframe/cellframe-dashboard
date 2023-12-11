@@ -5,6 +5,7 @@
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapRemoveWalletCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapGetNetworkStatusCommand.h"
 #include "handlers/DapNetworkGoToCommand.h"
@@ -197,6 +198,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapActivateClientCommand             ("DapActivateClientCommand"             , nullptr));
     m_servicePool.append(new DapUpdateLogsCommand                 ("DapUpdateLogsCommand"                 , nullptr, LOG_FILE));
     m_servicePool.append(new DapAddWalletCommand                  ("DapAddWalletCommand"                  , nullptr));
+    m_servicePool.append(new DapRemoveWalletCommand               ("DapRemoveWalletCommand"               , nullptr));
     m_servicePool.append(new DapGetWalletInfoCommand              ("DapGetWalletInfoCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetWalletsInfoCommand             ("DapGetWalletsInfoCommand"             , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetListNetworksCommand            ("DapGetListNetworksCommand"            , nullptr, CLI_PATH));

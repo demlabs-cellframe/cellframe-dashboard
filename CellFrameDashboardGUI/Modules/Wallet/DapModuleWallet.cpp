@@ -33,6 +33,7 @@ DapModuleWallet::~DapModuleWallet()
     disconnect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
     disconnect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
     disconnect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
+    disconnect(s_serviceCtrl, &DapServiceController::walletRemoved,            this, &DapModuleWallet::rcvRemoveWallet);
 
     disconnect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
 }
@@ -50,6 +51,9 @@ void DapModuleWallet::initConnect()
             Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletCreated,
             this, &DapModuleWallet::rcvCreateWallet,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletRemoved,
+            this, &DapModuleWallet::rcvRemoveWallet,
             Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived,
             this, &DapModuleWallet::rcvHistory,
@@ -114,6 +118,12 @@ void DapModuleWallet::createWallet(QStringList args)
     s_serviceCtrl->requestToService("DapAddWalletCommand", args);
 }
 
+void DapModuleWallet::removeWallet(QStringList args)
+{
+    m_timerUpdateWallet->stop();
+    s_serviceCtrl->requestToService("DapRemoveWalletCommand", args);
+}
+
 void DapModuleWallet::createPassword(QStringList args)
 {
     s_serviceCtrl->requestToService("DapCreatePassForWallet", args);
@@ -156,6 +166,13 @@ void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
     m_modulesCtrl->getWalletList();
     m_timerUpdateWallet->start(5000);
     emit sigWalletCreate(rcvData);
+}
+
+void DapModuleWallet::rcvRemoveWallet(const QVariant &rcvData)
+{
+    m_modulesCtrl->getWalletList();
+    m_timerUpdateWallet->start(5000);
+    emit sigWalletRemove(rcvData);
 }
 
 void DapModuleWallet::rcvHistory(const QVariant &rcvData)

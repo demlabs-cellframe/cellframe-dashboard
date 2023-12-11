@@ -16,6 +16,7 @@
 #include "handlers/DapCertificateManagerCommands.h"
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapRemoveWalletCommand.h"
 #include "handlers/DapGetWalletInfoCommand.h"
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetNetworkStatusCommand.h"
@@ -190,6 +191,7 @@ signals:
     void mempoolProcessed(const QVariant& aResult);
 
     void walletCreated(const QVariant& wallet);
+    void walletRemoved(const QVariant& wallet);
 
     void walletInfoReceived(const QVariant& walletInfo);
     void walletsInfoReceived(const QVariant& walletList);

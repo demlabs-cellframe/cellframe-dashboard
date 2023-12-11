@@ -346,5 +346,8 @@
         <file>Resources/Translations/Translation_nl.qm</file>
         <file>Resources/Translations/Translation_pt.qm</file>
         <file>Resources/Translations/Translation_zh.qm</file>
+        <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
+        <file>screen/desktop/controls/DapRemoveWalletPopup.qml</file>
     </qresource>
 </RCC>
