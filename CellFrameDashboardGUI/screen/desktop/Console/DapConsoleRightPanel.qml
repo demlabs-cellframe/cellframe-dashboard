@@ -28,23 +28,25 @@ Page
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 18 * pt
 
         Item
         {
             Layout.fillWidth: true
-            height: 42 
+            height: 42
 
             Text
             {
                 id: textHeader
                 anchors.fill: parent
                 anchors.leftMargin: 16
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Last actions")
-                verticalAlignment: Qt.AlignVCenter
+                anchors.topMargin: 11
+                anchors.bottomMargin: 13
+                verticalAlignment: Text.AlignBottom
                 horizontalAlignment: Text.AlignLeft
-                font: mainFont.dapFont.bold14
+                text: qsTr("Last actions")
+                font.family: "Quicksand"
+                font.pixelSize: 14
+                font.bold: true
                 color: currTheme.white
             }
         }
@@ -54,8 +56,9 @@ Page
             id: listViewHistoryConsole
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.topMargin: 4
             clip: true
-            spacing: 20
+            spacing: 12
             model: modelHistoryConsole
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -64,22 +67,22 @@ Page
             delegate:
                 Item
                 {
-                    anchors.leftMargin: 5 
-                    anchors.rightMargin: 5 
-                    width: listViewHistoryConsole.width
-                    height: textCommand.implicitHeight + 10
+                    width: listViewHistoryConsole.width - 32
+                    x: 16
+                    height: textCommand.implicitHeight + textDateTime.implicitHeight + 4
+
                     Text
                     {
-                        anchors.fill: parent
-                        anchors.rightMargin: 16
-                        anchors.leftMargin: 16 
-
                         id: textCommand
                         text: query
+                        width: parent.width
+                        height: contentHeight
+                        anchors.fill: parent
+                        verticalAlignment: Qt.AlignTop
                         color: currTheme.white
-
                         wrapMode: Text.Wrap
-                        font: mainFont.dapFont.regular13
+                        font.family: "Quicksand"
+                        font.pixelSize: 13
                         //For the automatic sending selected command from history
                         MouseArea
                         {
@@ -88,22 +91,63 @@ Page
                             onDoubleClicked: historyQueryIndex = index
                         }
                     }
+                    Text
+                    {
+                        id: textDateTime
+                        text: datetime
+                        width: parent.width
+                        height: contentHeight
+                        verticalAlignment: Qt.AlignBottom
+                        anchors.fill: parent
+                        anchors.bottomMargin: 4
+                        color: "#B2B2B2"
+                        font.family: "Quicksand"
+                        font.pixelSize: 11
+                    }
                 }
             //It allows to see last element of list by default
             currentIndex: count - 1
             highlightFollowsCurrentItem: true
             highlightRangeMode: ListView.ApplyRange
-
-//            onModelChanged: positionViewAtBeginning()
         }
     }
-
-
-
 
     Component.onCompleted:
     {
         logicMainApp.requestToService("DapGetHistoryExecutedCmdCommand", historySize);
+    }
+
+    // Parsing query and time from history
+    function parsingTime(str, mode) {
+        // mode 0 - return boolean result
+        // mode 1 - return only query
+        // mode 2 - return only time
+        var regex = /\[\d{2}\.\d{2}\.\d{2}\s-\s\d{2}:\d{2}:\d{2}\]/
+        var match = regex.exec(str)
+
+        if (match !== null) {
+            switch (mode) {
+            case 0:
+                return true
+            case 1:
+                return str.substring(22, str.length)
+            case 2:
+                return str.substring(1, 20)
+            }
+        } else {
+            switch (mode) {
+            case 0:
+                return false
+            case 1:
+                return str
+            case 2:
+                return qsTr("undefined")
+            }
+        }
+    }
+
+    function currentTime() {
+        return new Date().toLocaleString(Qt.locale(), "dd.MM.yy - hh:mm:ss")
     }
 
     //Returns true if item 'someElement' is already exist at list 'someModel'.
@@ -121,14 +165,17 @@ Page
 
     onCommandQueryChanged:
     {
+        var query_str = parsingTime(commandQuery, 1)
+        var time_str = parsingTime(commandQuery, 2)
+
         //Adding only new element
-        if(!findElement(modelHistoryConsole, {query: commandQuery}))
+        if(!findElement(modelHistoryConsole, {query: query_str}))
         {
             if(commandQuery !== "")
-                modelHistoryConsole.insert(0, {query: commandQuery});
+                modelHistoryConsole.insert(0, {query: query_str, datetime: time_str});
         }
         else
-            modelHistoryConsole.insert(0, {query: commandQuery});
+            modelHistoryConsole.insert(0, {query: query_str, datetime: time_str});
 
         //History is limited by historySize and realized as FIFO
         if(historySize < modelHistoryConsole.count)
@@ -142,7 +189,7 @@ Page
     {
         if(historyQueryIndex > -1)
         {
-            historyQuery = modelHistoryConsole.get(historyQueryIndex).query;
+            historyQuery = "[" + currentTime() + "] " + modelHistoryConsole.get(historyQueryIndex).query;
             historyQueryIndex = -1;
             historyQuery = ""
         }

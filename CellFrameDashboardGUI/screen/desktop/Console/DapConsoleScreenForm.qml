@@ -47,9 +47,12 @@ Page
             {
                 id: listViewConsoleCommand
                 anchors.fill: parent
-                anchors.bottomMargin: 40
-                anchors.leftMargin: 20 *pt
-                anchors.topMargin: 24
+                anchors.bottomMargin: 16 *pt
+
+                anchors.leftMargin: 16 *pt
+                anchors.rightMargin: 16 *pt
+
+                anchors.topMargin: 16 *pt
                 height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
                             contentHeight :
                             (consoleRectangle.height - inputCommand.height)
@@ -250,8 +253,9 @@ Page
                             {
                                 if (!suggestionsBox.visible)
                                 {
-                                    textInput.text.length > 0 ?
-                                                sendedCommand = textInput.text :
+                                    var str = textInput.text.trim()
+                                    str.length > 0 ?
+                                                sendedCommand = str :
                                                 sendedCommand = ""
                                     textInput.text = ""
                                 }
