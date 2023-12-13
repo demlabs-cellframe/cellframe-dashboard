@@ -32,7 +32,7 @@ Item{
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 328
-        height: dapModelWallets.count > 4 ? 401 : 96 + dapModelWallets.count * 60
+        height: dapModelWallets.count > 4 ? 401 : 97 + dapModelWallets.count * 61
         color: currTheme.popup
         radius: currTheme.popupRadius
 
@@ -80,7 +80,7 @@ Item{
                 id: section
                 color: currTheme.mainBackground
                 Layout.fillWidth: true
-                height: 30
+                height: 29
 
                 Text
                 {

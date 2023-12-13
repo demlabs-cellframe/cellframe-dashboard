@@ -19,7 +19,7 @@ Controls.DapTopPanel
 
 
         //Requests
-        Item{
+        Item {
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             width: row.implicitWidth
             height: 20
@@ -78,8 +78,11 @@ Controls.DapTopPanel
 
         Item{Layout.fillWidth: true}
 
+        // Wallet controller
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: 6
+
             spacing: 2
 
             RowLayout{
@@ -117,6 +120,7 @@ Controls.DapTopPanel
             }
         }
 
+        // Node settings
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
             Layout.leftMargin: 45
@@ -197,11 +201,12 @@ Controls.DapTopPanel
             }
         }
 
+        // Version
         ColumnLayout
         {
-            Layout.leftMargin: 56
+            Layout.leftMargin: 53
             Layout.alignment: Qt.AlignRight
-            Layout.rightMargin: 40
+            Layout.rightMargin: 32
             spacing: 2
 
             Text {
