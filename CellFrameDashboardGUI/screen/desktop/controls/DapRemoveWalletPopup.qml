@@ -190,6 +190,7 @@ Item {
     }
 
     function show(name_wallet) {
+        checkBox.isChecked = false
         visible = true
         nameWallet = name_wallet
         backgroundFrame.opacity = 0.4
