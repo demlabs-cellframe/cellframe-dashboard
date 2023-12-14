@@ -145,7 +145,7 @@ Item{
                                 anchors.fill: parent
 
                                 onClicked: {
-                                    hide()
+                                    walletsFrame.opacity = 0.0
                                     removeWalletPopup.show(walletName.text)
                                 }
                             }
@@ -169,15 +169,14 @@ Item{
                                                     175, 0,
                                                     dapMainWindow.width * 0.5,
                                                     8,
-                                                    qsTr("Wallet removed"),
+                                                    qsTr("Removed ") + rcvData.message,
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
                     } else {
-                        console.log("Error", "Can't remove wallet", rcvData.message)
                         dapMainWindow.infoItem.showInfo(
                                                     200, 0,
                                                     dapMainWindow.width * 0.5,
                                                     8,
-                                                    qsTr("Error remove wallet"),
+                                                    qsTr("Removed ") + rcvData.message,
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
                     }
                 }

@@ -104,17 +104,15 @@ Controls.DapTopPanel
                     Layout.alignment: Qt.AlignLeft
                     text: qsTr( "Edit wallets list" )
                     font: mainFont.dapFont.regular13
-                    color: walletsArea.containsMouse ? currTheme.orange
-                                                      : currTheme.lime
-                    elide: Text.ElideMiddle
+                    enabled: dapModelWallets.count > 0 ? true : false
+                    color: enabled ? walletsArea.containsMouse ? currTheme.orange : currTheme.lime : currTheme.gray
+
 
                     MouseArea{
                         id: walletsArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: {
-                            navigator.openWalletsController()
-                        }
+                        onClicked: navigator.openWalletsController()
                     }
                 }
             }
