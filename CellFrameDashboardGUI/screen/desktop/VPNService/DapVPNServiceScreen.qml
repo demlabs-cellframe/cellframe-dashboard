@@ -20,7 +20,7 @@ Page {
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     Rectangle
@@ -68,7 +68,7 @@ Page {
             {
                 id: titleTextOrderCreate
                 font: mainFont.dapFont.medium26
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Create your first VPN order")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -104,7 +104,7 @@ Page {
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
 
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
         radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
@@ -118,7 +118,7 @@ Page {
             anchors.verticalCenter: parent.verticalCenter
             font.family: "Quiksand"
             font.pixelSize: 26 
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Creating VPN order in process...")
         }
     }
@@ -134,7 +134,7 @@ Page {
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
 
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
         radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
@@ -149,7 +149,7 @@ Page {
                 x: gridViewOrder.halfMargin
                 y: gridViewOrder.halfMargin
                 font:  mainFont.dapFont.bold14;
-                color: currTheme.textColor
+                color: currTheme.white
             }
 
             DapVPNOrdersGridView {

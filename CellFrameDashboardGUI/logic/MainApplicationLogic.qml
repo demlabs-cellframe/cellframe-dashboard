@@ -324,19 +324,19 @@ QtObject {
 //        }
 //    }
 
-    function rcvOrders(orderList)
-    {
-        if(orderList.length !== dapModelOrders.count)
-        {
-            dapModelOrders.clear()
-            for (var i = 0; i < orderList.length; ++i)
-                dapModelOrders.append({ "index" : orderList[i].Index,
-                                      "location" : orderList[i].Location,
-                                      "network" : orderList[i].Network,
-                                      "node_addr" : orderList[i].AddrNode,
-                                      "price" : orderList[i].TotalPrice})
-        }
-    }
+//    function rcvOrders(orderList)
+//    {
+//        if(orderList.length !== dapModelOrders.count)
+//        {
+//            dapModelOrders.clear()
+//            for (var i = 0; i < orderList.length; ++i)
+//                dapModelOrders.append({ "index" : orderList[i].Index,
+//                                      "location" : orderList[i].Location,
+//                                      "network" : orderList[i].Network,
+//                                      "node_addr" : orderList[i].AddrNode,
+//                                      "price" : orderList[i].TotalPrice})
+//        }
+//    }
 
     function rcvPlugins(m_pluginsList)
     {

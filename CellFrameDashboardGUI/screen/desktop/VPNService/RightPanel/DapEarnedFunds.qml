@@ -27,7 +27,7 @@ Page
                 anchors.topMargin: 10 
                 anchors.bottomMargin: 10 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Earned funds")
             }

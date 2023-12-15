@@ -25,9 +25,6 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
 }
 DapModuleWallet::~DapModuleWallet()
 {
-    delete m_timerUpdateWallet;
-    delete m_walletHashManager;
-
     disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
     disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
     disconnect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
@@ -35,6 +32,9 @@ DapModuleWallet::~DapModuleWallet()
     disconnect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
 
     disconnect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
+
+    delete m_timerUpdateWallet;
+    delete m_walletHashManager;
 }
 
 void DapModuleWallet::initConnect()

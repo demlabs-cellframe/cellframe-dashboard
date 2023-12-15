@@ -16,6 +16,7 @@ HEADERS += $$PWD/DapServiceController.h \
     Models/AbstractModels/DapAbstractWalletList.h \
     Models/DapDiagnosticModel.h \
     Models/DapHistoryModel.h \
+    Models/DapOrdersModel.h \
     Models/DapWalletListModel.h \
     Modules/Certificates/DapModuleCertificates.h \
     Modules/Console/DapModuleConsole.h \
@@ -30,6 +31,7 @@ HEADERS += $$PWD/DapServiceController.h \
     Modules/Logs/loginfo.h \
     Modules/Logs/logmodel.h \
     Modules/Logs/logreader.h \
+    Modules/Orders/DapModuleOrders.h \
     Modules/Settings/DapModuleSettings.h \
     Modules/Test/DapModuleTest.h \
     Modules/Tokens/DapModuleTokens.h \
@@ -74,6 +76,7 @@ SOURCES += $$PWD/main.cpp \
     Models/AbstractModels/DapAbstractWalletList.cpp \
     Models/DapDiagnosticModel.cpp \
     Models/DapHistoryModel.cpp \
+    Models/DapOrdersModel.cpp \
     Models/DapWalletListModel.cpp \
     Modules/Certificates/DapModuleCertificates.cpp \
     Modules/Console/DapModuleConsole.cpp \
@@ -86,6 +89,7 @@ SOURCES += $$PWD/main.cpp \
     Modules/Logs/DapModuleLogs.cpp \
     Modules/Logs/logmodel.cpp \
     Modules/Logs/logreader.cpp \
+    Modules/Orders/DapModuleOrders.cpp \
     Modules/Settings/DapModuleSettings.cpp \
     Modules/Test/DapModuleTest.cpp \
     Modules/Tokens/DapModuleTokens.cpp \
