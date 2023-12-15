@@ -72,7 +72,7 @@ Page {
                 anchors.leftMargin: 52 
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
 
         }
@@ -80,13 +80,13 @@ Page {
         Rectangle
         {
             id:frameNameOrder
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
             Text
             {
                 id: textNameOrder
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Name of order")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -117,13 +117,13 @@ Page {
                 style:
                     TextFieldStyle
                     {
-                        textColor: currTheme.textColor
-                        placeholderTextColor: currTheme.textColor
+                        textColor: currTheme.white
+                        placeholderTextColor: currTheme.white
                         background:
                             Rectangle
                             {
                                 border.width: 0
-                                color: currTheme.backgroundElements
+                                color: currTheme.secondaryBackground
                             }
                     }
             }
@@ -131,13 +131,13 @@ Page {
         Rectangle
         {
             id: frameRegion
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Layout.fillWidth: true
             Text
             {
                 id: textRegion
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Region")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -180,13 +180,13 @@ Page {
         Rectangle
         {
             id: frameUnits
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Layout.fillWidth: true
             Text
             {
                 id: textUnits
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Units")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -250,13 +250,13 @@ Page {
         Rectangle
         {
             id: framePrice
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Layout.fillWidth: true
             Text
             {
                 id: textPrice
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Price")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft

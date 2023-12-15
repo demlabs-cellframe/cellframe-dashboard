@@ -42,6 +42,9 @@ Rectangle {
     ///@detalis Path to the dApps tab.
     readonly property string dAppsScreen: path + "/dApps/DapAppsTab.qml"
 
+
+    readonly property string ordersScreen: path + "/Orders/DapOrdersTab.qml"
+
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
     
     property alias tryCreatePasswordWalletPopup: tryCreatePasswordWalletPopup
@@ -247,6 +250,9 @@ Rectangle {
         ListElement { tag: "Diagnostics"
             name: qsTr("Diagnostics")
             show: true }
+        ListElement { tag: "Orders"
+            name: qsTr("Orders")
+            show: true }
     }
 
     ListModel
@@ -315,6 +321,11 @@ Rectangle {
             bttnIco: "icon_settings.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Diagnostic/DapDiagnosticTab.qml"})
+        append ({ tag: "Orders",
+            name: qsTr("Orders"),
+            bttnIco: "icon_settings.svg",
+            showTab: true,
+            page: "qrc:/screen/desktop//Orders/DapOrdersTab.qml"})
 
 //            FOR DEBUG
 //        append ({ tag: "Plugin",
@@ -629,13 +640,13 @@ Rectangle {
             }
         }
 
-        function onOrdersReceived(orderList)
-        {
-            console.log("onOrdersReceived")
-            console.log("Orders count:", orderList.length)
-            logicMainApp.rcvOrders(orderList)
-            modelOrdersUpdated();
-        }
+//        function onOrdersReceived(orderList)
+//        {
+//            console.log("onOrdersReceived")
+//            console.log("Orders count:", orderList.length)
+//            logicMainApp.rcvOrders(orderList)
+//            modelOrdersUpdated();
+//        }
 
         function onSignalTokensListReceived(tokensResult)
         {

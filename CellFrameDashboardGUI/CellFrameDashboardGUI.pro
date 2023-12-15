@@ -18,6 +18,7 @@ HEADERS += $$PWD/DapServiceController.h \
     Models/AbstractModels/DapAbstractWalletList.h \
     Models/DapDiagnosticModel.h \
     Models/DapHistoryModel.h \
+    Models/DapOrdersModel.h \
     Models/DapWalletListModel.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
@@ -44,6 +45,7 @@ SOURCES += $$PWD/main.cpp \
     Models/AbstractModels/DapAbstractWalletList.cpp \
     Models/DapDiagnosticModel.cpp \
     Models/DapHistoryModel.cpp \
+    Models/DapOrdersModel.cpp \
     Models/DapWalletListModel.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \

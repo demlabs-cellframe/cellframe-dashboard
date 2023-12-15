@@ -346,5 +346,14 @@
         <file>Resources/Translations/Translation_nl.qm</file>
         <file>Resources/Translations/Translation_pt.qm</file>
         <file>Resources/Translations/Translation_zh.qm</file>
+        <file>screen/desktop/Orders/DapOrdersTab.qml</file>
+        <file>screen/desktop/Orders/DapOrdersScreen.qml</file>
+        <file>screen/desktop/Orders/DapOrdersTopPanel.qml</file>
+        <file>screen/desktop/Orders/Parts/DapDoubleSpinBox.qml</file>
+        <file>screen/desktop/Orders/Parts/DapOrderPanelButton.qml</file>
+        <file>screen/desktop/Orders/Parts/DapSpinBox.qml</file>
+        <file>screen/desktop/Orders/Parts/DapTextButton.qml</file>
+        <file>screen/desktop/Orders/Parts/DapOrderInfoLine.qml</file>
+        <file>screen/desktop/Orders/Parts/DapOrdersGridView.qml</file>
     </qresource>
 </RCC>

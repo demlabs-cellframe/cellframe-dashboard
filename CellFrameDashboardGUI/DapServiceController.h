@@ -234,7 +234,6 @@ signals:
     void certificateManagerOperationResult(const QVariant& result);
 
     void ordersListReceived(const QVariant& ordersInfo);
-    void ordersReceived(QList<QObject*> orderList);
 
     void networkStatesListReceived(const QVariant& networksStateList);
 //    void networksStatesReceived(QList<QObject*> networksStatesList);

@@ -377,8 +377,8 @@ void DapServiceController::registerCommand()
 //        emit walletReceived(outWallet);
 //    });
 
-    connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)
-    {
+//    connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)
+//    {
 //        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
 //        QList<DapWalletHistoryEvent> tempWalletHistory;
 
@@ -399,7 +399,7 @@ void DapServiceController::registerCommand()
 //                 << "DapServiceController::historyReceived" << walletHistory.size();
 
 //        emit walletHistoryReceived(walletHistory);
-    });
+//    });
 
 //    connect(this, &DapServiceController::allHistoryReceived, [=] (const QVariant& wallethistory)
 //    {
@@ -422,26 +422,26 @@ void DapServiceController::registerCommand()
 //        emit allWalletHistoryReceived(walletHistory);
 //    });
 
-    connect(this, &DapServiceController::ordersListReceived, [=] (const QVariant& ordersList)
-    {
-        QByteArray  array = QByteArray::fromHex(ordersList.toByteArray());
-        QList<DapVpnOrder> tempOrders;
+//    connect(this, &DapServiceController::ordersListReceived, [=] (const QVariant& ordersList)
+//    {
+//        QByteArray  array = QByteArray::fromHex(ordersList.toByteArray());
+//        QList<DapVpnOrder> tempOrders;
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempOrders;
+//        QDataStream in(&array, QIODevice::ReadOnly);
+//        in >> tempOrders;
 
-        QList<QObject*> orders;
-        auto begin = tempOrders.begin();
-        auto end = tempOrders.end();
-        DapVpnOrder * order = nullptr;
-        for(;begin != end; ++begin)
-        {
-            order = new DapVpnOrder(*begin);
-            orders.append(order);
-        }
+//        QList<QObject*> orders;
+//        auto begin = tempOrders.begin();
+//        auto end = tempOrders.end();
+//        DapVpnOrder * order = nullptr;
+//        for(;begin != end; ++begin)
+//        {
+//            order = new DapVpnOrder(*begin);
+//            orders.append(order);
+//        }
 
-        emit ordersReceived(orders);
-    });
+//        emit ordersReceived(orders);
+//    });
 
 //    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
 //    {

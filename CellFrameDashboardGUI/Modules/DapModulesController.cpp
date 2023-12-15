@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QSettings>
 
+//***Modules***//
 #include "Wallet/DapModuleWallet.h"
 #include "Dex/DapModuleDex.h"
 #include "TxExplorer/DapModuleTxExplorer.h"
@@ -14,8 +15,10 @@
 #include "Settings/DapModuleSettings.h"
 #include "dApps/DapModuledApps.h"
 #include "Diagnostics/DapModuleDiagnostics.h"
+#include "Orders/DapModuleOrders.h"
 
 #include "Test/DapModuleTest.h"
+//******//
 
 #include "Models/DapWalletListModel.h"
 
@@ -77,6 +80,7 @@ void DapModulesController::initModules()
     addModule("settingsModule", new DapModuleSettings(this));
     addModule("dAppsModule", new DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
+    addModule("ordersModule", new DapModuleOrders(this));
     addModule("testModule", new DapModuleTest(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
