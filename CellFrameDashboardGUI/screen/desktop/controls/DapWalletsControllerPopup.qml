@@ -111,19 +111,27 @@ Item{
                         width: parent.width
                         height: 60
 
-                        Text {
-                            id: walletName
-                            text: dapModelWallets.get(index).name
-                            font: mainFont.dapFont.regular14
-                            color: "white"
+                        Item {
+                            width: 224
                             Layout.leftMargin: 24
                             Layout.fillHeight: true
                             Layout.alignment: Qt.AlignLeft
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignLeft
+
+                            Text {
+                                id: walletName
+                                text: dapModelWallets.get(index).name
+                                anchors.fill: parent
+                                font: mainFont.dapFont.regular14
+                                color: "white"
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                clip: true
+                                wrapMode: Text.NoWrap
+                                elide: Text.ElideRight
+                            }
                         }
 
-                        Rectangle{
+                        Rectangle {
                             id: removeIcon
                             Layout.leftMargin: 24
                             Layout.rightMargin: 24
