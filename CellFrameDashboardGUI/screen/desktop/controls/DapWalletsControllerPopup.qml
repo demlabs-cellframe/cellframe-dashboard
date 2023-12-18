@@ -117,17 +117,14 @@ Item{
                             Layout.fillHeight: true
                             Layout.alignment: Qt.AlignLeft
 
-                            Text {
+                            DapBigText {
                                 id: walletName
-                                text: dapModelWallets.get(index).name
+                                fullText: dapModelWallets.get(index).name
+                                textFont: mainFont.dapFont.regular14
+                                textColor: "white"
                                 anchors.fill: parent
-                                font: mainFont.dapFont.regular14
-                                color: "white"
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignLeft
-                                clip: true
-                                wrapMode: Text.NoWrap
-                                elide: Text.ElideRight
+                                verticalAlign: Text.AlignVCenter
+                                horizontalAlign: Text.AlignLeft
                             }
                         }
 
