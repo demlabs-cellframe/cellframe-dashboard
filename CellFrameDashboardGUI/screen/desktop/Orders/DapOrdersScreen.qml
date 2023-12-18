@@ -63,7 +63,10 @@ Page {
 
                 currentIndex: 0
                 onCurrentIndexChanged:
+                {
                     currentTabName = tabsModel.get(currentIndex).name
+                    ordersModule.currentTab = currentIndex
+                }
 
                 delegate:
                 Item{
@@ -116,6 +119,8 @@ Page {
             Layout.fillWidth: true
 
             Layout.rightMargin: -24
+
+            model: modelOrders
         }
     }
 }

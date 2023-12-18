@@ -1,36 +1,36 @@
 import QtQuick 2.7
-
-Item {
+import QtQuick.Layouts 1.12
+RowLayout {
     id: control
 
     property alias name: textName.text
     property alias value: textValue.text
-
-    implicitWidth: textName.implicitWidth + textValue.implicitWidth
-    implicitHeight: Math.max(textName.implicitHeight, textValue.implicitHeight)
+    height: 15
+    Layout.maximumWidth: 296
 
     Text {
         id: textName
-        anchors.left: parent.left
-        anchors.right: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        height: Math.max(implicitHeight, parent.height)
-        font:  mainFont.dapFont.medium12
+        Layout.alignment: Qt.AlignLeft
+        Layout.fillHeight: true
+
+        font:  mainFont.dapFont.regular12
         elide: Text.ElideRight
-        color: currTheme.white
-        text: qsTr("text")
+        color: currTheme.gray
+    }
+
+    Item{
+        Layout.fillWidth: true
     }
 
     Text {
         id: textValue
-        anchors.left: parent.horizontalCenter
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
-        height: Math.max(implicitHeight, parent.height)
+
+        Layout.alignment: Qt.AlignRight
+        Layout.fillHeight: true
+
         font:  mainFont.dapFont.regular12
         elide: Text.ElideRight
         horizontalAlignment: Qt.AlignRight
         color: currTheme.white
-        text: qsTr("text")
     }
 }
