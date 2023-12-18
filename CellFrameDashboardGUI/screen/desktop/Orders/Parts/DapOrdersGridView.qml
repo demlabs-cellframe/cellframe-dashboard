@@ -15,7 +15,7 @@ GridView {
     signal orderDetailsShow(var index)
 
 
-    model: testOrdersModel
+//    model: testOrdersModel
 
     cellWidth: delegateWidth + delegateMargin * 2
     cellHeight: delegateHeight + delegateMargin * 2
@@ -30,145 +30,66 @@ GridView {
     }
 
 
-    delegate: DapRectangleLitAndShaded {
-        id: cell
-
-        width: delegateWidth
-        height: delegateHeight
-
-        color: currTheme.secondaryBackground
-        radius: currTheme.frameRadius
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
-
-        focus: true
-
-        contentData:
-        Item {
-            anchors.fill: parent
-
-            Rectangle {
-                id: headerFrame
-
-                width: parent.width
-                height: 30
-
-                LinearGradient
-                {
-                    anchors.fill: parent
-                    source: parent
-                    start: Qt.point(0,parent.height/2)
-                    end: Qt.point(parent.width,parent.height/2)
-                    gradient:
-                        Gradient {
-                            GradientStop
-                            {
-                                position: 0;
-                                color: cell.GridView.isCurrentItem ? currTheme.mainButtonColorHover0 :
-                                                           currTheme.mainBackground
-                            }
-                            GradientStop
-                            {
-                                position: 1;
-                                color: cell.GridView.isCurrentItem ? currTheme.mainButtonColorHover1 :
-                                                           currTheme.mainBackground
-
-                            }
-                        }
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 16
-                    font:  mainFont.dapFont.medium12
-                    elide: Text.ElideRight
-                    color: currTheme.white
-                    text: (currentTabName + qsTr(" Order ") + model.index)
-                }
-
-                Image {
-                    id: orderIcon
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 16
-                    mipmap: true
-                    source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.svg"
-                }
-            }
-
-            Loader
-            {
-                anchors.fill: parent
-                anchors.topMargin: delegateContentMargin + headerFrame.height
-
-                sourceComponent: currentTabName === "VPN" ? vpn_component:
-                                 currentTabName === "DEX" ? dex_component:
-                                                            stake_component
-
-                onLoaded: item.orderModel = model
-
-            }
-
-
-            MouseArea {
-                anchors.fill: parent
-
-                onClicked: {
-                    cell.forceActiveFocus();
-                    if(control.currentIndex === index)
-                       control.currentIndex = -1
-                    else
-                    {
-                        control.currentIndex = index;
-                        orderDetailsShow(model.index)
-                    }
-                }
-            }
-        }
-    }
+    delegate: currentTabName === "VPN" ? vpn_component:
+              currentTabName === "DEX" ? dex_component: stake_component
 
 
     Component
     {
         id: vpn_component
 
-        ColumnLayout {
+        DapOrderHeader
+        {
+            width: delegateWidth
+            height: delegateHeight
 
-            property var orderModel
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
 
-            anchors.fill: parent
-            anchors.rightMargin: 15
-            anchors.leftMargin: 15
-            anchors.bottomMargin: 12
+            focus: true
 
-            spacing: delegateContentMargin
+            ColumnLayout {
 
-            DapOrderInfoLine {
-                Layout.fillWidth: true
-                name: qsTr("Service uid")
-                value: orderModel.service_uid
-            }
-            DapOrderInfoLine {
-                Layout.fillWidth: true
-                name: qsTr("Direction")
-                value: orderModel.direction
-            }
-            DapOrderInfoLine {
-                Layout.fillWidth: true
-                name: qsTr("Price")
-                value: orderModel.location
-            }
-            DapOrderInfoLine {
-                Layout.fillWidth: true
-                name: qsTr("Location")
-                value: orderModel.location
-                visible: orderModel.location === "None-None" ? false : true
-            }
-            DapOrderInfoLine {
-                Layout.fillWidth: true
-                name: qsTr("Node address")
-                value: orderModel.node_addr
+                anchors.fill: parent
+                anchors.topMargin: 30 + delegateContentMargin //header height + margin
+                anchors.rightMargin: 15
+                anchors.leftMargin: 15
+                anchors.bottomMargin: 12
+
+                spacing: delegateContentMargin
+
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Network")
+                    value: network
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Direction")
+                    value: direction
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Price")
+                    value: price
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Location")
+                    value: node_location
+                    visible: node_location === "None-None" ? false : true
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Node address")
+                    value: node_addr
+                }
+
+                Item{
+                    Layout.fillHeight: true
+                }
             }
         }
     }
@@ -177,21 +98,56 @@ GridView {
     {
         id: dex_component
 
-        ColumnLayout {
+        DapOrderHeader
+        {
+            width: delegateWidth
+            height: delegateHeight
 
-            property var orderModel
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
 
-            anchors.fill: parent
-            anchors.rightMargin: 15
-            anchors.leftMargin: 15
-            anchors.bottomMargin: 12
+            focus: true
 
-            spacing: delegateContentMargin
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.topMargin: 30 + delegateContentMargin //header height + margin
+                anchors.rightMargin: 15
+                anchors.leftMargin: 15
+                anchors.bottomMargin: 12
 
-            DapOrderInfoLine {
-                Layout.fillWidth: true
-                name: qsTr("Network")
-                value: orderModel.network
+                spacing: delegateContentMargin
+
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Network")
+                    value: network
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Pair")
+                    value: buyToken + "/" + sellToken
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: status === "OPENED" ? qsTr("Amount") : qsTr("Status")
+                    value: status === "OPENED" ? amount : status
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Filled")
+                    value: filled
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Rate")
+                    value: rate
+                }
+
+                Item{
+                    Layout.fillHeight: true
+                }
             }
         }
     }
@@ -200,21 +156,50 @@ GridView {
     {
         id: stake_component
 
-        ColumnLayout {
+        DapOrderHeader
+        {
+            width: delegateWidth
+            height: delegateHeight
 
-            property var orderModel
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
 
-            anchors.fill: parent
-            anchors.rightMargin: 15
-            anchors.leftMargin: 15
-            anchors.bottomMargin: 12
+            focus: true
 
-            spacing: delegateContentMargin
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.topMargin: 30 + delegateContentMargin //header height + margin
+                anchors.rightMargin: 15
+                anchors.leftMargin: 15
+                anchors.bottomMargin: 12
 
-            DapOrderInfoLine {
-                Layout.fillWidth: true
-                name: qsTr("Price")
-                value: orderModel.price
+                spacing: delegateContentMargin
+
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Network")
+                    value: network
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Created")
+                    value: created
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Price")
+                    value: price
+                }
+                DapOrderInfoLine {
+                    Layout.fillWidth: true
+                    name: qsTr("Node address")
+                    value: node_addr
+                }
+                Item{
+                    Layout.fillHeight: true
+                }
             }
         }
     }

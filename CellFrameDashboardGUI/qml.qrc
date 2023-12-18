@@ -355,5 +355,6 @@
         <file>screen/desktop/Orders/Parts/DapTextButton.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrderInfoLine.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrdersGridView.qml</file>
+        <file>screen/desktop/Orders/Parts/DapOrderHeader.qml</file>
     </qresource>
 </RCC>

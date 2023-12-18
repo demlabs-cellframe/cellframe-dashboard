@@ -1,5 +1,5 @@
 #include "DapModuleTxExplorer.h"
-#include "qqmlcontext.h"
+#include <QQmlContext>
 
 #include <QJsonDocument>
 #include <QJsonArray>

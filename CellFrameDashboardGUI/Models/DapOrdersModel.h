@@ -24,7 +24,7 @@ protected:
    *******************************************/
     /// @{
 
-    Q_PROPERTY (QString order_hash     READ order_hash    WRITE setOrder_hash     NOTIFY order_hashChanged    )
+    Q_PROPERTY (QString hash           READ hash          WRITE setHash           NOTIFY hashChanged          )
     Q_PROPERTY (QString network        READ network       WRITE setNetwork        NOTIFY networkChanged       )
 
     //VPN and Stake orders properties
@@ -77,8 +77,8 @@ public:
    *******************************************/
     /// @{
 public:
-    Q_INVOKABLE QString order_hash() const;
-    Q_INVOKABLE void setOrder_hash (const QString &order_hash);
+    Q_INVOKABLE QString hash() const;
+    Q_INVOKABLE void setHash (const QString &hash);
 
     Q_INVOKABLE QString network() const;
     Q_INVOKABLE void setNetwork (const QString &network);
@@ -149,7 +149,7 @@ protected:
    *******************************************/
     /// @{
 signals:
-    void order_hashChanged();
+    void hashChanged();
     void networkChanged();
     void versionChanged();
     void directionChanged();
@@ -207,7 +207,7 @@ public:
     enum class FieldId
     {
         invalid    = -1,
-        order_hash = Qt::DisplayRole,
+        hash       = Qt::DisplayRole,
         network    = Qt::UserRole,
         version,
         direction,
@@ -234,7 +234,7 @@ public:
     /// history data
     struct Item
     {
-        QString order_hash;
+        QString hash;
         QString network;
         QString version;
         QString direction;

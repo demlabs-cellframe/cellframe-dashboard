@@ -25,6 +25,8 @@ struct ItemOrdersBridge::Data
 
 static const QHash<QString, DapOrdersModel::DapOrdersModel::FieldId> s_fieldIdMap =
     {
+        {"hash",          DapOrdersModel::FieldId::hash},
+        {"network",       DapOrdersModel::FieldId::network},
         {"version",       DapOrdersModel::FieldId::version},
         {"direction",     DapOrdersModel::FieldId::direction},
         {"created",       DapOrdersModel::FieldId::created},
@@ -188,7 +190,7 @@ int DapOrdersModel::indexOf (const DapOrdersModel::Item &a_item) const
     int index = 0;
 
     for (auto i = m_items->cbegin(), e = m_items->cend(); i != e; i++, index++)
-        if (i->order_hash == a_item.order_hash)
+        if (i->hash == a_item.hash)
             return index;
 
     return -1;
@@ -360,6 +362,8 @@ QVariant DapOrdersModel::_getValue (const DapOrdersModel::Item &a_item, int a_fi
     {
     case DapOrdersModel::FieldId::invalid: break;
 
+    case DapOrdersModel::FieldId::hash:             return a_item.hash;
+    case DapOrdersModel::FieldId::network:          return a_item.network;
     case DapOrdersModel::FieldId::version:          return a_item.version;
     case DapOrdersModel::FieldId::direction:        return a_item.direction;
     case DapOrdersModel::FieldId::created:          return a_item.created;
@@ -390,6 +394,8 @@ void DapOrdersModel::_setValue (DapOrdersModel::Item &a_item, int a_fieldId, con
     {
     case DapOrdersModel::FieldId::invalid: break;
 
+    case DapOrdersModel::FieldId::hash:           a_item.hash          = a_value.toString(); break;
+    case DapOrdersModel::FieldId::network:        a_item.network       = a_value.toString(); break;
     case DapOrdersModel::FieldId::version:        a_item.version       = a_value.toString(); break;
     case DapOrdersModel::FieldId::direction:      a_item.direction     = a_value.toString(); break;
     case DapOrdersModel::FieldId::created:        a_item.created       = a_value.toString(); break;
@@ -469,6 +475,7 @@ DapOrdersModel::Item _dummy()
             QString(),
             QString(),
             QString(),
+            QString(),
             QString()
         };
 }
@@ -483,7 +490,7 @@ ItemOrdersBridge::ItemOrdersBridge (ItemOrdersBridge::Data *a_data)
     if (!d || !d->model)
         return;
     connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemOrdersBridge::order_hashChanged);
+            this, &ItemOrdersBridge::hashChanged);
     connect (d->model, &QAbstractTableModel::dataChanged,
             this, &ItemOrdersBridge::networkChanged);
     connect (d->model, &QAbstractTableModel::dataChanged,
@@ -550,17 +557,17 @@ ItemOrdersBridge::~ItemOrdersBridge()
 
 /* METHODS */
 
-QString ItemOrdersBridge::order_hash() const
+QString ItemOrdersBridge::hash() const
 {
-    return (d && d->item) ? d->item->order_hash : QString();
+    return (d && d->item) ? d->item->hash : QString();
 }
 
-void ItemOrdersBridge::setOrder_hash (const QString &order_hash)
+void ItemOrdersBridge::setHash (const QString &hash)
 {
     if (!_beginSetValue())
         return;
-    d->item->order_hash = order_hash;
-    emit order_hashChanged();
+    d->item->hash = hash;
+    emit hashChanged();
     _endSetValue();
 }
 
@@ -874,6 +881,8 @@ QVariant ItemOrdersBridge::operator[] (const QString &a_valueName)
     switch (DapOrdersModel::FieldId (fieldId))
     {
 
+    case DapOrdersModel::FieldId::hash:          return hash();          break;
+    case DapOrdersModel::FieldId::network:       return network();       break;
     case DapOrdersModel::FieldId::version:       return version();       break;
     case DapOrdersModel::FieldId::direction:     return direction();     break;
     case DapOrdersModel::FieldId::created:       return created();       break;

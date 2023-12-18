@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QQmlContext>
 
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
@@ -17,7 +18,23 @@ public:
 
     Q_INVOKABLE void getOrdersList();
 
+    Q_PROPERTY(int currentTab READ currentTab WRITE setCurrentTab)
+
+    int currentTab() const
+    { return m_currentTab; }
+
+public slots:
+    void setCurrentTab(int tabIndex);
+
 private:
+
+    enum tabs{
+        VPN = 0,
+        DEX = 1,
+        Stake = 2
+    };
+    int m_currentTab {VPN};
+
     DapModulesController* m_modulesCtrl;
     QTimer *m_timerUpdateOrders;
 
@@ -26,6 +43,8 @@ private:
     QQmlContext *context;
 
     DapOrdersModel m_ordersModel;
+    QByteArray buffDexOrders;
+    QByteArray buffVPNOrders;
 
 public:
     void initConnect();

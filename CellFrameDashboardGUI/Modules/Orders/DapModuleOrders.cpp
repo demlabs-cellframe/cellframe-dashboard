@@ -31,14 +31,24 @@ void DapModuleOrders::getOrdersList()
     s_serviceCtrl->requestToService("DapGetXchangeOrdersList");
 }
 
-void DapModuleOrders::rcvOrdersList(const QVariant &rcvData)
-{
-    modelProcessing(rcvData, false);
-}
-
 void DapModuleOrders::rcvXchangeOrderList(const QVariant &rcvData)
 {
-    modelProcessing(rcvData, true);
+    if(buffDexOrders != rcvData.toByteArray())
+    {
+        s_statusModel.first = false;
+        buffDexOrders = rcvData.toByteArray();
+        modelProcessing(rcvData, true);
+    }
+}
+
+void DapModuleOrders::rcvOrdersList(const QVariant &rcvData)
+{
+    if(buffVPNOrders != rcvData.toByteArray())
+    {
+        s_statusModel.second = false;
+        buffVPNOrders = rcvData.toByteArray();
+        modelProcessing(rcvData, false);
+    }
 }
 
 void DapModuleOrders::initConnect()
@@ -76,6 +86,15 @@ void DapModuleOrders::slotUpdateOrders()
     m_timerUpdateOrders->start(20000);
 }
 
+void DapModuleOrders::setCurrentTab(int tabIndex)
+{
+    if (m_currentTab != tabIndex)
+    {
+        m_currentTab = tabIndex;
+        updateOrdersModel();
+    }
+}
+
 void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 {
     QJsonDocument dataDoc = QJsonDocument::fromJson(rcvData.toByteArray());
@@ -103,7 +122,7 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 
             if(dexFlag)
             {
-                itemOrder.order_hash = obj["order_hash"].toString();
+                itemOrder.hash       = obj["order_hash"].toString();
                 itemOrder.network    = network;
                 itemOrder.created    = obj["created"].toString();
                 itemOrder.status     = obj["status"].toString();
@@ -121,7 +140,7 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
                 if(obj["srv_uid"].toString() == "Other")
                     continue;
 
-                itemOrder.order_hash    = obj["hash"].toString();
+                itemOrder.hash          = obj["hash"].toString();
                 itemOrder.network       = network;
                 itemOrder.version       = obj["version"].toString();
                 itemOrder.direction     = obj["direction"].toString() == "SERV_DIR_SELL" ? "SELL" : "BUY";
@@ -144,7 +163,6 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
         }
     }
 
-    //TODO: check model ?
     if(s_statusModel.first && s_statusModel.second)
     {
         updateOrdersModel();
@@ -155,6 +173,20 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 void DapModuleOrders::updateOrdersModel()
 {
     //TODO: set current tab and sort items
+
+    s_ordersModel->clear();
+
+    for (auto i = 0; i < m_ordersModel.size(); ++i)
+    {
+        const DapOrdersModel::Item &item = m_ordersModel.getItem(i);
+
+        if(m_currentTab == VPN && item.srv_uid == "VPN")
+            s_ordersModel->add(item);
+        else if (m_currentTab == DEX && item.srv_uid == "DEX")
+            s_ordersModel->add(item);
+        else if (m_currentTab == Stake && item.srv_uid == "Stake")
+            s_ordersModel->add(item);
+    }
 }
 
 
