@@ -110,6 +110,7 @@ Item{
                     logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet, "deactivate")
                     walletModule.getWalletsInfo("true")
                     modulesController.getWalletList()
+                    buttonLock.enabled = false
                 }
             }
 
@@ -128,7 +129,15 @@ Item{
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
                             hide()
                         }else{
+                            console.log("Error deactivating wallet:", JSON.stringify(rcvData.message))
                             deactivatingSignal(nameWallet, false)
+                            dapMainWindow.infoItem.showInfo(
+                                        191,0,
+                                        dapMainWindow.width*0.5,
+                                        8,
+                                        qsTr("Error deactivating"),
+                                        "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+                            buttonLock.enabled = true
                         }
                     }
                 }
@@ -169,6 +178,7 @@ Item{
     function show(name_wallet){
         visible = true
         nameWallet = name_wallet
+        buttonLock.enabled = true
         backgroundFrame.opacity = 0.4
         farmeActivate.opacity = 1
     }
