@@ -22,6 +22,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Diagnostics/AbstractDiagnostic.h \
     $$PWD/Dex/StockDataWorker/CandleInfo.h \
     $$PWD/Diagnostics/DapModuleDiagnostics.h \
+    $$PWD/Orders/DapModuleOrders.h \
     $$PWD/Tokens/DapModuleTokens.h \
     $$PWD/dApps/DapDappsNetworkManager.h \
     $$PWD/dApps/DapModuledApps.h \
@@ -47,6 +48,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/DapModulesController.cpp \
     $$PWD/Test/DapModuleTest.cpp \
     $$PWD/Diagnostics/DapModuleDiagnostics.cpp \
+    $$PWD/Orders/DapModuleOrders.cpp \
     $$PWD/Diagnostics/AbstractDiagnostic.cpp \
     $$PWD/Tokens/DapModuleTokens.cpp \
     $$PWD/dApps/DapDappsHelpFunctions.cpp \
