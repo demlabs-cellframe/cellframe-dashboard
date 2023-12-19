@@ -49,7 +49,7 @@ ComboBox {
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
                     width: 122
-                    text: displayText //logic.getModelData(index, "tokenBuy") + "/" + logic.getModelData(index, "tokenSell")
+                    text: displayText
                     color: menuDelegate.highlighted ?
                                currTheme.mainBackground :
                                currTheme.white
@@ -64,7 +64,7 @@ ComboBox {
                     anchors.leftMargin: 148
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    text: rate//logic.getModelData(index, "price")
+                    text: rate
                     color: menuDelegate.highlighted ?
                                currTheme.mainBackground :
                                currTheme.white
@@ -103,6 +103,8 @@ ComboBox {
                     onClicked:
                     {
                         dexModule.setCurrentTokenPair(displayText)
+                        dexTokenModel.setTokenFilter(token1, token2)
+                        dexTokenModel.setNetworkFilter(networkPair)
 //                        displayElement = mainModel.get(index)
 //                        control.currentIndex = index
                         control.popup.close()

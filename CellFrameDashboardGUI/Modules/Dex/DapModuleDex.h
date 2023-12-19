@@ -41,6 +41,9 @@ public:
     Q_PROPERTY(QString token2 READ getToken2 NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getToken2() const { return m_currentPair.token2; }
 
+    Q_PROPERTY(QString networkPair READ getNetworkPair NOTIFY currentTokenPairChanged)
+    Q_INVOKABLE QString getNetworkPair() const { return m_currentPair.network; }
+
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 
     Q_INVOKABLE void setCurrentTokenPair(const QString& namePair);

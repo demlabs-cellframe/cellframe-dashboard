@@ -3,6 +3,7 @@
 #include <QAbstractTableModel>
 #include "DapTokensWalletModel.h"
 #include "../Modules/Wallet/CommonWallet/DapWalletInfo.h"
+#include "TokenProxyModel.h"
 
 class DapInfoWalletModel;
 
@@ -107,6 +108,8 @@ public:
 
     Q_INVOKABLE DapTokensWalletModel* getModel(int index) const;
     Q_INVOKABLE DapTokensWalletModel* getModel(const QString& networkName) const;
+
+    Q_INVOKABLE QStringList getFilterModel(const QString& networkName, const QString& token1, const QString& token2);
     /// remove one item
     Q_INVOKABLE void remove (int a_index);
     /// access item by index

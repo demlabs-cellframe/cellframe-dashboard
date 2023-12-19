@@ -1,7 +1,6 @@
 QT += qml quick widgets svg network
 
 include(../config.pri)
-include (Models/Models.pri)
 TARGET = $${BRAND}
 
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
@@ -48,7 +47,7 @@ SOURCES += $$PWD/main.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
-include($$PWD/Models/DEXModel/dexModels.pri)
+include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
 
 win32 {

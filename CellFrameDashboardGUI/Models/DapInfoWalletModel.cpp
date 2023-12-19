@@ -42,6 +42,7 @@ DapInfoWalletModel::DapInfoWalletModel (const DapInfoWalletModel &a_src)
 {
     operator= (a_src);
     qmlRegisterType<DapTokensWalletModel>("DapTokensWalletModel", 1,0, "DapTokensWalletModel");
+    qRegisterMetaType<TokenProxyModel*>("TokenProxyModel*");
 }
 
 DapInfoWalletModel::DapInfoWalletModel (DapInfoWalletModel &&a_src)
@@ -363,7 +364,7 @@ DapTokensWalletModel* DapInfoWalletModel::getModel(int index) const
 
 DapTokensWalletModel* DapInfoWalletModel::getModel(const QString& networkName) const
 {
-    if( m_items.isEmpty())
+    if(m_items.isEmpty())
     {
         return new DapTokensWalletModel();
     }
@@ -376,4 +377,18 @@ DapTokensWalletModel* DapInfoWalletModel::getModel(const QString& networkName) c
         }
     }
     return new DapTokensWalletModel();
+}
+
+QStringList DapInfoWalletModel::getFilterModel(const QString& networkName,  const QString& token1, const QString& token2)
+{
+    QStringList result;
+    auto model = getModel(networkName);
+    for(int i = 0; i < model->size(); i++)
+    {
+        if(model->at(i).tiker == token1 || model->at(i).tiker == token1)
+        {
+            result.append(model->at(i).tiker);
+        }
+    }
+    return result;
 }

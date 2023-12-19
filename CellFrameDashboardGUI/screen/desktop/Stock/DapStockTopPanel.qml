@@ -59,25 +59,17 @@ Controls.DapTopPanel
         
         DapWalletComboBox
         {
-            id: textNameWallet
-            height: 42
-//            text: walletModelList.get(walletModule.currentWalletIndex).walletName
-            Layout.alignment: Qt.AlignVCenter
-            Layout.maximumWidth: 220
-            Layout.minimumWidth: 220
-//            Layout.leftMargin: 4
-            Layout.leftMargin: 19
-            fullText: walletModelList.get(walletModule.currentWalletIndex).walletName
+            id: comboBoxCurrentWallet
 
             Layout.fillHeight: true
             Layout.topMargin: 9
             Layout.bottomMargin: 9
             Layout.leftMargin: 4
             width: 220
-
+            displayText: walletModule.currentWalletName
             font: mainFont.dapFont.regular14
 
-            model: walletListModel
+            model: walletModelList
 
             enabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
             disabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
@@ -85,19 +77,8 @@ Controls.DapTopPanel
             Component.onCompleted:
             {
                 console.log("DapDashboardTopPanel onCompleted",
-                            "logicMainApp.currentWalletIndex", modulesController.currentWalletIndex)
-                setCurrentIndex(modulesController.currentWalletIndex)
-            }
-
-            onItemSelected:
-            {
-                modulesController.currentWalletIndex = currentIndex
-
-                console.log("DapDashboardTopPanel onItemSelected",
-                            "currentWalletName", modulesController.currentWalletName,
-                            "currentWalletIndex", modulesController.currentWalletIndex,)
-                //changeWalletIndex()
-
+                            "logicMainApp.currentWalletIndex", walletModule.currentWalletIndex)
+                setCurrentIndex(walletModule.currentWalletIndex)
             }
 
             defaultText: qsTr("Wallets")
@@ -149,13 +130,16 @@ Controls.DapTopPanel
             Layout.maximumWidth: 160
             Layout.leftMargin: 4
             font: mainFont.dapFont.regular14
-
-            Component.onCompleted: {
-                updatePair()
-            }
+            model: dexTokenModel
+            
+            mainTextRole: "tokenName"
+            // Component.onCompleted: {
+            //     updatePair()
+            // }
 
             onCurrentIndexChanged: updateBalance()
         }
+
         Item{
             Layout.minimumWidth: 160
             Layout.maximumWidth: 160
@@ -325,18 +309,29 @@ Controls.DapTopPanel
 
     Connections
     {
-        target: dashboardTab
-        function onWalletsUpdated()
-        {
-            console.log("DapDashboardTopPanel onModelWalletsUpdated",
-                        "currentWalletName", modulesController.currentWalletName,
-                        "currentWalletIndex", modulesController.currentWalletIndex)
+        target: walletModule
 
-            if(modulesController.currentWalletIndex >= 0)
+        function onCurrentWalletChanged()
+        {
+            comboBoxCurrentWallet.displayText = walletModule.currentWalletName
+        }
+
+        function onWalletsModelChanged()
+        {
+            comboBoxCurrentWallet.displayText = walletModule.currentWalletName
+        }
+
+        function onListWalletChanged()
+        {
+            if(walletModule.currentWalletIndex >= 0)
             {
-                comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
-                comboBoxCurrentWallet.displayText = modulesController.currentWalletName
+                 comboBoxCurrentWallet.displayText = walletModule.currentWalletName
             }
         }
+    }
+    
+    Component.onCompleted:
+    {
+        comboBoxCurrentWallet.displayText = walletModule.currentWalletName
     }
 }

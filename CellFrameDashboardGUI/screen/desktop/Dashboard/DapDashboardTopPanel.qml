@@ -160,6 +160,7 @@ Controls.DapTopPanel
     {
         isModel = !walletModelList.count ? false : true
         statusProtected = walletModelList.get(walletModule.currentWalletIndex).statusProtected
+        comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
     }
     
     Connections
@@ -169,8 +170,6 @@ Controls.DapTopPanel
         function onCurrentWalletChanged()
         {
             updateStatusWalletInfo()
-            ///comboBoxCurrentWallet.setCurrentIndex(walletModule.currentWalletIndex)
-            // comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
         }
 
         function onWalletsModelChanged()
@@ -181,13 +180,12 @@ Controls.DapTopPanel
         function onListWalletChanged()
         {
             console.log("DapDashboardTopPanel onModelWalletsUpdated",
-                        "currentWalletName", walletModule.getCurrentWalletName(),
+                        "currentWalletName", walletModule.currentWalletName,
                         "currentWalletIndex", walletModule.currentWalletIndex)
 
             if(walletModule.currentWalletIndex >= 0)
             {
-                //comboBoxCurrentWallet.setCurrentIndex(walletModule.currentWalletIndex)
-                // comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
+                 comboBoxCurrentWallet.displayText = walletModule.currentWalletName
             }
         }
     }

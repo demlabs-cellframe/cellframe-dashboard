@@ -23,7 +23,8 @@ static const QHash<QString, DapTokensWalletModel::DapTokensWalletModel::FieldId>
         {"tokenName",       DapTokensWalletModel::FieldId::tokenName},
         {"value",           DapTokensWalletModel::FieldId::value},
         {"valueDatoshi",    DapTokensWalletModel::FieldId::valueDatoshi},
-        {"tiker",           DapTokensWalletModel::FieldId::tiker}
+        {"tiker",           DapTokensWalletModel::FieldId::tiker},
+        {"network",         DapTokensWalletModel::FieldId::network}
         };
 
 static DapTokensWalletModel::Item _dummy();
@@ -204,6 +205,7 @@ QVariant DapTokensWalletModel::_getValue (const DapTokensWalletModel::Item &a_it
     case DapTokensWalletModel::FieldId::value:         return a_item.value;
     case DapTokensWalletModel::FieldId::valueDatoshi:  return a_item.valueDatoshi;
     case DapTokensWalletModel::FieldId::tiker:         return a_item.tiker;
+    case DapTokensWalletModel::FieldId::network:       return a_item.network;
     }
 
     return QVariant();
@@ -244,14 +246,11 @@ ItemTokensBridge::ItemTokensBridge (ItemTokensBridge::Data *a_data)
 {
     if (!d || !d->model)
         return;
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemTokensBridge::tokenNameChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemTokensBridge::valueChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemTokensBridge::valueDatoshiChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemTokensBridge::tikerChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::tokenNameChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::valueChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::valueDatoshiChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::tikerChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::networkChanged); 
 }
 
 ItemTokensBridge::ItemTokensBridge (QObject *a_parent)
@@ -294,6 +293,11 @@ QString ItemTokensBridge::valueDatoshi() const
 QString ItemTokensBridge::tiker() const
 {
     return (d && d->item) ? d->item->tiker : QString();
+}
+
+QString ItemTokensBridge::network() const
+{
+    return (d && d->item) ? d->item->network : QString();
 }
 
 ItemTokensBridge &ItemTokensBridge::operator =(const ItemTokensBridge &a_src)

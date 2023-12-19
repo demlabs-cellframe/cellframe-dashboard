@@ -18,7 +18,7 @@ protected:
     Q_PROPERTY (QString value           READ value          NOTIFY valueChanged)
     Q_PROPERTY (QString valueDatoshi    READ valueDatoshi   NOTIFY valueDatoshiChanged)
     Q_PROPERTY (QString tiker           READ tiker          NOTIFY tikerChanged)
-
+    Q_PROPERTY (QString network         READ network        NOTIFY networkChanged)
 
 protected:
     Data *d;
@@ -33,32 +33,25 @@ public:
 
 public:
     Q_INVOKABLE QString tokenName() const;
-
     Q_INVOKABLE QString value() const;
-
     Q_INVOKABLE QString valueDatoshi() const;
-
     Q_INVOKABLE QString tiker() const;
-
+    Q_INVOKABLE QString network() const;
 signals:
     void tokenNameChanged();
     void valueChanged();
     void valueDatoshiChanged();
     void tikerChanged();
-
+    void networkChanged();
 public:
     ItemTokensBridge &operator = (const ItemTokensBridge &a_src);
     ItemTokensBridge &operator = (ItemTokensBridge &&a_src);
 };
-Q_DECLARE_METATYPE (ItemTokensBridge);
+Q_DECLARE_METATYPE (ItemTokensBridge)
 
 class DapTokensWalletModel : public QAbstractTableModel
 {
     Q_OBJECT
-
-    Q_PROPERTY (int size READ size NOTIFY sizeChanged)
-    Q_PROPERTY (int count READ size NOTIFY sizeChanged)
-
 public:
 
     enum class FieldId
@@ -67,7 +60,8 @@ public:
         tokenName = Qt::DisplayRole,
         value     = Qt::UserRole,
         valueDatoshi,
-        tiker
+        tiker,
+        network
     };
     Q_ENUM(FieldId)
 
@@ -77,14 +71,18 @@ public:
         QString value = QString();
         QString valueDatoshi = QString();
         QString tiker = QString();
+        QString network = QString();
         Item() = default;
         Item(const CommonWallet::WalletTokensInfo& token)
             : tokenName(token.tokenName)
             , value(token.value)
             , valueDatoshi(token.datoshi)
             , tiker(token.ticker)
+            , network(token.network)
         {}
     };
+
+    Q_PROPERTY (int count READ size NOTIFY sizeChanged)
 
     typedef QList<DapTokensWalletModel::Item>::Iterator Iterator;
     typedef QList<DapTokensWalletModel::Item>::ConstIterator ConstIterator;

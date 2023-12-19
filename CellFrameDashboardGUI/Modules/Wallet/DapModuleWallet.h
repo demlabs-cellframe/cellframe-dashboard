@@ -52,14 +52,17 @@ public:
     Q_INVOKABLE void sendTx(QVariantMap);
 
     Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);};
-    Q_INVOKABLE void stopUpdateFee() {m_timerFeeUpdateWallet->stop();};
+    Q_INVOKABLE void stopUpdateFee() {m_timerFeeUpdateWallet->stop();}
+
+    Q_INVOKABLE void setDEXTokenModel(const QString& network);
+    Q_INVOKABLE void setFilterTokenModel(const QString& token1, const QString& token2);
 private:
     void initConnect();
     void updateWalletModel(QVariant, bool isSingle);
     void setNewCurrentWallet(const QPair<int, QString> newWallet);
     void updateWalletInfo(const QJsonDocument &document);
     void restoreIndex();
-
+    void updateDexTokenModel();
     int getIndexWallet(const QString& walletName) const;
 
     CommonWallet::WalletInfo creatInfoObject(const QJsonObject& walletObject);
@@ -108,6 +111,8 @@ private:
 
     DapListWalletsModel* m_walletModel = nullptr;
     DapInfoWalletModel* m_infoWallet = nullptr;
+    DapTokensWalletModel* m_DEXTokenModel = nullptr;
+    TokenProxyModel* m_tokenFilterModelDEX = nullptr;
 
     QPair<int,QString> m_currentWallet = {-1, ""};
     QByteArray m_walletListTest;
