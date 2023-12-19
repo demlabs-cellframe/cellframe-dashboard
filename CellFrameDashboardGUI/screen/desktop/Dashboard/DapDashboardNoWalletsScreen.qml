@@ -32,7 +32,7 @@ Page
                 anchors.fill: parent
                 anchors.bottomMargin: 67
                 spacing: 0
-                visible: walletModelList.get(walletModule.getCurrentIndex()).isLoad
+                visible: walletModelList.get(walletModule.currentWalletIndex).isLoad
 
                 Item{Layout.fillHeight: true}
 
@@ -92,7 +92,7 @@ Page
             ColumnLayout{
                 anchors.fill: parent
                 spacing: 16
-                visible: !walletModelList.get(walletModule.getCurrentIndex()).isLoad
+                visible: !walletModelList.get(walletModule.currentWalletIndex).isLoad
 
                 Item{Layout.fillHeight: true}
 

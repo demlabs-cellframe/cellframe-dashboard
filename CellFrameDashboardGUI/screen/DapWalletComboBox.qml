@@ -45,13 +45,13 @@ Item
     {
         print("DapCustomComboBox", "onModelChanged",
               "popupListView.currentIndex", popupListView.currentIndex,
-              "name", model.get(walletModule.getCurrentIndex()).walletName)
+              "name", model.get(walletModule.currentWalletIndex).walletName)
 
         if (popupListView.currentIndex < 0)
 //            displayText = getModelData(0, mainTextRole)
             displayText = defaultText
         else
-            displayText = model.get(walletModule.getCurrentIndex()).walletName
+            displayText = model.get(walletModule.currentWalletIndex).walletName
     }
 
     onCountChanged:
@@ -61,7 +61,7 @@ Item
         if (popupListView.currentIndex < 0)
             displayText = model.get(0).walletName
         else
-            displayText = model.get(walletModule.getCurrentIndex()).walletName
+            displayText = model.get(walletModule.currentWalletIndex).walletName
     }
 
     Rectangle
@@ -255,15 +255,16 @@ Item
                             popupListView.currentIndex = index
                             popup.visible = false
                             walletModule.setCurrentWallet(walletName)
+                            displayText = walletName;
                         }
                     }
                 }
 
-                onCurrentIndexChanged:
-                {
-                    displayText = walletModule.getCurrentWalletName()
-                    mainItem.currentIndex = walletModule.getCurrentIndex()
-                }
+                // onCurrentIndexChanged:
+                // {
+                //     //displayText = walletModule.currentWalletName
+                //     mainItem.currentIndex = walletModule.currentWalletIndex
+                // }
 
             }
 

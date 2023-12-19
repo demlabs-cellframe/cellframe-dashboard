@@ -31,6 +31,8 @@ public:
     ~DapModuleWallet();
 
 //    QJsonDocument m_walletsModel;
+    Q_PROPERTY(int currentWalletIndex           READ getCurrentIndex        NOTIFY currentWalletChanged)
+    Q_PROPERTY(QString currentWalletName        READ getCurrentWalletName   NOTIFY currentWalletChanged)
 
     Q_INVOKABLE void timerUpdateFlag(bool flag);
     Q_INVOKABLE void getWalletsInfo(QStringList args);

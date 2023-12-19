@@ -143,10 +143,10 @@ DapPage
         function onSigWalletInfo(model)
         {
 
-            var item = walletModelList.get(walletModule.getCurrentIndex());
+            var item = walletModelList.get(walletModule.currentWalletIndex);
 
-            if(walletModule.getCurrentIndex() >= 0 && item.statusProtected)
-                walletModelList.get(walletModule.getCurrentIndex()).statusProtected = item.statusProtected || ""
+            if(walletModule.currentWalletIndex >= 0 && item.statusProtected)
+                walletModelList.get(walletModule.currentWalletIndex).statusProtected = item.statusProtected || ""
 
         }
     }
@@ -155,16 +155,16 @@ DapPage
     {
         console.log("UPDATE")
         console.log("UPDATE walletModelList.count = " + walletModelList.count)
-        console.log("UPDATE walletModelList.get(walletModule.getCurrentIndex()).walletName = " + walletModelList.get(walletModule.getCurrentIndex()).walletName)
-        console.log("UPDATE walletModelList.get(walletModule.getCurrentIndex()).isLoad = " + walletModelList.get(walletModule.getCurrentIndex()).isLoad)
+        console.log("UPDATE walletModelList.get(walletModule.currentWalletIndex).walletName = " + walletModelList.get(walletModule.currentWalletIndex).walletName)
+        console.log("UPDATE walletModelList.get(walletModule.currentWalletIndex).isLoad = " + walletModelList.get(walletModule.currentWalletIndex).isLoad)
         // top panel
         // If there are no wallets, then remove the top panel
         dashboardTopPanel.layout.visible = walletModelList.count 
 
         // If there are no wallets or the data has not loaded.
-        dashboardScreen.walletDefaultFrame.visible = (walletModelList.count || !walletModelList.get(walletModule.getCurrentIndex()).isLoad)
+        dashboardScreen.walletDefaultFrame.visible = (walletModelList.count || !walletModelList.get(walletModule.currentWalletIndex).isLoad)
 
-        dashboardScreen.walletShowFrame.visible = (walletModelList.count && walletModelList.get(walletModule.getCurrentIndex()).isLoad)
+        dashboardScreen.walletShowFrame.visible = (walletModelList.count && walletModelList.get(walletModule.currentWalletIndex).isLoad)
 
         dashboardScreen.walletCreateFrame.visible = (state === "WALLETCREATE" &&  !walletModelList.count)
     }

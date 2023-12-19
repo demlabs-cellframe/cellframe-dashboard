@@ -100,7 +100,7 @@ DapRectangleLitAndShaded
                 textButton: qsTr("Unlock wallet")
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText:Qt.AlignCenter
-                onClicked: walletActivatePopup.show(walletModelList.get(walletModule.getCurrentIndex()).walletName, false)
+                onClicked: walletActivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, false)
             }
 
             Item{Layout.fillHeight: true}
@@ -112,7 +112,7 @@ DapRectangleLitAndShaded
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
-            visible: walletModelList.get(walletModule.getCurrentIndex()).statusProtected !== "non-Active"
+            visible: walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
             model:walletModelInfo
 
             delegate: delegateTokenView
@@ -252,9 +252,9 @@ DapRectangleLitAndShaded
     function updateVisibleList()
     {
         console.log("MODEL = " + walletModelList)
-        console.log("index = " + walletModule.getCurrentIndex())
-        console.log("STATUS = " + walletModelList.get(walletModule.getCurrentIndex()).statusProtected)
-        listViewWallet.visible = walletModelList.get(walletModule.getCurrentIndex()).statusProtected !== "non-Active"
+        console.log("index = " + walletModule.currentWalletIndex)
+        console.log("STATUS = " + walletModelList.get(walletModule.currentWalletIndex).statusProtected)
+        listViewWallet.visible = walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
     }
 
     Connections

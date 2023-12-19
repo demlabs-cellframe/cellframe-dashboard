@@ -14,8 +14,6 @@ Controls.DapTopPanel
     property bool isModel: false
     property string statusProtected: ""
 
-    signal changeWalletIndex()
-
     RowLayout
     {
         id: layout
@@ -38,7 +36,7 @@ Controls.DapTopPanel
             Layout.bottomMargin: 9
             Layout.leftMargin: 4
             width: 220
-
+            displayText: walletModule.currentWalletName
             font: mainFont.dapFont.regular14
 
             model: walletModelList
@@ -49,8 +47,8 @@ Controls.DapTopPanel
             Component.onCompleted:
             {
                 console.log("DapDashboardTopPanel onCompleted",
-                            "logicMainApp.currentWalletIndex", walletModule.getCurrentIndex())
-                setCurrentIndex(walletModule.getCurrentIndex())
+                            "logicMainApp.currentWalletIndex", walletModule.currentWalletIndex)
+                setCurrentIndex(walletModule.currentWalletIndex)
             }
 
             defaultText: qsTr("Wallets")
@@ -86,17 +84,17 @@ Controls.DapTopPanel
                 anchors.fill: parent
 
                 onClicked: {
-                    if(walletModelList.get(walletModule.getCurrentIndex()).statusProtected === "")
+                    if(walletModelList.get(walletModule.currentWalletIndex).statusProtected === "")
                     {
-                        tryCreatePasswordWalletPopup.show(walletModelList.get(walletModule.getCurrentIndex()).walletName, createPasswordWalletPopup, false)
+                        tryCreatePasswordWalletPopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, createPasswordWalletPopup, false)
                     }
-                    else if(walletModelList.get(walletModule.getCurrentIndex()).statusProtected === "non-Active")
+                    else if(walletModelList.get(walletModule.currentWalletIndex).statusProtected === "non-Active")
                     {
-                        walletActivatePopup.show(walletModelList.get(walletModule.getCurrentIndex()).walletName, false)
+                        walletActivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, false)
                     }
                     else
                     {
-                        walletDeactivatePopup.show(dapModelWallets.get(walletModule.getCurrentIndex()).name)
+                        walletDeactivatePopup.show(dapModelWallets.get(walletModule.currentWalletIndex).name)
                     }
                 }
             }
@@ -161,7 +159,7 @@ Controls.DapTopPanel
     function updateStatusWalletInfo()
     {
         isModel = !walletModelList.count ? false : true
-        statusProtected = walletModelList.get(walletModule.getCurrentIndex()).statusProtected
+        statusProtected = walletModelList.get(walletModule.currentWalletIndex).statusProtected
     }
     
     Connections
@@ -171,8 +169,8 @@ Controls.DapTopPanel
         function onCurrentWalletChanged()
         {
             updateStatusWalletInfo()
-            comboBoxCurrentWallet.setCurrentIndex(walletModule.getCurrentIndex())
-            comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
+            ///comboBoxCurrentWallet.setCurrentIndex(walletModule.currentWalletIndex)
+            // comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
         }
 
         function onWalletsModelChanged()
@@ -184,12 +182,12 @@ Controls.DapTopPanel
         {
             console.log("DapDashboardTopPanel onModelWalletsUpdated",
                         "currentWalletName", walletModule.getCurrentWalletName(),
-                        "currentWalletIndex", walletModule.getCurrentIndex())
+                        "currentWalletIndex", walletModule.currentWalletIndex)
 
-            if(walletModule.getCurrentIndex() >= 0)
+            if(walletModule.currentWalletIndex >= 0)
             {
-                comboBoxCurrentWallet.setCurrentIndex(walletModule.getCurrentIndex())
-                comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
+                //comboBoxCurrentWallet.setCurrentIndex(walletModule.currentWalletIndex)
+                // comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
             }
         }
     }

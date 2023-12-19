@@ -61,13 +61,13 @@ Controls.DapTopPanel
         {
             id: textNameWallet
             height: 42
-//            text: walletModelList.get(walletModule.getCurrentIndex()).walletName
+//            text: walletModelList.get(walletModule.currentWalletIndex).walletName
             Layout.alignment: Qt.AlignVCenter
             Layout.maximumWidth: 220
             Layout.minimumWidth: 220
 //            Layout.leftMargin: 4
             Layout.leftMargin: 19
-            fullText: walletModelList.get(walletModule.getCurrentIndex()).walletName
+            fullText: walletModelList.get(walletModule.currentWalletIndex).walletName
 
             Layout.fillHeight: true
             Layout.topMargin: 9
@@ -96,7 +96,7 @@ Controls.DapTopPanel
                 console.log("DapDashboardTopPanel onItemSelected",
                             "currentWalletName", modulesController.currentWalletName,
                             "currentWalletIndex", modulesController.currentWalletIndex,)
-                changeWalletIndex()
+                //changeWalletIndex()
 
             }
 

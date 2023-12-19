@@ -18,7 +18,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(m_timerUpdateListWallets, &QTimer::timeout, this, &DapModuleWallet::updateListWallets, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived, Qt::QueuedConnection);
     m_timerUpdateListWallets->start(TIME_LIST_WALLET_UPDATE);
-    connect(this, &DapModuleWallet::currentWalletChanged, this, &DapModuleWallet::startUpdateCurrentWallet);
+    //connect(this, &DapModuleWallet::currentWalletChanged, this, &DapModuleWallet::startUpdateCurrentWallet);
     
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
@@ -237,6 +237,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 {
     m_currentWallet = newWallet;
     m_modulesCtrl->getSettings()->setValue("walletName", m_currentWallet.second);
+    m_modulesCtrl->setCurrentWallet(m_currentWallet);
     if(!m_currentWallet.second.isEmpty())
     {
         m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
@@ -245,8 +246,9 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     {
         m_infoWallet->updateModel({});
     }
+
+    startUpdateCurrentWallet();
     emit currentWalletChanged();
-    m_modulesCtrl->setCurrentWallet(m_currentWallet);
 }
 
 void DapModuleWallet::timerUpdateFlag(bool flag)
