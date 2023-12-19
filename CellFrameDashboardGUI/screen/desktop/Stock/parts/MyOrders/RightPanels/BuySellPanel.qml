@@ -127,12 +127,12 @@ DapRectangleLitAndShaded {
                       currentElement.tokenBuy
             textValue: currentElement.price
 //            textToken: tokenPairsWorker.tokenSell
-//            textValue: logicMainApp.tokenPrice
+//            textValue: candleChartWorker.currentTokenPrice
             onEdited: {
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
                 if(amount.textValue !== "0")
                     total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
+                                                    mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false)
             }
         }
 
@@ -170,14 +170,14 @@ DapRectangleLitAndShaded {
             onEdited:
             {
                 total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
+                                                    mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false)
 
                 button25.selected = false
                 button50.selected = false
                 button75.selected = false
                 button100.selected = false
 
-                createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+                createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
             }
         }
 
@@ -324,10 +324,10 @@ DapRectangleLitAndShaded {
                 button100.selected = false
 
                 amount.textValue = mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
+                                                    mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false)
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
-            onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+            onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
         }
 
         DapButton

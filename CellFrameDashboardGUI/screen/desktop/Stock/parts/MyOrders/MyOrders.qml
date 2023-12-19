@@ -39,7 +39,7 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         clip: true
-        model: myOrdersModel
+        model: ordersModel //myOrdersModel
 
         highlight: Rectangle{color: currTheme.inputActive; opacity: 0.12}
         highlightMoveDuration: 0

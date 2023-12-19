@@ -12,8 +12,8 @@ ColumnLayout {
 
     Component.onCompleted:
     {
-        stop.textValue = logicMainApp.tokenPrice
-        limit.textValue = logicMainApp.tokenPrice
+        stop.textValue = candleChartWorker.currentTokenPrice
+        limit.textValue = candleChartWorker.currentTokenPrice
     }
 
     Rectangle
@@ -45,7 +45,7 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: logicStock.unselectedTokenNameWallet
-        textValue: logicMainApp.tokenPrice
+        textValue: candleChartWorker.currentTokenPrice
     }
 
     Rectangle
@@ -97,7 +97,7 @@ ColumnLayout {
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
             textToken: logicStock.unselectedTokenNameWallet
-            textValue: logicMainApp.tokenPrice
+            textValue: candleChartWorker.currentTokenPrice
         }
 
         Rectangle
@@ -190,7 +190,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.25)
+                    (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice)*0.25)
             }
         }
 
@@ -212,7 +212,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.5)
+                    (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice)*0.5)
             }
         }
 
@@ -234,7 +234,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.75)
+                    (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice)*0.75)
             }
         }
 
@@ -256,7 +256,7 @@ ColumnLayout {
                 button100.selected = true
 
                 amount.setRealValue(
-                    logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)
+                    logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice)
             }
         }
     }

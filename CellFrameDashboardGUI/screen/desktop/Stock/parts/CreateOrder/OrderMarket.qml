@@ -15,7 +15,7 @@ ColumnLayout {
     Connections{
         target: createForm
         function onSellBuyChanged(){
-            createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+            createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
 //            updateForms()
         }
     }
@@ -56,12 +56,12 @@ ColumnLayout {
         Layout.leftMargin: 16
         Layout.rightMargin: 16
         textToken: tokenPairsWorker.tokenSell
-        textValue: logicMainApp.tokenPrice
+        textValue: candleChartWorker.currentTokenPrice
         onEdited: {
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             if(amount.textValue !== "" || amount.textValue !== "0")
                 total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                mathWorker.coinsToBalance(logicMainApp.tokenPrice),false))
+                                                mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false))
         }
     }
 
@@ -99,14 +99,14 @@ ColumnLayout {
         onEdited:
         {
             total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(logicMainApp.tokenPrice),false))
+                                                mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false))
 
             button25.selected = false
             button50.selected = false
             button75.selected = false
             button100.selected = false
 
-            createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+            createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
         }
     }
 
@@ -253,10 +253,10 @@ ColumnLayout {
             button100.selected = false
 
             amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(logicMainApp.tokenPrice),false))
+                                                mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
-        onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+        onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
     }
 
     DapButton
@@ -295,12 +295,12 @@ ColumnLayout {
 
             var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
 
-            if(hash !== "0")
-                logicMainApp.requestToService("DapXchangeOrderPurchase", hash,
-                                                      net, currentWallet, amountSell)
-            else
-                logicMainApp.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                      currentWallet, amountSell, priceValue)
+            // if(hash !== "0")
+            //     logicMainApp.requestToService("DapXchangeOrderPurchase", hash,
+            //                                           net, currentWallet, amountSell)
+            // else
+            //     logicMainApp.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
+            //                                           currentWallet, amountSell, priceValue)
         }
     }
 
@@ -310,11 +310,11 @@ ColumnLayout {
 
     function updateForms()
     {
-        price.textValue = logicMainApp.tokenPrice
-//        price.setRealValue(logicMainApp.tokenPrice)
+        price.textValue = candleChartWorker.currentTokenPrice
+//        price.setRealValue(candleChartWorker.currentTokenPrice)
         total.textValue = ""
         amount.textValue = ""
-        createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+        createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
         button25.selected = false
         button50.selected = false
         button75.selected = false

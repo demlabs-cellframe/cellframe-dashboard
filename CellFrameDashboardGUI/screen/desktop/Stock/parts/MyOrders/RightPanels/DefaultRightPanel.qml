@@ -68,6 +68,7 @@ Item
 
                 if (currentIndex === 0)
                 {
+
                     setFilterSide("buy")
                     setCurrentMainScreen(allOrders)
 
@@ -180,15 +181,15 @@ Item
             {
                 if (currentIndex === 0)
                 {
-                    setFilterSide("Buy")
+                    ordersModel.setFilterSide("Buy")
                 }
                 if (currentIndex === 1)
                 {
-                    setFilterSide("Sell")
+                    ordersModel.setFilterSide("Sell")
                 }
                 if (currentIndex === 2)
                 {
-                    setFilterSide("Both")
+                    ordersModel.setFilterSide("Both")
                 }
             }
 
@@ -210,9 +211,15 @@ Item
             onToggled:
             {
                 if (secondSelected)
-                    setFilterSide("sell")
+                    {
+                        ordersModel.setFilterSide("Sell")
+                    }
+                    //setFilterSide("sell")
                 else
-                    setFilterSide("buy")
+                {
+                    ordersModel.setFilterSide("Buy")
+                }
+                   // setFilterSide("buy")
 //                isSell = secondSelected
 //                if (isSell)
 //                {

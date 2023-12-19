@@ -5,8 +5,8 @@
 #include <QVector>
 #include <QVariantMap>
 
-#include "priceinfo.h"
-#include "candleinfo.h"
+#include "PriceInfo.h"
+#include "CandleInfo.h"
 
 class CandleChartWorker : public QObject
 {
@@ -53,7 +53,7 @@ public:
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
 
-    Q_INVOKABLE void setTokenPriceHistory(const QByteArray &json);
+    Q_INVOKABLE void setTokenPriceHistory(const QJsonArray &history);
 
     Q_INVOKABLE void updateAllModels();
 

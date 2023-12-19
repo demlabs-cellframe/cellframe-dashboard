@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QQmlContext>
 
-#include "candlechartworker.h"
-#include "orderbookworker.h"
-#include "tokenpairsworker.h"
+#include "CandleChartWorker.h"
+#include "OrderBookWorker.h"
+#include "TokenPairsWorker.h"
 
 class StockDataWorker : public QObject
 {
@@ -14,6 +14,9 @@ class StockDataWorker : public QObject
 
 public:
     explicit StockDataWorker(QQmlContext *cont, QObject *parent = nullptr);
+
+    CandleChartWorker* getCandleChartWorker() const {return candleChartWorker; }
+    OrderBookWorker* getOrderBookWorker() const { return orderBookWorker; }
 
 public slots:
     void signalXchangeOrderListReceived(const QVariant& rcvData);

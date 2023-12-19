@@ -19,6 +19,8 @@ public:
     DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent = nullptr);
     ~DapModulesController();
 
+    DapServiceController* getServiceController() const { return s_serviceCtrl; }
+
     QQmlApplicationEngine *s_appEngine;
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;

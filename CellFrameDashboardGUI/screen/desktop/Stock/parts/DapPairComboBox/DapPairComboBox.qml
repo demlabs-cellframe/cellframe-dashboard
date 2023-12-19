@@ -13,24 +13,24 @@ ComboBox {
     leftPadding: 15
     rightPadding: 15
 
-    property alias logic: logic
+//    property alias logic: logic
     property int maximumPopupHeight: 230
     property int widthPopup: 296
 //    property string mainTextRole: "pair"
     property string defaultText: qsTr("Undefined")
-    property var displayElement
+//    property var displayElement
 
-    signal initModelIsCompleted()
+    //signal initModelIsCompleted()
     spacing: 0
 
 
-    LogicComboBox{id: logic}
-    ListModel{id: temporaryModel}
-    ListModel{id: mainModel}
+//    LogicComboBox{id: logic}
+//    ListModel{id: temporaryModel}
+//    ListModel{id: mainModel}
 
-    displayText: displayElement ?
-                     displayElement.tokenBuy + "/" + displayElement.tokenSell :
-                     defaultText
+//    displayText: displayElement ?
+//                     displayElement.tokenBuy + "/" + displayElement.tokenSell :
+//                     defaultText
 
     delegate:
         ItemDelegate
@@ -49,8 +49,7 @@ ComboBox {
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
                     width: 122
-                    text: logic.getModelData(index, "tokenBuy") + "/" +
-                          logic.getModelData(index, "tokenSell")
+                    text: displayText //logic.getModelData(index, "tokenBuy") + "/" + logic.getModelData(index, "tokenSell")
                     color: menuDelegate.highlighted ?
                                currTheme.mainBackground :
                                currTheme.white
@@ -65,7 +64,7 @@ ComboBox {
                     anchors.leftMargin: 148
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    text: logic.getModelData(index, "price")
+                    text: rate//logic.getModelData(index, "price")
                     color: menuDelegate.highlighted ?
                                currTheme.mainBackground :
                                currTheme.white
@@ -103,8 +102,9 @@ ComboBox {
                     hoverEnabled: true
                     onClicked:
                     {
-                        displayElement = mainModel.get(index)
-                        control.currentIndex = index
+                        dexModule.setCurrentTokenPair(displayText)
+//                        displayElement = mainModel.get(index)
+//                        control.currentIndex = index
                         control.popup.close()
                     }
 
@@ -165,7 +165,7 @@ ComboBox {
             {
                 Layout.leftMargin: 4
                 leftPadding: 0
-                text: displayElement.tokenBuy + "/" + displayElement.tokenSell
+                text: dexModule.displayText
                 font: mainFont.dapFont.medium14
                 color: currTheme.white
                 elide: Text.ElideLeft
@@ -273,8 +273,7 @@ ComboBox {
                     contentHeight : maximumPopupHeight
 
                 clip: true
-                model: control.popup.visible ?
-                       control.delegateModel : null
+                model: control.popup.visible ? control.delegateModel : null
                 currentIndex: control.highlightedIndex
                 ScrollIndicator.vertical: ScrollIndicator { }
             }

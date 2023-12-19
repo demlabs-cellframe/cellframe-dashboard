@@ -1,4 +1,4 @@
-#include "tokenpairsworker.h"
+#include "TokenPairsWorker.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>

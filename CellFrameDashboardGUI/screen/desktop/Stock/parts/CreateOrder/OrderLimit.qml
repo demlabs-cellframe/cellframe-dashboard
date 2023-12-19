@@ -74,7 +74,7 @@ ColumnLayout {
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
             textToken: tokenPairsWorker.tokenSell
-            textValue: logicMainApp.tokenPrice
+            textValue: candleChartWorker.currentTokenPrice
 
             onEdited: {
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
@@ -339,12 +339,12 @@ ColumnLayout {
 
             var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
 
-            if(hash !== "0")
-                logicMainApp.requestToService("DapXchangeOrderPurchase", hash,
-                                                      net, currentWallet, amountSell)
-            else
-                logicMainApp.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                      currentWallet, amountSell, priceValue)
+            // if(hash !== "0")
+            //     logicMainApp.requestToService("DapXchangeOrderPurchase", hash,
+            //                                           net, currentWallet, amountSell)
+            // else
+            //     logicMainApp.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
+            //                                           currentWallet, amountSell, priceValue)
         }
     }
 
@@ -354,11 +354,11 @@ ColumnLayout {
 
     function updateForms()
     {
-        price.textValue = logicMainApp.tokenPrice
-//        price.setRealValue(logicMainApp.tokenPrice)
+        price.textValue = candleChartWorker.currentTokenPrice
+//        price.setRealValue(candleChartWorker.currentTokenPrice)
         total.textValue = ""
         amount.textValue = ""
-        createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+        createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
         button25.selected = false
         button50.selected = false
         button75.selected = false

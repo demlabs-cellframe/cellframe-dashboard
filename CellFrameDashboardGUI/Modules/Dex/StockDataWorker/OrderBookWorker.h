@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QVector>
 #include <QQmlContext>
-
-#include "orderinfo.h"
+#include "Models/DEXModel/DEXTypes.h"
+#include "OrderInfo.h"
 
 class OrderBookWorker : public QObject
 {
@@ -58,7 +58,7 @@ public slots:
 
     void setTokenPair(const QString &tok1,
         const QString &tok2, const QString &net);
-
+    void setTokenPair(const DEX::InfoTokenPair& info, const QString &net);
 signals:
     void sellMaxTotalChanged(double max);
     void buyMaxTotalChanged(double max);

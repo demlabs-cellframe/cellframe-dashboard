@@ -1,4 +1,4 @@
-#include "orderbookworker.h"
+#include "OrderBookWorker.h"
 
 #include <QDateTime>
 #include <QRandomGenerator>
@@ -87,14 +87,14 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
 
     for(auto i = 0; i < netArray.size(); i++)
     {
-        if (netArray.at(i)["network"].toString() == network)
+       // if (netArray.at(i)["network"].toString() == network)
         {
-            QJsonArray orders = netArray.at(i)["orders"].toArray();
+            QJsonArray orders = netArray[i].toArray();// /*["orders"].*/toArray();
 
             for(auto j = 0; j < orders.size(); j++)
             {
-                QString tok1 = orders.at(j)["buy_token"].toString();
-                QString tok2 = orders.at(j)["sell_token"].toString();
+                QString tok1 = orders.at(j)["buyToken"].toString();
+                QString tok2 = orders.at(j)["sellToken"].toString();
 
                 if ((tok1 == token1 && tok2 == token2) ||
                     (tok2 == token1 && tok1 == token2))
@@ -116,16 +116,7 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
                             price = 1;
                     }
 
-                    double amount;
-
-                    if (type == OrderType::buy)
-                    {
-                        amount = orders.at(j)["buy_amount"].toString().toDouble();
-                    }
-                    else
-                    {
-                        amount = orders.at(j)["sell_amount"].toString().toDouble();
-                    }
+                    double amount = orders.at(j)["amount"].toString().toDouble();
 
                     amount *= 0.000000000000000001;
 
@@ -244,6 +235,13 @@ void OrderBookWorker::setTokenPair(const QString &tok1,
     network = net;
 
     qDebug() << "OrderBookWorker::setTokenPair" << token1 << token2 << network;
+}
+
+void OrderBookWorker::setTokenPair(const DEX::InfoTokenPair& info, const QString& net)
+{
+    token1 = info.token1;
+    token2 = info.token2;
+    network = net;
 }
 
 void OrderBookWorker::updateBookModels()

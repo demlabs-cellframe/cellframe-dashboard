@@ -39,7 +39,7 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         clip: true
-        model: historyModel
+        model: ordersModel//historyModel
 
         highlight: Rectangle{color: currTheme.inputActive; opacity: 0.12}
         highlightMoveDuration: 0

@@ -57,7 +57,7 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         clip: true
-        model: allOrdersModel
+        model: ordersModel
 
         highlight:
             Rectangle
@@ -89,20 +89,46 @@ Item
     //                    height: 10
     //                    color: "blue"
     //                }
+                HeaderLabel{
+                    Layout.preferredWidth: 120
+                    label.text: qsTr("Date")
+                    label.anchors.leftMargin: 16
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 90
+                    label.text: qsTr("Pair")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 80
+                    label.text: qsTr("Type")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 61
+                    label.text: qsTr("Side")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Price")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 49
+                    label.text: qsTr("Filled")
+                }
 
-                    HeaderLabel{
-                        Layout.preferredWidth: layoutCoeff.get("Price")
-                        label.text: qsTr("Price")
-                    }
 
-                    HeaderLabel{
-                        Layout.preferredWidth: layoutCoeff.get("Available")
-                        label.text: qsTr("Available")
-                    }
-                    HeaderLabel{
-                        Layout.preferredWidth: layoutCoeff.get("Limit")
-                        label.text: qsTr("Limit")
-                    }
+                    // HeaderLabel{
+                    //     Layout.preferredWidth: layoutCoeff.get("Price")
+                    //     label.text: qsTr("Price")
+                    // }
+
+                    // HeaderLabel{
+                    //     Layout.preferredWidth: layoutCoeff.get("Available")
+                    //     label.text: qsTr("Available")
+                    // }
+                    // HeaderLabel{
+                    //     Layout.preferredWidth: layoutCoeff.get("Limit")
+                    //     label.text: qsTr("Limit")
+                    // }
     //                Rectangle {
     //                    Layout.preferredWidth: layoutCoeff.get("Button")
     //                    Layout.fillWidth: true
@@ -110,7 +136,8 @@ Item
     //                    color: "red"
     //                }
                     Item {
-                        Layout.preferredWidth: layoutCoeff.get("Button")
+                        Layout.preferredWidth: 100
+                        //Layout.preferredWidth: layoutCoeff.get("Button")
                         Layout.fillWidth: true
                         height: 10
                     }
@@ -129,15 +156,15 @@ Item
         Item
         {
             id: delegate
-            visible: side === myOrdersTab.currentSide
+            visible: true//side === myOrdersTab.currentSide
             anchors.left: parent.left
             anchors.right: parent.right
             height: visible ? 50 : 0
 
             Component.onCompleted:
             {
-                print("allOrdersDelegate",
-                      side, price, available, limit, tokenSell, tokenBuy)
+//                print("allOrdersDelegate",
+//                      side, price, available, limit, tokenSell, tokenBuy)
             }
 
 /*            MouseArea
@@ -165,46 +192,78 @@ Item
                 anchors.rightMargin: 16
                 anchors.fill: parent
                 spacing: 10
-
-                DapBigNumberText
-                {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: layoutCoeff.get("Price")
-                    textFont: mainFont.dapFont.regular13
-                    outSymbols: 15
-//                    test: available
-                    fullNumber: price
-                    tokenName: list.model.get(index).side === "buy" ?
-                                    list.model.get(index).tokenSell : list.model.get(index).tokenBuy
-                    copyButtonVisible: true
+                HeaderLabel{
+                    Layout.minimumWidth: 120
+                    label.text: date
+                    label.anchors.leftMargin: 16
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 90
+                    label.text: pair
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 80
+                    label.text: type
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 61
+                    label.text: side
+                    label.font: mainFont.dapFont.regular13
+                    label.color: side === "Sell" ? currTheme.red : currTheme.green
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 150
+                    label.text: price
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 49
+                    label.text: filled
+                    label.font: mainFont.dapFont.regular13
                 }
 
-                DapBigNumberText
-                {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: layoutCoeff.get("Available")
-                    textFont: mainFont.dapFont.regular13
-                    outSymbols: 15
-                    fullNumber: available
-                    tokenName: side === "buy" ?
-                                    tokenSell : tokenBuy
-                    copyButtonVisible: true
-                }
+//                 DapBigNumberText
+//                 {
+//                     Layout.fillHeight: true
+//                     Layout.fillWidth: true
+//                     Layout.preferredWidth: layoutCoeff.get("Price")
+//                     textFont: mainFont.dapFont.regular13
+//                     outSymbols: 15
+// //                    test: available
+//                     fullNumber: price
+//                     tokenName: side === "Buy" ?
+//                                     tokenSell : tokenBuy
+//                     copyButtonVisible: true
+//                 }
 
-                DapBigNumberText
-                {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: layoutCoeff.get("Limit")
-                    textFont: mainFont.dapFont.regular13
-                    outSymbols: 15
-                    fullNumber: limit
-                    tokenName: side === "buy" ?
-                                    tokenSell : tokenBuy
-                    copyButtonVisible: true
-                }
+//                 DapBigNumberText
+//                 {
+//                     Layout.fillHeight: true
+//                     Layout.fillWidth: true
+//                     Layout.preferredWidth: layoutCoeff.get("Available")
+//                     textFont: mainFont.dapFont.regular13
+//                     outSymbols: 15
+//                     fullNumber: price
+//                     tokenName: side === "Buy" ?
+//                                     tokenSell : tokenBuy
+//                     copyButtonVisible: true
+//                 }
+
+//                 DapBigNumberText
+//                 {
+//                     Layout.fillHeight: true
+//                     Layout.fillWidth: true
+//                     Layout.preferredWidth: layoutCoeff.get("Limit")
+//                     textFont: mainFont.dapFont.regular13
+//                     outSymbols: 15
+//                     fullNumber: price
+//                     tokenName: side === "Buy" ?
+//                                     tokenSell : tokenBuy
+//                     copyButtonVisible: true
+//                 }
 
 /*                HeaderLabel{
                     Layout.preferredWidth: layoutCoeff.get("Available")
@@ -223,9 +282,10 @@ Item
 
                 Item
                 {
-                    Layout.preferredWidth: layoutCoeff.get("Button")
+                    // Layout.preferredWidth: layoutCoeff.get("Button")
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    Layout.minimumWidth: 100
                     height: 20
 //                    color: "green"
 
@@ -237,23 +297,23 @@ Item
                         implicitHeight: 25
                         //TODO: need update colors
                         defaultColorNormal0:
-                            side == "buy" ?
+                            side === "Buy" ?
                                 currTheme.textColorGreen :
                                 currTheme.textColorRed
                         defaultColorNormal1:
-                            side == "buy" ?
+                            side === "Buy" ?
                                 currTheme.textColorGreen :
                                 currTheme.textColorRed
                         defaultColorHovered0:
-                            side == "buy" ?
+                            side === "Buy" ?
                                 currTheme.textColorGreenHovered :
                                 currTheme.textColorRedHovered
                         defaultColorHovered1:
-                            side == "buy" ?
+                            side === "Buy" ?
                                 currTheme.textColorGreenHovered :
                                 currTheme.textColorRedHovered
                         textButton:
-                            side == "buy" ?
+                            side === "Buy" ?
                                 qsTr("Buy ") + tokenBuy :
                                 qsTr("Sell ") + tokenSell
                         horizontalAligmentText: Text.AlignHCenter

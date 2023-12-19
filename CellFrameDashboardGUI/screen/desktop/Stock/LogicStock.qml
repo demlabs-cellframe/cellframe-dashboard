@@ -42,7 +42,7 @@ QtObject
 
         if(order.side === "Buy")
         {
-            value = balanceReal + order.amount * logicMainApp.tokenPrice
+            value = balanceReal + order.amount * candleChartWorker.currentTokenPrice
             fakeWallet.get(0).tokens.get(1).coins = value.toString()
             balanceReal = value
 

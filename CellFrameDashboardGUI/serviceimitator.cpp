@@ -21,14 +21,14 @@ void ServiceImitator::requestToService(const QString &asServiceName,
     qDebug() << "ServiceImitator::requestToService" << asServiceName
         << params;
 
-    if (asServiceName == "DapVersionController")
-        DapVersionController(params);
+//    if (asServiceName == "DapVersionController")
+//        DapVersionController(params);
 
-    if (asServiceName == "DapGetWalletsInfoCommand")
-        DapGetWalletsInfoCommand();
+//    if (asServiceName == "DapGetWalletsInfoCommand")
+//        DapGetWalletsInfoCommand();
 
-    if (asServiceName == "DapGetXchangeTokenPair")
-        DapGetXchangeTokenPair(params);
+//    if (asServiceName == "DapGetXchangeTokenPair")
+//        DapGetXchangeTokenPair(params);
 
     if (asServiceName == "DapGetXchangeTokenPriceAverage")
         DapGetXchangeTokenPriceAverage(params);
@@ -130,7 +130,7 @@ void ServiceImitator::DapGetWalletsInfoCommand()
 
 //    qDebug() << "ServiceImitator::DapGetWalletsInfoCommand" << docResult.toJson();
 
-    emit walletsReceived(docResult.toJson());
+   // emit walletsReceived(docResult.toJson());
 }
 
 void ServiceImitator::DapGetXchangeTokenPair(
@@ -214,7 +214,7 @@ void ServiceImitator::DapGetXchangeTokenPriceAverage(
     resultObj.insert("network",QJsonValue(net));
     resultObj.insert("rate",QJsonValue(rate));
 
-    emit rcvXchangeTokenPriceAverage(resultObj);
+    // emit rcvXchangeTokenPriceAverage(resultObj);
 }
 
 void ServiceImitator::DapGetXchangeTokenPriceHistory(const QStringList &args)

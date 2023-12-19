@@ -1,4 +1,4 @@
-#include "candlechartworker.h"
+#include "CandleChartWorker.h"
 
 #include <QDateTime>
 #include <QRandomGenerator>
@@ -127,28 +127,39 @@ QVariantMap CandleChartWorker::getPriceInfo(int index)
         return priceModel.at(index).getMap();
 }
 
-void CandleChartWorker::setTokenPriceHistory(const QByteArray &json)
+void CandleChartWorker::setTokenPriceHistory(const QJsonArray &history)
 {
-    qDebug() << "CandleChartWorker::setTokenPriceHistory";
-
-    QJsonDocument doc = QJsonDocument::fromJson(json);
-
-    QJsonArray history = doc["history"].toArray();
-
+    if(history.isEmpty())
+    {
+        return;
+    }
+    //priceModel.clear();
     priceModel.resize(history.size());
 
+//    for(const auto& itemValue: history)
     for(auto i = 0; i < history.size(); i++)
     {
-        QString date = history.at(i)["date"].toString();
-
-        double price = history.at(i)["rate"].toString().toDouble();
-        QString priceText = history.at(i)["rate"].toString();
+        QJsonObject item = history[i].toObject();
+        QString date = item.keys().first();
+        QString priceText = item[date].toString();
+        double price = priceText.toDouble();
         qint64 time = date.toLongLong();
-
         PriceInfo info{time, price, priceText};
-
-        priceModel[i] = info;
+        priceModel[i] = std::move(info);
     }
+//    for(auto i = 0; i < history.size(); i++)
+//    {
+
+//        QString date = history.at(i)["date"].toString();
+
+//        double price = history.at(i)["rate"].toString().toDouble();
+//        QString priceText = history.at(i)["rate"].toString();
+//        qint64 time = date.toLongLong();
+
+//        PriceInfo info{time, price, priceText};
+
+//        priceModel[i] = info;
+//    }
 
     std::sort (priceModel.begin(), priceModel.end(),
                [](const PriceInfo& lha, const PriceInfo& rha){

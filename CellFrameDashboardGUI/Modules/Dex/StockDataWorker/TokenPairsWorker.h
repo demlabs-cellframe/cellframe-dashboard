@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QQmlContext>
 
-#include "tokenpairinfo.h"
+#include "TokenPairInfo.h"
 
 class TokenPairsWorker : public QObject
 {

@@ -66,8 +66,8 @@ Item {
             mainModel.append(temporaryModel.get(i))
 
         control.model = mainModel
-        displayElement = temporaryModel.get(0)
-        initModelIsCompleted()
+//        displayElement = temporaryModel.get(0)
+//        initModelIsCompleted()
     }
 
     function getModelData(index, role)

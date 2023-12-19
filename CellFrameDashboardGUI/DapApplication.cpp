@@ -18,7 +18,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
-    , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
+//    , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
 //    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , configWorker(new ConfigWorker(this))
 //    , stringWorker(new StringWorker(this))
@@ -29,6 +29,8 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
+
+
 
     QString lang = QSettings().value("currentLanguageName", "en").toString();
     qDebug() << "DapApplication"
@@ -52,12 +54,12 @@ DapApplication::DapApplication(int &argc, char **argv)
 //    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
 //    m_diagnosticWorker->start();
 
-    connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
-            stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
-    connect(m_serviceController, &DapServiceController::signalXchangeOrderListReceived,
-            stockDataWorker, &StockDataWorker::signalXchangeOrderListReceived);
-    connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
-            stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
+//    connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
+//            stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
+//    connect(m_serviceController, &DapServiceController::signalXchangeOrderListReceived,
+//            stockDataWorker, &StockDataWorker::signalXchangeOrderListReceived);
+//    connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
+//            stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
 
 //    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
 //            m_historyWorker, &HistoryWorker::setHistoryModel,
@@ -99,7 +101,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 DapApplication::~DapApplication()
 {
-    delete stockDataWorker;
+//    delete stockDataWorker;
     delete configWorker;
 //    delete m_diagnosticWorker;
 //    delete stringWorker;

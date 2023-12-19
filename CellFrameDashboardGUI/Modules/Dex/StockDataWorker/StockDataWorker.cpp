@@ -1,4 +1,4 @@
-#include "stockdataworker.h"
+#include "StockDataWorker.h"
 
 #include <QDebug>
 
@@ -20,8 +20,8 @@ StockDataWorker::StockDataWorker(QQmlContext *cont, QObject *parent) :
     connect(candleChartWorker, &CandleChartWorker::checkBookRoundPower,
             orderBookWorker, &OrderBookWorker::checkBookRoundPower);
 
-    connect(tokenPairsWorker, &TokenPairsWorker::setTokenPair,
-            orderBookWorker, &OrderBookWorker::setTokenPair);
+//    connect(tokenPairsWorker, &TokenPairsWorker::setTokenPair,
+//            orderBookWorker, &OrderBookWorker::setTokenPair);
 }
 
 void StockDataWorker::signalXchangeOrderListReceived(const QVariant &rcvData)
@@ -38,8 +38,8 @@ void StockDataWorker::rcvXchangeTokenPriceHistory(const QVariant &rcvData)
 //    qDebug() << "StockDataWorker::rcvXchangeTokenPriceHistory"
 //             << rcvData << rcvData.typeName();
 //    if (strncmp(rcvData.typeName(), "QByteArray", 10) == 0)
-        if(rcvData.toString() != "")
-        candleChartWorker->setTokenPriceHistory(rcvData.toByteArray());
+//        if(rcvData.toString() != "")
+        //candleChartWorker->setTokenPriceHistory(rcvData.toByteArray());
 }
 
 void StockDataWorker::signalXchangeTokenPairReceived(const QVariant &rcvData)

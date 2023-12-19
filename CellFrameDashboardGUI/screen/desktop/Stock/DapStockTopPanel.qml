@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.0
 
 import "../controls" as Controls
 import "qrc:/widgets"
+import "../../"
 
 Controls.DapTopPanel
 {
@@ -55,20 +56,58 @@ Controls.DapTopPanel
             color: currTheme.gray
             Layout.alignment: Qt.AlignVCenter
         }
-        DapBigText
+        
+        DapWalletComboBox
         {
-            id: textNameWallet
-            height: 42
-//            text: dapModelWallets.get(logicMainApp.currentWalletIndex).name
-            Layout.alignment: Qt.AlignVCenter
-            Layout.maximumWidth: 220
-            Layout.minimumWidth: 220
-//            Layout.leftMargin: 4
-            Layout.leftMargin: 19
-            fullText: dapModelWallets.get(logicMainApp.currentWalletIndex).name
+            id: comboBoxCurrentWallet
 
-            textFont: mainFont.dapFont.regular14
+            Layout.fillHeight: true
+            Layout.topMargin: 9
+            Layout.bottomMargin: 9
+            Layout.leftMargin: 4
+            width: 220
+
+            font: mainFont.dapFont.regular14
+
+            model: walletListModel
+
+            enabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
+            disabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+
+            Component.onCompleted:
+            {
+                console.log("DapDashboardTopPanel onCompleted",
+                            "logicMainApp.currentWalletIndex", modulesController.currentWalletIndex)
+                setCurrentIndex(modulesController.currentWalletIndex)
+            }
+
+            onItemSelected:
+            {
+                modulesController.currentWalletIndex = currentIndex
+
+                console.log("DapDashboardTopPanel onItemSelected",
+                            "currentWalletName", modulesController.currentWalletName,
+                            "currentWalletIndex", modulesController.currentWalletIndex,)
+                changeWalletIndex()
+
+            }
+
+            defaultText: qsTr("Wallets")
         }
+//         DapBigText
+//         {
+//             id: textNameWallet
+//             height: 42
+// //            text: dapModelWallets.get(logicMainApp.currentWalletIndex).name
+//             Layout.alignment: Qt.AlignVCenter
+//             Layout.maximumWidth: 220
+//             Layout.minimumWidth: 220
+// //            Layout.leftMargin: 4
+//             Layout.leftMargin: 19
+//             fullText: modulesController.currentWalletName
+
+//             textFont: mainFont.dapFont.regular14
+//         }
 
 //        DapCustomComboBox{
 //            id: textNameWallet
@@ -194,30 +233,30 @@ Controls.DapTopPanel
 //              "tokenPairsWorker.tokenSell", tokenPairsWorker.tokenSell,
 //              "tokenPairsWorker.tokenNetwork", tokenPairsWorker.tokenNetwork)
 
-        for(var i = 0; i < modelWallet.networks.count; i++)
-        {
-            if(tokenPairsWorker.tokenNetwork === modelWallet.networks.get(i).name)
-            {
-                for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
-                {
-                    if(modelWallet.networks.get(i).tokens.get(k).name
-                            === tokenPairsWorker.tokenBuy ||
-                       modelWallet.networks.get(i).tokens.get(k).name
-                            === tokenPairsWorker.tokenSell)
-                    {
-                        stockModelTokens.append(modelWallet.networks.get(i).tokens.get(k))
-                    }
-                }
+//        for(var i = 0; i < modelWallet.networks.count; i++)
+//        {
+//            if(tokenPairsWorker.tokenNetwork === modelWallet.networks.get(i).name)
+//            {
+//                for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
+//                {
+//                    if(modelWallet.networks.get(i).tokens.get(k).name
+//                            === tokenPairsWorker.tokenBuy ||
+//                       modelWallet.networks.get(i).tokens.get(k).name
+//                            === tokenPairsWorker.tokenSell)
+//                    {
+//                        stockModelTokens.append(modelWallet.networks.get(i).tokens.get(k))
+//                    }
+//                }
 
-                if(stockModelTokens.count)
-                {
-                    tokenComboBox.model =  stockModelTokens
-                    tokenComboBox.currentIndex = 0
-                }
+//                if(stockModelTokens.count)
+//                {
+//                    tokenComboBox.model =  stockModelTokens
+//                    tokenComboBox.currentIndex = 0
+//                }
 
-                break
-            }
-        }
+//                break
+//            }
+//        }
 
 //        print("updatePair",
 //              "stockModelTokens.count", stockModelTokens.count)
@@ -274,5 +313,22 @@ Controls.DapTopPanel
     function setBackToStockVisible(visible)
     {
         backToStock.visible = visible
+    }
+
+    Connections
+    {
+        target: dashboardTab
+        function onWalletsUpdated()
+        {
+            console.log("DapDashboardTopPanel onModelWalletsUpdated",
+                        "currentWalletName", modulesController.currentWalletName,
+                        "currentWalletIndex", modulesController.currentWalletIndex)
+
+            if(modulesController.currentWalletIndex >= 0)
+            {
+                comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
+                comboBoxCurrentWallet.displayText = modulesController.currentWalletName
+            }
+        }
     }
 }

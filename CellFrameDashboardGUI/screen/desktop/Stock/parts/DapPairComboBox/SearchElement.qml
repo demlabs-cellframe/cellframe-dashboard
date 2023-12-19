@@ -40,10 +40,10 @@ ColumnLayout
             font: mainFont.dapFont.regular14
             placeholderColor: currTheme.gray
 
-            Connections{
-                target: logic
-                function onAwaitingFinished(text){ root.findHandler(text)}
-            }
+//            Connections{
+//                target: logic
+//                function onAwaitingFinished(text){ root.findHandler(text)}
+//            }
 
             onTextChanged: logic.filter(text)
 
