@@ -7,7 +7,6 @@ import "qrc:/widgets"
 
 Item
 {
-    property bool isCompact: parent.width > 170 ? false : true
     id: buttonDelegate
 
     width: parent.width
@@ -57,7 +56,7 @@ Item
             elide: Text.ElideMiddle
             color: currTheme.white
             font:mainFont.dapFont.regular13
-            opacity: isCompact ? 0.0 : 1.0
+            opacity: mainRowLayout.isCompact ? 0.0 : 1.0
 
             Behavior on opacity {
                 NumberAnimation {
