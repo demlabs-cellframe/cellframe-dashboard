@@ -346,5 +346,6 @@
         <file>Resources/Translations/Translation_nl.qm</file>
         <file>Resources/Translations/Translation_pt.qm</file>
         <file>Resources/Translations/Translation_zh.qm</file>
+        <file>Resources/BlackTheme/only-logo-dashboard.svg</file>
     </qresource>
 </RCC>

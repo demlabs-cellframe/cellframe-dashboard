@@ -7,9 +7,10 @@ import "qrc:/widgets"
 
 Item
 {
+    property bool isCompact: parent.width > 170 ? false : true
     id: buttonDelegate
 
-    width: 180 
+    width: parent.width
     height: showTab ? 52  : 0
     visible: showTab
 
@@ -37,22 +38,13 @@ Item
         anchors.fill: parent
         anchors.leftMargin: 24
 
-//        Item {
-//            id: ico
-//            width: 16
-//            height: 16
-//            anchors.left: parent.left
-//            anchors.verticalCenter: parent.verticalCenter
-            Image {
-                id: ico
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                mipmap: true
-//                innerWidth: parent.width
-//                innerHeight: parent.height
-                source: "qrc:/Resources/" + pathTheme + "/icons/navigation/" + bttnIco
-            }
-//        }
+        Image {
+            id: ico
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            mipmap: true
+            source: "qrc:/Resources/" + pathTheme + "/icons/navigation/" + bttnIco
+        }
 
         Text {
             id: buttonText
@@ -65,6 +57,13 @@ Item
             elide: Text.ElideMiddle
             color: currTheme.white
             font:mainFont.dapFont.regular13
+            opacity: isCompact ? 0.0 : 1.0
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 150
+                }
+            }
 
             DapCustomToolTip{
                 visible: handler.containsMouse ?  buttonText.implicitWidth > buttonText.width ? true : false : false
@@ -74,6 +73,7 @@ Item
             }
         }
     }
+
     Timer {
         id: timer
     }
@@ -126,6 +126,8 @@ Item
                     }
                 })
             }
+
+            mainRowLayout.expandOrCompress(true)
         }
 
         onExited:
@@ -134,6 +136,8 @@ Item
             {
                 backgroundImage.opacity = 0
             }
+
+            mainRowLayout.expandOrCompress(false)
         }
 
         onClicked:
