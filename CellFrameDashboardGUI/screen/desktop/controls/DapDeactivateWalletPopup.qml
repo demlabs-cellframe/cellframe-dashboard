@@ -109,12 +109,8 @@ Item{
                 {
                     logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet, "deactivate")
                     walletModule.getWalletsInfo("true")
-<<<<<<< HEAD
-                    modulesController.updateListWallets()
-=======
                     modulesController.getWalletList()
                     buttonLock.enabled = false
->>>>>>> a008e082d7011f9de678dce3cf554ddcf764174e
                 }
             }
 
