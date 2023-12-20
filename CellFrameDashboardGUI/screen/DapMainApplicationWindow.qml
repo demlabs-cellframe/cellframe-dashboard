@@ -488,7 +488,6 @@ Rectangle {
                         propagateComposedEvents: true
 
                         onClicked: Qt.openUrlExternally(toolTip.contentText)
-
                         onEntered: mainRowLayout.expandOrCompress(true)
                         onExited: mainRowLayout.expandOrCompress(false)
                     }
@@ -539,7 +538,6 @@ Rectangle {
                     mainScreenStack.clearAll()
                     currPage = item
                 }
-
             }
         }
 
@@ -574,7 +572,6 @@ Rectangle {
     {
         id: networksPanel
         height: 40
-        z: 20
     }
 
     Rectangle {
