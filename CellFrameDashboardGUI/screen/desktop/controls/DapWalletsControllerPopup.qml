@@ -151,7 +151,7 @@ Item{
 
                                 onClicked: {
                                     walletsFrame.opacity = 0.0
-                                    removeWalletPopup.show(walletName.text)
+                                    removeWalletPopup.show(walletName.fullText)
                                 }
                             }
                         }  
