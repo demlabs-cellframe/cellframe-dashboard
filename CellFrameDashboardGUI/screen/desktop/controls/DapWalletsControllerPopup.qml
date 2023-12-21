@@ -105,7 +105,7 @@ Item{
                 delegate:
                     Item {
                     height: 61
-                    width: parent.width
+                    width: walletsList.width
 
                     RowLayout {
                         width: parent.width
@@ -119,7 +119,7 @@ Item{
 
                             DapBigText {
                                 id: walletName
-                                fullText: dapModelWallets.get(index).name
+                                fullText: dapModelWallets.get(index) !== undefined ? dapModelWallets.get(index).name : ""
                                 textFont: mainFont.dapFont.regular14
                                 textColor: "white"
                                 anchors.fill: parent
@@ -196,6 +196,7 @@ Item{
                     if(!jsonDocument.length)
                     {
                         dapModelWallets.clear()
+                        hide()
                         return
                     }
                     dapModelWallets.clear()

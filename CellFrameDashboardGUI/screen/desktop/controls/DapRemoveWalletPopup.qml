@@ -57,10 +57,10 @@ Item {
             onClicked: hide()
         }
 
-        Column
+        Item
         {
             anchors.fill: parent
-            spacing: 0
+            //spacing: 0
 
             Item {
                 id: titleBlock
