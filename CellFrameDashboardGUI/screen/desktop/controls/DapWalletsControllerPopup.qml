@@ -18,6 +18,7 @@ Item{
         MouseArea{
             anchors.fill: parent
             hoverEnabled: true
+            onWheel: {}
             onClicked: hide()
         }
 
@@ -203,9 +204,10 @@ Item{
                         return
                     }
 
-                    if(jsonDocument !== walletListBuff)
+                    if(walletsList !== walletListBuff)
                     {
-                        walletListBuff = jsonDocument
+                        walletListBuff = walletsList
+
                         dapModelWallets.clear()
                         dapModelWallets.append(jsonDocument)
                     }
