@@ -6,6 +6,7 @@ import QtQuick.Controls 2.5
 import "qrc:/widgets"
 
 Item{
+    property var walletListBuff
 
     Rectangle {
         id: backgroundFrame
@@ -95,7 +96,7 @@ Item{
             }
 
             ListView {
-                id: walletsList
+                id: walletsListView
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 clip: true
@@ -105,7 +106,7 @@ Item{
                 delegate:
                     Item {
                     height: 61
-                    width: parent.width
+                    width: walletsListView.width
 
                     RowLayout {
                         width: parent.width
@@ -119,7 +120,7 @@ Item{
 
                             DapBigText {
                                 id: walletName
-                                fullText: dapModelWallets.get(index).name
+                                fullText: dapModelWallets.get(index) !== undefined ? dapModelWallets.get(index).name : ""
                                 textFont: mainFont.dapFont.regular14
                                 textColor: "white"
                                 anchors.fill: parent
@@ -190,16 +191,24 @@ Item{
             Connections
             {
                 target: dapServiceController
-                onWalletsReceived:
+                function onWalletsListReceived(walletsList)
                 {
-                    var jsonDocument = JSON.parse(walletList)
+
+                    var jsonDocument = JSON.parse(walletsList)
+
                     if(!jsonDocument.length)
                     {
                         dapModelWallets.clear()
+                        hide()
                         return
                     }
-                    dapModelWallets.clear()
-                    dapModelWallets.append(jsonDocument)
+
+                    if(jsonDocument !== walletListBuff)
+                    {
+                        walletListBuff = jsonDocument
+                        dapModelWallets.clear()
+                        dapModelWallets.append(jsonDocument)
+                    }
                 }
             }
         }
