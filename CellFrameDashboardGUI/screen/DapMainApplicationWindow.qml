@@ -390,10 +390,11 @@ Rectangle {
             //hide top radius element
             Rectangle{
                 z:0
-                height: currTheme.frameRadius
+                height: currTheme.frameRadius + 10
+                width: leftMenuBackGrnd.radius
                 anchors.top:leftMenuBackGrnd.top
                 anchors.right: leftMenuBackGrnd.right
-                anchors.left: leftMenuBackGrnd.left
+                //.left: leftMenuBackGrnd.left
                 color: currTheme.mainBackground
             }
 
