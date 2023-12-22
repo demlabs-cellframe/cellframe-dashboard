@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtQml 2.12
 import "qrc:/widgets"
 
+
 Item
 {
     id: buttonDelegate
@@ -18,20 +19,30 @@ Item
     signal pushPage(var pageUrl)
     property string pathScreen
 
+
     Image {
         id: backgroundImage
         mipmap: true
-        anchors.fill: parent
+        anchors.right: parent.right
         anchors.rightMargin: 10
         opacity: isPushed? 1: 0
         source: "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
+        sourceSize: Qt.size(180, 52)
+        x: mainRowLayout.isCompact ? -100 : 0
 
         Behavior on opacity {
             NumberAnimation {
                 duration: 150
             }
         }
+
+        Behavior on x {
+            NumberAnimation {
+                duration: 150
+            }
+        }
     }
+
 
     Item {
         anchors.fill: parent
