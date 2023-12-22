@@ -125,7 +125,6 @@ Controls.DapTopPanel
 
         DapCustomComboBox{
             id: tokenComboBox
-//            width: 95
             Layout.minimumWidth: 160
             Layout.maximumWidth: 160
             Layout.leftMargin: 4
@@ -133,11 +132,29 @@ Controls.DapTopPanel
             model: dexTokenModel
             
             mainTextRole: "tokenName"
-            // Component.onCompleted: {
-            //     updatePair()
-            // }
+            onModelChanged:
+            {
+                if (popupListView.currentIndex < 0)
+                {
+                    walletModule.setCurrentTokenDEX(defaultText)
+                }
+                else
+                {
+                    walletModule.setCurrentTokenDEX(getModelData(popupListView.currentIndex, mainTextRole))
+                }
+            }
 
-            onCurrentIndexChanged: updateBalance()
+            onCurrantDisplayTextChanged:
+            {
+                walletModule.setCurrentTokenDEX(text)
+            }
+
+            onCurrentIndexChanged: 
+            {
+                walletModule.setCurrentTokenDEX(displayText)
+                updateBalance()
+            }
+            
         }
 
         Item{
@@ -171,40 +188,9 @@ Controls.DapTopPanel
                 id: textWalletBalance
                 anchors.fill: parent
                 textFont: mainFont.dapFont.regular16
+                fullText: walletModule.balanceDEX
             }
         }
-//        Text
-//        {
-//            id: textWalletBalance
-
-//            Layout.fillWidth: true
-
-//            font: mainFont.dapFont.regular16
-//            color: currTheme.textColor
-
-//            elide: Text.ElideMiddle
-
-//            ToolTip
-//            {
-//                id:toolTip
-//                visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
-//                text: parent.text
-//                scale: mainWindow.scale
-
-//                contentItem: Text {
-//                        text: toolTip.text
-//                        font: mainFont.dapFont.regular14
-//                        color: currTheme.textColor
-//                    }
-//                background: Rectangle{color:currTheme.backgroundPanel}
-//            }
-//            MouseArea
-//            {
-//                id:area
-//                anchors.fill: parent
-//                hoverEnabled: true
-//            }
-//        }
     }
 
     Connections{
@@ -220,38 +206,6 @@ Controls.DapTopPanel
         var modelWallet = dapModelWallets.get(logicMainApp.currentWalletIndex)
         stockModelTokens.clear()
 
-//        print("updatePair",
-//              "tokenPairsWorker.tokenBuy", tokenPairsWorker.tokenBuy,
-//              "tokenPairsWorker.tokenSell", tokenPairsWorker.tokenSell,
-//              "tokenPairsWorker.tokenNetwork", tokenPairsWorker.tokenNetwork)
-
-//        for(var i = 0; i < modelWallet.networks.count; i++)
-//        {
-//            if(tokenPairsWorker.tokenNetwork === modelWallet.networks.get(i).name)
-//            {
-//                for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
-//                {
-//                    if(modelWallet.networks.get(i).tokens.get(k).name
-//                            === tokenPairsWorker.tokenBuy ||
-//                       modelWallet.networks.get(i).tokens.get(k).name
-//                            === tokenPairsWorker.tokenSell)
-//                    {
-//                        stockModelTokens.append(modelWallet.networks.get(i).tokens.get(k))
-//                    }
-//                }
-
-//                if(stockModelTokens.count)
-//                {
-//                    tokenComboBox.model =  stockModelTokens
-//                    tokenComboBox.currentIndex = 0
-//                }
-
-//                break
-//            }
-//        }
-
-//        print("updatePair",
-//              "stockModelTokens.count", stockModelTokens.count)
         updateBalance()
 
         if(stockModelTokens.count)
@@ -273,7 +227,7 @@ Controls.DapTopPanel
 
         if(tokenComboBox.count)
         {
-            textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"coins")
+            // textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"coins")
             logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
             logicStock.selectedTokenBalanceWallet = textWalletBalance.fullText
         }
@@ -329,6 +283,15 @@ Controls.DapTopPanel
             }
         }
     }
+
+    // Connections
+    // {
+    //     target: dexTokenModel
+    //     function onDataChanged()
+    //     {
+    //         walletModule.setCurrentTokenDEX(comboBoxCurrentWallet.displayText)
+    //     }
+    // }
     
     Component.onCompleted:
     {

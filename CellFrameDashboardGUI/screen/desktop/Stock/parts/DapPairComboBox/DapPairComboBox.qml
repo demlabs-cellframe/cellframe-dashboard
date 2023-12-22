@@ -13,24 +13,20 @@ ComboBox {
     leftPadding: 15
     rightPadding: 15
 
-//    property alias logic: logic
     property int maximumPopupHeight: 230
     property int widthPopup: 296
-//    property string mainTextRole: "pair"
-    property string defaultText: qsTr("Undefined")
-//    property var displayElement
 
-    //signal initModelIsCompleted()
+    property string defaultText: qsTr("Undefined")
+
     spacing: 0
 
-
-//    LogicComboBox{id: logic}
-//    ListModel{id: temporaryModel}
-//    ListModel{id: mainModel}
-
-//    displayText: displayElement ?
-//                     displayElement.tokenBuy + "/" + displayElement.tokenSell :
-//                     defaultText
+    onCountChanged:
+    {
+        dexModule.tokenPairModelCountChanged(count)
+        dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
+        dexTokenModel.setNetworkFilter(dexModule.networkPair)
+        walletModule.updateBalanceDEX()
+    }
 
     delegate:
         ItemDelegate
@@ -102,11 +98,10 @@ ComboBox {
                     hoverEnabled: true
                     onClicked:
                     {
-                        dexModule.setCurrentTokenPair(displayText)
+                        dexModule.setCurrentTokenPair(displayText, network)
                         dexTokenModel.setTokenFilter(token1, token2)
-                        dexTokenModel.setNetworkFilter(networkPair)
-//                        displayElement = mainModel.get(index)
-//                        control.currentIndex = index
+                        dexTokenModel.setNetworkFilter(network)
+                        walletModule.updateBalanceDEX()
                         control.popup.close()
                     }
 
@@ -219,9 +214,8 @@ ComboBox {
                         id: search
                         Layout.fillWidth: true
                         onFindHandler: {
-                            logic.searchElement(text)
+                            modelTokenPair.setDisplayTextFilter(text)
 
-//                            if(text === "")
                         }
                     }
 

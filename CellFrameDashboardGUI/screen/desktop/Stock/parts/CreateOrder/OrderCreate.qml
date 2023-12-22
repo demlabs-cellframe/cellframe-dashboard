@@ -91,26 +91,9 @@ Page
             Layout.leftMargin: 16
             Layout.topMargin: 10
             label: qsTr("Balance:")
-            text:
-            {
-                if(isSell)
-                {
-                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
-                        return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
-                    else
-                        return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
-                }
-                else
-                {
-                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
-                        return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
-                    else
-                        return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
-                }
-            }
+            text: walletModule.balanceDEX
             textColor: currTheme.white
             textFont: mainFont.dapFont.regular14
-//            font: mainFont.dapFont.regular14
 
         }
 
@@ -126,7 +109,6 @@ Page
             {
                 id: textMode
                 Layout.fillWidth: true
-//                Layout.topMargin: 18
                 font: mainFont.dapFont.medium14
                 color: currTheme.white
 
@@ -263,20 +245,6 @@ Page
         var nameToken = isSell ? tokenPairsWorker.tokenBuy :
                                  tokenPairsWorker.tokenSell
         var str;
-
-
-//        console.log("isSell", isSell, "\n",
-//                    "total", total, "\n",
-//                    "totalValue", totalValue, "\n",
-//                    "price", price, "\n",
-//                    "nameToken", nameToken, "\n",
-//                    "selectedTokenNameWallet", logicStock.selectedTokenNameWallet, "\n",
-//                    "unselectedTokenNameWallet", logicStock.unselectedTokenNameWallet, "\n",
-//                    "selectedTokenBalanceWallet", logicStock.selectedTokenBalanceWallet, "\n",
-//                    "unselectedTokenBalanceWallet", logicStock.unselectedTokenBalanceWallet)
-
-
-
 
         if(logicStock.selectedTokenNameWallet === nameToken)
         {

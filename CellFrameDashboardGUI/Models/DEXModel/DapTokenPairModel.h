@@ -114,7 +114,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 public:
-    void updateModel(const QMap<QString, DEX::InfoTokenPair> &data);
+    void updateModel(const QList<DEX::InfoTokenPair> &data);
     void updateModel(const DEX::InfoTokenPair &data);
     /// find item with the same name and return it's index. otherwise returns -1
     Q_INVOKABLE int indexOf (const DapTokenPairModel::Item &a_item) const;

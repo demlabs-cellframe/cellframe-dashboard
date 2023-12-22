@@ -32,87 +32,43 @@ Item
             Layout.fillWidth: true
             spacing: 20
 
+            DapCustomComboBox
+            {
+                id: comboboxNetwork
+                Layout.minimumWidth: 184
+                height: 32
+
+                backgroundColorShow: currTheme.secondaryBackground
+                backgroundColorNormal: currTheme.secondaryBackground
+                model: dexNetModel
+                font: mainFont.dapFont.medium14
+
+                onCurrantDisplayTextChanged:
+                {
+                    modelTokenPair.setNetworkFilter(text)
+                }
+
+                defaultText: qsTr("Networks")
+            }
+
             DapPairComboBox
             {
                 id: pairBox
-//                property bool isInit: false
-//                property var globalIndex
 
                 Layout.minimumWidth: 184
                 height: 32
                 model:modelTokenPair
 
-//                onInitModelIsCompleted: {
-//                    isInit = true
-//                    currentIndex = tokenPairsWorker.currentPairIndex
-//                    globalIndex = currentIndex
-//                    displayElement = dapPairModel[globalIndex]
-//                    updateInfo(globalIndex)
-//                }
-
-//                Component.onCompleted:
-//                {
-//                    logic.setModel(dapPairModel)
-
-//                }
                 onCurrentIndexChanged: {
-
-//                    if(isInit)
-//                    {
-//                        for(var i = 0; i < dapPairModel.length; i++)
-//                        {
-//                            if(dapPairModel[i].tokenBuy === pairBox.displayElement.tokenBuy &&
-//                               dapPairModel[i].tokenSell === pairBox.displayElement.tokenSell)
-//                            {
-//                                globalIndex = i
-//                            }
-//                        }
-
-//                        if(globalIndex !== -1)
-//                            updateInfo(globalIndex)
-//                    }
+                    walletModule.updateBalanceDEX()
                 }
 
-                function updateInfo(currentIndex)
-                {
-//                    tokenPairsWorker.currentPairIndex = currentIndex
-
-//                    tokenPairsWorker.setCurrentPairIndex(currentIndex)
-
-//                    // console.log("updateInfo",
-//                    //             tokenPairsWorker.currentPairIndex,
-//                    //             dapPairModel.length,
-//                    //             dapPairModel[currentIndex].tokenBuy,
-//                    //             dapPairModel[currentIndex].tokenSell,
-//                    //             tokenPairsWorker.tokenBuy,
-//                    //             tokenPairsWorker.tokenSell)
-
-//                    candleChartWorker.currentTokenPrice = tokenPairsWorker.tokenPrice
-//                    candleChartWorker.currentTokenPriceText = tokenPairsWorker.tokenPriceText
-////                    candleChartWorker.currentTokenPrice = dapPairModel[currentIndex].price
-////                    candleChartWorker.currentTokenPriceText = dapPairModel[currentIndex].priceText
-
-//                    tokenPairChanged()
-                }
-
-                Connections
-                {
-                    target: tokenPairsWorker
-                    // function onPairModelUpdated(dapPairModel)
-                    // {
-                    //     if(!pairBox.count)
-                    //         pairBox.logic.setModel(dapPairModel)
-                    //     else
-                    //     {
-                    //         pairBox.currentIndex = tokenPairsWorker.currentPairIndex
-                    //         pairBox.displayElement = dapPairModel[tokenPairsWorker.currentPairIndex]
-                    //     }
-                    // }
-                }
                 Component.onCompleted:
                 {
                     dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
                     dexTokenModel.setNetworkFilter(dexModule.networkPair)
+                    walletModule.updateBalanceDEX()
+
                 }
             }
 

@@ -120,7 +120,7 @@ public:
     Q_INVOKABLE int fieldId (const QString &a_fieldName) const;
 
     const DapTokensWalletModel::Item &getItem(int a_index) const;
-
+    const QList<DapTokensWalletModel::Item>& getData() const { return m_items;}
     ConstIterator cbegin() const;
     ConstIterator cend();
 protected:

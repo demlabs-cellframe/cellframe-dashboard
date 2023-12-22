@@ -16,6 +16,7 @@ protected:
     struct Data;
 
     Q_PROPERTY (QString date        READ date       NOTIFY dateChanged)
+    Q_PROPERTY (QString unixDate    READ unixDate   NOTIFY unixDateChanged)
     Q_PROPERTY (QString pair        READ pair       NOTIFY pairChanged)
     Q_PROPERTY (QString type        READ type       NOTIFY typeChanged)
     Q_PROPERTY (QString side        READ side       NOTIFY sideChanged)
@@ -41,6 +42,7 @@ public:
 
 public:
     Q_INVOKABLE QString date() const;
+    Q_INVOKABLE QString unixDate() const;
     Q_INVOKABLE QString pair() const;
     Q_INVOKABLE QString type() const;
     Q_INVOKABLE QString side() const;
@@ -55,6 +57,7 @@ public:
     
 signals:
     void dateChanged();
+    void unixDateChanged();
     void pairChanged();
     void typeChanged();
     void sideChanged();
@@ -86,6 +89,7 @@ public:
         invalid = -1,
         pair = Qt::DisplayRole,
         date     = Qt::UserRole,
+        unixDate,
         type,
         side,
         hash,
@@ -103,6 +107,7 @@ public:
     {
         QString pair = "";
         QString date = "";
+        QString unixDate = "";
         QString type = "";
         QString side = "";
         QString hash = "";

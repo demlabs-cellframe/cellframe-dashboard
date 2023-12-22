@@ -76,57 +76,53 @@ void OrderBookWorker::generateBookModel(double price, int length, double step)
 
 void OrderBookWorker::setBookModel(const QByteArray &json)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(json);
+    QJsonDocument document = QJsonDocument::fromJson(json);
 
-    if (!doc.isArray())
+    if (!document.isObject())
         return;
 
     allOrders.clear();
+    auto object = document.object();
+    auto keys = object.keys();
 
-    QJsonArray netArray = doc.array();
-
-    for(auto i = 0; i < netArray.size(); i++)
+    for(const auto& netName: keys)
     {
-       // if (netArray.at(i)["network"].toString() == network)
+        QJsonArray orders = object[netName].toArray();
+
+        for(auto j = 0; j < orders.size(); j++)
         {
-            QJsonArray orders = netArray[i].toArray();// /*["orders"].*/toArray();
+            QString tok1 = orders.at(j)["buy_token"].toString();
+            QString tok2 = orders.at(j)["sell_token"].toString();
 
-            for(auto j = 0; j < orders.size(); j++)
+            if ((tok1 == token1 && tok2 == token2) ||
+                (tok2 == token1 && tok1 == token2))
             {
-                QString tok1 = orders.at(j)["buyToken"].toString();
-                QString tok2 = orders.at(j)["sellToken"].toString();
+                OrderType type;
 
-                if ((tok1 == token1 && tok2 == token2) ||
-                    (tok2 == token1 && tok1 == token2))
+                if (tok1 == token1)
+                    type = OrderType::buy;
+                else
+                    type = OrderType::sell;
+
+                double price = orders.at(j)["rate"].toString().toDouble();
+
+                if (type == OrderType::buy)
                 {
-                    OrderType type;
-
-                    if (tok1 == token1)
-                        type = OrderType::buy;
+                    if (price > 0.000000000000000000000001)
+                        price = 1/price;
                     else
-                        type = OrderType::sell;
-
-                    double price = orders.at(j)["rate"].toString().toDouble();
-
-                    if (type == OrderType::buy)
-                    {
-                        if (price > 0.000000000000000000000001)
-                            price = 1/price;
-                        else
-                            price = 1;
-                    }
-
-                    double amount = orders.at(j)["amount"].toString().toDouble();
-
-                    amount *= 0.000000000000000001;
-
-                    double total = amount * price;
-
-                    allOrders.append(FullOrderInfo{type, price, amount, total});
+                        price = 1;
                 }
+
+                double amount = orders.at(j)["amount"].toString().toDouble();
+
+                amount *= 0.000000000000000001;
+
+                double total = amount * price;
+
+                allOrders.append(FullOrderInfo{type, price, amount, total});
             }
         }
-
     }
 
     updateBookModels();

@@ -65,7 +65,7 @@ Item
 
                 DapButton
                 {
-                    enabled: (logicStock.selectedTokenBalanceWallet > 0 || logicStock.unselectedTokenBalanceWallet > 0) ? true : false
+                    enabled: walletModule.balanceDEX ? true : false
                     id: createOrderButton
                     Layout.fillWidth: true
                     implicitHeight: 36
@@ -81,10 +81,9 @@ Item
 
                 DapButton
                 {
-//                    enabled: false
                     Layout.fillWidth: true
                     implicitHeight: 36
-                    textButton: qsTr("My orders")
+                    textButton: qsTr("Orders")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14

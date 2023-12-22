@@ -39,7 +39,7 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         clip: true
-        model: ordersModel//historyModel
+        model: ordersModel
 
         highlight: Rectangle{color: currTheme.inputActive; opacity: 0.12}
         highlightMoveDuration: 0
@@ -157,7 +157,7 @@ Item
                     Layout.minimumWidth: 69
                     label.text: status
                     label.font: mainFont.dapFont.regular13
-                    label.color: status === "Cancelled" ? currTheme.red : currTheme.green
+                    label.color: status === "CLOSED" ? currTheme.red : currTheme.green
                 }
             }
 
