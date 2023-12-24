@@ -41,9 +41,16 @@ namespace DEX
         QString amountDatoshi = "";
         QString rate = "";
         QString time = "";
+        QString unixTime = "";
         QString filled = "";
         QString status = "";
         QString side = "";
+    };
+
+    struct TXList
+    {
+        QString status = "";
+        QString type = "";
     };
 }
 

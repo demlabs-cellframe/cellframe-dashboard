@@ -22,6 +22,7 @@ static const QHash<QString, DapOrderHistoryModel::DapOrderHistoryModel::FieldId>
     {
         {"pair",      DapOrderHistoryModel::FieldId::pair},
         {"date",      DapOrderHistoryModel::FieldId::date},
+        {"unixDate",  DapOrderHistoryModel::FieldId::unixDate},
         {"type",      DapOrderHistoryModel::FieldId::type},
         {"side",      DapOrderHistoryModel::FieldId::side},
         {"hash",      DapOrderHistoryModel::FieldId::hash},
@@ -106,8 +107,9 @@ void DapOrderHistoryModel::updateModel(const QList<DEX::Order> &data)
         {
             DapOrderHistoryModel::Item tmpItem;
             tmpItem.pair = item.buyToken + "/" + item.sellToken;
-            QDateTime time = QDateTime::fromMSecsSinceEpoch(item.time.toLongLong());
+            QDateTime time = QDateTime::fromSecsSinceEpoch(item.unixTime.toLongLong());
             tmpItem.date = time.toString("yyyy-MM-dd hh:mm");
+            tmpItem.unixDate = item.unixTime;
             tmpItem.type = "Limit";
             tmpItem.side = item.side;
             tmpItem.hash = item.hash;
@@ -123,20 +125,6 @@ void DapOrderHistoryModel::updateModel(const QList<DEX::Order> &data)
     }
     endResetModel();
 }
-
-// void DapOrderHistoryModel::updateModel(const DEX::InfoTokenPair &data)
-// {
-//   for(int i = 0; i < m_items.size(); i++)
-//   {
-//     if(m_items[i].displayText == data.displayText)
-//     {
-//       beginInsertRows (QModelIndex(), i, i);
-//       m_items[i] = data;
-//       endInsertRows();
-//       return;
-//     }
-//   }
-// }
 
 int DapOrderHistoryModel::indexOf (const DapOrderHistoryModel::Item &a_item) const
 {
@@ -273,6 +261,7 @@ QVariant DapOrderHistoryModel::_getValue (const DapOrderHistoryModel::Item &a_it
 
     case DapOrderHistoryModel::FieldId::pair:       return a_item.pair;
     case DapOrderHistoryModel::FieldId::date:       return a_item.date;
+    case DapOrderHistoryModel::FieldId::unixDate:   return a_item.unixDate;
     case DapOrderHistoryModel::FieldId::type:       return a_item.type;
     case DapOrderHistoryModel::FieldId::side:       return a_item.side;
     case DapOrderHistoryModel::FieldId::hash:       return a_item.hash;
@@ -319,6 +308,7 @@ ItemOrderHistoryBridge::ItemOrderHistoryBridge (ItemOrderHistoryBridge::Data *a_
     if (!d || !d->model)
         return;
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::dateChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::unixDateChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::pairChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::typeChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::sideChanged);
@@ -359,6 +349,11 @@ ItemOrderHistoryBridge::~ItemOrderHistoryBridge()
 QString ItemOrderHistoryBridge::date() const
 {
     return (d && d->item) ? d->item->date : QString();
+}
+
+QString ItemOrderHistoryBridge::unixDate() const
+{
+    return (d && d->item) ? d->item->unixDate : QString();
 }
 
 QString ItemOrderHistoryBridge::pair() const

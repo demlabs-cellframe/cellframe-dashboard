@@ -657,12 +657,6 @@ Rectangle {
 
         function onDapWebConnectRequest(rcvData) { logicMainApp.rcvWebConnectRequest(rcvData)}
 
-//        onRcvXchangeTxList:
-//        {
-//            console.log("onRcvXchangeTxList")
-//            console.log(rcvData)
-//        }
-
         function onSignalXchangeOrderListReceived(rcvData)
         {
             console.log("onSignalXchangeOrderListReceived")
@@ -674,29 +668,6 @@ Rectangle {
             console.log("onSignalXchangeTokenPairReceived")
 //            logicMainApp.rcvPairsModel(rcvData)
         }
-
-//        onRcvXchangeTokenPriceAverage:
-//        {
-////            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
-////            console.log(rcvData)
-//        }
-
-//        onRcvXchangeTokenPriceHistory:
-//        {
-//            console.log("onRcvXchangeTokenPriceHistory")
-//            logicMainApp.rcvTokenPriceHistory(rcvData)
-//        }
-
-    }
-
-//    Connections{
-//        target: diagnostic
-//        function onSignalDiagnosticData(diagnosticData){
-//            var jsonDocument = JSON.parse(diagnosticData)
-//            diagnosticDataModel.clear();
-//            diagnosticDataModel.append(jsonDocument);
-//        }
-//    }
 
     Connections{
         target: dAppsModule

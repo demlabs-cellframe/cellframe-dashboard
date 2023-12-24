@@ -24,7 +24,6 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(m_timerUpdateListWallets, &QTimer::timeout, this, &DapModuleWallet::updateListWallets, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived, Qt::QueuedConnection);
     m_timerUpdateListWallets->start(TIME_LIST_WALLET_UPDATE);
-    //connect(this, &DapModuleWallet::currentWalletChanged, this, &DapModuleWallet::startUpdateCurrentWallet);
     
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
@@ -269,6 +268,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 
     startUpdateCurrentWallet();
     emit currentWalletChanged();
+    updateBalanceDEX();
 }
 
 void DapModuleWallet::timerUpdateFlag(bool flag)
@@ -440,6 +440,7 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
     m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
     m_walletModel->updateWallets(m_walletsInfo);
     emit walletsModelChanged();
+    updateBalanceDEX();
 }
 
 void DapModuleWallet::updateDexTokenModel()
@@ -825,12 +826,29 @@ QVariantMap DapModuleWallet::getBalanceInfo(QString name, QString network, QStri
     return mapResult;
 }
 
-void DapModuleWallet::setDEXTokenModel(const QString& network)
+void DapModuleWallet::setCurrentTokenDEX(const QString& token)
 {
-
+    m_currentTokenDEX = token;
+    updateBalanceDEX();
 }
 
-void DapModuleWallet::setFilterTokenModel(const QString& token1, const QString& token2)
+QString DapModuleWallet::getBalanceDEX() const
 {
+    auto& data = m_DEXTokenModel->getData();
+    for(auto& item: data)
+    {
+        if((item.network == m_tokenFilterModelDEX->getCurrentNetwork()
+             || m_tokenFilterModelDEX->getCurrentNetwork().isEmpty())
+            && m_currentTokenDEX == item.tokenName)
+        {
+            return item.value;
 
+        }
+    }
+    return "";
+}
+
+void DapModuleWallet::updateBalanceDEX()
+{
+    emit currantBalanceDEXChanged();
 }

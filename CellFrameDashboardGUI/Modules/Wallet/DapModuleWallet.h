@@ -55,8 +55,10 @@ public:
     Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);};
     Q_INVOKABLE void stopUpdateFee() {m_timerFeeUpdateWallet->stop();}
 
-    Q_INVOKABLE void setDEXTokenModel(const QString& network);
-    Q_INVOKABLE void setFilterTokenModel(const QString& token1, const QString& token2);
+    Q_INVOKABLE void setCurrentTokenDEX(const QString& token);
+    Q_PROPERTY(QString balanceDEX        READ getBalanceDEX   NOTIFY currantBalanceDEXChanged)
+    Q_INVOKABLE QString getBalanceDEX() const;
+    Q_INVOKABLE void updateBalanceDEX();
 private:
     void initConnect();
     void updateWalletModel(QVariant, bool isSingle);
@@ -81,6 +83,7 @@ signals:
     void listWalletFirstChenged();
     void currentWalletChanged();
 
+    void currantBalanceDEXChanged();
     void feeInfoUpdated();
 private slots:
     void rcvWalletsInfo(const QVariant &rcvData);
@@ -123,6 +126,7 @@ private:
     QByteArray m_walletInfoTest;
 
     bool m_firstDataLoad = false;
+    QString m_currentTokenDEX = "";
 private:
     const int TIME_FEE_UPDATE = 2000;
     const int TIME_WALLET_UPDATE = 5000;

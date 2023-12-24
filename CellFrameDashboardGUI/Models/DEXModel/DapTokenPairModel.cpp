@@ -90,7 +90,7 @@ QHash<int, QByteArray> DapTokenPairModel::roleNames() const
   return names;
 }
 
-void DapTokenPairModel::updateModel(const QMap<QString, DEX::InfoTokenPair>& data)
+void DapTokenPairModel::updateModel(const QList<DEX::InfoTokenPair>& data)
 {
   beginResetModel();
   {

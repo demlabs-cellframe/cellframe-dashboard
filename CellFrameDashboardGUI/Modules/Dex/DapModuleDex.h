@@ -14,6 +14,8 @@
 #include "Models/DEXModel/DapOrderHistoryModel.h"
 #include "Models/DEXModel/OrdersHistoryProxyModel.h"
 #include "Models/DEXModel/DEXTypes.h"
+#include "Models/DEXModel/TokenPairsProxyModel.h"
+#include "Models/DapStringListModel.h"
 #include "StockDataWorker/StockDataWorker.h"
 
 class DapModuleDex : public DapAbstractModule
@@ -27,7 +29,7 @@ public:
     void requestCurrentTokenPairs();
     void requestHistoryTokenPairs();
     void requestHistoryOrders();
-    void requestTXList();
+    void requestTXList(const QString &timeFrom = "", const QString &timeTo = "");
 
     Q_PROPERTY(QString displayText READ getDisplayText NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getDisplayText() const { return m_currentPair.displayText; }
@@ -46,7 +48,9 @@ public:
 
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 
-    Q_INVOKABLE void setCurrentTokenPair(const QString& namePair);
+    Q_INVOKABLE void setCurrentTokenPair(const QString& namePair, const QString &network);
+
+    Q_INVOKABLE void tokenPairModelCountChanged(int count);
 
     void setStatusProcessing(bool status) override;
 
@@ -54,7 +58,9 @@ signals:
     void currentTokenPairChanged();
     void currentTokenPairInfoChanged();
     void orderHistoryChanged();
+    void txListChanged();
 
+    void dexNetListChanged();
 private slots:
     void startInitData();
 
@@ -62,16 +68,21 @@ private slots:
     void respondCurrentTokenPairs(const QVariant &rcvData);
     void respondTokenPairsHistory(const QVariant &rcvData);
     void respondOrdersHistory(const QVariant &rcvData);
+    void respondTxList(const QVariant &rcvData);
 private:
     void onInit();
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
+
 private:
 
     DapModulesController  *m_modulesCtrl = nullptr;
     DapTokenPairModel* m_tokenPairsModel = nullptr;
     DapOrderHistoryModel *m_ordersModel = nullptr;
     OrdersHistoryProxyModel *m_proxyModel = nullptr;
+    TokenPairsProxyModel *m_tokenPairsProxyModel = nullptr;
+    DapStringListModel* m_netListModel = nullptr;
+    DapStringListModel* m_rightPairListModel = nullptr;
     StockDataWorker *m_stockDataWorker = nullptr;
 
     QTimer* m_allTakenPairsUpdateTimer = nullptr;
@@ -79,9 +90,11 @@ private:
     QTimer* m_ordersHistoryUpdateTimer = nullptr;
 
     QByteArray* m_ordersHistoryCash;
+    QByteArray* m_txListCash;
     QList<DEX::Order> m_ordersHistory;
+    QMap<QString, QHash<QString, DEX::TXList>> m_txListsforWallet;
 
-    QMap<QString, DEX::InfoTokenPair> m_tokensPair;
+    QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
 
     QString m_currentNetwork;

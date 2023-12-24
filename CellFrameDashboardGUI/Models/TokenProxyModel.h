@@ -18,6 +18,9 @@ public:
     Q_INVOKABLE int getCount() {return m_count;}
     Q_INVOKABLE QVariant get(int a_index);
     void updateCount();
+
+    const QStringList& getDEXCurrentTokens() const {return m_filterList;}
+    const QString& getCurrentNetwork() const {return m_network;}
 Q_SIGNALS:
     void countChanged();
 protected:
@@ -30,6 +33,5 @@ private:
     QStringList m_filterList;
     QString m_network = "";
     int m_count = 0;
-
 };
 

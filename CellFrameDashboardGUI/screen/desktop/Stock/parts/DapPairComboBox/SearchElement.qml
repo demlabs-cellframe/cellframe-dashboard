@@ -45,14 +45,15 @@ ColumnLayout
 //                function onAwaitingFinished(text){ root.findHandler(text)}
 //            }
 
-            onTextChanged: logic.filter(text)
+            onTextChanged: modelTokenPair.setDisplayTextFilter(text)//logic.filter(text)
 
             //for mobile input
-            onDisplayTextChanged: logic.filter(text)
+            onDisplayTextChanged: modelTokenPair.setDisplayTextFilter(text)//logic.filter(text)
 
             onEditingFinished: {
-                logic.clear()
-                root.findHandler(text)
+                modelTokenPair.setDisplayTextFilter("")
+                //logic.clear()
+                //root.findHandler(text)
             }
         }
     }
