@@ -49,7 +49,7 @@ DapRectangleLitAndShaded {
                 font:  mainFont.dapFont.medium12
                 elide: Text.ElideRight
                 color: currTheme.white
-                text: (currentTabName + qsTr(" Order ") + model.index)
+                text: (logicOrders.currentTabName + qsTr(" Order ") + model.index)
             }
 
             Image {
@@ -72,7 +72,10 @@ DapRectangleLitAndShaded {
                 else
                 {
                     control.currentIndex = index;
-                    orderDetailsShow(model.index)
+
+                    logicOrders.initDetailsModel(model)
+                    navigator.orderInfo()
+//                    orderDetailsShow(model.index)
                 }
             }
         }

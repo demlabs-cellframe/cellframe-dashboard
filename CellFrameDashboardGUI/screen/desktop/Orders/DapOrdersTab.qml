@@ -4,69 +4,68 @@ import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
 import "../controls"
+import "qrc:/widgets"
+import "Logic"
 
 DapPage {
 
+    readonly property string createNewOrder:  path + "/Orders/RightPanel/DapOrderCreate.qml"
+    readonly property string orderCreateDone: path + "/Orders/RightPanel/DapOrderInfo.qml"
+    readonly property string infoAboutOrder:  path + "/Orders/RightPanel/DapOrderInfo.qml"
 
-    ListModel{
-        id: testOrdersModel
 
-        ListElement
-        {
-            location: "Location 1"
-            network: "Network 1"
-            node_addr: "Node Addr 1"
-            price: "Price 1"
+    ListModel{id: detailsModel}
+    LogicOrders{id: logicOrders}
+    Component{id: emptyRightPanel; Item{}}
+
+    QtObject {
+        id: navigator
+
+        function createOrder() {
+            logicOrders.unselectOrder()
+            dapRightPanelFrame.visible = true
+            dapRightPanel.pop()
+            dapRightPanel.push(createNewOrder)
         }
-        ListElement
+
+        function orderInfo()
         {
-            location: "Location 2"
-            network: "Network 2"
-            node_addr: "Node Addr 2"
-            price: "Price 2"
+            dapRightPanelFrame.visible = true
+            dapRightPanel.pop()
+            dapRightPanel.push(infoAboutOrder)
         }
-        ListElement
+
+        function done()
         {
-            location: "Location 3"
-            network: "Network 3"
-            node_addr: "Node Addr 3"
-            price: "Price 3"
+            dapRightPanel.push(orderCreateDone)
         }
-        ListElement
+
+        function clear()
         {
-            location: "Location 4"
-            network: "Network 4"
-            node_addr: "Node Addr 4"
-            price: "Price 4"
-        }
-        ListElement
-        {
-            location: "Location 5"
-            network: "Network 5"
-            node_addr: "Node Addr 5"
-            price: "Price 5"
-        }
-        ListElement
-        {
-            location: "Location 6"
-            network: "Network 6"
-            node_addr: "Node Addr 6"
-            price: "Price 6"
-        }
-        ListElement
-        {
-            location: "Location 7"
-            network: "Network 7"
-            node_addr: "Node Addr 7"
-            price: "Price 7"
+            dapRightPanel.clear()
+            dapRightPanelFrame.visible = false
+            dapRightPanel.push(emptyRightPanel)
+            dashboardScreen.ordersView.currentIndex = -1
         }
     }
 
-    dapHeader.initialItem:
-        DapOrdersTopPanel
-        {
+    dapHeader.initialItem: DapSearchTopPanel{
+        DapButton
+            {
+                id: newTokenButton
+                textButton: qsTr("New Order")
+                anchors.right: parent.right
+                anchors.rightMargin: 24
+                anchors.verticalCenter: parent.verticalCenter
+                implicitHeight: 36
+                implicitWidth: 164
+                fontButton: mainFont.dapFont.medium14
+                horizontalAligmentText: Text.AlignHCenter
 
-        }
+                onClicked: navigator.createOrder()
+            }
+        isVisibleSearch: false
+    }
 
     dapScreen.initialItem:
         DapOrdersScreen
@@ -74,7 +73,8 @@ DapPage {
             id: dashboardScreen
         }
 
-    dapRightPanel.initialItem:Item{}
+    dapRightPanelFrame.visible: false
+    dapRightPanel.initialItem: emptyRightPanel
 
     Component.onCompleted:
     {
