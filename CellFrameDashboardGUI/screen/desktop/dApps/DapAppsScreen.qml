@@ -90,6 +90,7 @@ Page
 
 //                        highlight: highlight
                         highlight: Rectangle{color: currTheme.gray; opacity: 0.12}
+                        highlightResizeDuration: 0
                         highlightMoveDuration: 0
 
                         onCurrentIndexChanged:
