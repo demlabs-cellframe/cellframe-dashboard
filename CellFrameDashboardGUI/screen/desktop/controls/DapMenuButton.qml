@@ -8,6 +8,7 @@ import "qrc:/widgets"
 
 Item
 {
+    property alias backgroundImage: backgroundImage
     id: buttonDelegate
 
     width: parent.width
@@ -23,26 +24,16 @@ Item
     Image {
         id: backgroundImage
         mipmap: true
+        height: parent.height
+        anchors.top: parent.top
         anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors.rightMargin: parent.width == mainRowLayout.expandWidth ? 10 : 4
         opacity: isPushed? 1: 0
         source: "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
-        sourceSize: Qt.size(180, 52)
-        x: mainRowLayout.isCompact ? -100 : 0
+        sourceSize: Qt.size(170, parent.height + 2)
 
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 150
-            }
-        }
-
-        Behavior on x {
-            NumberAnimation {
-                duration: 150
-            }
-        }
+        Behavior on opacity { NumberAnimation { duration: 150 } }
     }
-
 
     Item {
         anchors.fill: parent
@@ -64,16 +55,11 @@ Item
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             text: name
-            elide: Text.ElideMiddle
             color: currTheme.white
             font:mainFont.dapFont.regular13
             opacity: mainRowLayout.isCompact ? 0.0 : 1.0
 
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 150
-                }
-            }
+            Behavior on opacity { NumberAnimation { duration: 150 } }
 
             DapCustomToolTip{
                 visible: handler.containsMouse ?  buttonText.implicitWidth > buttonText.width ? true : false : false
@@ -102,7 +88,6 @@ Item
             console.log(pathScreen, settingsScreenPath)
             if(pathScreen === settingsScreenPath)
             {
-//                console.log(buttonDelegate.isPushed)
                 if(!buttonDelegate.isPushed)
                 {
                     mainButtonsList.currentIndex = index;
@@ -113,7 +98,6 @@ Item
                 delay(400,function() {
                     openRequests()
                 })
-
             }
         }
     }

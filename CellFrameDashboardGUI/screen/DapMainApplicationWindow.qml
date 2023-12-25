@@ -391,6 +391,8 @@ Rectangle {
 
     Item {
         property bool isCompact: true
+        property int compactWidth: 76
+        property int expandWidth: 180
 
         id: mainRowLayout
         anchors {
@@ -402,7 +404,7 @@ Rectangle {
 
         Rectangle {
             id: leftMenuBackGrnd
-            width: mainRowLayout.isCompact ? 76 : 180
+            width: mainRowLayout.isCompact ? mainRowLayout.compactWidth : mainRowLayout.expandWidth
             height: parent.height - 7
             radius: 20
             color: currTheme.mainBackground
@@ -422,13 +424,12 @@ Rectangle {
                 anchors.top: leftMenuBackGrnd.top
             }
             //hide top radius element
-            Rectangle{
+            Rectangle {
                 z:0
                 height: currTheme.frameRadius + 10
                 width: leftMenuBackGrnd.radius
                 anchors.top:leftMenuBackGrnd.top
                 anchors.right: leftMenuBackGrnd.right
-                //.left: leftMenuBackGrnd.left
                 color: currTheme.mainBackground
             }
 
@@ -503,6 +504,7 @@ Rectangle {
                     model: modelMenuTab
 
                     delegate: DapMenuButton {
+                        id: menuButton
                         pathScreen: page
                         onPushPage: {
                             if(pageUrl !== mainScreenStack.currPage)
@@ -515,7 +517,8 @@ Rectangle {
 
         Rectangle {
             id: mainScreen
-            width: parent.width - leftMenuBackGrnd.width
+            //width: parent.width - leftMenuBackGrnd.width
+            width: mainRowLayout.isCompact ? dapMainWindow.width - mainRowLayout.compactWidth : dapMainWindow.width - mainRowLayout.expandWidth
             height: parent.height
             color: currTheme.mainBackground
             anchors.right: parent.right
