@@ -23,7 +23,6 @@ HEADERS += $$PWD/DapServiceController.h \
     mobile/testcontroller.h \
     quickcontrols/qrcodequickitem.h \
     resizeimageprovider.h \
-    serviceimitator.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h
@@ -43,7 +42,6 @@ SOURCES += $$PWD/main.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
     resizeimageprovider.cpp \
-    serviceimitator.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 

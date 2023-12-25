@@ -85,16 +85,4 @@ Rectangle
             font: mainFont.dapFont.regular16
         }
     }
-
-//    function setRealValue(value)
-//    {
-//        realValue = value
-//        textValue.text = realValue.toFixed(roundPower)
-//        if (textValue.text === (0.0).toFixed(roundPower))
-//            textValue.text = "0.0"
-
-//        print("setRealValue",
-//              "textValue.text", textValue.text,
-//              "realValue", realValue)
-//    }
 }

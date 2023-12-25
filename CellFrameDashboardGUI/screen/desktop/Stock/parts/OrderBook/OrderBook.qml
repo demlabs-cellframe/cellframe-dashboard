@@ -307,7 +307,7 @@ Page
                 color: currTheme.white
                 font: mainFont.dapFont.medium14
 
-                text: orderBookWorker.currentTokenPrice.toFixed(roundPower)
+                text: dexModule.currentRate
             }
 
             Rectangle

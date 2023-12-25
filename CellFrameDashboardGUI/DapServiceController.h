@@ -64,9 +64,6 @@
 #include "DapWallet.h"
 #include "handlers/DapAbstractCommand.h"
 
-
-#include "serviceimitator.h"
-
 class DapServiceController : public QObject
 {
     Q_OBJECT
@@ -91,8 +88,6 @@ class DapServiceController : public QObject
     QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
-
-    ServiceImitator *imitator;
 
     /// Standard constructor.
     /// @param apParent Parent.

@@ -13,6 +13,9 @@ QtObject
     property string unselectedTokenNameWallet:""
     property string unselectedTokenBalanceWallet:"0"
 
+    property string currantBalance: "0.0"
+    property string currantToken: ""
+
     property int updateInterval: 1000
 
     property var resultCreate
@@ -113,19 +116,10 @@ QtObject
 
     function getPercentBalance(percent, price, isSell)
     {
-        if(price === 0)
+        if(price === "0.0")
             return price
 
-        var balanceToken
-
-        if(isSell)
-            balanceToken = selectedTokenNameWallet === tokenPairsWorker.tokenBuy ?
-                           selectedTokenBalanceWallet : unselectedTokenBalanceWallet
-        else
-            balanceToken = selectedTokenNameWallet === tokenPairsWorker.tokenBuy ?
-                           unselectedTokenBalanceWallet : selectedTokenBalanceWallet
-
-        var balanceDatoshi = mathWorker.coinsToBalance(balanceToken)
+        var balanceDatoshi = mathWorker.coinsToBalance(currantBalance)
         var percentDatoshi = mathWorker.coinsToBalance(percent)
         var priceDatoshi = mathWorker.coinsToBalance(price)
 
@@ -140,12 +134,5 @@ QtObject
                                               priceDatoshi, false) : multRes
 
         return result
-    }
-
-    function walletListUpdate(walletList)
-    {
-        // for(var i = 0; i < walletList.length; i++)
-        //     walletListModel.append({name: walletList[i]})
-
     }
 }

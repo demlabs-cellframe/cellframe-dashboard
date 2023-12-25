@@ -100,11 +100,15 @@ Item
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 80
-                    label.text: qsTr("Type")
+                    label.text: qsTr("Network")
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 61
                     label.text: qsTr("Side")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Amount")
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 150
@@ -205,7 +209,7 @@ Item
                 }
                 HeaderLabel{
                     Layout.minimumWidth: 80
-                    label.text: type
+                    label.text: network
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
@@ -213,6 +217,11 @@ Item
                     label.text: side
                     label.font: mainFont.dapFont.regular13
                     label.color: side === "Sell" ? currTheme.red : currTheme.green
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 150
+                    label.text: amount
+                    label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
                     Layout.minimumWidth: 150

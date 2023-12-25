@@ -67,11 +67,15 @@ Item
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 96
-                    label.text: qsTr("Type")
+                    label.text: qsTr("network")
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 61
                     label.text: qsTr("Side")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Amount")
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 150
@@ -80,11 +84,6 @@ Item
                 HeaderLabel{
                     Layout.preferredWidth: 49
                     label.text: qsTr("Filled")
-                }
-                HeaderLabel{
-                    Layout.maximumWidth: 69
-                    Layout.minimumWidth: 69
-                    label.text: qsTr("Status")
                 }
             }
         }
@@ -133,7 +132,7 @@ Item
                 }
                 HeaderLabel{
                     Layout.minimumWidth: 96
-                    label.text: type
+                    label.text: network
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
@@ -144,6 +143,11 @@ Item
                 }
                 HeaderLabel{
                     Layout.minimumWidth: 150
+                    label.text: amount
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 150
                     label.text: price
                     label.font: mainFont.dapFont.regular13
                 }
@@ -151,13 +155,6 @@ Item
                     Layout.minimumWidth: 49
                     label.text: filled
                     label.font: mainFont.dapFont.regular13
-                }
-                HeaderLabel{
-                    Layout.maximumWidth: 69
-                    Layout.minimumWidth: 69
-                    label.text: status
-                    label.font: mainFont.dapFont.regular13
-                    label.color: status === "CLOSED" ? currTheme.red : currTheme.green
                 }
             }
 

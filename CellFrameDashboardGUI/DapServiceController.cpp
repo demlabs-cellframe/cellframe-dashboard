@@ -8,8 +8,7 @@
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
-    : QObject(apParent),
-      imitator(new ServiceImitator(this))
+    : QObject(apParent)
 {
     DapConfigReader configReader;
     m_DapNotifyController = new DapNotifyController();

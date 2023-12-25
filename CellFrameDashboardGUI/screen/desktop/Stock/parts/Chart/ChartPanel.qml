@@ -188,7 +188,6 @@ Item
 
             onItemSelected:
             {
-//                print("onItemSelected", "currentIndex", currentIndex)
                 chartItem.setCandleSize(currentIndex)
             }
         }

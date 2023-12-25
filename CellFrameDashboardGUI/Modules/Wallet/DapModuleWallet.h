@@ -51,12 +51,14 @@ public:
     Q_INVOKABLE QVariantMap approveTx(QVariantMap);
     Q_INVOKABLE void sendTx(QVariantMap);
 
+    Q_INVOKABLE QString isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
+
     Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);};
     Q_INVOKABLE void stopUpdateFee() {m_timerFeeUpdateWallet->stop();}
 
     Q_INVOKABLE void setCurrentTokenDEX(const QString& token);
     Q_PROPERTY(QString balanceDEX        READ getBalanceDEX   NOTIFY currantBalanceDEXChanged)
-    Q_INVOKABLE QString getBalanceDEX() const;
+    Q_INVOKABLE QString getBalanceDEX(const QString& tokenName = "") const;
     Q_INVOKABLE void updateBalanceDEX();
 private:
     void initConnect();

@@ -652,7 +652,7 @@ Rectangle {
             console.log("onSignalXchangeTokenPairReceived")
 //            logicMainApp.rcvPairsModel(rcvData)
         }
-
+    }
     Connections{
         target: dAppsModule
         function onRcvListPlugins(m_pluginsList)
