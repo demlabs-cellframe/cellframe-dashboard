@@ -248,6 +248,10 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapVersionController("DapVersionController",m_DAPRpcSocket))), QString("versionControllerResult")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreateVPNOrder("DapCreateVPNOrder",m_DAPRpcSocket))), QString("createdVPNOrder")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreateStakeOrder("DapCreateStakeOrder",m_DAPRpcSocket))), QString("createdStakeOrder")));
+
 // DEX
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetXchangeTokenPair("DapGetXchangeTokenPair",m_DAPRpcSocket))), QString("rcvXchangeTokenPair")));

@@ -356,6 +356,7 @@ QtObject {
             var jsonDocument = JSON.parse(tokensList)
             dapModelTokens.clear()
             dapModelTokens.append(jsonDocument)
+//            console.log(tokensList)
             modelTokensUpdated()
         }
     }
@@ -650,7 +651,7 @@ QtObject {
             }
         }
 
-        var count  = args.length ? 10 - args.length : 0
+        var count  = args.length ? 11 - args.length : 0
         while(count)
         {
             args.push("");

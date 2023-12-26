@@ -10,11 +10,12 @@ import "Logic"
 DapPage {
 
     readonly property string createNewOrder:  path + "/Orders/RightPanel/DapOrderCreate.qml"
-    readonly property string orderCreateDone: path + "/Orders/RightPanel/DapOrderInfo.qml"
+    readonly property string orderCreateDone: path + "/Orders/RightPanel/DapOrderCreateDone.qml"
     readonly property string infoAboutOrder:  path + "/Orders/RightPanel/DapOrderInfo.qml"
 
 
     ListModel{id: detailsModel}
+    ListModel{id: certificatesModel}
     LogicOrders{id: logicOrders}
     Component{id: emptyRightPanel; Item{}}
 
@@ -22,7 +23,7 @@ DapPage {
         id: navigator
 
         function createOrder() {
-            logicOrders.unselectOrder()
+            dashboardScreen.ordersView.currentIndex = -1
             dapRightPanelFrame.visible = true
             dapRightPanel.pop()
             dapRightPanel.push(createNewOrder)
@@ -78,6 +79,8 @@ DapPage {
 
     Component.onCompleted:
     {
+        logicMainApp.requestToService("DapCertificateManagerCommands", 1)
+        logicMainApp.requestToService("DapGetListTokensCommand","")
         ordersModule.statusProcessing = true
     }
 
@@ -86,4 +89,18 @@ DapPage {
         ordersModule.statusProcessing = false
     }
 
+    Connections{
+        target: dapServiceController
+        function onCertificateManagerOperationResult(result){
+            var certList = result.data
+
+            for (var i = 0; i < certList.length; ++i) {
+                if(certList[i].accessKeyType === 1)
+                {
+                    certList[i].selected = false
+                    certificatesModel.append(certList[i])
+                }
+            }
+        }
+    }
 }

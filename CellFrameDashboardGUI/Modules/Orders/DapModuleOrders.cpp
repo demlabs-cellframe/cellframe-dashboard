@@ -19,6 +19,9 @@ DapModuleOrders::DapModuleOrders(DapModulesController *parent)
 DapModuleOrders::~DapModuleOrders()
 {
     disconnect(s_serviceCtrl, &DapServiceController::ordersListReceived, this, &DapModuleOrders::rcvOrdersList);
+    disconnect(s_serviceCtrl, &DapServiceController::rcvXchangeOrderList,this, &DapModuleOrders::rcvXchangeOrderList);
+    disconnect(s_serviceCtrl, &DapServiceController::createdVPNOrder,this, &DapModuleOrders::rcvCreateVPNOrder);
+    disconnect(s_serviceCtrl, &DapServiceController::createdStakeOrder,this, &DapModuleOrders::rcvCreateStakeOrder);
 
     disconnect(m_timerUpdateOrders, &QTimer::timeout, this, &DapModuleOrders::slotUpdateOrders);
 
@@ -41,6 +44,18 @@ void DapModuleOrders::rcvXchangeOrderList(const QVariant &rcvData)
     }
 }
 
+void DapModuleOrders::rcvCreateVPNOrder(const QVariant &rcvData)
+{
+    slotUpdateOrders();
+    emit sigCreateVPNOrder(rcvData);
+}
+
+void DapModuleOrders::rcvCreateStakeOrder(const QVariant &rcvData)
+{
+    slotUpdateOrders();
+    emit sigCreateStakeOrder(rcvData);
+}
+
 void DapModuleOrders::rcvOrdersList(const QVariant &rcvData)
 {
     if(buffVPNOrders != rcvData.toByteArray())
@@ -58,6 +73,12 @@ void DapModuleOrders::initConnect()
             Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::rcvXchangeOrderList,
             this, &DapModuleOrders::rcvXchangeOrderList,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::createdVPNOrder,
+            this, &DapModuleOrders::rcvCreateVPNOrder,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::createdStakeOrder,
+            this, &DapModuleOrders::rcvCreateStakeOrder,
             Qt::QueuedConnection);
 
     connect(m_timerUpdateOrders, &QTimer::timeout,
@@ -77,6 +98,16 @@ void DapModuleOrders::initConnect()
             setStatusInit(false);
         }
     });
+}
+
+void DapModuleOrders::createStakeOrder(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", args);
+}
+
+void DapModuleOrders::createVPNOrder(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapCreateVPNOrder", args);
 }
 
 void DapModuleOrders::slotUpdateOrders()
@@ -120,7 +151,7 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
             DapOrdersModel::Item itemOrder;
             QJsonObject obj = itr->toObject();
 
-            if(dexFlag)
+            if(dexFlag && !s_statusModel.first)
             {
                 itemOrder.hash       = obj["order_hash"].toString();
                 itemOrder.network    = network;
@@ -135,7 +166,7 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 
                 s_statusModel.first = true;
             }
-            else
+            else if(!dexFlag && !s_statusModel.second)
             {
                 if(obj["srv_uid"].toString() == "Other")
                     continue;

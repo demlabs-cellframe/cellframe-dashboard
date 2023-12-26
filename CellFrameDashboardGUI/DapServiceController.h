@@ -58,6 +58,8 @@
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
 #include "handlers/DapGetFeeCommand.h"
 #include "handlers/DapCreatePassForWallet.h"
+#include "handlers/DapCreateVPNOrder.h"
+#include "handlers/DapCreateStakeOrder.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -279,6 +281,9 @@ signals:
     void rcvRemoveResult(const QVariant& rcvData);
 
     void exportLogs(const QVariant& rcvData);
+
+    void createdVPNOrder(const QVariant& order);
+    void createdStakeOrder(const QVariant& order);
 
 private slots:
     /// Register command.

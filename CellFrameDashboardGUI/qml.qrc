@@ -361,5 +361,6 @@
         <file>screen/desktop/Orders/RightPanel/DapOrderInfo.qml</file>
         <file>screen/desktop/Orders/Logic/LogicOrders.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderCreate.qml</file>
+        <file>screen/desktop/Orders/RightPanel/DapOrderCreateDone.qml</file>
     </qresource>
 </RCC>

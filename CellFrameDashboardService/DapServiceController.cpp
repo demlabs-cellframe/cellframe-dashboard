@@ -47,6 +47,8 @@
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
 #include "handlers/DapGetFeeCommand.h"
 #include "handlers/DapCreatePassForWallet.h"
+#include "handlers/DapCreateVPNOrder.h"
+#include "handlers/DapCreateStakeOrder.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -238,6 +240,8 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapRemoveChainsOrGdbCommand          ("DapRemoveChainsOrGdbCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetFeeCommand                     ("DapGetFeeCommand"                     , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreatePassForWallet               ("DapCreatePassForWallet"               , nullptr, CLI_PATH));
+    m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
+    m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
 
     for(auto service: qAsConst(m_servicePool))
     {

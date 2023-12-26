@@ -4,7 +4,12 @@ import QtQuick.Controls 2.12
 
 QtObject
 {
-    property var commandResult
+    property var commandResult:
+    {
+        "success": "",
+        "message": ""
+    }
+
     property string currentTabName: "VPN"
 
     function initDetailsModel(selectedModel)
