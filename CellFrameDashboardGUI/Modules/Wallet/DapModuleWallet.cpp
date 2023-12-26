@@ -766,6 +766,24 @@ void DapModuleWallet::sendTx(QVariantMap data)
     createTx(listData);
 }
 
+QString DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
+{
+    const auto& infoWallet = m_walletsInfo[m_currentWallet.second];
+    if(!infoWallet.walletInfo.contains(network))
+    {
+        return "Error, network not found";
+    }
+    const auto& infoNetwork = infoWallet.walletInfo[network];
+
+    const auto& feeInfo = m_feeInfo[network];
+
+//    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
+//    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
+//    uint256_t accum = {};
+
+//    SUM_256_256(arg1_256, arg2_256, &accum);
+}
+
 QVariantMap DapModuleWallet::getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker)
 {
     if(!m_walletsInfo.contains(name))
@@ -832,20 +850,22 @@ void DapModuleWallet::setCurrentTokenDEX(const QString& token)
     updateBalanceDEX();
 }
 
-QString DapModuleWallet::getBalanceDEX() const
+QString DapModuleWallet::getBalanceDEX(const QString& tokenName) const
 {
     auto& data = m_DEXTokenModel->getData();
     for(auto& item: data)
     {
         if((item.network == m_tokenFilterModelDEX->getCurrentNetwork()
-             || m_tokenFilterModelDEX->getCurrentNetwork().isEmpty())
-            && m_currentTokenDEX == item.tokenName)
+             || m_tokenFilterModelDEX->getCurrentNetwork().isEmpty()))
         {
-            return item.value;
-
+            if((tokenName.isEmpty() && m_currentTokenDEX == item.tokenName)
+                || (!tokenName.isEmpty() && tokenName == item.tokenName))
+            {
+                return item.value;
+            }
         }
     }
-    return "";
+    return tokenName.isEmpty() ? "" : "0.0";
 }
 
 void DapModuleWallet::updateBalanceDEX()

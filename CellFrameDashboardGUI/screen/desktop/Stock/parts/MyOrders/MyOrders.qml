@@ -39,7 +39,7 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         clip: true
-        model: ordersModel //myOrdersModel
+        model: ordersModel
 
         highlight: Rectangle{color: currTheme.inputActive; opacity: 0.12}
         highlightMoveDuration: 0
@@ -65,14 +65,17 @@ Item
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 96
-                    label.text: qsTr("Type")
+                    label.text: qsTr("Network")
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 61
                     label.text: qsTr("Side")
                 }
                 HeaderLabel{
-//                    Layout.fillWidth: true
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Amount")
+                }
+                HeaderLabel{
                     Layout.preferredWidth: 150
                     label.text: qsTr("Price")
                 }
@@ -130,7 +133,7 @@ Item
                 }
                 HeaderLabel{
                     Layout.minimumWidth: 96
-                    label.text: type
+                    label.text: network
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
@@ -138,6 +141,11 @@ Item
                     label.text: side
                     label.font: mainFont.dapFont.regular13
                     label.color: side === "Sell" ? currTheme.red : currTheme.green
+                }
+                HeaderLabel{
+                    Layout.minimumWidth: 150
+                    label.text: amount
+                    label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
                     Layout.minimumWidth: 150

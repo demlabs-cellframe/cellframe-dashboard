@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-
+#include "Workers/mathworker.h"
 #include <cmath>
 
 constexpr double visibleDefaultCandles {40};
@@ -131,35 +131,20 @@ void CandleChartWorker::setTokenPriceHistory(const QJsonArray &history)
 {
     if(history.isEmpty())
     {
+        priceModel.clear();
         return;
     }
-    //priceModel.clear();
     priceModel.resize(history.size());
 
-//    for(const auto& itemValue: history)
     for(auto i = 0; i < history.size(); i++)
     {
         QJsonObject item = history[i].toObject();
-        QString date = item.keys().first();
-        QString priceText = item[date].toString();
+        QString priceText = item["rate"].toString();
         double price = priceText.toDouble();
-        qint64 time = date.toLongLong();
+        qint64 time = item["time"].toString().toLongLong();
         PriceInfo info{time, price, priceText};
         priceModel[i] = std::move(info);
     }
-//    for(auto i = 0; i < history.size(); i++)
-//    {
-
-//        QString date = history.at(i)["date"].toString();
-
-//        double price = history.at(i)["rate"].toString().toDouble();
-//        QString priceText = history.at(i)["rate"].toString();
-//        qint64 time = date.toLongLong();
-
-//        PriceInfo info{time, price, priceText};
-
-//        priceModel[i] = info;
-//    }
 
     std::sort (priceModel.begin(), priceModel.end(),
                [](const PriceInfo& lha, const PriceInfo& rha){

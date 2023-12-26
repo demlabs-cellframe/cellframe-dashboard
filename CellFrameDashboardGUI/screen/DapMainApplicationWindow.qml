@@ -669,7 +669,6 @@ Rectangle {
 //            logicMainApp.rcvPairsModel(rcvData)
         }
     }
-
     Connections{
         target: dAppsModule
         function onRcvListPlugins(m_pluginsList)

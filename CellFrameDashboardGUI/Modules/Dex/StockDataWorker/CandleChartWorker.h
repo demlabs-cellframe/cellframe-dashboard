@@ -174,7 +174,7 @@ private:
     QVector <QVector <PriceInfo>> averagedModel;
     QVector <int> averageDelta;
 
-    qint64 m_candleWidth {1000};
+    qint64 m_candleWidth {60000};
     double m_visibleTime {1000000};
     qint64 m_rightTime {0};
 

@@ -30,6 +30,7 @@ public:
     void requestHistoryTokenPairs();
     void requestHistoryOrders();
     void requestTXList(const QString &timeFrom = "", const QString &timeTo = "");
+    void requestOrder();
 
     Q_PROPERTY(QString displayText READ getDisplayText NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getDisplayText() const { return m_currentPair.displayText; }
@@ -45,6 +46,8 @@ public:
 
     Q_PROPERTY(QString networkPair READ getNetworkPair NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getNetworkPair() const { return m_currentPair.network; }
+
+    Q_INVOKABLE QString invertValue(const QString& value);
 
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 

@@ -246,6 +246,7 @@ void DapModuleDex::respondOrdersHistory(const QVariant &rcvData)
     {
         return;
     }
+    m_ordersHistoryCash = &data;
     //TODO: For optimization, it will be necessary to remove unnecessary models.
     setOrdersHistory(data);
     m_stockDataWorker->getOrderBookWorker()->setBookModel(std::move(data));
@@ -303,6 +304,11 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
     emit orderHistoryChanged();
 }
 
+QString DapModuleDex::invertValue(const QString& value)
+{
+
+}
+
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
     if(namePair.isEmpty())
@@ -329,6 +335,7 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
 
     m_stockDataWorker->getOrderBookWorker()->setTokenPair(m_currentPair, "");
     requestHistoryTokenPairs();
+    m_stockDataWorker->getCandleChartWorker()->setTokenPriceHistory(QJsonArray());
     emit currentTokenPairChanged();
 }
 

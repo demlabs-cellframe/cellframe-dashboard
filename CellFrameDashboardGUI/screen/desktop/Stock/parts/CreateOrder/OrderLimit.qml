@@ -10,18 +10,17 @@ ColumnLayout {
     Layout.topMargin: 16
     spacing: 0
 
-    Component.onCompleted: updateForms()
+    Component.onCompleted: 
+    {
+        updateTokensField()
+        updateForms()
+    }
 
     Connections{
         target: createForm
         function onSellBuyChanged(){
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-//            updateForms()
-        }
-    }
-    Connections{
-        target: stockTab
-        function onTokenPairChanged(){
+            updateTokensField()
             updateForms()
         }
     }
@@ -73,15 +72,18 @@ ColumnLayout {
             Layout.minimumWidth: 203
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
-            textToken: tokenPairsWorker.tokenSell
-            textValue: candleChartWorker.currentTokenPrice
 
             onEdited: {
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
 
                 if(amount.textValue !== "" || amount.textValue !== "0")
                     total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                    mathWorker.coinsToBalance(textValue),false))
+                                                                   mathWorker.coinsToBalance(textValue),false))
+            }
+
+            Component.onCompleted:
+            {
+                price.textValue = dexModule.currentRate
             }
         }
 
@@ -137,13 +139,11 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: tokenPairsWorker.tokenBuy
-        textValue: ""
         onEdited:
         {
 
             total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(price.textValue),false))
+                                                           mathWorker.coinsToBalance(getRealPriceValue()),false))
 
             button25.selected = false
             button50.selected = false
@@ -172,7 +172,7 @@ ColumnLayout {
             fontButton: mainFont.dapFont.regular12
             selected: false
             onClicked:
-            {          
+            {
                 button25.selected = true
                 button50.selected = false
                 button75.selected = false
@@ -287,8 +287,6 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: tokenPairsWorker.tokenSell
-        textValue: ""
         onEdited:
         {
             button25.selected = false
@@ -297,7 +295,7 @@ ColumnLayout {
             button100.selected = false
 
             amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(price.textValue),false))
+                                                           mathWorker.coinsToBalance(getRealPriceValue()),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
@@ -318,24 +316,25 @@ ColumnLayout {
 
         onClicked:
         {
+
             var net = tokenPairsWorker.tokenNetwork
             var tokenSell = isSell ? tokenPairsWorker.tokenBuy : tokenPairsWorker.tokenSell
             var tokenBuy = isSell ? tokenPairsWorker.tokenSell : tokenPairsWorker.tokenBuy
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
             var amountBuy = isSell ? mathWorker.coinsToBalance(total.textValue) :
-                                      mathWorker.coinsToBalance(amount.textValue)
+                                     mathWorker.coinsToBalance(amount.textValue)
 
             var amountSell = isSell ? mathWorker.coinsToBalance(amount.textValue) :
-                                     mathWorker.coinsToBalance(total.textValue)
+                                      mathWorker.coinsToBalance(total.textValue)
 
             var priceValue = isSell? price.textValue : 1/price.textValue
 
-//            console.log("tokenSell",tokenSell,
-//                        "tokenBuy", tokenBuy,
-//                        "amountSell", amountSell,
-//                        "amountBuy", amountBuy,
-//                        "priceValue" , priceValue)
+            //            console.log("tokenSell",tokenSell,
+            //                        "tokenBuy", tokenBuy,
+            //                        "amountSell", amountSell,
+            //                        "amountBuy", amountBuy,
+            //                        "priceValue" , priceValue)
 
             var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
 
@@ -352,16 +351,67 @@ ColumnLayout {
         Layout.fillHeight: true
     }
 
+    Connections
+    {
+        target: dexModule
+
+        function onCurrentTokenPairChanged()
+        {
+            price.textValue = "0.0"
+            updateTokensField()
+            updateForms()
+        }
+
+        function onCurrentTokenPairInfoChanged()
+        {
+            if(dexModule.currentRate === "0.0")
+            {
+                price.textValue = dexModule.currentRate
+            }
+        }
+    }
+
+    function getRealPriceValue()
+    {
+        if(dexModule.currentRate !== "0.0" && dexModule.currentRate !== "" && dexModule.currentRate !== "0")
+        {
+            return isSell? price.textValue : 1/price.textValue
+        }
+        else
+        {
+            return dexModule.currentRate
+        }
+    }
+
+    function updateTokensField()
+    {
+        if(!isSell)
+        {
+            price.textToken = dexModule.token2
+            amount.textToken = dexModule.token2
+            total.textToken = dexModule.token1
+        }
+        else
+        {
+            price.textToken = dexModule.token2
+            amount.textToken = dexModule.token1
+            total.textToken = dexModule.token2
+        }
+    }
+
     function updateForms()
     {
-        price.textValue = candleChartWorker.currentTokenPrice
-//        price.setRealValue(candleChartWorker.currentTokenPrice)
+        if(dexModule.currentRate === "0.0")
+        {
+            price.textValue = dexModule.currentRate
+        }
         total.textValue = ""
         amount.textValue = ""
-        createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
+        createButton.enabled = setStatusCreateButton(total.textValue, dexModule.currentRate)
         button25.selected = false
         button50.selected = false
         button75.selected = false
         button100.selected = false
     }
+
 }

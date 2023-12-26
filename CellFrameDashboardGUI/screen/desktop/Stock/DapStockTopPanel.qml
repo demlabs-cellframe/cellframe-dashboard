@@ -283,15 +283,6 @@ Controls.DapTopPanel
             }
         }
     }
-
-    // Connections
-    // {
-    //     target: dexTokenModel
-    //     function onDataChanged()
-    //     {
-    //         walletModule.setCurrentTokenDEX(comboBoxCurrentWallet.displayText)
-    //     }
-    // }
     
     Component.onCompleted:
     {
