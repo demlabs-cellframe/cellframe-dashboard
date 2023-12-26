@@ -163,8 +163,6 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
                 itemOrder.filled     = obj["filled"].toString();
                 itemOrder.rate       = obj["rate"].toString();
                 itemOrder.srv_uid    = "DEX";
-
-                s_statusModel.first = true;
             }
             else if(!dexFlag && !s_statusModel.second)
             {
@@ -186,13 +184,15 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
                 itemOrder.ext           = obj["ext"].toString();
                 itemOrder.pkey          = obj["pkey"].toString();
                 itemOrder.units         = obj["units"].toString();
-
-                s_statusModel.second = true;
             }
 
             m_ordersModel.add(itemOrder);
         }
     }
+    if(dexFlag)
+        s_statusModel.first = true;
+    else
+        s_statusModel.second = true;
 
     if(s_statusModel.first && s_statusModel.second)
     {
