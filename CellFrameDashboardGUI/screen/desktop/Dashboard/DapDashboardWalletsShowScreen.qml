@@ -44,7 +44,8 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
             Layout.fillHeight: true
             spacing: 16
-            visible: !listViewWallet.visible 
+            visible: !listViewWallet.visible && !addWalletButtonLayout.visible
+            //visible: logicWallet.spiner === true
 
             Item{Layout.fillHeight: true}
 
@@ -75,7 +76,7 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
             Layout.fillHeight: true
             spacing: 0
-
+            id: addWalletButtonLayout
             visible: !listViewWallet.visible && logicWallet.spiner !== true
 
             Item{Layout.fillHeight: true}

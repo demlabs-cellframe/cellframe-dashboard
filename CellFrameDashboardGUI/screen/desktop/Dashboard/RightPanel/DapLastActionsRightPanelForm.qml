@@ -46,7 +46,7 @@ DapRectangleLitAndShaded
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignHCenter
             spacing: 16
-            visible: !txExplorerModule.statusInit
+            visible: walletModelList.count > 0 ? !txExplorerModule.statusInit : false
 
             Item{Layout.fillHeight: true}
 
