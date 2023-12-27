@@ -39,6 +39,10 @@ DapPage
             dapRightPanel.push(dapExtensionsBlock)
             dapRightPanelFrame.frame.visible = false
         }
+
+        function openWalletsController() {
+            walletsControllerPopup.show(removeWalletPopup)
+        }
     }
 
     dapHeader.initialItem: DapSettingsTopPanel { id:topPanel }

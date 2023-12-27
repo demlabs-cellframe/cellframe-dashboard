@@ -48,18 +48,25 @@ private:
 
 public:
     void initConnect();
+    Q_INVOKABLE void createStakeOrder(QStringList args);
+    Q_INVOKABLE void createVPNOrder(QStringList args);
 
 private:
     void modelProcessing(const QVariant &rcvData, bool dexFlag);
     void updateOrdersModel();
 
 signals:
+    void sigCreateVPNOrder(const QVariant& result);
+    void sigCreateStakeOrder(const QVariant& result);
 
 private slots:
     void slotUpdateOrders();
 
     void rcvOrdersList(const QVariant &rcvData);
     void rcvXchangeOrderList(const QVariant &rcvData);
+
+    void rcvCreateVPNOrder(const QVariant &rcvData);
+    void rcvCreateStakeOrder(const QVariant &rcvData);
 
 };
 

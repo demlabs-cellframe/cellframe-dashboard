@@ -38,6 +38,7 @@ public:
     Q_INVOKABLE void getWalletsInfo(QStringList args);
     Q_INVOKABLE void requestWalletInfo(QStringList args);
     Q_INVOKABLE void createWallet(QStringList args);
+    Q_INVOKABLE void removeWallet(QStringList args);
     Q_INVOKABLE void getTxHistory(QStringList args);
     Q_INVOKABLE void createPassword(QStringList args);
     Q_INVOKABLE void setCurrentWallet(int index);
@@ -76,6 +77,7 @@ signals:
     void sigWalletsInfo(const QVariant& result);
     void sigTxCreate(const QVariant& result);
     void sigWalletCreate(const QVariant& result);
+    void sigWalletRemove(const QVariant& result);
     void sigHistory(const QVariant& result);
 
     void walletsModelChanged();
@@ -90,6 +92,7 @@ private slots:
     void rcvWalletInfo(const QVariant &rcvData);
     void rcvCreateTx(const QVariant &rcvData);
     void rcvCreateWallet(const QVariant &rcvData);
+    void rcvRemoveWallet(const QVariant &rcvData);
     void rcvHistory(const QVariant &rcvData);
 
     void slotUpdateWallet();

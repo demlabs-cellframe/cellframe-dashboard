@@ -38,7 +38,7 @@ Item{
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 328
-        height: textError.visible ? 289 : 265
+        height: 150
         color: currTheme.popup
         radius: currTheme.popupRadius
 
@@ -63,9 +63,9 @@ Item{
             onClicked: hide()
         }
 
-        ColumnLayout{
+        ColumnLayout {
             anchors.fill: parent
-            anchors.topMargin: 24
+            anchors.topMargin: 17
             anchors.bottomMargin: 24
             spacing: 0
 
@@ -75,96 +75,22 @@ Item{
                 Layout.rightMargin: 50
                 Layout.alignment: Qt.AlignHCenter
                 horizontalAlignment: Text.AlignHCenter
-                text: qsTr("Deactivate ") + "'" + nameWallet + "'" + qsTr(" wallet")
+                text: qsTr("Deactivate wallet")
                 font: mainFont.dapFont.bold14
+                lineHeightMode: Text.FixedHeight
+                lineHeight: 17.5
                 color: currTheme.white
                 elide: Text.ElideMiddle
             }
 
             Text{
-                Layout.topMargin: 12
+                Layout.topMargin: 5
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Enter password to deactivate wallet")
+                text: qsTr("Are you sure you want to deactivate your wallet?")
                 font: mainFont.dapFont.medium12
+                lineHeightMode: Text.FixedHeight
+                lineHeight: 16
                 color: currTheme.white
-            }
-
-            Rectangle
-            {
-                color: currTheme.mainBackground
-                Layout.fillWidth: true
-                Layout.topMargin: 20
-                height: 30
-                Text
-                {
-                    color: currTheme.white
-                    text: qsTr("Wallet password")
-                    font: mainFont.dapFont.medium12
-                    horizontalAlignment: Text.AlignLeft
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 24
-                }
-            }
-
-            Rectangle
-            {
-                Layout.fillWidth: true
-                Layout.leftMargin: 18
-                Layout.rightMargin: 24
-                height: 69
-                color: "transparent"
-
-                DapTextField
-                {
-                    id: textInputPasswordWallet
-
-                    echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
-
-
-                    anchors.verticalCenter: parent.verticalCenter
-                    placeholderText: qsTr("Password")
-                    font: mainFont.dapFont.regular16
-                    horizontalAlignment: Text.AlignLeft
-                    anchors.fill: parent
-                    anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
-                    anchors.topMargin: 20
-                    anchors.bottomMargin: 29
-                    anchors.rightMargin: 24
-
-
-                    validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
-//                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*]+/ }
-                    bottomLineVisible: true
-                    bottomLineSpacing: 8
-
-                    bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
-                    bottomLine.anchors.rightMargin: -24
-                    indicator.anchors.rightMargin: -24
-
-                    indicatorVisible: true
-                    indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
-                    indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
-                    indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
-                    indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
-
-                    selectByMouse: true
-                    DapContextMenu{isActiveCopy: false}
-                }
-            }
-
-            Text{
-                id: textError
-                visible: false
-                Layout.alignment: Qt.AlignCenter
-                Layout.topMargin: -12
-                Layout.bottomMargin: 20
-
-                color: currTheme.red
-                text: qsTr("Invalid password")
-                font: mainFont.dapFont.regular12
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
             }
 
             DapButton
@@ -173,18 +99,18 @@ Item{
                 Layout.fillWidth: true
                 Layout.leftMargin: 24
                 Layout.rightMargin: 24
-//                Layout.topMargin: 0
+                Layout.alignment: Qt.AlignBottom
                 implicitHeight: 36
                 textButton: qsTr("Deactivate")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
-                enabled: textInputPasswordWallet.text.length
                 onClicked:
                 {
-                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate", textInputPasswordWallet.text)
+                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet, "deactivate")
                     walletModule.getWalletsInfo("true")
                     modulesController.updateListWallets()
+                    buttonLock.enabled = false
                 }
             }
 
@@ -194,23 +120,24 @@ Item{
                     if(rcvData.cmd !== "activate")
                     {
                         if(rcvData.success){
-                            textInputPasswordWallet.bottomLine.color = currTheme.input
-                            textError.visible = false
                             deactivatingSignal(nameWallet, true)
-
-
                             dapMainWindow.infoItem.showInfo(
                                         191,0,
                                         dapMainWindow.width*0.5,
                                         8,
                                         qsTr("Wallet deactivated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
-
                             hide()
                         }else{
-                            textInputPasswordWallet.bottomLine.color = currTheme.red
-                            textError.visible = true
+                            console.log("Error deactivating wallet:", JSON.stringify(rcvData.message))
                             deactivatingSignal(nameWallet, false)
+                            dapMainWindow.infoItem.showInfo(
+                                        191,0,
+                                        dapMainWindow.width*0.5,
+                                        8,
+                                        qsTr("Error deactivating"),
+                                        "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+                            buttonLock.enabled = true
                         }
                     }
                 }
@@ -249,11 +176,9 @@ Item{
     }
 
     function show(name_wallet){
-        textInputPasswordWallet.bottomLine.color = currTheme.input
-        textError.visible = false
         visible = true
         nameWallet = name_wallet
-        textInputPasswordWallet.text = ""
+        buttonLock.enabled = true
         backgroundFrame.opacity = 0.4
         farmeActivate.opacity = 1
     }

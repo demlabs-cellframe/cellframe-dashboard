@@ -94,7 +94,7 @@ Controls.DapTopPanel
                     }
                     else
                     {
-                        walletDeactivatePopup.show(dapModelWallets.get(walletModule.currentWalletIndex).name)
+                        walletDeactivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName)
                     }
                 }
             }

@@ -51,6 +51,8 @@ Rectangle {
     property alias createPasswordWalletPopup: createPasswordWalletPopup
     property alias walletActivatePopup: walletActivatePopup
     property alias walletDeactivatePopup: walletDeactivatePopup
+    property alias walletsControllerPopup: walletsControllerPopup
+    property alias removeWalletPopup: removeWalletPopup
     property alias settingsWallet:settingsWallet
 
     property var vpnClientTokenModel: new Array()
@@ -140,6 +142,20 @@ Rectangle {
 
     DapDeactivateWalletPopup{
         id: walletDeactivatePopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapWalletsControllerPopup{
+        id: walletsControllerPopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapRemoveWalletPopup{
+        id: removeWalletPopup
         anchors.fill: parent
         visible: false
         z: 10
@@ -669,5 +685,4 @@ Rectangle {
 
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}
-}
  ##^##*/

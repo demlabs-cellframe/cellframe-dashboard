@@ -153,10 +153,6 @@ DapPage
 
     function updateScreen()
     {
-        console.log("UPDATE")
-        console.log("UPDATE walletModelList.count = " + walletModelList.count)
-        console.log("UPDATE walletModelList.get(walletModule.currentWalletIndex).walletName = " + walletModelList.get(walletModule.currentWalletIndex).walletName)
-        console.log("UPDATE walletModelList.get(walletModule.currentWalletIndex).isLoad = " + walletModelList.get(walletModule.currentWalletIndex).isLoad)
         // top panel
         // If there are no wallets, then remove the top panel
         dashboardTopPanel.layout.visible = walletModelList.count 
@@ -176,6 +172,7 @@ DapPage
         function onCurrentWalletChanged()
         {
             console.log("onCurrentWalletChanged")
+            navigator.popPage()
             updateScreen()
             txExplorerModule.setWalletName(walletModule.getCurrentWalletName())
             txExplorerModule.clearHistory()

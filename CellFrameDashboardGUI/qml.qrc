@@ -348,7 +348,6 @@
         <file>Resources/Translations/Translation_zh.qm</file>
         <file>screen/desktop/Orders/DapOrdersTab.qml</file>
         <file>screen/desktop/Orders/DapOrdersScreen.qml</file>
-        <file>screen/desktop/Orders/DapOrdersTopPanel.qml</file>
         <file>screen/desktop/Orders/Parts/DapDoubleSpinBox.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrderPanelButton.qml</file>
         <file>screen/desktop/Orders/Parts/DapSpinBox.qml</file>
@@ -356,5 +355,12 @@
         <file>screen/desktop/Orders/Parts/DapOrderInfoLine.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrdersGridView.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrderHeader.qml</file>
+        <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
+        <file>screen/desktop/controls/DapRemoveWalletPopup.qml</file>
+        <file>screen/desktop/Orders/RightPanel/DapOrderInfo.qml</file>
+        <file>screen/desktop/Orders/Logic/LogicOrders.qml</file>
+        <file>screen/desktop/Orders/RightPanel/DapOrderCreate.qml</file>
+        <file>screen/desktop/Orders/RightPanel/DapOrderCreateDone.qml</file>
     </qresource>
 </RCC>

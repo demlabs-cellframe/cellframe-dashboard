@@ -10,7 +10,7 @@ import "qrc:/widgets"
 Page {
     id: dapOrdersScreen
 
-    property string currentTabName: "VPN"
+    property alias ordersView: ordersView
 
     background: Rectangle
     {
@@ -64,8 +64,9 @@ Page {
                 currentIndex: 0
                 onCurrentIndexChanged:
                 {
-                    currentTabName = tabsModel.get(currentIndex).name
+                    logicOrders.currentTabName = tabsModel.get(currentIndex).name
                     ordersModule.currentTab = currentIndex
+                    navigator.clear()
                 }
 
                 delegate:
