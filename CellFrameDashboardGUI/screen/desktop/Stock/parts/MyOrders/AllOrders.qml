@@ -331,13 +331,11 @@ Item
 
                         onClicked:
                         {
-                            list.currentIndex = index
                             frameDelegate.color = "transparent"
-                            print("DapButton", list.model.get(index).price)
-                            logic.openBuySellDialog(list.model.get(index))
+                            print("DapButton", model.price)
+                            logic.openBuySellDialog(model)
                         }
                     }
-
                 }
 
 /*                HeaderLabel{

@@ -144,15 +144,15 @@ RowLayout
     {
         target: dapServiceController
 
-        function onRcvXchangeTxList(rcvData)
-        {
-            console.log("onRcvXchangeTxList")
-            console.log(rcvData)
+        // function onRcvXchangeTxList(rcvData)
+        // {
+        //     console.log("onRcvXchangeTxList")
+        //     console.log(rcvData)
 
-            var jsonDocument = JSON.parse(rcvData)
-            allOrdersModel.clear()
-            allOrdersModel.append(jsonDocument)
-        }
+        //     var jsonDocument = JSON.parse(rcvData)
+        //     allOrdersModel.clear()
+        //     allOrdersModel.append(jsonDocument)
+        // }
     }
 
     onSetFilterPair: {

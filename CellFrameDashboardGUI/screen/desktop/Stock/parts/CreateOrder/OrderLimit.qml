@@ -6,6 +6,8 @@ import "qrc:/widgets"
 import "../Chart"
 
 ColumnLayout {
+    property string tmpPriceValue: ""
+
     Layout.fillWidth: true
     Layout.topMargin: 16
     spacing: 0
@@ -74,6 +76,11 @@ ColumnLayout {
             Layout.maximumHeight: 40
 
             onEdited: {
+                if(tmpPriceValue !== textValue)
+                {
+                    dexModule.setCurrentPrice(textValue)
+                }
+                tmpPriceValue = ""
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
 
                 if(amount.textValue !== "" || amount.textValue !== "0")
@@ -83,7 +90,8 @@ ColumnLayout {
 
             Component.onCompleted:
             {
-                price.textValue = dexModule.currentRate
+                dexModule.setCurrentPrice(dexModule.currentRate)
+                setPrice(!isSell ? dexModule.invertValue() : dexModule.currentRate)
             }
         }
 
@@ -143,7 +151,7 @@ ColumnLayout {
         {
 
             total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                           mathWorker.coinsToBalance(getRealPriceValue()),false))
+                                                           mathWorker.coinsToBalance(price.textValue),false))
 
             button25.selected = false
             button50.selected = false
@@ -295,7 +303,7 @@ ColumnLayout {
             button100.selected = false
 
             amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                           mathWorker.coinsToBalance(getRealPriceValue()),false))
+                                                           mathWorker.coinsToBalance(price.textValue),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
@@ -316,39 +324,29 @@ ColumnLayout {
 
         onClicked:
         {
-
-            var net = tokenPairsWorker.tokenNetwork
-            var tokenSell = isSell ? tokenPairsWorker.tokenBuy : tokenPairsWorker.tokenSell
-            var tokenBuy = isSell ? tokenPairsWorker.tokenSell : tokenPairsWorker.tokenBuy
-            var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
-
-            var amountBuy = isSell ? mathWorker.coinsToBalance(total.textValue) :
-                                     mathWorker.coinsToBalance(amount.textValue)
-
-            var amountSell = isSell ? mathWorker.coinsToBalance(amount.textValue) :
-                                      mathWorker.coinsToBalance(total.textValue)
-
-            var priceValue = isSell? price.textValue : 1/price.textValue
-
-            //            console.log("tokenSell",tokenSell,
-            //                        "tokenBuy", tokenBuy,
-            //                        "amountSell", amountSell,
-            //                        "amountBuy", amountBuy,
-            //                        "priceValue" , priceValue)
-
-            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
-
-            // if(hash !== "0")
-            //     logicMainApp.requestToService("DapXchangeOrderPurchase", hash,
-            //                                           net, currentWallet, amountSell)
-            // else
-            //     logicMainApp.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-            //                                           currentWallet, amountSell, priceValue)
+            var walletResult = walletModule.isCreateOrder(dexModule.networkPair, amount.textValue, amount.textToken)
+            console.log("Wallet: " + walletResult)
+            if(walletResult == "OK")
+            {
+                var createOrder = dexModule.tryCreateOrder(isSell, price.textValue, amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
+                console.log("Order: " + createOrder)
+            }
         }
     }
 
     Item{
         Layout.fillHeight: true
+    }
+
+    function setPrice(priceVal)
+    {
+        tmpPriceValue = priceVal
+        price.textValue = priceVal
+    }
+
+    Component.onDestruction:
+    {
+        dexModule.setCurrentPrice("")
     }
 
     Connections
@@ -357,29 +355,19 @@ ColumnLayout {
 
         function onCurrentTokenPairChanged()
         {
-            price.textValue = "0.0"
+            setPrice("0.0")
+            dexModule.setCurrentPrice("0.0")
             updateTokensField()
             updateForms()
         }
 
         function onCurrentTokenPairInfoChanged()
         {
-            if(dexModule.currentRate === "0.0")
+            if(price.textValue === "0.0")
             {
-                price.textValue = dexModule.currentRate
+                dexModule.setCurrentPrice(dexModule.currentRate)
+                setPrice(!isSell ? dexModule.invertValue() : dexModule.currentRate)
             }
-        }
-    }
-
-    function getRealPriceValue()
-    {
-        if(dexModule.currentRate !== "0.0" && dexModule.currentRate !== "" && dexModule.currentRate !== "0")
-        {
-            return isSell? price.textValue : 1/price.textValue
-        }
-        else
-        {
-            return dexModule.currentRate
         }
     }
 
@@ -387,13 +375,15 @@ ColumnLayout {
     {
         if(!isSell)
         {
+            setPrice(dexModule.invertValue())
             price.textToken = dexModule.token2
             amount.textToken = dexModule.token2
             total.textToken = dexModule.token1
         }
         else
         {
-            price.textToken = dexModule.token2
+            setPrice(dexModule.getCurrentPrice())
+            price.textToken = dexModule.token1
             amount.textToken = dexModule.token1
             total.textToken = dexModule.token2
         }
@@ -403,7 +393,7 @@ ColumnLayout {
     {
         if(dexModule.currentRate === "0.0")
         {
-            price.textValue = dexModule.currentRate
+            setPrice(dexModule.currentRate)
         }
         total.textValue = ""
         amount.textValue = ""

@@ -1,11 +1,31 @@
 #include "OrdersHistoryProxyModel.h"
-#include "DapOrderHistoryModel.h"
 #include <QDateTime>
 
 OrdersHistoryProxyModel::OrdersHistoryProxyModel(QObject *parent)
     : QSortFilterProxyModel{parent}
 {
 }
+
+//QVariant OrdersHistoryProxyModel::getItem(const QString& hash) const
+//{
+//    if(hash.isEmpty())
+//    {
+//        return QVariant::fromValue (new ItemOrderHistoryBridge ());
+//    }
+//    const DapOrderHistoryModel* model = static_cast<DapOrderHistoryModel*>(sourceModel());
+//    if(!model)
+//    {
+//        return QVariant::fromValue (new ItemOrderHistoryBridge ());
+//    }
+//    for(auto& item: model->getListModel())
+//    {
+//        if(item.hash == hash)
+//        {
+//            return QVariant::fromValue (&item);
+//        }
+//    }
+//    return QVariant::fromValue (new ItemOrderHistoryBridge ());
+//}
 
 bool OrdersHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {

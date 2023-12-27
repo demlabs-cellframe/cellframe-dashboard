@@ -745,6 +745,22 @@ void DapModuleWallet::sendTx(QVariantMap data)
 
 QString DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
 {
+    auto checkValue = [](const QString& str) -> QString
+    {
+        if(str.isEmpty())
+        {
+            return str;
+        }
+        QString result = str;
+        if(!str.contains('.'))
+        {
+            result.append(".0");
+        }
+        return result;
+    };
+
+    QString normalAmount = checkValue(amount);
+
     const auto& infoWallet = m_walletsInfo[m_currentWallet.second];
     if(!infoWallet.walletInfo.contains(network))
     {
@@ -752,13 +768,87 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
     }
     const auto& infoNetwork = infoWallet.walletInfo[network];
 
+    auto getCoins = [&infoNetwork](const QString& ticker) -> QString
+    {
+        auto itemIt = std::find_if(infoNetwork.networkInfo.begin(), infoNetwork.networkInfo.end(), [&ticker](const CommonWallet::WalletTokensInfo& item){
+            return item.ticker == ticker;
+        });
+
+        return itemIt != infoNetwork.networkInfo.end() ? itemIt->value : QString();
+    };
+
     const auto& feeInfo = m_feeInfo[network];
 
-//    uint256_t arg1_256 = dap_uint256_scan_uninteger(arg1.toString().toStdString().data());
-//    uint256_t arg2_256 = dap_uint256_scan_uninteger(arg2.toString().toStdString().data());
-//    uint256_t accum = {};
+    QString netFeeTicker;
+    QString netFee;
+    if(feeInfo.netFee.contains("fee_ticker") && feeInfo.netFee.contains("fee_coins"))
+    {
+        netFeeTicker = feeInfo.netFee["fee_ticker"];
+        netFee = feeInfo.netFee["fee_coins"];
+    }
 
-//    SUM_256_256(arg1_256, arg2_256, &accum);
+    uint256_t result = dap_uint256_scan_uninteger(normalAmount.toStdString().data());
+
+    if(!netFee.isEmpty() && netFee != "0.0")
+    {
+        uint256_t net = dap_uint256_scan_uninteger(netFee.toStdString().data());
+        if(netFeeTicker == tokenName)
+        {
+            SUM_256_256(net, result, &result);
+        }
+        else
+        {
+            QString netValue = getCoins(netFeeTicker);
+            if(!netValue.isEmpty())
+            {
+                uint256_t value = dap_uint256_scan_uninteger(netValue.toStdString().data());
+                if(compare256(value, net) == -1)
+                {
+                    return "Error. It is not possible to pay the Internet fee";
+                }
+
+            }
+        }
+    }
+
+    QString valFeeTicker;
+    QString valFee;
+    if(feeInfo.validatorFee.contains("fee_ticker") && feeInfo.validatorFee.contains("average_fee_coins"))
+    {
+        valFeeTicker = feeInfo.validatorFee["fee_ticker"];
+        valFee = feeInfo.validatorFee["average_fee_coins"];
+    }
+
+    if(!valFee.isEmpty() && valFee != "0.0")
+    {
+        uint256_t val = dap_uint256_scan_uninteger(valFee.toStdString().data());
+        if(valFeeTicker == tokenName)
+        {
+            SUM_256_256(val, result, &result);
+        }
+        else
+        {
+            QString netValue = getCoins(valFeeTicker);
+            if(!netValue.isEmpty())
+            {
+                uint256_t value = dap_uint256_scan_uninteger(netValue.toStdString().data());
+                if(compare256(value, val) == -1)
+                {
+                    return "Error. It is not possible to pay the Validate fee";
+                }
+
+            }
+        }
+    }
+
+    QString currentValue = getCoins(tokenName);
+    uint256_t value = dap_uint256_scan_uninteger(currentValue.toStdString().data());
+    if(compare256(value, result) == -1)
+    {
+        return "Error. It is not possible to pay the Validate fee";
+    }
+
+    return "OK";
 }
 
 QVariantMap DapModuleWallet::getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker)
