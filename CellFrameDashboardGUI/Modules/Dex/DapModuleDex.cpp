@@ -274,16 +274,34 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
             DEX::Order tmpData;
             tmpData.amount = order["amount"].toString();
             tmpData.hash = order["order_hash"].toString();
-            tmpData.sellToken = order["sell_token"].toString();
-            tmpData.buyToken = order["buy_token"].toString();
-            tmpData.network = order["network"].toString();
+
             tmpData.amountDatoshi = order["amount_datoshi"].toString();
-            tmpData.rate = order["rate"].toString();
+
             tmpData.time = order["created"].toString();
             tmpData.unixTime = order["created_unix"].toString();
             tmpData.filled = order["filled"].toString();
             tmpData.status = order["status"].toString();
-            tmpData.side = tmpData.buyToken == m_currentPair.token1 ? "Buy" : "Sell";
+
+            QString sellToken = order["sell_token"].toString();
+            QString buyToken = order["buy_token"].toString();
+            QString network = order["network"].toString();
+            QString amountToken = order["amount_token"].toString();
+            QString rate = order["rate"].toString();
+            if(isPair(buyToken, sellToken, network) == DapModuleDex::PairFoundResultType::IS_MIRROR_PAIR)
+            {
+                tmpData.sellToken = buyToken;
+                tmpData.buyToken = sellToken;
+                tmpData.rate = invertValue(rate);
+            }
+            else
+            {
+                tmpData.sellToken = sellToken;
+                tmpData.buyToken = buyToken;
+                tmpData.rate = rate;
+            }
+
+            tmpData.network = network;
+            tmpData.side = tmpData.buyToken == amountToken ? "Buy" : "Sell";
 
             {
                 QString tmpPair = tmpData.buyToken + "/" + tmpData.sellToken;
@@ -304,6 +322,32 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
 
     m_ordersModel->updateModel(m_ordersHistory);
     emit orderHistoryChanged();
+}
+
+DapModuleDex::PairFoundResultType DapModuleDex::isPair(const QString& token1, const QString& token2, const QString& network)
+{
+    if(m_tokensPair.isEmpty())
+    {
+        return DapModuleDex::PairFoundResultType::BASE_IS_EMPTY;
+    }
+    bool isMirror = false;
+    for(const auto& pair: m_tokensPair)
+    {
+        if(pair.network != network)
+        {
+            continue;
+        }
+        if(pair.token1 == token1 && pair.token2 == token2)
+        {
+            return DapModuleDex::PairFoundResultType::IS_PAIR;
+        }
+        if(pair.token1 == token2 && pair.token2 == token1)
+        {
+            isMirror = true;
+        }
+    }
+
+    return isMirror ? DapModuleDex::PairFoundResultType::IS_MIRROR_PAIR : DapModuleDex::PairFoundResultType::NO_PAIR;
 }
 
 QString DapModuleDex::invertValue()
@@ -329,17 +373,18 @@ QString DapModuleDex::invertValue()
 
 QString DapModuleDex::invertValue(const QString& price)
 {
-    if(m_currantPriceForCreate.isEmpty() || m_currantPriceForCreate == "0.0" || m_currantPriceForCreate == "0")
+    if(price.isEmpty() || price == "0.0" || price == "0")
     {
         return "0.0";
     }
-    if(!m_currantPriceForCreate.contains('.'))
+    QString resPrice(price);
+    if(!price.contains('.'))
     {
-        m_currantPriceForCreate.append(".0");
+        resPrice.append(".0");
     }
     QString one = "1.0";
     uint256_t oneDatoshi= dap_uint256_scan_decimal(one.toStdString().data());
-    uint256_t priceDatoshi= dap_uint256_scan_decimal(price.toStdString().data());
+    uint256_t priceDatoshi= dap_uint256_scan_decimal(resPrice.toStdString().data());
     uint256_t accum = {};
     DIV_256_COIN(oneDatoshi, priceDatoshi, &accum);
     QString result  = dap_chain_balance_to_coins(accum);
@@ -400,7 +445,10 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
         QString amountDatoshi = dap_chain_balance_print(amount256);
         uint256_t feeInt = dap_chain_coins_to_balance(feeOrder.toStdString().data());
         QString feeDatoshi = dap_chain_balance_print(feeInt);
-
+        if(!isSell)
+        {
+            priceOrder = invertValue(priceOrder);
+        }
 
         if(suitableOrder == model.end())
         {
@@ -444,6 +492,7 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
     m_stockDataWorker->getOrderBookWorker()->setTokenPair(m_currentPair, "");
     requestHistoryTokenPairs();
     m_stockDataWorker->getCandleChartWorker()->setTokenPriceHistory(QJsonArray());
+    m_proxyModel->setPairAndNetworkOrderFilter(m_currentPair.displayText, m_currentPair.network);
     emit currentTokenPairChanged();
 }
 
@@ -508,6 +557,7 @@ void DapModuleDex::tokenPairModelCountChanged(int count)
         if(itemsList.isEmpty())
         {
             setCurrentTokenPair("", "");
+            return;
         }
 
         for(auto& item: itemsList)
@@ -532,6 +582,11 @@ void DapModuleDex::requestHistoryTokenPairs()
     {
         qWarning() << "The request cannot be executed, there is no data";
     }
+}
+
+bool DapModuleDex::isValidValue(const QString& value)
+{
+    return value.contains(REGULAR_VALID_VALUE);
 }
 
 void DapModuleDex::requestHistoryOrders()

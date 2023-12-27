@@ -267,7 +267,7 @@ Rectangle {
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
         append ({ tag: "DEX",
-            name: qsTr("DEX"),
+            name: qsTr("DEX beta"),
             bttnIco: "icon_exchange.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})

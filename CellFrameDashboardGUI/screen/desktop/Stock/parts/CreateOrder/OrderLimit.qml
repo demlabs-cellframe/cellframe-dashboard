@@ -83,15 +83,14 @@ ColumnLayout {
                 tmpPriceValue = ""
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
 
-                if(amount.textValue !== "" || amount.textValue !== "0")
+                if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
                     total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                                   mathWorker.coinsToBalance(textValue),false))
+                                    mathWorker.coinsToBalance(isSell ? textValue : dexModule.invertValue(textValue)),false))
             }
 
             Component.onCompleted:
             {
-                dexModule.setCurrentPrice(dexModule.currentRate)
-                setPrice(!isSell ? dexModule.invertValue() : dexModule.currentRate)
+                price.textValue = dexModule.currentRate
             }
         }
 
@@ -150,8 +149,9 @@ ColumnLayout {
         onEdited:
         {
 
-            total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                           mathWorker.coinsToBalance(price.textValue),false))
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
+                                    mathWorker.coinsToBalance(isSell ? price.textValue : dexModule.invertValue(price.textValue)),false))
 
             button25.selected = false
             button50.selected = false
@@ -302,8 +302,9 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                           mathWorker.coinsToBalance(price.textValue),false))
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                    amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
+                                                           mathWorker.coinsToBalance(isSell ? price.textValue : dexModule.invertValue(price.textValue)),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
@@ -338,12 +339,6 @@ ColumnLayout {
         Layout.fillHeight: true
     }
 
-    function setPrice(priceVal)
-    {
-        tmpPriceValue = priceVal
-        price.textValue = priceVal
-    }
-
     Component.onDestruction:
     {
         dexModule.setCurrentPrice("")
@@ -355,8 +350,7 @@ ColumnLayout {
 
         function onCurrentTokenPairChanged()
         {
-            setPrice("0.0")
-            dexModule.setCurrentPrice("0.0")
+            price.textValue = "0.0"
             updateTokensField()
             updateForms()
         }
@@ -365,8 +359,7 @@ ColumnLayout {
         {
             if(price.textValue === "0.0")
             {
-                dexModule.setCurrentPrice(dexModule.currentRate)
-                setPrice(!isSell ? dexModule.invertValue() : dexModule.currentRate)
+                price.textValue = dexModule.currentRate
             }
         }
     }
@@ -375,15 +368,13 @@ ColumnLayout {
     {
         if(!isSell)
         {
-            setPrice(dexModule.invertValue())
             price.textToken = dexModule.token2
             amount.textToken = dexModule.token2
             total.textToken = dexModule.token1
         }
         else
         {
-            setPrice(dexModule.getCurrentPrice())
-            price.textToken = dexModule.token1
+            price.textToken = dexModule.token2
             amount.textToken = dexModule.token1
             total.textToken = dexModule.token2
         }
@@ -391,10 +382,6 @@ ColumnLayout {
 
     function updateForms()
     {
-        if(dexModule.currentRate === "0.0")
-        {
-            setPrice(dexModule.currentRate)
-        }
         total.textValue = ""
         amount.textValue = ""
         createButton.enabled = setStatusCreateButton(total.textValue, dexModule.currentRate)

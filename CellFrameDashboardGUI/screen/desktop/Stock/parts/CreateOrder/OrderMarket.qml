@@ -57,9 +57,9 @@ ColumnLayout {
         textValue: candleChartWorker.currentTokenPrice
         onEdited: {
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-            if(amount.textValue !== "" || amount.textValue !== "0")
-                total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false))
+                if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
+                    total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
+                                    mathWorker.coinsToBalance(isSell ? textValue : dexModule.invertValue(textValue)),false))
         }
         Component.onCompleted:
         {
@@ -100,8 +100,9 @@ ColumnLayout {
         textValue: ""
         onEdited:
         {
-            total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false))
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
+                                    mathWorker.coinsToBalance(isSell ? price.textValue : dexModule.invertValue(price.textValue)),false))
 
             button25.selected = false
             button50.selected = false
@@ -254,8 +255,9 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(candleChartWorker.currentTokenPrice),false))
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                    amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
+                                                           mathWorker.coinsToBalance(isSell ? price.textValue : dexModule.invertValue(price.textValue)),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
         onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)

@@ -21,6 +21,15 @@
 class  DapModuleDex : public DapAbstractModule
 {
     Q_OBJECT
+
+    enum PairFoundResultType
+    {
+        NO_PAIR = 0,
+        IS_PAIR,
+        IS_MIRROR_PAIR,
+        BASE_IS_EMPTY
+    };
+
 public:
     explicit DapModuleDex(DapModulesController *parent = nullptr);
     ~DapModuleDex();
@@ -61,6 +70,8 @@ public:
     Q_INVOKABLE QString getCurrentPrice() const {return m_currantPriceForCreate;}
     Q_INVOKABLE void tokenPairModelCountChanged(int count);
 
+    Q_INVOKABLE bool isValidValue(const QString& value);
+
     void setStatusProcessing(bool status) override;
 
 signals:
@@ -83,6 +94,7 @@ private:
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
 
+    inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
 private:
 
     DapModulesController  *m_modulesCtrl = nullptr;
@@ -116,6 +128,8 @@ private:
     const int ALL_TOKEN_UPDATE_TIMEOUT = 10000;
     const int CURRENT_TOKEN_UPDATE_TIMEOUT = 1000;
     const int ORDERS_HISTORY_UPDATE_TIMEOUT = 5000;
+
+    const QRegularExpression REGULAR_VALID_VALUE = QRegularExpression(R"((?=.*[0-9])(?:\d+|\d*\.\d+)$)");
 };
 
 #endif // DAPMODULEDEX_H

@@ -10,7 +10,7 @@ Item
 
     Component.onCompleted:
     {
-        ordersModel.setOrderFilter("Buy")
+        ordersModel.setOrderFilter("Buy", "All", "OPENED")
         setCurrentMainScreen(allOrders)
         buysellbothSelector.selectorListView.currentIndex = 2
     }
@@ -249,7 +249,8 @@ Item
             height: 42
             font: mainFont.dapFont.regular16
             defaultText: qsTr("All pairs")
-            onCurrentIndexChanged: ordersModel.setPairOrderFilter(model.get(currentIndex).name)
+            //TODO: These parameters have been fixed so far and we are not touching them from here yet
+            //onCurrentIndexChanged: ordersModel.setPairOrderFilter(model.get(currentIndex).name)
             model: dexRightPairModel
         }
 
