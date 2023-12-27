@@ -298,9 +298,8 @@ Item
 
     function setCurrentIndex(index)
     {
-//        // Check and fix different between models
-        if(logicWallet.modelSize !== popupListView.count) logicWallet.modelSize = popupListView.count
-
+        // Check and fix different between models
+        //if(logicWallet.modelSize !== popupListView.count) logicWallet.modelSize = popupListView.count
         if(popupListView.count !== dapModelWallets.count) {
             console.log("[BrokenWallet]", "setCurrentIndex.", "Different models. Repeat wallets request.", "spinner ON")
             logicWallet.spiner = true

@@ -147,6 +147,18 @@ DapOrderHistoryModel::Item DapOrderHistoryModel::value (int a_index) const
     return at (a_index);
 }
 
+DapOrderHistoryModel::Item DapOrderHistoryModel::value (const QString& hash) const
+{
+    for(auto& item: m_items)
+    {
+        if(item.hash == hash)
+        {
+            return item;
+        }
+    }
+    return DapOrderHistoryModel::Item();
+}
+
 int DapOrderHistoryModel::size() const
 {
     return m_items.size();

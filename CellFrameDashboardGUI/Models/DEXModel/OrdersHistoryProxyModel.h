@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QMap>
 #include "DEXTypes.h"
+#include "DapOrderHistoryModel.h"
 
 class OrdersHistoryProxyModel : public QSortFilterProxyModel
 {
@@ -20,12 +21,16 @@ public:
     Q_INVOKABLE void setPeriodOrderFilter(const QString& period);
     Q_INVOKABLE void setPairOrderFilter(const QString& pair = "All pairs");
     Q_INVOKABLE void setNetworkOrderFilter(const QString& network = "All");
+    Q_INVOKABLE void setPairAndNetworkOrderFilter(const QString& pair = "All pairs", const QString& network = "All");
     Q_INVOKABLE void setOrderFilter(const QString& type, const QString& affilation = "All"
                                     , const QString status = "Both", const QString period = "All"
                                     , const QString& pair = "All pairs"
                                     , const QString& network = "All");
+//    Q_INVOKABLE QVariant getItem(const QString& hash) const;
 
     void setIsHashCallback(Callback handler) {m_isHashCallback = handler;}
+
+
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 

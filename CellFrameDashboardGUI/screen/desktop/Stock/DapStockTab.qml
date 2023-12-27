@@ -103,8 +103,8 @@ DapPage
     {
         dexModule.statusProcessing = false
         // updatePairTimer.stop()
-        updateOrdersListTimer.stop()
-        updatePriceTimer.stop()
+        //updateOrdersListTimer.stop()
+        //updatePriceTimer.stop()
     }
 
     Timer

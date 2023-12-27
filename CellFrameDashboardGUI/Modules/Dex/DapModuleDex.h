@@ -18,9 +18,18 @@
 #include "Models/DapStringListModel.h"
 #include "StockDataWorker/StockDataWorker.h"
 
-class DapModuleDex : public DapAbstractModule
+class  DapModuleDex : public DapAbstractModule
 {
     Q_OBJECT
+
+    enum PairFoundResultType
+    {
+        NO_PAIR = 0,
+        IS_PAIR,
+        IS_MIRROR_PAIR,
+        BASE_IS_EMPTY
+    };
+
 public:
     explicit DapModuleDex(DapModulesController *parent = nullptr);
     ~DapModuleDex();
@@ -30,7 +39,8 @@ public:
     void requestHistoryTokenPairs();
     void requestHistoryOrders();
     void requestTXList(const QString &timeFrom = "", const QString &timeTo = "");
-    void requestOrder();
+    void requestOrderPurchase(const QStringList& params);
+    void requestOrderCreate(const QStringList& params);
 
     Q_PROPERTY(QString displayText READ getDisplayText NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getDisplayText() const { return m_currentPair.displayText; }
@@ -47,13 +57,20 @@ public:
     Q_PROPERTY(QString networkPair READ getNetworkPair NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getNetworkPair() const { return m_currentPair.network; }
 
-    Q_INVOKABLE QString invertValue(const QString& value);
+    Q_INVOKABLE QString invertValue();
+    Q_INVOKABLE QString invertValue(const QString& price);
+
+    Q_INVOKABLE QString tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee);
 
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 
     Q_INVOKABLE void setCurrentTokenPair(const QString& namePair, const QString &network);
 
+    Q_INVOKABLE void setCurrentPrice(const QString& price) { m_currantPriceForCreate = price;}
+    Q_INVOKABLE QString getCurrentPrice() const {return m_currantPriceForCreate;}
     Q_INVOKABLE void tokenPairModelCountChanged(int count);
+
+    Q_INVOKABLE bool isValidValue(const QString& value);
 
     void setStatusProcessing(bool status) override;
 
@@ -77,6 +94,7 @@ private:
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
 
+    inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
 private:
 
     DapModulesController  *m_modulesCtrl = nullptr;
@@ -102,12 +120,16 @@ private:
 
     QString m_currentNetwork;
 
+    QString m_currantPriceForCreate = "";
+
     bool m_isSandXchangeTokenPriceAverage = false;
     bool m_isSandDapGetXchangeTokenPair = false;
 
     const int ALL_TOKEN_UPDATE_TIMEOUT = 10000;
     const int CURRENT_TOKEN_UPDATE_TIMEOUT = 1000;
     const int ORDERS_HISTORY_UPDATE_TIMEOUT = 5000;
+
+    const QRegularExpression REGULAR_VALID_VALUE = QRegularExpression(R"((?=.*[0-9])(?:\d+|\d*\.\d+)$)");
 };
 
 #endif // DAPMODULEDEX_H

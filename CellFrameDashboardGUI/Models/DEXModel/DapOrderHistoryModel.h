@@ -146,6 +146,8 @@ public:
     Q_INVOKABLE const DapOrderHistoryModel::Item &at (int a_index) const;
     /// get copy of item at provided index
     Q_INVOKABLE DapOrderHistoryModel::Item value (int a_index) const;
+    Q_INVOKABLE DapOrderHistoryModel::Item value (const QString& hash) const;
+
     /// get amount of users
     Q_INVOKABLE int size() const;
     /// get true if no users exists
@@ -163,6 +165,8 @@ public:
 
     Q_INVOKABLE int fieldId (const QString &a_fieldName) const;
 
+
+    const QList<DapOrderHistoryModel::Item>& getListModel() const { return m_items; }
     const DapOrderHistoryModel::Item &getItem(int a_index) const;
 
     Iterator begin();

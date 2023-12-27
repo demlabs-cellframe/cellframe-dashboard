@@ -1,11 +1,31 @@
 #include "OrdersHistoryProxyModel.h"
-#include "DapOrderHistoryModel.h"
 #include <QDateTime>
 
 OrdersHistoryProxyModel::OrdersHistoryProxyModel(QObject *parent)
     : QSortFilterProxyModel{parent}
 {
 }
+
+//QVariant OrdersHistoryProxyModel::getItem(const QString& hash) const
+//{
+//    if(hash.isEmpty())
+//    {
+//        return QVariant::fromValue (new ItemOrderHistoryBridge ());
+//    }
+//    const DapOrderHistoryModel* model = static_cast<DapOrderHistoryModel*>(sourceModel());
+//    if(!model)
+//    {
+//        return QVariant::fromValue (new ItemOrderHistoryBridge ());
+//    }
+//    for(auto& item: model->getListModel())
+//    {
+//        if(item.hash == hash)
+//        {
+//            return QVariant::fromValue (&item);
+//        }
+//    }
+//    return QVariant::fromValue (new ItemOrderHistoryBridge ());
+//}
 
 bool OrdersHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
@@ -114,6 +134,28 @@ void OrdersHistoryProxyModel::setNetworkOrderFilter(const QString& network)
     invalidateFilter();
 }
 
+void OrdersHistoryProxyModel::setPairAndNetworkOrderFilter(const QString& pair, const QString& network)
+{
+    if(network == "All")
+    {
+        m_network.clear();
+    }
+    else
+    {
+        m_network = network;
+    }
+
+    if(pair == "All pairs")
+    {
+        m_pair.clear();
+    }
+    else
+    {
+        m_pair = pair;
+    }
+    invalidateFilter();
+}
+
 void OrdersHistoryProxyModel::setOrderFilter(const QString& type, const QString& affilation, const QString status,
                                              const QString period, const QString& pair, const QString& network)
 {
@@ -125,22 +167,24 @@ void OrdersHistoryProxyModel::setOrderFilter(const QString& type, const QString&
     m_statusOrder = status;
     Q_ASSERT_X(m_periodContainer.contains(period), "setPeriodOrderFilter", "There is no such period of orders");
     m_period = m_periodContainer[period];
-    if(pair == "All pairs")
-    {
-        m_pair.clear();
-    }
-    else
-    {
-        m_pair = pair;
-    }
 
-    if(network == "All")
-    {
-        m_network.clear();
-    }
-    else
-    {
-        m_network = network;
-    }
+    //TODO: These parameters are still fixed and we do not touch them with a general change.
+//    if(pair == "All pairs")
+//    {
+//        m_pair.clear();
+//    }
+//    else
+//    {
+//        m_pair = pair;
+//    }
+
+//    if(network == "All")
+//    {
+//        m_network.clear();
+//    }
+//    else
+//    {
+//        m_network = network;
+//    }
     invalidateFilter();
 }

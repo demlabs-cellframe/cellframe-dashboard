@@ -6,23 +6,23 @@
 struct OrderInfo
 {
     Q_GADGET
-    Q_PROPERTY(double price MEMBER price)
-    Q_PROPERTY(double amount MEMBER amount)
-    Q_PROPERTY(double total MEMBER total)
-
+    Q_PROPERTY(QString price MEMBER price)
+    Q_PROPERTY(QString amount MEMBER amount)
+    Q_PROPERTY(QString total MEMBER total)
+    Q_PROPERTY(double filled MEMBER filled)
 public:
-    double price;
-    double amount;
-    double total;
+    QString price;
+    QString amount;
+    QString total;
+    double filled;
 
-    OrderInfo(double price = 0.0,
-         double amount = 0.0,
-         double total = 0.0)
-    {
-        this->price = price;
-        this->amount = amount;
-        this->total = total;
-    }
+    OrderInfo(QString price = "0.0",
+         QString amount = "0.0",
+         QString total = "0.0")
+        : price(price)
+        , amount(amount)
+        , total(total)
+    {}
 };
 Q_DECLARE_METATYPE(OrderInfo)
 
@@ -33,11 +33,11 @@ enum class OrderType
 
 struct FullOrderInfo
 {
-public:
+
     OrderType type;
-    double price;
-    double amount;
-    double total;
+    QString price = "";
+    QString amount = "";
+    QString total = "";
 };
 
 #endif // ORDERINFO_H

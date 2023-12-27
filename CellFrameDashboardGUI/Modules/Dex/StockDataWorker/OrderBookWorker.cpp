@@ -6,7 +6,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-
+#include "Workers/mathworker.h"
 #include <cmath>
 
 constexpr int bookRoundPowerDelta {7};
@@ -28,8 +28,8 @@ OrderBookWorker::OrderBookWorker(QQmlContext *cont, QObject *parent) :
 
 void OrderBookWorker::resetBookModel()
 {
-    m_sellMaxTotal = 0;
-    m_buyMaxTotal = 0;
+    m_sellMaxTotal.clear();
+    m_buyMaxTotal.clear();
 
     sellOrderModel.clear();
     buyOrderModel.clear();
@@ -41,37 +41,161 @@ void OrderBookWorker::resetBookModel()
 
 void OrderBookWorker::generateBookModel(double price, int length, double step)
 {
-    m_sellMaxTotal = 0;
-    m_buyMaxTotal = 0;
+//    m_sellMaxTotal.clear();
+//    m_buyMaxTotal.clear();
 
-    sellOrderModel.clear();
-    buyOrderModel.clear();
+//    sellOrderModel.clear();
+//    buyOrderModel.clear();
 
-    double temp_price = price;
+//    double temp_price = price;
 
-    for (auto i = 0; i < length; i++)
+//    for (auto i = 0; i < length; i++)
+//    {
+//        temp_price +=
+//            QRandomGenerator::global()->generateDouble()*step;
+//        double amount = QRandomGenerator::global()->generateDouble()*1500;
+//        double total = amount * temp_price;
+
+//        allOrders.append(FullOrderInfo{OrderType::sell, temp_price, amount, total});
+//    }
+
+//    temp_price = price;
+
+//    for (auto i = 0; i < length; i++)
+//    {
+//        temp_price -=
+//            QRandomGenerator::global()->generateDouble()*step;
+//        double amount = QRandomGenerator::global()->generateDouble()*1500;
+//        double total = amount * temp_price;
+
+//        allOrders.append(FullOrderInfo{OrderType::buy, temp_price, amount, total});
+//    }
+
+//    updateBookModels();
+}
+
+QString OrderBookWorker::invertValue(const QString& price)
+{
+    if(price.isEmpty() || price == "0.0" || price == "0")
     {
-        temp_price +=
-            QRandomGenerator::global()->generateDouble()*step;
-        double amount = QRandomGenerator::global()->generateDouble()*1500;
-        double total = amount * temp_price;
+        return "0.0";
+    }
+    QString resPrice(price);
+    if(!price.contains('.'))
+    {
+        resPrice.append(".0");
+    }
+    QString one = "1.0";
+    uint256_t oneDatoshi= dap_uint256_scan_decimal(one.toStdString().data());
+    uint256_t priceDatoshi= dap_uint256_scan_decimal(resPrice.toStdString().data());
+    uint256_t accum = {};
+    DIV_256_COIN(oneDatoshi, priceDatoshi, &accum);
+    QString result  = dap_chain_balance_to_coins(accum);
 
-        allOrders.append(FullOrderInfo{OrderType::sell, temp_price, amount, total});
+    return result;
+}
+
+QString OrderBookWorker::sumCoins(const QString& val1, const QString& val2)
+{
+    if(val1.isEmpty() || val1 == "0.0" || val1 == "0" || val2.isEmpty() || val2 == "0.0" || val2 == "0")
+    {
+        return "0.0";
+    }
+    QString resVal1(val1), resVal2(val2);
+    if(!resVal1.contains('.'))
+    {
+        resVal1.append(".0");
+    }
+    if(!resVal2.contains('.'))
+    {
+        resVal2.append(".0");
     }
 
-    temp_price = price;
+    uint256_t val1_t = dap_uint256_scan_decimal(resVal1.toStdString().data());
+    uint256_t val2_t = dap_uint256_scan_decimal(resVal2.toStdString().data());
+    uint256_t accum = {};
 
-    for (auto i = 0; i < length; i++)
+    SUM_256_256(val1_t, val2_t, &accum);
+    return dap_chain_balance_to_coins(accum);
+}
+
+QString OrderBookWorker::multCoins(const QString& val1, const QString& val2)
+{
+    if(val1.isEmpty() || val1 == "0.0" || val1 == "0" || val2.isEmpty() || val2 == "0.0" || val2 == "0")
     {
-        temp_price -=
-            QRandomGenerator::global()->generateDouble()*step;
-        double amount = QRandomGenerator::global()->generateDouble()*1500;
-        double total = amount * temp_price;
-
-        allOrders.append(FullOrderInfo{OrderType::buy, temp_price, amount, total});
+        return "0.0";
+    }
+    QString resVal1(val1), resVal2(val2);
+    if(!resVal1.contains('.'))
+    {
+        resVal1.append(".0");
+    }
+    if(!resVal2.contains('.'))
+    {
+        resVal2.append(".0");
     }
 
-    updateBookModels();
+    uint256_t val1_t = dap_uint256_scan_decimal(resVal1.toStdString().data());
+    uint256_t val2_t = dap_uint256_scan_decimal(resVal2.toStdString().data());
+    uint256_t accum = {};
+
+    MULT_256_COIN(val1_t, val2_t, &accum);
+    return dap_chain_balance_to_coins(accum);
+}
+
+QString OrderBookWorker::divCoins(const QString& val1, const QString& val2)
+{
+    if(val1.isEmpty() || val1 == "0.0" || val1 == "0" || val2.isEmpty() || val2 == "0.0" || val2 == "0")
+    {
+        return "0.0";
+    }
+    QString resVal1(val1), resVal2(val2);
+    if(!resVal1.contains('.'))
+    {
+        resVal1.append(".0");
+    }
+    if(!resVal2.contains('.'))
+    {
+        resVal2.append(".0");
+    }
+
+    uint256_t val1_t = dap_uint256_scan_decimal(resVal1.toStdString().data());
+    uint256_t val2_t = dap_uint256_scan_decimal(resVal2.toStdString().data());
+    uint256_t accum = {};
+    DIV_256_COIN(val1_t, val2_t, &accum);
+    return dap_chain_balance_to_coins(accum);
+}
+
+double OrderBookWorker::roundCoinsToDouble(const QString& value, int round)
+{
+    QString result(value);
+    auto parts = result.split(".");
+    if (parts.size() == 2 && parts[1].size() > round)
+    {
+        parts[1].resize(round);
+        result = parts.join(".");
+    }
+    return result.toDouble();
+}
+
+int OrderBookWorker::compareCoins(const QString& val1, const QString& val2)
+{
+    if(val1.isEmpty() || val2.isEmpty())
+    {
+        return 0;
+    }
+    QString resVal1(val1), resVal2(val2);
+    if(!resVal1.contains('.'))
+    {
+        resVal1.append(".0");
+    }
+    if(!resVal2.contains('.'))
+    {
+        resVal2.append(".0");
+    }
+    uint256_t val1_t = dap_uint256_scan_decimal(resVal1.toStdString().data());
+    uint256_t val2_t = dap_uint256_scan_decimal(resVal2.toStdString().data());
+    return compare256(val1_t, val2_t);
 }
 
 void OrderBookWorker::setBookModel(const QByteArray &json)
@@ -104,23 +228,18 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
                 else
                     type = OrderType::sell;
 
-                double price = orders.at(j)["rate"].toString().toDouble();
+                FullOrderInfo item;
+                item.type = type;
+                item.price = orders.at(j)["rate"].toString();
 
                 if (type == OrderType::buy)
                 {
-                    if (price > 0.000000000000000000000001)
-                        price = 1/price;
-                    else
-                        price = 1;
+                    item.price = invertValue(item.price);
                 }
+                item.amount = orders.at(j)["amount"].toString();
+                item.total = multCoins(item.amount, item.price);
 
-                double amount = orders.at(j)["amount"].toString().toDouble();
-
-                amount *= 0.000000000000000001;
-
-                double total = amount * price;
-
-                allOrders.append(FullOrderInfo{type, price, amount, total});
+                allOrders.append(std::move(item));
             }
         }
     }
@@ -128,71 +247,64 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
     updateBookModels();
 }
 
-void OrderBookWorker::generateNewBookState()
+double OrderBookWorker::getfilledForPrice(bool isSell, const QString& price)
 {
-    if (QRandomGenerator::global()->bounded(2))
+    auto serchResult = [this](const QVector <OrderInfo>& model,const QString price, const QString maxValue) ->double
     {
-        int index =
-            QRandomGenerator::global()->bounded(sellOrderModel.size());
+        for(const auto& item: model)
+        {
+            if(item.price == price)
+            {
+                QString strResult = divCoins(item.total, maxValue);
+                return roundCoinsToDouble(strResult);
+            }
+        }
+    };
 
-        sellOrderModel[index].amount +=
-                QRandomGenerator::global()->bounded(1, 20);
-        sellOrderModel[index].total = sellOrderModel.at(index).amount *
-                sellOrderModel.at(index).price;
+    double result;
 
-        if (m_sellMaxTotal < sellOrderModel.at(index).total)
-            m_sellMaxTotal = sellOrderModel.at(index).total;
+    if(isSell)
+    {
+        result = serchResult(sellOrderModel, price, m_sellMaxTotal);
     }
     else
     {
-        int index =
-            QRandomGenerator::global()->bounded(buyOrderModel.size());
-
-        buyOrderModel[index].amount +=
-                QRandomGenerator::global()->bounded(1, 20);
-        buyOrderModel[index].total = buyOrderModel.at(index).amount *
-                buyOrderModel.at(index).price;
-
-        if (m_buyMaxTotal < buyOrderModel.at(index).total)
-            m_buyMaxTotal = buyOrderModel.at(index).total;
+        result = serchResult(buyOrderModel, price, m_buyMaxTotal);
     }
 
-    getVariantBookModels();
-
-    sendCurrentBookModels();
+    return result;
 }
 
 void OrderBookWorker::setBookRoundPower(const QString &text)
 {
-    double value = text.toDouble();
+    qDebug() << "OrderBookWorker::setBookRoundPower" << text;
 
-    qDebug() << "OrderBookWorker::setBookRoundPower" << text << value
-             << QString::number(value, 'f', 20);
-
-    double power = 20;
-    double test = pow(10, -power);
-
-    while (test < value
-           && power > -20)
+    auto parts = text.split('.');
+    if(parts.size() != 2)
     {
-        --power;
-        test = pow(10, -power);
+        return;
     }
-
-    m_bookRoundPower = power;
+    m_bookRoundPower = parts[1].size();
 
     updateBookModels();
 }
 
-double OrderBookWorker::roundDoubleValue(double value, int round)
+QString OrderBookWorker::roundDoubleValue(const QString &value)
 {
-    double p = pow (10, -round);
+    QString result(value);
+    auto parts = result.split('.');
+    if(parts.size() != 2 || parts[1].size() <= m_bookRoundPower || m_bookRoundPower == 0)
+    {
+        return std::move(result);
+    }
+    parts[1].resize(m_bookRoundPower);
+    result = parts.join(".");
+    if(result.contains(REGULAR_ZERO_VALUE))
+    {
+        return QString();
+    }
 
-    value /= p;
-    value = QString::number(value, 'f', 0).toDouble();
-    value *= p;
-
-    return value;
+    return std::move(result);
 }
 
 void OrderBookWorker::checkBookRoundPower(double currentTokenPrice)
@@ -247,18 +359,18 @@ void OrderBookWorker::updateBookModels()
 
     for (FullOrderInfo order : allOrders)
     {
-        insertBookOrder(order.type, order.price, order.amount, order.total);
+        insertBookOrder(order);
     }
 
-    m_sellMaxTotal = 0;
-    m_buyMaxTotal = 0;
+    m_sellMaxTotal = "0.0";
+    m_buyMaxTotal = "0.0";
 
     for(auto i = 0; i < sellOrderModel.size(); i++)
-        if (m_sellMaxTotal < sellOrderModel.at(i).total)
+        if (compareCoins(m_sellMaxTotal, sellOrderModel.at(i).total) == -1)
             m_sellMaxTotal = sellOrderModel.at(i).total;
 
     for(auto i = 0; i < buyOrderModel.size(); i++)
-        if (m_buyMaxTotal < buyOrderModel.at(i).total)
+        if (compareCoins(m_buyMaxTotal, buyOrderModel.at(i).total) == -1)
             m_buyMaxTotal = buyOrderModel.at(i).total;
 
     getVariantBookModels();
@@ -266,12 +378,16 @@ void OrderBookWorker::updateBookModels()
     sendCurrentBookModels();
 }
 
-void OrderBookWorker::insertBookOrder(const OrderType& type, double price, double amount, double total)
+void OrderBookWorker::insertBookOrder(const FullOrderInfo &item)
 {
-    price = roundDoubleValue(price, m_bookRoundPower);
+    QString price = roundDoubleValue(item.price);
+    if(price.isEmpty())
+    {
+        return;
+    }
 
     QVector <OrderInfo>& model =
-            type == OrderType::sell ? sellOrderModel : buyOrderModel;
+            item.type == OrderType::sell ? sellOrderModel : buyOrderModel;
 
     int index = 0;
 
@@ -279,18 +395,17 @@ void OrderBookWorker::insertBookOrder(const OrderType& type, double price, doubl
     {
         if (price == model.at(index).price)
         {
-            model[index].amount += amount;
-            model[index].total = model.at(index).amount *
-                    model.at(index).price;
+            model[index].amount = sumCoins(model[index].amount, item.amount);
+            model[index].total = multCoins(model.at(index).amount, model.at(index).price);
 
             break;
         }
         else
         {
-            if ((type == OrderType::sell && price < model.at(index).price)
-                || (type == OrderType::buy && price > model.at(index).price))
+            if ((item.type == OrderType::sell && compareCoins(price, model.at(index).price) == -1)
+                || (item.type == OrderType::buy && compareCoins(price, model.at(index).price) == 1))
             {
-                model.insert(index, OrderInfo{price, amount, total});
+                model.insert(index, OrderInfo{price, item.amount, item.total});
                 break;
             }
         }
@@ -299,7 +414,7 @@ void OrderBookWorker::insertBookOrder(const OrderType& type, double price, doubl
     }
 
     if (index == model.size())
-        model.append(OrderInfo{price, amount, total});
+        model.append(OrderInfo{price, item.amount, item.total});
 }
 
 void OrderBookWorker::getVariantBookModels()
