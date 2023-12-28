@@ -205,7 +205,7 @@ DapRectangleLitAndShaded {
                     button75.selected = false
                     button100.selected = false
 
-                    var result = logicStock.getPercentBalance("0.25", price.textValue, isSell)
+                    var result = logicStock.getPercentBalance("0.25", price.textValue, !isBuy)
 
                     amount.textValue = result[0]
                     total.textValue = result[1]
@@ -229,7 +229,7 @@ DapRectangleLitAndShaded {
                     button75.selected = false
                     button100.selected = false
 
-                    var result = logicStock.getPercentBalance("0.5", price.textValue, isSell)
+                    var result = logicStock.getPercentBalance("0.5", price.textValue, !isBuy)
 
                     amount.textValue = result[0]
                     total.textValue = result[1]
@@ -253,7 +253,7 @@ DapRectangleLitAndShaded {
                     button75.selected = true
                     button100.selected = false
 
-                    var result = logicStock.getPercentBalance("0.75", price.textValue, isSell)
+                    var result = logicStock.getPercentBalance("0.75", price.textValue, !isBuy)
 
                     amount.textValue = result[0]
                     total.textValue = result[1]
@@ -277,7 +277,7 @@ DapRectangleLitAndShaded {
                     button75.selected = false
                     button100.selected = true
 
-                    var result = logicStock.getPercentBalance("1.0", price.textValue, isSell)
+                    var result = logicStock.getPercentBalance("1.0", price.textValue, !isBuy)
 
                     amount.textValue = result[0]
                     total.textValue = result[1]
