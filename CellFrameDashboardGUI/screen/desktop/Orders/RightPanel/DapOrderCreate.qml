@@ -70,7 +70,7 @@ DapRectangleLitAndShaded {
             ColumnLayout
             {
                 id: column
-                width: Math.max(implicitWidth, scrollView.availableWidth)
+                width: scrollView.width
                 spacing: 0
 
                 Rectangle {
