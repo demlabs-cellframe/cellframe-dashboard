@@ -35,11 +35,44 @@ Page {
         }
     }
 
+
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 16
+        visible: !ordersModule.statusInit
+        //visible: logicWallet.spiner === true
+
+        Item{Layout.fillHeight: true}
+
+        DapLoadIndicator {
+            Layout.alignment: Qt.AlignHCenter
+
+            indicatorSize: 64
+            countElements: 8
+            elementSize: 10
+
+            running: !ordersModule.statusInit
+        }
+
+        Text
+        {
+            Layout.alignment: Qt.AlignHCenter
+
+            font: mainFont.dapFont.medium16
+            color: currTheme.white
+            text: qsTr("Orders loading...")
+        }
+        Item{Layout.fillHeight: true}
+    }
+
+
     ColumnLayout
     {
         id: layout
         anchors.fill: parent
         spacing: 24
+        visible: ordersModule.statusInit
 
         DapRectangleLitAndShaded
         {
@@ -52,7 +85,6 @@ Page {
             lightColor: currTheme.reflectionLight
 
             contentData:
-
             ListView
             {
                 id: tabsView

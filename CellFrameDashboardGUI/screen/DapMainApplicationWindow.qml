@@ -282,11 +282,18 @@ Rectangle {
             bttnIco: "icon_wallet.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
+//        append ({ tag: "DEX",
+//            name: qsTr("DEX Alpha"),
+//            bttnIco: "icon_exchange.svg",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "DEX",
-            name: qsTr("DEX beta"),
+            name: qsTr("DEX"),
             bttnIco: "icon_exchange.svg",
             showTab: true,
-            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
+            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+
+
         append ({ tag: "TX explorer",
             name: qsTr("TX explorer"),
             bttnIco: "icon_history.svg",
@@ -302,6 +309,11 @@ Rectangle {
             bttnIco: "icon_tokens.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
+        append ({ tag: "Orders",
+            name: qsTr("Orders"),
+            bttnIco: "icon_vpn_service.svg",
+            showTab: true,
+            page: "qrc:/screen/desktop//Orders/DapOrdersTab.qml"})
 //        append ({ tag: "VPN client",
 //            name: qsTr("VPN client"),
 //            bttnIco: "icon_vpn_client.svg",
@@ -337,11 +349,6 @@ Rectangle {
             bttnIco: "icon_settings.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Diagnostic/DapDiagnosticTab.qml"})
-        append ({ tag: "Orders",
-            name: qsTr("Orders"),
-            bttnIco: "icon_settings.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop//Orders/DapOrdersTab.qml"})
 
 //            FOR DEBUG
 //        append ({ tag: "Plugin",
@@ -552,8 +559,8 @@ Rectangle {
 //        var addr = "abcd"
 //        var net = "private"
 
-        candleChartWorker.resetPriceData(0.0,"0.0", true)
-        orderBookWorker.resetBookModel()
+//        candleChartWorker.resetPriceData(0.0,"0.0", true)
+//        orderBookWorker.resetBookModel()
 //        //-------//OrdersHistory
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")

@@ -63,10 +63,10 @@ Item
                     Layout.preferredWidth: 102
                     label.text: qsTr("Pair")
                 }
-                HeaderLabel{
-                    Layout.preferredWidth: 96
-                    label.text: qsTr("Network")
-                }
+//                HeaderLabel{
+//                    Layout.preferredWidth: 96
+//                    label.text: qsTr("Network")
+//                }
                 HeaderLabel{
                     Layout.preferredWidth: 61
                     label.text: qsTr("Side")
@@ -96,8 +96,7 @@ Item
         id: openOrdersdelegate
         Item{
             id: delegate
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: list.width
             height: 50
 
             MouseArea{
@@ -131,11 +130,11 @@ Item
                     label.text: pair
                     label.font: mainFont.dapFont.regular13
                 }
-                HeaderLabel{
-                    Layout.minimumWidth: 96
-                    label.text: network
-                    label.font: mainFont.dapFont.regular13
-                }
+//                HeaderLabel{
+//                    Layout.minimumWidth: 96
+//                    label.text: network
+//                    label.font: mainFont.dapFont.regular13
+//                }
                 HeaderLabel{
                     Layout.minimumWidth: 61
                     label.text: side

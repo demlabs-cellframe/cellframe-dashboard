@@ -54,7 +54,7 @@ DapModulesController::~DapModulesController()
 void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
-    addModule("dexModule", new DapModuleDex(this));
+//    addModule("dexModule", new DapModuleDex(this));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));

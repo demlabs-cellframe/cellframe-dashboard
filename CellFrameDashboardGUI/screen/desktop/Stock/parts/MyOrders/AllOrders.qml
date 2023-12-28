@@ -72,7 +72,7 @@ Item
         header:
             Rectangle
             {
-                width:parent.width
+                width: list.width
                 height: 30
                 color: currTheme.mainBackground
                 z: 10
@@ -98,14 +98,14 @@ Item
                     Layout.preferredWidth: 90
                     label.text: qsTr("Pair")
                 }
-                HeaderLabel{
-                    Layout.preferredWidth: 80
-                    label.text: qsTr("Network")
-                }
-                HeaderLabel{
-                    Layout.preferredWidth: 61
-                    label.text: qsTr("Side")
-                }
+//                HeaderLabel{
+//                    Layout.preferredWidth: 80
+//                    label.text: qsTr("Network")
+//                }
+//                HeaderLabel{
+//                    Layout.preferredWidth: 61
+//                    label.text: qsTr("Side")
+//                }
                 HeaderLabel{
                     Layout.preferredWidth: 150
                     label.text: qsTr("Amount")
@@ -114,10 +114,10 @@ Item
                     Layout.preferredWidth: 150
                     label.text: qsTr("Price")
                 }
-                HeaderLabel{
-                    Layout.preferredWidth: 49
-                    label.text: qsTr("Filled")
-                }
+//                HeaderLabel{
+//                    Layout.preferredWidth: 49
+//                    label.text: qsTr("Filled")
+//                }
 
 
                     // HeaderLabel{
@@ -161,8 +161,7 @@ Item
         {
             id: delegate
             visible: true//side === myOrdersTab.currentSide
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: list.width
             height: visible ? 50 : 0
 
             Component.onCompleted:
@@ -207,17 +206,17 @@ Item
                     label.text: pair
                     label.font: mainFont.dapFont.regular13
                 }
-                HeaderLabel{
-                    Layout.minimumWidth: 80
-                    label.text: network
-                    label.font: mainFont.dapFont.regular13
-                }
-                HeaderLabel{
-                    Layout.minimumWidth: 61
-                    label.text: side
-                    label.font: mainFont.dapFont.regular13
-                    label.color: side === "Sell" ? currTheme.red : currTheme.green
-                }
+//                HeaderLabel{
+//                    Layout.minimumWidth: 80
+//                    label.text: network
+//                    label.font: mainFont.dapFont.regular13
+//                }
+//                HeaderLabel{
+//                    Layout.minimumWidth: 61
+//                    label.text: side
+//                    label.font: mainFont.dapFont.regular13
+//                    label.color: side === "Sell" ? currTheme.red : currTheme.green
+//                }
                 HeaderLabel{
                     Layout.minimumWidth: 150
                     label.text: amount
@@ -228,11 +227,11 @@ Item
                     label.text: price
                     label.font: mainFont.dapFont.regular13
                 }
-                HeaderLabel{
-                    Layout.minimumWidth: 49
-                    label.text: filled
-                    label.font: mainFont.dapFont.regular13
-                }
+//                HeaderLabel{
+//                    Layout.minimumWidth: 49
+//                    label.text: filled
+//                    label.font: mainFont.dapFont.regular13
+//                }
 
 //                 DapBigNumberText
 //                 {
