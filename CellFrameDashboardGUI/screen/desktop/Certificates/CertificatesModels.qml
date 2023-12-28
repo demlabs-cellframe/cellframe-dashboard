@@ -88,7 +88,6 @@ Item {
             return result
         }
     }  //createCertificateOptional
-
     ListModel {        //this common model
         id: signatureType
         ListElement
@@ -96,6 +95,11 @@ Item {
             name: "Crystal-Dylithium"
             signature: "sig_dil"
             secondname: qsTr("Recommended")
+        }
+        ListElement
+        {
+            name: "Falcon"
+            signature: "sig_falcon"
         }
 //        ListElement
 //        {
