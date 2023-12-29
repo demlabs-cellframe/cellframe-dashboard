@@ -243,7 +243,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
 
-    for(auto service: qAsConst(m_servicePool))
+    for(auto& service: qAsConst(m_servicePool))
     {
         QThread * thread = new QThread(m_pServer);
         service->moveToThread(thread);
