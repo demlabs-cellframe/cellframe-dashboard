@@ -302,12 +302,12 @@ Item
         //if(logicWallet.modelSize !== popupListView.count) logicWallet.modelSize = popupListView.count
         if(popupListView.count !== dapModelWallets.count) {
             console.log("[BrokenWallet]", "setCurrentIndex.", "Different models. Repeat wallets request.", "spinner ON")
-            logicWallet.spiner = true
             dashboardTab.state = "WALLETDEFAULT"
             walletModule.getWalletsInfo("true")
+//            logicWallet.spiner = true
         } else {
             console.log("[BrokenWallet]", "setCurrentIndex.", "Models is equal.", "spinner OFF")
-            logicWallet.spiner = false
+//            logicWallet.spiner = false
         }
 
         popupListView.currentIndex = index

@@ -36,7 +36,7 @@ void DapModuleOrders::getOrdersList()
 
 void DapModuleOrders::rcvXchangeOrderList(const QVariant &rcvData)
 {
-    if(buffDexOrders != rcvData.toByteArray())
+    if(buffDexOrders != rcvData.toByteArray() || !m_statusInit)
     {
         s_statusModel.first = false;
         buffDexOrders = rcvData.toByteArray();
@@ -58,7 +58,7 @@ void DapModuleOrders::rcvCreateStakeOrder(const QVariant &rcvData)
 
 void DapModuleOrders::rcvOrdersList(const QVariant &rcvData)
 {
-    if(buffVPNOrders != rcvData.toByteArray())
+    if(buffVPNOrders != rcvData.toByteArray() || !m_statusInit)
     {
         s_statusModel.second = false;
         buffVPNOrders = rcvData.toByteArray();
@@ -90,7 +90,10 @@ void DapModuleOrders::initConnect()
         qDebug()<<"m_statusProcessing" << m_statusProcessing;
         if(m_statusProcessing)
         {
-            slotUpdateOrders();
+            if(s_statusModel.first && s_statusModel.second && s_ordersModel->size())
+                setStatusInit(true);
+            else
+                slotUpdateOrders();
         }
         else
         {
