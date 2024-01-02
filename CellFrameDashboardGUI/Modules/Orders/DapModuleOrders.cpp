@@ -91,7 +91,10 @@ void DapModuleOrders::initConnect()
         if(m_statusProcessing)
         {
             if(s_statusModel.first && s_statusModel.second && s_ordersModel->size())
+            {
                 setStatusInit(true);
+                slotUpdateOrders();
+            }
             else
                 slotUpdateOrders();
         }
