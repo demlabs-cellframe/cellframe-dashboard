@@ -1,6 +1,7 @@
 #include "DapModuleDex.h"
 #include <QJsonObject>
 #include <QQmlContext>
+#include "../DapTypes/DapCoin.h"
 
 DapModuleDex::DapModuleDex(DapModulesController *parent)
     : DapAbstractModule(parent)
@@ -361,13 +362,9 @@ QString DapModuleDex::invertValue()
         m_currantPriceForCreate.append(".0");
     }
 
-    QString one = "1.0";
-    uint256_t oneDatoshi= dap_uint256_scan_decimal(one.toStdString().data());
-    uint256_t priceDatoshi= dap_uint256_scan_decimal(m_currantPriceForCreate.toStdString().data());
-    uint256_t accum = {};
-    DIV_256_COIN(oneDatoshi, priceDatoshi, &accum);
-    QString result  = dap_chain_balance_to_coins(accum);
-
+    Dap::Coin one = QString("1.0");
+    Dap::Coin price = m_currantPriceForCreate;
+    QString result = (one/price).toCoinsString();
     return result;
 }
 
@@ -382,13 +379,10 @@ QString DapModuleDex::invertValue(const QString& price)
     {
         resPrice.append(".0");
     }
-    QString one = "1.0";
-    uint256_t oneDatoshi= dap_uint256_scan_decimal(one.toStdString().data());
-    uint256_t priceDatoshi= dap_uint256_scan_decimal(resPrice.toStdString().data());
-    uint256_t accum = {};
-    DIV_256_COIN(oneDatoshi, priceDatoshi, &accum);
-    QString result  = dap_chain_balance_to_coins(accum);
 
+    Dap::Coin oneVal = QString("1.0");
+    Dap::Coin priceVal = resPrice;
+    QString result = (oneVal/priceVal).toCoinsString();
     return result;
 }
 
@@ -430,9 +424,9 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
                 return false;
             }
 
-            uint256_t itemDatoshi= dap_uint256_scan_decimal(item.amount.toStdString().data());
-            uint256_t currantDatoshi= dap_uint256_scan_decimal(amountOrder.toStdString().data());
-            if(compare256(itemDatoshi, currantDatoshi) >= 0)
+            Dap::Coin itemDatoshi= item.amount;
+            Dap::Coin currantDatoshi= amountOrder;
+            if(itemDatoshi >= currantDatoshi)
             {
                 qInfo() << "HASH: " << item.hash;
                 return true;
@@ -441,10 +435,10 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
             return false;
         });
 
-        uint256_t amount256 = dap_uint256_scan_decimal(amountOrder.toStdString().data());
-        QString amountDatoshi = dap_chain_balance_print(amount256);
-        uint256_t feeInt = dap_chain_coins_to_balance(feeOrder.toStdString().data());
-        QString feeDatoshi = dap_chain_balance_print(feeInt);
+        Dap::Coin amount256 = amountOrder;
+        QString amountDatoshi = amount256.toDatoshiString();
+        Dap::Coin feeInt = feeOrder;
+        QString feeDatoshi = feeInt.toDatoshiString();
         if(!isSell)
         {
             priceOrder = invertValue(priceOrder);
