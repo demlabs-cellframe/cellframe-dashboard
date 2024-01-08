@@ -252,9 +252,6 @@ DapRectangleLitAndShaded
 
     function updateVisibleList()
     {
-        console.log("MODEL = " + walletModelList)
-        console.log("index = " + walletModule.currentWalletIndex)
-        console.log("STATUS = " + walletModelList.get(walletModule.currentWalletIndex).statusProtected)
         listViewWallet.visible = walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
     }
 

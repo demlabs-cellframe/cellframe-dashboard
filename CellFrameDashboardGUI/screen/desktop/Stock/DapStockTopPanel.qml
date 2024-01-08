@@ -154,7 +154,6 @@ Controls.DapTopPanel
                 walletModule.setCurrentTokenDEX(displayText)
                 updateBalance()
             }
-            
         }
 
         Item{

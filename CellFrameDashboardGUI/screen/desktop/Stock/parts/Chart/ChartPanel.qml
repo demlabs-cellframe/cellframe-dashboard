@@ -41,6 +41,7 @@ Item
                 backgroundColorShow: currTheme.secondaryBackground
                 backgroundColorNormal: currTheme.secondaryBackground
                 model: dexNetModel
+                mainTextRole: "name"
                 font: mainFont.dapFont.medium14
 
                 onCurrantDisplayTextChanged:
@@ -49,6 +50,18 @@ Item
                 }
 
                 defaultText: qsTr("Networks")
+
+                Connections
+                {
+                    target: dexModule
+
+                    function onDexNetListChanged()
+                    {
+                        console.log("DEX_NET_LIST dexNetModel = " + dexNetModel.count)
+                        comboboxNetwork.displayText = "All"
+                        comboboxNetwork.model = dexNetModel;
+                    }
+                }
             }
 
             DapPairComboBox
@@ -242,9 +255,6 @@ Item
 
             candleLogic.onChandleSelected:
             {
-//                print("onChandleSelected",
-//                      openValue, highValue, lowValue, closeValue)
-
                 var date = new Date(timeValue)
 
                 textDate.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
@@ -269,9 +279,6 @@ Item
                         textChange.text = change.toFixed(4) + "%"
                     else
                         textChange.text = change.toFixed(2) + "%"
-
-//                    print("onChandleSelected",
-//                          openValue, closeValue, change, textChange.text)
                 }
                 else
                     textChange.text = "0%"

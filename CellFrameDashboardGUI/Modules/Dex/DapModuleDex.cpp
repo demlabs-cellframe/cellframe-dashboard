@@ -13,10 +13,12 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
     , m_netListModel(new DapStringListModel())
     , m_rightPairListModel(new DapStringListModel())
     , m_stockDataWorker(new StockDataWorker(m_modulesCtrl->s_appEngine->rootContext(), this))
-    , m_allTakenPairsUpdateTimer(new QTimer)
-    , m_curentTokenPairUpdateTimer(new QTimer)
-    , m_ordersHistoryUpdateTimer(new QTimer)
-    , m_ordersHistoryCash(new QByteArray)
+    , m_allTakenPairsUpdateTimer(new QTimer())
+    , m_curentTokenPairUpdateTimer(new QTimer())
+    , m_ordersHistoryUpdateTimer(new QTimer())
+    , m_tokenPairsCash(new QByteArray())
+    , m_ordersHistoryCash(new QByteArray())
+    , m_txListCash(new QByteArray())
 {
     m_tokenPairsProxyModel->setSourceModel(m_tokenPairsModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
@@ -54,7 +56,9 @@ DapModuleDex::~DapModuleDex()
     delete m_allTakenPairsUpdateTimer;
     delete m_curentTokenPairUpdateTimer;
     delete m_ordersHistoryUpdateTimer;
+    delete m_tokenPairsCash;
     delete m_ordersHistoryCash;
+    delete m_txListCash;
 }
 
 void DapModuleDex::onInit()
@@ -93,7 +97,17 @@ void DapModuleDex::startInitData()
 void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
 {
     m_isSandDapGetXchangeTokenPair = false;
-    QJsonDocument document = QJsonDocument::fromJson(rcvData.toByteArray());
+    auto tmpData = rcvData.toByteArray();
+    if(*m_tokenPairsCash != tmpData)
+    {
+        *m_tokenPairsCash = tmpData;
+    }
+    else
+    {
+        return;
+    }
+
+    QJsonDocument document = QJsonDocument::fromJson(tmpData);
     if(document.isObject())
     {
         return;
@@ -126,6 +140,8 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     }
     m_netListModel->setStringList(std::move(netList));
     m_tokenPairsModel->updateModel(m_tokensPair);
+
+    emit dexNetListChanged();
 
     if(m_currentPair.displayText.isEmpty() && !m_tokensPair.isEmpty())
     {
@@ -245,11 +261,11 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
 void DapModuleDex::respondOrdersHistory(const QVariant &rcvData)
 {
     QByteArray data = rcvData.toByteArray();
-    if(data == m_ordersHistoryCash)
+    if(data == *m_ordersHistoryCash)
     {
         return;
     }
-    m_ordersHistoryCash = &data;
+    *m_ordersHistoryCash = data;
     //TODO: For optimization, it will be necessary to remove unnecessary models.
     setOrdersHistory(data);
     m_stockDataWorker->getOrderBookWorker()->setBookModel(std::move(data));

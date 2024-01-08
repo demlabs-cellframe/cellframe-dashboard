@@ -110,6 +110,7 @@ private:
     QTimer* m_curentTokenPairUpdateTimer = nullptr;
     QTimer* m_ordersHistoryUpdateTimer = nullptr;
 
+    QByteArray* m_tokenPairsCash;
     QByteArray* m_ordersHistoryCash;
     QByteArray* m_txListCash;
     QList<DEX::Order> m_ordersHistory;
@@ -117,8 +118,6 @@ private:
 
     QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
-
-    QString m_currentNetwork;
 
     QString m_currantPriceForCreate = "";
 

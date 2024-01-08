@@ -42,7 +42,7 @@ QString TokenPairsProxyModel::getFirstItem() const
 
 void TokenPairsProxyModel::setNetworkFilter(const QString& network)
 {
-    m_network = network == "All" ? QString() : network;
+    m_network = network == "All" || network == "Networks" ? QString() : network;
     invalidateFilter();
 }
 
