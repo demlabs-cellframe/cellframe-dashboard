@@ -6,7 +6,7 @@ import "../../../controls"
 DapRightPanelDone {
 
     headerText: qsTr("Order created\nsuccessfully!")
-    messageText: qsTr("Click on «My orders» to view\nthe status of your order")
+    messageText: qsTr("Click on «Orders» to view\nthe status of your order")
 
     doneButton.onClicked: goToRightHome()
 

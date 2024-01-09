@@ -6,22 +6,23 @@ import "qrc:/widgets"
 import "../Chart"
 
 ColumnLayout {
+    property string tmpPriceValue: ""
+
     Layout.fillWidth: true
     Layout.topMargin: 16
     spacing: 0
 
-    Component.onCompleted: updateForms()
+    Component.onCompleted: 
+    {
+        updateTokensField()
+        updateForms()
+    }
 
     Connections{
         target: createForm
         function onSellBuyChanged(){
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-//            updateForms()
-        }
-    }
-    Connections{
-        target: stockTab
-        function onTokenPairChanged(){
+            updateTokensField()
             updateForms()
         }
     }
@@ -73,15 +74,23 @@ ColumnLayout {
             Layout.minimumWidth: 203
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
-            textToken: tokenPairsWorker.tokenSell
-            textValue: logicMainApp.tokenPrice
 
             onEdited: {
+                if(tmpPriceValue !== textValue)
+                {
+                    dexModule.setCurrentPrice(textValue)
+                }
+                tmpPriceValue = ""
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
 
-                if(amount.textValue !== "" || amount.textValue !== "0")
+                if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
                     total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                    mathWorker.coinsToBalance(textValue),false))
+                                    mathWorker.coinsToBalance(isSell ? textValue : dexModule.invertValue(textValue)),false))
+            }
+
+            Component.onCompleted:
+            {
+                price.textValue = dexModule.currentRate
             }
         }
 
@@ -137,13 +146,12 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: tokenPairsWorker.tokenBuy
-        textValue: ""
         onEdited:
         {
 
-            total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(price.textValue),false))
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
+                                    mathWorker.coinsToBalance(isSell ? price.textValue : dexModule.invertValue(price.textValue)),false))
 
             button25.selected = false
             button50.selected = false
@@ -172,7 +180,7 @@ ColumnLayout {
             fontButton: mainFont.dapFont.regular12
             selected: false
             onClicked:
-            {          
+            {
                 button25.selected = true
                 button50.selected = false
                 button75.selected = false
@@ -287,8 +295,6 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: tokenPairsWorker.tokenSell
-        textValue: ""
         onEdited:
         {
             button25.selected = false
@@ -296,8 +302,9 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                mathWorker.coinsToBalance(price.textValue),false))
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                    amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
+                                                           mathWorker.coinsToBalance(isSell ? price.textValue : dexModule.invertValue(price.textValue)),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
@@ -318,33 +325,13 @@ ColumnLayout {
 
         onClicked:
         {
-            var net = tokenPairsWorker.tokenNetwork
-            var tokenSell = isSell ? tokenPairsWorker.tokenBuy : tokenPairsWorker.tokenSell
-            var tokenBuy = isSell ? tokenPairsWorker.tokenSell : tokenPairsWorker.tokenBuy
-            var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
-
-            var amountBuy = isSell ? mathWorker.coinsToBalance(total.textValue) :
-                                      mathWorker.coinsToBalance(amount.textValue)
-
-            var amountSell = isSell ? mathWorker.coinsToBalance(amount.textValue) :
-                                     mathWorker.coinsToBalance(total.textValue)
-
-            var priceValue = isSell? price.textValue : 1/price.textValue
-
-//            console.log("tokenSell",tokenSell,
-//                        "tokenBuy", tokenBuy,
-//                        "amountSell", amountSell,
-//                        "amountBuy", amountBuy,
-//                        "priceValue" , priceValue)
-
-            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
-
-            if(hash !== "0")
-                logicMainApp.requestToService("DapXchangeOrderPurchase", hash,
-                                                      net, currentWallet, amountSell)
-            else
-                logicMainApp.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                      currentWallet, amountSell, priceValue)
+            var walletResult = walletModule.isCreateOrder(dexModule.networkPair, amount.textValue, amount.textToken)
+            console.log("Wallet: " + walletResult)
+            if(walletResult == "OK")
+            {
+                var createOrder = dexModule.tryCreateOrder(isSell, price.textValue, amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
+                console.log("Order: " + createOrder)
+            }
         }
     }
 
@@ -352,16 +339,56 @@ ColumnLayout {
         Layout.fillHeight: true
     }
 
+    Component.onDestruction:
+    {
+        dexModule.setCurrentPrice("")
+    }
+
+    Connections
+    {
+        target: dexModule
+
+        function onCurrentTokenPairChanged()
+        {
+            price.textValue = "0.0"
+            updateTokensField()
+            updateForms()
+        }
+
+        function onCurrentTokenPairInfoChanged()
+        {
+            if(price.textValue === "0.0")
+            {
+                price.textValue = dexModule.currentRate
+            }
+        }
+    }
+
+    function updateTokensField()
+    {
+        if(!isSell)
+        {
+            price.textToken = dexModule.token2
+            amount.textToken = dexModule.token2
+            total.textToken = dexModule.token1
+        }
+        else
+        {
+            price.textToken = dexModule.token2
+            amount.textToken = dexModule.token1
+            total.textToken = dexModule.token2
+        }
+    }
+
     function updateForms()
     {
-        price.textValue = logicMainApp.tokenPrice
-//        price.setRealValue(logicMainApp.tokenPrice)
         total.textValue = ""
         amount.textValue = ""
-        createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+        createButton.enabled = setStatusCreateButton(total.textValue, dexModule.currentRate)
         button25.selected = false
         button50.selected = false
         button75.selected = false
         button100.selected = false
     }
+
 }

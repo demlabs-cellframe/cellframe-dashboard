@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.4
 import QtGraphicalEffects 1.0
 
 Rectangle{
-    color: currTheme.backgroundMainScreen
+    color: currTheme.mainBackground
     anchors.fill: parent
 
     RowLayout{

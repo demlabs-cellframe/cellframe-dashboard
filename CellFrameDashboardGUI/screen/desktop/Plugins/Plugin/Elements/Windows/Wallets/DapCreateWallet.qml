@@ -26,6 +26,11 @@ Item {
             }
             ListElement
             {
+                name: "Falcon"
+                sign: "sig_falcon"
+            }
+            ListElement
+            {
                 name: "Bliss"
                 sign: "sig_bliss"
             }

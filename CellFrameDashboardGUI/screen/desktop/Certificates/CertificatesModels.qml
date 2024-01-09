@@ -21,8 +21,9 @@ Item {
     readonly property var signatureKeyToViewName: ({
                                                "sig_dil": qsTr("Crystal-Dylithium"),
                                                "sig_bliss": qsTr("Bliss"),
-                                               "sig_picnic": qsTr("Picnic")/*,
-                                               "sig_tesla": qsTr("Tesla")*/
+                                               "sig_picnic": qsTr("Picnic"),
+                                               "sig_falcon": qsTr("Falcon")
+                                               //"sig_tesla": qsTr("Tesla")*/
                                            })
 
 
@@ -88,7 +89,6 @@ Item {
             return result
         }
     }  //createCertificateOptional
-
     ListModel {        //this common model
         id: signatureType
         ListElement
@@ -96,6 +96,11 @@ Item {
             name: "Crystal-Dylithium"
             signature: "sig_dil"
             secondname: qsTr("Recommended")
+        }
+        ListElement
+        {
+            name: "Falcon"
+            signature: "sig_falcon"
         }
 //        ListElement
 //        {

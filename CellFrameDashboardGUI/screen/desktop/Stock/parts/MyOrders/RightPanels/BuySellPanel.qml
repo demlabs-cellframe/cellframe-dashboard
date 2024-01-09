@@ -16,9 +16,9 @@ DapRectangleLitAndShaded {
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
-    property var currentElement
+//    property var currentElement: logic.selectedItem
 
-    property bool isBuy: currentElement.side === "buy"
+    property bool isBuy: logic.selectedItem.side === "buy"
 
     contentData:
     ColumnLayout
@@ -50,8 +50,8 @@ DapRectangleLitAndShaded {
             {
                 id: textHeader
                 text: isBuy ?
-                          qsTr("Buy ") + currentElement.tokenBuy :
-                          qsTr("Sell ") + currentElement.tokenSell
+                          qsTr("Buy ") + logic.selectedItem.tokenBuy :
+                          qsTr("Sell ") + logic.selectedItem.tokenSell
                 verticalAlignment: Qt.AlignLeft
                 anchors.left: itemButtonClose.right
                 anchors.verticalCenter: parent.verticalCenter
@@ -123,16 +123,16 @@ DapRectangleLitAndShaded {
             Layout.leftMargin: 16
             Layout.rightMargin: 16
             textToken: isBuy ?
-                      currentElement.tokenSell :
-                      currentElement.tokenBuy
-            textValue: currentElement.price
+                      logic.selectedItem.tokenSell :
+                      logic.selectedItem.tokenBuy
+            textValue: logic.selectedItem.price
 //            textToken: tokenPairsWorker.tokenSell
-//            textValue: logicMainApp.tokenPrice
+//            textValue: candleChartWorker.currentTokenPrice
             onEdited: {
-                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
+                createButton.enabled = logic.setStatusCreateButton(total.textValue , price.textValue)
                 if(amount.textValue !== "0")
                     total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
+                                                    mathWorker.coinsToBalance(logic.selectedItem.price),false)
             }
         }
 
@@ -169,15 +169,16 @@ DapRectangleLitAndShaded {
             textValue: "0.0"
             onEdited:
             {
+                console.log(logic.selectedItem, "AAAAAAAAAAAAAAAAAAAAAAAAA")
                 total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
+                                                    mathWorker.coinsToBalance(logic.selectedItem.price),false)
 
                 button25.selected = false
                 button50.selected = false
                 button75.selected = false
                 button100.selected = false
 
-                createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+                createButton.enabled = logic.setStatusCreateButton(total.textValue, logic.selectedItem.price)
             }
         }
 
@@ -324,10 +325,10 @@ DapRectangleLitAndShaded {
                 button100.selected = false
 
                 amount.textValue = mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
-                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
+                                                    mathWorker.coinsToBalance(logic.selectedItem.price),false)
+                createButton.enabled = logic.setStatusCreateButton(total.textValue , price.textValue)
             }
-            onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+            onTextValueChanged: createButton.enabled = logic.setStatusCreateButton(total.textValue, logic.selectedItem.price)
         }
 
         DapButton

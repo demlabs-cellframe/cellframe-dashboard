@@ -72,8 +72,6 @@ private:
 
     DapHistoryModel fullModel;
 
-    QVariantList model;
-
     bool m_isLastActions {true};
     QString m_walletName {""};
     QString m_currentStatus {"All statuses"};

@@ -42,12 +42,17 @@ Rectangle {
     ///@detalis Path to the dApps tab.
     readonly property string dAppsScreen: path + "/dApps/DapAppsTab.qml"
 
+
+    readonly property string ordersScreen: path + "/Orders/DapOrdersTab.qml"
+
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
     
     property alias tryCreatePasswordWalletPopup: tryCreatePasswordWalletPopup
     property alias createPasswordWalletPopup: createPasswordWalletPopup
     property alias walletActivatePopup: walletActivatePopup
     property alias walletDeactivatePopup: walletDeactivatePopup
+    property alias walletsControllerPopup: walletsControllerPopup
+    property alias removeWalletPopup: removeWalletPopup
     property alias settingsWallet:settingsWallet
 
     property var vpnClientTokenModel: new Array()
@@ -137,6 +142,20 @@ Rectangle {
 
     DapDeactivateWalletPopup{
         id: walletDeactivatePopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapWalletsControllerPopup{
+        id: walletsControllerPopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapRemoveWalletPopup{
+        id: removeWalletPopup
         anchors.fill: parent
         visible: false
         z: 10
@@ -247,6 +266,9 @@ Rectangle {
         ListElement { tag: "Diagnostics"
             name: qsTr("Diagnostics")
             show: true }
+        ListElement { tag: "Orders"
+            name: qsTr("Orders")
+            show: true }
     }
 
     ListModel
@@ -260,11 +282,18 @@ Rectangle {
             bttnIco: "icon_wallet.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
+//        append ({ tag: "DEX",
+//            name: qsTr("DEX Alpha"),
+//            bttnIco: "icon_exchange.svg",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "DEX",
             name: qsTr("DEX"),
             bttnIco: "icon_exchange.svg",
             showTab: true,
-            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
+            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+
+
         append ({ tag: "TX explorer",
             name: qsTr("TX explorer"),
             bttnIco: "icon_history.svg",
@@ -280,6 +309,11 @@ Rectangle {
             bttnIco: "icon_tokens.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
+        append ({ tag: "Orders",
+            name: qsTr("Orders"),
+            bttnIco: "icon_vpn_service.svg",
+            showTab: true,
+            page: "qrc:/screen/desktop//Orders/DapOrdersTab.qml"})
 //        append ({ tag: "VPN client",
 //            name: qsTr("VPN client"),
 //            bttnIco: "icon_vpn_client.svg",
@@ -525,8 +559,8 @@ Rectangle {
 //        var addr = "abcd"
 //        var net = "private"
 
-        candleChartWorker.resetPriceData(0.0,"0.0", true)
-        orderBookWorker.resetBookModel()
+//        candleChartWorker.resetPriceData(0.0,"0.0", true)
+//        orderBookWorker.resetBookModel()
 //        //-------//OrdersHistory
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
@@ -613,29 +647,14 @@ Rectangle {
 //            logicMainApp.rcvWallet(wallet)
 //        }
 
-        function onCurrentNetworkChanged()
-        {
-            for(var x = 0; x < dapModelWallets.count; x++)
-            {
-                if(dapModelWallets.get(x).networks)
-                {
-                    if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentWalletIndextIndex).name)
-                        for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
-                        {
-                            if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
-                                vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
-                        }
-                }
-            }
-        }
 
-        function onOrdersReceived(orderList)
-        {
-            console.log("onOrdersReceived")
-            console.log("Orders count:", orderList.length)
-            logicMainApp.rcvOrders(orderList)
-            modelOrdersUpdated();
-        }
+//        function onOrdersReceived(orderList)
+//        {
+//            console.log("onOrdersReceived")
+//            console.log("Orders count:", orderList.length)
+//            logicMainApp.rcvOrders(orderList)
+//            modelOrdersUpdated();
+//        }
 
         function onSignalTokensListReceived(tokensResult)
         {
@@ -644,12 +663,6 @@ Rectangle {
         }
 
         function onDapWebConnectRequest(rcvData) { logicMainApp.rcvWebConnectRequest(rcvData)}
-
-//        onRcvXchangeTxList:
-//        {
-//            console.log("onRcvXchangeTxList")
-//            console.log(rcvData)
-//        }
 
         function onSignalXchangeOrderListReceived(rcvData)
         {
@@ -662,30 +675,7 @@ Rectangle {
             console.log("onSignalXchangeTokenPairReceived")
 //            logicMainApp.rcvPairsModel(rcvData)
         }
-
-//        onRcvXchangeTokenPriceAverage:
-//        {
-////            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
-////            console.log(rcvData)
-//        }
-
-//        onRcvXchangeTokenPriceHistory:
-//        {
-//            console.log("onRcvXchangeTokenPriceHistory")
-//            logicMainApp.rcvTokenPriceHistory(rcvData)
-//        }
-
     }
-
-//    Connections{
-//        target: diagnostic
-//        function onSignalDiagnosticData(diagnosticData){
-//            var jsonDocument = JSON.parse(diagnosticData)
-//            diagnosticDataModel.clear();
-//            diagnosticDataModel.append(jsonDocument);
-//        }
-//    }
-
     Connections{
         target: dAppsModule
         function onRcvListPlugins(m_pluginsList)
@@ -702,5 +692,4 @@ Rectangle {
 
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}
-}
  ##^##*/

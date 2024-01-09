@@ -18,19 +18,21 @@ public:
     bool m_statusProcessing{false};
     bool m_statusInit{false};
     QString m_name;
-    DapServiceController *s_serviceCtrl;
 
 public:
     void setStatusInit(bool status);
 
     Q_PROPERTY (bool statusProcessing READ statusProcessing WRITE setStatusProcessing NOTIFY statusProcessingChanged)
     bool statusProcessing();
-    void setStatusProcessing(bool status);
+    virtual void setStatusProcessing(bool status);
 
 
     //QML
     void setName(QString name);
     QString getName();
+
+protected:
+    DapServiceController *s_serviceCtrl;
 
 signals:
     void initDone(const QString &name, bool status);

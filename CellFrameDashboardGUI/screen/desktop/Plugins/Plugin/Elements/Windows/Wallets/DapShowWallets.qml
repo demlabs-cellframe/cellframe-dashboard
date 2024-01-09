@@ -73,11 +73,6 @@ Item {
         }
     }
 
-//    Component.onCompleted: {
-//        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
-
-//    }
-
     InnerShadow {
         id: topLeftSadow
         anchors.fill: viewWallets

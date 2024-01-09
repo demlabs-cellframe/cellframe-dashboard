@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
+import "qrc:/widgets"
 
 Rectangle
 {
@@ -14,19 +15,10 @@ Rectangle
     Rectangle
     {
         anchors.right: parent.right
-        width: isSell ? parent.width*modelData.total/orderBookWorker.sellMaxTotal :
-                        parent.width*modelData.total/orderBookWorker.buyMaxTotal
+        width:  parent.width * orderBookWorker.getfilledForPrice(isSell, modelData.price)
         height: parent.height
 
         color: isSell? sellHistogramColor : buyHistogramColor
-
-//        Component.onCompleted:
-//        {
-//            print("isSell", isSell,
-//                  "modelData.total", modelData.total,
-//                  "orderBookWorker.sellMaxTotal", orderBookWorker.sellMaxTotal,
-//                  "orderBookWorker.buyMaxTotal", orderBookWorker.buyMaxTotal)
-//        }
     }
 
     ColumnLayout
@@ -40,30 +32,52 @@ Rectangle
             Layout.rightMargin: 16
             Layout.topMargin: 5
 
-            Text
+            Item
             {
-                Layout.minimumWidth: 100
-                color: isSell? currTheme.red : currTheme.green
-                font: mainFont.dapFont.regular13
-//                text: modelData.price.toFixed(5)
-                text: roundDoubleValue(modelData.price,
-                    orderBookWorker.bookRoundPower)
+                Layout.minimumWidth: 105
+                Layout.fillHeight: true
+
+                DapBigText
+                {
+                    anchors.fill: parent
+                    textFont: mainFont.dapFont.regular13
+                    textColor: isSell? currTheme.red : currTheme.green
+                    fullText: modelData.price
+
+                }
             }
 
-            Text
+            Item
             {
-                Layout.fillWidth: true
-                color: currTheme.white
-                font: mainFont.dapFont.regular13
-                text: modelData.amount.toFixed(4)
+                Layout.minimumWidth: 105
+                Layout.fillHeight: true
+
+                DapBigText
+                {
+                    //horizontalAlign: Qt.AlignHCenter
+                    anchors.fill: parent
+                    textColor: currTheme.white
+                    textFont: mainFont.dapFont.regular13
+                    fullText: modelData.amount
+
+                }
             }
 
-            Text
+            Item
             {
-                horizontalAlignment: Qt.AlignRight
-                color: currTheme.white
-                font: mainFont.dapFont.regular13
-                text: modelData.total.toFixed(4)
+                Layout.minimumWidth: 105
+                Layout.fillHeight: true
+
+                DapBigText
+                {
+
+                    anchors.fill: parent
+                    //horizontalAlign: Qt.AlignRight
+                    textColor: currTheme.white
+                    textFont: mainFont.dapFont.regular13
+                    fullText: modelData.total
+
+                }
             }
         }
 

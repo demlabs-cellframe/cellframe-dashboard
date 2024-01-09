@@ -60,19 +60,19 @@ Page {
                 anchors.leftMargin: 52 
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
         Rectangle
         {
             id:frameUsers
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textUsers
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Users")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -117,12 +117,12 @@ Page {
         {
             id: frameConnectionHistory
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textRegion
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Connection history")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -153,12 +153,12 @@ Page {
         {
             id: frameLoad
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textUnits
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Load")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft

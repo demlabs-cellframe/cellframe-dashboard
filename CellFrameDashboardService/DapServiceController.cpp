@@ -5,6 +5,7 @@
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapRemoveWalletCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapGetNetworkStatusCommand.h"
 #include "handlers/DapNetworkGoToCommand.h"
@@ -46,6 +47,8 @@
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
 #include "handlers/DapGetFeeCommand.h"
 #include "handlers/DapCreatePassForWallet.h"
+#include "handlers/DapCreateVPNOrder.h"
+#include "handlers/DapCreateStakeOrder.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -200,6 +203,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapActivateClientCommand             ("DapActivateClientCommand"             , nullptr));
     m_servicePool.append(new DapUpdateLogsCommand                 ("DapUpdateLogsCommand"                 , nullptr, LOG_FILE));
     m_servicePool.append(new DapAddWalletCommand                  ("DapAddWalletCommand"                  , nullptr));
+    m_servicePool.append(new DapRemoveWalletCommand               ("DapRemoveWalletCommand"               , nullptr));
     m_servicePool.append(new DapGetWalletInfoCommand              ("DapGetWalletInfoCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetWalletsInfoCommand             ("DapGetWalletsInfoCommand"             , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetListNetworksCommand            ("DapGetListNetworksCommand"            , nullptr, CLI_PATH));
@@ -236,8 +240,10 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapRemoveChainsOrGdbCommand          ("DapRemoveChainsOrGdbCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetFeeCommand                     ("DapGetFeeCommand"                     , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreatePassForWallet               ("DapCreatePassForWallet"               , nullptr, CLI_PATH));
+    m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
+    m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
 
-    for(auto service: qAsConst(m_servicePool))
+    for(auto& service: qAsConst(m_servicePool))
     {
         QThread * thread = new QThread(m_pServer);
         service->moveToThread(thread);

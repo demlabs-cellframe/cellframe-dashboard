@@ -11,7 +11,8 @@ Controls.DapTopPanel
 {
     property alias layout: layout
 
-    signal changeWalletIndex()
+    property bool isModel: false
+    property string statusProtected: ""
 
     RowLayout
     {
@@ -35,10 +36,10 @@ Controls.DapTopPanel
             Layout.bottomMargin: 9
             Layout.leftMargin: 4
             width: 220
-
+            displayText: walletModule.currentWalletName
             font: mainFont.dapFont.regular14
 
-            model: walletListModel
+            model: walletModelList
 
             enabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
             disabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
@@ -46,19 +47,8 @@ Controls.DapTopPanel
             Component.onCompleted:
             {
                 console.log("DapDashboardTopPanel onCompleted",
-                            "logicMainApp.currentWalletIndex", modulesController.currentWalletIndex)
-                setCurrentIndex(modulesController.currentWalletIndex)
-            }
-
-            onItemSelected:
-            {
-                modulesController.currentWalletIndex = currentIndex
-
-                console.log("DapDashboardTopPanel onItemSelected",
-                            "currentWalletName", modulesController.currentWalletName,
-                            "currentWalletIndex", modulesController.currentWalletIndex,)
-                changeWalletIndex()
-
+                            "logicMainApp.currentWalletIndex", walletModule.currentWalletIndex)
+                setCurrentIndex(walletModule.currentWalletIndex)
             }
 
             defaultText: qsTr("Wallets")
@@ -72,16 +62,16 @@ Controls.DapTopPanel
             radius: 4
             color: area.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
 
-            visible: !dapModelWallets.count ? false : true
+            visible: isModel
             Image{
                 anchors.centerIn: parent
                 source:
                 {
-                    if(logicWallet.walletStatus === "")
+                    if(statusProtected === "")
                     {
                         return "qrc:/Resources/BlackTheme/icons/other/icon_activate_pass.svg"
                     }
-                    return logicWallet.walletStatus === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+                    return statusProtected === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
                                                                                          : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
                 }
                 mipmap: true
@@ -94,17 +84,17 @@ Controls.DapTopPanel
                 anchors.fill: parent
 
                 onClicked: {
-                    if(logicWallet.walletStatus === "")
+                    if(walletModelList.get(walletModule.currentWalletIndex).statusProtected === "")
                     {
-                        tryCreatePasswordWalletPopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, createPasswordWalletPopup, false)
+                        tryCreatePasswordWalletPopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, createPasswordWalletPopup, false)
                     }
-                    else if(logicWallet.walletStatus === "non-Active")
+                    else if(walletModelList.get(walletModule.currentWalletIndex).statusProtected === "non-Active")
                     {
-                        walletActivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, false)
+                        walletActivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, false)
                     }
                     else
                     {
-                        walletDeactivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name)
+                        walletDeactivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName)
                     }
                 }
             }
@@ -149,7 +139,7 @@ Controls.DapTopPanel
         {
             id: newPaymentButton
             Layout.rightMargin: 24
-            enabled: logicWallet.walletStatus !== "non-Active"
+            enabled: statusProtected !== "non-Active"
 
             textButton: qsTr("Send")
 
@@ -166,20 +156,42 @@ Controls.DapTopPanel
         }
     }
 
+    function updateStatusWalletInfo()
+    {
+        isModel = !walletModelList.count ? false : true
+        statusProtected = walletModelList.get(walletModule.currentWalletIndex).statusProtected
+        comboBoxCurrentWallet.displayText = walletModule.getCurrentWalletName()
+    }
+    
     Connections
     {
-        target: dashboardTab
-        function onWalletsUpdated()
+        target: walletModule
+
+        function onCurrentWalletChanged()
+        {
+            updateStatusWalletInfo()
+        }
+
+        function onWalletsModelChanged()
+        {
+            updateStatusWalletInfo()
+        }
+
+        function onListWalletChanged()
         {
             console.log("DapDashboardTopPanel onModelWalletsUpdated",
-                        "currentWalletName", modulesController.currentWalletName,
-                        "currentWalletIndex", modulesController.currentWalletIndex)
+                        "currentWalletName", walletModule.currentWalletName,
+                        "currentWalletIndex", walletModule.currentWalletIndex)
 
-            if(modulesController.currentWalletIndex >= 0)
+            if(walletModule.currentWalletIndex >= 0)
             {
-                comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
-                comboBoxCurrentWallet.displayText = modulesController.currentWalletName
+                 comboBoxCurrentWallet.displayText = walletModule.currentWalletName
             }
         }
+    }
+    
+    Component.onCompleted:
+    {
+        updateStatusWalletInfo()
     }
 }
