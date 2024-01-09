@@ -381,7 +381,7 @@ Item
                 id: button1Year
                 Layout.fillWidth: true
                 implicitHeight: 25
-                textButton: qsTr("button1Year")
+                textButton: qsTr("All time")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.regular12
