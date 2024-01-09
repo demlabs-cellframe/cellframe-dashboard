@@ -43,7 +43,20 @@ QtObject {
     readonly property real popupRadius                    : 16
     readonly property real radiusButton                   : 30
 
-
+    //Text colors
+    readonly property color textColor              : "#ffffff" // OK
+    readonly property color textColorGray          : "#B4B1BD" // OK
+    readonly property color textColorGrayTwo       : "#B2B2B2" // OK
+    readonly property color textColorGrayThree     : "#B0AEB9" // OK
+    readonly property color placeHolderTextColor   : "#C7C6CE" // OK
+    readonly property color textColorYellow        : "#FFCD44" // OK
+    readonly property color textColorLightBlue     : "#79FFFA" // OK
+    readonly property color textColorLightGreen    : "#CAFC33" // OK
+    readonly property color textColorGreen         : "#84BE00" // OK //STOCK
+    readonly property color textColorRed           : "#FF5F5F" // OK //STOCK
+    readonly property color textColorGreenHovered  : "#73A500" // OK //STOCK
+    readonly property color textColorRedHovered    : "#EA2626" // OK //STOCK
+    
     //Shadows
     readonly property color shadowColor                   : "#20222A"
     readonly property color reflection                    : "#524D64"

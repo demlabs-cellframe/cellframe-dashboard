@@ -38,43 +38,44 @@ DapPage
 
     onRightPanel: false
 
-    Timer {
-        id: updatePairTimer
-        interval: 10000 //10 sec
-        running: false
-        repeat: true
-        onTriggered:
-        {
-//            console.log("PAIR TIMER TICK")
-            logicMainApp.requestToService("DapGetXchangeTokenPair", "full_info", "update")
-        }
-    }
+//     Timer {
+//         id: updatePairTimer
+//         interval: 10000 //10 sec
+//         running: false
+//         repeat: true
+//         onTriggered:
+//         {
+// //            console.log("PAIR TIMER TICK")
+//             logicMainApp.requestToService("DapGetXchangeTokenPair", "full_info", "update")
+//         }
+//    }
 
 
-    Timer {
-        id: updateOrdersListTimer
-        interval: 5000
-        running: false
-        repeat: true
-        onTriggered:
-        {
-            logicMainApp.requestToService("DapGetXchangeOrdersList")
-            logicMainApp.requestToService("DapGetWalletsInfoCommand","true");
-        }
-    }
+    // Timer {
+    //     id: updateOrdersListTimer
+    //     interval: 5000
+    //     running: false
+    //     repeat: true
+    //     onTriggered:
+    //     {
+    //         logicMainApp.requestToService("DapGetXchangeOrdersList")
+    //         logicMainApp.requestToService("DapGetWalletsInfoCommand","true");
+    //     }
+    // }
 
     Component.onCompleted:
     {
+        dexModule.statusProcessing = true
         console.log("DapStockTab Component.onCompleted",
               tokenPairsWorker.tokenNetwork, tokenPairsWorker.tokenBuy, tokenPairsWorker.tokenSell)
 
-        logicMainApp.requestToService("DapGetXchangeTokenPair", "full_info", "update")
+        // logicMainApp.requestToService("DapGetXchangeTokenPair", "full_info", "update")
 
         if (!updatePriceTimer.running)
             updatePriceTimer.start()
 
-        if (!updatePairTimer.running)
-            updatePairTimer.start()
+        // if (!updatePairTimer.running)
+        //     updatePairTimer.start()
 
         if (!updateOrdersListTimer.running)
             updateOrdersListTimer.start()
@@ -100,9 +101,10 @@ DapPage
 
     Component.onDestruction:
     {
-        updatePairTimer.stop()
-        updateOrdersListTimer.stop()
-        updatePriceTimer.stop()
+        dexModule.statusProcessing = false
+        // updatePairTimer.stop()
+        //updateOrdersListTimer.stop()
+        //updatePriceTimer.stop()
     }
 
     Timer
@@ -117,11 +119,11 @@ DapPage
 //                  "dapPairToken2", tokenPairsWorker.tokenSell,
 //                  "dapPairNetwork", tokenPairsWorker.tokenNetwork)
 
-            logicMainApp.requestToService(
-                "DapGetXchangeTokenPriceAverage",
-                tokenPairsWorker.tokenNetwork,
-                tokenPairsWorker.tokenBuy,
-                tokenPairsWorker.tokenSell)
+            // logicMainApp.requestToService(
+            //     "DapGetXchangeTokenPriceAverage",
+            //     tokenPairsWorker.tokenNetwork,
+            //     tokenPairsWorker.tokenBuy,
+            //     tokenPairsWorker.tokenSell)
 
 //            dapServiceController.requestToService(
 //                "DapGetXchangeTokenPriceAverage",
@@ -150,22 +152,22 @@ DapPage
         target: tokenPairsWorker
         function onPairModelUpdated()
         {
-            console.log("DapStockTab", "onPairModelUpdated")
+            // console.log("DapStockTab", "onPairModelUpdated")
 
-            console.log(tokenPairsWorker.tokenNetwork,
-                        tokenPairsWorker.tokenBuy,
-                        tokenPairsWorker.tokenSell)
+            // console.log(tokenPairsWorker.tokenNetwork,
+            //             tokenPairsWorker.tokenBuy,
+            //             tokenPairsWorker.tokenSell)
 
-            console.log("dapPairModel.length",
-                        dapPairModel.length,
-                        dapPairModel[0].tokenBuy,
-                        dapPairModel[0].tokenSell)
+            // console.log("dapPairModel.length",
+            //             dapPairModel.length,
+            //             dapPairModel[0].tokenBuy,
+            //             dapPairModel[0].tokenSell)
 
-            logicMainApp.requestToService(
-                "DapGetXchangeTokenPriceAverage",
-                tokenPairsWorker.tokenNetwork,
-                tokenPairsWorker.tokenBuy,
-                tokenPairsWorker.tokenSell)
+            // logicMainApp.requestToService(
+            //     "DapGetXchangeTokenPriceAverage",
+            //     tokenPairsWorker.tokenNetwork,
+            //     tokenPairsWorker.tokenBuy,
+            //     tokenPairsWorker.tokenSell)
         }
     }
 
@@ -175,31 +177,31 @@ DapPage
 
         function onRcvXchangeTokenPriceAverage(rcvData)
         {
-//            console.log("DapStockTab TokenPriceAverage", rcvData.rate)
+           console.log("DapStockTab TokenPriceAverage", rcvData.rate)
 
-//            console.log(rcvData.token1,
-//                  rcvData.token2,
-//                  rcvData.network)
+// //            console.log(rcvData.token1,
+// //                  rcvData.token2,
+// //                  rcvData.network)
 
-//            console.log(tokenPairsWorker.tokenBuy,
-//                  tokenPairsWorker.tokenSell,
-//                  tokenPairsWorker.tokenNetwork)
+// //            console.log(tokenPairsWorker.tokenBuy,
+// //                  tokenPairsWorker.tokenSell,
+// //                  tokenPairsWorker.tokenNetwork)
 
-            if (!logicMainApp.simulationStock)
-            {
-                if (rcvData.rate !== "0" &&
-                    rcvData.token1 === tokenPairsWorker.tokenBuy &&
-                    rcvData.token2 === tokenPairsWorker.tokenSell &&
-                    rcvData.network === tokenPairsWorker.tokenNetwork)
-                {
-                    candleChartWorker.setNewPrice(rcvData.rate)
+//             if (!logicMainApp.simulationStock)
+//             {
+//                 if (rcvData.rate !== "0" &&
+//                     rcvData.token1 === tokenPairsWorker.tokenBuy &&
+//                     rcvData.token2 === tokenPairsWorker.tokenSell &&
+//                     rcvData.network === tokenPairsWorker.tokenNetwork)
+//                 {
+//                     candleChartWorker.setNewPrice(rcvData.rate)
 
-                    logicMainApp.tokenPrice = candleChartWorker.currentTokenPrice
-                    logicMainApp.tokenPriceText = candleChartWorker.currentTokenPriceText
+//                     candleChartWorker.currentTokenPrice = candleChartWorker.currentTokenPrice
+//                     candleChartWorker.currentTokenPriceText = candleChartWorker.currentTokenPriceText
 
-                    tokenPriceChanged()
-                }
-            }
+//                     tokenPriceChanged()
+//                 }
+//             }
         }
     }
 
@@ -208,24 +210,24 @@ DapPage
         console.log("DapStockTab onTokenPairChanged")
 
         updateOrdersListTimer.stop()
-        logicMainApp.requestToService("DapGetXchangeOrdersList")
+        // logicMainApp.requestToService("DapGetXchangeOrdersList")
         updateOrdersListTimer.start()
 
-//        console.log(logicMainApp.tokenPrice)
+//        console.log(candleChartWorker.currentTokenPrice)
 
         if (!logicMainApp.simulationStock)
         {
-            console.log("stockDataWorker.resetPriceData", logicMainApp.tokenPrice)
+            console.log("stockDataWorker.resetPriceData", candleChartWorker.currentTokenPrice)
 
             candleChartWorker.resetPriceData(
-                logicMainApp.tokenPrice, logicMainApp.tokenPriceText, false)
+                candleChartWorker.currentTokenPrice, candleChartWorker.currentTokenPriceText, false)
             orderBookWorker.resetBookModel()
 
             tokenPriceChanged()
         }
 
-        logicMainApp.requestToService("DapGetXchangeTokenPriceHistory",
-            tokenPairsWorker.tokenNetwork, tokenPairsWorker.tokenBuy, tokenPairsWorker.tokenSell)
+        // logicMainApp.requestToService("DapGetXchangeTokenPriceHistory",
+        //     tokenPairsWorker.tokenNetwork, tokenPairsWorker.tokenBuy, tokenPairsWorker.tokenSell)
     }
 
     Timer
@@ -239,8 +241,8 @@ DapPage
 
             candleChartWorker.generateNewPrice(0.004)
 
-            logicMainApp.tokenPrice = candleChartWorker.currentTokenPrice
-            logicMainApp.tokenPriceText = candleChartWorker.currentTokenPriceText
+            candleChartWorker.currentTokenPrice = candleChartWorker.currentTokenPrice
+            candleChartWorker.currentTokenPriceText = candleChartWorker.currentTokenPriceText
 
             tokenPriceChanged()
         }

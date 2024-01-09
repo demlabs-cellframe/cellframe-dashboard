@@ -3,7 +3,7 @@ QT += core network
 include(../config.pri)
 
 TARGET = $${BRAND}Service
-
+DEFINES += SIMULATOR_DEX
 win32 {
     CONFIG -= console
 }

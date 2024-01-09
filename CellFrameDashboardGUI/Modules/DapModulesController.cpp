@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QSettings>
 
+//***Modules***//
 #include "Wallet/DapModuleWallet.h"
 #include "Dex/DapModuleDex.h"
 #include "TxExplorer/DapModuleTxExplorer.h"
@@ -14,8 +15,7 @@
 #include "Settings/DapModuleSettings.h"
 #include "dApps/DapModuledApps.h"
 #include "Diagnostics/DapModuleDiagnostics.h"
-
-#include "Test/DapModuleTest.h"
+#include "Orders/DapModuleOrders.h"
 
 #include "Models/DapWalletListModel.h"
 
@@ -31,23 +31,9 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     initModules();
 
     m_timerUpdateData = new QTimer(this);
-    m_timerUpdateFee = new QTimer(this);
-    connect(m_timerUpdateData, &QTimer::timeout, this, &DapModulesController::getWalletList, Qt::QueuedConnection);
-    connect(m_timerUpdateData, &QTimer::timeout, this, &DapModulesController::getNetworkList, Qt::QueuedConnection);
-    connect(m_timerUpdateFee, &QTimer::timeout, this, &DapModulesController::getFee, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModulesController::rcvWalletList, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModulesController::rcvFee, Qt::QueuedConnection);
 
     getNetworkList();
-    getWalletList();
     m_timerUpdateData->start(5000);
-    m_timerUpdateFee->start(1000);
-    s_serviceCtrl->requestToService("DapGetFeeCommand",QStringList()<<QString("all"));
-
-//    DapModuleTest *test = static_cast<DapModuleTest*>(getModule("testModule"));
-
-//    test->test();
 }
 
 
@@ -68,7 +54,7 @@ DapModulesController::~DapModulesController()
 void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
-//    addModule("dexModule", new DapModuleDex(s_modulesCtrl));
+//    addModule("dexModule", new DapModuleDex(this));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
@@ -77,10 +63,9 @@ void DapModulesController::initModules()
     addModule("settingsModule", new DapModuleSettings(this));
     addModule("dAppsModule", new DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
-    addModule("testModule", new DapModuleTest(this));
+    addModule("ordersModule", new DapModuleOrders(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
-    s_appEngine->rootContext()->setContextProperty("walletListModel", m_walletListModel);
 
     s_appEngine->rootContext()->setContextProperty("modulesController", this);
 }
@@ -113,64 +98,26 @@ DapAbstractModule *DapModulesController::getModule(const QString &key)
         return m_listModules.value(key);
 }
 
-void DapModulesController::getWalletList()
+void DapModulesController::setCurrentWallet(const QPair<int,QString>& dataWallet)
+{
+    m_currentWalletIndex = dataWallet.first;
+    m_currentWalletName = dataWallet.second;
+}
+
+void DapModulesController::updateListWallets()
 {
     s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
 }
 
-void DapModulesController::getNetworkList()
+void DapModulesController::updateListNetwork()
 {
     s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
 }
 
-void DapModulesController::rcvWalletList(const QVariant &rcvData)
-{
-//    qDebug()<<"rcvWalletList";
-    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
-
-    if(doc.array().isEmpty())
-        setCurrentWalletIndex(-1);
-
-    if(m_walletList != doc.toJson())
-    {
-        if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
-        {
-            m_walletList = doc.toJson();
-            DapWalletListModel().setModel(&doc);
-
-            //--------------------------------------//
-            /* The first load of the settings.
-             * As long as there is no wallet data,
-             * initialization is not necessary
-             */
-
-            if(!m_firstDataLoad)
-            {
-                restoreIndex();
-                m_firstDataLoad = true;
-                emit initDone();
-            }
-            //--------------------------------------//
-        }
-        else
-        {
-            m_walletList = doc.toJson();
-            DapWalletListModel().setModel(&doc);
-        }
-
-        restoreIndex();
-        static_cast<DapModuleWallet*>(m_listModules.value("walletModule"))
-            ->getWalletsInfo(QStringList()<<"true");
-
-        emit walletsListUpdated();
-    }
-    else
-        restoreIndex();
-}
 
 void DapModulesController::rcvNetList(const QVariant &rcvData)
 {
-    m_netList = rcvData.toList();
+    m_netList = rcvData.toStringList();
     emit netListUpdated(); //todo
 }
 
@@ -220,29 +167,4 @@ void DapModulesController::restoreIndex()
     }
 
     setCurrentWalletIndex(0);
-}
-
-void DapModulesController::getFee()
-{
-    if(m_flagFeeUpdate)
-        s_serviceCtrl->requestToService("DapGetFeeCommand",QStringList()<<QString("all"));
-}
-
-void DapModulesController::getComission(QString network)
-{
-//    qDebug()<<"get comisson" << token << network;
-    s_serviceCtrl->requestToService("DapGetFeeCommand",QStringList()<<QString(network));
-}
-
-void DapModulesController::rcvFee(const QVariant &rcvData)
-{
-    m_feeDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-//    qDebug()<<rcvData;
-    emit sigFeeRcv(rcvData);
-}
-
-void DapModulesController::setFeeUpdate(bool flag)
-{
-    m_flagFeeUpdate = flag;
-    emit feeUpdateChanged();
 }

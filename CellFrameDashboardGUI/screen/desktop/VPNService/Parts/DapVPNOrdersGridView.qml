@@ -42,7 +42,7 @@ GridView {
             width: parent.width - x * 2
             height: parent.height - y * 2
 
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             radius: currTheme.frameRadius
             shadowColor: currTheme.reflectionLight
             lightColor: currTheme.shadowColor
@@ -70,14 +70,14 @@ GridView {
                                     GradientStop
                                     {
                                         position: 0;
-                                        color: cell.GridView.isCurrentItem ? currTheme.buttonColorHoverPosition0 :
-                                                                   currTheme.backgroundMainScreen
+                                        color: cell.GridView.isCurrentItem ? currTheme.mainButtonColorHover0 :
+                                                                   currTheme.border
                                     }
                                     GradientStop
                                     {
                                         position: 1;
-                                        color: cell.GridView.isCurrentItem ? currTheme.buttonColorHoverPosition1 :
-                                                                   currTheme.backgroundMainScreen
+                                        color: cell.GridView.isCurrentItem ? currTheme.mainButtonColorHover1 :
+                                                                   currTheme.border
 
                                     }
                                 }
@@ -90,7 +90,7 @@ GridView {
                             anchors.right: orderIcon.right
                             font:  mainFont.dapFont.medium12
                             elide: Text.ElideRight
-                            color: currTheme.textColor
+                            color: currTheme.white
                             text: qsTr("VPN Order ") + model.index
                         }
 
@@ -110,7 +110,7 @@ GridView {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             height: 1 
-                            color: currTheme.lineSeparatorColor
+                            color: currTheme.border
                         }
                     }
 

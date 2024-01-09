@@ -27,8 +27,6 @@ DapRectangleLitAndShaded
 
     property alias dapChainGroup: chainGroup
 
-    property alias dapComboBoxNetworkModel: comboboxNetwork.model
-    property alias dapComboBoxChainModel: comboboxChain.model
 
     property alias dapComboBoxToken: comboboxToken
 
@@ -142,18 +140,15 @@ DapRectangleLitAndShaded
                     anchors.leftMargin: 5 
                     anchors.rightMargin: 5
                     backgroundColorShow: currTheme.secondaryBackground
-
+                    mainTextRole: "networkName"
                     font: mainFont.dapFont.regular16
-
+                    model: walletModelInfo
                     defaultText: qsTr("Networks")
 
                     Component.onCompleted:
                     {
-//                        console.log("NETWORK INIT ", displayText)
-                        modulesController.getComission(displayText)
+                        walletModule.getComission(displayText)
                     }
-
-
                 }
             }
 
@@ -306,7 +301,8 @@ DapRectangleLitAndShaded
 
                         defaultText: qsTr("Tokens")
                         backgroundColorShow: currTheme.secondaryBackground
-
+                        mainTextRole: "tokenName"
+                        model: walletModelInfo.getModel(comboboxNetwork.displayText)
                         font: mainFont.dapFont.regular16
 
                         onCurrentTextChanged: {
@@ -348,7 +344,7 @@ DapRectangleLitAndShaded
                         "send_ticker"   : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
-                        var res = txWorker.calculatePrecentAmount(data);
+                        var res = walletModule.calculatePrecentAmount(data);
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
@@ -377,7 +373,7 @@ DapRectangleLitAndShaded
                         "send_ticker"   : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
-                        var res = txWorker.calculatePrecentAmount(data);
+                        var res = walletModule.calculatePrecentAmount(data);
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
@@ -406,7 +402,7 @@ DapRectangleLitAndShaded
                         "send_ticker"   : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
-                        var res = txWorker.calculatePrecentAmount(data);
+                        var res = walletModule.calculatePrecentAmount(data);
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
@@ -435,7 +431,7 @@ DapRectangleLitAndShaded
                         "send_ticker"   : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
-                        var res = txWorker.calculatePrecentAmount(data);
+                        var res = walletModule.calculatePrecentAmount(data);
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }

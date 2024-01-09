@@ -19,7 +19,7 @@ Controls.DapTopPanel
 
 
         //Requests
-        Item{
+        Item {
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             width: row.implicitWidth
             height: 20
@@ -53,10 +53,6 @@ Controls.DapTopPanel
                     Text{
                         id: value
                         anchors.fill: parent
-    //                    anchors.leftMargin: 6
-    //                    anchors.rightMargin: 6
-    //                    anchors.topMargin: 2
-    //                    anchors.bottomMargin: 2
                         text: logicMainApp.requestsMessageCounter
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -82,8 +78,50 @@ Controls.DapTopPanel
 
         Item{Layout.fillWidth: true}
 
+        // Wallet controller
         ColumnLayout{
             Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: 6
+
+            spacing: 2
+
+            RowLayout{
+                spacing: 8
+
+                Text {
+                    Layout.alignment: Qt.AlignLeft
+                    text: qsTr( "Wallet controller" )
+                    font: mainFont.dapFont.regular13
+                    color: currTheme.white
+                    elide: Text.ElideMiddle
+                }
+            }
+
+            RowLayout{
+                spacing: 8
+
+                Text {
+                    Layout.alignment: Qt.AlignLeft
+                    text: qsTr( "Edit wallets list" )
+                    font: mainFont.dapFont.regular13
+                    enabled: dapModelWallets.count > 0 ? true : false
+                    color: enabled ? walletsArea.containsMouse ? currTheme.orange : currTheme.lime : currTheme.gray
+
+
+                    MouseArea{
+                        id: walletsArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: navigator.openWalletsController()
+                    }
+                }
+            }
+        }
+
+        // Node settings
+        ColumnLayout{
+            Layout.alignment: Qt.AlignRight
+            Layout.leftMargin: 45
             spacing: 2
 
             RowLayout{
@@ -161,11 +199,12 @@ Controls.DapTopPanel
             }
         }
 
+        // Version
         ColumnLayout
         {
-            Layout.leftMargin: 56
+            Layout.leftMargin: 53
             Layout.alignment: Qt.AlignRight
-            Layout.rightMargin: 40
+            Layout.rightMargin: 32
             spacing: 2
 
             Text {

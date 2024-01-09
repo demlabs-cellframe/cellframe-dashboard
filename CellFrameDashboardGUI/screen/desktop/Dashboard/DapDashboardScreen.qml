@@ -23,7 +23,7 @@ Page
     property string kelvinImagePath: "qrc:/resources/icons/ic_klvn.png"
     ///@param dapButtonNewPayment Button to create a new payment.
 //    property alias dapButtonNewPayment: buttonNewPayment
-    property alias listViewWallet: walletShowFrame.listViewWallet
+    // property alias listViewWallet: walletShowFrame.listViewWallet
 //    property alias dapNameWalletTitle: titleText
     property alias walletDefaultFrame: walletDefaultFrame
 //    property alias dapTitleBlock: titleBlock

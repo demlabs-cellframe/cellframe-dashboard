@@ -119,18 +119,18 @@ RowLayout
         var net = tokenPairsWorker.tokenNetwork
         var address = ""
 
-        var model = dapModelWallets.get(logicMainApp.currentIndex).networks
+//        var model = dapModelWallets.get(logicMainApp.currentIndex).networks
 
-        for (var i = 0; i < model.count; ++i)
-        {
-            if (model.get(i).name === net)
-                address = model.get(i).address
-        }
+//        for (var i = 0; i < model.count; ++i)
+//        {
+//            if (model.get(i).name === net)
+//                address = model.get(i).address
+//        }
 
         console.log("dapServiceController.requestToService", "DapGetXchangeTxList",
                     net, address)
-        logicMainApp.requestToService("DapGetXchangeTxList",
-            "GetOrdersPrivate", net, address, "", "")
+        // logicMainApp.requestToService("DapGetXchangeTxList",
+        //     "GetOrdersPrivate", net, address, "", "")
 
         logic.initOrdersModels()
         logic.initPairModelFilter()
@@ -144,15 +144,15 @@ RowLayout
     {
         target: dapServiceController
 
-        function onRcvXchangeTxList(rcvData)
-        {
-            console.log("onRcvXchangeTxList")
-            console.log(rcvData)
+        // function onRcvXchangeTxList(rcvData)
+        // {
+        //     console.log("onRcvXchangeTxList")
+        //     console.log(rcvData)
 
-            var jsonDocument = JSON.parse(rcvData)
-            allOrdersModel.clear()
-            allOrdersModel.append(jsonDocument)
-        }
+        //     var jsonDocument = JSON.parse(rcvData)
+        //     allOrdersModel.clear()
+        //     allOrdersModel.append(jsonDocument)
+        // }
     }
 
     onSetFilterPair: {

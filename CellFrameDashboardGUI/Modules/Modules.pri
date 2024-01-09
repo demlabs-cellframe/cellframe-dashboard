@@ -1,0 +1,58 @@
+HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
+    $$PWD/DapModulesController.h \
+    $$PWD/Logs/DapModuleLogs.h \
+    $$PWD/Logs/DapLogsReader.h \
+    $$PWD/Logs/logmodel.h \
+    $$PWD/Logs/logreader.h \
+    $$PWD/Logs/loginfo.h \
+    $$PWD/Console/DapModuleConsole.h \
+    $$PWD/Console/consoleitem.h \
+    $$PWD/DapAbstractModule.h \
+    $$PWD/Certificates/DapModuleCertificates.h \
+    $$PWD/Settings/DapModuleSettings.h \
+    $$PWD/Dex/DapModuleDex.h \
+    $$PWD/Dex/StockDataWorker/OrderBookWorker.h \
+    $$PWD/Dex/StockDataWorker/PriceInfo.h \
+    $$PWD/Dex/StockDataWorker/CandleChartWorker.h \
+    $$PWD/Dex/StockDataWorker/StockDataWorker.h \
+    $$PWD/Dex/StockDataWorker/OrderInfo.h \
+    $$PWD/Dex/StockDataWorker/TokenPairsWorker.h \
+    $$PWD/Dex/StockDataWorker/TokenPairInfo.h \
+    $$PWD/Diagnostics/AbstractDiagnostic.h \
+    $$PWD/Dex/StockDataWorker/CandleInfo.h \
+    $$PWD/Diagnostics/DapModuleDiagnostics.h \
+    $$PWD/Orders/DapModuleOrders.h \
+    $$PWD/Tokens/DapModuleTokens.h \
+    $$PWD/dApps/DapDappsNetworkManager.h \
+    $$PWD/dApps/DapModuledApps.h \
+    $$PWD/Wallet/WalletRestore/wallethashmanager.h \
+    $$PWD/Wallet/WalletRestore/randomwords.h \
+    $$PWD/Wallet/WalletRestore/randomfile.h \
+    $$PWD/Wallet/DapModuleWallet.h
+
+ SOURCES += $$PWD/TxExplorer/DapModuleTxExplorer.cpp \
+    $$PWD/Logs/logreader.cpp \
+    $$PWD/Logs/DapModuleLogs.cpp \
+    $$PWD/Logs/logmodel.cpp \
+    $$PWD/Logs/DapLogsReader.cpp \
+    $$PWD/Console/DapModuleConsole.cpp \
+    $$PWD/Certificates/DapModuleCertificates.cpp \
+    $$PWD/Settings/DapModuleSettings.cpp \
+    $$PWD/Dex/DapModuleDex.cpp \
+    $$PWD/Dex/StockDataWorker/StockDataWorker.cpp \
+    $$PWD/Dex/StockDataWorker/CandleChartWorker.cpp \
+    $$PWD/Dex/StockDataWorker/OrderBookWorker.cpp \
+    $$PWD/Dex/StockDataWorker/TokenPairsWorker.cpp \
+    $$PWD/DapModulesController.cpp \
+    $$PWD/Diagnostics/DapModuleDiagnostics.cpp \
+    $$PWD/Orders/DapModuleOrders.cpp \
+    $$PWD/Diagnostics/AbstractDiagnostic.cpp \
+    $$PWD/Tokens/DapModuleTokens.cpp \
+    $$PWD/dApps/DapDappsHelpFunctions.cpp \
+    $$PWD/dApps/DapDappsNetworkManager.cpp \
+    $$PWD/dApps/DapModuledApps.cpp \
+    $$PWD/DapAbstractModule.cpp \
+    $$PWD/Wallet/WalletRestore/wallethashmanager.cpp \
+    $$PWD/Wallet/WalletRestore/randomwords.cpp \
+    $$PWD/Wallet/WalletRestore/randomfile.cpp \
+    $$PWD/Wallet/DapModuleWallet.cpp

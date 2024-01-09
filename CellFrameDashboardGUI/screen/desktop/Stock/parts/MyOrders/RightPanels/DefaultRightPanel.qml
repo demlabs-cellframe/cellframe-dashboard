@@ -8,19 +8,9 @@ Item
 {
     id: defaultRightPanel
 
-/*    ListModel
-    {
-        id: periodModel
-        ListElement { name: "All time" }
-        ListElement { name: "Today" }
-        ListElement { name: "Yesterday" }
-        ListElement { name: "Last week" }
-        ListElement { name: "This month" }
-    }*/
-
     Component.onCompleted:
     {
-        setFilterSide("buy")
+        ordersModel.setOrderFilter("Buy", "All", "OPENED")
         setCurrentMainScreen(allOrders)
         buysellbothSelector.selectorListView.currentIndex = 2
     }
@@ -33,7 +23,6 @@ Item
         Text {
             Layout.minimumHeight: 35
             Layout.maximumHeight: 35
-//            Layout.leftMargin: 16
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.white
@@ -56,7 +45,6 @@ Item
         DapSelector
         {
             height: 35
-//            Layout.fillWidth: true
             Layout.topMargin: 10
             itemHorisontalBorder: 20
 
@@ -64,11 +52,10 @@ Item
 
             onItemSelected:
             {
-//                print("onItemSelected", "currentIndex", currentIndex)
 
                 if (currentIndex === 0)
                 {
-                    setFilterSide("buy")
+                    ordersModel.setOrderFilter("Buy", "All", "OPENED")
                     setCurrentMainScreen(allOrders)
 
                     buysellSelector.setSelected("first")
@@ -77,6 +64,7 @@ Item
                     buysellbothSelector.visible = false
                     textPair.visible = false
                     comboboxPair.visible = false
+                    comboboxPair.displayText = "All pairs"
 //                    textSide.visible = false
 //                    buttonsSide.visible = false
                     textPeriod.visible = false
@@ -85,7 +73,8 @@ Item
                 }
                 if (currentIndex === 1)
                 {
-                    setFilterSide("Both")
+                    ordersModel.setOrderFilter("Both", "My_orders")
+                    //setFilterSide("Both")
                     setCurrentMainScreen(myOrders)
 
                     buysellbothSelector.selectorListView.currentIndex = 2
@@ -94,6 +83,7 @@ Item
                     buysellbothSelector.visible = true
                     textPair.visible = true
                     comboboxPair.visible = true
+                    comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
 //                    buttonsSide.visible = true
                     textPeriod.visible = false
@@ -103,7 +93,8 @@ Item
                 }
                 if (currentIndex === 2)
                 {
-                    setFilterSide("Both")
+                    ordersModel.setOrderFilter("Both", "All", "CLOSED")
+                    //setFilterSide("Both")
                     setCurrentMainScreen(ordersHistory)
 
                     buysellbothSelector.selectorListView.currentIndex = 2
@@ -112,6 +103,7 @@ Item
                     buysellbothSelector.visible = true
                     textPair.visible = true
                     comboboxPair.visible = true
+                    comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
 //                    buttonsSide.visible = true
                     textPeriod.visible = true
@@ -119,17 +111,17 @@ Item
                     layoutPeriod2.visible = true
 
                     if (button1Day.selected)
-                        setFilterPeriod("1 Day")
+                        ordersModel.setPeriodOrderFilter("Day")
                     if (button1Week.selected)
-                        setFilterPeriod("1 Week")
+                        ordersModel.setPeriodOrderFilter("Week")
                     if (button1Month.selected)
-                        setFilterPeriod("1 Month")
+                        ordersModel.setPeriodOrderFilter("Month")
                     if (button3Month.selected)
-                        setFilterPeriod("3 Month")
+                        ordersModel.setPeriodOrderFilter("3 Month")
                     if (button6Month.selected)
-                        setFilterPeriod("6 Month")
+                        ordersModel.setPeriodOrderFilter("6 Month")
                     if (button1Year.selected)
-                        setFilterPeriod("1 Year")
+                        ordersModel.setPeriodOrderFilter("All")
                 }
             }
         }
@@ -180,15 +172,15 @@ Item
             {
                 if (currentIndex === 0)
                 {
-                    setFilterSide("Buy")
+                    ordersModel.setFilterSide("Buy")
                 }
                 if (currentIndex === 1)
                 {
-                    setFilterSide("Sell")
+                    ordersModel.setFilterSide("Sell")
                 }
                 if (currentIndex === 2)
                 {
-                    setFilterSide("Both")
+                    ordersModel.setFilterSide("Both")
                 }
             }
 
@@ -210,9 +202,15 @@ Item
             onToggled:
             {
                 if (secondSelected)
-                    setFilterSide("sell")
+                    {
+                        ordersModel.setFilterSide("Sell")
+                    }
+                    //setFilterSide("sell")
                 else
-                    setFilterSide("buy")
+                {
+                    ordersModel.setFilterSide("Buy")
+                }
+                   // setFilterSide("buy")
 //                isSell = secondSelected
 //                if (isSell)
 //                {
@@ -251,8 +249,9 @@ Item
             height: 42
             font: mainFont.dapFont.regular16
             defaultText: qsTr("All pairs")
-            mainTextRole: "pair"
-            onCurrentIndexChanged: setFilterPair(model.get(currentIndex).pair)
+            //TODO: These parameters have been fixed so far and we are not touching them from here yet
+            //onCurrentIndexChanged: ordersModel.setPairOrderFilter(model.get(currentIndex).name)
+            model: dexRightPairModel
         }
 
         Text
@@ -291,7 +290,7 @@ Item
                 {
                     resetButtons()
                     selected = true
-                    setFilterPeriod("1 Day")
+                    ordersModel.setPeriodOrderFilter("Day")
                 }
             }
 
@@ -309,7 +308,7 @@ Item
                 {
                     resetButtons()
                     selected = true
-                    setFilterPeriod("1 Week")
+                    ordersModel.setPeriodOrderFilter("Week")
                 }
             }
 
@@ -327,7 +326,7 @@ Item
                 {
                     resetButtons()
                     selected = true
-                    setFilterPeriod("1 Month")
+                    ordersModel.setPeriodOrderFilter("Month")
                 }
             }
 
@@ -355,7 +354,7 @@ Item
                 {
                     resetButtons()
                     selected = true
-                    setFilterPeriod("3 Month")
+                    ordersModel.setPeriodOrderFilter("3 Month")
                 }
             }
 
@@ -373,7 +372,7 @@ Item
                 {
                     resetButtons()
                     selected = true
-                    setFilterPeriod("6 Month")
+                    ordersModel.setPeriodOrderFilter("6 Month")
                 }
             }
 
@@ -382,7 +381,7 @@ Item
                 id: button1Year
                 Layout.fillWidth: true
                 implicitHeight: 25
-                textButton: qsTr("1 Year")
+                textButton: qsTr("button1Year")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.regular12
@@ -391,7 +390,7 @@ Item
                 {
                     resetButtons()
                     selected = true
-                    setFilterPeriod("1 Year")
+                    ordersModel.setPeriodOrderFilter("All")
                 }
             }
         }
@@ -505,6 +504,6 @@ Item
 
     Connections{
         target: myOrdersTab
-        function onInitCompleted(){ comboboxPair.model = pairModelFilter}
+        //function onInitCompleted(){ comboboxPair.model = pairModelFilter}
     }
 }

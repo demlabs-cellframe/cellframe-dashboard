@@ -123,7 +123,6 @@ Rectangle {
     Component.onCompleted:
     {
         modelLastActions.clear()
-//        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
     }
 
     InnerShadow {
@@ -166,7 +165,7 @@ Rectangle {
             dapModelWallets.clear()
             dapModelWallets.append(jsonDocument)
 
-            for (var i = 0; i < dapModelWallets.count; ++i)
+            for (var i = 0; i < walletModelList.count; ++i)
             {
                 getWalletHistory(i, true)
             }
@@ -212,7 +211,7 @@ Rectangle {
     function getWalletHistory(index, update)
     {
 
-        if (index < 0 || index >= dapModelWallets.count)
+        if (index < 0 || index >= walletModelList.count)
             return
 
         var network_array = ""

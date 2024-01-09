@@ -32,6 +32,11 @@ DapRectangleLitAndShaded
                        "sign": "sig_dil",
                        "secondname": "Recommended"
                    })
+            append({
+                       "name": "Falcon",
+                       "sign": "sig_falcon",
+                       "secondname": "New"
+                   })
             // 'bliss' and 'picnic' only for restore mode
             if(logicWallet.restoreWalletMode) {
                 append({

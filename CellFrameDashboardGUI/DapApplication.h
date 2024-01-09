@@ -20,8 +20,6 @@
 #include "DapDataLocal.h"
 #include "DapLogHandler.h"
 
-#include "StockDataWorker/stockdataworker.h"
-
 #include "ConfigWorker/configworker.h"
 //#include "Workers/stringworker.h"
 //#include "Workers/dateworker.h"
@@ -75,7 +73,7 @@ private:
 //    DapMath *m_mathBigNumbers;
 //    DiagnosticWorker *m_diagnosticWorker;
 
-    StockDataWorker *stockDataWorker;
+//    StockDataWorker *stockDataWorker;
     ConfigWorker *configWorker;
 //    StringWorker *stringWorker;
     DateWorker   *dateWorker;

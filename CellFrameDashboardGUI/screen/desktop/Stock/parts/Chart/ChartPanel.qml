@@ -32,80 +32,43 @@ Item
             Layout.fillWidth: true
             spacing: 20
 
-            DapPairComboBox
+            DapCustomComboBox
             {
-                property bool isInit: false
-                property var globalIndex
-                id: pairBox
+                id: comboboxNetwork
                 Layout.minimumWidth: 184
                 height: 32
 
-                onInitModelIsCompleted: {
-                    isInit = true
-                    currentIndex = tokenPairsWorker.currentPairIndex
-                    globalIndex = currentIndex
-                    displayElement = dapPairModel[globalIndex]
-                    updateInfo(globalIndex)
+                backgroundColorShow: currTheme.secondaryBackground
+                backgroundColorNormal: currTheme.secondaryBackground
+                model: dexNetModel
+                font: mainFont.dapFont.medium14
+
+                onCurrantDisplayTextChanged:
+                {
+                    modelTokenPair.setNetworkFilter(text)
+                }
+
+                defaultText: qsTr("Networks")
+            }
+
+            DapPairComboBox
+            {
+                id: pairBox
+
+                Layout.minimumWidth: 184
+                height: 32
+                model:modelTokenPair
+
+                onCurrentIndexChanged: {
+                    walletModule.updateBalanceDEX()
                 }
 
                 Component.onCompleted:
                 {
-                    logic.setModel(dapPairModel)
+                    dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
+                    dexTokenModel.setNetworkFilter(dexModule.networkPair)
+                    walletModule.updateBalanceDEX()
 
-                }
-                onCurrentIndexChanged: {
-
-                    if(isInit)
-                    {
-                        for(var i = 0; i < dapPairModel.length; i++)
-                        {
-                            if(dapPairModel[i].tokenBuy === pairBox.displayElement.tokenBuy &&
-                               dapPairModel[i].tokenSell === pairBox.displayElement.tokenSell)
-                            {
-                                globalIndex = i
-                            }
-                        }
-
-                        if(globalIndex !== -1)
-                            updateInfo(globalIndex)
-                    }
-                }
-
-                function updateInfo(currentIndex)
-                {
-//                    tokenPairsWorker.currentPairIndex = currentIndex
-
-                    tokenPairsWorker.setCurrentPairIndex(currentIndex)
-
-                    console.log("updateInfo",
-                                tokenPairsWorker.currentPairIndex,
-                                dapPairModel.length,
-                                dapPairModel[currentIndex].tokenBuy,
-                                dapPairModel[currentIndex].tokenSell,
-                                tokenPairsWorker.tokenBuy,
-                                tokenPairsWorker.tokenSell)
-
-                    logicMainApp.tokenPrice = tokenPairsWorker.tokenPrice
-                    logicMainApp.tokenPriceText = tokenPairsWorker.tokenPriceText
-//                    logicMainApp.tokenPrice = dapPairModel[currentIndex].price
-//                    logicMainApp.tokenPriceText = dapPairModel[currentIndex].priceText
-
-                    tokenPairChanged()
-                }
-
-                Connections
-                {
-                    target: tokenPairsWorker
-                    function onPairModelUpdated(dapPairModel)
-                    {
-                        if(!pairBox.count)
-                            pairBox.logic.setModel(dapPairModel)
-                        else
-                        {
-                            pairBox.currentIndex = tokenPairsWorker.currentPairIndex
-                            pairBox.displayElement = dapPairModel[tokenPairsWorker.currentPairIndex]
-                        }
-                    }
                 }
             }
 
@@ -225,7 +188,6 @@ Item
 
             onItemSelected:
             {
-//                print("onItemSelected", "currentIndex", currentIndex)
                 chartItem.setCandleSize(currentIndex)
             }
         }
@@ -242,7 +204,7 @@ Item
                 height: 30
                 font: mainFont.dapFont.medium24
                 color: currTheme.white
-                text: pairBox.displayElement.tokenBuy + "/" + pairBox.displayElement.tokenSell + ":"
+                text: dexModule.displayText + ":"
                 verticalAlignment: Qt.AlignVCenter
                 Layout.alignment: Qt.AlignVCenter
                 topPadding: OS_WIN_FLAG ? 5 : 0
@@ -402,24 +364,31 @@ Item
         }
     }
 
-    Connections
+    function updateChart()
     {
-        target: stockTab
+        updateTokenPrice()
 
-        function onTokenPriceChanged()
-        {
-            updateTokenPrice()
+        candleChartWorker.updateAllModels()
 
-            candleChartWorker.updateAllModels()
+        candleLogic.dataAnalysis()
 
-            candleLogic.dataAnalysis()
-
-            chartItem.chartCanvas.requestPaint()
-
-//            volume24h += Math.random()*10
-        }
+        chartItem.chartCanvas.requestPaint()
     }
 
+    Connections
+    {
+        target: dexModule
+
+        function onCurrentTokenPairInfoChanged()
+        {
+            updateChart()
+        }
+
+        function onCurrentTokenPairChanged()
+        {
+            updateChart()
+        }
+    }
 
     function updateTokenPrice()
     {

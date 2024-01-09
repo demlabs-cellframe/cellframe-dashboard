@@ -26,6 +26,11 @@ Item {
                 name: "Dilithium"
                 sign: "sig_dil"
             }
+            ListElement
+            {
+                name: "Falcon"
+                sign: "sig_falcon"
+            }
         }
 
         ColumnLayout

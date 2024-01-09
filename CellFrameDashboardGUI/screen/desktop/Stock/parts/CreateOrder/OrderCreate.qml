@@ -87,30 +87,19 @@ Page
 
         TwoTextBlocks
         {
+            id: textBalance
             Layout.fillWidth: true
             Layout.leftMargin: 16
             Layout.topMargin: 10
             label: qsTr("Balance:")
-            text:
-            {
-                if(isSell)
-                {
-                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
-                        return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
-                    else
-                        return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
-                }
-                else
-                {
-                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
-                        return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
-                    else
-                        return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
-                }
-            }
+            //text: walletModule.getBalanceDEX(dexModule.token2) + " " + dexModule.token2
             textColor: currTheme.white
             textFont: mainFont.dapFont.regular14
-//            font: mainFont.dapFont.regular14
+
+            Component.onCompleted: 
+            {
+                setBalanceText(dexModule.token2)
+            }
 
         }
 
@@ -126,15 +115,15 @@ Page
             {
                 id: textMode
                 Layout.fillWidth: true
-//                Layout.topMargin: 18
                 font: mainFont.dapFont.medium14
                 color: currTheme.white
 
-                text: qsTr("Buy ") + tokenPairsWorker.tokenBuy
+                text: qsTr("Buy ") + dexModule.token1
             }
 
             DapSelectorSwitch
             {
+                id: buySellSwitcher
                 height: 35
                 firstName: qsTr("Buy")
                 secondName: qsTr("Sell")
@@ -147,11 +136,13 @@ Page
                     isSell = secondSelected
                     if (isSell)
                     {
-                        textMode.text = qsTr("Sell ") + tokenPairsWorker.tokenBuy
+                        textMode.text = qsTr("Sell ") + dexModule.token1
+                        setBalanceText(dexModule.token1)
                     }
                     else
                     {
-                        textMode.text = qsTr("Buy ") + tokenPairsWorker.tokenBuy
+                        textMode.text = qsTr("Buy ") + dexModule.token1
+                        setBalanceText(dexModule.token2)
 
                     }
                     sellBuyChanged()
@@ -159,6 +150,27 @@ Page
             }
         }
 
+        Connections
+        {
+            target: dexModule
+
+            function onCurrentTokenPairChanged()
+            {
+                buySellSwitcher.setSelected("first")
+                setBalanceText(dexModule.token2)
+            }
+        }
+
+        Connections
+        {
+            target: walletModule
+
+            function onCurrantBalanceDEXChanged()
+            {
+                buySellSwitcher.setSelected("first")
+                setBalanceText(dexModule.token2)
+            }
+        }    
 
         RowLayout
         {
@@ -253,53 +265,49 @@ Page
 
     function setStatusCreateButton(total, price)
     {
-        if(price === "0" || total === "0" || total === "" || price === "")
+        if(price === "0.0" || total === "0.0" || total === "" || price === "")
             return false
 
+        return true
+        
         var totalValue = isSell ? mathWorker.divCoins(mathWorker.coinsToBalance(total),
                                                    mathWorker.coinsToBalance(price),false):
                                   total
 
-        var nameToken = isSell ? tokenPairsWorker.tokenBuy :
-                                 tokenPairsWorker.tokenSell
+        var nameToken = isSell ? dexModule.token1 :
+                                 dexModule.token2
         var str;
 
-
-//        console.log("isSell", isSell, "\n",
-//                    "total", total, "\n",
-//                    "totalValue", totalValue, "\n",
-//                    "price", price, "\n",
-//                    "nameToken", nameToken, "\n",
-//                    "selectedTokenNameWallet", logicStock.selectedTokenNameWallet, "\n",
-//                    "unselectedTokenNameWallet", logicStock.unselectedTokenNameWallet, "\n",
-//                    "selectedTokenBalanceWallet", logicStock.selectedTokenBalanceWallet, "\n",
-//                    "unselectedTokenBalanceWallet", logicStock.unselectedTokenBalanceWallet)
-
-
-
-
-        if(logicStock.selectedTokenNameWallet === nameToken)
+        if(logicStock.currantToken === nameToken)
         {
-            str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.selectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
+            str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.currantBalance), mathWorker.coinsToBalance(totalValue), false)
 
             if(str.length < 70)
                 return true
             else
                 return false
         }
-        else if(logicStock.unselectedTokenNameWallet === nameToken)
-        {
-            str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.unselectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
+        // else if(logicStock.unselectedTokenNameWallet === nameToken)
+        // {
+        //     str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.unselectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
 
-            if(str.length < 70)
-                return true
-            else
-                return false
-        }
+        //     if(str.length < 70)
+        //         return true
+        //     else
+        //         return false
+        // }
         else
         {
             return false
         }
+    }
+
+    function setBalanceText(token)
+    {
+        var value = walletModule.getBalanceDEX(token)
+        textBalance.text = value + " " + token
+        logicStock.currantBalance = value
+        logicStock.currantToken = value
     }
 }
 

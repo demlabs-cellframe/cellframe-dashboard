@@ -13,24 +13,20 @@ ComboBox {
     leftPadding: 15
     rightPadding: 15
 
-    property alias logic: logic
     property int maximumPopupHeight: 230
     property int widthPopup: 296
-//    property string mainTextRole: "pair"
-    property string defaultText: qsTr("Undefined")
-    property var displayElement
 
-    signal initModelIsCompleted()
+    property string defaultText: qsTr("Undefined")
+
     spacing: 0
 
-
-    LogicComboBox{id: logic}
-    ListModel{id: temporaryModel}
-    ListModel{id: mainModel}
-
-    displayText: displayElement ?
-                     displayElement.tokenBuy + "/" + displayElement.tokenSell :
-                     defaultText
+    onCountChanged:
+    {
+        dexModule.tokenPairModelCountChanged(count)
+        dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
+        dexTokenModel.setNetworkFilter(dexModule.networkPair)
+        walletModule.updateBalanceDEX()
+    }
 
     delegate:
         ItemDelegate
@@ -49,8 +45,7 @@ ComboBox {
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
                     width: 122
-                    text: logic.getModelData(index, "tokenBuy") + "/" +
-                          logic.getModelData(index, "tokenSell")
+                    text: displayText
                     color: menuDelegate.highlighted ?
                                currTheme.mainBackground :
                                currTheme.white
@@ -65,7 +60,7 @@ ComboBox {
                     anchors.leftMargin: 148
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    text: logic.getModelData(index, "price")
+                    text: rate
                     color: menuDelegate.highlighted ?
                                currTheme.mainBackground :
                                currTheme.white
@@ -103,8 +98,10 @@ ComboBox {
                     hoverEnabled: true
                     onClicked:
                     {
-                        displayElement = mainModel.get(index)
-                        control.currentIndex = index
+                        dexModule.setCurrentTokenPair(displayText, network)
+                        dexTokenModel.setTokenFilter(token1, token2)
+                        dexTokenModel.setNetworkFilter(network)
+                        walletModule.updateBalanceDEX()
                         control.popup.close()
                     }
 
@@ -165,7 +162,7 @@ ComboBox {
             {
                 Layout.leftMargin: 4
                 leftPadding: 0
-                text: displayElement.tokenBuy + "/" + displayElement.tokenSell
+                text: dexModule.displayText
                 font: mainFont.dapFont.medium14
                 color: currTheme.white
                 elide: Text.ElideLeft
@@ -217,9 +214,8 @@ ComboBox {
                         id: search
                         Layout.fillWidth: true
                         onFindHandler: {
-                            logic.searchElement(text)
+                            modelTokenPair.setDisplayTextFilter(text)
 
-//                            if(text === "")
                         }
                     }
 
@@ -273,8 +269,7 @@ ComboBox {
                     contentHeight : maximumPopupHeight
 
                 clip: true
-                model: control.popup.visible ?
-                       control.delegateModel : null
+                model: control.popup.visible ? control.delegateModel : null
                 currentIndex: control.highlightedIndex
                 ScrollIndicator.vertical: ScrollIndicator { }
             }

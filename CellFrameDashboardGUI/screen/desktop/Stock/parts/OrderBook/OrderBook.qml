@@ -236,7 +236,7 @@ Page
                     Layout.minimumWidth: 100
                     color: currTheme.white
                     font: mainFont.dapFont.medium12
-                    text: qsTr("Price") + "("+tokenPairsWorker.tokenSell+")"
+                    text: qsTr("Price") + "("+dexModule.token2+")"
                 }
 
                 Text
@@ -244,7 +244,7 @@ Page
                     Layout.fillWidth: true
                     color: currTheme.white
                     font: mainFont.dapFont.medium12
-                    text: qsTr("Amount") + "("+tokenPairsWorker.tokenBuy+")"
+                    text: qsTr("Amount") + "("+dexModule.token1+")"
                 }
 
                 Text
@@ -307,7 +307,7 @@ Page
                 color: currTheme.white
                 font: mainFont.dapFont.medium14
 
-                text: orderBookWorker.currentTokenPrice.toFixed(roundPower)
+                text: dexModule.currentRate
             }
 
             Rectangle
