@@ -49,6 +49,11 @@ DapRectangleLitAndShaded
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
+    Component.onCompleted:
+    {
+        updateWindow()
+    }
+
     DapFeePopup
     {
         id: walletMessagePopup
@@ -148,6 +153,11 @@ DapRectangleLitAndShaded
                     Component.onCompleted:
                     {
                         walletModule.getComission(displayText)
+                    }
+
+                    onCurrantDisplayTextChanged:
+                    {
+                        updateWindow()
                     }
                 }
             }
@@ -558,6 +568,43 @@ DapRectangleLitAndShaded
                 elide: Text.ElideMiddle
 
             }
+        }
+    }
+
+    function updateWindow()
+    {
+        if (walletModelInfo.count <= dapComboboxNetwork.currentIndex)
+        {
+            console.warn("walletModelInfo.count <= dapComboboxNetwork.currentIndex")
+        }
+        else
+        {
+            console.log("dapComboboxNetwork.onCurrentIndexChanged")
+
+            if (walletModelInfo.getModel(dapComboboxNetwork.displayText).count === 0)
+            {
+                frameAmountPayment.visible = false
+                frameInputAmountPayment.visible = false
+                frameRecipientWallet.visible = false
+                frameRecipientWalletAddress.visible = false
+                textNotEnoughTokensWarning.visible = false
+                buttonSend.visible = false
+            }
+            else
+            {
+                frameAmountPayment.visible = true
+                frameInputAmountPayment.visible = true
+                frameRecipientWallet.visible = true
+                frameRecipientWalletAddress.visible = true
+                textNotEnoughTokensWarning.visible = true
+                buttonSend.visible = true
+            }
+            if(comboboxNetwork.displayText !== "")
+                walletModule.getComission(dapComboboxNetwork.displayText)
+
+            balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+                                 + " " + dapComboBoxToken.displayText
+
         }
     }
 }

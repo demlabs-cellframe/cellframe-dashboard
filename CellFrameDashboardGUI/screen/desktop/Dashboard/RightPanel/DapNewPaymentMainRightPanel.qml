@@ -18,43 +18,6 @@ DapNewPaymentMainRightPanelForm
 
     }
 
-     dapComboboxNetwork.onCurrentIndexChanged:
-     {
-         if (walletModelInfo.count <= dapComboboxNetwork.currentIndex)
-         {
-             console.warn("walletModelInfo.count <= dapComboboxNetwork.currentIndex")
-         }
-         else
-         {
-             console.log("dapComboboxNetwork.onCurrentIndexChanged")
-
-             if (walletModelInfo.getModel(dapComboboxNetwork.displayText).count === 0)
-             {
-                 dapFrameAmountPayment.visible = false
-                 dapFrameInputAmountPayment.visible = false
-                 dapFrameRecipientWallet.visible = false
-                 dapFrameRecipientWalletAddress.visible = false
-                 dapTextNotEnoughTokensWarning.visible = false
-                 dapButtonSend.visible = false
-             }
-             else
-             {
-                 dapFrameAmountPayment.visible = true
-                 dapFrameInputAmountPayment.visible = true
-                 dapFrameRecipientWallet.visible = true
-                 dapFrameRecipientWalletAddress.visible = true
-                 dapTextNotEnoughTokensWarning.visible = true
-                 dapButtonSend.visible = true
-             }
-             if(dapComboboxNetwork.displayText !== "")
-                 walletModule.getComission(dapComboboxNetwork.displayText)
-
-             balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
-                                  + " " + dapComboBoxToken.displayText
-
-         }
-     }
-
     dapComboBoxToken.onCurrentIndexChanged:
     {
         balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
