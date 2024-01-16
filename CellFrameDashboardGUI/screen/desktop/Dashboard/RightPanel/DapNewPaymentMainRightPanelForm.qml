@@ -157,6 +157,7 @@ DapRectangleLitAndShaded
 
                     onCurrantDisplayTextChanged:
                     {
+                        walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
                         updateWindow()
                     }
                 }
@@ -246,6 +247,11 @@ DapRectangleLitAndShaded
                         Layout.rightMargin: 16
                         textFont: mainFont.dapFont.medium12
                         textColor: currTheme.white
+
+                        Component.onCompleted:
+                        {
+                            fullText = walletTokensModel.get(dapComboBoxToken.displayText).value + " " + dapComboBoxToken.displayText
+                        }
                     }
 
                 }
@@ -312,7 +318,7 @@ DapRectangleLitAndShaded
                         defaultText: qsTr("Tokens")
                         backgroundColorShow: currTheme.secondaryBackground
                         mainTextRole: "tokenName"
-                        model: walletModelInfo.getModel(comboboxNetwork.displayText)
+                        model: walletTokensModel
                         font: mainFont.dapFont.regular16
 
                         onCurrentTextChanged: {
@@ -581,7 +587,7 @@ DapRectangleLitAndShaded
         {
             console.log("dapComboboxNetwork.onCurrentIndexChanged")
 
-            if (walletModelInfo.getModel(dapComboboxNetwork.displayText).count === 0)
+            if (walletTokensModel.count === 0)
             {
                 frameAmountPayment.visible = false
                 frameInputAmountPayment.visible = false
@@ -602,7 +608,7 @@ DapRectangleLitAndShaded
             if(comboboxNetwork.displayText !== "")
                 walletModule.getComission(dapComboboxNetwork.displayText)
 
-            balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+            balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                                  + " " + dapComboBoxToken.displayText
 
         }

@@ -10,11 +10,13 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     , m_timerFeeUpdateWallet(new QTimer())
     , m_walletModel(new DapListWalletsModel())
     , m_infoWallet (new DapInfoWalletModel())
+    , m_tokenModel(new DapTokensWalletModel())
     , m_DEXTokenModel(new DapTokensWalletModel())
     , m_tokenFilterModelDEX(new TokenProxyModel())
 {
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelList", m_walletModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelInfo", m_infoWallet);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletTokensModel", m_tokenModel);
     m_tokenFilterModelDEX->setSourceModel(m_DEXTokenModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("dexTokenModel", m_tokenFilterModelDEX);
 
@@ -52,6 +54,7 @@ DapModuleWallet::~DapModuleWallet()
     delete m_timerFeeUpdateWallet;
     delete m_walletHashManager;
     delete m_walletModel;
+    delete m_tokenModel;
     delete m_DEXTokenModel;
     delete m_tokenFilterModelDEX;
 }
@@ -764,6 +767,15 @@ void DapModuleWallet::sendTx(QVariantMap data)
     listData.append(feeDatoshi);
 
     createTx(listData);
+}
+
+void DapModuleWallet::setWalletTokenModel(const QString& network)
+{
+    auto model = m_infoWallet->getModel(network);
+
+    m_tokenModel->setDataFromOtherModel(model->getData());
+
+    emit tokenModelChanged();
 }
 
 QString DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
