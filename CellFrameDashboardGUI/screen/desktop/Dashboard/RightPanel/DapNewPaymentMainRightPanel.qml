@@ -5,7 +5,7 @@ DapNewPaymentMainRightPanelForm
     Component.onCompleted:
     {
         walletModule.timerUpdateFlag(false);
-
+        walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
         else
@@ -13,50 +13,14 @@ DapNewPaymentMainRightPanelForm
 
         dapTextNotEnoughTokensWarning.text = ""
         walletModule.startUpdateFee()
-        balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+        balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                          + " " + dapComboBoxToken.displayText
 
-    }
-    dapComboboxNetwork.onCurrentIndexChanged:
-    {
-        if (walletModelInfo.count <= dapComboboxNetwork.currentIndex)
-        {
-            console.warn("walletModelInfo.count <= dapComboboxNetwork.currentIndex")
-        }
-        else
-        {
-            console.log("dapComboboxNetwork.onCurrentIndexChanged")
-
-            if (dapComboBoxTokenModel.count === 0)
-            {
-                dapFrameAmountPayment.visible = false
-                dapFrameInputAmountPayment.visible = false
-                dapFrameRecipientWallet.visible = false
-                dapFrameRecipientWalletAddress.visible = false
-                dapTextNotEnoughTokensWarning.visible = false
-                dapButtonSend.visible = false
-            }
-            else
-            {
-                dapFrameAmountPayment.visible = true
-                dapFrameInputAmountPayment.visible = true
-                dapFrameRecipientWallet.visible = true
-                dapFrameRecipientWalletAddress.visible = true
-                dapTextNotEnoughTokensWarning.visible = true
-                dapButtonSend.visible = true
-            }
-            if(dapComboboxNetwork.displayText !== "")
-                walletModule.getComission(dapComboboxNetwork.displayText)
-
-            balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
-                                 + " " + dapComboBoxToken.displayText
-
-        }
     }
 
     dapComboBoxToken.onCurrentIndexChanged:
     {
-        balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+        balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                                  + " " + dapComboBoxToken.displayText
     }
 
@@ -198,6 +162,15 @@ DapNewPaymentMainRightPanelForm
             commandResult = aResult
             walletModule.timerUpdateFlag(true);
             navigator.doneNewPayment()
+        }
+
+        function onTokenModelChanged()
+        {
+            if(dapComboBoxToken.model.count > 0)
+            {
+                dapComboBoxToken.currentIndex = 0;
+                dapComboBoxToken.displayText = walletTokensModel.get(0).tokenName
+            }
         }
     }
 }

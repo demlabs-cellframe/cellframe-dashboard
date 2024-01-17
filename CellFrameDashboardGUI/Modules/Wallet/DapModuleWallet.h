@@ -51,6 +51,7 @@ public:
     Q_INVOKABLE QVariant calculatePrecentAmount(QVariantMap);
     Q_INVOKABLE QVariantMap approveTx(QVariantMap);
     Q_INVOKABLE void sendTx(QVariantMap);
+    Q_INVOKABLE void setWalletTokenModel(const QString& network);
 
     Q_INVOKABLE QString isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
 
@@ -87,6 +88,8 @@ signals:
 
     void currantBalanceDEXChanged();
     void feeInfoUpdated();
+
+    void tokenModelChanged();
 private slots:
     void rcvWalletsInfo(const QVariant &rcvData);
     void rcvWalletInfo(const QVariant &rcvData);
@@ -119,6 +122,7 @@ private:
 
     DapListWalletsModel* m_walletModel = nullptr;
     DapInfoWalletModel* m_infoWallet = nullptr;
+    DapTokensWalletModel* m_tokenModel = nullptr;
     DapTokensWalletModel* m_DEXTokenModel = nullptr;
     TokenProxyModel* m_tokenFilterModelDEX = nullptr;
 
