@@ -40,8 +40,9 @@ DapNewPaymentMainRightPanelForm
         else
         {
             console.log("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).valueDatoshi)
+            console.log("address from:", dapComboboxNetwork.model.get(dapComboboxNetwork.currentIndex).address)
             console.log("amount:", dapTextInputAmountPayment.text)
-            console.log("wallet address:", dapTextInputRecipientWalletAddress.text.length)
+            console.log("address to:", dapTextInputRecipientWalletAddress.text)
 
             if (dapTextInputAmountPayment.text === "" ||
                 stringWorker.testAmount("0.0", dapTextInputAmountPayment.text))
@@ -49,8 +50,12 @@ DapNewPaymentMainRightPanelForm
                 console.log("Zero value")
                 dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
             }
-            else
-            if (dapTextInputRecipientWalletAddress.text.length != 104)
+            else if (dapComboboxNetwork.model.get(dapComboboxNetwork.currentIndex).address === dapTextInputRecipientWalletAddress.text)
+            {
+                console.warn("An attempt to transfer tokens to your address.")
+                dapTextNotEnoughTokensWarning.text = qsTr("Error. An attempt to transfer tokens to your address.")
+            }
+            else if (dapTextInputRecipientWalletAddress.text.length != 104)
             {
                 console.log("Wrong address length")
                 dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
