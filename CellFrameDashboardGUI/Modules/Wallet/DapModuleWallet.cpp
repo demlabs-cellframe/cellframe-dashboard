@@ -106,15 +106,15 @@ void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
         int index = getIndexWallet(m_currentWallet.second);
         if(m_walletsInfo.isEmpty())
         {
-            m_currentWallet = {-1, ""};
+            setCurrentWallet(-1);
         }
         else if(index == -1)
         {
-            m_currentWallet = {0, m_walletsInfo.firstKey()};
+            setCurrentWallet(0);
         }
         else
         {
-            m_currentWallet = {index, m_currentWallet.second};
+            setCurrentWallet(index);
         }
 
         if(m_walletsInfo.contains(m_currentWallet.second))
