@@ -146,6 +146,8 @@ Page
 
                     }
                     sellBuyChanged()
+                    fields.updateTokensField()
+                    fields.updateForms()
                 }
             }
         }
@@ -158,6 +160,17 @@ Page
             {
                 buySellSwitcher.setSelected("first")
                 setBalanceText(dexModule.token2)
+                fields.price.textValue = "0.0"
+                fields.updateTokensField()
+                fields.updateForms()
+            }
+
+            function onCurrentTokenPairInfoChanged()
+            {
+                if(fields.price.textValue === "0.0")
+                {
+                    fields.price.textValue = dexModule.currentRate
+                }
             }
         }
 
@@ -171,6 +184,25 @@ Page
                 setBalanceText(dexModule.token2)
             }
         }    
+
+        Connections
+        {
+            target: fields
+
+            function onCreateBtnClicked()
+            {
+                if(fields.limitType === "LIMIT" || fields.limitType === "MARKET")
+                {
+                    var walletResult = walletModule.isCreateOrder(dexModule.networkPair, fields.amount.textValue, fields.amount.textToken)
+                    console.log("Wallet: " + walletResult)
+                    if(walletResult == "OK")
+                    {
+                        var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
+                        console.log("Order: " + createOrder)
+                    }
+                }
+            }
+        }
 
         RowLayout
         {
@@ -193,9 +225,8 @@ Page
                 checked: true
 
                 onClicked: {
-                    limit.visible = true
-                    market.visible = false
-                    stopLimit.visible = false
+                    fields.price.textValue = dexModule.currentRate
+                    fields.show("CREATE_ORDER", "LIMIT")
                     currentOrder = "Limit"
                 }
             }
@@ -213,9 +244,11 @@ Page
                 checked: false
 
                 onClicked: {
-                    limit.visible = false
-                    market.visible = true
-                    stopLimit.visible = false
+                    fields.price.textToken = tokenPairsWorker.tokenSell
+                    fields.price.textValue = !isSell ? dexModule.invertValue(dexModule.currentRate) : dexModule.currentRate
+                    fields.amount.textToken = tokenPairsWorker.tokenBuy
+                    fields.amount.textValue = ""
+                    fields.show("CREATE_ORDER", "MARKET")
                     currentOrder = "Market"
                 }
             }
@@ -234,77 +267,35 @@ Page
                 checked: false
 
                 onClicked: {
-                    limit.visible = false
-                    market.visible = false
-                    stopLimit.visible = true
+                    fields.price.textToken = logicStock.unselectedTokenNameWallet
+                    fields.price.textValue = candleChartWorker.currentTokenPrice
+                    fields.amount.textToken = logicStock.selectedTokenNameWallet
+                    fields.amount.textValue = "0.0"
+                    fields.stop.textToken = logicStock.unselectedTokenNameWallet
+                    fields.stop.textValue = candleChartWorker.currentTokenPrice
+                    fields.show("CREATE_ORDER", "STOP_LIMIT")
                     currentOrder = "Stop limit"
                 }
             }
         }
 
-        OrderLimit
+        OrderCreateFieldsComponent
         {
-            id: limit
+            id: fields
+            sell: isSell
             Layout.fillWidth: true
-        }
 
-        OrderMarket
-        {
-            id: market
-            Layout.fillWidth: true
-            visible: false
-        }
-
-        OrderStopLimit
-        {
-            id: stopLimit
-            Layout.fillWidth: true
-            visible: false
-        }
-    }
-
-    function setStatusCreateButton(total, price)
-    {
-        if(price === "0.0" || total === "0.0" || total === "" || price === "")
-            return false
-
-        return true
-        
-        var totalValue = isSell ? mathWorker.divCoins(mathWorker.coinsToBalance(total),
-                                                   mathWorker.coinsToBalance(price),false):
-                                  total
-
-        var nameToken = isSell ? dexModule.token1 :
-                                 dexModule.token2
-        var str;
-
-        if(logicStock.currantToken === nameToken)
-        {
-            str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.currantBalance), mathWorker.coinsToBalance(totalValue), false)
-
-            if(str.length < 70)
-                return true
-            else
-                return false
-        }
-        // else if(logicStock.unselectedTokenNameWallet === nameToken)
-        // {
-        //     str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.unselectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
-
-        //     if(str.length < 70)
-        //         return true
-        //     else
-        //         return false
-        // }
-        else
-        {
-            return false
+            Component.onCompleted:
+            {
+                show("CREATE_ORDER", "LIMIT")
+            }
         }
     }
 
     function setBalanceText(token)
     {
         var value = walletModule.getBalanceDEX(token)
+        fields.balance = value
         textBalance.text = value + " " + token
         logicStock.currantBalance = value
         logicStock.currantToken = value
