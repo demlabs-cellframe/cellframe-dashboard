@@ -192,9 +192,6 @@
         <file>screen/desktop/Stock/parts/StockHome.qml</file>
         <file>screen/desktop/Stock/LogicStock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreate.qml</file>
-        <file>screen/desktop/Stock/parts/CreateOrder/OrderLimit.qml</file>
-        <file>screen/desktop/Stock/parts/CreateOrder/OrderMarket.qml</file>
-        <file>screen/desktop/Stock/parts/CreateOrder/OrderStopLimit.qml</file>
         <file>screen/desktop/Stock/icons/sellIcon.png</file>
         <file>screen/desktop/Stock/icons/sellBuy_icon.png</file>
         <file>screen/desktop/Stock/icons/buyIcon.png</file>
