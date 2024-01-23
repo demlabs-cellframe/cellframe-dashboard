@@ -114,15 +114,11 @@ DapRectangleLitAndShaded {
             {
                 show("BUY_SELL","")
             }
-        }
-
-        Connections
-        {
-            target: fields
 
             function onCreateBtnClicked()
             {
                 // TODO
+                console.log("BuySellPanel", "onCreateBtnClicked()")
             }
         }
 

@@ -22,17 +22,9 @@ ColumnLayout {
     property string balance: ""
     property string logicPrice: ""
 
-    signal createBtnClicked()
-
     Layout.fillWidth: true
     Layout.topMargin: 16
     spacing: 0
-
-    Component.onCompleted:
-    {
-        updateTokensField()
-        updateForms()
-    }
 
     // STOP
     Rectangle
@@ -424,7 +416,7 @@ ColumnLayout {
         indentTextRight: 0
         fontButton: mainFont.dapFont.medium14
         enabled: false
-        onClicked: createBtnClicked()
+        onClicked: onCreateBtnClicked()
     }
 
     Item {
@@ -507,35 +499,7 @@ ColumnLayout {
         if(price_value === "0.0" || total_value === "0.0" || total_value === "" || price_value === "")
             return false
 
-        var totalValue = sell ? mathWorker.divCoins(mathWorker.coinsToBalance(total_value),
-                                                   mathWorker.coinsToBalance(price_value),false):
-                                  total_value
-
-        var nameToken = sell ? dexModule.token1 :
-                                 dexModule.token2
-        var str;
-
-        if(logicStock.currantToken === nameToken)
-        {
-            str = mathWorker.subCoins(mathWorker.coinsToBalance(balance), mathWorker.coinsToBalance(totalValue), false)
-
-            if(str.length < 70)
-                return true
-            else
-                return false
-        }
-        // else if(logicStock.unselectedTokenNameWallet === nameToken)
-        // {
-        //     str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.unselectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
-
-        //     if(str.length < 70)
-        //         return true
-        //     else
-        //         return false
-        // }
-        else
-        {
-            return false
-        }
+        return true
     }
+
 }

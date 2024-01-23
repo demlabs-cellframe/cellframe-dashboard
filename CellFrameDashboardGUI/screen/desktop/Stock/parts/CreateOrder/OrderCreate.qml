@@ -185,25 +185,6 @@ Page
             }
         }    
 
-        Connections
-        {
-            target: fields
-
-            function onCreateBtnClicked()
-            {
-                if(fields.limitType === "LIMIT" || fields.limitType === "MARKET")
-                {
-                    var walletResult = walletModule.isCreateOrder(dexModule.networkPair, fields.amount.textValue, fields.amount.textToken)
-                    console.log("Wallet: " + walletResult)
-                    if(walletResult == "OK")
-                    {
-                        var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
-                        console.log("Order: " + createOrder)
-                    }
-                }
-            }
-        }
-
         RowLayout
         {
             Layout.fillWidth: true
@@ -288,6 +269,20 @@ Page
             Component.onCompleted:
             {
                 show("CREATE_ORDER", "LIMIT")
+            }
+
+            function onCreateBtnClicked()
+            {
+                if(fields.limitType === "LIMIT" || fields.limitType === "MARKET")
+                {
+                    var walletResult = walletModule.isCreateOrder(dexModule.networkPair, fields.amount.textValue, fields.amount.textToken)
+                    console.log("Wallet: " + walletResult)
+                    if(walletResult == "OK")
+                    {
+                        var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
+                        console.log("Order: " + createOrder)
+                    }
+                }
             }
         }
     }
