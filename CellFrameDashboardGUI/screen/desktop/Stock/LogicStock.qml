@@ -114,12 +114,12 @@ QtObject
         return "0"
     }
 
-    function getPercentBalance(percent, price, isSell)
+    function getPercentBalance(balance, percent, price, isSell)
     {
         if(price === "0.0")
             return price
 
-        var balanceDatoshi = mathWorker.coinsToBalance(currantBalance)
+        var balanceDatoshi = mathWorker.coinsToBalance(balance)
         var percentDatoshi = mathWorker.coinsToBalance(percent)
         var priceDatoshi = mathWorker.coinsToBalance(price)
 
