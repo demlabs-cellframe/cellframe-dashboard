@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../controls"
+import qmlclipboard 1.0
 
 Page
 {
@@ -16,6 +17,10 @@ Page
     background: Rectangle
     {
         color: currTheme.mainBackground
+    }
+
+    QMLClipboard{
+        id: clipboard
     }
 
     RowLayout
@@ -142,15 +147,44 @@ Page
                 anchors.rightMargin: 16
                 spacing: 10
 
-                // Network name
-                Text
+                // Network name and timestamp
+                Item
                 {
-                    id: textNetworkName
                     Layout.minimumWidth: 190
-                    text: network
-                    color: currTheme.white
-                    font:  mainFont.dapFont.regular14
                     Layout.alignment: Qt.AlignLeft
+                    Layout.fillHeight: true
+
+                    Text
+                    {
+                        id: textNetworkName
+                        text: network
+                        color: currTheme.white
+                        font:  mainFont.dapFont.regular14
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.topMargin: 4
+                    }
+
+                    Text
+                    {
+                        id: textTimestamp
+                        text: qsTr("Timestamp:")
+                        color: currTheme.gray
+                        font: mainFont.dapFont.regular11
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        anchors.topMargin: 26
+                    }
+
+                    Text
+                    {
+                        text: modelLastActions.get(index).time
+                        color: currTheme.white
+                        font: mainFont.dapFont.regular11
+                        anchors.left: textTimestamp.right
+                        anchors.top: textTimestamp.top
+                        anchors.leftMargin: 3
+                    }
                 }
 
                 // Status
@@ -181,12 +215,27 @@ Page
                     DapBigText
                     {
                         id: lblAmount
+                        height: parent.height
                         property string sign: direction === "to"? "- " : "+ "
-                        anchors.fill: parent
+                        anchors.right: copyBtn.left
+                        anchors.rightMargin: 3
+                        anchors.left: parent.left
                         textFont: mainFont.dapFont.regular14
                         fullText: sign + value + " " + token
                         horizontalAlign: Text.AlignRight
                     }
+
+                    DapCopyButton {
+                        id: copyBtn
+                        popupText: qsTr("Value copied")
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.topMargin: 17
+                        onCopyClicked: {
+                            clipboard.setText(value)
+                        }
+                    }
+
                 }
 
                 Item{
@@ -233,6 +282,7 @@ Page
 
             MouseArea {
                 anchors.fill: parent
+                enabled: !copyBtn.mouseArea.containsMouse
                 onClicked: {
                     if(explorerIcon.mouseArea.containsMouse && explorerIcon.enabled)
                         Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
