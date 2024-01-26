@@ -180,7 +180,7 @@ DapRectangleLitAndShaded
                             popupText: qsTr("Value copied")
                             anchors.right: parent.right
                             anchors.top: parent.top
-                            anchors.topMargin: 14
+                            anchors.topMargin: 15
                             onCopyClicked: {
                                 clipboard.setText(value)
                             }
