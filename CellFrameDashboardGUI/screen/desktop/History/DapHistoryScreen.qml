@@ -218,7 +218,7 @@ Page
                         height: parent.height
                         property string sign: direction === "to"? "- " : "+ "
                         anchors.right: copyBtn.left
-                        anchors.rightMargin: 3
+                        anchors.rightMargin: 4
                         anchors.left: parent.left
                         textFont: mainFont.dapFont.regular14
                         fullText: sign + value + " " + token
@@ -230,7 +230,7 @@ Page
                         popupText: qsTr("Value copied")
                         anchors.right: parent.right
                         anchors.top: parent.top
-                        anchors.topMargin: 17
+                        anchors.topMargin: 18
                         onCopyClicked: {
                             clipboard.setText(value)
                         }
