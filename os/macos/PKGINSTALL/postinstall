@@ -21,6 +21,7 @@ mkdir -p $DAP_PREFIX/share
 
 sudo cp -rf /Applications/$APP_NAME.app/Contents/Resources/etc/* $DAP_PREFIX/etc
 sudo cp -rf /Applications/$APP_NAME.app/Contents/Resources/share/* $DAP_PREFIX/share
+sudo mkdir -p $DAP_PREFIX/var/run/ || true
 
 for filename in $(find $DAP_PREFIX | grep -v bugreport); do
     if [ -d $filename ]; then
