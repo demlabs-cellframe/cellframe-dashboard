@@ -27,7 +27,7 @@ Item
         height: parent.height
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.rightMargin: parent.width == mainRowLayout.expandWidth ? 10 : 4
+        anchors.rightMargin: mainRowLayout.canCompactLeftMenu ? parent.width == mainRowLayout.expandWidth ? 10 : 4 : 10
         opacity: isPushed? 1: 0
         source: "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
         sourceSize: Qt.size(170, parent.height + 2)
@@ -121,7 +121,7 @@ Item
                 })
             }
 
-            mainRowLayout.expandOrCompress(true)
+            if(mainRowLayout.canCompactLeftMenu) mainRowLayout.expandOrCompress(true)
         }
 
         onExited:
@@ -131,7 +131,7 @@ Item
                 backgroundImage.opacity = 0
             }
 
-            mainRowLayout.expandOrCompress(false)
+            if(mainRowLayout.canCompactLeftMenu) mainRowLayout.expandOrCompress(false)
         }
 
         onClicked:

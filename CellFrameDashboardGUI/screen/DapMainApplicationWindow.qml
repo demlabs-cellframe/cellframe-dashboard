@@ -382,7 +382,6 @@ Rectangle {
 
     //----------------------//
 
-
     anchors.centerIn: parent
     width: parent.width / scale
     height: parent.height / scale
@@ -390,7 +389,12 @@ Rectangle {
     color:currTheme.mainBackground
 
     Item {
-        property bool isCompact: true
+        // Global parameter for expand or compact mode of LeftMenuButtons
+        // Set true for enable moving animation
+        property bool canCompactLeftMenu: false
+        // Current state of LeftMenuButtons
+        property bool isCompact: canCompactLeftMenu
+
         property int compactWidth: 76
         property int expandWidth: 180
 
@@ -490,8 +494,8 @@ Rectangle {
                         propagateComposedEvents: true
 
                         onClicked: Qt.openUrlExternally(toolTip.contentText)
-                        onEntered: mainRowLayout.expandOrCompress(true)
-                        onExited: mainRowLayout.expandOrCompress(false)
+                        onEntered: canCompactLeftMenu ? mainRowLayout.expandOrCompress(true) : {}
+                        onExited: canCompactLeftMenu ? mainRowLayout.expandOrCompress(false) : {}
                     }
                 }
 
