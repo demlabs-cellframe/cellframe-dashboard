@@ -5,11 +5,13 @@ import QtQuick.Layouts 1.3
 import QtQml 2.12
 import "qrc:/widgets"
 
+
 Item
 {
+    property alias backgroundImage: backgroundImage
     id: buttonDelegate
 
-    width: 180 
+    width: parent.width
     height: showTab ? 52  : 0
     visible: showTab
 
@@ -18,41 +20,32 @@ Item
     signal pushPage(var pageUrl)
     property string pathScreen
 
+
     Image {
         id: backgroundImage
         mipmap: true
-        anchors.fill: parent
-        anchors.rightMargin: 10
+        height: parent.height
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.rightMargin: mainRowLayout.canCompactLeftMenu ? parent.width == mainRowLayout.expandWidth ? 10 : 4 : 10
         opacity: isPushed? 1: 0
         source: "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
+        sourceSize: Qt.size(170, parent.height + 2)
 
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 150
-            }
-        }
+        Behavior on opacity { NumberAnimation { duration: 150 } }
     }
 
     Item {
         anchors.fill: parent
         anchors.leftMargin: 24
 
-//        Item {
-//            id: ico
-//            width: 16
-//            height: 16
-//            anchors.left: parent.left
-//            anchors.verticalCenter: parent.verticalCenter
-            Image {
-                id: ico
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                mipmap: true
-//                innerWidth: parent.width
-//                innerHeight: parent.height
-                source: "qrc:/Resources/" + pathTheme + "/icons/navigation/" + bttnIco
-            }
-//        }
+        Image {
+            id: ico
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            mipmap: true
+            source: "qrc:/Resources/" + pathTheme + "/icons/navigation/" + bttnIco
+        }
 
         Text {
             id: buttonText
@@ -62,9 +55,11 @@ Item
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             text: name
-            elide: Text.ElideMiddle
             color: currTheme.white
             font:mainFont.dapFont.regular13
+            opacity: mainRowLayout.isCompact ? 0.0 : 1.0
+
+            Behavior on opacity { NumberAnimation { duration: 150 } }
 
             DapCustomToolTip{
                 visible: handler.containsMouse ?  buttonText.implicitWidth > buttonText.width ? true : false : false
@@ -74,6 +69,7 @@ Item
             }
         }
     }
+
     Timer {
         id: timer
     }
@@ -92,7 +88,6 @@ Item
             console.log(pathScreen, settingsScreenPath)
             if(pathScreen === settingsScreenPath)
             {
-//                console.log(buttonDelegate.isPushed)
                 if(!buttonDelegate.isPushed)
                 {
                     mainButtonsList.currentIndex = index;
@@ -103,7 +98,6 @@ Item
                 delay(400,function() {
                     openRequests()
                 })
-
             }
         }
     }
@@ -126,6 +120,8 @@ Item
                     }
                 })
             }
+
+            if(mainRowLayout.canCompactLeftMenu) mainRowLayout.expandOrCompress(true)
         }
 
         onExited:
@@ -134,6 +130,8 @@ Item
             {
                 backgroundImage.opacity = 0
             }
+
+            if(mainRowLayout.canCompactLeftMenu) mainRowLayout.expandOrCompress(false)
         }
 
         onClicked:

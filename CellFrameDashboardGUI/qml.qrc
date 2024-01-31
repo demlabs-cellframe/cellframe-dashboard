@@ -362,5 +362,6 @@
         <file>screen/desktop/Orders/RightPanel/DapOrderCreateDone.qml</file>
         <file>Resources/BlackTheme/icons/other/copy_hover_small.svg</file>
         <file>Resources/BlackTheme/icons/other/copy_small.svg</file>
+        <file>Resources/BlackTheme/only-logo-dashboard.svg</file>
     </qresource>
 </RCC>
