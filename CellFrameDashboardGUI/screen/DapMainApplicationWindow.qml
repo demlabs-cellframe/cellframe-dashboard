@@ -382,31 +382,40 @@ Rectangle {
 
     //----------------------//
 
-
     anchors.centerIn: parent
     width: parent.width / scale
     height: parent.height / scale
     scale: 1.0
     color:currTheme.mainBackground
 
-    RowLayout {
+    Item {
+        // Global parameter for expand or compact mode of LeftMenuButtons
+        // Set true for enable moving animation
+        property bool canCompactLeftMenu: false
+        // Current state of LeftMenuButtons
+        property bool isCompact: canCompactLeftMenu
+
+        property int compactWidth: 76
+        property int expandWidth: 180
+
         id: mainRowLayout
         anchors {
             left: parent.left;
             top: parent.top;
             right: parent.right;
             bottom: networksPanel.top
-//            bottomMargin: 6
         }
-        spacing: 0
 
         Rectangle {
             id: leftMenuBackGrnd
-            Layout.fillHeight: true
-            Layout.bottomMargin: 7
-            width: 180
+            width: mainRowLayout.isCompact ? mainRowLayout.compactWidth : mainRowLayout.expandWidth
+            height: parent.height - 7
             radius: 20
             color: currTheme.mainBackground
+            anchors.left: parent.left
+            anchors.bottomMargin: 7
+
+            Behavior on width { NumberAnimation { duration: 150 } }
 
             //hide bottom radius element
             Rectangle
@@ -419,12 +428,12 @@ Rectangle {
                 anchors.top: leftMenuBackGrnd.top
             }
             //hide top radius element
-            Rectangle{
+            Rectangle {
                 z:0
-                height: currTheme.frameRadius
+                height: currTheme.frameRadius + 10
+                width: leftMenuBackGrnd.radius
                 anchors.top:leftMenuBackGrnd.top
                 anchors.right: leftMenuBackGrnd.right
-                anchors.left: leftMenuBackGrnd.left
                 color: currTheme.mainBackground
             }
 
@@ -435,18 +444,36 @@ Rectangle {
 
                 Item {
                     id: logo
-//                    Layout.margins: 10
-                    width: parent.width
+                    Layout.fillWidth: true
                     height: 60
+                    clip: true
 
-                    Image{
-                        source: "/Resources/BlackTheme/cellframe-logo-dashboard.svg"
+                    Image {
+                        width: 24
+                        height: 22
                         mipmap: true
-
+                        source: "qrc:/Resources/" + pathTheme + "/only-logo-dashboard.svg"
                         anchors.left: parent.left
-                        anchors.leftMargin: 23*pt
                         anchors.top: parent.top
-                        anchors.topMargin: 19.86
+                        anchors.leftMargin: 24
+                        anchors.topMargin: 20
+                    }
+
+                    Image {
+                        height: 22
+                        mipmap: true
+                        source: "/Resources/BlackTheme/cellframe-logo-dashboard.svg"
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        anchors.leftMargin: 24
+                        anchors.topMargin: 20
+                        opacity: mainRowLayout.isCompact ? 0.0 : 1.0
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 150
+                            }
+                        }
                     }
 
                     DapCustomToolTip{
@@ -461,12 +488,14 @@ Rectangle {
                     MouseArea
                     {
                         id:area
-                        anchors.fill: parent
+                        width: parent.width
+                        height: parent.height
                         hoverEnabled: true
+                        propagateComposedEvents: true
 
-                        onClicked:
-                            Qt.openUrlExternally(toolTip.contentText)
-
+                        onClicked: Qt.openUrlExternally(toolTip.contentText)
+                        onEntered: canCompactLeftMenu ? mainRowLayout.expandOrCompress(true) : {}
+                        onExited: canCompactLeftMenu ? mainRowLayout.expandOrCompress(false) : {}
                     }
                 }
 
@@ -479,6 +508,7 @@ Rectangle {
                     model: modelMenuTab
 
                     delegate: DapMenuButton {
+                        id: menuButton
                         pathScreen: page
                         onPushPage: {
                             if(pageUrl !== mainScreenStack.currPage)
@@ -488,11 +518,14 @@ Rectangle {
                 }
             }
         }
+
         Rectangle {
             id: mainScreen
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            //width: parent.width - leftMenuBackGrnd.width
+            width: mainRowLayout.isCompact ? dapMainWindow.width - mainRowLayout.compactWidth : dapMainWindow.width - mainRowLayout.expandWidth
+            height: parent.height
             color: currTheme.mainBackground
+            anchors.right: parent.right
 
             StackView {
                 property string currPage: dashboardScreenPath
@@ -513,10 +546,25 @@ Rectangle {
                     mainScreenStack.clearAll()
                     currPage = item
                 }
-
             }
         }
+
+        Timer {
+            id: expandTimer
+            interval: 100
+            repeat: false
+            running: false
+        }
+
+        function expandOrCompress(expand) {
+            expandTimer.stop()
+            expandTimer.triggered.connect(function() {
+                mainRowLayout.isCompact = !expand
+            })
+            expandTimer.start()
+        }
     }
+
     DropShadow {
         anchors.fill: parent
         horizontalOffset: currTheme.hOffset
