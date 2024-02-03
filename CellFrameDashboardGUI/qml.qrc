@@ -363,5 +363,7 @@
         <file>Resources/BlackTheme/icons/other/copy_hover_small.svg</file>
         <file>Resources/BlackTheme/icons/other/copy_small.svg</file>
         <file>Resources/BlackTheme/only-logo-dashboard.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_copy_black.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_copy_white.svg</file>
     </qresource>
 </RCC>
