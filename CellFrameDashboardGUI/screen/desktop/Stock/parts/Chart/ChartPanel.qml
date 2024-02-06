@@ -44,9 +44,29 @@ Item
                 mainTextRole: "name"
                 font: mainFont.dapFont.medium14
 
+                onModelChanged:
+                {
+                    if(count > 0) {
+                        var f_network = dexModule.networkFilter
+                        for(var i = 0; i < model.count; i++)
+                        {
+                            if(f_network === model.get(i).name)
+                            {
+                                setCurrentIndex(i)
+                                return
+                            }
+                        }
+                    }
+                }
+
                 onCurrantDisplayTextChanged:
                 {
                     modelTokenPair.setNetworkFilter(text)
+                }
+
+                onItemSelected:
+                {
+                    dexModule.setNetworkFilterText(displayText)
                 }
 
                 defaultText: qsTr("Networks")

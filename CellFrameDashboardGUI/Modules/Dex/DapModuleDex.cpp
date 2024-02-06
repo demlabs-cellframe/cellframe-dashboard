@@ -475,8 +475,18 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
     return "OK";
 }
 
+void DapModuleDex::setNetworkFilterText(const QString &network)
+{
+    if(!network.isEmpty())
+    {
+        m_networkFilter = network;
+        emit networkFilterChanged(m_networkFilter);
+    }
+}
+
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
+    qDebug() << "[KTT]" << "setCurrentTokenPair" << namePair << network;
     if(namePair.isEmpty())
     {
         m_currentPair = DEX::InfoTokenPair();
