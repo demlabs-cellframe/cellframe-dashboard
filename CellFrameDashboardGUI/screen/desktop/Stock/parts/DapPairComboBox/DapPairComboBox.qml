@@ -22,7 +22,7 @@ ComboBox {
 
     onCountChanged:
     {
-        dexModule.tokenPairModelCountChanged(count)
+        if(count > 0) dexModule.tokenPairModelCountChanged(count)
         dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
         dexTokenModel.setNetworkFilter(dexModule.networkPair)
         walletModule.updateBalanceDEX()

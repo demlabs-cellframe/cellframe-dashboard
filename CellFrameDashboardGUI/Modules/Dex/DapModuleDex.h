@@ -30,6 +30,9 @@ class  DapModuleDex : public DapAbstractModule
         BASE_IS_EMPTY
     };
 
+public slots:
+    void setNetworkFilterText(const QString &network);
+
 public:
     explicit DapModuleDex(DapModulesController *parent = nullptr);
     ~DapModuleDex();
@@ -41,6 +44,9 @@ public:
     void requestTXList(const QString &timeFrom = "", const QString &timeTo = "");
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
+
+    Q_PROPERTY(QString networkFilter READ getNetworkFilterText WRITE setNetworkFilterText NOTIFY networkFilterChanged)
+    Q_INVOKABLE QString getNetworkFilterText() const { return m_networkFilter; }
 
     Q_PROPERTY(QString displayText READ getDisplayText NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getDisplayText() const { return m_currentPair.displayText; }
@@ -81,6 +87,7 @@ signals:
     void txListChanged();
 
     void dexNetListChanged();
+    void networkFilterChanged(const QString& network);
 private slots:
     void startInitData();
 
@@ -119,6 +126,7 @@ private:
     QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
 
+    QString m_networkFilter = "";
     QString m_currantPriceForCreate = "";
 
     bool m_isSandXchangeTokenPriceAverage = false;
