@@ -169,6 +169,7 @@ Controls.DapTopPanel
 
         function onCurrentWalletChanged()
         {
+            console.log(" TEST NEW WALLET NAME top panel")
             updateStatusWalletInfo()
         }
 

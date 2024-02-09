@@ -267,6 +267,7 @@ Controls.DapTopPanel
 
         function onCurrentWalletChanged()
         {
+            console.log(" TEST NEW WALLET NAME")
             comboBoxCurrentWallet.displayText = walletModule.currentWalletName
         }
 

@@ -21,7 +21,7 @@ public:
 
     DapServiceController* getServiceController() const {return s_serviceCtrl;}
     QSettings* getSettings() {return s_settings;}
-    void tryStartModules() { emit initDone(); }
+    void tryStartModules() { emit initDone();  qDebug() << "TEST PROBLEM initDone"; }
     const QStringList& getNetworkList() const {return m_netList;}
     void setCurrentWallet(const QPair<int,QString>& dataWallet);
     void setWalletList(const QStringList& walletList);

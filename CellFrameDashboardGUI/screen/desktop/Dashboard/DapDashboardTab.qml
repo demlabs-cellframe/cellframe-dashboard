@@ -56,7 +56,7 @@ DapPage
             txExplorerModule.statusProcessing = false
 
             state = "WALLETCREATE"
-
+            console.log(" TEST PROBLEM createWallet")
             logicWallet.restoreWalletMode = false
             dapRightPanel.push(createNewWallet)
         }
@@ -66,7 +66,7 @@ DapPage
             txExplorerModule.statusProcessing = true
 
             state = "WALLETSHOW"
-
+            console.log(" TEST PROBLEM doneWalletFunc")
             dapRightPanel.push(doneWallet)
         }
 
@@ -75,7 +75,7 @@ DapPage
             txExplorerModule.statusProcessing = false
 
             state = "WALLETCREATE"
-
+            console.log(" TEST PROBLEM restoreWalletFunc")
             logicWallet.restoreWalletMode = true
             dapRightPanel.push(createNewWallet)
         }
@@ -83,21 +83,21 @@ DapPage
         function recoveryWalletFunc()
         {
             txExplorerModule.statusProcessing = false
-
+            console.log(" TEST PROBLEM recoveryWalletFunc")
             dapRightPanel.push(recoveryWallet)
         }
 
         function newPayment()
         {
             txExplorerModule.statusProcessing = false
-
+            console.log(" TEST PROBLEM newPayment")
             dapRightPanel.push(newPaymentMain)
         }
 
         function doneNewPayment()
         {
             txExplorerModule.statusProcessing = true
-
+            console.log(" TEST PROBLEM doneNewPayment")
            dapRightPanel.push(newPaymentDone)
         }
 
