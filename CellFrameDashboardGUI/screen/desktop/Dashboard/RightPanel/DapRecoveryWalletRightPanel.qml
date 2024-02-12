@@ -235,6 +235,8 @@ DapRecoveryWalletRightPanelForm
         target: walletModule
         function onSigWalletCreate(wallet)
         {
+            console.log("NEW WALLET SUCCESS = " + wallet.success)
+            console.log("NEW WALLET message = " + wallet.message)
             commandResult.success = wallet.success
             commandResult.message = wallet.message
             walletModule.timerUpdateFlag(true);

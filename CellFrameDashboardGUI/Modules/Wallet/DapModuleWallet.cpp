@@ -341,6 +341,7 @@ void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
 
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
 {
+    qDebug() << "NEW WALLET RESPOND MESSAGE = " << rcvData;
     m_modulesCtrl->updateListWallets();
     m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
     emit sigWalletCreate(rcvData);
