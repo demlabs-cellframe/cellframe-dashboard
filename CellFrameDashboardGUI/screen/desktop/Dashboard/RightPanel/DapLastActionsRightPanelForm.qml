@@ -259,9 +259,6 @@ DapRectangleLitAndShaded
 
                         width: 18
                         height: 18
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                        anchors.topMargin: 25
                     }
                 }
 

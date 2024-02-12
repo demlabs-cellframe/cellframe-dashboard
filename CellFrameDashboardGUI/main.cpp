@@ -173,6 +173,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
+    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+
     QCoreApplication::setOrganizationName("Cellframe Network");
     QCoreApplication::setOrganizationDomain("cellframe.net");
     QCoreApplication::setApplicationName(DAP_BRAND);
