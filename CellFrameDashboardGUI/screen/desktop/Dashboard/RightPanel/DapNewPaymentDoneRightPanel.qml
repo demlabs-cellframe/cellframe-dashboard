@@ -15,6 +15,7 @@ DapRightPanelDone
 
     Component.onCompleted:
     {
+        console.log(" onCompleted DapNewPaymentDoneRightPanel")
         if(commandResult.success)
         {
             messageImage = iconOk
@@ -27,5 +28,10 @@ DapRightPanelDone
             headerText = qsTr("Error")
             messageText = commandResult.errorMessage
         }
+    }
+
+    Component.onDestruction:
+    {
+        console.log(" onDestruction DapNewPaymentDoneRightPanel")
     }
 }

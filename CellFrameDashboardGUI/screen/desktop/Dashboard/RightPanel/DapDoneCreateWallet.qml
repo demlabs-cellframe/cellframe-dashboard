@@ -12,6 +12,7 @@ DapRightPanelDone
 
     Component.onCompleted:
     {
+        console.log(" onCompleted DapDoneCreateWallet.qml")
         if(commandResult.success)
         {
             messageImage = iconOk
@@ -23,6 +24,11 @@ DapRightPanelDone
             headerText = qsTr("Creating wallet error")
             messageText = commandResult.message
         }
+    }
+
+    Component.onDestruction:
+    {
+        console.log(" onDestruction DapDoneCreateWallet.qml")
     }
 }
 
