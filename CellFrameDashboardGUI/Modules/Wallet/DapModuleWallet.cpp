@@ -256,6 +256,14 @@ int DapModuleWallet::getIndexWallet(const QString& walletName) const
 
 void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 {
+    if(m_currentWallet.second == newWallet.second)
+    {
+        if(newWallet.first != m_currentWallet.first)
+        {
+            m_currentWallet.first = newWallet.first;
+        }
+        return;
+    }
     m_currentWallet = newWallet;
     m_modulesCtrl->getSettings()->setValue("walletName", m_currentWallet.second);
     m_modulesCtrl->setCurrentWallet(m_currentWallet);
