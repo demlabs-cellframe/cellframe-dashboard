@@ -77,13 +77,6 @@ public:
         DapTokensWalletModel* networkTokensModel = nullptr;
 
         Item(): networkTokensModel(new DapTokensWalletModel()){}
-        ~Item()
-        {
-            if(networkTokensModel)
-            {
-                delete networkTokensModel;
-            }
-        }
     };
 
     typedef QList<DapInfoWalletModel::Item>::Iterator Iterator;
