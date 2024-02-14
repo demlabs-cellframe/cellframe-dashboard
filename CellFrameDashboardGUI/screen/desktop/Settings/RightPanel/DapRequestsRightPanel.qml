@@ -41,7 +41,11 @@ DapRectangleLitAndShaded {
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
 
                 onClicked:
+                {
+                    console.log(" REQUES + dapRightPanel.clear()")
                     navigator.popPage()
+                }
+                    
             }
 
             Text

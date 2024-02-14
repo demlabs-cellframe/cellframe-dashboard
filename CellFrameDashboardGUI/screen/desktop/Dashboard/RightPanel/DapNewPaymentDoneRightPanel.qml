@@ -10,6 +10,7 @@ DapRightPanelDone
 
     doneButton.onClicked:
     {
+        console.log(" DONE + dapRightPanel.clear()")
         navigator.popPage()
     }
 

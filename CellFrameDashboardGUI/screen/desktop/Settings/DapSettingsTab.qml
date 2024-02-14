@@ -35,6 +35,7 @@ DapPage
         }
 
         function popPage() {
+            console.log(" SETTINGS + dapRightPanel.clear()")
             dapRightPanel.clear()
             dapRightPanel.push(dapExtensionsBlock)
             dapRightPanelFrame.frame.visible = false
@@ -52,6 +53,7 @@ DapPage
 
         onNodeSettingsSignal:
         {
+            console.log(" SETTINGS2 + dapRightPanel.clear()")
             dapRightPanel.pop()
             navigator.openNodeSettings()
         }

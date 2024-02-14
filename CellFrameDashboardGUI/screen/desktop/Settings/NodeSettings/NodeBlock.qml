@@ -86,7 +86,7 @@ DapRectangleLitAndShaded
 
             configWorker.saveAllChanges()
             logicMainApp.requestToService("DapNodeRestart");
-
+            console.log(" NODE + dapRightPanel.clear()")
             navigator.popPage()
         }
         onReset:

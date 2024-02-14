@@ -103,7 +103,7 @@ DapPage
 
         function popPage() {
             txExplorerModule.statusProcessing = true
-
+            console.log("popPage + dapRightPanel.clear()")
             dapRightPanel.clear()
             dapRightPanel.push(lastActionsWallet)
 

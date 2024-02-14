@@ -42,6 +42,7 @@ DapCreateWalletForm
 
         dapWalletNameWarning.text = ""
         walletModule.timerUpdateFlag(true);
+        console.log("dapButtonClose.onClicked + DapCreateWallet + dapRightPanel.clear()")
         navigator.popPage()
     }
 }

@@ -35,7 +35,10 @@ Item
             closePage()
 
             if (exitToRoot)
+            {
+                console.log(" PAGE + dapRightPanel.clear()")
                 navigator.popPage()
+            }  
             else
                 root.dapRightPanel.pop()
         }
