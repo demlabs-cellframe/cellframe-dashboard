@@ -213,15 +213,12 @@ Rectangle {
     //Models
 
     ListModel{id: dapNetworkModel}
-    ListModel{id: dapModelWallets}
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
     ListModel{id: dapModelTokens}
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
     ListModel{id: dapModelXchangeOrders}
-//    ListModel{id: dapPairModel}
-//    ListModel{id: dapTokenPriceHistory}
     ListModel{
         id: dapWebSites
 

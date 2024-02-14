@@ -104,7 +104,7 @@ Controls.DapTopPanel
                     Layout.alignment: Qt.AlignLeft
                     text: qsTr( "Edit wallets list" )
                     font: mainFont.dapFont.regular13
-                    enabled: dapModelWallets.count > 0 ? true : false
+                    enabled: walletModelList.count > 0 ? true : false
                     color: enabled ? walletsArea.containsMouse ? currTheme.orange : currTheme.lime : currTheme.gray
 
 

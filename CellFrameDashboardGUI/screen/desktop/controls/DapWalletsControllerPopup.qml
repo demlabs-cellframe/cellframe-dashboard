@@ -34,7 +34,7 @@ Item{
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 328
-        height: dapModelWallets.count > 4 ? 401 : 97 + dapModelWallets.count * 61
+        height: walletModelList.count > 4 ? 401 : 97 + walletModelList.count * 61
         color: currTheme.popup
         radius: currTheme.popupRadius
 
@@ -102,7 +102,7 @@ Item{
                 Layout.fillHeight: true
                 clip: true
                 ScrollBar.vertical: ScrollBar { active: true }
-                model: dapModelWallets
+                model: walletModelList
 
                 delegate:
                     Item {
@@ -121,7 +121,7 @@ Item{
 
                             DapBigText {
                                 id: walletName
-                                fullText: dapModelWallets.get(index) !== undefined ? dapModelWallets.get(index).name : ""
+                                fullText: modulesController.currentWalletName
                                 textFont: mainFont.dapFont.regular14
                                 textColor: "white"
                                 anchors.fill: parent
@@ -185,31 +185,6 @@ Item{
                                                     8,
                                                     qsTr("Removed ") + rcvData.message,
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
-                    }
-                }
-            }
-
-            Connections
-            {
-                target: dapServiceController
-                function onWalletsListReceived(walletsList)
-                {
-
-                    var jsonDocument = JSON.parse(walletsList)
-
-                    if(!jsonDocument.length)
-                    {
-                        dapModelWallets.clear()
-                        hide()
-                        return
-                    }
-
-                    if(walletsList !== walletListBuff)
-                    {
-                        walletListBuff = walletsList
-
-                        dapModelWallets.clear()
-                        dapModelWallets.append(jsonDocument)
                     }
                 }
             }
