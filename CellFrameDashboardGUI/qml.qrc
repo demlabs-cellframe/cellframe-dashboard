@@ -365,5 +365,9 @@
         <file>Resources/BlackTheme/only-logo-dashboard.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_copy_black.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_copy_white.svg</file>
+        <file>screen/desktop/MasterNode/DapMasterNodeTab.qml</file>
+        <file>screen/desktop/MasterNode/DapMasterNodeScreen.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapMasterNodeOrders.qml</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_master_node.svg</file>
     </qresource>
 </RCC>
