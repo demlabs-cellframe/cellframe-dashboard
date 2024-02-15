@@ -76,6 +76,11 @@ QtObject
 
     function drawAll(ctx)
     {
+        if(!candleChartWorker.setPaintingStatus(true))
+        {
+            return
+        }
+
         if (!mouseVisible)
             selectedCandleNumber = candleChartWorker.lastCandleNumber
 
@@ -89,7 +94,7 @@ QtObject
         drawAverageChart(ctx, 1, "#2090cf")
         drawAverageChart(ctx, 2, "#4040af")
 
-//        drawPriceChart(ctx, "yellow")
+// //        drawPriceChart(ctx, "yellow")
 
         drawCandleChart(ctx)
 
@@ -105,6 +110,21 @@ QtObject
             drawSight(ctx)
 
 //        drawCandle(ctx, 200, 50, 60, 180, 205, 50, "red")
+
+        candleChartWorker.setPaintingStatus(false)
+    }
+
+    function updateChart()
+    {
+        //updateTokenPrice()
+
+        // candleChartWorker.updateAllModels()
+        if(!candleChartWorker.setPaintingStatus(true))
+        {
+            return
+        }
+        dataAnalysis()
+        chartCanvas.requestPaint()
     }
 
     function dataAnalysis()
@@ -129,7 +149,6 @@ QtObject
         getRoundedStepPrice()
 
         getRoundedStepTime()
-
     }
 
     function getRoundedStepPrice()
@@ -284,9 +303,8 @@ QtObject
     {
         if (candleChartWorker.zoomTime(step))
         {
-            dataAnalysis()
-
-            chartCanvas.requestPaint()
+            console.log(" UPDATE CHART zoomTime")
+            updateChart()
         }
     }
 
@@ -295,10 +313,8 @@ QtObject
         if (step !== 0)
         {
             candleChartWorker.shiftTime(step / coefficientTime)
-
-            dataAnalysis()
-
-            chartCanvas.requestPaint()
+            console.log(" UPDATE CHART shiftTime")
+            updateChart()
         }
     }
 
@@ -315,6 +331,7 @@ QtObject
         }
 
         var currentY = roundedMaxPrice
+
         while (currentY > minDrawPrice)
         {
             drawHorizontalLine(ctx,
@@ -324,7 +341,6 @@ QtObject
 //            print(currentY)
             currentY -= roundedStepPrice
         }
-
     }
 
     function drawGridText(ctx)
@@ -461,18 +477,14 @@ QtObject
             var info1 = candleChartWorker.getAveragedInfo(chart, i)
             var info2 = candleChartWorker.getAveragedInfo(chart, i+1)
 
-//            print("info1", i, info1.time, info1.price,
-//                  "info2", i+1, info2.time, info2.price)
+            // console.log("info1 i = " + i + " time = " + info1.time + " price = " + info1.price +
+            //       "\n info2 i =" + i+1 + " time = " + info2.time + " price = " + info2.price)
 
-            drawChartLine(ctx,
-                (info1.time - candleChartWorker.rightTime +
-                    candleChartWorker.visibleTime)*coefficientTime,
-                (maxDrawPrice - info1.price)*coefficientPrice +
-                    chartCandleBegin,
-                (info2.time - candleChartWorker.rightTime +
-                    candleChartWorker.visibleTime)*coefficientTime,
-                (maxDrawPrice - info2.price)*coefficientPrice +
-                    chartCandleBegin,
+            drawChartLine(ctx, 
+                (info1.time - candleChartWorker.rightTime + candleChartWorker.visibleTime)*coefficientTime,
+                (maxDrawPrice - info1.price)*coefficientPrice + chartCandleBegin,
+                (info2.time - candleChartWorker.rightTime + candleChartWorker.visibleTime)*coefficientTime,
+                (maxDrawPrice - info2.price)*coefficientPrice + chartCandleBegin,
                 color)
         }
     }
@@ -559,7 +571,7 @@ QtObject
 
             var selCandle = candleChartWorker.getCandleInfo(selectedCandleNumber)
 
-            if (candle.open !== undefined)
+            if (candle.open !== "undefined")
                 chandleSelected(
                             selCandle.time,
                             selCandle.open,

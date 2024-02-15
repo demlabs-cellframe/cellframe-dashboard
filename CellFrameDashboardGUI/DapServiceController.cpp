@@ -417,58 +417,8 @@ void DapServiceController::registerCommand()
 
         emit signalXchangeOrderListReceived(rcvData);
 
-/*        if(s_bufferOrdersJson.isEmpty())
-        {
-            s_bufferOrdersJson = rcvData.toByteArray();
-            emit signalXchangeOrderListReceived(rcvData);
-            return ;
-        }else{
-            if(!compareJson(s_bufferOrdersJson, rcvData))
-            {
-                s_bufferOrdersJson = rcvData.toByteArray();
-                emit signalXchangeOrderListReceived(rcvData);
-                return ;
-            }
-            emit signalXchangeOrderListReceived("isEqual");
-        }*/
     });
 
-    connect(this, &DapServiceController::rcvXchangeTokenPair, [=] (const QVariant& rcvData)
-    {
-        qDebug() << "DapServiceController::rcvXchangeTokenPair";
-
-        if(!rcvData.isValid())
-            return ;
-
-        if (rcvData.toString() == "isEqual")
-        {
-            qDebug() << "rcvXchangeTokenPair isEqual";
-            emit signalXchangeTokenPairReceived("isEqual");
-        }
-        else
-        {
-            emit signalXchangeTokenPairReceived(rcvData);
-        }
-    });
-
-//    DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
-//    connect(this, &DapServiceController::logUpdated, [=] (const QVariant& rcvData)
-//    {
-//        qDebug() << "DapServiceController::rcvXchangeTokenPair";
-
-//        if(!rcvData.isValid())
-//            return ;
-
-//        if (rcvData.toString() == "isEqual")
-//        {
-//            qDebug() << "rcvXchangeTokenPair isEqual";
-//            emit signalXchangeTokenPairReceived("isEqual");
-//        }
-//        else
-//        {
-//            emit signalXchangeTokenPairReceived(rcvData);
-//        }
-//    });
 
 
     registerEmmitedSignal();

@@ -670,11 +670,11 @@ Rectangle {
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        function onSignalXchangeTokenPairReceived()
-        {
-            console.log("onSignalXchangeTokenPairReceived")
-//            logicMainApp.rcvPairsModel(rcvData)
-        }
+//         function onSignalXchangeTokenPairReceived()
+//         {
+//             console.log("onSignalXchangeTokenPairReceived")
+// //            logicMainApp.rcvPairsModel(rcvData)
+//         }
     }
     Connections{
         target: dAppsModule

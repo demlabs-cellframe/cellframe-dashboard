@@ -232,7 +232,7 @@ Item
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.green
                 outSymbols: 15
-                fullNumber: candleChartWorker.currentTokenPriceText
+                fullNumber: dexModule.currentRate
                 copyButtonVisible: true
             }
 
@@ -371,30 +371,20 @@ Item
         }
     }
 
-    function updateChart()
-    {
-        updateTokenPrice()
-
-        candleChartWorker.updateAllModels()
-
-        candleLogic.dataAnalysis()
-
-        chartItem.chartCanvas.requestPaint()
-    }
-
     Connections
     {
-        target: dexModule
+        target: candleChartWorker
 
-        function onCurrentTokenPairInfoChanged()
+        function onChartInfoChanged()
         {
-            updateChart()
+            console.log(" UPDATE CHART onChartInfoChanged")
+            candleLogic.updateChart()
         }
 
-        function onCurrentTokenPairChanged()
-        {
-            updateChart()
-        }
+        // function onCurrentTokenPairChanged()
+        // {
+        //     updateChart()
+        // }
     }
 
     function updateTokenPrice()

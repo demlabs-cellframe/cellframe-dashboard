@@ -51,19 +51,6 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
-//    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
-//    m_diagnosticWorker->start();
-
-//    connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
-//            stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
-//    connect(m_serviceController, &DapServiceController::signalXchangeOrderListReceived,
-//            stockDataWorker, &StockDataWorker::signalXchangeOrderListReceived);
-//    connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
-//            stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
-
-//    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
-//            m_historyWorker, &HistoryWorker::setHistoryModel,
-//            Qt::QueuedConnection);
 
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
