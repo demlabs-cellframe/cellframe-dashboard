@@ -667,6 +667,7 @@ Rectangle {
 
         function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
         function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
+        function onCliConnectChanged(is_connected) { if(is_connected) console.log("Cli connected to node"); else console.log("Cli disconnected from node") }
 
 //        function onVersionControllerResult(versionResult)
 //        {
