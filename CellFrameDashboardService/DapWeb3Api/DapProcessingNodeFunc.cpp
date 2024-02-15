@@ -765,9 +765,9 @@ QJsonDocument DapWebControll::createCondTx(QString net, QString tokenName, QStri
 {
     QString command = QString("%1 tx_cond_create -net %2 -token %3 -wallet %4 -cert %5 -value %6 -unit %7 -srv_uid %8")
             .arg(CLI_PATH).arg(net).arg(tokenName).arg(walletName).arg(cert).arg(value).arg(unit).arg(srv_uid);
-
+    qDebug() << "COMMAND : " << command;
     QString result = send_cmd(command);
-
+    qDebug() << "COMMAND : " << result;
     QJsonDocument docResult;
     QJsonObject obj;
 

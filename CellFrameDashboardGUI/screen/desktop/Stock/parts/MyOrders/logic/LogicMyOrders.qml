@@ -270,4 +270,43 @@ QtObject {
                           parseInt(parts[1], 10) - 1,
                           parseInt(parts[0], 10));
     }
+
+    function setStatusCreateButton(total, price)
+    {
+        if(price === "0.0" || total === "0.0" || total === "" || price === "")
+            return false
+
+        return true
+
+        var totalValue = isSell ? mathWorker.divCoins(mathWorker.coinsToBalance(total),
+                                                   mathWorker.coinsToBalance(price),false):
+                                  total
+
+        var nameToken = isSell ? dexModule.token1 :
+                                 dexModule.token2
+        var str;
+
+        if(logicStock.currantToken === nameToken)
+        {
+            str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.currantBalance), mathWorker.coinsToBalance(totalValue), false)
+
+            if(str.length < 70)
+                return true
+            else
+                return false
+        }
+        // else if(logicStock.unselectedTokenNameWallet === nameToken)
+        // {
+        //     str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.unselectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
+
+        //     if(str.length < 70)
+        //         return true
+        //     else
+        //         return false
+        // }
+        else
+        {
+            return false
+        }
+    }
 }

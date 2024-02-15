@@ -97,6 +97,27 @@ DapRectangleLitAndShaded {
                 {
                     return walletModule.getBalanceDEX(logic.selectedItem.tokenBuy)
                 }
+
+                var amountBuy = isSell ? mathWorker.coinsToBalance(total.textValue) :
+                                          mathWorker.coinsToBalance(amount.textValue)
+
+                var amountSell = isSell ? mathWorker.coinsToBalance(amount.textValue) :
+                                         mathWorker.coinsToBalance(total.textValue)
+
+                var priceValue = isSell? price.textValue : 1/price.textValue
+
+    //            console.log("tokenSell",tokenSell,
+    //                        "tokenBuy", tokenBuy,
+    //                        "amountSell", amountSell,
+    //                        "amountBuy", amountBuy,
+    //                        "priceValue" , priceValue)
+
+                var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
+
+                if(hash !== "0")
+                    dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
+                                                          net, currentWallet, amountSell)
+>>>>>>> origin/master
                 else
                 {
                     return walletModule.getBalanceDEX(logic.selectedItem.tokenSell)

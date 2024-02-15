@@ -49,6 +49,11 @@ DapRectangleLitAndShaded
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
+    Component.onCompleted:
+    {
+        updateWindow()
+    }
+
     DapFeePopup
     {
         id: walletMessagePopup
@@ -149,6 +154,12 @@ DapRectangleLitAndShaded
                     {
                         walletModule.getComission(displayText)
                     }
+
+                    onCurrantDisplayTextChanged:
+                    {
+                        walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
+                        updateWindow()
+                    }
                 }
             }
 
@@ -236,6 +247,11 @@ DapRectangleLitAndShaded
                         Layout.rightMargin: 16
                         textFont: mainFont.dapFont.medium12
                         textColor: currTheme.white
+
+                        Component.onCompleted:
+                        {
+                            fullText = walletTokensModel.get(dapComboBoxToken.displayText).value + " " + dapComboBoxToken.displayText
+                        }
                     }
 
                 }
@@ -302,7 +318,7 @@ DapRectangleLitAndShaded
                         defaultText: qsTr("Tokens")
                         backgroundColorShow: currTheme.secondaryBackground
                         mainTextRole: "tokenName"
-                        model: walletModelInfo.getModel(comboboxNetwork.displayText)
+                        model: walletTokensModel
                         font: mainFont.dapFont.regular16
 
                         onCurrentTextChanged: {
@@ -558,6 +574,43 @@ DapRectangleLitAndShaded
                 elide: Text.ElideMiddle
 
             }
+        }
+    }
+
+    function updateWindow()
+    {
+        if (walletModelInfo.count <= dapComboboxNetwork.currentIndex)
+        {
+            console.warn("walletModelInfo.count <= dapComboboxNetwork.currentIndex")
+        }
+        else
+        {
+            console.log("dapComboboxNetwork.onCurrentIndexChanged")
+
+            if (walletTokensModel.count === 0)
+            {
+                frameAmountPayment.visible = false
+                frameInputAmountPayment.visible = false
+                frameRecipientWallet.visible = false
+                frameRecipientWalletAddress.visible = false
+                textNotEnoughTokensWarning.visible = false
+                buttonSend.visible = false
+            }
+            else
+            {
+                frameAmountPayment.visible = true
+                frameInputAmountPayment.visible = true
+                frameRecipientWallet.visible = true
+                frameRecipientWalletAddress.visible = true
+                textNotEnoughTokensWarning.visible = true
+                buttonSend.visible = true
+            }
+            if(comboboxNetwork.displayText !== "")
+                walletModule.getComission(dapComboboxNetwork.displayText)
+
+            balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
+                                 + " " + dapComboBoxToken.displayText
+
         }
     }
 }

@@ -23,15 +23,15 @@ Page {
 
         ListElement
         {
-            name: "VPN"
+            name: qsTr("VPN")
         }
         ListElement
         {
-            name: "DEX"
+            name: qsTr("DEX")
         }
         ListElement
         {
-            name: "Stake"
+            name: qsTr("Validator's fee")
         }
     }
 

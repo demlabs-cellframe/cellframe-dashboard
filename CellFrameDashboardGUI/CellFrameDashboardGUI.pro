@@ -9,7 +9,7 @@ DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
 DEFINES += SIMULATOR_DEX
 
 HEADERS += $$PWD/DapServiceController.h \
-    Autocomplete/CommandCmdController.h \
+    Autocomplete/CommandHelperController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
@@ -29,7 +29,7 @@ HEADERS += $$PWD/DapServiceController.h \
 
 SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
-    Autocomplete/CommandCmdController.cpp \
+    Autocomplete/CommandHelperController.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \

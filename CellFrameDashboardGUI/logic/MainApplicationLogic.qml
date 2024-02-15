@@ -246,98 +246,6 @@ QtObject {
         }
     }
 
-//    function rcvWallets(walletList)
-//    {
-//        if(walletList == "isEqual")
-//            return
-
-
-//        var jsonDocument = JSON.parse(walletList)
-
-//        if(!jsonDocument)
-//        {
-//            dapModelWallets.clear()
-//            return
-//        }
-
-
-
-//        dapModelWallets.clear()
-//        dapModelWallets.append(jsonDocument)
-
-//        console.log("rcvWallets", "currentWalletName", currentWalletName)
-
-//        var nameIndex = -1
-
-//        for (var i = 0; i < dapModelWallets.count; ++i)
-//        {
-//            if (dapModelWallets.get(i).name === currentWalletName)
-//                nameIndex = i
-//        }
-
-//        console.log("rcvWallets", "nameIndex", nameIndex)
-
-//        if (nameIndex >= 0)
-//            currentWalletIndex = nameIndex
-
-//        if (currentWalletIndex < 0 && dapModelWallets.count > 0)
-//            currentWalletIndex = 0
-//        if (dapModelWallets.count < 0)
-//            currentWalletIndex = -1
-
-//        modelWalletsUpdated()
-//    }
-
-//    function rcvWallet(wallet)
-//    {
-//        var jsonDocument = JSON.parse(wallet)
-
-////        console.log("AAAAAAAAAAAAA", dapModelWallets.count, wallet)
-
-//        if(!jsonDocument || (!jsonDocument.status && !jsonDocument.networks.length))
-//        {
-//            dapModelWallets.clear()
-//            return
-//        }
-
-
-//        for (var i = 0; i < dapModelWallets.count; ++i)
-//        {
-//            if (dapModelWallets.get(i).name === jsonDocument.name)
-//            {
-//                dapModelWallets.set(i, jsonDocument)
-
-//                return
-
-
-////                dapModelWallets.get(i).status = jsonDocument.status
-
-////                if(jsonDocument.status === "" || jsonDocument.status === "Active")
-////                {
-//////                    console.log(jsonDocument.networks)
-////                    dapModelWallets.get(i).networks.clear()
-////                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
-//////                    dapModelWallets.get(i).networks = jsonDocument.networks
-//////                    console.log(dapModelWallets.get(i).networks)
-////                }
-//            }
-//        }
-//    }
-
-//    function rcvOrders(orderList)
-//    {
-//        if(orderList.length !== dapModelOrders.count)
-//        {
-//            dapModelOrders.clear()
-//            for (var i = 0; i < orderList.length; ++i)
-//                dapModelOrders.append({ "index" : orderList[i].Index,
-//                                      "location" : orderList[i].Location,
-//                                      "network" : orderList[i].Network,
-//                                      "node_addr" : orderList[i].AddrNode,
-//                                      "price" : orderList[i].TotalPrice})
-//        }
-//    }
-
     function rcvPlugins(m_pluginsList)
     {
         dapModelPlugins.clear()
@@ -478,31 +386,6 @@ QtObject {
             stateNotify = true
         }
     }
-
-//    function getAllWalletHistory(index, update, isLastActions)
-//    {
-
-//        if (index < 0 || index >= dapModelWallets.count)
-//            return
-
-//        var network_array = ""
-
-//        var name = dapModelWallets.get(index).name
-
-//        var model = dapModelWallets.get(index).networks
-
-//        if(model)
-//        {
-//            for (var i = 0; i < model.count; ++i)
-//            {
-//                network_array += model.get(i).name + ":"
-//                network_array += model.get(i).address + ":"
-//                network_array += name + "/"
-//            }
-//            requestToService("DapGetAllWalletHistoryCommand",
-//                             network_array, update ? "true": "false", isLastActions ? "true": "false")
-//        }
-//    }
 
     function serializeWebSite()
     {

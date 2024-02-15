@@ -136,8 +136,6 @@
         <file>Resources/BlackTheme/icons/other/browser.svg</file>
         <file>Resources/BlackTheme/icons/other/browser_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/check_icon.png</file>
-        <file>Resources/BlackTheme/icons/other/copy.svg</file>
-        <file>Resources/BlackTheme/icons/other/copy_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/cross.png</file>
         <file>Resources/BlackTheme/icons/other/cross.svg</file>
         <file>Resources/BlackTheme/icons/other/cross_hover.png</file>
@@ -360,5 +358,14 @@
         <file>screen/desktop/Orders/RightPanel/DapOrderCreate.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderCreateDone.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreateFieldsComponent.qml</file>
+        <file>Resources/BlackTheme/icons/other/copy_hover_small.svg</file>
+        <file>Resources/BlackTheme/icons/other/copy_small.svg</file>
+        <file>Resources/BlackTheme/only-logo-dashboard.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_copy_black.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_copy_white.svg</file>
+        <file>screen/desktop/MasterNode/DapMasterNodeTab.qml</file>
+        <file>screen/desktop/MasterNode/DapMasterNodeScreen.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapMasterNodeOrders.qml</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_master_node.svg</file>
     </qresource>
 </RCC>

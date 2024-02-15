@@ -295,5 +295,13 @@ Page
         logicStock.currantBalance = value
         logicStock.currantToken = value
     }
+
+    function setBalanceText(token)
+    {
+        var value = walletModule.getBalanceDEX(token)
+        textBalance.text = value + " " + token
+        logicStock.currantBalance = value
+        logicStock.currantToken = value
+    }
 }
 

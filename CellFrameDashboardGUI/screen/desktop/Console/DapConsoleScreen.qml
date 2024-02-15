@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 
 DapConsoleScreenForm
 {
@@ -19,35 +20,138 @@ DapConsoleScreenForm
         consoleHistoryIndex = -1
         //Set focus to console input
         consoleInput.forceActiveFocus()
-
-        commandCmdController.StatusPage = true
     }
 
     Component.onDestruction:
     {
         consoleModule.clearModel()
-        commandCmdController.StatusPage = false
     }
 
     Component
     {
         id: delegateConsoleCommand
-        Column
+
+        ColumnLayout
         {
             width: parent.width
-            TextEdit
-            {
-                width: parent.width
-                readOnly: true
-                selectByMouse: true
-                id: textQuery
-                text: "> " + modelData.query + "\n" + modelData.response
-                wrapMode: TextEdit.Wrap
-                font:  mainFont.dapFont.regular13
-                color: currTheme.white
-                selectionColor: "#AABCDE"
-                selectedTextColor: "#2E3138"
 
+            Rectangle
+            {
+                Layout.fillWidth: true
+                implicitHeight: textQuery.height
+                radius: 2
+                color: currTheme.secondaryBackground
+
+                TextEdit
+                {
+                    width: parent.width
+                    verticalAlignment: Qt.AlignTop
+                    leftPadding: 4
+                    topPadding: 3
+                    bottomPadding: 3
+                    readOnly: true
+                    selectByMouse: true
+                    id: textQueryArrow
+                    text: "➜"
+                    wrapMode: TextEdit.NoWrap
+                    font.family: "Quicksand"
+                    font.pixelSize: 13
+                    color: "#9580FF"
+                    selectionColor: "#87DCE7"
+                    selectedTextColor: "#2E3138"
+                }
+
+                TextEdit
+                {
+                    width: parent.width
+                    leftPadding: 21
+                    topPadding: 2
+                    bottomPadding: 3
+                    readOnly: true
+                    selectByMouse: true
+                    id: textQuery
+                    text: modelData.query
+                    wrapMode: TextEdit.Wrap
+                    font.family: "Quicksand"
+                    font.pixelSize: 13
+                    color: "#87DCE7"
+                    selectionColor: "#87DCE7"
+                    selectedTextColor: "#2E3138"
+                }
+
+                LinearGradient
+                {
+                    anchors.fill: parent
+                    source: parent
+                    start: Qt.point(0,parent.height/2)
+                    end: Qt.point(parent.width,parent.height/2)
+                    gradient:
+                        Gradient {
+                            GradientStop
+                            {
+                                position: 0;
+                                color: "#1F87DCE7"
+                            }
+                            GradientStop
+                            {
+                                position: 1;
+                                color: "#0087DCE7"
+                            }
+                        }
+                }
+            }
+
+            Rectangle
+            {
+                Layout.fillWidth: true
+                Layout.topMargin: 0
+                Layout.alignment: Qt.AlignTop
+                implicitHeight: textResponse.height
+                radius: 2
+                color: currTheme.secondaryBackground
+
+                LinearGradient
+                {
+                    anchors.fill: parent
+                    source: parent
+                    start: Qt.point(0,parent.height/2)
+                    end: Qt.point(parent.width,parent.height/2)
+                    gradient:
+                        Gradient {
+                            GradientStop
+                            {
+                                position: 0;
+                                color: "#1FAABCDE"
+                            }
+                            GradientStop
+                            {
+                                position: 1;
+                                color: "#00AABCDE"
+                            }
+                        }
+                }
+
+                TextEdit
+                {
+                    width: parent.width
+                    leftPadding: 4
+                    bottomPadding: 3
+                    topPadding: 1
+                    readOnly: true
+                    selectByMouse: true
+                    id: textResponse
+                    text: modelData.response
+                    wrapMode: TextEdit.Wrap
+                    font.family: "Quicksand"
+                    font.pixelSize: 13
+                    color: "#AABCDE"
+                    selectionColor: "#AABCDE"
+                    selectedTextColor: "#2E3138"
+                }
+            }
+
+            Item {
+                Layout.fillHeight: true
             }
         }
     }
@@ -57,9 +161,9 @@ DapConsoleScreenForm
     {
         if(sendedCommand != "")
         {
-            sendCommand = sendedCommand;
+            sendCommand = "[" + dapConsoleRigthPanel.currentTime() + "] " + sendedCommand;
             consoleHistoryIndex = -1;
-            runCommand(sendCommand);
+            runCommand(sendedCommand);
             sendedCommand = "";
             currentCommand = sendedCommand;
         }
@@ -72,7 +176,7 @@ DapConsoleScreenForm
         if(historyCommand != "")
         {
             sendCommand = historyCommand;
-            runCommand(sendCommand);
+            runCommand(dapConsoleRigthPanel.parsingTime(sendCommand, 1));
             consoleHistoryIndex = -1;
         }
     }
