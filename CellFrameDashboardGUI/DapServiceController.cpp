@@ -351,18 +351,24 @@ void DapServiceController::registerCommand()
         QJsonDocument replyDoc = QJsonDocument::fromJson(networksList.toByteArray());
         QJsonObject replyObj = replyDoc.object();
 
-        QString reply_error = replyObj[DapAbstractCommand::ERROR_KEY].toString();
-        QJsonArray reply_result = replyObj[DapAbstractCommand::RESULT_KEY].toArray();
+        QString reply_error = replyObj["error"].toString();
+        QJsonArray reply_result = replyObj["result"].toArray();
 
         if(!reply_error.isEmpty())
         {
-            isCliConnect = false;
-            emit cliConnectChanged(isCliConnect);
+            if(isCliConnect)
+            {
+                isCliConnect = false;
+                emit cliConnectChanged(isCliConnect);
+            }
         }
         else
         {
-            isCliConnect = true;
-            emit cliConnectChanged(isCliConnect);
+            if(!isCliConnect)
+            {
+                isCliConnect = true;
+                emit cliConnectChanged(isCliConnect);
+            }
         }
 
         QStringList networks;
