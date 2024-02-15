@@ -10,11 +10,13 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     , m_timerFeeUpdateWallet(new QTimer())
     , m_walletModel(new DapListWalletsModel())
     , m_infoWallet (new DapInfoWalletModel())
+    , m_tokenModel(new DapTokensWalletModel())
     , m_DEXTokenModel(new DapTokensWalletModel())
     , m_tokenFilterModelDEX(new TokenProxyModel())
 {
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelList", m_walletModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelInfo", m_infoWallet);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletTokensModel", m_tokenModel);
     m_tokenFilterModelDEX->setSourceModel(m_DEXTokenModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("dexTokenModel", m_tokenFilterModelDEX);
 
@@ -52,6 +54,7 @@ DapModuleWallet::~DapModuleWallet()
     delete m_timerFeeUpdateWallet;
     delete m_walletHashManager;
     delete m_walletModel;
+    delete m_tokenModel;
     delete m_DEXTokenModel;
     delete m_tokenFilterModelDEX;
 }
@@ -103,15 +106,15 @@ void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
         int index = getIndexWallet(m_currentWallet.second);
         if(m_walletsInfo.isEmpty())
         {
-            m_currentWallet = {-1, ""};
+            setCurrentWallet(-1);
         }
         else if(index == -1)
         {
-            m_currentWallet = {0, m_walletsInfo.firstKey()};
+            setCurrentWallet(0);
         }
         else
         {
-            m_currentWallet = {index, m_currentWallet.second};
+            setCurrentWallet(index);
         }
 
         if(m_walletsInfo.contains(m_currentWallet.second))
@@ -253,6 +256,14 @@ int DapModuleWallet::getIndexWallet(const QString& walletName) const
 
 void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 {
+    if(m_currentWallet.second == newWallet.second)
+    {
+        if(newWallet.first != m_currentWallet.first)
+        {
+            m_currentWallet.first = newWallet.first;
+        }
+        return;
+    }
     m_currentWallet = newWallet;
     m_modulesCtrl->getSettings()->setValue("walletName", m_currentWallet.second);
     m_modulesCtrl->setCurrentWallet(m_currentWallet);
@@ -273,7 +284,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 
 void DapModuleWallet::timerUpdateFlag(bool flag)
 {
-    if(flag)
+    if(flag && !m_currentWallet.second.isEmpty())
         m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
     else
         m_timerUpdateWallet->stop();
@@ -284,9 +295,9 @@ void DapModuleWallet::getWalletsInfo(QStringList args)
     s_serviceCtrl->requestToService("DapGetWalletsInfoCommand", args);
 }
 
-void DapModuleWallet::requestWalletInfo(QStringList args)
+void DapModuleWallet::requestWalletInfo(const QString& key)
 {
-    s_serviceCtrl->requestToService("DapGetWalletInfoCommand", args);
+    s_serviceCtrl->requestToService("DapGetWalletInfoCommand", QStringList() << m_currentWallet.second << key);
 }
 
 void DapModuleWallet::createTx(QStringList args)
@@ -357,7 +368,7 @@ void DapModuleWallet::rcvHistory(const QVariant &rcvData)
 
 void DapModuleWallet::slotUpdateWallet()
 {
-    requestWalletInfo(QStringList() << getCurrentWalletName() <<"false");
+    requestWalletInfo("false");
 }
 
 void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
@@ -542,7 +553,8 @@ void DapModuleWallet::startUpdateCurrentWallet()
     }
 
     emit walletsModelChanged();
-    requestWalletInfo(QStringList() << m_currentWallet.second << "true");
+    requestWalletInfo("true");
+    timerUpdateFlag(true);
 }
 
 void DapModuleWallet::tryUpdateFee()
@@ -764,6 +776,15 @@ void DapModuleWallet::sendTx(QVariantMap data)
     listData.append(feeDatoshi);
 
     createTx(listData);
+}
+
+void DapModuleWallet::setWalletTokenModel(const QString& network)
+{
+    auto model = m_infoWallet->getModel(network);
+
+    m_tokenModel->setDataFromOtherModel(model->getData());
+
+    emit tokenModelChanged();
 }
 
 QString DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)

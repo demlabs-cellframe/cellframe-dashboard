@@ -151,30 +151,37 @@ DapRectangleLitAndShaded
 
                         Item{Layout.fillWidth: true}
 
-
-                        DapText
+                        Item
                         {
-                           id: textMetworkAddress
-                           Layout.alignment: Qt.AlignRight
-                           Layout.rightMargin: 5
-                           Layout.minimumWidth: 68
-                           Layout.maximumWidth: 68
-                           Layout.fillHeight: true
-
-                           fontDapText: mainFont.dapFont.regular12
-                           color: currTheme.white
-                           fullText: address
-                           textElide: Text.ElideMiddle
-                           horizontalAlignment: Qt.AlignLeft
-                           verticalAlignment: Qt.AlignVCenter
-                        }
-
-                        DapCopyButton
-                        {
-                            id: networkAddressCopyButton
-                            onCopyClicked: textMetworkAddress.copyFullText()
                             Layout.alignment: Qt.AlignRight
-                            popupText: qsTr("Address copied")
+                            Layout.minimumWidth: 108
+                            Layout.maximumWidth: 108
+                            Layout.fillHeight: true
+
+                            DapText
+                            {
+                                id: textMetworkAddress
+                                height: parent.height
+                                fontDapText: mainFont.dapFont.regular12
+                                color: currTheme.white
+                                fullText: address
+                                textElide: Text.ElideMiddle
+                                horizontalAlignment: Qt.AlignRight
+                                verticalAlignment: Qt.AlignVCenter
+                                anchors.left: parent.left
+                                anchors.right:networkAddressCopyButton.left
+                                anchors.rightMargin: 8
+                            }
+
+                            DapCopyButton
+                            {
+                                id: networkAddressCopyButton
+                                onCopyClicked: textMetworkAddress.copyFullText()
+                                popupText: qsTr("Address copied")
+                                anchors.right: parent.right
+                                anchors.top: parent.top
+                                anchors.topMargin: 6
+                            }
                         }
                     }
                 }
@@ -252,9 +259,6 @@ DapRectangleLitAndShaded
 
     function updateVisibleList()
     {
-        console.log("MODEL = " + walletModelList)
-        console.log("index = " + walletModule.currentWalletIndex)
-        console.log("STATUS = " + walletModelList.get(walletModule.currentWalletIndex).statusProtected)
         listViewWallet.visible = walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
     }
 

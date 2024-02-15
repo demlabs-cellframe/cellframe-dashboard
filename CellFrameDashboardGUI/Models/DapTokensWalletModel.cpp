@@ -113,6 +113,15 @@ void DapTokensWalletModel::addToken(const CommonWallet::WalletTokensInfo& token)
     endInsertRows();
 }
 
+void DapTokensWalletModel::setDataFromOtherModel(const QList<DapTokensWalletModel::Item>& items)
+{
+    beginResetModel();
+    m_items.clear();
+    m_items.append(items);
+    emit sizeChanged();
+    endResetModel();
+}
+
 int DapTokensWalletModel::indexOf (const DapTokensWalletModel::Item &a_item) const
 {
     int index = 0;
@@ -147,6 +156,21 @@ QVariant DapTokensWalletModel::get (int a_index)
 const QVariant DapTokensWalletModel::get(int a_index) const
 {
     return const_cast<DapTokensWalletModel*>(this)->get (a_index);
+}
+
+QVariant DapTokensWalletModel::get(const QString& tokenName) const
+{
+    int size = m_items.size();
+    int index = -1;
+    for (int i = 0; i < size; i++)
+    {
+        if(m_items[i].tokenName == tokenName)
+        {
+            index = i;
+            break;
+        }
+    }
+    return  get(index);
 }
 
 DapTokensWalletModel::Item &DapTokensWalletModel::_get(int a_index)

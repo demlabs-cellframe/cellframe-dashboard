@@ -578,8 +578,8 @@ Page
                     antialiasing: true
                     fillMode: Image.PreserveAspectFit
 
-                    source: copyArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/icon_copy_black.svg"
-                                                   : "qrc:/Resources/"+ pathTheme +"/icons/other/icon_copy_white.svg"
+                    source: copyArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/ic_copy_black.svg"
+                                                   : "qrc:/Resources/"+ pathTheme +"/icons/other/ic_copy_white.svg"
 
 
                     mipmap: true

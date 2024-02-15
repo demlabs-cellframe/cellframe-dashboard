@@ -8,7 +8,8 @@ import "qrc:/widgets"
 Item{
     property var walletListBuff
 
-    Rectangle {
+    Rectangle
+    {
         id: backgroundFrame
         anchors.fill: parent
         visible: opacity
@@ -25,7 +26,8 @@ Item{
         Behavior on opacity {NumberAnimation{duration: 100}}
     }
 
-    Rectangle{
+    Rectangle
+    {
         id: walletsFrame
         anchors.centerIn: parent
         visible: opacity
@@ -34,15 +36,17 @@ Item{
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 328
-        height: dapModelWallets.count > 4 ? 401 : 97 + dapModelWallets.count * 61
+        height: walletModelList.count > 4 ? 401 : 97 + walletModelList.count * 61
         color: currTheme.popup
         radius: currTheme.popupRadius
 
-        MouseArea{
+        MouseArea
+        {
             anchors.fill: parent
         }
 
-        HeaderButtonForRightPanels{
+        HeaderButtonForRightPanels
+        {
             id: closeButton
             anchors.top: parent.top
             anchors.right: parent.right
@@ -57,7 +61,8 @@ Item{
             onClicked: hide()
         }
 
-        ColumnLayout{
+        ColumnLayout
+        {
             anchors.fill: parent
             anchors.bottomMargin: 16
             spacing: 0
@@ -102,26 +107,29 @@ Item{
                 Layout.fillHeight: true
                 clip: true
                 ScrollBar.vertical: ScrollBar { active: true }
-                model: dapModelWallets
+                model: walletModelList
 
                 delegate:
-                    Item {
+                Item
+                {
                     height: 61
                     width: walletsListView.width
 
-                    RowLayout {
+                    RowLayout
+                    {
                         width: parent.width
                         height: 60
 
-                        Item {
+                        Item
+                        {
                             width: 224
                             Layout.leftMargin: 24
                             Layout.fillHeight: true
                             Layout.alignment: Qt.AlignLeft
 
-                            DapBigText {
-                                id: walletName
-                                fullText: dapModelWallets.get(index) !== undefined ? dapModelWallets.get(index).name : ""
+                            DapBigText
+                            {
+                                fullText: walletName
                                 textFont: mainFont.dapFont.regular14
                                 textColor: "white"
                                 anchors.fill: parent
@@ -130,7 +138,8 @@ Item{
                             }
                         }
 
-                        Rectangle {
+                        Rectangle
+                        {
                             id: removeIcon
                             Layout.leftMargin: 24
                             Layout.rightMargin: 24
@@ -151,15 +160,17 @@ Item{
                                 hoverEnabled: true
                                 anchors.fill: parent
 
-                                onClicked: {
+                                onClicked:
+                                {
                                     walletsFrame.opacity = 0.0
-                                    removeWalletPopup.show(walletName.fullText)
+                                    removeWalletPopup.show(walletName)
                                 }
                             }
                         }  
                     }
 
-                    Rectangle {
+                    Rectangle
+                    {
                         width: parent.width
                         height: 1
                         color: currTheme.mainBackground
@@ -168,17 +179,22 @@ Item{
                 }
             }
 
-            Connections{
+            Connections
+            {
                 target: dapServiceController
-                function onWalletRemoved(rcvData){
-                    if(rcvData.success) {
+                function onWalletRemoved(rcvData)
+                {
+                    if(rcvData.success)
+                    {
                         dapMainWindow.infoItem.showInfo(
                                                     175, 0,
                                                     dapMainWindow.width * 0.5,
                                                     8,
                                                     qsTr("Removed ") + rcvData.message,
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
-                    } else {
+                    }
+                    else
+                    {
                         dapMainWindow.infoItem.showInfo(
                                                     200, 0,
                                                     dapMainWindow.width * 0.5,
@@ -188,35 +204,23 @@ Item{
                     }
                 }
             }
+        }
+    }
 
-            Connections
+    Connections
+    {
+        target: walletModelList
+        function onCountChanged()
+        {
+            if(walletModelList.count === 0)
             {
-                target: dapServiceController
-                function onWalletsListReceived(walletsList)
-                {
-
-                    var jsonDocument = JSON.parse(walletsList)
-
-                    if(!jsonDocument.length)
-                    {
-                        dapModelWallets.clear()
-                        hide()
-                        return
-                    }
-
-                    if(walletsList !== walletListBuff)
-                    {
-                        walletListBuff = walletsList
-
-                        dapModelWallets.clear()
-                        dapModelWallets.append(jsonDocument)
-                    }
-                }
+                hide()
             }
         }
     }
 
-    InnerShadow {
+    InnerShadow
+    {
         anchors.fill: walletsFrame
         source: walletsFrame
         color: currTheme.reflection
@@ -228,7 +232,8 @@ Item{
         fast: true
         cached: true
     }
-    DropShadow {
+    DropShadow
+    {
         anchors.fill: walletsFrame
         source: walletsFrame
         color: currTheme.shadowMain
@@ -240,13 +245,15 @@ Item{
         cached: true
     }
 
-    function hide() {
+    function hide()
+    {
         backgroundFrame.opacity = 0.0
         walletsFrame.opacity = 0.0
         visible = false
     }
 
-    function show() {
+    function show()
+    {
         visible = true
         backgroundFrame.opacity = 0.56
         walletsFrame.opacity = 1
