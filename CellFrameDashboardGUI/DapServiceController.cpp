@@ -46,6 +46,11 @@ QString DapServiceController::getVersion() const
     return m_sVersion;
 }
 
+bool DapServiceController::getCliConnectStatus() const
+{
+    return isCliConnect;
+}
+
 QString DapServiceController::getCurrentNetwork() const
 {
     return m_sCurrentNetwork;
@@ -343,20 +348,27 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {
-        QByteArray  array = QByteArray::fromHex(networksList.toByteArray());
-        QList<DapNetworkStr> tempNetworks;
+        QJsonDocument replyDoc = QJsonDocument::fromJson(networksList.toByteArray());
+        QJsonObject replyObj = replyDoc.object();
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempNetworks;
+        QString reply_error = replyObj[DapAbstractCommand::ERROR_KEY].toString();
+        QJsonArray reply_result = replyObj[DapAbstractCommand::RESULT_KEY].toArray();
 
-        QList<QObject*> networks;
-        auto begin = tempNetworks.begin();
-        auto end = tempNetworks.end();
-        DapNetworkStr * network = nullptr;
-        for(;begin != end; ++begin)
+        if(!reply_error.isEmpty())
         {
-            network = new DapNetworkStr(*begin);
-            networks.append(network);
+            isCliConnect = false;
+            emit cliConnectChanged(isCliConnect);
+        }
+        else
+        {
+            isCliConnect = true;
+            emit cliConnectChanged(isCliConnect);
+        }
+
+        QStringList networks;
+        for(int i=0; i<reply_result.size(); ++i)
+        {
+            networks.append(reply_result[i].toString());
         }
 
         emit networksReceived(networks);

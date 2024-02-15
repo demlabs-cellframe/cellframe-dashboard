@@ -81,6 +81,8 @@ class DapServiceController : public QObject
     int m_iIndexCurrentNetwork;
 
     bool m_bReadingChains;
+    bool isCliConnect = false;
+    int isCliConnectTicker = 0;
 
     DapNotifyController *m_DapNotifyController;
 
@@ -119,6 +121,8 @@ public:
     Q_PROPERTY(QString Brand MEMBER m_sBrand READ getBrand NOTIFY brandChanged)
     /// Application version.
     Q_PROPERTY(QString Version MEMBER m_sVersion READ getVersion NOTIFY versionChanged)
+    /// Can CLI connect to Node
+    Q_PROPERTY(bool isCliConnect READ getCliConnectStatus NOTIFY cliConnectChanged)
 
     Q_PROPERTY(QString CurrentNetwork MEMBER m_sCurrentNetwork READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
 
@@ -136,6 +140,8 @@ public:
     /// @return Application version.
     QString getVersion() const;
 
+    bool getCliConnectStatus() const;
+
     QString getCurrentNetwork() const;
 
     Q_INVOKABLE void setCurrentNetwork(const QString &sCurrentNetwork);
@@ -147,6 +153,7 @@ public:
     bool getReadingChains() const;
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
+
 
 //    QByteArray s_bufferTokensJson;
 //    QByteArray s_bufferOrdersJson;
@@ -169,6 +176,8 @@ signals:
     /// The signal is emitted when the Application version property changes.
     /// @param version Version
     void versionChanged(const QString &version);
+    /// When cli connect to Node
+    //void aliveChanged(bool connected);
 
     void currentNetworkChanged(const QString &asCurrentNetwork);
 
@@ -237,7 +246,8 @@ signals:
     void networkStatesListReceived(const QVariant& networksStateList);
 //    void networksStatesReceived(QList<QObject*> networksStatesList);
 
-    void networksReceived(QList<QObject*> networksList);
+    void networksReceived(const QStringList networksList);
+    void cliConnectChanged(bool isAlive);
 
     void tokensListReceived(const QVariant& tokensResult);
     void signalTokensListReceived(const QVariant& tokensResult);
