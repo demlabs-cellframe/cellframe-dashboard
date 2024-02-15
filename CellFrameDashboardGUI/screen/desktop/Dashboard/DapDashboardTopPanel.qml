@@ -139,7 +139,7 @@ Controls.DapTopPanel
         {
             id: newPaymentButton
             Layout.rightMargin: 24
-            enabled: statusProtected !== "non-Active"
+            enabled: dapServiceController.isCliConnect ? statusProtected !== "non-Active" : false
 
             textButton: qsTr("Send")
 
