@@ -5,7 +5,7 @@ DapNewPaymentMainRightPanelForm
     Component.onCompleted:
     {
         walletModule.timerUpdateFlag(false);
-
+        walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
         else
@@ -13,50 +13,14 @@ DapNewPaymentMainRightPanelForm
 
         dapTextNotEnoughTokensWarning.text = ""
         walletModule.startUpdateFee()
-        balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+        balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                          + " " + dapComboBoxToken.displayText
 
-    }
-    dapComboboxNetwork.onCurrentIndexChanged:
-    {
-        if (walletModelInfo.count <= dapComboboxNetwork.currentIndex)
-        {
-            console.warn("walletModelInfo.count <= dapComboboxNetwork.currentIndex")
-        }
-        else
-        {
-            console.log("dapComboboxNetwork.onCurrentIndexChanged")
-
-            if (dapComboBoxTokenModel.count === 0)
-            {
-                dapFrameAmountPayment.visible = false
-                dapFrameInputAmountPayment.visible = false
-                dapFrameRecipientWallet.visible = false
-                dapFrameRecipientWalletAddress.visible = false
-                dapTextNotEnoughTokensWarning.visible = false
-                dapButtonSend.visible = false
-            }
-            else
-            {
-                dapFrameAmountPayment.visible = true
-                dapFrameInputAmountPayment.visible = true
-                dapFrameRecipientWallet.visible = true
-                dapFrameRecipientWalletAddress.visible = true
-                dapTextNotEnoughTokensWarning.visible = true
-                dapButtonSend.visible = true
-            }
-            if(dapComboboxNetwork.displayText !== "")
-                walletModule.getComission(dapComboboxNetwork.displayText)
-
-            balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
-                                 + " " + dapComboBoxToken.displayText
-
-        }
     }
 
     dapComboBoxToken.onCurrentIndexChanged:
     {
-        balance.fullText = walletModelInfo.getModel(dapComboboxNetwork.displayText).get(dapComboBoxToken.currentIndex).value
+        balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                                  + " " + dapComboBoxToken.displayText
     }
 
@@ -76,8 +40,9 @@ DapNewPaymentMainRightPanelForm
         else
         {
             console.log("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).valueDatoshi)
+            console.log("address from:", dapComboboxNetwork.model.get(dapComboboxNetwork.currentIndex).address)
             console.log("amount:", dapTextInputAmountPayment.text)
-            console.log("wallet address:", dapTextInputRecipientWalletAddress.text.length)
+            console.log("address to:", dapTextInputRecipientWalletAddress.text)
 
             if (dapTextInputAmountPayment.text === "" ||
                 stringWorker.testAmount("0.0", dapTextInputAmountPayment.text))
@@ -85,8 +50,12 @@ DapNewPaymentMainRightPanelForm
                 console.log("Zero value")
                 dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
             }
-            else
-            if (dapTextInputRecipientWalletAddress.text.length != 104)
+            else if (dapComboboxNetwork.model.get(dapComboboxNetwork.currentIndex).address === dapTextInputRecipientWalletAddress.text)
+            {
+                console.warn("An attempt to transfer tokens to your address.")
+                dapTextNotEnoughTokensWarning.text = qsTr("Error. An attempt to transfer tokens to your address.")
+            }
+            else if (dapTextInputRecipientWalletAddress.text.length != 104)
             {
                 console.log("Wrong address length")
                 dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
@@ -198,6 +167,15 @@ DapNewPaymentMainRightPanelForm
             commandResult = aResult
             walletModule.timerUpdateFlag(true);
             navigator.doneNewPayment()
+        }
+
+        function onTokenModelChanged()
+        {
+            if(dapComboBoxToken.model.count > 0)
+            {
+                dapComboBoxToken.currentIndex = 0;
+                dapComboBoxToken.displayText = walletTokensModel.get(0).tokenName
+            }
         }
     }
 }

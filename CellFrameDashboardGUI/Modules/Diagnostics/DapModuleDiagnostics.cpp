@@ -195,7 +195,7 @@ void DapModuleDiagnostics::addNodeToList(QString mac)
     }
     QJsonObject obj;
     obj.insert("mac", mac);
-    arr.append(obj);
+    arr.insert(0, obj);
     updateNode(arr);
 }
 

@@ -172,7 +172,10 @@ DapPage
         function onCurrentWalletChanged()
         {
             console.log("onCurrentWalletChanged")
-            navigator.popPage()
+            if(walletModelList.count !== 1)
+            {
+                navigator.popPage()
+            }
             updateScreen()
             txExplorerModule.setWalletName(walletModule.getCurrentWalletName())
             txExplorerModule.clearHistory()

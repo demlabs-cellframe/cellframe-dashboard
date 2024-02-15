@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
-//import CommandCmdController 1.0
 import "qrc:/"
 import "Suggestion"
 
@@ -48,9 +47,12 @@ Page
             {
                 id: listViewConsoleCommand
                 anchors.fill: parent
-                anchors.bottomMargin: 40
-                anchors.leftMargin: 20 *pt
-                anchors.topMargin: 24
+                anchors.bottomMargin: 16 *pt
+
+                anchors.leftMargin: 16 *pt
+                anchors.rightMargin: 16 *pt
+
+                anchors.topMargin: 16 *pt
                 height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
                             contentHeight :
                             (consoleRectangle.height - inputCommand.height)
@@ -84,29 +86,40 @@ Page
                 x: 20
                 z: 4
 
-                onWordSelected: inputField.text = word
+                onWordSelected: {
+                console.log("the text")
+                var cursorPos = inputField.textInput.cursorPosition
+                var spaceBefore = inputField.text.lastIndexOf(" ", cursorPos - 1);
 
-                Rectangle
-                {
-                    width: parent.width
-                    height: 1
-                    color: currTheme.reflection
+                if (spaceBefore === -1) {
+                    spaceBefore = 0;
+                } else {
+                    spaceBefore += 1;
                 }
+                inputField.text = inputField.text.substring(0, spaceBefore) + word + " "
+                }
+            }
 
-                Rectangle
-                {
-                    width: 1
-                    height: parent.height
-                    color: currTheme.reflection
-                }
+            InnerShadow {
+                anchors.fill: suggestionsBox
+                horizontalOffset: 1
+                verticalOffset: 1
+                samples: 4
+                cached: true
+                opacity: 1.0
+                color: currTheme.reflection
+                source: suggestionsBox
+                visible: suggestionsBox.visible
+                z: 4 + 100
             }
 
             DropShadow {
                     anchors.fill: suggestionsBox
-                    horizontalOffset: 3
-                    verticalOffset: 3
+                    horizontalOffset: 6
+                    verticalOffset: 6
                     radius: 8.0
                     samples: 17
+                    opacity: 0.7
                     color: "#80000000"
                     source: suggestionsBox
                     visible: suggestionsBox.visible
@@ -178,6 +191,11 @@ Page
                         anchors.bottom: parent.bottom
                         x: promt.x + promt.width + 5 
 
+                        FontMetrics {
+                            id: metrics
+                            font: suggestionsBox.itemFont
+                        }
+
                         LineEdit {
                             id: inputField
                             anchors.top: parent.top
@@ -185,26 +203,79 @@ Page
                             anchors.right: parent.right
                             height: 30
 
+                            Connections{
+                                target: commandHelperController
+                                onHelpListGeted:
+                                {
+                                    findMaxLenIndex(list)
+                                    suggestionsBox.model = list
+                                }
 
+                                function findMaxLenIndex(lst)
+                                {
+                                    var resultIndex = 0
+                                    var maxLen = 0
+                                    var maxWidth = 0
+                                    var maxStr;
+
+                                    for(var i = 0; i < lst.length; i++)
+                                    {
+                                        var tmpStr = lst[i]
+                                        if(maxLen <= tmpStr.length)
+                                        {
+                                            var tmpWidth = getStrWidth(tmpStr)
+                                            if(maxWidth < tmpWidth) {
+                                                maxLen = tmpStr.length
+                                                maxWidth = tmpWidth
+                                                maxStr = tmpStr
+                                                resultIndex = i
+                                            }
+                                        }
+                                    }
+
+                                    suggestionsBox.maxLenIndex = resultIndex
+                                    suggestionsBox.itemWidth = maxWidth;
+                                }
+                                
+                                function getStrWidth(str) {
+                                    var limit = 500
+                                    var width = metrics.boundingRect(str).width
+                                    return limit < width ? limit : width
+                                }
+                            }
 
                             onSugTextChanged:
                             {
-                                suggestionsBox.model = commandCmdController.getTreeWords(text)
+                                commandHelperController.tryListGetting(text, inputField.textInput.cursorPosition)
                             }
 
                             onEnterPressed:
                             {
                                 if (!suggestionsBox.visible)
                                 {
-                                    textInput.text.length > 0 ?
-                                                sendedCommand = textInput.text :
+                                    var str = textInput.text.trim()
+                                    str.length > 0 ?
+                                                sendedCommand = str :
                                                 sendedCommand = ""
                                     textInput.text = ""
                                 }
 
                                 else
                                 {
-                                    inputField.text = suggestionsBox.model[suggestionsBox.selectedIndex].str
+
+                                    var cursorPos = inputField.textInput.cursorPosition
+                                    var spaceBefore = text.lastIndexOf(" ", cursorPos - 1);
+                                    var spaceAfter = text.indexOf(" ", cursorPos);
+                                    if (spaceBefore === -1) {
+                                        spaceBefore = 0;
+                                    } else {
+                                        spaceBefore += 1;
+                                    }
+                                    if (spaceAfter === -1) {
+                                        spaceAfter = text.length;
+                                    }
+
+                                    inputField.text = text.substring(0, spaceBefore) + suggestionsBox.model[suggestionsBox.selectedIndex] + " "
                                     suggestionsBox.selectedIndex = 0
                                 }
                             }

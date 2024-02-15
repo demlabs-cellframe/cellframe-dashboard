@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
 import "../../controls"
+import qmlclipboard 1.0
 
 DapRectangleLitAndShaded
 {
@@ -16,6 +17,10 @@ DapRectangleLitAndShaded
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
+
+    QMLClipboard{
+        id: clipboard
+    }
 
     contentData:
     ColumnLayout
@@ -91,7 +96,7 @@ DapRectangleLitAndShaded
             delegate: Item {
                 width: lastActionsView.width
 
-                height: 50 
+                height: 67
 
                 RowLayout
                 {
@@ -100,24 +105,24 @@ DapRectangleLitAndShaded
                     anchors.leftMargin: 16
                     spacing: 12
 
-                    ColumnLayout
+                    Item
                     {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        spacing: 3
 
                         Text
                         {
-                            Layout.fillWidth: true
                             text: network
                             color: currTheme.white
                             font: mainFont.dapFont.regular11
                             elide: Text.ElideRight
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.topMargin: 7
                         }
 
                         Text
                         {
-                            Layout.fillWidth: true
                             text: tx_status === "ACCEPTED" || tx_status === "PROCESSING" ? status : "Declined"
                             color: text === "Sent" ?      currTheme.orange :
                                    text === "Pending" ?   currTheme.neon :
@@ -128,27 +133,57 @@ DapRectangleLitAndShaded
                                                           currTheme.white
 
                             font: mainFont.dapFont.regular12
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.topMargin: 24
                         }
-                    }
 
-                    ColumnLayout
-                    {
-                        Layout.fillHeight: true
-                        Layout.fillWidth: false
-                        spacing: 0
+                        Text
+                        {
+                            id: timestamp
+                            text: qsTr("Timestamp:")
+                            color: currTheme.gray
+                            font: mainFont.dapFont.regular11
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.topMargin: 42
+                        }
+
+                        Text
+                        {
+                            text: modelLastActions.get(index).time
+                            color: currTheme.white
+                            font: mainFont.dapFont.regular11
+                            anchors.left: timestamp.right
+                            anchors.top: timestamp.top
+                            anchors.leftMargin: 4
+                        }
 
                         DapBigText
                         {
                             property string sign: direction === "to"? "- " : "+ "
-//                            Layout.fillHeight: true
-                            Layout.fillWidth: true
+                            id: val
+                            width: 160
                             height: 20
                             horizontalAlign: Qt.AlignRight
                             verticalAlign: Qt.AlignVCenter
                             fullText: sign + value + " " + token
-                            textFont: mainFont.dapFont.regular14
+                            textFont: mainFont.dapFont.regular13
+                            anchors.right: copyBtn.left
+                            anchors.top: parent.top
+                            anchors.rightMargin: 3
+                            anchors.topMargin: 13
+                        }
 
-                            width: 160
+                        DapCopyButton {
+                            id: copyBtn
+                            popupText: qsTr("Value copied")
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.topMargin: 15
+                            onCopyClicked: {
+                                clipboard.setText(value)
+                            }
                         }
 
                         DapTextWithList
@@ -181,8 +216,6 @@ DapRectangleLitAndShaded
                             }
 
                             alwaysHoverShow: true
-                            Layout.fillWidth: false
-                            Layout.alignment: Qt.AlignRight
                             height: 15
                             textColor: currTheme.lime
                             textHoverColor: currTheme.orange
@@ -192,6 +225,9 @@ DapRectangleLitAndShaded
                             textAndMenuFont: mainFont.dapFont.regular12
                             listView.model: model_tooltip
                             width: 40
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.topMargin: 36
                         }
                     }
 
@@ -221,6 +257,8 @@ DapRectangleLitAndShaded
 
                         onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
 
+                        width: 18
+                        height: 18
                     }
                 }
 

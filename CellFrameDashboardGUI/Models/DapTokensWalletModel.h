@@ -103,6 +103,7 @@ public:
 public:
     void updateAllToken(const QList<CommonWallet::WalletTokensInfo> &tokens);
     void addToken(const CommonWallet::WalletTokensInfo& token);
+    void setDataFromOtherModel(const QList<DapTokensWalletModel::Item>& items);
 
     /// find item with the same name and return it's index. otherwise returns -1
     Q_INVOKABLE int indexOf (const DapTokensWalletModel::Item &a_item) const;
@@ -116,6 +117,7 @@ public:
     Q_INVOKABLE QVariant get(int a_index);
     /// get item by index
     Q_INVOKABLE const QVariant get (int a_index) const;
+    Q_INVOKABLE QVariant get (const QString& tokenName) const;
 
     Q_INVOKABLE int fieldId (const QString &a_fieldName) const;
 
