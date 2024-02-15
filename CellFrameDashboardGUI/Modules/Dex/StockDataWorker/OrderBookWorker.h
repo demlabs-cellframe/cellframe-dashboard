@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QQmlContext>
 #include "Models/DEXModel/DEXTypes.h"
-#include "OrderInfo.h"
+#include "ChartTypes.h"
 
 class OrderBookWorker : public QObject
 {

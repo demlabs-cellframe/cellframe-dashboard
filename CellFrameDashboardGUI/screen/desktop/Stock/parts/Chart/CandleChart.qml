@@ -21,9 +21,6 @@ Item
         logic.redCandleColor = currTheme.red
         logic.greenCandleColor = currTheme.green
 
-//        candleChartWorker.generatePriceData(1000000)
-//        candleChartWorker.generatePriceData(100000)
-
         if (logicMainApp.simulationStock)
             candleChartWorker.setNewCandleWidth(logic.minute*0.25)
         else
@@ -31,6 +28,7 @@ Item
 
         updateTokenPrice()
 
+        candleChartWorker.dataAnalysis()
         logic.dataAnalysis()
 
         updateTimer.start()
@@ -50,12 +48,19 @@ Item
 
         onPaint:
         {
+            if(!candleChartWorker.setPaintingStatus(true))
+            {
+                return
+            }
+
             if (analysisNeeded)
             {
                 analysisNeeded = false
 
                 logic.dataAnalysis()
             }
+
+            // console.log(" FROM " + candleChartWorker.firstVisibleCandle + " TO " + candleChartWorker.lastVisibleCandle)
 
             var ctx = getContext("2d");
 
@@ -75,6 +80,23 @@ Item
 
             requestPaint()
         }
+
+    // Connections
+    // {
+    //     target: candleChartWorker
+
+    //     function onDataGraphRecalculated()
+    //     {
+    //         logic.dataAnalysis()
+    //         chartCanvas.requestPaint()
+    //     }
+
+    //     // function onCurrentTokenPairChanged()
+    //     // {
+    //     //     updateChart()
+    //     // }
+    // }
+
     }
 
     property real mouseStart: 0
@@ -161,7 +183,7 @@ Item
         onReleased:
         {
 //            print("onReleased")
-
+            logic.updateChart()
             mousePressed = false
         }
 
@@ -230,10 +252,8 @@ Item
             candleChartWorker.setNewCandleWidth(logic.day*30)
             break
         }
-
-        logic.dataAnalysis()
-
-        chartCanvas.requestPaint()
+        console.log(" UPDATE CHART setCandleSize")
+        logic.updateChart()
     }
 
 }

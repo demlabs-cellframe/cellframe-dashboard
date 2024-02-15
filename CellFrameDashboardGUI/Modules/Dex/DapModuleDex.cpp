@@ -91,7 +91,6 @@ bool DapModuleDex::isCurrentPair()
 void DapModuleDex::startInitData()
 {
     requestTokenPairs();
-    requestTXList();
 }
 
 void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
@@ -176,8 +175,9 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
     {
         m_currentPair.rate = tokenPairObject["rate"].toString();
         m_currentPair.rate_double = m_currentPair.rate.toDouble();
+        QString time = tokenPairObject["time"].toString();
 
-        m_stockDataWorker->getCandleChartWorker()->setNewPrice(m_currentPair.rate);
+        m_stockDataWorker->getCandleChartWorker()->respondCurrentTokenPairs({{time, m_currentPair.rate}});
         emit currentTokenPairInfoChanged();
     }
 }
@@ -207,7 +207,7 @@ void DapModuleDex::respondTokenPairsHistory(const QVariant &rcvData)
         qDebug() << "[respondHistoryTokenPairs] The current pair has changed. The story is rejected";
         return;
     }
-    m_stockDataWorker->getCandleChartWorker()->setTokenPriceHistory(tokenHistoryObject["history"].toArray());
+    m_stockDataWorker->getCandleChartWorker()->respondTokenPairsHistory(tokenHistoryObject["history"].toArray());
 }
 
 void DapModuleDex::respondTxList(const QVariant &rcvData)
@@ -510,7 +510,7 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
 
     m_stockDataWorker->getOrderBookWorker()->setTokenPair(m_currentPair, "");
     requestHistoryTokenPairs();
-    m_stockDataWorker->getCandleChartWorker()->setTokenPriceHistory(QJsonArray());
+    m_stockDataWorker->getCandleChartWorker()->respondTokenPairsHistory(QJsonArray());
     m_proxyModel->setPairAndNetworkOrderFilter(m_currentPair.displayText, m_currentPair.network);
     emit currentTokenPairChanged();
 }

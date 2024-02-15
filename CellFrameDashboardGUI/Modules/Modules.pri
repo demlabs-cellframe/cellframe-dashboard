@@ -1,5 +1,9 @@
 HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/DapModulesController.h \
+    $$PWD/Dex/StockDataWorker/ChartTypes.h \
+    $$PWD/Dex/StockDataWorker/MainInfoChart.h \
+    $$PWD/Dex/StockDataWorker/CreateCandleChart.h \
+    $$PWD/Dex/StockDataWorker/CreatingSheduleController.h \
     $$PWD/Logs/DapModuleLogs.h \
     $$PWD/Logs/DapLogsReader.h \
     $$PWD/Logs/logmodel.h \
@@ -12,14 +16,11 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Settings/DapModuleSettings.h \
     $$PWD/Dex/DapModuleDex.h \
     $$PWD/Dex/StockDataWorker/OrderBookWorker.h \
-    $$PWD/Dex/StockDataWorker/PriceInfo.h \
     $$PWD/Dex/StockDataWorker/CandleChartWorker.h \
     $$PWD/Dex/StockDataWorker/StockDataWorker.h \
-    $$PWD/Dex/StockDataWorker/OrderInfo.h \
     $$PWD/Dex/StockDataWorker/TokenPairsWorker.h \
     $$PWD/Dex/StockDataWorker/TokenPairInfo.h \
     $$PWD/Diagnostics/AbstractDiagnostic.h \
-    $$PWD/Dex/StockDataWorker/CandleInfo.h \
     $$PWD/Diagnostics/DapModuleDiagnostics.h \
     $$PWD/Orders/DapModuleOrders.h \
     $$PWD/Tokens/DapModuleTokens.h \
@@ -31,6 +32,9 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Wallet/DapModuleWallet.h
 
  SOURCES += $$PWD/TxExplorer/DapModuleTxExplorer.cpp \
+    $$PWD/Dex/StockDataWorker/CreateCandleChart.cpp \
+    $$PWD/Dex/StockDataWorker/MainInfoChart.cpp \
+    $$PWD/Dex/StockDataWorker/CreatingSheduleController.cpp \
     $$PWD/Logs/logreader.cpp \
     $$PWD/Logs/DapModuleLogs.cpp \
     $$PWD/Logs/logmodel.cpp \

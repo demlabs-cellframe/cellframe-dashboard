@@ -91,8 +91,8 @@ DapPage
         {
             console.log("stockDataWorker.resetPriceData", candleChartWorker.currentTokenPrice)
 
-            candleChartWorker.resetPriceData(
-                candleChartWorker.currentTokenPrice, candleChartWorker.currentTokenPriceText, false)
+            // candleChartWorker.resetPriceData(
+            //     candleChartWorker.currentTokenPrice, candleChartWorker.currentTokenPriceText, false)
             orderBookWorker.resetBookModel()
 
             tokenPriceChanged()
