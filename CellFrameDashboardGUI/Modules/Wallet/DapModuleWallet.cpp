@@ -284,7 +284,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 
 void DapModuleWallet::timerUpdateFlag(bool flag)
 {
-    if(flag)
+    if(flag && !m_currentWallet.second.isEmpty())
         m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
     else
         m_timerUpdateWallet->stop();
@@ -295,9 +295,9 @@ void DapModuleWallet::getWalletsInfo(QStringList args)
     s_serviceCtrl->requestToService("DapGetWalletsInfoCommand", args);
 }
 
-void DapModuleWallet::requestWalletInfo(QStringList args)
+void DapModuleWallet::requestWalletInfo(const QString& key)
 {
-    s_serviceCtrl->requestToService("DapGetWalletInfoCommand", args);
+    s_serviceCtrl->requestToService("DapGetWalletInfoCommand", QStringList() << m_currentWallet.second << key);
 }
 
 void DapModuleWallet::createTx(QStringList args)
@@ -368,7 +368,7 @@ void DapModuleWallet::rcvHistory(const QVariant &rcvData)
 
 void DapModuleWallet::slotUpdateWallet()
 {
-    requestWalletInfo(QStringList() << getCurrentWalletName() <<"false");
+    requestWalletInfo("false");
 }
 
 void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
@@ -553,7 +553,8 @@ void DapModuleWallet::startUpdateCurrentWallet()
     }
 
     emit walletsModelChanged();
-    requestWalletInfo(QStringList() << m_currentWallet.second << "true");
+    requestWalletInfo("true");
+    timerUpdateFlag(true);
 }
 
 void DapModuleWallet::tryUpdateFee()

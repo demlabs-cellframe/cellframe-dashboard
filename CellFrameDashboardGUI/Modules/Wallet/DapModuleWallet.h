@@ -36,7 +36,7 @@ public:
 
     Q_INVOKABLE void timerUpdateFlag(bool flag);
     Q_INVOKABLE void getWalletsInfo(QStringList args);
-    Q_INVOKABLE void requestWalletInfo(QStringList args);
+    Q_INVOKABLE void requestWalletInfo(const QString &key);
     Q_INVOKABLE void createWallet(QStringList args);
     Q_INVOKABLE void removeWallet(QStringList args);
     Q_INVOKABLE void getTxHistory(QStringList args);
