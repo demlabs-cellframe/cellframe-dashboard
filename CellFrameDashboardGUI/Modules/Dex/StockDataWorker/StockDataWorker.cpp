@@ -23,31 +23,3 @@ StockDataWorker::StockDataWorker(QQmlContext *cont, QObject *parent) :
 //    connect(tokenPairsWorker, &TokenPairsWorker::setTokenPair,
 //            orderBookWorker, &OrderBookWorker::setTokenPair);
 }
-
-//void StockDataWorker::signalXchangeOrderListReceived(const QVariant &rcvData)
-//{
-////    qDebug() << "StockDataWorker::signalXchangeOrderListReceived"
-////             << rcvData << rcvData.typeName();
-////    if (strncmp(rcvData.typeName(), "QByteArray", 10) == 0)
-//    if(rcvData.toString() != "")
-//        orderBookWorker->setBookModel(rcvData.toByteArray());
-//}
-
-//void StockDataWorker::rcvXchangeTokenPriceHistory(const QVariant &rcvData)
-//{
-////    qDebug() << "StockDataWorker::rcvXchangeTokenPriceHistory"
-////             << rcvData << rcvData.typeName();
-////    if (strncmp(rcvData.typeName(), "QByteArray", 10) == 0)
-////        if(rcvData.toString() != "")
-//        //candleChartWorker->setTokenPriceHistory(rcvData.toByteArray());
-//}
-
-//void StockDataWorker::signalXchangeTokenPairReceived(const QVariant &rcvData)
-//{
-////    qDebug() << "StockDataWorker::signalXchangeTokenPairReceived"
-////             << rcvData << rcvData.typeName()
-////             <<strncmp(rcvData.typeName(), "QByteArray", 10);
-////    if (strncmp(rcvData.toByteArray(), "QByteArray", 10) == 0)
-//    if(rcvData.toString() != "isEqual")
-//        tokenPairsWorker->setPairModel(rcvData.toByteArray());
-//}

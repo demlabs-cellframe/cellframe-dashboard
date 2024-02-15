@@ -282,6 +282,11 @@ Rectangle {
             bttnIco: "icon_wallet.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
+//        append ({ tag: "DEX",
+//            name: qsTr("DEX Alpha"),
+//            bttnIco: "icon_exchange.svg",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "DEX",
             name: qsTr("DEX Alpha"),
             bttnIco: "icon_exchange.svg",
@@ -670,11 +675,6 @@ Rectangle {
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-//         function onSignalXchangeTokenPairReceived()
-//         {
-//             console.log("onSignalXchangeTokenPairReceived")
-// //            logicMainApp.rcvPairsModel(rcvData)
-//         }
     }
     Connections{
         target: dAppsModule
