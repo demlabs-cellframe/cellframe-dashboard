@@ -115,14 +115,13 @@ Item
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignCenter
                 Layout.topMargin: 24
-                Layout.leftMargin: 32
-                Layout.rightMargin: 32
-
+                Layout.leftMargin: 32 + textInputPasswordWallet.bottomLine.anchors.leftMargin
+                Layout.rightMargin: 32 + textInputPasswordWallet.bottomLine.anchors.rightMargin
                 color: currTheme.white
                 text: qsTr("After confirmation, you will be required to enter your password every time you use the wallet")
                 font: mainFont.dapFont.regular14
                 horizontalAlignment: Text.AlignLeft
-                verticalAlignment: Text.AlignVCenter
+                verticalAlignment: Text.AlignTop
                 wrapMode: Text.WordWrap
             }
 
