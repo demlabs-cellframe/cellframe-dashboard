@@ -127,7 +127,7 @@ ColumnLayout
                         Layout.preferredWidth: 46
                         indicatorSize: 30
 
-                        backgroundColor: currTheme.secondaryBackground
+                        backgroundColor: currTheme.mainBackground
                         borderColor: currTheme.reflectionLight
                         shadowColor: currTheme.shadowColor
 
