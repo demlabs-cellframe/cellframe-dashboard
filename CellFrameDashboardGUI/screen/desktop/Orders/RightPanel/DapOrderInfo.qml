@@ -76,8 +76,8 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 16
                 anchors.fill: parent
 
-                sourceComponent: logicOrders.currentTabName === "VPN"   ||
-                                 logicOrders.currentTabName === "Stake"  ? vpnOrderDetails:
+                sourceComponent: logicOrders.currentTabTechName === "VPN"   ||
+                                 logicOrders.currentTabTechName === "Stake"  ? vpnOrderDetails:
                                                                            dexOrderDetails
 
             }
