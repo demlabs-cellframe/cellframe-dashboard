@@ -30,8 +30,8 @@ GridView {
     }
 
 
-    delegate: logicOrders.currentTabName === "VPN" ? vpn_component:
-              logicOrders.currentTabName === "DEX" ? dex_component: stake_component
+    delegate: logicOrders.currentTabTechName === "VPN" ? vpn_component:
+              logicOrders.currentTabTechName === "DEX" ? dex_component: stake_component
 
 
     Component

@@ -10,7 +10,8 @@ QtObject
         "message": ""
     }
 
-    property string currentTabName: "VPN"
+    property string currentTabName: qsTr("VPN")
+    property string currentTabTechName: "VPN"
 
     function initDetailsModel(selectedModel)
     {
