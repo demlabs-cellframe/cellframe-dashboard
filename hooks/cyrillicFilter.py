@@ -1,3 +1,4 @@
+from common import types
 import os
 import re
 import sys
@@ -16,11 +17,9 @@ def filter_cyrillic(files):
                     cyrillic_files.append((filename, line_num+1, line))
     return cyrillic_files
 
-def startFilter():
+def startFilter(files):
     print('Start cyrillic test.')
-    files = os.popen('git diff --cached --name-only --diff-filter=ACMRTUXB').read().splitlines()
-
-    types = ('.py', '.cpp', '.h', '.pro', '.pri', '.c', '.hpp', '.txt', '.mk')
+    #files = os.popen('git diff --cached --name-only --diff-filter=ACMRTUXB').read().splitlines()
 
     py_files = [f for f in files if f.endswith(types)]
 
