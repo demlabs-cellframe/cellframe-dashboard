@@ -2,7 +2,6 @@ from cyrillicFilter import startFilter
 from mergeProblem import startMergeProblemTest
 import os
 import sys
-import subprocess
 
 def main():
     files_1 = os.popen('git diff --cached --name-only --diff-filter=ACMRTUXB').read().splitlines()

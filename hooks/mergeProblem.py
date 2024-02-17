@@ -1,7 +1,6 @@
 from common import types
 import os
 import sys
-from colorama import init, Fore, Style
 
 def searchMarker(files):
     problem_files = []
@@ -16,7 +15,7 @@ def searchMarker(files):
     return problem_files
 
 def startMergeProblemTest(files):
-    print('Merge problem test.')
+    print(f'Merge problem test.')
 
     py_files = [f for f in files if f.endswith(types)]
 
@@ -24,9 +23,8 @@ def startMergeProblemTest(files):
 
     if cyrillic_files:
         for filename, line_num, line in cyrillic_files:
-            init()
-            print( Fore.RED + 'Unresolved merge conflict:' + Style.RESET_ALL + f' File: {filename} , line {line_num} : {line}')
+            print( f'Unresolved merge conflict: File: {filename} , line {line_num} : {line}')
         sys.exit(1)
 
-    print('Merge problem test. OK')
+    print(f'Merge problem test. OK')
 

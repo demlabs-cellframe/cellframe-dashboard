@@ -2,7 +2,7 @@ from common import types
 import os
 import re
 import sys
-from colorama import init, Fore, Style
+# from colorama import init, Fore, Style
 
 def has_cyrillic(content):
     return bool(re.search('[а-яА-Я]', content))
@@ -18,7 +18,7 @@ def filter_cyrillic(files):
     return cyrillic_files
 
 def startFilter(files):
-    print('Start cyrillic test.')
+    print(f'Start cyrillic test.')
     #files = os.popen('git diff --cached --name-only --diff-filter=ACMRTUXB').read().splitlines()
 
     py_files = [f for f in files if f.endswith(types)]
@@ -27,9 +27,8 @@ def startFilter(files):
 
     if cyrillic_files:
         for filename, line_num, line in cyrillic_files:
-            init()
-            print( Fore.RED + 'Error cyrillic test:' + Style.RESET_ALL + f' File: {filename} , line {line_num} : {line}')
+            print( f'Error cyrillic test: File: {filename} , line {line_num} : {line}')
         sys.exit(1)
 
-    print('Cyrillic test. OK')
+    print(f'Cyrillic test. OK')
 
