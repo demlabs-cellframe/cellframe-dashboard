@@ -49,7 +49,7 @@ DapRectangleLitAndShaded {
                 font:  mainFont.dapFont.medium12
                 elide: Text.ElideRight
                 color: currTheme.white
-                text: (logicOrders.currentTabName + qsTr(" Order ") + model.index)
+                text: (logicOrders.currentTabTechName + qsTr(" Order ") + model.index)
             }
 
             Image {
