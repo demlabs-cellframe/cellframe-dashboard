@@ -24,14 +24,17 @@ Page {
         ListElement
         {
             name: qsTr("VPN")
+            techName: "VPN"
         }
         ListElement
         {
             name: qsTr("DEX")
+            techName: "DEX"
         }
         ListElement
         {
             name: qsTr("Validator's fee")
+            techName: "Stake"
         }
     }
 
@@ -97,6 +100,7 @@ Page {
                 onCurrentIndexChanged:
                 {
                     logicOrders.currentTabName = tabsModel.get(currentIndex).name
+                    logicOrders.currentTabTechName = tabsModel.get(currentIndex).techName
                     ordersModule.currentTab = currentIndex
                     navigator.clear()
                 }
