@@ -303,10 +303,8 @@ Page
                 Layout.topMargin: 12
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
-
-                color: currTheme.white
+                color: candleChartWorker.currentTokenPrice < candleChartWorker.previousTokenPrice ? currTheme.red : currTheme.green
                 font: mainFont.dapFont.medium14
-
                 text: dexModule.currentRate
             }
 
