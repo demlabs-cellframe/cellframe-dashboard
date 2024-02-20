@@ -246,11 +246,11 @@ signals:
 
     void rcvXchangeTxList(const QVariant& rcvData);
     void rcvXchangeCreate(const QVariant& rcvData);
+    void rcvXchangeOrderPurchase(const QVariant& rcvData);
 
     void rcvXchangeOrderList(const QVariant& rcvData);
     void signalXchangeOrderListReceived(const QVariant& rcvData);
-    void rcvXchangePurchase(const QVariant& rcvData);
-
+    
     void rcvXchangeTokenPair(const QVariant& rcvData);
     void rcvXchangeTokenPriceAverage(const QVariant& rcvData);
     void rcvXchangeTokenPriceHistory(const QVariant& rcvData);

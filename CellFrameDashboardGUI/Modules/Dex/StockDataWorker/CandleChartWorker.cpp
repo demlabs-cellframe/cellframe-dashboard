@@ -175,11 +175,28 @@ void CandleChartWorker::respondCurrentTokenPairs(const QList<QPair<QString,QStri
             m_infoChart.m_previousTokenPrice = m_infoChart.m_currentTokenPrice;
             m_infoChart.m_currentTokenPrice = price.toDouble();
             m_infoChart.m_currentTokenPriceText = price;
-
             qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-            PriceInfo info{currentTime, m_infoChart.m_currentTokenPrice, m_infoChart.m_currentTokenPriceText};
 
-            m_infoChart.m_priceModel.append(info);
+            if(!m_infoChart.m_priceModel.isEmpty() && m_infoChart.m_priceModel.size() > 2)
+            {
+                int size = m_infoChart.m_priceModel.size();
+                auto& lastItem = m_infoChart.m_priceModel[size - 1];
+                auto& beforeLastItem = m_infoChart.m_priceModel[size - 2];
+                if(lastItem.price == beforeLastItem.price && beforeLastItem.price == m_infoChart.m_currentTokenPrice)
+                {
+                    lastItem.time = currentTime;
+                }
+                else
+                {
+                    PriceInfo info{currentTime, m_infoChart.m_currentTokenPrice, m_infoChart.m_currentTokenPriceText};
+                    m_infoChart.m_priceModel.append(std::move(info));
+                }
+            }
+            else
+            {
+                PriceInfo info{currentTime, m_infoChart.m_currentTokenPrice, m_infoChart.m_currentTokenPriceText};
+                m_infoChart.m_priceModel.append(std::move(info));
+            }
         }
 
         CreatingSheduleController* controller = new CreatingSheduleController();
@@ -262,7 +279,6 @@ void CandleChartWorker::setNewCandleWidth(qint64 width)
 
 void CandleChartWorker::dataAnalysis()
 {
-    qDebug() << " ANALISE START";
     bool reset = true;
 
     m_maxTime = m_infoChart.m_rightTime;
@@ -299,6 +315,7 @@ void CandleChartWorker::dataAnalysis()
 
 
         rightIndex  = (size - 1) - deltaTime / m_candleWidth;
+        rightIndex = rightIndex <= 0 ? size - 1 : rightIndex;
         rightIndex = rightIndex >= size ? size - 1 : rightIndex;
 
         leftIndex = rightIndex - m_visibleTime / m_candleWidth;
@@ -308,7 +325,7 @@ void CandleChartWorker::dataAnalysis()
     m_firstVisibleCandle = leftIndex;
     m_lastVisibleCandle = rightIndex;
 
-    for (auto i = leftIndex; i < rightIndex; ++i)
+    for (auto i = leftIndex; i <= rightIndex; ++i)
     {
         qint64 currX = m_infoChart.m_candleModel.at(i).time;
         double minimum = m_infoChart.m_candleModel.at(i).minimum;
@@ -515,7 +532,6 @@ bool CandleChartWorker::isQueued()
 
 void CandleChartWorker::threadFinished(TypeProcessing type, const MainInfoChart &info)
 {
-     qDebug() << "TYPE PROCCESING threadFinished FINISH";
     switch (type)
     {
     case TypeProcessing::NEW_HISTORY:
@@ -554,7 +570,6 @@ void CandleChartWorker::setNewData()
     bool isOldRightTime = false;
     if(!m_infoChart.m_candleModel.isEmpty())
     {
-        qDebug() << " rightTime = " << m_infoChart.m_rightTime << " realRightTime = " << m_infoChart.m_candleModel.last().time;
         rightTime = m_infoChart.m_rightTime;
         qint64 realRightTime = m_infoChart.m_candleModel.last().time;
         if(rightTime < realRightTime)
@@ -567,7 +582,6 @@ void CandleChartWorker::setNewData()
     m_infoChart = m_tmpInfoChart.second;
     if(isOldRightTime)
     {
-        qDebug() << " rightTime = " << m_infoChart.m_rightTime << " rightTimeSave = " << rightTime;
         m_infoChart.m_rightTime = rightTime;
     }
     m_tmpInfoChart.first = false;

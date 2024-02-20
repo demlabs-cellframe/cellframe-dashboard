@@ -12,8 +12,6 @@ CreatingSheduleController::CreatingSheduleController(QObject *parent)
 
 CreatingSheduleController::~CreatingSheduleController()
 {
-    qDebug() << "DESTRUCTOR CreatingSheduleController";
-
 }
 
 void CreatingSheduleController::setMemderAverageCharts(int charts)
@@ -121,7 +119,6 @@ void CreatingSheduleController::initThread(CreateCandleChart* chartCounting)
 
 void CreatingSheduleController::creatHistoryThread()
 {
-    qDebug() << "creatHistoryThread type = " << m_type;
     Q_ASSERT_X(m_priceModel, "creatHistoryThread() priceModel is null", 0);
     Q_ASSERT_X(m_candleModel, "creatHistoryThread() candleModel is null", 0);
     Q_ASSERT_X(m_averagedModel, "creatHistoryThread() averagedModel is null", 0);

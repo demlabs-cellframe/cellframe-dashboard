@@ -17,31 +17,20 @@ Page
     property bool isSell: false
     signal sellBuyChanged()
 
-    Connections{
+    Connections
+    {
         target: dapServiceController
-        function onRcvXchangeCreate(rcvData){
-            logicStock.resultCreate = rcvData
-            goToDoneCreate()
-        }
-        function onRcvXchangePurchase(rcvData){
-            logicStock.resultCreate = rcvData
-            goToDoneCreate()
-        }
-    }
 
-    ListModel {
-        id: expiresModel
-        ListElement {
-            name: qsTr("Not")
+        function onRcvXchangeCreate(rcvData)
+        {
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
         }
-        ListElement {
-            name: qsTr("1 day")
-        }
-        ListElement {
-            name: qsTr("2 days")
-        }
-        ListElement {
-            name: qsTr("3 days")
+
+        function onRcvXchangeOrderPurchase(rcvData)
+        {
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
         }
     }
 
@@ -92,7 +81,6 @@ Page
             Layout.leftMargin: 16
             Layout.topMargin: 10
             label: qsTr("Balance:")
-            //text: walletModule.getBalanceDEX(dexModule.token2) + " " + dexModule.token2
             textColor: currTheme.white
             textFont: mainFont.dapFont.regular14
 
@@ -277,7 +265,7 @@ Page
                 {
                     var walletResult = walletModule.isCreateOrder(dexModule.networkPair, fields.amount.textValue, fields.amount.textToken)
                     console.log("Wallet: " + walletResult)
-                    if(walletResult == "OK")
+                    if(walletResult === "OK")
                     {
                         var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
                         console.log("Order: " + createOrder)
@@ -295,13 +283,5 @@ Page
         logicStock.currantBalance = value
         logicStock.currantToken = value
     }
-
-//    function setBalanceText(token)
-//    {
-//        var value = walletModule.getBalanceDEX(token)
-//        textBalance.text = value + " " + token
-//        logicStock.currantBalance = value
-//        logicStock.currantToken = value
-//    }
 }
 

@@ -323,7 +323,7 @@ Item
                         textButton:
                             side === "Buy" ?
                                 qsTr("Buy ") + tokenBuy :
-                                qsTr("Sell ") + tokenSell
+                                qsTr("Sell ") + tokenBuy
                         horizontalAligmentText: Text.AlignHCenter
                         indentTextRight: 0
                         fontButton: mainFont.dapFont.medium14

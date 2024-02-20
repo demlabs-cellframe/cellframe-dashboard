@@ -303,7 +303,6 @@ QtObject
     {
         if (candleChartWorker.zoomTime(step))
         {
-            console.log(" UPDATE CHART zoomTime")
             updateChart()
         }
     }
@@ -313,7 +312,6 @@ QtObject
         if (step !== 0)
         {
             candleChartWorker.shiftTime(step / coefficientTime)
-            console.log(" UPDATE CHART shiftTime")
             updateChart()
         }
     }
@@ -566,9 +564,6 @@ QtObject
         if (selectedChange ||
             selectedCandleNumber === candleChartWorker.lastCandleNumber)
         {
-//            print("selectedChange", selectedChange,
-//                  selectedCandleNumber, candleChartWorker.lastCandleNumber)
-
             var selCandle = candleChartWorker.getCandleInfo(selectedCandleNumber)
 
             if (candle.open !== "undefined")

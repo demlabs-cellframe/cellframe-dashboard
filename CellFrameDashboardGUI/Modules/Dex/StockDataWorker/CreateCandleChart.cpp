@@ -97,7 +97,17 @@ void CreateCandleChart::createCandleModel(bool key)
 
     for(int i = maxIndexModel; i >=0 ; i--)
     {
-        qint64 minTime = lastTime - m_chartInfo.candleWidth;
+        qint64 minTime;
+        qint64 remains = lastTime % m_chartInfo.candleWidth;
+        if(remains > 0)
+        {
+            minTime = lastTime - remains;
+        }
+        else
+        {
+            minTime = lastTime - m_chartInfo.candleWidth;
+        }
+
 
         double open = 0;
         double close = 0;

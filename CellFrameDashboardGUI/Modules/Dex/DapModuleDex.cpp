@@ -71,6 +71,11 @@ void DapModuleDex::onInit()
         connect(service, &DapServiceController::rcvXchangeTokenPriceHistory, this, &DapModuleDex::respondTokenPairsHistory, Qt::QueuedConnection);
         connect(service, &DapServiceController::rcvXchangeOrderList, this, &DapModuleDex::respondOrdersHistory, Qt::QueuedConnection);
         connect(service, &DapServiceController::rcvXchangeTxList, this, &DapModuleDex::respondTxList, Qt::QueuedConnection);
+        connect(service, &DapServiceController::rcvXchangeOrderPurchase, [](const QVariant &rcvData)
+                {
+            QJsonDocument document = QJsonDocument::fromJson(rcvData.toByteArray());
+            bool a=0;
+        });
     }
     connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
     connect(m_allTakenPairsUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTokenPairs);
@@ -455,7 +460,7 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
         QString amountDatoshi = amount256.toDatoshiString();
         Dap::Coin feeInt = feeOrder;
         QString feeDatoshi = feeInt.toDatoshiString();
-        if(!isSell)
+        if(isSell)
         {
             priceOrder = invertValue(priceOrder);
         }
@@ -472,6 +477,43 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
         }
 
     }
+    return "OK";
+}
+
+QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee)
+{
+    if(hash.isEmpty() || amount.isEmpty() || fee.isEmpty())
+    {
+        return "There is not enough data";
+    }
+
+    auto checkValue = [](const QString& str) -> QString
+    {
+        if(str.isEmpty())
+        {
+            return str;
+        }
+        QString result = str;
+        if(!str.contains('.'))
+        {
+            result.append(".0");
+        }
+        return result;
+    };
+
+    QString walletName = m_modulesCtrl->getCurrentWalletName();
+    QString amountOrder = checkValue(amount);
+    QString feeOrder = checkValue(fee);
+
+    Dap::Coin feeInt = feeOrder;
+    QString feeDatoshi = feeInt.toDatoshiString();
+
+    Dap::Coin amount256 = amountOrder;
+    QString amountDatoshi = amount256.toDatoshiString();
+
+    requestOrderPurchase(QStringList() << hash << m_currentPair.network
+                                       << walletName << amountDatoshi << feeDatoshi);
+
     return "OK";
 }
 

@@ -252,7 +252,6 @@ Item
             candleChartWorker.setNewCandleWidth(logic.day*30)
             break
         }
-        console.log(" UPDATE CHART setCandleSize")
         logic.updateChart()
     }
 

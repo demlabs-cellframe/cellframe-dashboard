@@ -51,7 +51,7 @@ public:
     Q_PROPERTY(QString displayText READ getDisplayText NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getDisplayText() const { return m_currentPair.displayText; }
 
-    Q_PROPERTY(QString currentRate READ getCurrentRate NOTIFY currentTokenPairChanged)
+    Q_PROPERTY(QString currentRate READ getCurrentRate NOTIFY currentTokenPairInfoChanged)
     Q_INVOKABLE QString getCurrentRate() const { return m_currentPair.rate; }
 
     Q_PROPERTY(QString token1 READ getToken1 NOTIFY currentTokenPairChanged)
@@ -67,6 +67,7 @@ public:
     Q_INVOKABLE QString invertValue(const QString& price);
 
     Q_INVOKABLE QString tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee);
+    Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee);
 
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 

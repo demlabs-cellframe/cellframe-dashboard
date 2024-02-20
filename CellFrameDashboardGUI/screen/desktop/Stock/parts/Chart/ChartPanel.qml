@@ -397,7 +397,6 @@ Item
 
         function onChartInfoChanged()
         {
-            console.log(" UPDATE CHART onChartInfoChanged")
             candleLogic.updateChart()
         }
 

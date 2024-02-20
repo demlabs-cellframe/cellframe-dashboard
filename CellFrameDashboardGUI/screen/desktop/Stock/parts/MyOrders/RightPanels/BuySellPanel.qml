@@ -51,7 +51,7 @@ DapRectangleLitAndShaded {
                 id: textHeader
                 text: isBuy ?
                           qsTr("Buy ") + logic.selectedItem.tokenBuy :
-                          qsTr("Sell ") + logic.selectedItem.tokenSell
+                          qsTr("Sell ") + logic.selectedItem.tokenBuy
                 verticalAlignment: Qt.AlignLeft
                 anchors.left: itemButtonClose.right
                 anchors.verticalCenter: parent.verticalCenter
@@ -64,6 +64,7 @@ DapRectangleLitAndShaded {
 
         TwoTextBlocks
         {
+            id: balanceInfo
             Layout.fillWidth: true
             Layout.maximumHeight: 20
             Layout.leftMargin: 16
@@ -71,7 +72,7 @@ DapRectangleLitAndShaded {
             label: qsTr("Balance:")
             text:
             {
-                if(isBuy)
+                if(!isBuy)
                 {
                     var tokenBuy = logic.selectedItem.tokenBuy
                     return walletModule.getBalanceDEX(tokenBuy) + " " + tokenBuy
@@ -91,41 +92,10 @@ DapRectangleLitAndShaded {
             id: fields
             sell: !isBuy
             logicPrice: logic.selectedItem.price
-            balance:
-            {
-                if(isBuy)
-                {
-                    return walletModule.getBalanceDEX(logic.selectedItem.tokenBuy)
-                }
+            balance: isBuy ? walletModule.getBalanceDEX(logic.selectedItem.tokenSell) 
+                                : walletModule.getBalanceDEX(logic.selectedItem.tokenBuy)
 
-                var amountBuy = isSell ? mathWorker.coinsToBalance(total.textValue) :
-                                          mathWorker.coinsToBalance(amount.textValue)
-
-                var amountSell = isSell ? mathWorker.coinsToBalance(amount.textValue) :
-                                         mathWorker.coinsToBalance(total.textValue)
-
-                var priceValue = isSell? price.textValue : 1/price.textValue
-
-    //            console.log("tokenSell",tokenSell,
-    //                        "tokenBuy", tokenBuy,
-    //                        "amountSell", amountSell,
-    //                        "amountBuy", amountBuy,
-    //                        "priceValue" , priceValue)
-
-                var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
-
-                if(hash !== "0")
-                    dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
-                                                          net, currentWallet, amountSell)
->>>>>>> origin/master
-                else
-                {
-                    return walletModule.getBalanceDEX(logic.selectedItem.tokenSell)
-                }
-            }
-            price.textToken: isBuy ?
-                                 logic.selectedItem.tokenSell :
-                                 logic.selectedItem.tokenBuy
+            price.textToken: logic.selectedItem.tokenSell
             price.textValue: logic.selectedItem.price
             amount.textToken: tokenPairsWorker.tokenBuy
             amount.textValue: "0.0"
@@ -138,8 +108,13 @@ DapRectangleLitAndShaded {
 
             function onCreateBtnClicked()
             {
-                // TODO
-                console.log("BuySellPanel", "onCreateBtnClicked()")
+                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, fields.amount.textValue, fields.amount.textToken)
+                console.log("Wallet: " + walletResult)
+                if(walletResult === "OK")
+                {
+                    var createOrder = dexModule.tryExecuteOrder(logic.selectedItem.hash, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
+                    console.log("Order: " + createOrder)
+                }
             }
         }
 

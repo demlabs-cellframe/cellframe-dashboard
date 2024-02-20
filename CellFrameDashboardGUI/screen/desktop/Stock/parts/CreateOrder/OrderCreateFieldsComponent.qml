@@ -26,6 +26,23 @@ ColumnLayout {
     Layout.topMargin: 16
     spacing: 0
 
+
+    ListModel {
+        id: expiresModel
+        ListElement {
+            name: qsTr("Not")
+        }
+        ListElement {
+            name: qsTr("1 day")
+        }
+        ListElement {
+            name: qsTr("2 days")
+        }
+        ListElement {
+            name: qsTr("3 days")
+        }
+    }
+
     // STOP
     Rectangle
     {
@@ -200,13 +217,7 @@ ColumnLayout {
         {
             setPercentButtons(false, false, false, false)
 
-            if(parentPage === "BUY_SELL")
-            {
-                total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                                    mathWorker.coinsToBalance(logicPrice),false)
-                createButton.enabled = setStatusCreateButton(total.textValue, logicPrice)
-            }
-            else if(limitType === "LIMIT")
+            if(limitType === "LIMIT" || parentPage === "BUY_SELL")
             {
                 if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
                     total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
@@ -388,11 +399,7 @@ ColumnLayout {
         }
 
         onTextValueChanged: {
-            if(limitType === "LIMIT")
-            {
-                createButton.enabled = setStatusCreateButton(total.textValue, logicPrice)
-            }
-            else if(limitType === "LIMIT")
+            if(limitType === "LIMIT" || parentPage === "BUY_SELL")
             {
                 createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
             }
@@ -437,7 +444,20 @@ ColumnLayout {
             else
             {
                 price.textValue = dexModule.currentRate
-                price.textToken = dexModule.token1
+                price.textToken = dexModule.token2
+                amount.textToken = dexModule.token1
+                total.textToken = dexModule.token2
+            }
+        }
+        else if(parentPage === "BUY_SELL")
+        {
+            if(!sell)
+            {
+                amount.textToken = dexModule.token2
+                total.textToken = dexModule.token1
+            }
+            else
+            {
                 amount.textToken = dexModule.token1
                 total.textToken = dexModule.token2
             }
@@ -451,9 +471,9 @@ ColumnLayout {
             if(limitType === "MARKET") price.textValue = candleChartWorker.currentTokenPrice
             total.textValue = ""
             amount.textValue = ""
-            createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
-            setPercentButtons(false, false, false, false)
         }
+        createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
+        setPercentButtons(false, false, false, false)
     }
 
     function show(page, limit_type)
