@@ -325,54 +325,57 @@ void CandleChartWorker::dataAnalysis()
     m_firstVisibleCandle = leftIndex;
     m_lastVisibleCandle = rightIndex;
 
-    for (auto i = leftIndex; i <= rightIndex; ++i)
+    if(rightIndex)
     {
-        qint64 currX = m_infoChart.m_candleModel.at(i).time;
-        double minimum = m_infoChart.m_candleModel.at(i).minimum;
-        double maximum = m_infoChart.m_candleModel.at(i).maximum;
-
-        if (currX + m_candleWidth / 2 < m_infoChart.m_rightTime - m_visibleTime)
-            continue;
-
-        if (currX - m_candleWidth / 2 > m_infoChart.m_rightTime)
-            break;
-
-        m_infoChart.m_rightCandleNumber = i;
-
-        if (reset)
+        for (auto i = leftIndex; i <= rightIndex; ++i)
         {
-            m_minPrice = minimum;
-            m_maxPrice = maximum;
-            m_minPriceTime = currX;
-            m_maxPriceTime = currX;
+            qint64 currX = m_infoChart.m_candleModel.at(i).time;
+            double minimum = m_infoChart.m_candleModel.at(i).minimum;
+            double maximum = m_infoChart.m_candleModel.at(i).maximum;
 
-            reset = false;
-        }
-        else
-        {
-            if (m_minPrice > minimum)
+            if (currX + m_candleWidth / 2 < m_infoChart.m_rightTime - m_visibleTime)
+                continue;
+
+            if (currX - m_candleWidth / 2 > m_infoChart.m_rightTime)
+                break;
+
+            m_infoChart.m_rightCandleNumber = i;
+
+            if (reset)
             {
                 m_minPrice = minimum;
-                m_minPriceTime = currX;
-            }
-            if (m_maxPrice < maximum)
-            {
                 m_maxPrice = maximum;
+                m_minPriceTime = currX;
                 m_maxPriceTime = currX;
-            }
 
-            for (auto ch = 0; ch < NUMBER_AVERAGE_CHARTS; ++ch)
+                reset = false;
+            }
+            else
             {
-                auto price = m_infoChart.m_averagedModel.at(ch).at(i).price;
-                if(price < m_minPrice)
+                if (m_minPrice > minimum)
                 {
-                    m_minPrice = price;
-                    continue;
+                    m_minPrice = minimum;
+                    m_minPriceTime = currX;
                 }
-                if(price > m_maxPrice)
+                if (m_maxPrice < maximum)
                 {
-                    m_maxPrice = price;
-                    continue;
+                    m_maxPrice = maximum;
+                    m_maxPriceTime = currX;
+                }
+
+                for (auto ch = 0; ch < NUMBER_AVERAGE_CHARTS; ++ch)
+                {
+                    auto price = m_infoChart.m_averagedModel.at(ch).at(i).price;
+                    if(price < m_minPrice)
+                    {
+                        m_minPrice = price;
+                        continue;
+                    }
+                    if(price > m_maxPrice)
+                    {
+                        m_maxPrice = price;
+                        continue;
+                    }
                 }
             }
         }
