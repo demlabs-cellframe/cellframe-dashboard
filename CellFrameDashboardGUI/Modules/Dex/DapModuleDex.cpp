@@ -71,11 +71,6 @@ void DapModuleDex::onInit()
         connect(service, &DapServiceController::rcvXchangeTokenPriceHistory, this, &DapModuleDex::respondTokenPairsHistory, Qt::QueuedConnection);
         connect(service, &DapServiceController::rcvXchangeOrderList, this, &DapModuleDex::respondOrdersHistory, Qt::QueuedConnection);
         connect(service, &DapServiceController::rcvXchangeTxList, this, &DapModuleDex::respondTxList, Qt::QueuedConnection);
-        connect(service, &DapServiceController::rcvXchangeOrderPurchase, [](const QVariant &rcvData)
-                {
-            QJsonDocument document = QJsonDocument::fromJson(rcvData.toByteArray());
-            bool a=0;
-        });
     }
     connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
     connect(m_allTakenPairsUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTokenPairs);

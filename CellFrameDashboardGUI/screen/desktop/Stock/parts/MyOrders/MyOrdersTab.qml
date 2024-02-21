@@ -17,6 +17,7 @@ RowLayout
     property string buysellPanel: "../RightPanels/BuySellPanel.qml"
     property string detailOpen: "../RightPanels/DetailsOpen.qml"
     property string detailHistory: "../RightPanels/DetailsHistory.qml"
+    property string orderDone: "../../CreateOrder/OrderCreateDone.qml"
 
     property string currentPair: "All pairs"
     property string currentSide: "Both"
@@ -31,6 +32,13 @@ RowLayout
     signal closedDetailsSignal()
     signal initCompleted()
 
+    signal goToRightHome()
+
+    onGoToRightHome:
+    {
+        logic.closedDetails()
+    }
+
     ListModel{id: bufferDetails}
     ListModel{id: checkingBufferDetails}
     ListModel{id: pairModelFilter}
@@ -38,62 +46,6 @@ RowLayout
     ListModel
     {
         id: allOrdersModel
-/*        ListElement {
-            price: 12.345678434543544354
-            available: 5678.346
-            limit: 3456789.39
-            side: "buy"
-            tokenBuy: "CELL"
-            tokenSell: "USDT"
-        }
-        ListElement {
-            price: 12.345678943089
-            available: 5678.346
-            limit: 345678.39
-            side: "buy"
-            tokenBuy: "CELL"
-            tokenSell: "USDT"
-        }
-        ListElement {
-            price: 12.345678
-            available: 5678.346
-            limit: 345678.39
-            side: "buy"
-            tokenBuy: "CELL"
-            tokenSell: "USDT"
-        }
-        ListElement {
-            price: 12.345678
-            available: 5678.346
-            limit: 345678.39
-            side: "buy"
-            tokenBuy: "CELL"
-            tokenSell: "USDT"
-        }
-        ListElement {
-            price: 123.45678
-            available: 567.8346
-            limit: 3456.7839
-            side: "sell"
-            tokenBuy: "CELL"
-            tokenSell: "USDT"
-        }
-        ListElement {
-            price: 123.45678
-            available: 567.8346
-            limit: 3456.7839
-            side: "sell"
-            tokenBuy: "CELL"
-            tokenSell: "USDT"
-        }
-        ListElement {
-            price: 123.45678
-            available: 567.8346
-            limit: 3456.7839
-            side: "sell"
-            tokenBuy: "CELL"
-            tokenSell: "USDT"
-        }*/
     }
     ListModel
     {
@@ -143,6 +95,12 @@ RowLayout
     Connections
     {
         target: dapServiceController
+
+        function onRcvXchangeOrderPurchase(rcvData)
+        {
+            logicStock.resultCreate = rcvData
+            logic.changeRightPanel(orderDone)
+        }
 
         // function onRcvXchangeTxList(rcvData)
         // {
