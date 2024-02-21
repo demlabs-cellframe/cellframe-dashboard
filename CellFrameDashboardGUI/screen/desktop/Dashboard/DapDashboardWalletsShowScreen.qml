@@ -101,15 +101,7 @@ DapRectangleLitAndShaded
                 textButton: qsTr("Unlock wallet")
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText:Qt.AlignCenter
-<<<<<<< HEAD
                 onClicked: walletActivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, false)
-=======
-                onClicked: walletActivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, false)
-
-                DapCustomToolTip{
-                    contentText: qsTr("Unlock wallet")
-                }
->>>>>>> 4c043b68 ([*] upgrate customtooltip and add to some buttons)
             }
 
             Item{Layout.fillHeight: true}
@@ -162,7 +154,6 @@ DapRectangleLitAndShaded
                         Item
                         {
                             Layout.alignment: Qt.AlignRight
-<<<<<<< HEAD
                             Layout.minimumWidth: 108
                             Layout.maximumWidth: 108
                             Layout.fillHeight: true
@@ -191,9 +182,6 @@ DapRectangleLitAndShaded
                                 anchors.top: parent.top
                                 anchors.topMargin: 6
                             }
-=======
-                            popupText: qsTr("Address copied")
->>>>>>> 4c043b68 ([*] upgrate customtooltip and add to some buttons)
                         }
                     }
                 }
