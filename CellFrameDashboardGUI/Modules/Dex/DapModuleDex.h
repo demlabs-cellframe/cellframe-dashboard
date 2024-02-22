@@ -32,6 +32,7 @@ class  DapModuleDex : public DapAbstractModule
 
 public slots:
     void setNetworkFilterText(const QString &network);
+    void setStepChart(const int &index);
 
 public:
     explicit DapModuleDex(DapModulesController *parent = nullptr);
@@ -47,6 +48,9 @@ public:
 
     Q_PROPERTY(QString networkFilter READ getNetworkFilterText WRITE setNetworkFilterText NOTIFY networkFilterChanged)
     Q_INVOKABLE QString getNetworkFilterText() const { return m_networkFilter; }
+
+    Q_PROPERTY(int stepChart READ getStepChart WRITE setStepChart NOTIFY stepChartChanged)
+    Q_INVOKABLE int getStepChart() const { return m_stepChartIndex; }
 
     Q_PROPERTY(QString displayText READ getDisplayText NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getDisplayText() const { return m_currentPair.displayText; }
@@ -89,6 +93,7 @@ signals:
 
     void dexNetListChanged();
     void networkFilterChanged(const QString& network);
+    void stepChartChanged(const int& index);
 private slots:
     void startInitData();
 
@@ -134,6 +139,8 @@ private:
 
     bool m_isSandXchangeTokenPriceAverage = false;
     bool m_isSandDapGetXchangeTokenPair = false;
+
+    int m_stepChartIndex = 0;
 
     const int ALL_TOKEN_UPDATE_TIMEOUT = 10000;
     const int CURRENT_TOKEN_UPDATE_TIMEOUT = 1000;
