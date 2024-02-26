@@ -521,6 +521,12 @@ void DapModuleDex::setNetworkFilterText(const QString &network)
     }
 }
 
+void DapModuleDex::setStepChart(const int &index)
+{
+    m_stepChartIndex = index;
+    emit stepChartChanged(m_stepChartIndex);
+}
+
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
     if(namePair.isEmpty())

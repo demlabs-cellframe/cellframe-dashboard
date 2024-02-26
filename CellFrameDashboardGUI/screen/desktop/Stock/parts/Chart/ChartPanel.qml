@@ -215,11 +215,17 @@ Item
         {
             Layout.topMargin: 16
             height: 35
-
+            defaultIndex: dexModule.stepChart
             selectorModel: selectorModel
             selectorListView.interactive: false
 
             onItemSelected:
+            {
+                chartItem.setCandleSize(currentIndex)
+                dexModule.setStepChart(currentIndex)
+            }
+
+            Component.onCompleted:
             {
                 chartItem.setCandleSize(currentIndex)
             }
