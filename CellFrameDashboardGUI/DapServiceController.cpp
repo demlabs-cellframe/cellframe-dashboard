@@ -406,14 +406,6 @@ void DapServiceController::registerCommand()
         }*/
     });
 
-    connect(this, &DapServiceController::rcvXchangeOrderList, [=] (const QVariant& rcvData)
-    {
-        if (!rcvData.isValid())
-            return ;
-
-        emit signalXchangeOrderListReceived(rcvData);
-
-    });
 
 
 

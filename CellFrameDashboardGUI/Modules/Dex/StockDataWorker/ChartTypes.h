@@ -4,6 +4,7 @@
 #include <QVariantMap>
 #include <QGuiApplication>
 #include <QString>
+#include "../DapTypes/DapCoin.h"
 
 struct CandleInfo
 {
@@ -62,6 +63,10 @@ public:
     QString total;
     double filled;
 
+    Dap::Coin rateCoin;
+    Dap::Coin amountCoin;
+    Dap::Coin totalCoin;
+
     OrderInfo(QString price = "0.0",
               QString amount = "0.0",
               QString total = "0.0")
@@ -79,8 +84,10 @@ enum class OrderType
 
 struct FullOrderInfo
 {
-
     OrderType type;
+    Dap::Coin rateCoin;
+    Dap::Coin amountCoin;
+    Dap::Coin totalCoin;
     QString price = "";
     QString amount = "";
     QString total = "";
