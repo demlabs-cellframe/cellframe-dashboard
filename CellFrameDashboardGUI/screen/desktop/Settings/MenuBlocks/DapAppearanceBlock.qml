@@ -215,6 +215,10 @@ ColumnLayout
                     newScale = 1.0
                     restartPopup.smartOpen(qsTr("Confirm reboot"), qsTr("You must restart the application to apply the new scale. Do you want to restart now?"))
                 }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Reset scale")
+                }
             }
 
             DapButton
@@ -236,6 +240,10 @@ ColumnLayout
                 onClicked: {
                     newScale = scaleSpinbox.realValue
                     restartPopup.smartOpen(qsTr("Confirm reboot"), qsTr("You must restart the application to apply the new scale. Do you want to restart now?"))
+                }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Apply scale")
                 }
             }
         }
@@ -264,6 +272,10 @@ ColumnLayout
 
         onClicked: {
             params.resetSize()
+        }
+
+        DapCustomToolTip{
+            contentText: qsTr("Reset window size")
         }
     }
 
