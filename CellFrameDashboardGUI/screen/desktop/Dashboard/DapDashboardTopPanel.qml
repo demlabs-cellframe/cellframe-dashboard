@@ -24,7 +24,9 @@ Controls.DapTopPanel
             text: qsTr("Wallet:")
             font: mainFont.dapFont.regular14
             color: currTheme.gray
-            Layout.leftMargin: 21
+            Layout.leftMargin: 24
+            Layout.alignment: Qt.AlignVCenter
+            Layout.bottomMargin: 1
         }
 
         DapWalletComboBox
@@ -33,8 +35,8 @@ Controls.DapTopPanel
 
             Layout.fillHeight: true
             Layout.topMargin: 9
-            Layout.bottomMargin: 9
-            Layout.leftMargin: 4
+            Layout.bottomMargin: 10
+            Layout.leftMargin: 6
             width: 220
             displayText: walletModule.currentWalletName
             font: mainFont.dapFont.regular14

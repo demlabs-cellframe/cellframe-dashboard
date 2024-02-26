@@ -40,6 +40,11 @@ Item
 
                 backgroundColorShow: currTheme.secondaryBackground
                 backgroundColorNormal: currTheme.secondaryBackground
+
+                isSingleColor: true
+                isNecessaryToHideCurrentIndex: true
+                popupBorderWidth: 0
+
                 model: dexNetModel
                 mainTextRole: "name"
                 font: mainFont.dapFont.medium14
@@ -57,6 +62,11 @@ Item
                             }
                         }
                     }
+                }
+
+                onCountChanged:
+                {
+                    if(count > 0 && currentIndex < 0) setCurrentIndex(0)
                 }
 
                 onCurrantDisplayTextChanged:
