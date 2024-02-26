@@ -288,6 +288,10 @@ DapRectangleLitAndShaded {
                                                           certificates.displayText)
                 }
             }
+
+            DapCustomToolTip {
+                contentText: qsTr("Create new token")
+            }
         }
     }
 

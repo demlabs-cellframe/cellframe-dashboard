@@ -145,6 +145,10 @@ Item
                     dialogSelectPlug.open()
     //                messagePopup.smartOpen(qsTr("Add Plugin"),qsTr("Input name plugin"))
                 }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Add dApp")
+                }
             }
             DapButton
             {
@@ -166,6 +170,10 @@ Item
                     dAppsModule.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     defaultRightPanel.setEnableButtons()
                     logicMainApp.activePlugin = currentPlugin
+                }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Activate dApp")
                 }
             }
             DapButton
@@ -192,6 +200,10 @@ Item
                     logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
+                }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Deactivate dApp")
                 }
             }
             DapButton
@@ -240,6 +252,10 @@ Item
                             break;
                         }
                     }
+                }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Delete dApp")
                 }
             }
         }

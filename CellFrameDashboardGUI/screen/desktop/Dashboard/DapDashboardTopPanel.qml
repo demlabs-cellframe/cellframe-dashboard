@@ -79,6 +79,10 @@ Controls.DapTopPanel
                 mipmap: true
             }
 
+            Widgets.DapCustomToolTip{
+                contentText: logicWallet.walletStatus === "" ? qsTr("Create password for this wallet") : (logicWallet.walletStatus === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet"))
+                isUnderDirection: true
+            }
 
             MouseArea{
                 id: area
@@ -114,6 +118,12 @@ Controls.DapTopPanel
             horizontalAligmentText: Text.AlignHCenter
             selected: false
             onClicked: navigator.restoreWalletFunc()
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Import wallet")
+                isUnderDirection: true
+            }
+
         }
 
         Widgets.DapButton
@@ -128,6 +138,11 @@ Controls.DapTopPanel
             horizontalAligmentText: Text.AlignHCenter
             selected: false
             onClicked: navigator.createWallet()
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Create new wallet")
+                isUnderDirection: true
+            }
         }
 
         Item
@@ -154,6 +169,11 @@ Controls.DapTopPanel
                 walletInfo.name = modulesController.currentWalletName
                 dapRightPanel.pop()
                 navigator.newPayment()
+            }
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Sending tokens between your accounts")
+                isUnderDirection: true
             }
         }
     }
