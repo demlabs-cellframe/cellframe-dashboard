@@ -271,6 +271,13 @@ Item
 
             defaultText: qsTr("Networks")
 
+            isHighPopup:
+            {
+                var fullHeight = historyRightPanel.height
+                var conteinHeight = delegateHeight * (count - 1)
+                return fullHeight - y < height + conteinHeight
+            }
+
             onCurrantDisplayTextChanged:
             {
                 modelHistory.setNetworkFilter(displayText)
