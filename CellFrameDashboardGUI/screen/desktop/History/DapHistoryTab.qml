@@ -58,7 +58,7 @@ DapPage
             onFindHandler: {
                 console.log(text)
                 currentString = text
-                txExplorerModule.setFilterString(text)
+                modelHistory.setFilterString(text)
             }
 
         }
@@ -69,7 +69,7 @@ DapPage
         dapHistoryRightPanel.onCurrentStatusSelected: {
 
                 currentStatus = status
-                txExplorerModule.setCurrentStatus(status)
+                modelHistory.setCurrentStatus(status)
         }
 
         dapHistoryRightPanel.onCurrentPeriodSelected: {
@@ -79,7 +79,7 @@ DapPage
 
                 var data = [period, isRange]
 
-                txExplorerModule.setCurrentPeriod(data)
+                modelHistory.setCurrentPeriod(data)
             }
     }
 
@@ -102,9 +102,9 @@ DapPage
 
     Component.onCompleted:
     {
-        txExplorerModule.setFilterString("")
-        txExplorerModule.setCurrentStatus(currentStatus)
-        txExplorerModule.setLastActions(false)
+        modelHistory.setFilterString()
+        modelHistory.setCurrentStatus(currentStatus)
+        modelHistory.setLastActions(false)
         logicExplorer.historyUpdate()
         txExplorerModule.statusProcessing = true
     }

@@ -178,7 +178,7 @@ Page
 
                     Text
                     {
-                        text: modelLastActions.get(index).time
+                        text: time
                         color: currTheme.white
                         font: mainFont.dapFont.regular11
                         anchors.left: textTimestamp.right

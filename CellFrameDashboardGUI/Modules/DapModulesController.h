@@ -10,6 +10,7 @@
 
 #include "DapAbstractModule.h"
 #include "../DapServiceController.h"
+#include "Models/DapStringListModel.h"
 #include "qsettings.h"
 
 class DapModulesController : public QObject
@@ -42,7 +43,7 @@ public:
     int currentWalletIndex(){return m_currentWalletIndex;};
     void setCurrentWalletIndex(int newIndex);
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
-    QString currentWalletName(){return m_currentWalletName;};
+    QString currentWalletName(){return m_currentWalletName;}
 
     QString testData{"test data"};
 
@@ -64,8 +65,11 @@ public:
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
 private:
+    void updateNetworkListModel();
+private:
     QTimer *m_timerUpdateData;
     QSettings *s_settings;
+    DapStringListModel* m_netListModel = nullptr;
 
     bool m_firstDataLoad{false}; 
     QStringList m_netList;
@@ -73,6 +77,7 @@ private:
     QStringList m_walletList;
     int m_currentWalletIndex{-1};
     QString m_currentWalletName{""};
+
 public slots:
     Q_INVOKABLE void updateListWallets();
     Q_INVOKABLE void updateListNetwork();

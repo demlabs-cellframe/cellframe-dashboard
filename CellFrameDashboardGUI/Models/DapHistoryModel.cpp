@@ -137,6 +137,15 @@ DapHistoryModel *DapHistoryModel::global()
   return &DapHistoryModel;
 }
 
+bool DapHistoryModel::updateModel(const QList<Item>& historyList)
+{
+  m_items->clear();
+  beginResetModel ();
+  m_items->append(historyList);
+  endResetModel();
+  return true;
+}
+
 int DapHistoryModel::add (const DapHistoryModel::Item &a_item)
 {
   int index = m_items->size();

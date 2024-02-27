@@ -281,6 +281,8 @@ public:
 public:
   /// get global singleton instance
   Q_INVOKABLE static DapHistoryModel *global();
+
+  bool updateModel(const QList<Item>& historyList);
   /// add new item to the end
   Q_INVOKABLE int add (const DapHistoryModel::Item &a_item);
   /// add new item in the middle of the list

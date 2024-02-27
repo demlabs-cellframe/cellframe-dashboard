@@ -83,7 +83,7 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: modelLastActions
+            model: modelHistory
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
@@ -151,7 +151,7 @@ DapRectangleLitAndShaded
 
                         Text
                         {
-                            text: modelLastActions.get(index).time
+                            text: time
                             color: currTheme.white
                             font: mainFont.dapFont.regular11
                             anchors.left: timestamp.right
@@ -271,6 +271,11 @@ DapRectangleLitAndShaded
                 }
             }
         }
+    }
+
+    Component.onCompleted:
+    {
+        modelHistory.setLastActions(true)
     }
 
     function getStatusName(tx_status, status)
