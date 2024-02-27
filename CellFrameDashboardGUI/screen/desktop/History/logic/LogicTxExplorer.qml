@@ -7,10 +7,10 @@ QtObject {
 
     property var commandResult
 
-    function initDetailsModel()
+    function initDetailsModel(model)
     {
         detailsModel.clear()
-        detailsModel.append(modelHistory.get(selectTxIndex))
+        detailsModel.append(model)
     }
 
     function historyUpdate()

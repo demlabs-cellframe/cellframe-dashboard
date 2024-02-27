@@ -79,7 +79,6 @@ DapPage
 
                 DapCustomToolTip{
                     contentText: qsTr("New Token")
-                    isUnderDirection: true
                 }
             }
         isVisibleSearch: false

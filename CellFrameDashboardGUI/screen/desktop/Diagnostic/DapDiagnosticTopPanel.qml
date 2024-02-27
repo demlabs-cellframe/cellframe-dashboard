@@ -162,7 +162,6 @@ Controls.DapTopPanel {
 
             DapCustomToolTip{
                 contentText: qsTr("Send System Information")
-                isUnderDirection: true
             }
         }
 

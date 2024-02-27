@@ -288,8 +288,7 @@ Page
                         Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
                     else if(logicExplorer.selectTxIndex !== index)
                     {
-                        logicExplorer.selectTxIndex = index
-                        logicExplorer.initDetailsModel()
+                        logicExplorer.initDetailsModel(model)
                         navigator.txInfo()
                     }
                 }

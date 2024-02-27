@@ -27,7 +27,6 @@ Controls.DapTopPanel
 
         Widgets.DapCustomToolTip{
             contentText: qsTr("Export log to file")
-            isUnderDirection: true
         }
     }
 
