@@ -81,7 +81,6 @@ Controls.DapTopPanel
 
             Widgets.DapCustomToolTip{
                 contentText: logicWallet.walletStatus === "" ? qsTr("Create password for this wallet") : (logicWallet.walletStatus === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet"))
-                isUnderDirection: true
             }
 
             MouseArea{
@@ -121,7 +120,6 @@ Controls.DapTopPanel
 
             Widgets.DapCustomToolTip{
                 contentText: qsTr("Import wallet")
-                isUnderDirection: true
             }
 
         }
@@ -141,7 +139,6 @@ Controls.DapTopPanel
 
             Widgets.DapCustomToolTip{
                 contentText: qsTr("Create new wallet")
-                isUnderDirection: true
             }
         }
 
@@ -173,7 +170,6 @@ Controls.DapTopPanel
 
             Widgets.DapCustomToolTip{
                 contentText: qsTr("Sending tokens between your accounts")
-                isUnderDirection: true
             }
         }
     }

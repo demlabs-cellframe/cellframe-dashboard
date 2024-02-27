@@ -41,7 +41,6 @@ Controls.DapTopPanel {
 
             DapCustomToolTip{
                 contentText: qsTr("Switching between Cli or Tool mode")
-                isUnderDirection: true
 
             }
         }
@@ -70,7 +69,6 @@ Controls.DapTopPanel {
 
                 DapCustomToolTip{
                     contentText: "wiki.cellframe.net"
-                    isUnderDirection: true
                 }
 
                 Image{

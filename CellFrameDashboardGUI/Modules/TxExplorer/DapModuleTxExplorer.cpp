@@ -108,6 +108,8 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         itemHistory.tx_hash      = historyArray.at(i)["tx_hash"].toString();
         itemHistory.tx_status    = historyArray.at(i)["tx_status"].toString();
 
+        QDateTime time = QDateTime::fromSecsSinceEpoch(itemHistory.date_to_secs);
+        itemHistory.time = time.toString("hh:mm:ss");
         resultList.append(std::move(itemHistory));
         
     }

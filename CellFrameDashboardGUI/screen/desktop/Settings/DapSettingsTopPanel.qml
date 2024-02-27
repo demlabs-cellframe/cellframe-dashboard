@@ -261,7 +261,6 @@ Controls.DapTopPanel
 
             Widgets.DapCustomToolTip{
                 contentText: qsTr("Check update")
-                isUnderDirection: true
             }
         }
 
