@@ -108,7 +108,7 @@ Item
 //                }
                 HeaderLabel{
                     Layout.preferredWidth: 150
-                    label.text: qsTr("Amount")
+                    label.text: qsTr("Amount") + " (" + (ordersModel.isSellFilter ? dexModule.token2 : dexModule.token1)  + ")"
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 150

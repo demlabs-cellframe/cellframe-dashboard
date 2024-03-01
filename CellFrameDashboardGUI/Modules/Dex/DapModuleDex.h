@@ -46,6 +46,8 @@ public:
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
 
+    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee);
+
     Q_PROPERTY(QString networkFilter READ getNetworkFilterText WRITE setNetworkFilterText NOTIFY networkFilterChanged)
     Q_INVOKABLE QString getNetworkFilterText() const { return m_networkFilter; }
 
@@ -69,6 +71,8 @@ public:
 
     Q_INVOKABLE QString invertValue();
     Q_INVOKABLE QString invertValue(const QString& price);
+    Q_INVOKABLE QString multCoins(const QString& a, const QString& b);
+    Q_INVOKABLE QString divCoins(const QString& a, const QString& b);
 
     Q_INVOKABLE QString tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee);
     Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee);
@@ -106,6 +110,8 @@ private:
     void onInit();
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
+
+    QString roundCoins(const QString& str);
 
     inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
 private:

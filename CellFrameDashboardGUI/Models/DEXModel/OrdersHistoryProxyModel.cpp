@@ -85,6 +85,7 @@ void OrdersHistoryProxyModel::setFilterSide(const QString& type)
     Q_ASSERT_X(m_typeOrderStrToType.contains(type), "setTypeOrderFilter", "There is no such type of orders");
     m_typeOrder = m_typeOrderStrToType[type];
     invalidateFilter();
+    emit isSellFilterChanged();
 }
 
 void OrdersHistoryProxyModel::setAffilationOrderFilter(const QString& type)
@@ -168,6 +169,7 @@ void OrdersHistoryProxyModel::setOrderFilter(const QString& type, const QString&
     Q_ASSERT_X(m_periodContainer.contains(period), "setPeriodOrderFilter", "There is no such period of orders");
     m_period = m_periodContainer[period];
 
+    emit isSellFilterChanged();
     //TODO: These parameters are still fixed and we do not touch them with a general change.
 //    if(pair == "All pairs")
 //    {
@@ -186,5 +188,10 @@ void OrdersHistoryProxyModel::setOrderFilter(const QString& type, const QString&
 //    {
 //        m_network = network;
 //    }
+    invalidateFilter();
+}
+
+void OrdersHistoryProxyModel::tryUpdateFilter()
+{
     invalidateFilter();
 }

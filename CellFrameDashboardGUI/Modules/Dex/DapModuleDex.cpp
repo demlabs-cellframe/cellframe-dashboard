@@ -1,6 +1,7 @@
 #include "DapModuleDex.h"
 #include <QJsonObject>
 #include <QQmlContext>
+#include <QRegularExpression>
 #include "../DapTypes/DapCoin.h"
 
 DapModuleDex::DapModuleDex(DapModulesController *parent)
@@ -77,6 +78,8 @@ void DapModuleDex::onInit()
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, [this](){requestTXList();});
     connect(m_curentTokenPairUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestCurrentTokenPairs);
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestHistoryOrders);
+    connect(this, &DapModuleDex::txListChanged, m_proxyModel, &OrdersHistoryProxyModel::tryUpdateFilter);
+
 }
 
 bool DapModuleDex::isCurrentPair()
@@ -247,7 +250,6 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
             {
                 result.insert(hash,std::move(newItem));
             }
-
         }
     }
     if(m_txListsforWallet.contains(walletName))
@@ -305,21 +307,23 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
             QString network = order["network"].toString();
             QString amountToken = order["amount_token"].toString();
             QString rate = order["rate"].toString();
+
+            tmpData.network = network;
+
             if(isPair(buyToken, sellToken, network) == DapModuleDex::PairFoundResultType::IS_MIRROR_PAIR)
             {
                 tmpData.sellToken = buyToken;
                 tmpData.buyToken = sellToken;
                 tmpData.rate = invertValue(rate);
+                tmpData.side = "Buy";
             }
             else
             {
                 tmpData.sellToken = sellToken;
                 tmpData.buyToken = buyToken;
                 tmpData.rate = rate;
+                tmpData.side = "Sell";
             }
-
-            tmpData.network = network;
-            tmpData.side = tmpData.buyToken == amountToken ? "Buy" : "Sell";
 
             {
                 QString tmpPair = tmpData.buyToken + "/" + tmpData.sellToken;
@@ -335,7 +339,9 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
     m_rightPairListModel->setStringList(std::move(listPairs));
 
     std::sort(m_ordersHistory.begin(), m_ordersHistory.end(), [](const DEX::Order& left, const DEX::Order& right){
-        return left.unixTime.toLongLong() > right.unixTime.toLongLong();
+        Dap::Coin first = left.rate;
+        Dap::Coin second = right.rate;
+        return first > second;
     });
 
     m_ordersModel->updateModel(m_ordersHistory);
@@ -361,11 +367,12 @@ DapModuleDex::PairFoundResultType DapModuleDex::isPair(const QString& token1, co
         }
         if(pair.token1 == token2 && pair.token2 == token1)
         {
-            isMirror = true;
+            return DapModuleDex::PairFoundResultType::IS_MIRROR_PAIR;
         }
     }
 
-    return isMirror ? DapModuleDex::PairFoundResultType::IS_MIRROR_PAIR : DapModuleDex::PairFoundResultType::NO_PAIR;
+    qDebug() << QString("isPair() The pair %1 is not found").arg(token1 + "/" + token2);
+    return DapModuleDex::PairFoundResultType::NO_PAIR;
 }
 
 QString DapModuleDex::invertValue()
@@ -399,8 +406,99 @@ QString DapModuleDex::invertValue(const QString& price)
 
     Dap::Coin oneVal = QString("1.0");
     Dap::Coin priceVal = resPrice;
-    QString result = (oneVal/priceVal).toCoinsString();
+    return roundCoins((oneVal/priceVal).toCoinsString());
+}
+
+QString DapModuleDex::roundCoins(const QString& str)
+{
+    QString result;
+
+    auto match = QRegularExpression(R"((\d+\.\d*?)0{3,}\d{1,17}$)").match(str);
+    if(match.hasMatch())
+    {
+        result = match.captured(1);
+    }
+
+
+
+    if(result.isEmpty() )
+    {
+        auto match9 = QRegularExpression(R"(\.(9*(9|8){1}){2,17}$)").match(str);
+        if(match9.hasMatch())
+        {
+            auto list = str.split('.');
+            qint64 val = list[0].toInt();
+            val++;
+            result = QString::number(val) + ".0";
+            return result;
+        }
+    }
+
+    if(result.isEmpty() || result == "0.")
+    {
+        return str;
+    }
+
+    if(result[result.size()-1] == '.')
+    {
+        result.append('0');
+        return result;
+    }
     return result;
+}
+
+QString DapModuleDex::multCoins(const QString& a, const QString& b)
+{
+    if(a.isEmpty() || a == "0.0" || a == "0")
+    {
+        return "0.0";
+    }
+    QString resA(a);
+    if(!resA.contains('.'))
+    {
+        resA.append(".0");
+    }
+
+    if(b.isEmpty() || b == "0.0" || b == "0")
+    {
+        return "0.0";
+    }
+    QString resB(b);
+    if(!resB.contains('.'))
+    {
+        resB.append(".0");
+    }
+
+    Dap::Coin oneVal = resA;
+    Dap::Coin twoVal = resB;
+    return roundCoins((oneVal * twoVal).toCoinsString());
+}
+
+QString DapModuleDex::divCoins(const QString& a, const QString& b)
+{
+    if(a.isEmpty() || a == "0.0" || a == "0")
+    {
+        return "0.0";
+    }
+    QString resA(a);
+    if(!resA.contains('.'))
+    {
+        resA.append(".0");
+    }
+
+    if(b.isEmpty() || b == "0.0" || b == "0")
+    {
+        return "0.0";
+    }
+    QString resB(b);
+    if(!resB.contains('.'))
+    {
+        resB.append(".0");
+    }
+
+    Dap::Coin oneVal = resA;
+    Dap::Coin twoVal = resB;
+    return roundCoins((oneVal / twoVal).toCoinsString());
 }
 
 QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee)
@@ -672,4 +770,11 @@ void DapModuleDex::requestOrderPurchase(const QStringList& params)
 void DapModuleDex::requestOrderCreate(const QStringList& params)
 {
     m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderCreate", params);
+}
+
+void DapModuleDex::requestOrderDelete(const QString& network, const QString& hash, const QString& fee)
+{
+    Dap::Coin feeInt = fee;
+    QString feeDatoshi = feeInt.toDatoshiString();
+    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", QStringList() << network << hash << m_modulesCtrl->getCurrentWalletName() << feeDatoshi);
 }

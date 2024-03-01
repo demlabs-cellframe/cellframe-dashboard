@@ -36,6 +36,7 @@
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
 #include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapXchangeOrderRemove.h"
 #include "handlers/DapXchangeOrderPurchase.h"
 #include "handlers/DapGetXchangeOrdersList.h"
 #include "handlers/DapGetXchangeTokenPair.h"
@@ -223,6 +224,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapTokenDeclCommand                  ("DapTokenDeclCommand"                  , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeTxList                  ("DapGetXchangeTxList"                  , nullptr, CLI_PATH));
     m_servicePool.append(new DapXchangeOrderCreate                ("DapXchangeOrderCreate"                , nullptr, CLI_PATH));
+    m_servicePool.append(new DapXchangeOrderRemove                ("DapXchangeOrderRemove"                , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeOrdersList              ("DapGetXchangeOrdersList"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeTokenPair               ("DapGetXchangeTokenPair"               , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeTokenPriceAverage       ("DapGetXchangeTokenPriceAverage"       , nullptr, CLI_PATH));

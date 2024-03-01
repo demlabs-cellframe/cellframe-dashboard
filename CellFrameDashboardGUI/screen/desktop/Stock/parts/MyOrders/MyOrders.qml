@@ -170,7 +170,8 @@ Item
                         anchors.fill: parent
                         hoverEnabled: true
                         onClicked: {
-                            logicStock.cancelationOrder(index)
+                            removeOrderPopup.show(model)
+
                             logic.initOrdersModels()
                         }
                     }

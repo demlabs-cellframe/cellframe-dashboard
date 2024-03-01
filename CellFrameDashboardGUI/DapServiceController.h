@@ -47,6 +47,7 @@
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
 #include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapXchangeOrderRemove.h"
 #include "handlers/DapGetXchangeOrdersList.h"
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
@@ -246,6 +247,7 @@ signals:
 
     void rcvXchangeTxList(const QVariant& rcvData);
     void rcvXchangeCreate(const QVariant& rcvData);
+    void rcvXchangeRemove(const QVariant& rcvData);
     void rcvXchangeOrderPurchase(const QVariant& rcvData);
 
     void rcvXchangeOrderList(const QVariant& rcvData);

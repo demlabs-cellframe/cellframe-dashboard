@@ -353,6 +353,7 @@
         <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
         <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
         <file>screen/desktop/controls/DapRemoveWalletPopup.qml</file>
+        <file>screen/desktop/controls/DapRemoveOrderPopup.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderInfo.qml</file>
         <file>screen/desktop/Orders/Logic/LogicOrders.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderCreate.qml</file>

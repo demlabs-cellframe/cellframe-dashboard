@@ -53,6 +53,7 @@ Rectangle {
     property alias walletDeactivatePopup: walletDeactivatePopup
     property alias walletsControllerPopup: walletsControllerPopup
     property alias removeWalletPopup: removeWalletPopup
+    property alias removeOrderPopup: removeOrderPopup
     property alias settingsWallet:settingsWallet
 
     property var vpnClientTokenModel: new Array()
@@ -156,6 +157,13 @@ Rectangle {
 
     DapRemoveWalletPopup{
         id: removeWalletPopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapRemoveOrderPopup{
+        id: removeOrderPopup
         anchors.fill: parent
         visible: false
         z: 10

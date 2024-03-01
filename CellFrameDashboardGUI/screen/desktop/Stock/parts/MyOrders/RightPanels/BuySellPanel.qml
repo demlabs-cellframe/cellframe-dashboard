@@ -92,13 +92,15 @@ DapRectangleLitAndShaded {
             id: fields
             sell: !isBuy
             logicPrice: logic.selectedItem.price
-            balance: isBuy ? walletModule.getBalanceDEX(logic.selectedItem.tokenSell) 
+            balance: !isBuy ? walletModule.getBalanceDEX(logic.selectedItem.tokenSell) 
                                 : walletModule.getBalanceDEX(logic.selectedItem.tokenBuy)
+
+            amount.textToken: isBuy ? dexModule.token2 : dexModule.token1
+            total.textToken: !isBuy ? dexModule.token2 : dexModule.token1
 
             price.textToken: logic.selectedItem.tokenSell
             price.textValue: logic.selectedItem.price
-            amount.textToken: tokenPairsWorker.tokenBuy
-            amount.textValue: "0.0"
+
             Layout.fillWidth: true
 
             Component.onCompleted:
@@ -115,6 +117,26 @@ DapRectangleLitAndShaded {
                     var createOrder = dexModule.tryExecuteOrder(logic.selectedItem.hash, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
                     console.log("Order: " + createOrder)
                 }
+            }
+
+            Connections
+            {
+                target: fields
+                function onPercentButtonClicked(percent)
+                {
+                    var fullAmount
+                    if(isBuy)
+                    {
+                        fullAmount = dexModule.multCoins(logic.selectedItem.amount, dexModule.invertValue(logic.selectedItem.price))
+                    }
+                    else
+                    {
+                        fullAmount = dexModule.multCoins(logic.selectedItem.amount, logic.selectedItem.price)
+                    }
+
+                    fields.amount.textElement.setText(dexModule.multCoins(fullAmount, percent))
+                    fields.total.textElement.setText(dexModule.multCoins(logic.selectedItem.amount, percent))
+                }               
             }
         }
 

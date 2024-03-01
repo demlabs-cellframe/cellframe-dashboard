@@ -55,7 +55,7 @@ Item
 
                 if (currentIndex === 0)
                 {
-                    ordersModel.setOrderFilter("Buy", "All", "OPENED")
+                    ordersModel.setOrderFilter("Buy", "Other", "OPENED")
                     setCurrentMainScreen(allOrders)
 
                     buysellSelector.setSelected("first")
@@ -64,7 +64,7 @@ Item
                     buysellbothSelector.visible = false
                     textPair.visible = false
                     comboboxPair.visible = false
-                    comboboxPair.displayText = "All pairs"
+                    // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = false
 //                    buttonsSide.visible = false
                     textPeriod.visible = false
@@ -73,7 +73,7 @@ Item
                 }
                 if (currentIndex === 1)
                 {
-                    ordersModel.setOrderFilter("Both", "My_orders")
+                    ordersModel.setOrderFilter("Both", "My_orders", "OPENED")
                     //setFilterSide("Both")
                     setCurrentMainScreen(myOrders)
 
@@ -82,8 +82,8 @@ Item
                     buysellSelector.visible = false
                     buysellbothSelector.visible = true
                     textPair.visible = true
-                    comboboxPair.visible = true
-                    comboboxPair.displayText = "All pairs"
+                    comboboxPair.visible = false
+                    // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
 //                    buttonsSide.visible = true
                     textPeriod.visible = false
@@ -102,8 +102,8 @@ Item
                     buysellSelector.visible = false
                     buysellbothSelector.visible = true
                     textPair.visible = true
-                    comboboxPair.visible = true
-                    comboboxPair.displayText = "All pairs"
+                    comboboxPair.visible = false
+                    // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
 //                    buttonsSide.visible = true
                     textPeriod.visible = true

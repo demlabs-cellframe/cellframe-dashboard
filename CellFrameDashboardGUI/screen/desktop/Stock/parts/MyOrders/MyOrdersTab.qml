@@ -102,6 +102,28 @@ RowLayout
             logic.changeRightPanel(orderDone)
         }
 
+        function onRcvXchangeRemove(rcvData)
+        {
+
+            if(rcvData.success)
+            {
+                dapMainWindow.infoItem.showInfo(
+                            180,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            qsTr("Order removed"),
+                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+            }
+            else
+            {
+                dapMainWindow.infoItem.showInfo(
+                            210,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            qsTr("Error order remove"),
+                            "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+            }
+        }
         // function onRcvXchangeTxList(rcvData)
         // {
         //     console.log("onRcvXchangeTxList")

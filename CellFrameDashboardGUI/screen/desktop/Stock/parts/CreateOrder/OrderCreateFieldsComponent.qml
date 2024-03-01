@@ -14,7 +14,8 @@ ColumnLayout {
 
     property alias price: price
     property alias amount: amount
-    
+    property alias total: total
+
     property string parentPage: ""
     property string limitType: ""
 
@@ -26,6 +27,7 @@ ColumnLayout {
     Layout.topMargin: 16
     spacing: 0
 
+    signal percentButtonClicked(var percent)
 
     ListModel {
         id: expiresModel
@@ -134,8 +136,7 @@ ColumnLayout {
                 {
                     createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
                     if(amount.textValue !== "0")
-                        total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                               mathWorker.coinsToBalance(logicPrice), false)
+                        total.textValue = dexModule.multCoins(amount.textValue, logicPrice)
                 }
                 else if(limitType === "LIMIT")
                 {
@@ -146,15 +147,13 @@ ColumnLayout {
                     tmpPriceValue = ""
                     createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
                     if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
-                        total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                                       mathWorker.coinsToBalance(sell ? textValue : dexModule.invertValue(textValue)),false))
+                        total.textElement.setText(dexModule.multCoins(amount.textValue, sell ? textValue : dexModule.invertValue(textValue)))
                 }
                 else if(limitType === "MARKET")
                 {
                     createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
                     if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
-                        total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
-                                                                       mathWorker.coinsToBalance(sell ? textValue : dexModule.invertValue(textValue)),false))
+                        total.textElement.setText(dexModule.multCoins(amount.textValue, sell ? textValue : dexModule.invertValue(textValue)))
                 }
             }
         }
@@ -192,7 +191,7 @@ ColumnLayout {
         Text
         {
             color: currTheme.white
-            text: qsTr("Amount")
+            text: qsTr("Amount of ") + amount.textToken + (!sell ? qsTr(" for sale") : qsTr(" for purchase"))
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
@@ -220,15 +219,13 @@ ColumnLayout {
             if(limitType === "LIMIT" || parentPage === "BUY_SELL")
             {
                 if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                                   mathWorker.coinsToBalance(sell ? price.textValue : dexModule.invertValue(price.textValue)),false))
+                    total.textElement.setText(dexModule.multCoins(textValue,sell ? price.textValue : dexModule.invertValue(price.textValue)))
                 createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
             }
             else if(limitType === "MARKET")
             {
                 if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
-                                                                   mathWorker.coinsToBalance(sell ? price.textValue : dexModule.invertValue(price.textValue)),false))
+                    total.textElement.setText(dexModule.multCoins(textValue,sell ? price.textValue : dexModule.invertValue(price.textValue)))
                 createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
             }
         }
@@ -256,6 +253,8 @@ ColumnLayout {
             {
                 setPercentButtons(true, false, false, false)
 
+                percentButtonClicked("0.25")
+
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
@@ -263,9 +262,7 @@ ColumnLayout {
                 }
                 else
                 {
-                    var result = logicStock.getPercentBalance(balance, "0.25", price.textValue, sell)
-                    amount.textValue = result[0]
-                    total.textValue = result[1]
+                    setPercentValue("0.25")
                 }
             }
         }
@@ -284,6 +281,8 @@ ColumnLayout {
             {
                 setPercentButtons(false, true, false, false)
 
+                percentButtonClicked("0.5")
+
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
@@ -291,9 +290,7 @@ ColumnLayout {
                 }
                 else
                 {
-                    var result = logicStock.getPercentBalance(balance, "0.5", price.textValue, sell)
-                    amount.textValue = result[0]
-                    total.textValue = result[1]
+                    setPercentValue("0.5")
                 }
             }
         }
@@ -312,6 +309,8 @@ ColumnLayout {
             {
                 setPercentButtons(false, false, true, false)
 
+                percentButtonClicked("0.75")
+
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
@@ -319,9 +318,7 @@ ColumnLayout {
                 }
                 else
                 {
-                    var result = logicStock.getPercentBalance(balance, "0.75", price.textValue, sell)
-                    amount.textValue = result[0]
-                    total.textValue = result[1]
+                    setPercentValue("0.75")
                 }
             }
         }
@@ -340,6 +337,8 @@ ColumnLayout {
             {
                 setPercentButtons(false, false, false, true)
 
+                percentButtonClicked("1.0")
+
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
@@ -347,9 +346,7 @@ ColumnLayout {
                 }
                 else
                 {
-                    var result = logicStock.getPercentBalance(balance, "1.0", price.textValue, sell)
-                    amount.textValue = result[0]
-                    total.textValue = result[1]
+                    setPercentValue("1.0")
                 }
             }
         }
@@ -367,7 +364,7 @@ ColumnLayout {
         Text
         {
             color: currTheme.white
-            text: qsTr("Total")
+            text: qsTr("Total ") + total.textToken + qsTr(" to receive")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
@@ -393,8 +390,7 @@ ColumnLayout {
             setPercentButtons(false, false, false, false)
 
             if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
-                                                           mathWorker.coinsToBalance(sell ? price.textValue : dexModule.invertValue(price.textValue)),false))
+                    amount.textElement.setText(dexModule.divCoins(textValue, sell ? price.textValue : dexModule.invertValue(price.textValue)))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
@@ -430,6 +426,11 @@ ColumnLayout {
         Layout.fillHeight: true
     }
 
+    function setPercentValue(persent)
+    {
+
+    }
+
     function updateTokensField()
     {
         if(limitType === "LIMIT" || limitType === "MARKET")
@@ -438,28 +439,13 @@ ColumnLayout {
             {
                 price.textValue = dexModule.currentRate
                 price.textToken = dexModule.token2
-                amount.textToken = dexModule.token2
-                total.textToken = dexModule.token1
+
             }
             else
             {
                 price.textValue = dexModule.currentRate
                 price.textToken = dexModule.token2
-                amount.textToken = dexModule.token1
-                total.textToken = dexModule.token2
-            }
-        }
-        else if(parentPage === "BUY_SELL")
-        {
-            if(!sell)
-            {
-                amount.textToken = dexModule.token2
-                total.textToken = dexModule.token1
-            }
-            else
-            {
-                amount.textToken = dexModule.token1
-                total.textToken = dexModule.token2
+
             }
         }
     }

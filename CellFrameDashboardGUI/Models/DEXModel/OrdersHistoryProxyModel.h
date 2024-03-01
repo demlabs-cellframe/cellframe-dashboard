@@ -26,10 +26,20 @@ public:
                                     , const QString status = "Both", const QString period = "All"
                                     , const QString& pair = "All pairs"
                                     , const QString& network = "All");
+
+    Q_PROPERTY (bool isSellFilter        READ isSellFilter       NOTIFY isSellFilterChanged)
+    bool isSellFilter() {return m_typeOrder == DEX::TypeSide::SELL;}
+
 //    Q_INVOKABLE QVariant getItem(const QString& hash) const;
 
     void setIsHashCallback(Callback handler) {m_isHashCallback = handler;}
 
+signals:
+    void isSellFilterChanged();
+
+public slots:
+
+    void tryUpdateFilter();
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

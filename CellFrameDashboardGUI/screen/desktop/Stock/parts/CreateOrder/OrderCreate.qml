@@ -253,6 +253,8 @@ Page
             id: fields
             sell: isSell
             Layout.fillWidth: true
+            amount.textToken: isSell ? dexModule.token1 : dexModule.token2
+            total.textToken: !isSell ? dexModule.token1 : dexModule.token2
 
             Component.onCompleted:
             {
@@ -272,6 +274,18 @@ Page
                     }
                 }
             }
+            Connections
+            {
+                target: fields
+                function onPercentButtonClicked(percent)
+                {
+                    var result = logicStock.getPercentBalance(fields.balance, percent, fields.price.textValue, isSell)
+                    fields.amount.textValue = isSell ? result[0] : result[1]
+                    fields.total.textValue = isSell ? result[1] : result[0]
+                }               
+            }
+
+
         }
     }
 
