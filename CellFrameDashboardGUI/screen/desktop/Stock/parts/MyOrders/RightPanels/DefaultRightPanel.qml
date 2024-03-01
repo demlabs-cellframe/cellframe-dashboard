@@ -81,7 +81,7 @@ Item
                     buysellText.visible = true
                     buysellSelector.visible = false
                     buysellbothSelector.visible = true
-                    textPair.visible = true
+                    textPair.visible = false
                     comboboxPair.visible = false
                     // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
@@ -101,7 +101,7 @@ Item
                     buysellText.visible = true
                     buysellSelector.visible = false
                     buysellbothSelector.visible = true
-                    textPair.visible = true
+                    textPair.visible = false
                     comboboxPair.visible = false
                     // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
