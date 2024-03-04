@@ -17,6 +17,16 @@ Page
     property bool isSell: false
     signal sellBuyChanged()
 
+    Component.onCompleted:
+    {
+        walletModule.startUpdateFee()
+    }
+
+    Component.onDestruction:
+    {
+        walletModule.stopUpdateFee()
+    }
+
     Connections
     {
         target: dapServiceController

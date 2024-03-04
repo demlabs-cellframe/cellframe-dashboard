@@ -20,6 +20,16 @@ DapRectangleLitAndShaded {
 
     property bool isBuy: logic.selectedItem.side !== "Buy"
 
+    Component.onCompleted:
+    {
+        walletModule.startUpdateFee()
+    }
+
+    Component.onDestruction:
+    {
+        walletModule.stopUpdateFee()
+    }
+    
     contentData:
     ColumnLayout
     {
