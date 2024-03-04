@@ -315,14 +315,14 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
                 tmpData.sellToken = buyToken;
                 tmpData.buyToken = sellToken;
                 tmpData.rate = invertValue(rate);
-                tmpData.side = "Buy";
+                tmpData.side = "Sell";
             }
             else
             {
                 tmpData.sellToken = sellToken;
                 tmpData.buyToken = buyToken;
                 tmpData.rate = rate;
-                tmpData.side = "Sell";
+                tmpData.side = "Buy";
             }
 
             {

@@ -587,6 +587,9 @@ void CandleChartWorker::setNewData()
     {
         m_infoChart.m_rightTime = rightTime;
     }
+
+    m_infoChart.m_lastCandleNumber = m_infoChart.m_candleModel.isEmpty() ? 0 :m_infoChart.m_candleModel.size() - 1;
+
     m_tmpInfoChart.first = false;
     m_tmpInfoChart.second.clear();
     m_isUpdate = false;

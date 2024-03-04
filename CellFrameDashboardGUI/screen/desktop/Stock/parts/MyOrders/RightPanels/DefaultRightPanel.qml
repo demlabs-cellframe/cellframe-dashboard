@@ -10,7 +10,7 @@ Item
 
     Component.onCompleted:
     {
-        ordersModel.setOrderFilter("Buy", "All", "OPENED")
+        ordersModel.setOrderFilter("Sell", "Other", "OPENED")
         setCurrentMainScreen(allOrders)
         buysellbothSelector.selectorListView.currentIndex = 2
     }
@@ -55,7 +55,7 @@ Item
 
                 if (currentIndex === 0)
                 {
-                    ordersModel.setOrderFilter("Buy", "Other", "OPENED")
+                    ordersModel.setOrderFilter("Sell", "Other", "OPENED")
                     setCurrentMainScreen(allOrders)
 
                     buysellSelector.setSelected("first")
@@ -201,14 +201,16 @@ Item
 
             onToggled:
             {
+                // !!!!!!!!!!!!
+                // TODO Here it is necessary to be careful, inverting the data is done for the logic of buying orders.
                 if (secondSelected)
                     {
-                        ordersModel.setFilterSide("Sell")
+                        ordersModel.setFilterSide("Buy")
                     }
                     //setFilterSide("sell")
                 else
                 {
-                    ordersModel.setFilterSide("Buy")
+                    ordersModel.setFilterSide("Sell")
                 }
                    // setFilterSide("buy")
 //                isSell = secondSelected

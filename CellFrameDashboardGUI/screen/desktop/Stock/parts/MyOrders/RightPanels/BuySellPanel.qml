@@ -18,7 +18,7 @@ DapRectangleLitAndShaded {
 
 //    property var currentElement: logic.selectedItem
 
-    property bool isBuy: logic.selectedItem.side === "Buy"
+    property bool isBuy: logic.selectedItem.side !== "Buy"
 
     contentData:
     ColumnLayout

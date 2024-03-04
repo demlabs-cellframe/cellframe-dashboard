@@ -305,23 +305,23 @@ Item
                         implicitHeight: 25
                         //TODO: need update colors
                         defaultColorNormal0:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreen :
                                 currTheme.textColorRed
                         defaultColorNormal1:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreen :
                                 currTheme.textColorRed
                         defaultColorHovered0:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreenHovered :
                                 currTheme.textColorRedHovered
                         defaultColorHovered1:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreenHovered :
                                 currTheme.textColorRedHovered
                         textButton:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 qsTr("Buy ") + tokenBuy :
                                 qsTr("Sell ") + tokenBuy
                         horizontalAligmentText: Text.AlignHCenter
