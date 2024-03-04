@@ -29,7 +29,7 @@ DapRectangleLitAndShaded {
     {
         walletModule.stopUpdateFee()
     }
-    
+
     contentData:
     ColumnLayout
     {
@@ -126,6 +126,10 @@ DapRectangleLitAndShaded {
                 {
                     var createOrder = dexModule.tryExecuteOrder(logic.selectedItem.hash, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
                     console.log("Order: " + createOrder)
+                }
+                else
+                {
+                    messageText.text = walletResult
                 }
             }
 

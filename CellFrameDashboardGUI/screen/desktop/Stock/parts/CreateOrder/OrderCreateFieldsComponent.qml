@@ -16,6 +16,8 @@ ColumnLayout {
     property alias amount: amount
     property alias total: total
 
+    property alias messageText: messageText
+
     property string parentPage: ""
     property string limitType: ""
 
@@ -200,6 +202,18 @@ ColumnLayout {
             anchors.topMargin: 20
             anchors.bottomMargin: 5
         }
+
+        DapToolTipInfo
+        {
+            visible: isMToken(amount.textToken)
+            anchors.right: parent.right
+            anchors.rightMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            contentText: qsTr("Warning! To unstake you need to have the exact amount of cell in the wallet you staked.")
+            text.color: currTheme.textColorYellow
+            indicatorSrcNormal: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info_orange.svg"
+            indicatorSrcHover: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info_orange.svg"
+        }
     }
 
     OrderTextBlock
@@ -211,7 +225,7 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-
+        border.color: isMToken(amount.textToken) ? currTheme.textColorYellow : currTheme.input
         onEdited:
         {
             setPercentButtons(false, false, false, false)
@@ -258,7 +272,7 @@ ColumnLayout {
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
-                        (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.25)
+                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.25)
                 }
                 else
                 {
@@ -286,7 +300,7 @@ ColumnLayout {
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
-                        (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.5)
+                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.5)
                 }
                 else
                 {
@@ -314,7 +328,7 @@ ColumnLayout {
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
-                        (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.75)
+                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.75)
                 }
                 else
                 {
@@ -342,7 +356,7 @@ ColumnLayout {
                 if(limitType === "STOP_LIMIT")
                 {
                     amount.setRealValue(
-                        (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice))
+                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice))
                 }
                 else
                 {
@@ -390,11 +404,13 @@ ColumnLayout {
             setPercentButtons(false, false, false, false)
 
             if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    amount.textElement.setText(dexModule.divCoins(textValue, sell ? price.textValue : dexModule.invertValue(price.textValue)))
+                amount.textElement.setText(dexModule.divCoins(textValue, sell ? price.textValue : dexModule.invertValue(price.textValue)))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
         onTextValueChanged: {
+
+            messageText.text = ""
             if(limitType === "LIMIT" || parentPage === "BUY_SELL")
             {
                 createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
@@ -406,12 +422,31 @@ ColumnLayout {
         }
     }
 
+    Text
+    {
+        id: messageText
+
+        Layout.fillWidth: true
+        Layout.topMargin: 12
+        Layout.bottomMargin: 12
+        Layout.maximumWidth: 281
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+
+        color: currTheme.neon
+        text: ""
+        font: mainFont.dapFont.regular12
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
+        visible: true
+    }
+
     // CREATE BUTTON
     DapButton
     {
         id: createButton
         Layout.alignment: Qt.AlignCenter
-        Layout.topMargin: 22
+        Layout.topMargin: 12
         implicitHeight: 36
         implicitWidth: 132
         textButton: parentPage === "CREATE_ORDER" ? qsTr("Create") : !sell ? qsTr("Buy") : qsTr("Sell")
@@ -424,6 +459,15 @@ ColumnLayout {
 
     Item {
         Layout.fillHeight: true
+    }
+
+    function isMToken(token)
+    {
+        if(token.substring(0,1)==="m")
+        {
+            return true
+        }
+        return false
     }
 
     function setPercentValue(persent)

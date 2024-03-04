@@ -73,6 +73,7 @@ public:
     Q_INVOKABLE QString invertValue(const QString& price);
     Q_INVOKABLE QString multCoins(const QString& a, const QString& b);
     Q_INVOKABLE QString divCoins(const QString& a, const QString& b);
+    Q_INVOKABLE QString minusCoins(const QString& a, const QString& b);
 
     Q_INVOKABLE QString tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee);
     Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee);

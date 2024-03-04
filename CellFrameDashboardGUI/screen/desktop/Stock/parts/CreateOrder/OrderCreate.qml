@@ -15,6 +15,7 @@ Page
     property string currentOrder: "Limit"
 
     property bool isSell: false
+    property bool isToken: false
     signal sellBuyChanged()
 
     Component.onCompleted:
@@ -94,7 +95,7 @@ Page
             textColor: currTheme.white
             textFont: mainFont.dapFont.regular14
 
-            Component.onCompleted: 
+            Component.onCompleted:
             {
                 setBalanceText(dexModule.token2)
             }
@@ -181,7 +182,7 @@ Page
                 buySellSwitcher.setSelected("first")
                 setBalanceText(dexModule.token2)
             }
-        }    
+        }
 
         RowLayout
         {
@@ -282,6 +283,10 @@ Page
                         var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
                         console.log("Order: " + createOrder)
                     }
+                    else
+                    {
+                        messageText.text = walletResult
+                    }
                 }
             }
             Connections
@@ -289,10 +294,23 @@ Page
                 target: fields
                 function onPercentButtonClicked(percent)
                 {
-                    var result = logicStock.getPercentBalance(fields.balance, percent, fields.price.textValue, isSell)
+                    var resBalance
+                    if(isToken)
+                    {
+                        var network = walletModule.getFee(dexModule.networkPair).network_fee
+                        var validator = walletModule.getFee(dexModule.networkPair).validator_fee
+                        resBalance = dexModule.minusCoins(fields.balance, validator)
+                        resBalance = dexModule.minusCoins(resBalance, network)
+                    }
+                    else
+                    {
+                        resBalance = fields.balance
+                    }
+
+                    var result = logicStock.getPercentBalance(resBalance, percent, fields.price.textValue, isSell)
                     fields.amount.textValue = isSell ? result[0] : result[1]
                     fields.total.textValue = isSell ? result[1] : result[0]
-                }               
+                }
             }
 
 
@@ -306,6 +324,8 @@ Page
         textBalance.text = value + " " + token
         logicStock.currantBalance = value
         logicStock.currantToken = value
+        var tokenFee = walletModule.getFee(dexModule.networkPair).fee_ticker
+        isToken = tokenFee === token
     }
 }
 
