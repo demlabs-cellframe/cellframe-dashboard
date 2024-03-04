@@ -410,14 +410,23 @@ void OrderBookWorker::updateBookModels()
 
 void OrderBookWorker::insertBookOrder(const FullOrderInfo &item)
 {
-    Dap::Coin rate = item.rateCoin;
+    QRegularExpression isNullReg(R"(^(0|\.)+$)");
+
+    QString rate = roundDoubleValue(item.rateCoin.toCoinsString());
+
+    if(rate.contains(isNullReg))
+    {
+        return;
+    }
+
+    Dap::Coin rateCoin = rate;
 
     QVector <OrderInfo>& model =
             item.type == OrderType::sell ? sellOrderModel : buyOrderModel;
 
     for(int index = 0; index < model.size(); index++)
     {
-        if (item.rateCoin == model[index].rateCoin)
+        if (rateCoin == model[index].rateCoin)
         {
             model[index].amountCoin = model[index].amountCoin + item.amountCoin;
             model[index].amount = model[index].amountCoin.toCoinsString();
@@ -430,12 +439,12 @@ void OrderBookWorker::insertBookOrder(const FullOrderInfo &item)
     }
 
     OrderInfo result;
-    result.price = rate.toCoinsString();
+    result.price = rateCoin.toCoinsString();
     result.amount = item.amount;
     result.total = item.total;
     result.totalCoin = item.totalCoin;
     result.amountCoin = item.amountCoin;
-    result.rateCoin = rate;
+    result.rateCoin = rateCoin;
     model.append(std::move(result));
 }
 
