@@ -13,6 +13,7 @@ Item
     property alias candleLogic: logic
 
     property alias chartCanvas: chartCanvas
+    property alias areaCanvas: areaCanvas
 
     Component.onCompleted:
     {

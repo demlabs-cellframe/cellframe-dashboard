@@ -294,10 +294,10 @@ Item
                 var date = new Date(timeValue)
 
                 textDate.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
-                textOpen.text = openValue.toFixed(roundPower)
-                textHigh.text = highValue.toFixed(roundPower)
-                textLow.text = lowValue.toFixed(roundPower)
-                textClose.text = closeValue.toFixed(roundPower)
+                textOpen.text = openValue//.toFixed(roundPower)
+                textHigh.text = highValue//.toFixed(roundPower)
+                textLow.text = lowValue//.toFixed(roundPower)
+                textClose.text = closeValue//.toFixed(roundPower)
 
                 if (openValue > 0.0000000000000000001)
                 {
@@ -363,7 +363,7 @@ Item
                 textColor: currTheme.gray
             }
 
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textOpen
                 Layout.preferredWidth: 100
@@ -372,7 +372,7 @@ Item
                 text: "-"
             }
 
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textHigh
                 Layout.preferredWidth: 95
@@ -380,7 +380,7 @@ Item
                 label: qsTr("High:")
                 text: "-"
             }
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textLow
                 Layout.preferredWidth: 90
@@ -388,7 +388,7 @@ Item
                 label: qsTr("Low:")
                 text: "-"
             }
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textClose
                 Layout.preferredWidth: 100
@@ -403,6 +403,21 @@ Item
                 Layout.fillWidth: true
                 label: qsTr("Change:")
                 text: "-"
+            }
+
+            MouseArea
+            {
+                Layout.fillHeight: parent
+                Layout.fillWidth: parent
+                hoverEnabled: true
+                onEntered:
+                {
+                    chartItem.areaCanvas.hoverEnabled = false
+                }
+                onExited:
+                {
+                    chartItem.areaCanvas.hoverEnabled = true
+                }
             }
         }
     }

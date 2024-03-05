@@ -21,8 +21,6 @@ DapPage
 
     LogicStock { id: logicStock }
 
-//    ListModel { id: sellBookModel }
-//    ListModel { id: buyBookModel }
     ListModel { id: openOrdersModel }
     ListModel { id: orderHistoryModel }
 
@@ -37,31 +35,6 @@ DapPage
     }
 
     onRightPanel: false
-
-//     Timer {
-//         id: updatePairTimer
-//         interval: 10000 //10 sec
-//         running: false
-//         repeat: true
-//         onTriggered:
-//         {
-// //            console.log("PAIR TIMER TICK")
-//             logicMainApp.requestToService("DapGetXchangeTokenPair", "full_info", "update")
-//         }
-//    }
-
-
-    // Timer {
-    //     id: updateOrdersListTimer
-    //     interval: 5000
-    //     running: false
-    //     repeat: true
-    //     onTriggered:
-    //     {
-    //         logicMainApp.requestToService("DapGetXchangeOrdersList")
-    //         logicMainApp.requestToService("DapGetWalletsInfoCommand","true");
-    //     }
-    // }
 
     Component.onCompleted:
     {
@@ -82,7 +55,6 @@ DapPage
         console.log("DapStockTab onTokenPairChanged")
 
         updateOrdersListTimer.stop()
-        // logicMainApp.requestToService("DapGetXchangeOrdersList")
         updateOrdersListTimer.start()
 
 //        console.log(candleChartWorker.currentTokenPrice)
@@ -98,8 +70,6 @@ DapPage
             tokenPriceChanged()
         }
 
-        // logicMainApp.requestToService("DapGetXchangeTokenPriceHistory",
-        //     tokenPairsWorker.tokenNetwork, tokenPairsWorker.tokenBuy, tokenPairsWorker.tokenSell)
     }
 
 }

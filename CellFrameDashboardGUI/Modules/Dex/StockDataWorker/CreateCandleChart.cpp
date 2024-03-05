@@ -157,6 +157,13 @@ void CreateCandleChart::createCandleModel(bool key)
             counter = 1;
             sum = priceModel->at(priceModel->size() - 1).price;
         }
+
+        min = std::min(open,min);
+        min = std::min(close,min);
+        max = std::max(open,max);
+        max = std::max(close,max);
+
+
         CandleInfo info {minTime + m_chartInfo.candleWidth / 2,
                         open, close, min, max, sum/counter};
 
