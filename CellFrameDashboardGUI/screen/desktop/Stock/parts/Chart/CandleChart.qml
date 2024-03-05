@@ -138,6 +138,19 @@ Item
         }
     }
 
+    Timer {
+        id: candleSelectedTimer
+        interval: 5000
+        running: false
+        repeat: false
+
+        onTriggered:
+        {
+            logic.resetIsChangeSelectedCandleNumber()
+            candleSelectedTimer.stop()
+        }
+    }
+
     MouseArea
     {
         id:areaCanvas
@@ -145,6 +158,13 @@ Item
         anchors.fill: parent
 
         hoverEnabled: true
+
+        onClicked:
+        {
+            candleSelectedTimer.stop()
+            logic.tryBlocedSelectedCandleNumber()
+            candleSelectedTimer.start()
+        }
 
         onWheel:
         {
