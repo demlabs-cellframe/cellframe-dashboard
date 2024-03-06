@@ -858,10 +858,10 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
 
     QString valFeeTicker;
     QString valFee;
-    if(feeInfo.validatorFee.contains("fee_ticker") && feeInfo.validatorFee.contains("average_fee_coins"))
+    if(feeInfo.validatorFee.contains("fee_ticker") && feeInfo.validatorFee.contains("median_fee_coins"))
     {
         valFeeTicker = feeInfo.validatorFee["fee_ticker"];
-        valFee = feeInfo.validatorFee["average_fee_coins"];
+        valFee = feeInfo.validatorFee["median_fee_coins"];
     }
 
     if(!valFee.isEmpty() && valFee != "0.0")
