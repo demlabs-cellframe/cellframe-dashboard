@@ -102,7 +102,7 @@ DapRectangleLitAndShaded {
             id: fields
             sell: !isBuy
             logicPrice: logic.selectedItem.price
-            balance: !isBuy ? walletModule.getBalanceDEX(logic.selectedItem.tokenSell) 
+            balance: !isBuy ? walletModule.getBalanceDEX(logic.selectedItem.tokenSell)
                                 : walletModule.getBalanceDEX(logic.selectedItem.tokenBuy)
 
             amount.textToken: isBuy ? dexModule.token2 : dexModule.token1
@@ -150,7 +150,7 @@ DapRectangleLitAndShaded {
 
                     fields.amount.textElement.setText(dexModule.multCoins(fullAmount, percent))
                     fields.total.textElement.setText(dexModule.multCoins(logic.selectedItem.amount, percent))
-                }               
+                }
             }
         }
 
