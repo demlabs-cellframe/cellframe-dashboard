@@ -49,7 +49,18 @@ linux-amd64-debian-buster:
       - ./prod_build/pack.sh --target linux release
       - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
       - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
-      
+
+linux-arm64-debian-bullseye:
+    extends: .build
+    image: demlabs/arm64v8/debian-bullseye:linuxbuilder
+    before_script: /opt/buildtools/prepare_environment.sh arm64-linux
+    script: 
+      - ./prod_build/build.sh --target linux release
+      - ./prod_build/pack.sh --target linux release
+      - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
+
+
 linux-debug-amd64-debian-buster:
     extends: .build
     image: demlabs/amd64/debian-buster:linuxbuilder
@@ -76,6 +87,8 @@ deploy-linux:
   needs: 
     - linux-amd64-debian-buster
     - linux-debug-amd64-debian-buster
+    - linux-arm64-debian-bullseye
+
  
   script: 
     - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
