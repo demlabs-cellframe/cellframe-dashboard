@@ -56,14 +56,15 @@ Item
             {
                 anchors.fill: parent
                 spacing: 0
-                HeaderLabel{
-                    Layout.preferredWidth: 135
-                    label.text: qsTr("Date")
-                    label.anchors.leftMargin: 16
-                }
+                // HeaderLabel{
+                //     Layout.preferredWidth: 135
+                //     label.text: qsTr("Date")
+                //     label.anchors.leftMargin: 16
+                // }
                 HeaderLabel{
                     Layout.preferredWidth: 102
                     label.text: qsTr("Pair")
+                    label.anchors.leftMargin: 16
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 96
@@ -119,40 +120,41 @@ Item
             {
                 anchors.fill: parent
                 spacing: 0
+                // HeaderLabel{
+                //     Layout.preferredWidth: 135
+                //     label.text: date
+                //     label.anchors.leftMargin: 16
+                //     label.font: mainFont.dapFont.regular13
+                // }
                 HeaderLabel{
-                    Layout.minimumWidth: 135
-                    label.text: date
-                    label.anchors.leftMargin: 16
-                    label.font: mainFont.dapFont.regular13
-                }
-                HeaderLabel{
-                    Layout.minimumWidth: 102
+                    Layout.preferredWidth: 102
                     label.text: pair
                     label.font: mainFont.dapFont.regular13
+                    label.anchors.leftMargin: 16
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 96
+                    Layout.preferredWidth: 96
                     label.text: network
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 61
+                    Layout.preferredWidth: 61
                     label.text: side
                     label.font: mainFont.dapFont.regular13
                     label.color: side === "Sell" ? currTheme.red : currTheme.green
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 150
+                    Layout.preferredWidth: 150
                     label.text: amount
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 150
+                    Layout.preferredWidth: 150
                     label.text: price
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 49
+                    Layout.preferredWidth: 49
                     label.text: filled
                     label.font: mainFont.dapFont.regular13
                 }
