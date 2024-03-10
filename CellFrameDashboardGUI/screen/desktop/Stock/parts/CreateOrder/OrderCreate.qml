@@ -179,13 +179,6 @@ Page
                     fields.updateForms()
                 }
 
-                function onCurrentTokenPairInfoChanged()
-                {
-                    if(fields.price.textValue === "0.0")
-                    {
-                        fields.price.textValue = dexModule.currentRate
-                    }
-                }
             }
 
             Connections

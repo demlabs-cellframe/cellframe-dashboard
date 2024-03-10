@@ -22,7 +22,10 @@ ComboBox {
 
     onCountChanged:
     {
-        if(count > 0) dexModule.tokenPairModelCountChanged(count)
+        if(count > 0 && (dexModule.displayText === "")) 
+        {
+            dexModule.tokenPairModelCountChanged(count)
+        }
         dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
         dexTokenModel.setNetworkFilter(dexModule.networkPair)
         walletModule.updateBalanceDEX()
@@ -215,7 +218,18 @@ ComboBox {
                         Layout.fillWidth: true
                         onFindHandler: {
                             modelTokenPair.setDisplayTextFilter(text)
+                        }
+                        Connections
+                        {
+                            target: control.popup
 
+                            function onOpenedChanged()
+                            {
+                                if(control.popup.opened)
+                                {
+                                    search.textField.text = ""
+                                }
+                            }
                         }
                     }
 

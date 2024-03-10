@@ -8,6 +8,8 @@ import "qrc:/widgets"
 
 ColumnLayout
 {
+    property alias textField: searchBox
+
     signal findHandler(string text)
 
     id: root

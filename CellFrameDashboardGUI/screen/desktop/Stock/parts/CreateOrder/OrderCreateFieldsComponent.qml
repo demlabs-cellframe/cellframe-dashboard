@@ -134,6 +134,12 @@ ColumnLayout {
             Layout.maximumHeight: 40
 
             onEdited: {
+                var tmpStr = removeZerosAndDots(price.textValue)
+                if(tmpStr.length  === 0)
+                {
+                    return
+                }
+
                 if(parentPage === "BUY_SELL")
                 {
                     createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
@@ -193,7 +199,7 @@ ColumnLayout {
         Text
         {
             color: currTheme.white
-            text: qsTr("Amount of ") + amount.textToken + (!sell ? qsTr(" for sale") : qsTr(" for purchase"))
+            text: qsTr("Amount of ") + amount.textToken + (sell ? qsTr(" for sale") : qsTr(" for purchase"))
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
@@ -229,6 +235,13 @@ ColumnLayout {
         onEdited:
         {
             setPercentButtons(false, false, false, false)
+
+            var tmpPriceValue = removeZerosAndDots(price.textValue)
+            var tmpAmountValue = removeZerosAndDots(textValue)
+            if(tmpPriceValue.length  === 0 || tmpAmountValue.length  === 0)
+            {
+                return
+            }
 
             if(limitType === "LIMIT" || parentPage === "BUY_SELL")
             {
@@ -403,6 +416,12 @@ ColumnLayout {
         {
             setPercentButtons(false, false, false, false)
 
+            var tmpPriceValue = removeZerosAndDots(price.textValue)
+            var tmpAmountValue = removeZerosAndDots(textValue)
+            if(tmpPriceValue.length  === 0 || tmpAmountValue.length  === 0)
+            {
+                return
+            }
             if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
                 amount.textElement.setText(dexModule.divCoins(textValue, sell ? price.textValue : dexModule.invertValue(price.textValue)))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
@@ -551,5 +570,9 @@ ColumnLayout {
 
         return true
     }
-
+    
+    function removeZerosAndDots(inputString) 
+    {
+        return inputString.replace(/[0.]/g, '');
+    }
 }
