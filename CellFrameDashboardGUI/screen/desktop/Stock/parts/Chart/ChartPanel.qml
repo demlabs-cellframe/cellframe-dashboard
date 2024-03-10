@@ -72,6 +72,14 @@ Item
                 onCurrantDisplayTextChanged:
                 {
                     modelTokenPair.setNetworkFilter(text)
+                    if(comboboxNetwork.displayText !== "All")
+                    {
+                        if(modelTokenPair.getSize() > 0)
+                        {
+                            var pair = modelTokenPair.getFirstItem()
+                            dexModule.setCurrentTokenPair(pair, comboboxNetwork.displayText)
+                        }
+                    }
                 }
 
                 onItemSelected:
@@ -87,7 +95,6 @@ Item
 
                     function onDexNetListChanged()
                     {
-                        console.log("DEX_NET_LIST dexNetModel = " + dexNetModel.count)
                         comboboxNetwork.displayText = "All"
                         comboboxNetwork.model = dexNetModel;
                     }

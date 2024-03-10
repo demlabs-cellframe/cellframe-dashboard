@@ -16,6 +16,7 @@ public:
 
     Q_INVOKABLE bool isFilter();
     Q_INVOKABLE QString getFirstItem() const;
+    Q_INVOKABLE int getSize() const { return m_currentList.size();}
     const QList<QPair<QString,QString>>& getCurrantList() const { return m_currentList; }
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
