@@ -58,7 +58,7 @@ Component {
                     height: 8
                     mipmap: true
 
-                    source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
+                    source: networkState === "NET_STATE_ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
                             networkState !== targetState ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
                             networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png":
                                                         "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.png"

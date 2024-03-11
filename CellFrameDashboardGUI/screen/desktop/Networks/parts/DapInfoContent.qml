@@ -140,7 +140,7 @@ Item {
                 onClicked: {
                     console.log("onClicked on/off network")
                     buttonNetwork.updateFakeButton(true)
-                    if (targetState !== "ONLINE" && networkState !== "ONLINE" )
+                    if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
                         logicMainApp.requestToService("DapNetworkGoToCommand", name, true)
                     else
                         logicMainApp.requestToService("DapNetworkGoToCommand", name, false)
@@ -153,7 +153,7 @@ Item {
                 {
                     console.log("setText()")
                     buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
-                    if (targetState !== "ONLINE" && networkState !== "ONLINE" )
+                    if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
                         buttonNetwork.textBut = qsTr("On network")
                     else
                         buttonNetwork.textBut = qsTr("Off network")
@@ -273,7 +273,7 @@ Item {
 //                smooth: false
                 fillMode: Image.PreserveAspectFit
 
-                source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
+                source: networkState === "NET_STATE_ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
                         networkState !== targetState ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
                         networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg"
