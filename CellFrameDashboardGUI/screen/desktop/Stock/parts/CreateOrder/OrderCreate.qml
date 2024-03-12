@@ -268,8 +268,8 @@ Page
                 id: fields
                 sell: isSell
                 Layout.fillWidth: true
-                amount.textToken: isSell ? dexModule.token1 : dexModule.token2
-                total.textToken: !isSell ? dexModule.token1 : dexModule.token2
+                amount.textToken: dexModule.token1
+                total.textToken: dexModule.token2
 
                 Component.onCompleted:
                 {
@@ -311,9 +311,15 @@ Page
                             resBalance = fields.balance
                         }
 
-                        var result = logicStock.getPercentBalance(resBalance, percent, fields.price.textValue, isSell)
-                        fields.amount.textElement.setText(isSell ? result[0] : result[1])
-                        fields.total.textElement.setText(isSell ? result[1] : result[0])
+                        var result = dexModule.multCoins(resBalance, percent)
+                        if(isSell)
+                        {
+                            fields.amount.textElement.text = result
+                        }
+                        else
+                        {
+                            fields.total.textElement.text = result
+                        }
                     }
                 }
             }

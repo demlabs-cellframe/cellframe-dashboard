@@ -140,29 +140,22 @@ ColumnLayout {
                     return
                 }
 
-                if(parentPage === "BUY_SELL")
+                if(tmpPriceValue !== textValue)
                 {
-                    createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-                    if(amount.textValue !== "0")
-                        total.textValue = dexModule.multCoins(amount.textValue, logicPrice)
+                    dexModule.setCurrentPrice(textValue)
                 }
-                else if(limitType === "LIMIT")
+                tmpPriceValue = ""
+
+                if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
                 {
-                    if(tmpPriceValue !== textValue)
-                    {
-                        dexModule.setCurrentPrice(textValue)
-                    }
-                    tmpPriceValue = ""
-                    createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-                    if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
-                        total.textElement.setText(dexModule.multCoins(amount.textValue, sell ? textValue : dexModule.invertValue(textValue)))
+                    total.textElement.setText(dexModule.multCoins(amount.textValue, false ? textValue : dexModule.invertValue(textValue)))
                 }
-                else if(limitType === "MARKET")
+
+                if(dexModule.isValidValue(textValue) && dexModule.isValidValue(total.textValue))
                 {
-                    createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-                    if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
-                        total.textElement.setText(dexModule.multCoins(amount.textValue, sell ? textValue : dexModule.invertValue(textValue)))
+                    amount.textElement.setText(dexModule.divCoins(total.textValue, false ? textValue : dexModule.invertValue(textValue)))
                 }
+                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
         }
 
@@ -199,7 +192,7 @@ ColumnLayout {
         Text
         {
             color: currTheme.white
-            text: qsTr("Amount of ") + amount.textToken + (sell ? qsTr(" for sale") : qsTr(" for purchase"))
+            text: qsTr("Amount of ") + amount.textToken + (sell ? qsTr(" for sale") : qsTr(" to receive"))
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
@@ -243,18 +236,12 @@ ColumnLayout {
                 return
             }
 
-            if(limitType === "LIMIT" || parentPage === "BUY_SELL")
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
             {
-                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    total.textElement.setText(dexModule.multCoins(textValue,sell ? price.textValue : dexModule.invertValue(price.textValue)))
-                createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
+                total.textElement.setText(dexModule.multCoins(textValue, true ? price.textValue : dexModule.invertValue(price.textValue)))
             }
-            else if(limitType === "MARKET")
-            {
-                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    total.textElement.setText(dexModule.multCoins(textValue,sell ? price.textValue : dexModule.invertValue(price.textValue)))
-                createButton.enabled = setStatusCreateButton(total.textValue, candleChartWorker.currentTokenPrice)
-            }
+                
+            createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
         }
     }
 
@@ -391,7 +378,7 @@ ColumnLayout {
         Text
         {
             color: currTheme.white
-            text: qsTr("Total ") + total.textToken + qsTr(" to receive")
+            text: qsTr("Total ") + total.textToken + (!sell ? qsTr(" for sale") : qsTr(" to receive"))
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
@@ -423,7 +410,7 @@ ColumnLayout {
                 return
             }
             if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                amount.textElement.setText(dexModule.divCoins(textValue, sell ? price.textValue : dexModule.invertValue(price.textValue)))
+                amount.textElement.setText(dexModule.divCoins(textValue, true ? price.textValue : dexModule.invertValue(price.textValue)))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 

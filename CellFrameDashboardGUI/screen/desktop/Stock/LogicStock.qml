@@ -81,26 +81,4 @@ QtObject
         console.log("HASH: 0")
         return "0"
     }
-
-    function getPercentBalance(balance, percent, price, isSell)
-    {
-        if(price === "0.0")
-            return price
-
-        var balanceDatoshi = mathWorker.coinsToBalance(balance)
-        var percentDatoshi = mathWorker.coinsToBalance(percent)
-        var priceDatoshi = mathWorker.coinsToBalance(price)
-
-        var multRes = mathWorker.multCoins(balanceDatoshi, percentDatoshi, false)
-
-        var result = [2]
-
-        result[0] = isSell? multRes: mathWorker.divCoins(mathWorker.coinsToBalance(multRes),
-                                                      priceDatoshi, false)
-
-        result[1] = isSell? mathWorker.multCoins(mathWorker.coinsToBalance(multRes),
-                                              priceDatoshi, false) : multRes
-
-        return result
-    }
 }
