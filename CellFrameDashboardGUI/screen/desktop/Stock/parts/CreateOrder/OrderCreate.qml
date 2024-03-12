@@ -280,11 +280,13 @@ Page
                 {
                     if(fields.limitType === "LIMIT" || fields.limitType === "MARKET")
                     {
-                        var walletResult = walletModule.isCreateOrder(dexModule.networkPair, fields.amount.textValue, fields.amount.textToken)
+                        var resultAmount = isSell ? fields.amount.textValue : fields.total.textValue
+                        var resultTokenName = isSell ? fields.amount.textToken : fields.total.textToken 
+                        var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                         console.log("Wallet: " + walletResult)
                         if(walletResult === "OK")
                         {
-                            var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
+                            var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, resultAmount, walletModule.getFee(dexModule.networkPair).validator_fee)
                             console.log("Order: " + createOrder)
                         }
                         else

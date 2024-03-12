@@ -271,12 +271,13 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     if(!m_currentWallet.second.isEmpty())
     {
         m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
+        updateDexTokenModel();
     }
     else
     {
         m_infoWallet->updateModel({});
     }
-    updateDexTokenModel();
+    
     startUpdateCurrentWallet();
     emit currentWalletChanged();
     updateBalanceDEX();

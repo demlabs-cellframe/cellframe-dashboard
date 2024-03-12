@@ -141,7 +141,7 @@ DapRectangleLitAndShaded {
                     var fullAmount
                     if(isBuy)
                     {
-                        fullAmount = dexModule.multCoins(logic.selectedItem.amount, dexModule.invertValue(logic.selectedItem.price))
+                        fullAmount = dexModule.multCoins(logic.selectedItem.total, dexModule.invertValue(logic.selectedItem.price))
                     }
                     else
                     {
