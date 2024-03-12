@@ -120,11 +120,14 @@ DapRectangleLitAndShaded {
 
             function onCreateBtnClicked()
             {
-                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, fields.amount.textValue, fields.amount.textToken)
+                var resultAmount = !isBuy ? fields.amount.textValue : fields.total.textValue
+                var resultTokenName = !isBuy ? fields.amount.textToken : fields.total.textToken 
+
+                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                 console.log("Wallet: " + walletResult)
                 if(walletResult === "OK")
                 {
-                    var createOrder = dexModule.tryExecuteOrder(logic.selectedItem.hash, fields.amount.textValue, walletModule.getFee(dexModule.networkPair).validator_fee)
+                    var createOrder = dexModule.tryExecuteOrder(logic.selectedItem.hash, resultAmount, walletModule.getFee(dexModule.networkPair).validator_fee)
                     console.log("Order: " + createOrder)
                 }
                 else
@@ -138,17 +141,8 @@ DapRectangleLitAndShaded {
                 target: fields
                 function onPercentButtonClicked(percent)
                 {
-                    var fullAmount
-                    if(isBuy)
-                    {
-                        fullAmount = dexModule.multCoins(logic.selectedItem.total, dexModule.invertValue(logic.selectedItem.price))
-                    }
-                    else
-                    {
-                        fullAmount = dexModule.multCoins(logic.selectedItem.amount, logic.selectedItem.price)
-                    }
-
-                    var result = dexModule.multCoins(fullAmount, percent)
+                    
+                    var result = dexModule.multCoins(logic.selectedItem.amount, percent)
                     if(isBuy)
                     {
                         fields.amount.textElement.text = result

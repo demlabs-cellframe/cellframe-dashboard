@@ -557,7 +557,7 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
 
 
         auto suitableOrder = std::find_if(model.begin(), model.end(), [&](const DapOrderHistoryModel::Item& item){
-            if(item.tokenSell != tokenBuy || item.tokenBuy != tokenSell || item.network != m_currentPair.network)
+            if(item.tokenSell != tokenSell || item.tokenBuy != tokenBuy || item.network != m_currentPair.network)
             {
                 return false;
             }
