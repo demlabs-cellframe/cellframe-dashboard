@@ -129,6 +129,7 @@ DapRectangleLitAndShaded
                                    text === "Error" ||
                                    text === "Declined" ?  currTheme.red :
                                    text === "Received"  ? currTheme.lightGreen :
+                                   text === "Exchange"  ? currTheme.coral :
                                    text === "Unknown"   ? currTheme.mainButtonColorNormal0 :
                                                           currTheme.white
 
@@ -161,10 +162,39 @@ DapRectangleLitAndShaded
 
                         DapBigText
                         {
+                            id: x_text
+                            visible: x_value !== ""
+
+                            property string sign: x_direction === "to"? "- " : "+ "
+                            width: 160
+                            height: 20
+                            horizontalAlign: Qt.AlignRight
+                            verticalAlign: Qt.AlignVCenter
+                            fullText: sign + x_value + " " + x_token
+                            textFont: mainFont.dapFont.regular13
+                            anchors.right: copyBtn.left
+                            anchors.top: val.bottom
+                            anchors.rightMargin: 3
+                            anchors.topMargin: 2
+                        }
+
+                        DapCopyButton {
+                            visible: x_text.visible
+                            popupText: qsTr("Value copied")
+                            anchors.right: parent.right
+                            anchors.top: val.bottom
+                            anchors.topMargin: 2
+                            onCopyClicked: {
+                                clipboard.setText(x_value)
+                            }
+                        }
+
+                        DapBigText
+                        {
                             property string sign: direction === "to"? "- " : "+ "
                             id: val
                             width: 160
-                            height: 20
+                            height: !x_text.visible ? 20 : 14
                             horizontalAlign: Qt.AlignRight
                             verticalAlign: Qt.AlignVCenter
                             fullText: sign + value + " " + token
@@ -172,7 +202,7 @@ DapRectangleLitAndShaded
                             anchors.right: copyBtn.left
                             anchors.top: parent.top
                             anchors.rightMargin: 3
-                            anchors.topMargin: 13
+                            anchors.topMargin: !x_text.visible ? 13 : 6
                         }
 
                         DapCopyButton {
@@ -180,7 +210,7 @@ DapRectangleLitAndShaded
                             popupText: qsTr("Value copied")
                             anchors.right: parent.right
                             anchors.top: parent.top
-                            anchors.topMargin: 15
+                            anchors.topMargin: !x_text.visible ? 13 : 5
                             onCopyClicked: {
                                 clipboard.setText(value)
                             }
@@ -227,7 +257,7 @@ DapRectangleLitAndShaded
                             width: 40
                             anchors.right: parent.right
                             anchors.top: parent.top
-                            anchors.topMargin: 36
+                            anchors.topMargin: 42
                         }
                     }
 

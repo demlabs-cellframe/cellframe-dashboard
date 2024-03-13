@@ -43,6 +43,9 @@ protected:
   Q_PROPERTY (QString fee           READ fee           WRITE setFee           NOTIFY feeChanged)
   Q_PROPERTY (QString fee_token     READ fee_token     WRITE setFee_token     NOTIFY fee_tokenChanged)
   Q_PROPERTY (QString fee_net       READ fee_net       WRITE setFee_net       NOTIFY fee_netChanged)
+  Q_PROPERTY (QString x_value       READ x_value       WRITE setX_Value       NOTIFY x_valueChanged)
+  Q_PROPERTY (QString x_token       READ x_token       WRITE setX_token       NOTIFY x_tokenChanged)
+  Q_PROPERTY (QString x_direction   READ x_direction   WRITE setX_direction   NOTIFY x_directionChanged)
   /// @}
 
   /****************************************//**
@@ -119,6 +122,15 @@ public:
   Q_INVOKABLE QString m_direction() const;
   Q_INVOKABLE void setM_direction (const QString &direction);
 
+  Q_INVOKABLE QString x_value() const;
+  Q_INVOKABLE void setX_Value (const QString &x_value);
+
+  Q_INVOKABLE QString x_token() const;
+  Q_INVOKABLE void setX_token (const QString &x_token);
+
+  Q_INVOKABLE QString x_direction() const;
+  Q_INVOKABLE void setX_direction (const QString &x_direction);
+
   Q_INVOKABLE QString fee() const;
   Q_INVOKABLE void setFee (const QString &fee);
 
@@ -153,6 +165,9 @@ signals:
   void m_valueChanged();
   void m_tokenChanged();
   void m_directionChanged();
+  void x_valueChanged();
+  void x_tokenChanged();
+  void x_directionChanged();  
   void feeChanged();
   void fee_tokenChanged();
   void fee_netChanged();
@@ -209,6 +224,9 @@ public:
     m_value,
     m_token,
     m_direction,
+    x_value,
+    x_token,
+    x_direction,    
     fee,
     fee_token,
     fee_net
@@ -234,6 +252,9 @@ public:
     QString m_value;
     QString m_token;
     QString m_direction;
+    QString x_value;
+    QString x_token;
+    QString x_direction;    
     QString fee;
     QString fee_token;
     QString fee_net;

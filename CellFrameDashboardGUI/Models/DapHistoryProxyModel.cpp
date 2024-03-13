@@ -73,15 +73,17 @@ bool DapHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
 
     if(m_isLastActions && source_row < MAX_TRANSACTIONS_LAST_ACTIONS)
     {
-        if(m_countDays < MAX_DAYS_LAST_ACTIONS)
+        if(m_tmpDataLastActions != item.date)
         {
-            if(m_tmpDataLastActions != item.date)
-            {
-                m_tmpDataLastActions = item.date;
-                m_countDays++;
-            }
+            m_tmpDataLastActions = item.date;
+            m_countDays++;
+        }
+
+        if(m_countDays <= MAX_DAYS_LAST_ACTIONS)
+        {
             isLast = true;
         }
+
     }
     else if(!m_isLastActions)
     {
