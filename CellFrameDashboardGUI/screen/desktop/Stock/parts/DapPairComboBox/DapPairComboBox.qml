@@ -26,9 +26,18 @@ ComboBox {
         {
             dexModule.tokenPairModelCountChanged(count)
         }
-        dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
-        dexTokenModel.setNetworkFilter(dexModule.networkPair)
+        dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
         walletModule.updateBalanceDEX()
+    }
+
+    Connections
+    {
+        target: dexModule
+        function onCurrentTokenPairChanged()
+        {
+            dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
+            walletModule.updateBalanceDEX()
+        }
     }
 
     delegate:
@@ -102,8 +111,8 @@ ComboBox {
                     onClicked:
                     {
                         dexModule.setCurrentTokenPair(displayText, network)
-                        dexTokenModel.setTokenFilter(token1, token2)
-                        dexTokenModel.setNetworkFilter(network)
+
+                        dexTokenModel.setNewPairFilter(token1, token2, network)
                         walletModule.updateBalanceDEX()
                         control.popup.close()
                     }

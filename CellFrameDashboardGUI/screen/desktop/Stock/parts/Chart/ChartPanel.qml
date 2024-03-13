@@ -115,8 +115,7 @@ Item
 
                 Component.onCompleted:
                 {
-                    dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
-                    dexTokenModel.setNetworkFilter(dexModule.networkPair)
+                    dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
                     walletModule.updateBalanceDEX()
 
                 }

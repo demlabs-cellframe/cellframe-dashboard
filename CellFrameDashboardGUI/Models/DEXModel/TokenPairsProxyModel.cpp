@@ -21,7 +21,7 @@ bool TokenPairsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
     }
     DapTokenPairModel::Item item = model->getItem(source_row);
     bool isNetwork = m_network.isEmpty() || m_network == item.network;
-    bool isStr = m_currentStr.isEmpty() || item.displayText.contains(m_currentStr);
+    bool isStr = m_currentDisplayText.isEmpty() || item.displayText.contains(m_currentDisplayText);
 
     bool result = isStr && isNetwork;
     if(result)
@@ -48,11 +48,18 @@ void TokenPairsProxyModel::setNetworkFilter(const QString& network)
 
 void TokenPairsProxyModel::setDisplayTextFilter(const QString& str)
 {
-    m_currentStr = str;
+    m_currentDisplayText = str;
+    invalidateFilter();
+}
+
+void TokenPairsProxyModel::setNewPairFilter(const QString& pair, const QString& network)
+{
+    m_network = network == "All" || network == "Networks" ? QString() : network;
+    m_currentDisplayText = pair;
     invalidateFilter();
 }
 
 bool TokenPairsProxyModel::isFilter()
 {
-    return !m_network.isEmpty() || !m_currentStr.isEmpty();
+    return !m_network.isEmpty() || !m_currentDisplayText.isEmpty();
 }

@@ -13,6 +13,7 @@ public:
 
     Q_INVOKABLE void setNetworkFilter(const QString& network);
     Q_INVOKABLE void setDisplayTextFilter(const QString& str);
+    Q_INVOKABLE void setNewPairFilter(const QString& pair, const QString& network);
 
     Q_INVOKABLE bool isFilter();
     Q_INVOKABLE QString getFirstItem() const;
@@ -23,6 +24,6 @@ protected:
 
 private:
     QString m_network = "";
-    QString m_currentStr = "";
+    QString m_currentDisplayText = "";
     mutable QList<QPair<QString,QString>> m_currentList;
 };

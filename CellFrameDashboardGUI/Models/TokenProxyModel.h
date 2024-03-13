@@ -15,6 +15,7 @@ public:
 
     Q_INVOKABLE void setNetworkFilter(const QString& network);
     Q_INVOKABLE void setTokenFilter(const QString& token1, const QString& token2);
+    Q_INVOKABLE void setNewPairFilter(const QString& token1, const QString& token2, const QString& network);
     Q_INVOKABLE int getCount() {return m_count;}
     Q_INVOKABLE QVariant get(int a_index);
     void updateCount();

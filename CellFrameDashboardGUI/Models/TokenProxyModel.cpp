@@ -81,6 +81,15 @@ void TokenProxyModel::setTokenFilter(const QString& token1, const QString& token
     invalidateFilter();
 }
 
+void TokenProxyModel::setNewPairFilter(const QString& token1, const QString& token2, const QString& network)
+{
+    m_network = network;
+    m_filterList.clear();
+    m_filterList << token1 << token2;
+    updateCount();
+    invalidateFilter();
+}
+
 void TokenProxyModel::setNetworkFilter(const QString& network)
 {
     m_network = network;
