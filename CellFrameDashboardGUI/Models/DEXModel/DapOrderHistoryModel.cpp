@@ -106,7 +106,7 @@ void DapOrderHistoryModel::updateModel(const QList<DEX::Order> &data)
         for(const auto& item: data)
         {
             DapOrderHistoryModel::Item tmpItem;
-            tmpItem.pair = item.buyToken + "/" + item.sellToken;
+            tmpItem.pair = item.side == "Buy" ? item.buyToken + "/" + item.sellToken : item.sellToken + "/" + item.buyToken;
             QDateTime time = QDateTime::fromSecsSinceEpoch(item.unixTime.toLongLong());
             tmpItem.date = time.toString("yyyy-MM-dd hh:mm");
             tmpItem.unixDate = item.unixTime;

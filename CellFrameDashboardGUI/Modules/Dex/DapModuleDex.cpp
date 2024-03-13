@@ -310,28 +310,20 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
 
             tmpData.network = network;
 
+            tmpData.sellToken = sellToken;
+            tmpData.buyToken = buyToken;
             if(isPair(buyToken, sellToken, network) == DapModuleDex::PairFoundResultType::IS_MIRROR_PAIR)
             {
-                tmpData.sellToken = buyToken;
-                tmpData.buyToken = sellToken;
                 tmpData.rate = invertValue(rate);
                 tmpData.side = "Sell";
             }
             else
             {
-                tmpData.sellToken = sellToken;
-                tmpData.buyToken = buyToken;
+                listPairs.append(tmpData.buyToken + "/" + tmpData.sellToken);
                 tmpData.rate = rate;
                 tmpData.side = "Buy";
             }
 
-            {
-                QString tmpPair = tmpData.buyToken + "/" + tmpData.sellToken;
-                if(!listPairs.contains(tmpPair))
-                {
-                    listPairs.append(std::move(tmpPair));
-                }
-            }
 
             m_ordersHistory.append(std::move(tmpData));
         }
@@ -418,8 +410,6 @@ QString DapModuleDex::roundCoins(const QString& str)
     {
         result = match.captured(1);
     }
-
-
 
     if(result.isEmpty() )
     {
@@ -557,7 +547,11 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
 
 
         auto suitableOrder = std::find_if(model.begin(), model.end(), [&](const DapOrderHistoryModel::Item& item){
-            if(item.tokenSell != tokenSell || item.tokenBuy != tokenBuy || item.network != m_currentPair.network)
+            if(item.status == "CLOSED")
+            {
+                return false;
+            }
+            if(item.tokenSell != tokenBuy || item.tokenBuy != tokenSell || item.network != m_currentPair.network)
             {
                 return false;
             }

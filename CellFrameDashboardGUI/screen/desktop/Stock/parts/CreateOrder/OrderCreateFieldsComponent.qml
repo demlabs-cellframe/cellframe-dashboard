@@ -236,10 +236,20 @@ ColumnLayout {
                 return
             }
 
-            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+            if(parentPage === "BUY_SELL")
             {
-                total.textElement.setText(dexModule.multCoins(textValue, sell ? price.textValue : dexModule.invertValue(price.textValue)))
+                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                {
+                    total.textElement.setText(dexModule.multCoins(textValue, dexModule.invertValue(price.textValue)))
+                }
             }
+            else
+            {
+                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                {
+                    total.textElement.setText(dexModule.multCoins(textValue, !sell ? dexModule.invertValue(price.textValue) : price.textValue))
+                }                
+             }
                 
             createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
         }
@@ -409,9 +419,18 @@ ColumnLayout {
             {
                 return
             }
-            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                amount.textElement.setText(dexModule.divCoins(textValue, !sell ? price.textValue : dexModule.invertValue(price.textValue)))
-            createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
+            if(parentPage === "BUY_SELL")
+            {
+                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                    amount.textElement.setText(dexModule.multCoins(textValue, price.textValue))
+                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
+            }
+            else
+            {
+                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                    amount.textElement.setText(dexModule.multCoins(textValue, !sell ? price.textValue : dexModule.invertValue(price.textValue)))
+                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)                
+            }
         }
 
         onTextValueChanged: {
