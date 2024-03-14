@@ -154,6 +154,15 @@ Controls.DapTopPanel
                 walletModule.setCurrentTokenDEX(displayText)
                 updateBalance()
             }
+
+            Connections
+            {
+                target: dexTokenModel
+                function onListTokenChanged()
+                {
+                    walletModule.setCurrentTokenDEX(dexTokenModel.getFirstToken())
+                }
+            }
         }
 
         Item{

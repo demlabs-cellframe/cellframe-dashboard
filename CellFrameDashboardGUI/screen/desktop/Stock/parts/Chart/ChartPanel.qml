@@ -69,22 +69,9 @@ Item
                     if(count > 0 && currentIndex < 0) setCurrentIndex(0)
                 }
 
-                onCurrantDisplayTextChanged:
-                {
-                    modelTokenPair.setNetworkFilter(text)
-                    if(comboboxNetwork.displayText !== "All")
-                    {
-                        if(modelTokenPair.getSize() > 0)
-                        {
-                            var pair = modelTokenPair.getFirstItem()
-                            dexModule.setCurrentTokenPair(pair, comboboxNetwork.displayText)
-                        }
-                    }
-                }
-
                 onItemSelected:
                 {
-                    dexModule.setNetworkFilterText(displayText)
+                    dexModule.networkFilter = displayText
                 }
 
                 defaultText: qsTr("Networks")
@@ -97,6 +84,14 @@ Item
                     {
                         comboboxNetwork.displayText = "All"
                         comboboxNetwork.model = dexNetModel;
+                    }
+
+                    function onNetworkFilterChanged(network)
+                    {
+                        comboboxNetwork.displayText = network
+
+                        var pair = modelTokenPair.getFirstItem()
+                        dexModule.setCurrentTokenPair(pair, comboboxNetwork.displayText)
                     }
                 }
             }

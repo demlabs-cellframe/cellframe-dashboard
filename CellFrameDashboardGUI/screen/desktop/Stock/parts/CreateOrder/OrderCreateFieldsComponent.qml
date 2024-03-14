@@ -148,11 +148,11 @@ ColumnLayout {
 
                 if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
                 {
-                    total.textElement.text = dexModule.multCoins(amount.textValue, !sell ? dexModule.invertValue(price.textValue) : price.textValue)
+                    total.textElement.text = dexModule.multCoins(amount.textValue, price.textValue)
                 }
                 else if(dexModule.isValidValue(textValue) && dexModule.isValidValue(total.textValue))
                 {
-                    amount.textElement.text = dexModule.multCoins(total.textValue, !sell ? price.textValue : dexModule.invertValue(price.textValue))
+                    amount.textElement.text = dexModule.multCoins(total.textValue, dexModule.invertValue(price.textValue))
                 }
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
@@ -246,7 +246,7 @@ ColumnLayout {
             {
                 if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
                 {
-                    total.textElement.setText(dexModule.multCoins(textValue, !sell ? dexModule.invertValue(price.textValue) : price.textValue))
+                    total.textElement.setText(dexModule.multCoins(textValue, price.textValue))
                 }                
              }
                 
@@ -427,7 +427,7 @@ ColumnLayout {
             else
             {
                 if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    amount.textElement.setText(dexModule.multCoins(textValue, !sell ? price.textValue : dexModule.invertValue(price.textValue)))
+                    amount.textElement.setText(dexModule.multCoins(textValue, dexModule.invertValue(price.textValue)))
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)                
             }
         }

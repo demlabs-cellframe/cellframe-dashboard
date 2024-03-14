@@ -140,7 +140,7 @@ private:
     DEX::InfoTokenPair m_currentPair;
 
     QString m_networkFilter = "";
-    QString m_currentNetwork;
+    QString m_currentNetwork = "";
 
     QString m_currantPriceForCreate = "";
 

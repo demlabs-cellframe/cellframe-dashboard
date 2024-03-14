@@ -347,38 +347,43 @@ void AbstractDiagnostic::write_data()
 {
     {
         QJsonObject mainObject = s_full_info.object();
+
         if(mainObject.contains("process"))
         {
+            QString info;
             QJsonObject processObject = mainObject["process"].toObject();
-            qInfo() << "Process info:";
+            info = "Process info:";
             if(processObject.contains("DB_size"))
             {
-                qInfo() << "DB_size - " << processObject["DB_size"].toString();
+                info += QString(" DB_size- " + processObject["DB_size"].toString());
             }
             if(processObject.contains("chain_size"))
             {
-                qInfo() << "Chain size - " << processObject["chain_size"].toString();
+                info += QString(" Chain size - " + processObject["chain_size"].toString());
             }
             if(processObject.contains("log_size"))
             {
-                qInfo() << "Log size - " << processObject["log_size"].toString();
+                info += QString(" Log size - " + processObject["log_size"].toString());
             }
             if(processObject.contains("status"))
             {
-                qInfo() << "Status - " << processObject["status"].toString();
+                info += QString(" Status - " + processObject["status"].toString());
             }
+            qInfo() << info;
         }
         if(mainObject.contains("system"))
         {
+            QString info;
             QJsonObject systemObject = mainObject["system"].toObject();
-            qInfo() << "System info:";
+            info = "System info:";
             if(systemObject.contains("memory"))
             {
                 QJsonObject memoryObject = systemObject["memory"].toObject();
-                qInfo() << "memory free - " << memoryObject["free"].toString();
-                qInfo() << "memory load - " << memoryObject["load"].toString();
-                qInfo() << "memory total - " << memoryObject["total"].toString();
+                info += QString(" memory free - " + memoryObject["free"].toString());
+                info += QString(" memory load - " + memoryObject["load"].toString());
+                info += QString(" memory total - " + memoryObject["total"].toString());
             }
+            qInfo() << info;
         }
     }
 

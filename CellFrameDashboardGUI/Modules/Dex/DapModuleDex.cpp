@@ -119,6 +119,9 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     {
         return;
     }
+
+    bool isFirstUpdate = m_tokensPair.isEmpty();
+
     m_tokensPair.clear();
     QStringList netList = {"All"};
 
@@ -142,6 +145,11 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     }
     m_netListModel->setStringList(std::move(netList));
     m_tokenPairsModel->updateModel(m_tokensPair);
+
+    if(!m_ordersHistoryCash->isEmpty() && isFirstUpdate)
+    {
+        setOrdersHistory(*m_ordersHistoryCash);
+    }
 
     emit dexNetListChanged();
 
@@ -346,7 +354,7 @@ DapModuleDex::PairFoundResultType DapModuleDex::isPair(const QString& token1, co
     {
         return DapModuleDex::PairFoundResultType::BASE_IS_EMPTY;
     }
-    bool isMirror = false;
+
     for(const auto& pair: m_tokensPair)
     {
         if(pair.network != network)
@@ -637,6 +645,7 @@ void DapModuleDex::setNetworkFilterText(const QString &network)
     if(!network.isEmpty())
     {
         m_networkFilter = network;
+        m_tokenPairsProxyModel->setNetworkFilter(network);
         emit networkFilterChanged(m_networkFilter);
     }
 }
@@ -649,6 +658,7 @@ void DapModuleDex::setStepChart(const int &index)
 
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
+    qDebug() << "[TEST] setCurrentTokenPair name pair = " << namePair;
     if(namePair.isEmpty())
     {
         m_currentPair = DEX::InfoTokenPair();
@@ -656,7 +666,11 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
     else
     {
         auto tmpPair = std::find_if(m_tokensPair.begin(), m_tokensPair.end(), [namePair, network](const DEX::InfoTokenPair item)
-                     {
+                 {
+            if(network == "All")
+            {
+                return namePair == item.displayText;
+            }
             return namePair == item.displayText && network == item.network;
         });
 
