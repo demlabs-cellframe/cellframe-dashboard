@@ -148,12 +148,11 @@ ColumnLayout {
 
                 if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
                 {
-                    total.textElement.setText(dexModule.multCoins(amount.textValue, false ? textValue : dexModule.invertValue(textValue)))
+                    total.textElement.text = dexModule.multCoins(amount.textValue, !sell ? dexModule.invertValue(price.textValue) : price.textValue)
                 }
-
-                if(dexModule.isValidValue(textValue) && dexModule.isValidValue(total.textValue))
+                else if(dexModule.isValidValue(textValue) && dexModule.isValidValue(total.textValue))
                 {
-                    amount.textElement.setText(dexModule.divCoins(total.textValue, false ? textValue : dexModule.invertValue(textValue)))
+                    amount.textElement.text = dexModule.multCoins(total.textValue, !sell ? price.textValue : dexModule.invertValue(price.textValue))
                 }
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
