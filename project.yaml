@@ -7,6 +7,7 @@ build_dependencies:
     - 'libjson-c-dev' 
     - 'libffi-dev'
     - 'file'
+    - 'osslsigncode'
     
 
 deploy_dependencies:
