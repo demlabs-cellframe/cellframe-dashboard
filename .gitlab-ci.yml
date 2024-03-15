@@ -76,7 +76,7 @@ windows-amd64:
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script:
       - ./prod_build/build.sh --target windows release
-      - ./prod_build/pack.sh --target windows release --sign /opt/buildtools/sign/windows/demlabs.sh
+      - ./prod_build/pack.sh --target windows release --sign /opt/buildtools/sign/windows/cellframe-dashboard.sh
     artifacts:
       paths:
         - build_*/*.exe
