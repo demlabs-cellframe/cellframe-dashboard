@@ -36,33 +36,35 @@ void CreateCandleChart::createMinimumMaximum24h()
     qint64 timeMinus24h = QDateTime::fromMSecsSinceEpoch(currentTime - 3600000*24).toMSecsSinceEpoch();
 
     double minimum24h(0.0f);
+    double value24h(0.0f);
     double maximum24h(0.0f);
+    double currPrice(0.0f);
 
-    if (priceModel->isEmpty())
-    {
-        minimum24h = 0.0f;
-        maximum24h = 0.0f;
-    }
-    else
+    if (!priceModel->isEmpty())
     {
         minimum24h = priceModel->last().price;
+        value24h = priceModel->last().price;
         maximum24h = priceModel->last().price;
+        currPrice = priceModel->last().price;
 
         for (auto i = priceModel->size()-1; i >= 0; --i)
         {
-            double currPrice = priceModel->at(i).price;
+            if (priceModel->at(i).time < timeMinus24h)
+                break;
+
+            currPrice = priceModel->at(i).price;
 
             if (minimum24h > currPrice)
                 minimum24h = currPrice;
             if (maximum24h < currPrice)
                 maximum24h = currPrice;
-
-            if (priceModel->at(i).time < timeMinus24h)
-                break;
         }
+
+        value24h = value24h - currPrice;
     }
 
     emit minimum24hChanged(minimum24h);
+    emit value24hChanged(value24h);
     emit maximum24hChanged(maximum24h);
 
     emit finished();

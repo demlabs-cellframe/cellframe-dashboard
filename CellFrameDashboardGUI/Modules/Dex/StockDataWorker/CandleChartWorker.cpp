@@ -595,6 +595,7 @@ void CandleChartWorker::setNewData()
     m_isUpdate = false;
     emit chartInfoChanged();
     emit minimum24hChanged(m_infoChart.m_minimum24h);
+    emit value24hChanged(m_infoChart.m_value24h);
     emit maximum24hChanged(m_infoChart.m_maximum24h);
     emit lastCandleNumberChanged(m_infoChart.m_lastCandleNumber);
     emit checkBookRoundPower(m_infoChart.m_currentTokenPrice);

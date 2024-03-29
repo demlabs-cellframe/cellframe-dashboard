@@ -37,6 +37,7 @@ class CandleChartWorker : public QObject
     Q_PROPERTY(qint64 endTime READ endTime NOTIFY analisisCompleted)
 
     Q_PROPERTY(double minimum24h READ minimum24h NOTIFY minimum24hChanged)
+    Q_PROPERTY(double value24h READ value24h NOTIFY value24hChanged)
     Q_PROPERTY(double maximum24h READ maximum24h NOTIFY maximum24hChanged)
 
     Q_PROPERTY(int lastCandleNumber READ lastCandleNumber NOTIFY lastCandleNumberChanged)
@@ -108,6 +109,7 @@ public:
     qint64 endTime() const { return m_endTime; }
 
     double minimum24h() const { return m_infoChart.m_minimum24h; }
+    double value24h() const { return m_infoChart.m_value24h; }
     double maximum24h() const { return m_infoChart.m_maximum24h; }
 
     int lastCandleNumber() const { return m_infoChart.m_lastCandleNumber; }
@@ -145,6 +147,7 @@ signals:
     void visibleTimeChanged(double time);
 
     void minimum24hChanged(double min);
+    void value24hChanged(double val);
     void maximum24hChanged(double min);
 
     void lastCandleNumberChanged(int number);

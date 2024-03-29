@@ -110,6 +110,7 @@ void CreatingSheduleController::initThread(CreateCandleChart* chartCounting)
     chartCounting->setLastVisibleAverage(m_lastVisibleAverage);
 
     connect(chartCounting, &CreateCandleChart::minimum24hChanged,  [this](double min){ m_minimum24h = min; });
+    connect(chartCounting, &CreateCandleChart::value24hChanged,  [this](double val){ m_value24h = val; });
     connect(chartCounting, &CreateCandleChart::maximum24hChanged, [this](double max){ m_maximum24h = max; });
     connect(chartCounting, &CreateCandleChart::lastCandleNumberChanged, [this](int val){ m_lastCandleNumber = val; });
     connect(chartCounting, &CreateCandleChart::commonRoundPowerChanged, [this](int val){ m_commonRoundPower = val; });
@@ -169,6 +170,7 @@ void CreatingSheduleController::finalActions(ThreadsType type)
             result.m_rightTime = m_rightTime;
             result.m_averagedModel.swap(*m_averagedModel);
             result.m_minimum24h = m_minimum24h;
+            result.m_value24h = m_value24h;
             result.m_maximum24h = m_maximum24h;
             result.m_commonRoundPower = m_commonRoundPower;
             result.m_currentTokenPrice = m_currentTokenPrice;
@@ -197,6 +199,7 @@ void CreatingSheduleController::finalActions(ThreadsType type)
             result.m_rightTime = m_rightTime;
             result.m_averagedModel.swap(*m_averagedModel);
             result.m_minimum24h = m_minimum24h;
+            result.m_value24h = m_value24h;
             result.m_maximum24h = m_maximum24h;
             result.m_commonRoundPower = m_commonRoundPower;
             result.m_currentTokenPrice = m_currentTokenPrice;
@@ -224,6 +227,7 @@ void CreatingSheduleController::finalActions(ThreadsType type)
             result.m_rightTime  = m_rightTime;
             result.m_averagedModel.swap(*m_averagedModel);
             result.m_minimum24h = m_minimum24h;
+            result.m_value24h = m_value24h;
             result.m_maximum24h = m_maximum24h;
             result.m_commonRoundPower = m_commonRoundPower;
             result.m_currentTokenPrice = m_currentTokenPrice;

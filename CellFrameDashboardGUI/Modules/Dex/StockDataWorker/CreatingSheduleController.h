@@ -71,6 +71,7 @@ signals:
     void newRateAdded(const PriceInfo& info);
 
     void minimum24hChanged(double min);
+    void value24hChanged(double val);
     void maximum24hChanged(double min);
 
     void finished(TypeProcessing, const MainInfoChart&);
@@ -125,6 +126,7 @@ private:
     QString m_currentTokenPriceText;
 
     double m_minimum24h = 0.0f;
+    double m_value24h = 0.0f;
     double m_maximum24h = 0.0f;
 
     double m_minAverageStep = 0.5f;

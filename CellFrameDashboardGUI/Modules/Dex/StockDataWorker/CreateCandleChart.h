@@ -64,6 +64,7 @@ signals:
     void newRateAdded(const PriceInfo& info);
 
     void minimum24hChanged(double min);
+    void value24hChanged(double val);
     void maximum24hChanged(double max);
 
     // ANALISIS

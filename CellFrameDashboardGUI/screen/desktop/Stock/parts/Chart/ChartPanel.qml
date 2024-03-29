@@ -147,7 +147,6 @@ Item
 
                     text: qsTr("24h Low")
                 }
-
                 Text
                 {
                     id: min24hText
@@ -161,7 +160,7 @@ Item
             ColumnLayout
             {
                 height: 35
-                visible: false
+                visible: true
 
                 Text
                 {
@@ -176,7 +175,8 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.white
 
-                    text: volume24h.toFixed(2) + " " + tokenPairsWorker.tokenBuy
+                    text: candleChartWorker.value24h.toFixed(2)
+                    // + " " + tokenPairsWorker.tokenBuy
                 }
             }
 

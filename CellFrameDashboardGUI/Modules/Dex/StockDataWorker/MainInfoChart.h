@@ -26,6 +26,7 @@ public:
     double m_currentTokenPrice = 0.0f;
     double m_previousTokenPrice = 0.0f;
     double m_minimum24h = 0.0f;
+    double m_value24h = 0.0f;
     double m_maximum24h = 0.0f;
 
     int m_lastCandleNumber = 0;
