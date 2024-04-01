@@ -48,7 +48,6 @@ void TokenPairsProxyModel::setNetworkFilter(const QString& network)
 
 void TokenPairsProxyModel::setDisplayTextFilter(const QString& str)
 {
-    qDebug() << "KTT" << "setDisplayTextFilter" << str << m_currentDisplayText;
     m_currentDisplayText = str;
     invalidateFilter();
 }
