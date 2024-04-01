@@ -157,9 +157,9 @@ ColumnLayout {
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
 
-            Component.onCompleted:
+            onTextValueChanged:
             {
-                textElement.cursorPosition = 0
+                if(!textElement.activeFocus) textElement.cursorPosition = 0
             }
         }
 
