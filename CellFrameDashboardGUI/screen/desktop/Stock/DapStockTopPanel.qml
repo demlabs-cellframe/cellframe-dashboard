@@ -160,7 +160,9 @@ Controls.DapTopPanel
                 target: dexTokenModel
                 function onListTokenChanged()
                 {
-                    walletModule.setCurrentTokenDEX(dexTokenModel.getFirstToken())
+                    var cur_token = dexTokenModel.getFirstToken()
+                    walletModule.setCurrentTokenDEX(cur_token)
+                    tokenComboBox.displayText = cur_token
                 }
             }
         }

@@ -21,7 +21,7 @@ bool TokenPairsProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
     }
     DapTokenPairModel::Item item = model->getItem(source_row);
     bool isNetwork = m_network.isEmpty() || m_network == item.network;
-    bool isStr = m_currentDisplayText.isEmpty() || item.displayText.contains(m_currentDisplayText);
+    bool isStr = m_currentDisplayText.isEmpty() || item.displayText.toLower().contains(m_currentDisplayText.toLower());
 
     bool result = isStr && isNetwork;
     if(result)
