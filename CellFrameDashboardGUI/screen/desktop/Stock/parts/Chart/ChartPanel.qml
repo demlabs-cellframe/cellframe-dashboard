@@ -82,14 +82,23 @@ Item
 
                     function onDexNetListChanged()
                     {
-                        comboboxNetwork.displayText = "All"
                         comboboxNetwork.model = dexNetModel;
+                        var oldNetwork = comboboxNetwork.displayText
+                        var isFound = false
+                        for(var i=0; i<dexNetModel.count; ++i)
+                        {
+                            if(dexNetModel.get(i).name === oldNetwork)
+                            {
+                                isFound = true
+                                break
+                            }
+                        }
+                        if(!isFound) comboboxNetwork.displayText = "All"
                     }
 
                     function onNetworkFilterChanged(network)
                     {
                         comboboxNetwork.displayText = network
-
                         var pair = modelTokenPair.getFirstItem()
                         dexModule.setCurrentTokenPair(pair, comboboxNetwork.displayText)
                     }

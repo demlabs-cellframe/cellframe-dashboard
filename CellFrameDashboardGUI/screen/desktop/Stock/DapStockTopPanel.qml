@@ -134,7 +134,7 @@ Controls.DapTopPanel
             mainTextRole: "tokenName"
             onModelChanged:
             {
-                if (popupListView.currentIndex < 0)
+                if (tokenComboBox.currentIndex < 0)
                 {
                     walletModule.setCurrentTokenDEX(defaultText)
                 }
