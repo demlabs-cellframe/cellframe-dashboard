@@ -290,14 +290,8 @@ DapRectangleLitAndShaded
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
-
-//                    text: hovered || focus ? realAmount : abtAmount
-//                    onEditingFinished: realAmount = text
-
                     borderWidth: 1
                     borderRadius: 4
-                    placeholderColor: currTheme.white
-
                     selectByMouse: true
                     DapContextMenu{}
                 }
