@@ -26,13 +26,16 @@ public:
     int Mode();
     void setMode(int mode);
 
+    Q_PROPERTY(QString currentInputCommand      READ getCurrentInputCommand     WRITE setCurrentInputCommand);
+    QString getCurrentInputCommand() { return m_currentInputCommand; };
+    void setCurrentInputCommand(QString& command) { m_currentInputCommand = command; };
 
 private slots:
     void getAnswer(const QVariant &answer);
 
 private:
     DapModulesController* m_modulesCtrl;
-
+    QString m_currentInputCommand;
     QVariantList model;
 
 signals:

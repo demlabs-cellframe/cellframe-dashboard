@@ -18,12 +18,16 @@ DapConsoleScreenForm
     {
         //The start point for using history
         consoleHistoryIndex = -1
+        //Set previous input
+        currentCommand = consoleModule.currentInputCommand
         //Set focus to console input
         consoleInput.forceActiveFocus()
     }
 
     Component.onDestruction:
     {
+        //Save previous input
+        consoleModule.currentInputCommand = currentCommand
         consoleModule.clearModel()
     }
 
