@@ -156,6 +156,11 @@ ColumnLayout {
                 }
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
+
+            onTextValueChanged:
+            {
+                if(!textElement.activeFocus) textElement.cursorPosition = 0
+            }
         }
 
         Rectangle
