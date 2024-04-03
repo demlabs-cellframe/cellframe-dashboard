@@ -52,11 +52,7 @@ ColumnLayout
             //for mobile input
             onDisplayTextChanged: modelTokenPair.setDisplayTextFilter(text)//logic.filter(text)
 
-            onEditingFinished: {
-                modelTokenPair.setDisplayTextFilter("")
-                //logic.clear()
-                //root.findHandler(text)
-            }
+            Keys.onReturnPressed: focus = true
         }
     }
 
