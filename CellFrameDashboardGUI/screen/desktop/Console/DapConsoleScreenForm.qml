@@ -20,7 +20,7 @@ Page
     ///@detalis consoleHistoryIndex Index for using KeyUp and KeyDown to the navigation in console history.
     property int consoleHistoryIndex
     ///@detalis consoleInput Reference to console input area
-    property alias consoleInput: consoleCmd
+    property alias consoleInput: inputField
     property alias dapInputCommand: inputCommand
     property alias listView: listViewConsoleCommand
 
