@@ -108,7 +108,7 @@ DapRectangleLitAndShaded {
             amount.textToken: dexModule.token1
             total.textToken: dexModule.token2
 
-            price.textToken: logic.selectedItem.tokenSell
+            price.textToken: dexModule.token2
             price.textValue: logic.selectedItem.price
 
             Layout.fillWidth: true
