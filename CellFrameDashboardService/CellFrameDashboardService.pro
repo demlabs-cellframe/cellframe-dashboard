@@ -26,6 +26,8 @@ HEADERS += \
     DapNetSyncController.h \
     DapNotificationWatcher.h
 
+include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
+
 LIBS += -L$$NODE_BUILD_PATH/dap-sdk/core/ -ldap_core
 #PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/core/libdap_core.a
 INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/include/ \

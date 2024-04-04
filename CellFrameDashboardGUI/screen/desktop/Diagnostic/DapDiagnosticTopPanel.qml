@@ -159,6 +159,10 @@ Controls.DapTopPanel {
 
             onToggled: diagnosticsModule.flagSendData = swithSendData.checked
             Component.onCompleted: swithSendData.state = diagnosticsModule.flagSendData ? "on" : "off"
+
+            DapCustomToolTip{
+                contentText: qsTr("Send System Information")
+            }
         }
 
         Item{width: 24}

@@ -26,16 +26,18 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     , s_appEngine(appEngine)
     , s_serviceCtrl(&DapServiceController::getInstance())
     , s_settings(new QSettings(this))
+    , m_netListModel(new DapStringListModel)
 {
     initWorkers();
     initModules();
-
+    m_netListModel->setStringList({"All"});
+    s_appEngine->rootContext()->setContextProperty("netListModelGlobal", m_netListModel);
     m_timerUpdateData = new QTimer(this);
 
     getNetworkList();
     m_timerUpdateData->start(5000);
+    connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
 }
-
 
 DapModulesController::~DapModulesController()
 {
@@ -54,7 +56,7 @@ DapModulesController::~DapModulesController()
 void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
-//    addModule("dexModule", new DapModuleDex(this));
+    addModule("dexModule", new DapModuleDex(this));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
@@ -114,11 +116,22 @@ void DapModulesController::updateListNetwork()
     s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
 }
 
-
 void DapModulesController::rcvNetList(const QVariant &rcvData)
 {
+    if(m_netList == rcvData.toStringList())
+    {
+        return;
+    }
     m_netList = rcvData.toStringList();
-    emit netListUpdated(); //todo
+    updateNetworkListModel();
+    emit netListUpdated();
+}
+
+void DapModulesController::updateNetworkListModel()
+{
+    QStringList list = {"All"};
+    list.append(m_netList);
+    m_netListModel->setStringList(std::move(list));
 }
 
 void DapModulesController::setCurrentWalletIndex(int newIndex)

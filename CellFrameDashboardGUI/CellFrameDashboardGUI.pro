@@ -47,6 +47,7 @@ SOURCES += $$PWD/main.cpp \
 
 include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
+include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico

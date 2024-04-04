@@ -76,11 +76,11 @@ DapRectangleLitAndShaded {
                     content.text: bufferDetails.get(0).date
                     title.color: currTheme.gray
                 }
-                DetailsText {
-                    title.text: qsTr("Closed date")
-                    content.text: bufferDetails.get(0).closedDate
-                    title.color: currTheme.gray
-                }
+                // DetailsText {
+                //     title.text: qsTr("Closed date")
+                //     content.text: bufferDetails.get(0).closedDate
+                //     title.color: currTheme.gray
+                // }
                 DetailsText {
                     title.text: qsTr("Pair")
                     content.text: bufferDetails.get(0).pair
@@ -96,11 +96,11 @@ DapRectangleLitAndShaded {
                     content.text: bufferDetails.get(0).side
                     title.color: currTheme.gray
                 }
-                DetailsText {
-                    title.text: qsTr("Average price")
-                    content.text: bufferDetails.get(0).averagePrice
-                    title.color: currTheme.gray
-                }
+                // DetailsText {
+                //     title.text: qsTr("Average price")
+                //     content.text: bufferDetails.get(0).averagePrice
+                //     title.color: currTheme.gray
+                // }
                 DetailsText {
                     title.text: qsTr("Price")
                     content.text: bufferDetails.get(0).price
@@ -116,21 +116,21 @@ DapRectangleLitAndShaded {
                     content.text: bufferDetails.get(0).amount
                     title.color: currTheme.gray
                 }
-                DetailsText {
-                    title.text: qsTr("Total")
-                    content.text: bufferDetails.get(0).total
-                    title.color: currTheme.gray
-                }
-                DetailsText {
-                    title.text: qsTr("Trigger condition")
-                    content.text: bufferDetails.get(0).triggerCondition
-                    title.color: currTheme.gray
-                }
-                DetailsText {
-                    title.text: qsTr("Status")
-                    content.text: bufferDetails.get(0).status
-                    title.color: currTheme.gray
-                }
+                // DetailsText {
+                //     title.text: qsTr("Total")
+                //     content.text: bufferDetails.get(0).total
+                //     title.color: currTheme.gray
+                // }
+                // DetailsText {
+                //     title.text: qsTr("Trigger condition")
+                //     content.text: bufferDetails.get(0).triggerCondition
+                //     title.color: currTheme.gray
+                // }
+                // DetailsText {
+                //     title.text: qsTr("Status")
+                //     content.text: bufferDetails.get(0).status
+                //     title.color: currTheme.gray
+                // }
                 Item{
                     height: 10
                 }

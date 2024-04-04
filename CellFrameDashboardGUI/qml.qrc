@@ -187,12 +187,10 @@
         <file>screen/desktop/Stock/parts/DapPairComboBox/icons/cell_icon.png</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/icons/eth_icon.png</file>
         <file>screen/desktop/Stock/parts/Chart/ChartTextBlock.qml</file>
+        <file>screen/desktop/Stock/parts/Chart/ChartBigTextBlock.qml</file>
         <file>screen/desktop/Stock/parts/StockHome.qml</file>
         <file>screen/desktop/Stock/LogicStock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreate.qml</file>
-        <file>screen/desktop/Stock/parts/CreateOrder/OrderLimit.qml</file>
-        <file>screen/desktop/Stock/parts/CreateOrder/OrderMarket.qml</file>
-        <file>screen/desktop/Stock/parts/CreateOrder/OrderStopLimit.qml</file>
         <file>screen/desktop/Stock/icons/sellIcon.png</file>
         <file>screen/desktop/Stock/icons/sellBuy_icon.png</file>
         <file>screen/desktop/Stock/icons/buyIcon.png</file>
@@ -356,10 +354,12 @@
         <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
         <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
         <file>screen/desktop/controls/DapRemoveWalletPopup.qml</file>
+        <file>screen/desktop/controls/DapRemoveOrderPopup.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderInfo.qml</file>
         <file>screen/desktop/Orders/Logic/LogicOrders.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderCreate.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderCreateDone.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder/OrderCreateFieldsComponent.qml</file>
         <file>Resources/BlackTheme/icons/other/copy_hover_small.svg</file>
         <file>Resources/BlackTheme/icons/other/copy_small.svg</file>
         <file>Resources/BlackTheme/only-logo-dashboard.svg</file>
@@ -369,5 +369,6 @@
         <file>screen/desktop/MasterNode/DapMasterNodeScreen.qml</file>
         <file>screen/desktop/MasterNode/RightPanel/DapMasterNodeOrders.qml</file>
         <file>Resources/BlackTheme/icons/navigation/icon_master_node.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_info_orange.svg</file>
     </qresource>
 </RCC>

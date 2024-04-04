@@ -38,6 +38,11 @@ Controls.DapTopPanel {
             onToggled: consoleModule.Mode = !consoleModule.Mode
 
             Component.onCompleted: setSelected(consoleModule.Mode ? "first" : "second")
+
+            DapCustomToolTip{
+                contentText: qsTr("Switching between Cli or Tool mode")
+
+            }
         }
         Item{
             Layout.fillWidth: true
@@ -50,41 +55,42 @@ Controls.DapTopPanel {
             width: 58
             id: wikiButton
 
-            MouseArea{
-                id: area
-                anchors.fill: parent
-                hoverEnabled: true
-                onClicked: Qt.openUrlExternally("https://wiki.cellframe.net/en/soft/node_commands")
-            }
-
-            DapCustomToolTip{
-                id: toolTip
-                visible: area.containsMouse? true : false
-                contentText: "wiki.cellframe.net"
-                textFont: mainFont.dapFont.regular14
-                onVisibleChanged: updatePos()
-//                y: 45
-            }
-
-            Image{
-                id: img
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                mipmap: true
-                source: "qrc:/Resources/BlackTheme/icons/other/icon_wiki.svg"
-            }
-
-            Text{
-                width: 28
-                anchors.left: img.right
-                anchors.leftMargin: 6
+            Item {
+                height: img.height
+                width: parent.width
                 anchors.verticalCenter: parent.verticalCenter
 
-                verticalAlignment: Text.AlignVCenter
-                text: qsTr("Wiki")
-                font: mainFont.dapFont.medium14
-                color: area.containsMouse? currTheme.orange : currTheme.white
+                MouseArea{
+                    id: area
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: Qt.openUrlExternally("https://wiki.cellframe.net/en/soft/node_commands")
+                }
 
+                DapCustomToolTip{
+                    contentText: "wiki.cellframe.net"
+                }
+
+                Image{
+                    id: img
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    mipmap: true
+                    source: "qrc:/Resources/BlackTheme/icons/other/icon_wiki.svg"
+                }
+
+                Text{
+                    width: 28
+                    anchors.left: img.right
+                    anchors.leftMargin: 6
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    verticalAlignment: Text.AlignVCenter
+                    text: qsTr("Wiki")
+                    font: mainFont.dapFont.medium14
+                    color: area.containsMouse? currTheme.orange : currTheme.white
+
+                }
             }
         }
     }

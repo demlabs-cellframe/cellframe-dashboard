@@ -22,10 +22,22 @@ ComboBox {
 
     onCountChanged:
     {
-        dexModule.tokenPairModelCountChanged(count)
-        dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
-        dexTokenModel.setNetworkFilter(dexModule.networkPair)
+        if(count > 0 && (dexModule.displayText === "")) 
+        {
+            dexModule.tokenPairModelCountChanged(count)
+        }
+        dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
         walletModule.updateBalanceDEX()
+    }
+
+    Connections
+    {
+        target: dexModule
+        function onCurrentTokenPairChanged()
+        {
+            dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
+            walletModule.updateBalanceDEX()
+        }
     }
 
     delegate:
@@ -99,8 +111,8 @@ ComboBox {
                     onClicked:
                     {
                         dexModule.setCurrentTokenPair(displayText, network)
-                        dexTokenModel.setTokenFilter(token1, token2)
-                        dexTokenModel.setNetworkFilter(network)
+
+                        dexTokenModel.setNewPairFilter(token1, token2, network)
                         walletModule.updateBalanceDEX()
                         control.popup.close()
                     }
@@ -215,7 +227,18 @@ ComboBox {
                         Layout.fillWidth: true
                         onFindHandler: {
                             modelTokenPair.setDisplayTextFilter(text)
+                        }
+                        Connections
+                        {
+                            target: control.popup
 
+                            function onOpenedChanged()
+                            {
+                                if(control.popup.opened)
+                                {
+                                    search.textField.text = ""
+                                }
+                            }
                         }
                     }
 

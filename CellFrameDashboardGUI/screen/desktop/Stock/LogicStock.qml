@@ -23,38 +23,6 @@ QtObject
 //    property real sellMaxTotal: 1
 //    property real buyMaxTotal: 1
 
-    function cancelationOrder(index)
-    {
-        var order = openOrdersModel.get(index)
-        orderHistoryModel.insert(0,{
-                                     date: order.date,
-                                     closedDate: logicMainApp.getDate("yyyy-MM-dd hh:mm"),
-                                     pair: order.pair,
-                                     type: order.type,
-                                     side: order.side,
-                                     averagePrice: order.price,
-                                     price: order.price,
-                                     filled: order.filled,
-                                     amount: order.amount,
-                                     total: order.total,
-                                     triggerCondition: order.triggerCondition,
-                                     status: qsTr("Cancelled")
-                                   })
-
-        var value
-
-        if(order.side === "Buy")
-        {
-            value = balanceReal + order.amount * candleChartWorker.currentTokenPrice
-            fakeWallet.get(0).tokens.get(1).coins = value.toString()
-            balanceReal = value
-
-            fakeWalletChanged() //for top panel
-        }
-
-        openOrdersModel.remove(index)
-    }
-
     function getBookVisibleCount(heightParent)
     {
         var count = (heightParent - 42)/32/2 - 1
@@ -112,27 +80,5 @@ QtObject
         }
         console.log("HASH: 0")
         return "0"
-    }
-
-    function getPercentBalance(percent, price, isSell)
-    {
-        if(price === "0.0")
-            return price
-
-        var balanceDatoshi = mathWorker.coinsToBalance(currantBalance)
-        var percentDatoshi = mathWorker.coinsToBalance(percent)
-        var priceDatoshi = mathWorker.coinsToBalance(price)
-
-        var multRes = mathWorker.multCoins(balanceDatoshi, percentDatoshi, false)
-
-        var result = [2]
-
-        result[0] = isSell? multRes: mathWorker.divCoins(mathWorker.coinsToBalance(multRes),
-                                                      priceDatoshi, false)
-
-        result[1] = isSell? mathWorker.multCoins(mathWorker.coinsToBalance(multRes),
-                                              priceDatoshi, false) : multRes
-
-        return result
     }
 }

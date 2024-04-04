@@ -8,6 +8,8 @@ import "qrc:/widgets"
 
 ColumnLayout
 {
+    property alias textField: searchBox
+
     signal findHandler(string text)
 
     id: root
@@ -50,11 +52,7 @@ ColumnLayout
             //for mobile input
             onDisplayTextChanged: modelTokenPair.setDisplayTextFilter(text)//logic.filter(text)
 
-            onEditingFinished: {
-                modelTokenPair.setDisplayTextFilter("")
-                //logic.clear()
-                //root.findHandler(text)
-            }
+            Keys.onReturnPressed: focus = true
         }
     }
 

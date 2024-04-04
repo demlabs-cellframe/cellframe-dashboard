@@ -62,7 +62,7 @@ DapLastActionsRightPanelForm
     {
 //        console.log(modulesController.currentWalletName, txExplorerModule.walletName)
 
-        txExplorerModule.setLastActions(true)
+        modelHistory.setLastActions(true)
         if (walletModule.currentWalletIndex >=0 &&
             walletModule.currentWalletIndex < walletModelList.count &&
             modulesController.currentWalletName !== txExplorerModule.walletName)
@@ -73,7 +73,7 @@ DapLastActionsRightPanelForm
 
     Component.onDestruction:
     {
-        txExplorerModule.setLastActions(false)
+        modelHistory.setLastActions(false)
     }
 }
 

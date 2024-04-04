@@ -207,14 +207,15 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
 
     allOrders.clear();
     auto object = document.object();
-    auto keys = object.keys();
-
-    for(const auto& netName: keys)
+    if(object.contains(network))
     {
-        QJsonArray orders = object[netName].toArray();
-
+        QJsonArray orders = object[network].toArray();
         for(auto j = 0; j < orders.size(); j++)
         {
+            if(orders.at(j)["status"].toString() == "CLOSED")
+            {
+                continue;
+            }
             QString tok1 = orders.at(j)["buy_token"].toString();
             QString tok2 = orders.at(j)["sell_token"].toString();
 
@@ -224,20 +225,34 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
                 OrderType type;
 
                 if (tok1 == token1)
+                {
                     type = OrderType::buy;
+                }
                 else
+                {
                     type = OrderType::sell;
+                }
 
                 FullOrderInfo item;
-                item.type = type;
                 item.price = orders.at(j)["rate"].toString();
+                item.type = type;
 
-                if (type == OrderType::buy)
+                if (type == OrderType::sell)
                 {
-                    item.price = invertValue(item.price);
+                    item.price = invertValue(item.price); 
                 }
+                item.rateCoin = item.price;
+                if((type == OrderType::sell && item.rateCoin < m_currentRate)
+                    || ((type == OrderType::buy) && item.rateCoin > m_currentRate))
+                {
+                    continue;
+                }
+
                 item.amount = orders.at(j)["amount"].toString();
                 item.total = multCoins(item.amount, item.price);
+
+                item.amountCoin = item.amount;
+                item.totalCoin = item.total;
 
                 allOrders.append(std::move(item));
             }
@@ -345,11 +360,16 @@ void OrderBookWorker::setTokenPair(const QString &tok1,
     qDebug() << "OrderBookWorker::setTokenPair" << token1 << token2 << network;
 }
 
-void OrderBookWorker::setTokenPair(const DEX::InfoTokenPair& info, const QString& net)
+void OrderBookWorker::setTokenPair(const DEX::InfoTokenPair& info)
 {
     token1 = info.token1;
     token2 = info.token2;
-    network = net;
+    network = info.network;
+}
+
+void OrderBookWorker::setCurrentRate(const QString& rate)
+{
+    m_currentRate = rate;
 }
 
 void OrderBookWorker::updateBookModels()
@@ -357,7 +377,7 @@ void OrderBookWorker::updateBookModels()
     sellOrderModel.clear();
     buyOrderModel.clear();
 
-    for (FullOrderInfo order : allOrders)
+    for (FullOrderInfo& order : allOrders)
     {
         insertBookOrder(order);
     }
@@ -369,9 +389,19 @@ void OrderBookWorker::updateBookModels()
         if (compareCoins(m_sellMaxTotal, sellOrderModel.at(i).total) == -1)
             m_sellMaxTotal = sellOrderModel.at(i).total;
 
+    std::sort(sellOrderModel.begin(), sellOrderModel.end(), [](const OrderInfo& a, const OrderInfo& b)
+                {
+                    return a.rateCoin < b.rateCoin;;
+                });
+
     for(auto i = 0; i < buyOrderModel.size(); i++)
         if (compareCoins(m_buyMaxTotal, buyOrderModel.at(i).total) == -1)
             m_buyMaxTotal = buyOrderModel.at(i).total;
+
+    std::sort(buyOrderModel.begin(), buyOrderModel.end(), [](const OrderInfo& a, const OrderInfo& b)
+                {
+                    return a.rateCoin > b.rateCoin;
+                });
 
     getVariantBookModels();
 
@@ -380,41 +410,42 @@ void OrderBookWorker::updateBookModels()
 
 void OrderBookWorker::insertBookOrder(const FullOrderInfo &item)
 {
-    QString price = roundDoubleValue(item.price);
-    if(price.isEmpty())
+    QRegularExpression isNullReg(R"(^(0|\.)+$)");
+
+    QString rate = roundDoubleValue(item.rateCoin.toCoinsString());
+
+    if(rate.contains(isNullReg))
     {
         return;
     }
 
+    Dap::Coin rateCoin = rate;
+
     QVector <OrderInfo>& model =
             item.type == OrderType::sell ? sellOrderModel : buyOrderModel;
 
-    int index = 0;
-
-    while (index < model.size())
+    for(int index = 0; index < model.size(); index++)
     {
-        if (price == model.at(index).price)
+        if (rateCoin == model[index].rateCoin)
         {
-            model[index].amount = sumCoins(model[index].amount, item.amount);
-            model[index].total = multCoins(model.at(index).amount, model.at(index).price);
+            model[index].amountCoin = model[index].amountCoin + item.amountCoin;
+            model[index].amount = model[index].amountCoin.toCoinsString();
 
-            break;
-        }
-        else
-        {
-            if ((item.type == OrderType::sell && compareCoins(price, model.at(index).price) == -1)
-                || (item.type == OrderType::buy && compareCoins(price, model.at(index).price) == 1))
-            {
-                model.insert(index, OrderInfo{price, item.amount, item.total});
-                break;
-            }
-        }
+            model[index].totalCoin = model[index].amountCoin * model[index].rateCoin;
+            model[index].total = model[index].totalCoin.toCoinsString();
 
-        ++index;
+            return;
+        }
     }
 
-    if (index == model.size())
-        model.append(OrderInfo{price, item.amount, item.total});
+    OrderInfo result;
+    result.price = rateCoin.toCoinsString();
+    result.amount = item.amount;
+    result.total = item.total;
+    result.totalCoin = item.totalCoin;
+    result.amountCoin = item.amountCoin;
+    result.rateCoin = rateCoin;
+    model.append(std::move(result));
 }
 
 void OrderBookWorker::getVariantBookModels()

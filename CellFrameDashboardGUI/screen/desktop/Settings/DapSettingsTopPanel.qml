@@ -258,6 +258,10 @@ Controls.DapTopPanel
             {
                 settingsModule.guiVersionRequest()
             }
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Check update")
+            }
         }
 
     }

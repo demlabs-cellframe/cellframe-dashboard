@@ -104,7 +104,7 @@ Item
 
                     onTextChanged:
                     {
-                        text === "" ? continueBtn.enabled = false : continueBtn.enabled = true
+                        text.length < 4 ? continueBtn.enabled = false : continueBtn.enabled = true
                     }
                 }
             }
@@ -115,8 +115,8 @@ Item
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignCenter
                 Layout.topMargin: 24
-                Layout.leftMargin: 32 + textInputPasswordWallet.bottomLine.anchors.leftMargin
-                Layout.rightMargin: 32 + textInputPasswordWallet.bottomLine.anchors.rightMargin
+                Layout.leftMargin: 38
+                Layout.rightMargin: 38
                 color: currTheme.white
                 text: qsTr("After confirmation, you will be required to enter your password every time you use the wallet")
                 font: mainFont.dapFont.regular14

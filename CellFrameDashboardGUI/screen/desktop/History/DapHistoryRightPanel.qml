@@ -103,7 +103,7 @@ Item
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
-                    currentStatusSelected("Error")
+                    currentStatusSelected("Declined")
 //                    historyWorker.setCurrentStatus("Declined")
                 }
             }
@@ -231,47 +231,66 @@ Item
             }
         }
 
-// TODO
-        // Text {
-        //     Layout.topMargin: 40
-        //     Layout.leftMargin: 16
-        //     Layout.minimumHeight: 18
-        //     Layout.maximumHeight: 18
-        //     verticalAlignment: Text.AlignVCenter
-        //     font: mainFont.dapFont.bold14
-        //     color: currTheme.white
-        //     text: qsTr("Network")
-        // }
+        Text {
+            Layout.topMargin: 40
+            Layout.leftMargin: 16
+            Layout.minimumHeight: 18
+            Layout.maximumHeight: 18
+            verticalAlignment: Text.AlignVCenter
+            font: mainFont.dapFont.bold14
+            color: currTheme.white
+            text: qsTr("Network")
+        }
 
-        // DapCustomComboBox
-        // {
-        //     id: comboboxNetwork
-        //     Layout.fillWidth: true
-        //     Layout.topMargin: 20
-        //     Layout.leftMargin: 15
-        //     Layout.rightMargin: 15
-        //     leftMarginDisplayText: 10
-        //     rightMarginIndicator: 10
-        //     leftMarginPopupContain: 10
-        //     rightMarginPopupContain: 10
-        //     popupBorderWidth: 0
-        //     changingRound: true
-        //     isSingleColor: true
-        //     isInnerShadow: false
-        //     isNecessaryToHideCurrentIndex: true
-        //     displayTextPopupColor: currTheme.white
+        DapCustomComboBox
+        {
+            id: comboboxNetwork
+            Layout.fillWidth: true
+            Layout.topMargin: 20
+            Layout.leftMargin: 15
+            Layout.rightMargin: 15
+            leftMarginDisplayText: 10
+            rightMarginIndicator: 10
+            leftMarginPopupContain: 10
+            rightMarginPopupContain: 10
+            popupBorderWidth: 0
+            changingRound: true
+            isSingleColor: true
+            isInnerShadow: false
+            isNecessaryToHideCurrentIndex: true
+            displayTextPopupColor: currTheme.white
 
-        //     height: 40
+            height: 40
 
-        //     backgroundColorShow: currTheme.secondaryBackground
-        //     backgroundColorNormal: currTheme.secondaryBackground
-        //     background.radius: 4
-        //     model: dapNetworkModel
+            backgroundColorShow: currTheme.secondaryBackground
+            backgroundColorNormal: currTheme.secondaryBackground
+            background.radius: 4
+            model: netListModelGlobal
 
-        //     font: mainFont.dapFont.regular16
+            font: mainFont.dapFont.regular16
 
-        //     defaultText: qsTr("Networks")
-        // }
+            defaultText: qsTr("Networks")
+
+            isHighPopup:
+            {
+                var fullHeight = historyRightPanel.height
+                var conteinHeight = delegateHeight * (count - 1)
+                return fullHeight - y < height + conteinHeight
+            }
+
+            onCurrantDisplayTextChanged:
+            {
+                modelHistory.setNetworkFilter(displayText)
+            }
+        }
+
+        Component.onDestruction:
+        {
+            modelHistory.setNetworkFilter("All")
+            var data = ["All time", false]
+            modelHistory.setCurrentPeriod(data)
+            modelHistory.setCurrentStatus("All statuses")
+        }
 
         Item
         {

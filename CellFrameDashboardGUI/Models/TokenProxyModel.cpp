@@ -38,19 +38,37 @@ void TokenProxyModel::updateCount()
         return;
     }
     int result = 0;
+    QStringList list;
     for(int i = 0; i < model->size(); i++)
     {
         if(isValid(model->getItem(i)))
         {
+            auto& item = model->getItem(i);
+            list.append(item.tokenName);
             result++;
         }
     }
+
     if(m_count != result)
     {
         m_count = result;
         emit countChanged();
-        invalidateFilter();
     }
+
+    if(m_tokenList != list)
+    {
+        m_tokenList = list;
+        emit listTokenChanged();
+    }
+}
+
+QString TokenProxyModel::getFirstToken() const
+{
+    if(m_tokenList.isEmpty())
+    {
+        return QString();
+    }
+    return m_tokenList[0];
 }
 
 bool TokenProxyModel::isValid(const DapTokensWalletModel::Item item) const
@@ -75,6 +93,15 @@ bool TokenProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source
 
 void TokenProxyModel::setTokenFilter(const QString& token1, const QString& token2)
 {
+    m_filterList.clear();
+    m_filterList << token1 << token2;
+    updateCount();
+    invalidateFilter();
+}
+
+void TokenProxyModel::setNewPairFilter(const QString& token1, const QString& token2, const QString& network)
+{
+    m_network = network;
     m_filterList.clear();
     m_filterList << token1 << token2;
     updateCount();

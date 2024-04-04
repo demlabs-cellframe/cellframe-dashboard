@@ -36,6 +36,7 @@ esac
 
 # rm -r /opt/cellframe-node/var/lib/network/ || true
 # rm -r /opt/cellframe-node/var/lib/global_db/ || true
+chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using dashboard
 
 service cellframe-dashboard start || true
 

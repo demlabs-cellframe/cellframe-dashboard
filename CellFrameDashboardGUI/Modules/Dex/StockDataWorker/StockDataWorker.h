@@ -19,11 +19,11 @@ public:
     OrderBookWorker* getOrderBookWorker() const { return orderBookWorker; }
 
 public slots:
-    void signalXchangeOrderListReceived(const QVariant& rcvData);
+    // void signalXchangeOrderListReceived(const QVariant& rcvData);
 
-    void rcvXchangeTokenPriceHistory(const QVariant& rcvData);
+//    void rcvXchangeTokenPriceHistory(const QVariant& rcvData);
 
-    void signalXchangeTokenPairReceived(const QVariant& rcvData);
+//    void signalXchangeTokenPairReceived(const QVariant& rcvData);
 
 private:
 

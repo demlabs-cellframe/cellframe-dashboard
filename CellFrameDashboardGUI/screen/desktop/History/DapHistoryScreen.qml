@@ -178,7 +178,7 @@ Page
 
                     Text
                     {
-                        text: modelLastActions.get(index).time
+                        text: time
                         color: currTheme.white
                         font: mainFont.dapFont.regular11
                         anchors.left: textTimestamp.right
@@ -198,6 +198,7 @@ Page
                            text === "Error" ||
                            text === "Declined" ?  currTheme.red :
                            text === "Received"  ? currTheme.lightGreen :
+                           text === "Exchange"  ? currTheme.coral :
                            text === "Unknown"   ? currTheme.mainButtonColorNormal0 :
                                                   currTheme.white
 
@@ -208,17 +209,20 @@ Page
                 // Balance
                 //  Token currency
 
-                Item{
+                Item
+                {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
                     DapBigText
                     {
                         id: lblAmount
-                        height: parent.height
+                        height: 20
                         property string sign: direction === "to"? "- " : "+ "
                         anchors.right: copyBtn.left
                         anchors.rightMargin: 4
+                        anchors.top: parent.top
+                        anchors.topMargin: !x_lblAmount.visible ? 16 : 4
                         anchors.left: parent.left
                         textFont: mainFont.dapFont.regular14
                         fullText: sign + value + " " + token
@@ -227,15 +231,45 @@ Page
 
                     DapCopyButton {
                         id: copyBtn
+                        height: 16
                         popupText: qsTr("Value copied")
                         anchors.right: parent.right
                         anchors.top: parent.top
-                        anchors.topMargin: 18
+                        anchors.topMargin: !x_lblAmount.visible ? 18 : 6
                         onCopyClicked: {
                             clipboard.setText(value)
                         }
                     }
 
+
+                    DapBigText
+                    {
+                        id: x_lblAmount
+                        visible: x_value !== ""
+                        height: 20
+                        property string sign: x_direction === "to"? "- " : "+ "
+                        anchors.right: copyBtn.left
+                        anchors.rightMargin: 4
+                        anchors.left: parent.left
+                        anchors.topMargin: 0
+                        anchors.top: lblAmount.bottom
+                        textFont: mainFont.dapFont.regular14
+                        fullText: sign + x_value + " " + x_token
+                        horizontalAlign: Text.AlignRight
+                    }
+
+                    DapCopyButton
+                    {
+                        height: 16
+                        visible: x_lblAmount.visible
+                        popupText: qsTr("Value copied")
+                        anchors.right: parent.right
+                        anchors.top: copyBtn.bottom
+                        anchors.topMargin: 4
+                        onCopyClicked: {
+                            clipboard.setText(x_value)
+                        }
+                    }
                 }
 
                 Item{
@@ -288,8 +322,7 @@ Page
                         Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
                     else if(logicExplorer.selectTxIndex !== index)
                     {
-                        logicExplorer.selectTxIndex = index
-                        logicExplorer.initDetailsModel()
+                        logicExplorer.initDetailsModel(model)
                         navigator.txInfo()
                     }
                 }

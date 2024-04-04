@@ -13,390 +13,249 @@ constexpr double visibleDefaultCandles {40};
 constexpr double maxZoom{3.0};
 constexpr double minZoom{0.2};
 
-constexpr double minAverageStep {0.5};
-
-constexpr int numberAverageCharts {3};
-
-constexpr int commonRoundPowerDelta {9};
-
-CandleChartWorker::CandleChartWorker(QObject *parent) :
-    QObject(parent)
+CandleChartWorker::CandleChartWorker(QObject *parent)
+    : QObject(parent)
 {
-    for (auto i = 0; i < numberAverageCharts; ++i)
+    qRegisterMetaType<QSharedPointer<QVector<PriceInfo>>>();
+    qRegisterMetaType<QSharedPointer<QVector<CandleInfo>>>();
+    qRegisterMetaType<QSharedPointer<QVector<QVector<PriceInfo>>>>();
+
+    m_infoChart.onInit();
+
+    for (auto i = 0; i < NUMBER_AVERAGE_CHARTS; ++i)
     {
         QVector <PriceInfo> vector;
-        averagedModel.append(vector);
+        m_infoChart.m_averagedModel.append(vector);
 
         firstVisibleAverage.append(0);
         lastVisibleAverage.append(0);
-
         switch (i)
         {
-            case 0:
-                averageDelta.append(5);
-                break;
-            case 1:
-                averageDelta.append(15);
-                break;
-            case 2:
-                averageDelta.append(45);
-                break;
-            default:
-                averageDelta.append(1);
+        case 0:
+            m_averageDelta.append(5);
+            break;
+        case 1:
+            m_averageDelta.append(15);
+            break;
+        case 2:
+            m_averageDelta.append(45);
+            break;
+        default:
+            m_averageDelta.append(1);
         }
     }
 }
 
-void CandleChartWorker::resetPriceData(
-        double price, const QString &priceText, bool init)
+CandleChartWorker::~CandleChartWorker()
 {
-    qDebug() << "CandleChartWorker::resetPriceData" << price;
+}
+
+void CandleChartWorker::initThreadController(CreatingSheduleController* controller)
+{
+    connect(controller, &CreatingSheduleController::rightTimeChanged,  this, &CandleChartWorker::setRightTime);
+    
+    QThread *thread = new QThread;
+
+    controller->moveToThread(thread);
+
+    connect(thread, &QThread::started, controller, &CreatingSheduleController::startProcess);
+
+    connect(controller, &CreatingSheduleController::finished, [this, thread, controller] (TypeProcessing type, const MainInfoChart& info){
+        threadFinished(type, info);
+        thread->quit();
+    });
+
+    thread->start();
+    setProcessStatus(true);
+}
+
+void CandleChartWorker::updateAllModels()
+{
+    if(isProcessing())
+    {
+        addRequest(TypeRequest::UPDATE_REQUEST, QVariant());
+        return;
+    }
+
+    CreatingSheduleController* controller = new CreatingSheduleController();
+
+    controller->setChartProperty(getChartProperty());
+    controller->setTypeProcess(TypeProcessing::UPDATE_MODEL);
+    controller->setMemderAverageCharts(NUMBER_AVERAGE_CHARTS);
+    controller->setAverageDelta(&m_averageDelta);
+    controller->setCommonRoundPowerDelta(COMMON_ROUND_POWER_DELTA);
+    controller->setPriceModel(&m_infoChart.m_priceModel);
+
+    initThreadController(controller);
+
+}
+
+void CandleChartWorker::respondTokenPairsHistory(const QJsonArray &history)
+{
+
+    if(isProcessing())
+    {
+        addRequest(TypeRequest::HISTORY_REQUEST, QVariant(history));
+        return;
+    }
+
+    CreatingSheduleController* controller = new CreatingSheduleController();
+    controller->setHistoryArray(history);
+    controller->setChartProperty(getChartProperty());
+    controller->setTypeProcess(TypeProcessing::NEW_HISTORY);
+    controller->setMemderAverageCharts(NUMBER_AVERAGE_CHARTS);
+    controller->setAverageDelta(&m_averageDelta);
+    controller->setCommonRoundPowerDelta(COMMON_ROUND_POWER_DELTA);
+
+    controller->setLastVisibleAverage(&lastVisibleAverage);
+    controller->setFirstVisibleAverage(&firstVisibleAverage);
+    initThreadController(controller);
+}
+
+void CandleChartWorker::resetPriceData(double price, const QString &priceText, bool init)
+{
+    if(isProcessing())
+    {
+        QList<QVariant> list;
+        list.append(QVariant(price));
+        list.append(QVariant(priceText));
+        list.append(QVariant(init));
+        addRequest(TypeRequest::RESET_REQUEST, QVariant(price));
+        return;
+    }
 
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
-    m_currentTokenPrice = price;
-    m_currentTokenPriceText = priceText;
-    m_previousTokenPrice = price;
+    m_infoChart.m_currentTokenPrice = price;
+    m_infoChart.m_currentTokenPriceText = priceText;
+    m_infoChart.m_previousTokenPrice = price;
 
-    priceModel.clear();
+    m_infoChart.m_priceModel.clear();
 
     if (!init && price > 0.000000000000000000001)
     {
         PriceInfo info{currentTime, price};
 
-        priceModel.append(info);
+        m_infoChart.m_priceModel.append(info);
     }
 
-    getCandleModel(false);
+    CreatingSheduleController* controller = new CreatingSheduleController();
+    controller->setChartProperty(getChartProperty());
+    controller->setTypeProcess(TypeProcessing::RESET_UPDATE);
+    controller->setMemderAverageCharts(NUMBER_AVERAGE_CHARTS);
+    controller->setAverageDelta(&m_averageDelta);
+    controller->setCommonRoundPowerDelta(COMMON_ROUND_POWER_DELTA);
+    controller->setPriceModel(&m_infoChart.m_priceModel);
 
-    resetRightTime();
-
-    getAveragedModels(false);
-
-    getMinimumMaximum24h();
-
-    emit currentTokenPriceChanged(m_currentTokenPrice);
-    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
-    emit previousTokenPriceChanged(m_previousTokenPrice);
-
-    checkNewRoundPower();
+    controller->setLastVisibleAverage(&lastVisibleAverage);
+    controller->setFirstVisibleAverage(&firstVisibleAverage);
+    initThreadController(controller);
 }
 
-void CandleChartWorker::generatePriceData(int length)
+void CandleChartWorker::respondCurrentTokenPairs(const QList<QPair<QString,QString>> &rateList)
 {
-    double currentPrice = 0.245978;
-    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
-    m_currentTokenPrice = currentPrice;
-    m_currentTokenPriceText = "0.245978";
-    m_previousTokenPrice = currentPrice;
-
-    if (length < 1)
-        length = 1;
-
-    priceModel.resize(length);
-
-    for (auto i = length-1; i >= 0; --i)
+    if(isProcessing())
     {
-        PriceInfo info{currentTime, currentPrice};
 
-        priceModel[i] = info;
+        for( const auto& item: rateList)
+        {
+            QVariant value;
+            value.setValue(item);
+            addRequest(TypeRequest::NEW_PRICE_REQUEST, value);
+        }
 
-        currentPrice +=
-            QRandomGenerator::global()->generateDouble() * 0.0001 - 0.00005;
-
-        if (i == length-1)
-            m_previousTokenPrice = currentPrice;
-
-        currentTime -= 5000 + static_cast<qint64>(
-            QRandomGenerator::global()->generateDouble() * 3000);
+        return;
     }
 
-    emit currentTokenPriceChanged(m_currentTokenPrice);
-    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
-    emit previousTokenPriceChanged(m_previousTokenPrice);
+    {
+        for(const auto& item: rateList)
+        {
+            QString price = item.second;
+            m_infoChart.m_previousTokenPrice = m_infoChart.m_currentTokenPrice;
+            m_infoChart.m_currentTokenPrice = price.toDouble();
+            m_infoChart.m_currentTokenPriceText = price;
+            qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
-    checkNewRoundPower();
+            if(!m_infoChart.m_priceModel.isEmpty() && m_infoChart.m_priceModel.size() > 2)
+            {
+                int size = m_infoChart.m_priceModel.size();
+                auto& lastItem = m_infoChart.m_priceModel[size - 1];
+                auto& beforeLastItem = m_infoChart.m_priceModel[size - 2];
+                if(lastItem.price == beforeLastItem.price && beforeLastItem.price == m_infoChart.m_currentTokenPrice)
+                {
+                    lastItem.time = currentTime;
+                }
+                else
+                {
+                    PriceInfo info{currentTime, m_infoChart.m_currentTokenPrice, m_infoChart.m_currentTokenPriceText};
+                    m_infoChart.m_priceModel.append(std::move(info));
+                }
+            }
+            else
+            {
+                PriceInfo info{currentTime, m_infoChart.m_currentTokenPrice, m_infoChart.m_currentTokenPriceText};
+                m_infoChart.m_priceModel.append(std::move(info));
+            }
+        }
+
+        CreatingSheduleController* controller = new CreatingSheduleController();
+        controller->setPreviousTokenPrice(m_infoChart.m_previousTokenPrice);
+        controller->setCurrentTokenPrice(m_infoChart.m_currentTokenPrice);
+        controller->setCurrentTokenPriceText(m_infoChart.m_currentTokenPriceText);
+
+        controller->setChartProperty(getChartProperty());
+        controller->setTypeProcess(TypeProcessing::NEW_PRICE);
+        controller->setMemderAverageCharts(NUMBER_AVERAGE_CHARTS);
+        controller->setAverageDelta(&m_averageDelta);
+        controller->setCommonRoundPowerDelta(COMMON_ROUND_POWER_DELTA);
+        controller->setPriceModel(&m_infoChart.m_priceModel);
+
+        controller->setLastVisibleAverage(&lastVisibleAverage);
+        controller->setFirstVisibleAverage(&firstVisibleAverage);
+        initThreadController(controller);
+    }
 }
+
+
+ChartProperty CandleChartWorker::getChartProperty() const
+{
+    ChartProperty result(m_candleWidth, m_infoChart.m_rightTime, m_infoChart.m_lastCandleNumber,
+                         m_infoChart.m_rightCandleNumber, m_infoChart.m_commonRoundPower, m_infoChart.m_currentTokenPrice, m_visibleTime);
+    return result;
+}
+
 
 QVariantMap CandleChartWorker::getPriceInfo(int index)
 {
-    if (index < 0 || index >= priceModel.size())
+    if (index < 0 || index >= m_infoChart.m_priceModel.size())
         return {};
     else
-        return priceModel.at(index).getMap();
-}
-
-void CandleChartWorker::setTokenPriceHistory(const QJsonArray &history)
-{
-    if(history.isEmpty())
-    {
-        priceModel.clear();
-        return;
-    }
-    priceModel.resize(history.size());
-
-    for(auto i = 0; i < history.size(); i++)
-    {
-        QJsonObject item = history[i].toObject();
-        QString priceText = item["rate"].toString();
-        double price = priceText.toDouble();
-        qint64 time = item["time"].toString().toLongLong();
-        PriceInfo info{time, price, priceText};
-        priceModel[i] = std::move(info);
-    }
-
-    std::sort (priceModel.begin(), priceModel.end(),
-               [](const PriceInfo& lha, const PriceInfo& rha){
-        return lha.time < rha.time;
-    });
-
-    if (priceModel.size() > 0)
-    {
-        m_previousTokenPrice = m_currentTokenPrice = priceModel.last().price;
-        m_currentTokenPriceText = priceModel.last().priceText;
-    }
-    if (priceModel.size() > 1)
-    {
-        m_previousTokenPrice = priceModel.at(priceModel.size()-2).price;
-    }
-
-    getCandleModel(false);
-
-    resetRightTime();
-
-    getAveragedModels(false);
-
-    getMinimumMaximum24h();
-
-    emit currentTokenPriceChanged(m_currentTokenPrice);
-    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
-    emit previousTokenPriceChanged(m_previousTokenPrice);
-
-    checkNewRoundPower();
-}
-
-void CandleChartWorker::updateAllModels()
-{
-    getCandleModel(true);
-
-    getAveragedModels(true);
-}
-
-void CandleChartWorker::getCandleModel(bool update)
-{
-    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-
-    qint64 timeLength = 0;
-
-    if (!priceModel.isEmpty())
-        timeLength = currentTime - priceModel.first().time;
-
-    int length = timeLength / m_candleWidth;
-    if (timeLength % m_candleWidth)
-        ++length;
-
-    candleModel.resize(length);
-
-    double open = 0;
-    double close = 0;
-    double min = 0;
-    double max = 0;
-    double sum = 0;
-    int counter = 1;
-    qint64 candleBegin = 0;
-
-    if (!priceModel.isEmpty())
-    {
-        candleBegin = priceModel.first().time;
-        open = close = min = max = sum =
-                priceModel.first().price;
-    }
-
-    int candleIndex = 0;
-
-    int priceIndex = 0;
-
-    if (update)
-    {
-        candleIndex = m_lastCandleNumber;
-
-        candleBegin += m_candleWidth*m_lastCandleNumber;
-
-        if (m_lastCandleNumber < candleModel.size())
-        {
-            open = close = min = max = sum =
-                candleModel.at(m_lastCandleNumber).open;
-        }
-
-        priceIndex = priceModel.size()-1;
-
-        while (!priceModel.isEmpty() && priceIndex > 0 &&
-               priceModel.at(priceIndex).time > candleBegin)
-        {
-            --priceIndex;
-        }
-
-        if (priceIndex < 0)
-            priceIndex = 0;
-
-        if (!priceModel.isEmpty() && priceModel.at(priceIndex).time < candleBegin)
-            ++priceIndex;
-    }
-
-    int index = priceIndex;
-    qint64 nextTime = 0;
-
-    if (index < priceModel.size()-1)
-        nextTime = priceModel.at(index+1).time;
-    else
-        nextTime = currentTime;
-
-    while (index < priceModel.size())
-    {
-        double currPrice = priceModel.at(index).price;
-
-        if (nextTime > candleBegin + m_candleWidth ||
-            index == priceModel.size()-1)
-        {
-            if (candleIndex >= candleModel.size())
-                candleModel.resize(candleIndex+1);
-
-            close = currPrice;
-            if (min > currPrice)
-                min = currPrice;
-            if (max < currPrice)
-                max = currPrice;
-
-            CandleInfo info {candleBegin + m_candleWidth/2,
-                            open, close, min, max, sum/counter};
-
-            candleModel[candleIndex] = info;
-
-            ++candleIndex;
-
-            candleBegin += m_candleWidth;
-
-            open = currPrice;
-            close = currPrice;
-            min = currPrice;
-            max = currPrice;
-
-            sum = currPrice;
-            counter = 1;
-
-            if (candleBegin > currentTime)
-                break;
-        }
-        else
-        {
-            close = currPrice;
-            if (min > currPrice)
-                min = currPrice;
-            if (max < currPrice)
-                max = currPrice;
-
-            sum += currPrice;
-            ++counter;
-
-            ++index;
-
-            if (index < priceModel.size()-1)
-                nextTime = priceModel.at(index+1).time;
-            else
-                nextTime = currentTime;
-        }
-
-    }
-
-    if (candleIndex < candleModel.size())
-        candleModel.resize(candleIndex);
-
-    if (m_lastCandleNumber != candleModel.size()-1 &&
-        !candleModel.isEmpty())
-    {
-        qint64 lastTime = candleModel.last().time;
-        if (m_rightCandleNumber == m_lastCandleNumber &&
-            m_rightTime < lastTime + m_candleWidth*1.1 &&
-                m_rightTime > lastTime - m_candleWidth*1.1)
-            resetRightTime();
-
-        m_lastCandleNumber = candleModel.size()-1;
-    }
+        return m_infoChart.m_priceModel.at(index).getMap();
 }
 
 QVariantMap CandleChartWorker::getCandleInfo(int index)
 {
-    if (index < 0 || index >= candleModel.size())
+    if (index < 0 || index >= m_infoChart.m_candleModel.size())
         return {};
     else
-        return candleModel.at(index).getMap();
-}
-
-void CandleChartWorker::getAveragedModels(bool update)
-{
-    for (auto ch = 0; ch < numberAverageCharts; ++ch)
-    {
-        averagedModel[ch].resize(candleModel.size());
-
-        int tempIndex = 0;
-
-        if (update)
-        {
-            tempIndex = averagedModel[ch].size() -
-                    averageDelta.at(ch) - 2;
-
-            if (tempIndex < 0)
-                tempIndex = 0;
-        }
-
-        for (auto i = tempIndex; i < candleModel.size(); ++i)
-        {
-            double value = 0;
-            double valsum = 0;
-            double pricesum = 0;
-
-            for (auto k = i - averageDelta.at(ch);
-                 k <= i + averageDelta.at(ch); ++k)
-            {
-                if (k < 0)
-                    continue;
-                if (k >= candleModel.size())
-                    break;
-
-                if (k < i)
-                    value = averageDelta.at(ch) - (i - k) + 1;
-                else
-                    value = averageDelta.at(ch) + (i - k) + 1;
-
-                valsum += value;
-
-                pricesum += value*candleModel.at(k).average;
-
-            }
-
-            PriceInfo info{candleModel.at(i).time, pricesum/valsum};
-
-            averagedModel[ch][i] = info;
-
-        }
-    }
+        return m_infoChart.m_candleModel.at(index).getMap();
 }
 
 QVariantMap CandleChartWorker::getAveragedInfo(int chart, int index)
 {
-    if (chart < 0 || chart >= numberAverageCharts)
+    if (chart < 0 || chart >= NUMBER_AVERAGE_CHARTS)
         return {};
 
-    if (index < 0 || index >= averagedModel.at(chart).size())
+    if (index < 0 || index >= m_infoChart.m_averagedModel.at(chart).size())
         return {};
     else
-        return averagedModel.at(chart).at(index).getMap();
+        return m_infoChart.m_averagedModel.at(chart).at(index).getMap();
 }
 
 int CandleChartWorker::getFirstVisibleAverage(int chart)
 {
-    if (chart < 0 || chart >= numberAverageCharts)
+    if (chart < 0 || chart >= NUMBER_AVERAGE_CHARTS)
         return 0;
     else
         return firstVisibleAverage.at(chart);
@@ -404,52 +263,10 @@ int CandleChartWorker::getFirstVisibleAverage(int chart)
 
 int CandleChartWorker::getLastVisibleAverage(int chart)
 {
-    if (chart < 0 || chart >= numberAverageCharts)
+    if (chart < 0 || chart >= NUMBER_AVERAGE_CHARTS)
         return 0;
     else
         return lastVisibleAverage.at(chart);
-}
-
-void CandleChartWorker::getMinimumMaximum24h()
-{
-    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    qint64 timeMinus24h = QDateTime::fromMSecsSinceEpoch
-            (currentTime - 3600000*24).toMSecsSinceEpoch();
-
-    if (priceModel.isEmpty())
-    {
-        m_minimum24h = 0.0;
-        m_maximum24h = 0.0;
-    }
-    else
-    {
-        m_minimum24h = priceModel.last().price;
-        m_maximum24h = priceModel.last().price;
-
-        for (auto i = priceModel.size()-1; i >= 0; --i)
-        {
-            double currPrice = priceModel.at(i).price;
-
-            if (m_minimum24h > currPrice)
-                m_minimum24h = currPrice;
-            if (m_maximum24h < currPrice)
-                m_maximum24h = currPrice;
-
-            if (priceModel.at(i).time < timeMinus24h)
-                break;
-        }
-    }
-
-    emit minimum24hChanged(m_minimum24h);
-    emit maximum24hChanged(m_maximum24h);
-}
-
-void CandleChartWorker::resetRightTime()
-{
-    if (!candleModel.isEmpty())
-        m_rightTime = candleModel.last().time + m_candleWidth/2;
-    else
-        m_rightTime = QDateTime::currentDateTime().toMSecsSinceEpoch() + m_candleWidth;
 }
 
 void CandleChartWorker::setNewCandleWidth(qint64 width)
@@ -457,76 +274,109 @@ void CandleChartWorker::setNewCandleWidth(qint64 width)
     setCandleWidth(width);
 
     setVisibleTime(m_candleWidth * visibleDefaultCandles);
-
-    getCandleModel(false);
-
-    getAveragedModels(false);
-
-    resetRightTime();
+    priceModelChanged();
 }
 
 void CandleChartWorker::dataAnalysis()
 {
     bool reset = true;
 
-    m_maxTime = m_rightTime;
+    m_maxTime = m_infoChart.m_rightTime;
 
-    m_minTime = m_rightTime - m_visibleTime;
+    m_minTime = m_infoChart.m_rightTime - m_visibleTime;
 
-    if (!candleModel.isEmpty())
+    if (!m_infoChart.m_candleModel.isEmpty())
     {
-        m_minPrice = candleModel.first().minimum;
-        m_maxPrice = candleModel.first().maximum;
-        m_beginTime = candleModel.first().time - m_candleWidth/2;
-        m_endTime = candleModel.last().time + m_candleWidth/2;
+        m_minPrice = m_infoChart.m_candleModel.first().minimum;
+        m_maxPrice = m_infoChart.m_candleModel.first().maximum;
+        m_beginTime = m_infoChart.m_candleModel.first().time - m_candleWidth / 2;
+        m_endTime = m_infoChart.m_candleModel.last().time + m_candleWidth / 2;
 
-        m_minPriceTime = candleModel.first().time;
-        m_maxPriceTime = candleModel.first().time;
+        m_minPriceTime = m_infoChart.m_candleModel.first().time;
+        m_maxPriceTime = m_infoChart.m_candleModel.first().time;
     }
     else
     {
-        m_minPrice = 0;
-        m_maxPrice = 0;
-        m_beginTime = m_rightTime;
-        m_endTime = m_rightTime;
+        m_minPrice = 0.0f;
+        m_maxPrice = 0.0f;
+        m_beginTime = m_infoChart.m_rightTime;
+        m_endTime = m_infoChart.m_rightTime;
     }
 
-    m_rightCandleNumber = 0;
+    int size = m_infoChart.m_candleModel.size();
 
-    for (auto i = 0; i < candleModel.size(); ++i)
+    int rightIndex = 0;
+    int leftIndex = 0;
+
+    if(size)
     {
-        qint64 currX = candleModel.at(i).time;
-        double minimum = candleModel.at(i).minimum;
-        double maximum = candleModel.at(i).maximum;
+        qint64 lastTime = m_infoChart.m_candleModel.last().time;
+        qint64 deltaTime = lastTime - m_infoChart.m_rightTime;
 
-        if (currX + m_candleWidth/2 < m_rightTime - m_visibleTime)
-            continue;
 
-        if (currX - m_candleWidth/2 > m_rightTime)
-            break;
+        rightIndex  = (size - 1) - deltaTime / m_candleWidth;
+        rightIndex = rightIndex <= 0 ? size - 1 : rightIndex;
+        rightIndex = rightIndex >= size ? size - 1 : rightIndex;
 
-        m_rightCandleNumber = i;
+        leftIndex = rightIndex - m_visibleTime / m_candleWidth;
+        leftIndex = leftIndex < 0 ? 0: leftIndex;
+    }
 
-        if (reset)
+    m_firstVisibleCandle = leftIndex;
+    m_lastVisibleCandle = rightIndex;
+
+    if(rightIndex)
+    {
+        for (auto i = leftIndex; i <= rightIndex; ++i)
         {
-            m_minPrice = minimum;
-            m_maxPrice = maximum;
-            m_minPriceTime = currX;
-            m_maxPriceTime = currX;
+            qint64 currX = m_infoChart.m_candleModel.at(i).time;
+            double minimum = m_infoChart.m_candleModel.at(i).minimum;
+            double maximum = m_infoChart.m_candleModel.at(i).maximum;
 
-            reset = false;
-        }
-        else
-        {
-            if (m_minPrice > minimum)
+            if (currX + m_candleWidth / 2 < m_infoChart.m_rightTime - m_visibleTime)
+                continue;
+
+            if (currX - m_candleWidth / 2 > m_infoChart.m_rightTime)
+                break;
+
+            m_infoChart.m_rightCandleNumber = i;
+
+            if (reset)
             {
                 m_minPrice = minimum;
-                m_minPriceTime = currX;
-            }
-            if (m_maxPrice < maximum)
-            {
                 m_maxPrice = maximum;
+                m_minPriceTime = currX;
                 m_maxPriceTime = currX;
+
+                reset = false;
+            }
+            else
+            {
+                if (m_minPrice > minimum)
+                {
+                    m_minPrice = minimum;
+                    m_minPriceTime = currX;
+                }
+                if (m_maxPrice < maximum)
+                {
+                    m_maxPrice = maximum;
+                    m_maxPriceTime = currX;
+                }
+
+                for (auto ch = 0; ch < NUMBER_AVERAGE_CHARTS; ++ch)
+                {
+                    auto price = m_infoChart.m_averagedModel.at(ch).at(i).price;
+                    if(price < m_minPrice)
+                    {
+                        m_minPrice = price;
+                        continue;
+                    }
+                    if(price > m_maxPrice)
+                    {
+                        m_maxPrice = price;
+                        continue;
+                    }
+                }
             }
         }
     }
@@ -542,101 +392,14 @@ void CandleChartWorker::dataAnalysis()
         m_maxPrice += 0.00000000000000000001;
     }
 
-    m_firstVisibleCandle = -1;
-    m_lastVisibleCandle = 0;
 
-    for (auto i = 0; i < candleModel.size(); ++i)
+    for (auto ch = 0; ch < NUMBER_AVERAGE_CHARTS; ++ch)
     {
-        qint64 time = candleModel.at(i).time;
-
-        if (time + m_candleWidth*0.5 <
-                m_rightTime - m_visibleTime)
-            continue;
-
-        if (m_firstVisibleCandle == -1)
-            m_firstVisibleCandle = i;
-
-        if (time - m_candleWidth*0.5 >
-                m_rightTime)
-            break;
-
-        m_lastVisibleCandle = i;
-    }
-
-    if (m_firstVisibleCandle < 0)
-        m_firstVisibleCandle = 0;
-
-    for (auto ch = 0; ch < numberAverageCharts; ++ch)
-    {
-        firstVisibleAverage[ch] = 0;
-        lastVisibleAverage[ch] = 0;
-
-        for (auto i = 0; i < averagedModel.at(ch).size(); ++i)
-        {
-            qint64 time = averagedModel.at(ch).at(i).time;
-
-            if (time < m_rightTime - m_visibleTime - m_candleWidth*minAverageStep)
-                continue;
-
-            if (firstVisibleAverage.at(ch) == 0)
-                firstVisibleAverage[ch] = i;
-
-            if (time > m_rightTime + m_candleWidth*minAverageStep)
-                break;
-
-            lastVisibleAverage[ch] = i;
-        }
+        firstVisibleAverage[ch] = leftIndex;
+        lastVisibleAverage[ch] = rightIndex;
     }
 }
 
-void CandleChartWorker::setNewPrice(const QString &price)
-{
-    if (priceModel.isEmpty())
-    {
-        resetPriceData(price.toDouble(), price, false);
-    }
-    else
-    {
-        m_previousTokenPrice = m_currentTokenPrice;
-        m_currentTokenPrice = price.toDouble();
-        m_currentTokenPriceText = price;
-
-        qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-        PriceInfo info{currentTime, m_currentTokenPrice, m_currentTokenPriceText};
-
-        priceModel.append(info);
-
-        emit currentTokenPriceChanged(m_currentTokenPrice);
-        emit previousTokenPriceChanged(m_previousTokenPrice);
-        emit currentTokenPriceTextChanged(m_currentTokenPriceText);
-    }
-
-    getMinimumMaximum24h();
-
-    checkNewRoundPower();
-}
-
-void CandleChartWorker::generateNewPrice(double step)
-{
-    m_previousTokenPrice = m_currentTokenPrice;
-    m_currentTokenPrice +=
-        QRandomGenerator::global()->generateDouble()*step - step*0.5;
-    m_currentTokenPriceText = QString::number(m_currentTokenPrice, 'f', 18);
-
-
-    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    PriceInfo info{currentTime, m_currentTokenPrice, m_currentTokenPriceText};
-
-    priceModel.append(info);
-
-    emit currentTokenPriceChanged(m_currentTokenPrice);
-    emit previousTokenPriceChanged(m_previousTokenPrice);
-    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
-
-    getMinimumMaximum24h();
-
-    checkNewRoundPower();
-}
 
 bool CandleChartWorker::zoomTime(int step)
 {
@@ -660,7 +423,7 @@ bool CandleChartWorker::zoomTime(int step)
     }
     else
     {
-        m_rightTime += (m_visibleTime - oldVisibleTime)*0.5;
+        m_infoChart.m_rightTime += (m_visibleTime - oldVisibleTime)*0.5;
 
         emit visibleTimeChanged(m_visibleTime);
 
@@ -670,16 +433,17 @@ bool CandleChartWorker::zoomTime(int step)
 
 void CandleChartWorker::shiftTime(double step)
 {
-    if (candleModel.isEmpty())
+    if (m_infoChart.m_candleModel.isEmpty())
         return;
 
-    m_rightTime -= step;
+    m_infoChart.m_rightTime -= step;
 
-    if (m_rightTime > m_endTime + m_visibleTime*0.5)
-        m_rightTime = m_endTime + m_visibleTime*0.5;
+    if (m_infoChart.m_rightTime > m_endTime + m_visibleTime / 2)
+        m_infoChart.m_rightTime = m_endTime + m_visibleTime / 2;
 
-    if (m_rightTime < m_beginTime + m_visibleTime*0.5)
-        m_rightTime = m_beginTime + m_visibleTime*0.5;
+    if (m_infoChart.m_rightTime < m_beginTime + m_visibleTime / 2)
+        m_infoChart.m_rightTime = m_beginTime + m_visibleTime / 2;
+
 }
 
 void CandleChartWorker::setCandleWidth(qint64 width)
@@ -700,71 +464,161 @@ void CandleChartWorker::setVisibleTime(double time)
     emit visibleTimeChanged(m_visibleTime);
 }
 
-void CandleChartWorker::setMinimum24h(double min)
+void CandleChartWorker::setRightTime(qint64 number)
 {
-    if (m_minimum24h == min)
-        return;
-
-    m_minimum24h = min;
-    emit minimum24hChanged(m_minimum24h);
+    m_infoChart.m_rightTime = number;
 }
 
-void CandleChartWorker::setMaximum24h(double max)
+//void CandleChartWorker::resetRightTime()
+//{
+//    if (!candleModel.isEmpty())
+//        emit setRightTime(candleModel.last().time + candleWidth()/2);
+//    else
+//        emit setRightTime(QDateTime::currentDateTime().toMSecsSinceEpoch() + candleWidth());
+//}
+
+
+void CandleChartWorker::addRequest(TypeRequest type, const QVariant& params)
 {
-    if (m_maximum24h == max)
-        return;
 
-    m_maximum24h = max;
-    emit maximum24hChanged(m_maximum24h);
-}
-
-void CandleChartWorker::setLastCandleNumber(int number)
-{
-    if (m_lastCandleNumber == number)
-        return;
-
-    m_lastCandleNumber = number;
-    emit lastCandleNumberChanged(m_lastCandleNumber);
-}
-
-void CandleChartWorker::setRightCandleNumber(int number)
-{
-    if (m_rightCandleNumber == number)
-        return;
-
-    m_rightCandleNumber = number;
-    emit rightCandleNumberChanged(m_rightCandleNumber);
-}
-
-void CandleChartWorker::checkNewRoundPower()
-{
-//    qDebug() << "CandleChartWorker::checkNewRoundPower" << m_currentTokenPrice;
-
-    int tempPower = -10;
-    double tempMask = pow (10, tempPower);
-
-    while (tempMask < m_currentTokenPrice && tempPower < 77)
+    if(TypeRequest::NEW_PRICE_REQUEST != type)
     {
-        ++tempPower;
-
-        tempMask = pow (10, tempPower);
+       m_queuedRequest[type].clear();
     }
 
-    int tempCommonPower = - tempPower + commonRoundPowerDelta;
+    m_queuedRequest[type].append(params);
+}
 
-    if (tempCommonPower > 8)
-        tempCommonPower = 8;
-    if (tempCommonPower < 0)
-        tempCommonPower = 0;
-
-    if (tempCommonPower != m_commonRoundPower)
+void CandleChartWorker::tryStartRequestFromQueued()
+{
+    if(!m_queuedRequest[TypeRequest::HISTORY_REQUEST].isEmpty())
     {
-        m_commonRoundPower = tempCommonPower;
+        auto params = m_queuedRequest[TypeRequest::HISTORY_REQUEST];
+        respondTokenPairsHistory(params[0].toJsonArray());
+        for(auto& item: m_queuedRequest)
+        {
+            item.clear();
+        }
+    }
+    else if(!m_queuedRequest[TypeRequest::NEW_PRICE_REQUEST].isEmpty())
+    {
+        auto& listRequest = m_queuedRequest[TypeRequest::NEW_PRICE_REQUEST];
+        QList<QPair<QString, QString>> list;
+        for(auto& item: listRequest)
+        {
+            list.append(item.value<QPair<QString, QString>>());
+        }
+        listRequest.clear();
+        respondCurrentTokenPairs(list);
+    }
+    else if(!m_queuedRequest[TypeRequest::RESET_REQUEST].isEmpty())
+    {
+        auto paramsVar = m_queuedRequest[TypeRequest::RESET_REQUEST].first().toList();
+        double price = paramsVar[0].toDouble();
+        QString priceText = paramsVar[1].toString();
+        bool init = paramsVar[2].toBool();
+        m_queuedRequest[TypeRequest::RESET_REQUEST].removeFirst();
+        resetPriceData(price, priceText, init);
+    }
+}
 
-        qDebug() << "m_commonRoundPower" << m_commonRoundPower;
+bool CandleChartWorker::isQueued()
+{
+    for(const auto& item: m_queuedRequest)
+    {
+        if(!item.isEmpty())
+        {
+            return true;
+        }
+    }
+}
 
-        emit commonRoundPowerChanged(m_commonRoundPower);
+void CandleChartWorker::threadFinished(TypeProcessing type, const MainInfoChart &info)
+{
+    switch (type)
+    {
+    case TypeProcessing::NEW_HISTORY:
+        {
+            m_tmpInfoChart.second = info;
+            m_tmpInfoChart.first = true;
+        }
+        break;
+    case TypeProcessing::NEW_PRICE:
+    case TypeProcessing::RESET_UPDATE:
+        {
+            MainInfoChart tmpInfo;
+            tmpInfo = info;
+            tmpInfo.m_priceModel = m_infoChart.m_priceModel;
+            m_tmpInfoChart.second = tmpInfo;
+            m_tmpInfoChart.first = true;
+            tmpInfo.clear();
+        }
+        break;
+    default:
+        break;
     }
 
-    emit checkBookRoundPower(m_currentTokenPrice);
+    setNewData();
+}
+
+void CandleChartWorker::setNewData()
+{
+    if(isPainting())
+    {
+        return;
+    }
+    m_isUpdate = true;
+
+    qint64 rightTime;
+    bool isOldRightTime = false;
+    if(!m_infoChart.m_candleModel.isEmpty())
+    {
+        rightTime = m_infoChart.m_rightTime;
+        qint64 realRightTime = m_infoChart.m_candleModel.last().time;
+        if(rightTime < realRightTime)
+        {
+            isOldRightTime = true;
+        }
+    }
+
+    m_infoChart.clear();
+    m_infoChart = m_tmpInfoChart.second;
+    if(isOldRightTime)
+    {
+        m_infoChart.m_rightTime = rightTime;
+    }
+
+    m_infoChart.m_lastCandleNumber = m_infoChart.m_candleModel.isEmpty() ? 0 :m_infoChart.m_candleModel.size() - 1;
+
+    m_tmpInfoChart.first = false;
+    m_tmpInfoChart.second.clear();
+    m_isUpdate = false;
+    emit chartInfoChanged();
+    emit minimum24hChanged(m_infoChart.m_minimum24h);
+    emit maximum24hChanged(m_infoChart.m_maximum24h);
+    emit lastCandleNumberChanged(m_infoChart.m_lastCandleNumber);
+    emit checkBookRoundPower(m_infoChart.m_currentTokenPrice);
+    setProcessStatus(false);
+    tryStartRequestFromQueued();
+}
+
+bool CandleChartWorker::setPaintingStatus(bool status)
+{
+    if(m_isUpdate)
+    {
+        return false;
+    }
+    m_isPainting = status;
+    if(!status)
+    {
+        if(m_tmpInfoChart.first)
+        {
+            setNewData();
+        }
+        else if(!isProcessing())
+        {
+            tryStartRequestFromQueued();
+        }
+    }
+    return true;
 }

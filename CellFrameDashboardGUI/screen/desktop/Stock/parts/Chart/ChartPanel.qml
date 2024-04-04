@@ -40,15 +40,69 @@ Item
 
                 backgroundColorShow: currTheme.secondaryBackground
                 backgroundColorNormal: currTheme.secondaryBackground
+
+                isSingleColor: true
+                isNecessaryToHideCurrentIndex: true
+                popupBorderWidth: 0
+
                 model: dexNetModel
+                mainTextRole: "name"
                 font: mainFont.dapFont.medium14
 
-                onCurrantDisplayTextChanged:
+                onModelChanged:
                 {
-                    modelTokenPair.setNetworkFilter(text)
+                    if(count > 0) {
+                        var f_network = dexModule.networkFilter
+                        for(var i = 0; i < model.count; i++)
+                        {
+                            if(f_network === model.get(i).name)
+                            {
+                                setCurrentIndex(i)
+                                return
+                            }
+                        }
+                    }
+                }
+
+                onCountChanged:
+                {
+                    if(count > 0 && currentIndex < 0) setCurrentIndex(0)
+                }
+
+                onItemSelected:
+                {
+                    dexModule.networkFilter = displayText
                 }
 
                 defaultText: qsTr("Networks")
+
+                Connections
+                {
+                    target: dexModule
+
+                    function onDexNetListChanged()
+                    {
+                        comboboxNetwork.model = dexNetModel;
+                        var oldNetwork = comboboxNetwork.displayText
+                        var isFound = false
+                        for(var i=0; i<dexNetModel.count; ++i)
+                        {
+                            if(dexNetModel.get(i).name === oldNetwork)
+                            {
+                                isFound = true
+                                break
+                            }
+                        }
+                        if(!isFound) comboboxNetwork.displayText = "All"
+                    }
+
+                    function onNetworkFilterChanged(network)
+                    {
+                        comboboxNetwork.displayText = network
+                        var pair = modelTokenPair.getFirstItem()
+                        dexModule.setCurrentTokenPair(pair, comboboxNetwork.displayText)
+                    }
+                }
             }
 
             DapPairComboBox
@@ -65,8 +119,7 @@ Item
 
                 Component.onCompleted:
                 {
-                    dexTokenModel.setTokenFilter(dexModule.token1, dexModule.token2)
-                    dexTokenModel.setNetworkFilter(dexModule.networkPair)
+                    dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
                     walletModule.updateBalanceDEX()
 
                 }
@@ -182,11 +235,17 @@ Item
         {
             Layout.topMargin: 16
             height: 35
-
+            defaultIndex: dexModule.stepChart
             selectorModel: selectorModel
             selectorListView.interactive: false
 
             onItemSelected:
+            {
+                chartItem.setCandleSize(currentIndex)
+                dexModule.setStepChart(currentIndex)
+            }
+
+            Component.onCompleted:
             {
                 chartItem.setCandleSize(currentIndex)
             }
@@ -219,7 +278,7 @@ Item
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.green
                 outSymbols: 15
-                fullNumber: candleChartWorker.currentTokenPriceText
+                fullNumber: dexModule.currentRate
                 copyButtonVisible: true
             }
 
@@ -242,16 +301,13 @@ Item
 
             candleLogic.onChandleSelected:
             {
-//                print("onChandleSelected",
-//                      openValue, highValue, lowValue, closeValue)
-
                 var date = new Date(timeValue)
 
                 textDate.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
-                textOpen.text = openValue.toFixed(roundPower)
-                textHigh.text = highValue.toFixed(roundPower)
-                textLow.text = lowValue.toFixed(roundPower)
-                textClose.text = closeValue.toFixed(roundPower)
+                textOpen.text = openValue//.toFixed(roundPower)
+                textHigh.text = highValue//.toFixed(roundPower)
+                textLow.text = lowValue//.toFixed(roundPower)
+                textClose.text = closeValue//.toFixed(roundPower)
 
                 if (openValue > 0.0000000000000000001)
                 {
@@ -269,9 +325,6 @@ Item
                         textChange.text = change.toFixed(4) + "%"
                     else
                         textChange.text = change.toFixed(2) + "%"
-
-//                    print("onChandleSelected",
-//                          openValue, closeValue, change, textChange.text)
                 }
                 else
                     textChange.text = "0%"
@@ -320,7 +373,7 @@ Item
                 textColor: currTheme.gray
             }
 
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textOpen
                 Layout.preferredWidth: 100
@@ -329,7 +382,7 @@ Item
                 text: "-"
             }
 
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textHigh
                 Layout.preferredWidth: 95
@@ -337,7 +390,7 @@ Item
                 label: qsTr("High:")
                 text: "-"
             }
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textLow
                 Layout.preferredWidth: 90
@@ -345,7 +398,7 @@ Item
                 label: qsTr("Low:")
                 text: "-"
             }
-            ChartTextBlock
+            ChartBigTextBlock
             {
                 id: textClose
                 Layout.preferredWidth: 100
@@ -361,33 +414,37 @@ Item
                 label: qsTr("Change:")
                 text: "-"
             }
+
+            MouseArea
+            {
+                Layout.fillHeight: parent
+                Layout.fillWidth: parent
+                hoverEnabled: true
+                onEntered:
+                {
+                    chartItem.areaCanvas.hoverEnabled = false
+                }
+                onExited:
+                {
+                    chartItem.areaCanvas.hoverEnabled = true
+                }
+            }
         }
-    }
-
-    function updateChart()
-    {
-        updateTokenPrice()
-
-        candleChartWorker.updateAllModels()
-
-        candleLogic.dataAnalysis()
-
-        chartItem.chartCanvas.requestPaint()
     }
 
     Connections
     {
-        target: dexModule
+        target: candleChartWorker
 
-        function onCurrentTokenPairInfoChanged()
+        function onChartInfoChanged()
         {
-            updateChart()
+            candleLogic.updateChart()
         }
 
-        function onCurrentTokenPairChanged()
-        {
-            updateChart()
-        }
+        // function onCurrentTokenPairChanged()
+        // {
+        //     updateChart()
+        // }
     }
 
     function updateTokenPrice()

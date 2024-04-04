@@ -24,7 +24,9 @@ Controls.DapTopPanel
             text: qsTr("Wallet:")
             font: mainFont.dapFont.regular14
             color: currTheme.gray
-            Layout.leftMargin: 21
+            Layout.leftMargin: 24
+            Layout.alignment: Qt.AlignVCenter
+            Layout.bottomMargin: 1
         }
 
         DapWalletComboBox
@@ -33,8 +35,8 @@ Controls.DapTopPanel
 
             Layout.fillHeight: true
             Layout.topMargin: 9
-            Layout.bottomMargin: 9
-            Layout.leftMargin: 4
+            Layout.bottomMargin: 10
+            Layout.leftMargin: 6
             width: 220
             displayText: walletModule.currentWalletName
             font: mainFont.dapFont.regular14
@@ -77,6 +79,9 @@ Controls.DapTopPanel
                 mipmap: true
             }
 
+            Widgets.DapCustomToolTip{
+                contentText: logicWallet.walletStatus === "" ? qsTr("Create password for this wallet") : (logicWallet.walletStatus === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet"))
+            }
 
             MouseArea{
                 id: area
@@ -112,6 +117,11 @@ Controls.DapTopPanel
             horizontalAligmentText: Text.AlignHCenter
             selected: false
             onClicked: navigator.restoreWalletFunc()
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Import wallet")
+            }
+
         }
 
         Widgets.DapButton
@@ -126,6 +136,10 @@ Controls.DapTopPanel
             horizontalAligmentText: Text.AlignHCenter
             selected: false
             onClicked: navigator.createWallet()
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Create new wallet")
+            }
         }
 
         Item
@@ -152,6 +166,10 @@ Controls.DapTopPanel
                 walletInfo.name = modulesController.currentWalletName
                 dapRightPanel.pop()
                 navigator.newPayment()
+            }
+
+            Widgets.DapCustomToolTip{
+                contentText: qsTr("Sending tokens between your accounts")
             }
         }
     }

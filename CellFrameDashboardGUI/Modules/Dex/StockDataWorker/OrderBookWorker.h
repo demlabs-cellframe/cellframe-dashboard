@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QQmlContext>
 #include "Models/DEXModel/DEXTypes.h"
-#include "OrderInfo.h"
+#include "ChartTypes.h"
 
 class OrderBookWorker : public QObject
 {
@@ -33,27 +33,22 @@ public:
 
     Q_INVOKABLE double getfilledForPrice(bool isSell, const QString& price);
 
-    int sellOrderModelSize() const
-        { return sellOrderModel.size(); }
-    int buyOrderModelSize() const
-        { return buyOrderModel.size(); }
+    int sellOrderModelSize() const { return sellOrderModel.size(); }
+    int buyOrderModelSize() const  { return buyOrderModel.size(); }
 
-    QString sellMaxTotal() const
-        { return m_sellMaxTotal; }
-    QString buyMaxTotal() const
-        { return m_buyMaxTotal; }
+    QString sellMaxTotal() const { return m_sellMaxTotal; }
+    QString buyMaxTotal() const  { return m_buyMaxTotal; }
 
-    int bookRoundPower() const
-        { return m_bookRoundPower; }
-    int bookRoundPowerMinimum() const
-        { return m_bookRoundPowerMinimum; }
+    int bookRoundPower() const { return m_bookRoundPower; }
+    int bookRoundPowerMinimum() const { return m_bookRoundPowerMinimum; }
 
 public slots:
     void checkBookRoundPower(double currentTokenPrice);
 
-    void setTokenPair(const QString &tok1,
-        const QString &tok2, const QString &net);
-    void setTokenPair(const DEX::InfoTokenPair& info, const QString &net);
+    void setTokenPair(const QString &tok1, const QString &tok2, const QString &net);
+    void setTokenPair(const DEX::InfoTokenPair& info);
+
+    void setCurrentRate(const QString& rate);
 signals:
     void sellMaxTotalChanged(QString max);
     void buyMaxTotalChanged(QString max);
@@ -83,6 +78,8 @@ private:
     QString token1 {""};
     QString token2 {""};
     QString network {""};
+
+    Dap::Coin m_currentRate;
 
     QVector <OrderInfo> sellOrderModel;
     QVector <OrderInfo> buyOrderModel;

@@ -10,7 +10,7 @@ Item
 
     Component.onCompleted:
     {
-        ordersModel.setOrderFilter("Buy", "All", "OPENED")
+        ordersModel.setOrderFilter("Sell", "Other", "OPENED")
         setCurrentMainScreen(allOrders)
         buysellbothSelector.selectorListView.currentIndex = 2
     }
@@ -55,7 +55,7 @@ Item
 
                 if (currentIndex === 0)
                 {
-                    ordersModel.setOrderFilter("Buy", "All", "OPENED")
+                    ordersModel.setOrderFilter("Sell", "Other", "OPENED")
                     setCurrentMainScreen(allOrders)
 
                     buysellSelector.setSelected("first")
@@ -64,7 +64,7 @@ Item
                     buysellbothSelector.visible = false
                     textPair.visible = false
                     comboboxPair.visible = false
-                    comboboxPair.displayText = "All pairs"
+                    // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = false
 //                    buttonsSide.visible = false
                     textPeriod.visible = false
@@ -73,7 +73,7 @@ Item
                 }
                 if (currentIndex === 1)
                 {
-                    ordersModel.setOrderFilter("Both", "My_orders")
+                    ordersModel.setOrderFilter("Both", "My_orders", "OPENED")
                     //setFilterSide("Both")
                     setCurrentMainScreen(myOrders)
 
@@ -81,9 +81,9 @@ Item
                     buysellText.visible = true
                     buysellSelector.visible = false
                     buysellbothSelector.visible = true
-                    textPair.visible = true
-                    comboboxPair.visible = true
-                    comboboxPair.displayText = "All pairs"
+                    textPair.visible = false
+                    comboboxPair.visible = false
+                    // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
 //                    buttonsSide.visible = true
                     textPeriod.visible = false
@@ -101,9 +101,9 @@ Item
                     buysellText.visible = true
                     buysellSelector.visible = false
                     buysellbothSelector.visible = true
-                    textPair.visible = true
-                    comboboxPair.visible = true
-                    comboboxPair.displayText = "All pairs"
+                    textPair.visible = false
+                    comboboxPair.visible = false
+                    // comboboxPair.displayText = "All pairs"
 //                    textSide.visible = true
 //                    buttonsSide.visible = true
                     textPeriod.visible = true
@@ -201,14 +201,16 @@ Item
 
             onToggled:
             {
+                // !!!!!!!!!!!!
+                // TODO Here it is necessary to be careful, inverting the data is done for the logic of buying orders.
                 if (secondSelected)
                     {
-                        ordersModel.setFilterSide("Sell")
+                        ordersModel.setFilterSide("Buy")
                     }
                     //setFilterSide("sell")
                 else
                 {
-                    ordersModel.setFilterSide("Buy")
+                    ordersModel.setFilterSide("Sell")
                 }
                    // setFilterSide("buy")
 //                isSell = secondSelected
@@ -381,7 +383,7 @@ Item
                 id: button1Year
                 Layout.fillWidth: true
                 implicitHeight: 25
-                textButton: qsTr("button1Year")
+                textButton: qsTr("All time")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.regular12

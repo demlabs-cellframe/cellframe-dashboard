@@ -76,6 +76,10 @@ DapPage
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked: navigator.createToken()
+
+                DapCustomToolTip{
+                    contentText: qsTr("New Token")
+                }
             }
         isVisibleSearch: false
 

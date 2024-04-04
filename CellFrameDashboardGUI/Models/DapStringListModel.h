@@ -75,7 +75,6 @@ public:
     QVariant data (const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-public:
     void setStringList(const QStringList &list);
 
     /// find item with the same name and return it's index. otherwise returns -1
@@ -95,10 +94,6 @@ public:
     Q_INVOKABLE QVariant get(int a_index);
     /// get item by index
     Q_INVOKABLE const QVariant get (int a_index) const;
-    /// replace item by index
-    Q_INVOKABLE void set (int a_index, const DapStringListModel::Item &a_item);
-    /// emplace item by index
-    Q_INVOKABLE void set (int a_index, DapStringListModel::Item &&a_item);
 
     Q_INVOKABLE int fieldId (const QString &a_fieldName) const;
 
@@ -113,14 +108,10 @@ protected:
     DapStringListModel::Item &_get (int a_index);
     const DapStringListModel::Item &_get (int a_index) const;
     static QVariant _getValue (const DapStringListModel::Item &a_item, int a_fieldId);
-    static void _setValue (DapStringListModel::Item &a_item, int a_fieldId, const QVariant &a_value);
 
 signals:
     void sizeChanged();
     void sigSizeChanged (int a_newSize);
-    void sigItemAdded (int a_itemIndex);
-    void sigItemRemoved (int a_itemIndex);
-    void sigItemChanged (int a_itemIndex);
 
 public:
     Q_INVOKABLE QVariant operator [](int a_index);

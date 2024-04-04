@@ -24,6 +24,10 @@ Controls.DapTopPanel
         horizontalAligmentText: Text.AlignHCenter
 
         onClicked: exportPopup.open()
+
+        Widgets.DapCustomToolTip{
+            contentText: qsTr("Export log to file")
+        }
     }
 
 //    ///Handler for clicking the button exportLogButton

@@ -30,6 +30,10 @@ class  DapModuleDex : public DapAbstractModule
         BASE_IS_EMPTY
     };
 
+public slots:
+    void setNetworkFilterText(const QString &network);
+    void setStepChart(const int &index);
+
 public:
     explicit DapModuleDex(DapModulesController *parent = nullptr);
     ~DapModuleDex();
@@ -42,10 +46,18 @@ public:
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
 
+    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee);
+
+    Q_PROPERTY(QString networkFilter READ getNetworkFilterText WRITE setNetworkFilterText NOTIFY networkFilterChanged)
+    Q_INVOKABLE QString getNetworkFilterText() const { return m_networkFilter; }
+
+    Q_PROPERTY(int stepChart READ getStepChart WRITE setStepChart NOTIFY stepChartChanged)
+    Q_INVOKABLE int getStepChart() const { return m_stepChartIndex; }
+
     Q_PROPERTY(QString displayText READ getDisplayText NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getDisplayText() const { return m_currentPair.displayText; }
 
-    Q_PROPERTY(QString currentRate READ getCurrentRate NOTIFY currentTokenPairChanged)
+    Q_PROPERTY(QString currentRate READ getCurrentRate NOTIFY currentTokenPairInfoChanged)
     Q_INVOKABLE QString getCurrentRate() const { return m_currentPair.rate; }
 
     Q_PROPERTY(QString token1 READ getToken1 NOTIFY currentTokenPairChanged)
@@ -59,8 +71,12 @@ public:
 
     Q_INVOKABLE QString invertValue();
     Q_INVOKABLE QString invertValue(const QString& price);
+    Q_INVOKABLE QString multCoins(const QString& a, const QString& b);
+    Q_INVOKABLE QString divCoins(const QString& a, const QString& b);
+    Q_INVOKABLE QString minusCoins(const QString& a, const QString& b);
 
     Q_INVOKABLE QString tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee);
+    Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee);
 
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 
@@ -81,6 +97,8 @@ signals:
     void txListChanged();
 
     void dexNetListChanged();
+    void networkFilterChanged(const QString& network);
+    void stepChartChanged(const int& index);
 private slots:
     void startInitData();
 
@@ -93,6 +111,8 @@ private:
     void onInit();
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
+
+    QString roundCoins(const QString& str);
 
     inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
 private:
@@ -110,6 +130,7 @@ private:
     QTimer* m_curentTokenPairUpdateTimer = nullptr;
     QTimer* m_ordersHistoryUpdateTimer = nullptr;
 
+    QByteArray* m_tokenPairsCash;
     QByteArray* m_ordersHistoryCash;
     QByteArray* m_txListCash;
     QList<DEX::Order> m_ordersHistory;
@@ -118,12 +139,15 @@ private:
     QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
 
-    QString m_currentNetwork;
+    QString m_networkFilter = "";
+    QString m_currentNetwork = "";
 
     QString m_currantPriceForCreate = "";
 
     bool m_isSandXchangeTokenPriceAverage = false;
     bool m_isSandDapGetXchangeTokenPair = false;
+
+    int m_stepChartIndex = 0;
 
     const int ALL_TOKEN_UPDATE_TIMEOUT = 10000;
     const int CURRENT_TOKEN_UPDATE_TIMEOUT = 1000;

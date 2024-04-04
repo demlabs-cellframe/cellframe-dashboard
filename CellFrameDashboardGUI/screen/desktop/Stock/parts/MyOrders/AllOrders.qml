@@ -108,7 +108,7 @@ Item
 //                }
                 HeaderLabel{
                     Layout.preferredWidth: 150
-                    label.text: qsTr("Amount")
+                    label.text: qsTr("Amount") + " (" + (!ordersModel.isSellFilter ? dexModule.token2 : dexModule.token1)  + ")"
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 150
@@ -305,25 +305,25 @@ Item
                         implicitHeight: 25
                         //TODO: need update colors
                         defaultColorNormal0:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreen :
                                 currTheme.textColorRed
                         defaultColorNormal1:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreen :
                                 currTheme.textColorRed
                         defaultColorHovered0:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreenHovered :
                                 currTheme.textColorRedHovered
                         defaultColorHovered1:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 currTheme.textColorGreenHovered :
                                 currTheme.textColorRedHovered
                         textButton:
-                            side === "Buy" ?
+                            side !== "Buy" ?
                                 qsTr("Buy ") + tokenBuy :
-                                qsTr("Sell ") + tokenSell
+                                qsTr("Sell ") + tokenBuy
                         horizontalAligmentText: Text.AlignHCenter
                         indentTextRight: 0
                         fontButton: mainFont.dapFont.medium14

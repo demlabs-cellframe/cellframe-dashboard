@@ -98,6 +98,8 @@ void DapStringListModel::setStringList(const QStringList &list)
     }
   }
   endResetModel();
+  emit dataChanged(index (0, 0), index (m_items.size(), 0));
+  emit sizeChanged();
 }
 
 int DapStringListModel::indexOf (const DapStringListModel::Item &a_item) const
@@ -171,24 +173,6 @@ const DapStringListModel::Item &DapStringListModel::_get(int a_index) const
   return const_cast<DapStringListModel*>(this)->_get (a_index);
 }
 
-void DapStringListModel::set (int a_index, const DapStringListModel::Item &a_item)
-{
-  if (a_index < 0 || a_index >= m_items.size())
-    return;
-  _get (a_index) = a_item;
-  emit sigItemChanged (a_index);
-  emit dataChanged (index (a_index, 0), index (a_index, 0));
-}
-
-void DapStringListModel::set (int a_index, DapStringListModel::Item &&a_item)
-{
-  if (a_index < 0 || a_index >= m_items.size())
-    return;
-  _get (a_index) = std::move (a_item);
-  emit sigItemChanged (a_index);
-  emit dataChanged (index (a_index, 0), index (a_index, 0));
-}
-
 int DapStringListModel::fieldId (const QString &a_fieldName) const
 {
     return int (s_fieldIdMap.value (a_fieldName, DapStringListModel::FieldId::invalid));
@@ -237,16 +221,6 @@ QVariant DapStringListModel::_getValue (const DapStringListModel::Item &a_item, 
     }
 
   return QVariant();
-}
-
-void DapStringListModel::_setValue (DapStringListModel::Item &a_item, int a_fieldId, const QVariant &a_value)
-{
-  switch (DapStringListModel::FieldId (a_fieldId))
-    {
-    case DapStringListModel::FieldId::invalid: break;
-
-    case DapStringListModel::FieldId::name:      a_item.name       = a_value.toString(); break;
-    }
 }
 
 QVariant DapStringListModel::operator[] (int a_index)

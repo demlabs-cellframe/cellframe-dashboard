@@ -53,6 +53,7 @@ Rectangle {
     property alias walletDeactivatePopup: walletDeactivatePopup
     property alias walletsControllerPopup: walletsControllerPopup
     property alias removeWalletPopup: removeWalletPopup
+    property alias removeOrderPopup: removeOrderPopup
     property alias settingsWallet:settingsWallet
 
     property var vpnClientTokenModel: new Array()
@@ -156,6 +157,13 @@ Rectangle {
 
     DapRemoveWalletPopup{
         id: removeWalletPopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapRemoveOrderPopup{
+        id: removeOrderPopup
         anchors.fill: parent
         visible: false
         z: 10
@@ -285,10 +293,15 @@ Rectangle {
 //            showTab: true,
 //            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "DEX",
-            name: qsTr("DEX"),
+            name: qsTr("DEX Beta"),
             bttnIco: "icon_exchange.svg",
             showTab: true,
-            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
+//        append ({ tag: "DEX",
+//            name: qsTr("DEX"),
+//            bttnIco: "icon_exchange.svg",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/UnderConstructions.qml"})
 
 
         append ({ tag: "TX explorer",
@@ -723,11 +736,11 @@ Rectangle {
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        function onSignalXchangeTokenPairReceived()
-        {
-            console.log("onSignalXchangeTokenPairReceived")
-//            logicMainApp.rcvPairsModel(rcvData)
-        }
+//         function onSignalXchangeTokenPairReceived()
+//         {
+//             console.log("onSignalXchangeTokenPairReceived")
+// //            logicMainApp.rcvPairsModel(rcvData)
+//         }
     }
     Connections{
         target: dAppsModule

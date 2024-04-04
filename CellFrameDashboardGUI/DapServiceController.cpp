@@ -251,8 +251,6 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreateStakeOrder("DapCreateStakeOrder",m_DAPRpcSocket))), QString("createdStakeOrder")));
 
-// DEX
-
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetXchangeTokenPair("DapGetXchangeTokenPair",m_DAPRpcSocket))), QString("rcvXchangeTokenPair")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetXchangeTokenPriceAverage("DapGetXchangeTokenPriceAverage",m_DAPRpcSocket))), QString("rcvXchangeTokenPriceAverage")));
@@ -263,13 +261,13 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapXchangeOrderCreate("DapXchangeOrderCreate",m_DAPRpcSocket))), QString("rcvXchangeCreate")));
 
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetXchangeOrdersList("DapGetXchangeOrdersList",m_DAPRpcSocket))), QString("rcvXchangeOrderList")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapXchangeOrderRemove("DapXchangeOrderRemove",m_DAPRpcSocket))), QString("rcvXchangeRemove")));
 
-// End DEX
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetXchangeOrdersList("DapGetXchangeOrdersList",m_DAPRpcSocket))), QString("rcvXchangeOrderList")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapDictionaryCommand("DapDictionaryCommand",m_DAPRpcSocket))), QString("rcvDictionary")));
 
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapXchangeOrderPurchase("DapXchangeOrderPurchase",m_DAPRpcSocket))), QString("rcvXchangePurchase")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapXchangeOrderPurchase("DapXchangeOrderPurchase",m_DAPRpcSocket))), QString("rcvXchangeOrderPurchase")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand",m_DAPRpcSocket))), QString("rcvActivateOrDeactivateReply")));
 
@@ -410,65 +408,7 @@ void DapServiceController::registerCommand()
         }*/
     });
 
-    connect(this, &DapServiceController::rcvXchangeOrderList, [=] (const QVariant& rcvData)
-    {
-        if (!rcvData.isValid())
-            return ;
 
-        emit signalXchangeOrderListReceived(rcvData);
-
-/*        if(s_bufferOrdersJson.isEmpty())
-        {
-            s_bufferOrdersJson = rcvData.toByteArray();
-            emit signalXchangeOrderListReceived(rcvData);
-            return ;
-        }else{
-            if(!compareJson(s_bufferOrdersJson, rcvData))
-            {
-                s_bufferOrdersJson = rcvData.toByteArray();
-                emit signalXchangeOrderListReceived(rcvData);
-                return ;
-            }
-            emit signalXchangeOrderListReceived("isEqual");
-        }*/
-    });
-
-    connect(this, &DapServiceController::rcvXchangeTokenPair, [=] (const QVariant& rcvData)
-    {
-        qDebug() << "DapServiceController::rcvXchangeTokenPair";
-
-        if(!rcvData.isValid())
-            return ;
-
-        if (rcvData.toString() == "isEqual")
-        {
-            qDebug() << "rcvXchangeTokenPair isEqual";
-            emit signalXchangeTokenPairReceived("isEqual");
-        }
-        else
-        {
-            emit signalXchangeTokenPairReceived(rcvData);
-        }
-    });
-
-//    DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
-//    connect(this, &DapServiceController::logUpdated, [=] (const QVariant& rcvData)
-//    {
-//        qDebug() << "DapServiceController::rcvXchangeTokenPair";
-
-//        if(!rcvData.isValid())
-//            return ;
-
-//        if (rcvData.toString() == "isEqual")
-//        {
-//            qDebug() << "rcvXchangeTokenPair isEqual";
-//            emit signalXchangeTokenPairReceived("isEqual");
-//        }
-//        else
-//        {
-//            emit signalXchangeTokenPairReceived(rcvData);
-//        }
-//    });
 
 
     registerEmmitedSignal();

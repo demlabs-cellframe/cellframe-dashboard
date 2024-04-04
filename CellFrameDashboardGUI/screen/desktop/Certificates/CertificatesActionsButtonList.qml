@@ -110,6 +110,10 @@ Item {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
+
+                DapCustomToolTip{
+                    contentText: qsTr("Create certificate")
+                }
             }
 
             DapButton {
@@ -129,6 +133,10 @@ Item {
                 onClicked:
                 {
                     importFileDialog.open()
+                }
+
+                DapCustomToolTip{
+                    contentText: qsTr("Import certificate")
                 }
             }
             FileDialog {
@@ -158,6 +166,10 @@ Item {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
+
+                DapCustomToolTip{
+                    contentText: qsTr("Export private certificate to public")
+                }
             }
 
 
@@ -174,6 +186,10 @@ Item {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
+
+                DapCustomToolTip{
+                    contentText: qsTr("Export certificate to mempool")
+                }
             }
 
 
@@ -191,6 +207,10 @@ Item {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
+
+                DapCustomToolTip{
+                    contentText: qsTr("Add signature to certificate")
+                }
             }
 
             DapButton {
@@ -207,6 +227,10 @@ Item {
 
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
+
+                DapCustomToolTip{
+                    contentText: qsTr("Delete certificate")
+                }
             }
 
             Item {

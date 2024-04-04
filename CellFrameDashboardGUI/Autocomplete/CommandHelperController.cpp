@@ -11,7 +11,7 @@ CommandHelperController::CommandHelperController(QObject *parent)
     loadDictionary();
     loadData();
     connect(s_serviceCtrl, &DapServiceController::signalNetState,[this](QVariantMap netState){
-        bool a=0;
+
         if(netState.contains("targetState") &&
             netState["targetState"] == "NET_STATE_ONLINE" && !isDictionary())
         {

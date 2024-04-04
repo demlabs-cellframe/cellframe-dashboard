@@ -1,6 +1,5 @@
-import QtQuick 2.12
+import QtQuick 2.15
 import QtQml 2.12
-
 
 QtObject
 {
@@ -63,6 +62,8 @@ QtObject
     property real chartCandleBegin: chartTextHeight + chartBorderHeight
 
     property int selectedCandleNumber: -1
+    property int controlSelectedCandleNumber: -1
+    property bool isChangeSelectedCandleNumber: false
 
 //    property int rightCandleNumber: 0
 
@@ -74,10 +75,16 @@ QtObject
     signal chandleSelected( var timeValue,
         var openValue, var highValue, var lowValue, var closeValue)
 
+
     function drawAll(ctx)
     {
+        if(!candleChartWorker.setPaintingStatus(true))
+        {
+            return
+        }
+
         if (!mouseVisible)
-            selectedCandleNumber = candleChartWorker.lastCandleNumber
+            setSelectedCandleNumber(candleChartWorker.lastCandleNumber)
 
         ctx.fillStyle = backgroundColor
 //        ctx.fillStyle = Qt.rgba(1, 1, 1, 1)
@@ -89,7 +96,7 @@ QtObject
         drawAverageChart(ctx, 1, "#2090cf")
         drawAverageChart(ctx, 2, "#4040af")
 
-//        drawPriceChart(ctx, "yellow")
+// //        drawPriceChart(ctx, "yellow")
 
         drawCandleChart(ctx)
 
@@ -105,6 +112,21 @@ QtObject
             drawSight(ctx)
 
 //        drawCandle(ctx, 200, 50, 60, 180, 205, 50, "red")
+
+        candleChartWorker.setPaintingStatus(false)
+    }
+
+    function updateChart()
+    {
+        //updateTokenPrice()
+
+        // candleChartWorker.updateAllModels()
+        if(!candleChartWorker.setPaintingStatus(true))
+        {
+            return
+        }
+        dataAnalysis()
+        chartCanvas.requestPaint()
     }
 
     function dataAnalysis()
@@ -129,7 +151,6 @@ QtObject
         getRoundedStepPrice()
 
         getRoundedStepTime()
-
     }
 
     function getRoundedStepPrice()
@@ -284,9 +305,7 @@ QtObject
     {
         if (candleChartWorker.zoomTime(step))
         {
-            dataAnalysis()
-
-            chartCanvas.requestPaint()
+            updateChart()
         }
     }
 
@@ -295,10 +314,7 @@ QtObject
         if (step !== 0)
         {
             candleChartWorker.shiftTime(step / coefficientTime)
-
-            dataAnalysis()
-
-            chartCanvas.requestPaint()
+            updateChart()
         }
     }
 
@@ -315,6 +331,7 @@ QtObject
         }
 
         var currentY = roundedMaxPrice
+
         while (currentY > minDrawPrice)
         {
             drawHorizontalLine(ctx,
@@ -324,7 +341,6 @@ QtObject
 //            print(currentY)
             currentY -= roundedStepPrice
         }
-
     }
 
     function drawGridText(ctx)
@@ -461,18 +477,14 @@ QtObject
             var info1 = candleChartWorker.getAveragedInfo(chart, i)
             var info2 = candleChartWorker.getAveragedInfo(chart, i+1)
 
-//            print("info1", i, info1.time, info1.price,
-//                  "info2", i+1, info2.time, info2.price)
+            // console.log("info1 i = " + i + " time = " + info1.time + " price = " + info1.price +
+            //       "\n info2 i =" + i+1 + " time = " + info2.time + " price = " + info2.price)
 
             drawChartLine(ctx,
-                (info1.time - candleChartWorker.rightTime +
-                    candleChartWorker.visibleTime)*coefficientTime,
-                (maxDrawPrice - info1.price)*coefficientPrice +
-                    chartCandleBegin,
-                (info2.time - candleChartWorker.rightTime +
-                    candleChartWorker.visibleTime)*coefficientTime,
-                (maxDrawPrice - info2.price)*coefficientPrice +
-                    chartCandleBegin,
+                (info1.time - candleChartWorker.rightTime + candleChartWorker.visibleTime)*coefficientTime,
+                (maxDrawPrice - info1.price)*coefficientPrice + chartCandleBegin,
+                (info2.time - candleChartWorker.rightTime + candleChartWorker.visibleTime)*coefficientTime,
+                (maxDrawPrice - info2.price)*coefficientPrice + chartCandleBegin,
                 color)
         }
     }
@@ -485,7 +497,10 @@ QtObject
         var selectedChange = false
 
         if (mouseX > chartWidth)
-            selectedCandleNumber = candleChartWorker.lastCandleNumber
+        {
+            setSelectedCandleNumber(candleChartWorker.lastCandleNumber)
+        }
+
 
         for (var i = candleChartWorker.firstVisibleCandle;
              i <= candleChartWorker.lastVisibleCandle; ++i)
@@ -518,12 +533,16 @@ QtObject
                 candleX > mouseX - mouseCandleWidth*0.5 &&
                 candleX < mouseX + mouseCandleWidth*0.5)
             {
+
+                if (controlSelectedCandleNumber !== i)
+                {
+                    controlSelectedCandleNumber = i
+                }
+
                 if (selectedCandleNumber !== i)
                 {
-                    selectedCandleNumber = i
-
+                    setSelectedCandleNumber(i)
                     selectedChange = true
-//                    print("selectedCandle", selectedCandle)
                 }
 
             }
@@ -554,12 +573,9 @@ QtObject
         if (selectedChange ||
             selectedCandleNumber === candleChartWorker.lastCandleNumber)
         {
-//            print("selectedChange", selectedChange,
-//                  selectedCandleNumber, candleChartWorker.lastCandleNumber)
-
             var selCandle = candleChartWorker.getCandleInfo(selectedCandleNumber)
 
-            if (candle.open !== undefined)
+            if (candle.open !== "undefined")
                 chandleSelected(
                             selCandle.time,
                             selCandle.open,
@@ -757,4 +773,34 @@ QtObject
         }
     }
 
+    function tryBlocedSelectedCandleNumber()
+    {
+        console.log("Clicked on ", controlSelectedCandleNumber, " candle.")
+        isChangeSelectedCandleNumber = false
+        setSelectedCandleNumber(controlSelectedCandleNumber)
+        isChangeSelectedCandleNumber = true
+        var selCandle = candleChartWorker.getCandleInfo(controlSelectedCandleNumber)
+
+        if (selCandle.open !== "undefined")
+            chandleSelected(
+                        selCandle.time,
+                        selCandle.open,
+                        selCandle.maximum,
+                        selCandle.minimum,
+                        selCandle.close)
+    }
+
+    function resetIsChangeSelectedCandleNumber()
+    {
+        isChangeSelectedCandleNumber = false
+    }
+
+    function setSelectedCandleNumber(number)
+    {
+        if(!isChangeSelectedCandleNumber)
+        {
+            selectedCandleNumber = number
+            controlSelectedCandleNumber = number
+        }
+    }
 }

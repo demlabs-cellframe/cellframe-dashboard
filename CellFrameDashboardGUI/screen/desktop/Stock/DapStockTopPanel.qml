@@ -64,7 +64,7 @@ Controls.DapTopPanel
             Layout.fillHeight: true
             Layout.topMargin: 9
             Layout.bottomMargin: 9
-            Layout.leftMargin: 4
+            Layout.leftMargin: 2
             width: 220
             displayText: walletModule.currentWalletName
             font: mainFont.dapFont.regular14
@@ -134,7 +134,7 @@ Controls.DapTopPanel
             mainTextRole: "tokenName"
             onModelChanged:
             {
-                if (popupListView.currentIndex < 0)
+                if (tokenComboBox.currentIndex < 0)
                 {
                     walletModule.setCurrentTokenDEX(defaultText)
                 }
@@ -154,7 +154,17 @@ Controls.DapTopPanel
                 walletModule.setCurrentTokenDEX(displayText)
                 updateBalance()
             }
-            
+
+            Connections
+            {
+                target: dexTokenModel
+                function onListTokenChanged()
+                {
+                    var cur_token = dexTokenModel.getFirstToken()
+                    walletModule.setCurrentTokenDEX(cur_token)
+                    tokenComboBox.displayText = cur_token
+                }
+            }
         }
 
         Item{

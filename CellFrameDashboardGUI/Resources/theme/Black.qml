@@ -35,6 +35,7 @@ QtObject {
     readonly property color redHover                      : "#CC4C4C"
     readonly property color darkYellow                    : "#E4E111"
     readonly property color lightGreen                    : "#CAFC33"
+    readonly property color coral                         : "#10E3C1"
     readonly property color neon                          : "#79FFFA"
     readonly property color lime                          : "#DBFF71"
 

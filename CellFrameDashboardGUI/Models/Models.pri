@@ -4,6 +4,7 @@ HEADERS += \
     $$PWD/DapWalletListModel.h \
     $$PWD/DapOrdersModel.h \
     $$PWD/DapHistoryModel.h \
+    $$PWD/DapHistoryProxyModel.h \
     $$PWD/DapDiagnosticModel.h \
     $$PWD/DapListWalletsModel.h \
     $$PWD/DapTokensWalletModel.h \
@@ -22,6 +23,7 @@ SOURCES += \
     $$PWD/DapWalletListModel.cpp \
     $$PWD/DapOrdersModel.cpp \
     $$PWD/DapHistoryModel.cpp \
+    $$PWD/DapHistoryProxyModel.cpp \
     $$PWD/DapDiagnosticModel.cpp \
     $$PWD/DapTokensWalletModel.cpp \
     $$PWD/DapListWalletsModel.cpp \

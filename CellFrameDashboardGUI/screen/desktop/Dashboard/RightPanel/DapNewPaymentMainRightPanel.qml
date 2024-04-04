@@ -55,7 +55,7 @@ DapNewPaymentMainRightPanelForm
                 console.warn("An attempt to transfer tokens to your address.")
                 dapTextNotEnoughTokensWarning.text = qsTr("Error. An attempt to transfer tokens to your address.")
             }
-            else if (dapTextInputRecipientWalletAddress.text.length != 104)
+            else if (dapTextInputRecipientWalletAddress.text.length != 104 && dapTextInputRecipientWalletAddress.text != "null")
             {
                 console.log("Wrong address length")
                 dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
@@ -173,7 +173,7 @@ DapNewPaymentMainRightPanelForm
         {
             if(dapComboBoxToken.model.count > 0)
             {
-                dapComboBoxToken.currentIndex = 0;
+                dapComboBoxToken.setCurrentIndex(0)
                 dapComboBoxToken.displayText = walletTokensModel.get(0).tokenName
             }
         }

@@ -168,6 +168,18 @@ DapRectangleLitAndShaded {
                     copyButton.popupText: qsTr("Atom copied")
                     visible: detailsModel.get(0).atom !== ""
                 }
+
+                TextDetailsTx {
+                    title.text: qsTr("Receive from xchange")
+                    content.text:
+                    {
+                        var str = detailsModel.get(0).x_direction === "from" ? "+" : "-"
+                        str += " " + detailsModel.get(0).x_value + " " + detailsModel.get(0).x_token
+                        return str
+                    }
+                    title.color: currTheme.gray
+                    visible: detailsModel.get(0).x_value !== ""
+                }
                 Item{
                     height: 10
                 }
