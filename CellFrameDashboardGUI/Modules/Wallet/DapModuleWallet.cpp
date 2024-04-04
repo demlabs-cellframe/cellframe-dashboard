@@ -270,7 +270,10 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     m_modulesCtrl->setCurrentWallet(m_currentWallet);
     if(!m_currentWallet.second.isEmpty())
     {
-        m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
+        if(m_walletsInfo.contains(m_currentWallet.second))
+        {
+            m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
+        }
         updateDexTokenModel();
     }
     else
@@ -449,7 +452,11 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
         emit walletsModelChanged();
     }
     updateDexTokenModel();
-    m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
+    if(m_walletsInfo.contains(m_currentWallet.second))
+    {
+        m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
+    }
+    
     m_walletModel->updateWallets(m_walletsInfo);
     emit walletsModelChanged();
     updateBalanceDEX();
@@ -458,10 +465,14 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
 void DapModuleWallet::updateDexTokenModel()
 {
     QList<CommonWallet::WalletTokensInfo> tokenInfoConteiner;
-    for(const auto& networkItem: m_walletsInfo[m_currentWallet.second].walletInfo)
+    if(m_walletsInfo.contains(m_currentWallet.second))
     {
-        tokenInfoConteiner.append(networkItem.networkInfo);
+        for(const auto& networkItem: m_walletsInfo[m_currentWallet.second].walletInfo)
+        {
+            tokenInfoConteiner.append(networkItem.networkInfo);
+        }        
     }
+
     m_DEXTokenModel->updateAllToken(tokenInfoConteiner);
     m_tokenFilterModelDEX->updateCount();
 }

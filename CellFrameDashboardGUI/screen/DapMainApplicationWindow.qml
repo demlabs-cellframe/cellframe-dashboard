@@ -670,7 +670,7 @@ Rectangle {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
                 logicMainApp.rcvNewVersion(settingsModule.dashboardVersion, versionResult)
             else
-                console.log(versionResult.message)
+                console.log("The version value cannot be retrieved. Reply: ", versionResult.message)
         }
     }
 
