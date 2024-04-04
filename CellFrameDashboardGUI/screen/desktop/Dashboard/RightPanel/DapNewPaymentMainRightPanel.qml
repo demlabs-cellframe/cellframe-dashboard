@@ -173,7 +173,7 @@ DapNewPaymentMainRightPanelForm
         {
             if(dapComboBoxToken.model.count > 0)
             {
-                dapComboBoxToken.currentIndex = 0;
+                dapComboBoxToken.setCurrentIndex(0)
                 dapComboBoxToken.displayText = walletTokensModel.get(0).tokenName
             }
         }
