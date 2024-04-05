@@ -205,11 +205,7 @@ void DapModuleWallet::setCurrentWallet(int index)
     {
         newWallet = {0, m_walletsInfo.first().walletName};
     }
-
-    if(newWallet.first != m_currentWallet.first)
-    {
-        setNewCurrentWallet(std::move(newWallet));
-    }
+    setNewCurrentWallet(std::move(newWallet));
 }
 
 void DapModuleWallet::setCurrentWallet(const QString& walletName)
@@ -233,11 +229,7 @@ void DapModuleWallet::setCurrentWallet(const QString& walletName)
     {
         newWallet = {0, m_walletsInfo.first().walletName};
     }
-
-    if(newWallet.first != m_currentWallet.first)
-    {
-        setNewCurrentWallet(std::move(newWallet));
-    }
+    setNewCurrentWallet(std::move(newWallet));
 }
 
 int DapModuleWallet::getIndexWallet(const QString& walletName) const
@@ -448,6 +440,7 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
         }
         emit walletsModelChanged();
     }
+
     updateDexTokenModel();
     m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
     m_walletModel->updateWallets(m_walletsInfo);
