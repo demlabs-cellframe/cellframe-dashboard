@@ -13,8 +13,4 @@ Page {
     {
         color: currTheme.mainBackground
     }
-
-    Component.onCompleted: {
-        console.log("[KTT]", "onCompleted")
-    }
 }

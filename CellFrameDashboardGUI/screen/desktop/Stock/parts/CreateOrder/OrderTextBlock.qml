@@ -68,6 +68,11 @@ Rectangle
                 }
             }
 
+            onFocusChanged:
+            {
+                textValue.cursorPosition = 0
+            }
+
             function setText(text)
             {
                 isInputText = false

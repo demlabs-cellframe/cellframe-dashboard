@@ -146,15 +146,14 @@ ColumnLayout {
                 }
                 tmpPriceValue = ""
 
-                if(dexModule.isValidValue(amount.textValue) && dexModule.isValidValue(textValue))
-                {
-                    total.textElement.text = dexModule.multCoins(amount.textValue, price.textValue)
-                }
-                else if(dexModule.isValidValue(textValue) && dexModule.isValidValue(total.textValue))
-                {
-                    amount.textElement.text = dexModule.multCoins(total.textValue, dexModule.invertValue(price.textValue))
-                }
+                total.textElement.text = dexModule.multCoins(amount.textValue, price.textValue)
+
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
+            }
+
+            onTextValueChanged:
+            {
+                if(!textElement.activeFocus) textElement.cursorPosition = 0
             }
         }
 
@@ -235,20 +234,11 @@ ColumnLayout {
                 return
             }
 
-            if(parentPage === "BUY_SELL")
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
             {
-                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                {
-                    total.textElement.setText(dexModule.multCoins(textValue, dexModule.invertValue(price.textValue)))
-                }
-            }
-            else
-            {
-                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                {
-                    total.textElement.setText(dexModule.multCoins(textValue, price.textValue))
-                }                
-             }
+                total.textElement.setText(dexModule.divCoins(textValue, price.textValue))
+            }                
+
                 
             createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
         }
@@ -418,18 +408,11 @@ ColumnLayout {
             {
                 return
             }
-            if(parentPage === "BUY_SELL")
-            {
-                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    amount.textElement.setText(dexModule.multCoins(textValue, price.textValue))
-                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-            }
-            else
-            {
-                if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
-                    amount.textElement.setText(dexModule.multCoins(textValue, dexModule.invertValue(price.textValue)))
-                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)                
-            }
+
+            if(dexModule.isValidValue(price.textValue) && dexModule.isValidValue(textValue))
+                amount.textElement.setText(dexModule.multCoins(textValue, price.textValue))
+            createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)                
+
         }
 
         onTextValueChanged: {

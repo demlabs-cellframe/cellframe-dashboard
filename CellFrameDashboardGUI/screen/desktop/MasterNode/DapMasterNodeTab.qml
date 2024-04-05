@@ -30,7 +30,6 @@ DapPage {
 
     Component.onCompleted:
     {
-        console.log("[KTT]", "onCompleted")
 //        logicMainApp.requestToService("DapCertificateManagerCommands", 1)
 //        logicMainApp.requestToService("DapGetListTokensCommand","")
 //        ordersModule.statusProcessing = true
@@ -38,7 +37,6 @@ DapPage {
 
     Component.onDestruction:
     {
-        console.log("[KTT]", "onDestruction")
         //ordersModule.statusProcessing = false
     }
 
