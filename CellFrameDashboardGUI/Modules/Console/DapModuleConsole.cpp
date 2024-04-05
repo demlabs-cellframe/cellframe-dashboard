@@ -16,8 +16,6 @@ DapModuleConsole::DapModuleConsole(DapModulesController *parent)
 
 void DapModuleConsole::runCommand(const QString &command)
 {
-//    qDebug() << "DapModuleConsole::runCommand" << command;
-
     QVariantList args;
     args.append(command);
     args.append("isConsole");
@@ -25,7 +23,8 @@ void DapModuleConsole::runCommand(const QString &command)
 
     s_serviceCtrl->requestToService("DapRunCmdCommand", args);
 
-    s_serviceCtrl->notifyService("DapSaveHistoryExecutedCmdCommand", args);
+    if(!command.contains("-password"))
+        s_serviceCtrl->notifyService("DapSaveHistoryExecutedCmdCommand", args);
 }
 
 void DapModuleConsole::getAnswer(const QVariant &answer)

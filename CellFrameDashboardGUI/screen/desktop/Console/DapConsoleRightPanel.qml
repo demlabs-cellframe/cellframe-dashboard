@@ -165,6 +165,9 @@ Page
 
     onCommandQueryChanged:
     {
+        if(commandQuery.search("-password") > -1)
+            return
+
         var query_str = parsingTime(commandQuery, 1)
         var time_str = parsingTime(commandQuery, 2)
 

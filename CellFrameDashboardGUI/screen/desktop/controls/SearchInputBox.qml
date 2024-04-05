@@ -39,6 +39,8 @@ DapTextField {
         filtering.filter(text)
     }
 
+    Keys.onReturnPressed: focus = true
+
 
     //optional
 //            onAccepted: {
