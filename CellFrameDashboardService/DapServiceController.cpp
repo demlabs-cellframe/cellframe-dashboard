@@ -12,9 +12,11 @@
 #include "handlers/DapGetWalletInfoCommand.h"
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
+#include "handlers/DapCreateTransactionCommandStack.h"
+#include "handlers/DapGetOnceWalletInfoCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
-#include "handlers/DapCreateTransactionCommand.h"
+//#include "handlers/DapCreateTransactionCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapGetAllWalletHistoryCommand.h"
@@ -50,6 +52,8 @@
 #include "handlers/DapCreatePassForWallet.h"
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
+#include "handlers/MempoolCheckCommand.h"
+#include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -102,6 +106,12 @@ DapServiceController::~DapServiceController()
     m_threadPool.clear();
     m_servicePool.clear();
 
+    DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+    if(controller)
+    {
+        controller->deleteTransactionController();
+    }
+
     if(m_threadNotify)
     {
         m_threadNotify->quit();
@@ -144,6 +154,7 @@ bool DapServiceController::start()
         connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
         // Register command
         initServices();
+        initAdditionalParamrtrsService();
         // Send data from notify socket to client
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
@@ -159,6 +170,9 @@ bool DapServiceController::start()
         qCritical() << m_pServer->errorString();
         return false;
     }
+
+    qInfo() << "Service started";
+    emit onServiceStarted();
     return true;
 }
 
@@ -211,7 +225,8 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapNetworkSingleSyncCommand          ("DapNetworkSingleSyncCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr));
     m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , nullptr, CLI_PATH));
-    m_servicePool.append(new DapCreateTransactionCommand          ("DapCreateTransactionCommand"          , nullptr, CLI_PATH));
+    m_servicePool.append(new DapCreateTransactionCommandStack     ("DapCreateTransactionCommand"          , nullptr, CLI_PATH));
+    m_servicePool.append(new DapGetOnceWalletInfoCommand          ("DapGetOnceWalletInfoCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapMempoolProcessCommand             ("DapMempoolProcessCommand"             , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetWalletHistoryCommand           ("DapGetWalletHistoryCommand"           , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetAllWalletHistoryCommand        ("DapGetAllWalletHistoryCommand"        , nullptr, CLI_PATH));
@@ -238,9 +253,15 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreatePassForWallet               ("DapCreatePassForWallet"               , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
+    m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
 
     for(auto& service: qAsConst(m_servicePool))
     {
+        if(m_onceThreadList.contains(service->getName()))
+        {
+            m_pServer->addService(service);
+            continue;
+        }
         QThread * thread = new QThread(m_pServer);
         service->moveToThread(thread);
         connect(thread, &QThread::finished, m_pServer, &QObject::deleteLater);
@@ -257,5 +278,50 @@ void DapServiceController::initServices()
     m_pServer->addService(new DapWebBlockList           ("DapWebBlockList"           , m_pServer));
     m_pServer->addService(new DapRcvNotify              ("DapRcvNotify"              , m_pServer));
     m_pServer->addService(new DapQuitApplicationCommand ("DapQuitApplicationCommand" , m_pServer));
+}
 
+void DapServiceController::initAdditionalParamrtrsService()
+{
+    if(m_servicePool.isEmpty())
+    {
+        qWarning() << "An error occurred while initializing the service";
+    }
+    DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+    if(!controller)
+    {
+        qWarning() << "DapTransactionQueueController have a problem";
+        return;
+    }
+
+    connect(this, &DapServiceController::onServiceStarted, controller, &DapTransactionQueueController::onInit);
+    for(auto& service: m_servicePool)
+    {
+        if(service->getName() == "MempoolCheckCommand")
+        {
+            DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(service);
+            connect(controller, &DapTransactionQueueController::toGetTransactionData, command, &DapAbstractCommand::toDataSignal);
+            connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::transactionDataReceived);
+        }
+        if(service->getName() == "DapGetOnceWalletInfoCommand")
+        {
+            DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(service);
+            connect(controller, &DapTransactionQueueController::toGetWalletInfo, command, &DapAbstractCommand::toDataSignal);
+            connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::walletInfoReceived);
+        }
+        if(service->getName() == "DapGetWalletsInfoCommand")
+        {
+            DapGetWalletsInfoCommand* command = dynamic_cast<DapGetWalletsInfoCommand*>(service);
+            connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletsInfoCommand::queueDataUpdate);
+        }
+        if(service->getName() == "DapGetWalletInfoCommand")
+        {
+            DapGetWalletInfoCommand* command = dynamic_cast<DapGetWalletInfoCommand*>(service);
+            connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletInfoCommand::queueDataUpdate);
+        }
+        if(service->getName() == "DapGetAllWalletHistoryCommand")
+        {
+            DapGetAllWalletHistoryCommand* command = dynamic_cast<DapGetAllWalletHistoryCommand*>(service);
+            connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetAllWalletHistoryCommand::queueDataUpdate);
+        }
+    }
 }

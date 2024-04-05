@@ -50,12 +50,12 @@ public:
 
 private:
     void initServices();
-    
+    void initAdditionalParamrtrsService();
 signals:
     /// The signal is emitted in case of successful connection of a new client.
     void onNewClientConnected();
     void onClientDisconnected();
-    
+    void onServiceStarted();
 private slots:
     void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
@@ -73,6 +73,8 @@ private:
     QList<QThread*> m_threadPool;
     QThread* m_threadNotify;
     QList<DapRpcService*> m_servicePool;
+
+    QSet<QString> m_onceThreadList = {"DapCreateTransactionCommand", "DapXchangeOrderCreate"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

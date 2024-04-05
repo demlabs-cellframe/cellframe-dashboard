@@ -34,6 +34,19 @@ QtObject {
     readonly property color progressBarColor2     : "#FFCD43"
     readonly property color progressBarColor3     : "#FF5F5F"
 
+    //Colors
+    readonly property color white                         : "#ffffff"
+    readonly property color gray                          : "#B2B2B2"
+    readonly property color green                         : "#84BE00"
+    readonly property color greenHover                    : "#6A9900"
+    readonly property color orange                        : "#FFCD44"
+    readonly property color red                           : "#FF5F5F"
+    readonly property color redHover                      : "#CC4C4C"
+    readonly property color darkYellow                    : "#E4E111"
+    readonly property color lightGreen                    : "#CAFC33"
+    readonly property color neon                          : "#79FFFA"
+    readonly property color lime                          : "#DBFF71"
+
     //Text colors
     readonly property color textColor              : "#ffffff" // OK
     readonly property color textColorGray          : "#B4B1BD" // OK

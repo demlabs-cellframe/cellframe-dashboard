@@ -532,7 +532,14 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
                         token.ticker = tokenObject["name"].toString();
                         token.tokenName = tokenObject["name"].toString();
                     }
-
+                    if(tokenObject.contains("availableDatoshi"))
+                    {
+                        token.availableDatoshi = tokenObject["availableDatoshi"].toString();
+                    }
+                    if(tokenObject.contains("availableCoins"))
+                    {
+                        token.availableCoins = tokenObject["availableCoins"].toString();
+                    }                    
                     networkInfo.networkInfo.append(token);
                 }
             }

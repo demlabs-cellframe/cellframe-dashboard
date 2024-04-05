@@ -216,10 +216,11 @@ DapRectangleLitAndShaded
                                 horizontalAlignment: Text.AlignLeft
                             }
 
-                            Item{
+                            Item
+                            {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
-
+                                visible: availableCoins === ""
                                 DapBigText
                                 {
                                     id: currencySum
@@ -230,15 +231,85 @@ DapRectangleLitAndShaded
                                 }
                             }
 
-
-
                             Text
                             {
                                 id: currencyCode
+                                visible: availableCoins === ""
                                 font: mainFont.dapFont.regular14
                                 color: currTheme.white
                                 text: tiker
                                 horizontalAlignment: Text.AlignRight
+                            }
+
+                            ColumnLayout
+                            {
+                                visible: availableCoins
+                                Layout.fillWidth: false
+                                Layout.fillHeight: true
+                                Layout.alignment: Qt.AlignRight
+                                spacing: 4
+
+                                RowLayout
+                                {
+                                    Layout.fillWidth: true
+
+                                    Text
+                                    {
+                                        Layout.fillWidth: true
+                                        font: mainFont.dapFont.regular12
+                                        color: currTheme.textColorGrayTwo
+                                        text: qsTr("full balance:")
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+
+                                    DapBigText
+                                    {
+                                        textFont: mainFont.dapFont.regular12
+                                        textColor: currTheme.textColor
+                                        fullText: value
+                                        horizontalAlign: Text.AlignRight
+                                        width: textElement.implicitWidth
+                                    }
+
+                                    Text
+                                    {
+                                        font: mainFont.dapFont.regular12
+                                        color: currTheme.textColor
+                                        text: tiker
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+                                }
+
+                                RowLayout
+                                {
+                                    Layout.fillWidth: true
+
+                                    Text
+                                    {
+                                        Layout.fillWidth: true
+                                        font: mainFont.dapFont.regular12
+                                        color: currTheme.lime
+                                        text: qsTr("available balance:")
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+
+                                    DapBigText
+                                    {
+                                        textFont: mainFont.dapFont.regular12
+                                        textColor: currTheme.textColor
+                                        fullText: availableCoins
+                                        horizontalAlign: Text.AlignRight
+                                        width: textElement.implicitWidth
+                                    }
+
+                                    Text
+                                    {
+                                        font: mainFont.dapFont.regular12
+                                        color: currTheme.textColor
+                                        text: tiker
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+                                }
                             }
                         }
 
