@@ -146,7 +146,7 @@ ColumnLayout {
                 }
                 tmpPriceValue = ""
 
-                total.textElement.setText(dexModule.multCoins(amount.textValue, price.textValue))
+                total.textElement.setText(dexModule.divCoins(amount.textValue, price.textValue))
 
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
