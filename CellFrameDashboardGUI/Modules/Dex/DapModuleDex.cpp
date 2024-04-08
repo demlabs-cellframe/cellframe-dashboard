@@ -79,6 +79,21 @@ void DapModuleDex::onInit()
     connect(m_curentTokenPairUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestCurrentTokenPairs);
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestHistoryOrders);
     connect(this, &DapModuleDex::txListChanged, m_proxyModel, &OrdersHistoryProxyModel::tryUpdateFilter);
+    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    {
+        if(m_statusProcessing)
+        {
+            m_allTakenPairsUpdateTimer->start(ALL_TOKEN_UPDATE_TIMEOUT);
+            m_ordersHistoryUpdateTimer->start(ORDERS_HISTORY_UPDATE_TIMEOUT);
+            m_curentTokenPairUpdateTimer->start(CURRENT_TOKEN_UPDATE_TIMEOUT);
+        }
+        else
+        {
+            m_allTakenPairsUpdateTimer->stop();
+            m_ordersHistoryUpdateTimer->stop();
+            m_curentTokenPairUpdateTimer->stop();
+        }
+    });
 
 }
 
