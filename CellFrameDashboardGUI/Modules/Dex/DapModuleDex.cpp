@@ -513,7 +513,7 @@ QString DapModuleDex::minusCoins(const QString& a, const QString& b)
 
     if(b.isEmpty() || b == "0.0" || b == "0")
     {
-        return "0.0";
+        return a;
     }
     QString resB(b);
     if(!resB.contains('.'))
@@ -658,7 +658,6 @@ void DapModuleDex::setStepChart(const int &index)
 
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
-    qDebug() << "[TEST] setCurrentTokenPair name pair = " << namePair;
     if(namePair.isEmpty())
     {
         m_currentPair = DEX::InfoTokenPair();
