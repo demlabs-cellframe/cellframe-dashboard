@@ -16,7 +16,6 @@
 #include "handlers/DapGetOnceWalletInfoCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
-//#include "handlers/DapCreateTransactionCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapGetAllWalletHistoryCommand.h"
@@ -137,7 +136,7 @@ bool DapServiceController::start()
     m_threadNotify->start();
 
 //    m_syncControll = new DapNetSyncController(watcher, this);
-    m_web3Controll = new DapWebControll(this);
+    m_web3Controll = new DapWebControllerForService(this);
 //    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
@@ -155,6 +154,7 @@ bool DapServiceController::start()
         // Register command
         initServices();
         initAdditionalParamrtrsService();
+        m_web3Controll->setCommandList(&m_servicePool);
         // Send data from notify socket to client
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
