@@ -198,5 +198,8 @@ bool DapHistoryProxyModel::checkText(const DapHistoryModel::Item& item, const QS
     if (item.value.toLower().indexOf(fstr) >= 0)
         return true;
 
+    if(item.tx_hash.toLower().indexOf(fstr) >= 0)
+        return true;
+
     return false;
 }
