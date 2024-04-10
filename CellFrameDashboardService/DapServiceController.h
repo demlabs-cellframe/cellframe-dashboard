@@ -24,7 +24,7 @@ typedef class DapRpcTCPServer DapUiService;
 typedef class DapRpcLocalServer DapUiService;
 #endif
 
-#include "DapWebControll.h"
+#include "DapWebControllerForService.h"
 
 #include "DapNotificationWatcher.h"
 #include "DapNetSyncController.h"
@@ -68,7 +68,7 @@ private:
 
     DapNotificationWatcher *m_watcher;
     DapNetSyncController *m_syncControll;
-    DapWebControll *m_web3Controll;
+    DapWebControllerForService *m_web3Controll;
 
     QList<QThread*> m_threadPool;
     QThread* m_threadNotify;
