@@ -212,6 +212,7 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 {
                 case GetNetworks:
                 case GetWallets:
+                case GetVersions:
                     break;
 //                case GetDataWallet:      doc = _cmdController->getDataWallets(walletName); break;
 //                case SendTransaction:    doc = _cmdController->sendTransaction(walletName, addr, value, tokenName, net); break;
@@ -229,7 +230,6 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case GetOrdersList:      doc = _cmdController->getOrdersList(net, direction, srv_uid, unit, tokenName, price_min, price_max); break;
 //                case CreateOrder:        doc = _cmdController->createOrder(net, direction, srv_uid, value, unit, tokenName, addr, hashTx, expires, certName, ext, region, continent, units); break;
 //                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;
-//                case GetVersions:        doc = _cmdController->getVersions(); break;
 //                case NodeAdd:            doc = _cmdController->nodeAdd(net, addr, ip, port); break;
 //                case GetNodeIP:          doc = _cmdController->getNodeIP(net, addr, jsonArray); break;
 //                case NodeDump:           doc = _cmdController->nodeDump(net); break;
