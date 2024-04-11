@@ -254,6 +254,11 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
     m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
+    m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer));
+    m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
+    m_servicePool.append(new DapWebBlockList                      ("DapWebBlockList"                      , m_pServer));
+    m_servicePool.append(new DapRcvNotify                         ("DapRcvNotify"                         , m_pServer));
+    m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
 
     for(auto& service: qAsConst(m_servicePool))
     {
@@ -271,13 +276,6 @@ void DapServiceController::initServices()
         m_threadPool.append(thread);
         m_pServer->addService(service);
     }
-
-    //Need server parent for work.
-    m_pServer->addService(new DapVersionController      ("DapVersionController"      , m_pServer));
-    m_pServer->addService(new DapWebConnectRequest      ("DapWebConnectRequest"      , m_pServer));
-    m_pServer->addService(new DapWebBlockList           ("DapWebBlockList"           , m_pServer));
-    m_pServer->addService(new DapRcvNotify              ("DapRcvNotify"              , m_pServer));
-    m_pServer->addService(new DapQuitApplicationCommand ("DapQuitApplicationCommand" , m_pServer));
 }
 
 void DapServiceController::initAdditionalParamrtrsService()
