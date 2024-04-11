@@ -38,7 +38,7 @@
 #include "handlers/DapGetXchangeTxList.h"
 #include "handlers/stackCommand/DapXchangeOrderCreateStack.h"
 #include "handlers/DapXchangeOrderRemove.h"
-#include "handlers/DapXchangeOrderPurchase.h"
+#include "handlers/stackCommand/DapXchangeOrderPurchaseStack.h"
 #include "handlers/DapGetXchangeOrdersList.h"
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
@@ -245,7 +245,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetXchangeTokenPriceAverage       ("DapGetXchangeTokenPriceAverage"       , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetXchangeTokenPriceHistory       ("DapGetXchangeTokenPriceHistory"       , nullptr, CLI_PATH));
     m_servicePool.append(new DapDictionaryCommand                 ("DapDictionaryCommand"                 , nullptr, CLI_PATH));
-    m_servicePool.append(new DapXchangeOrderPurchase              ("DapXchangeOrderPurchase"              , nullptr));
+    m_servicePool.append(new DapXchangeOrderPurchaseStack         ("DapXchangeOrderPurchase"              , nullptr));
     m_servicePool.append(new DapWalletActivateOrDeactivateCommand ("DapWalletActivateOrDeactivateCommand" , nullptr, CLI_PATH));
     m_servicePool.append(new DapNodeRestart                       ("DapNodeRestart"                       , nullptr, CLI_PATH));
     m_servicePool.append(new DapRemoveChainsOrGdbCommand          ("DapRemoveChainsOrGdbCommand"          , nullptr, CLI_PATH));

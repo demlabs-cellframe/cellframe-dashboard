@@ -611,14 +611,14 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
         else
         {
             requestOrderPurchase(QStringList() << suitableOrder->hash << m_currentPair.network
-                                               << walletName << amountDatoshi << feeDatoshi);
+                                               << walletName << amountDatoshi << feeDatoshi << tokenSell);
         }
 
     }
     return "OK";
 }
 
-QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee)
+QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee, const QString& tokenName )
 {
     if(hash.isEmpty() || amount.isEmpty() || fee.isEmpty())
     {
@@ -650,7 +650,7 @@ QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount
     QString amountDatoshi = amount256.toDatoshiString();
 
     requestOrderPurchase(QStringList() << hash << m_currentPair.network
-                                       << walletName << amountDatoshi << feeDatoshi);
+                                       << walletName << amountDatoshi << feeDatoshi << tokenName);
 
     return "OK";
 }
