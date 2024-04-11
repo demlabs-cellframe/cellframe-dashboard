@@ -46,7 +46,7 @@ public:
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
 
-    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee);
+    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee, const QString &tokenName, const QString &amount);
 
     Q_PROPERTY(QString networkFilter READ getNetworkFilterText WRITE setNetworkFilterText NOTIFY networkFilterChanged)
     Q_INVOKABLE QString getNetworkFilterText() const { return m_networkFilter; }

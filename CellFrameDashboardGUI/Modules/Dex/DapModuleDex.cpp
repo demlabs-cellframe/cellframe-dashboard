@@ -822,9 +822,9 @@ void DapModuleDex::requestOrderCreate(const QStringList& params)
     m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderCreate", params);
 }
 
-void DapModuleDex::requestOrderDelete(const QString& network, const QString& hash, const QString& fee)
+void DapModuleDex::requestOrderDelete(const QString& network, const QString& hash, const QString& fee, const QString& tokenName, const QString& amount)
 {
     Dap::Coin feeInt = fee;
     QString feeDatoshi = feeInt.toDatoshiString();
-    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", QStringList() << network << hash << m_modulesCtrl->getCurrentWalletName() << feeDatoshi);
+    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", QStringList() << network << hash << m_modulesCtrl->getCurrentWalletName() << feeDatoshi << tokenName << amount);
 }
