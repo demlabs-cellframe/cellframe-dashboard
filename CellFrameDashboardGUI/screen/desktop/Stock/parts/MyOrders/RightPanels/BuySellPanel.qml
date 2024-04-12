@@ -127,7 +127,7 @@ DapRectangleLitAndShaded {
                 console.log("Wallet: " + walletResult)
                 if(walletResult === "OK")
                 {
-                    var createOrder = dexModule.tryExecuteOrder(logic.selectedItem.hash, resultAmount, walletModule.getFee(dexModule.networkPair).validator_fee)
+                    var createOrder = dexModule.tryExecuteOrder(logic.selectedItem.hash, resultAmount, walletModule.getFee(dexModule.networkPair).validator_fee, resultTokenName)
                     console.log("Order: " + createOrder)
                 }
                 else

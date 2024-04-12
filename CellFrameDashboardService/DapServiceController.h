@@ -75,12 +75,14 @@ private:
     QList<DapRpcService*> m_servicePool;
 
     QSet<QString> m_onceThreadList = { "DapCreateTransactionCommand"
-                                      ,"DapXchangeOrderCreate"
-                                      ,"DapVersionController"
-                                      ,"DapWebConnectRequest"
-                                      ,"DapWebBlockList"
-                                      ,"DapRcvNotify"
-                                      ,"DapQuitApplicationCommand"};
+                                    ,"DapXchangeOrderCreate"
+                                    ,"DapVersionController"
+                                    ,"DapWebConnectRequest"
+                                    ,"DapWebBlockList"
+                                    ,"DapRcvNotify"
+                                    ,"DapQuitApplicationCommand"
+                                    ,"DapXchangeOrderPurchase"
+                                    ,"DapXchangeOrderRemove"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

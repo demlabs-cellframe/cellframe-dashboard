@@ -29,11 +29,16 @@ private:
 private:
     QList<DapRpcService*>* m_servicePool = nullptr;
 
-    QMap<QString, QString> m_serviceSignals = {{"GetNetworks", "DapGetListNetworksCommand"},
-                                               {"GetWallets", "DapGetListWalletsCommand"}, {"GetVersions", "DapVersionController"},
-                                               {"GetTransactions", "DapTransactionListCommand"}, {"GetMempoolList", "DapMempoolListCommand"}};
-    QSet<QString> m_listCommand = {"DapGetListNetworksCommand", "DapGetListWalletsCommand", "DapVersionController", "DapTransactionListCommand", "DapMempoolListCommand"};
-
+    QMap<QString, QString> m_serviceSignals = {{"GetNetworks", "DapGetListNetworksCommand"}
+                                               , {"GetWallets", "DapGetListWalletsCommand"}
+                                               , {"GetVersions", "DapVersionController"}
+                                               , {"GetDataWallet", "DapGetWalletInfoCommand"}
+                                               , {"GetTransactions", "DapTransactionListCommand"}
+                                               , {"GetMempoolList", "DapMempoolListCommand"}};
+    QSet<QString> m_listCommand = {"DapGetListNetworksCommand", "DapGetListWalletsCommand", "DapVersionController"
+                                   , "DapGetWalletInfoCommand"
+                                   , "DapTransactionListCommand"
+                                   , "DapMempoolListCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
