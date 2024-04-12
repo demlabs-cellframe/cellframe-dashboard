@@ -46,7 +46,7 @@ public:
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
 
-    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee);
+    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee, const QString &tokenName, const QString &amount);
 
     Q_PROPERTY(QString networkFilter READ getNetworkFilterText WRITE setNetworkFilterText NOTIFY networkFilterChanged)
     Q_INVOKABLE QString getNetworkFilterText() const { return m_networkFilter; }
@@ -76,7 +76,7 @@ public:
     Q_INVOKABLE QString minusCoins(const QString& a, const QString& b);
 
     Q_INVOKABLE QString tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee);
-    Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee);
+    Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee, const QString &tokenName);
 
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 

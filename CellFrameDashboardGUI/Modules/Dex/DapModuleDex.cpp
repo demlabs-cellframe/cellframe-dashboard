@@ -611,14 +611,14 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
         else
         {
             requestOrderPurchase(QStringList() << suitableOrder->hash << m_currentPair.network
-                                               << walletName << amountDatoshi << feeDatoshi);
+                                               << walletName << amountDatoshi << feeDatoshi << tokenSell);
         }
 
     }
     return "OK";
 }
 
-QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee)
+QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee, const QString& tokenName )
 {
     if(hash.isEmpty() || amount.isEmpty() || fee.isEmpty())
     {
@@ -650,7 +650,7 @@ QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount
     QString amountDatoshi = amount256.toDatoshiString();
 
     requestOrderPurchase(QStringList() << hash << m_currentPair.network
-                                       << walletName << amountDatoshi << feeDatoshi);
+                                       << walletName << amountDatoshi << feeDatoshi << tokenName);
 
     return "OK";
 }
@@ -822,9 +822,9 @@ void DapModuleDex::requestOrderCreate(const QStringList& params)
     m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderCreate", params);
 }
 
-void DapModuleDex::requestOrderDelete(const QString& network, const QString& hash, const QString& fee)
+void DapModuleDex::requestOrderDelete(const QString& network, const QString& hash, const QString& fee, const QString& tokenName, const QString& amount)
 {
     Dap::Coin feeInt = fee;
     QString feeDatoshi = feeInt.toDatoshiString();
-    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", QStringList() << network << hash << m_modulesCtrl->getCurrentWalletName() << feeDatoshi);
+    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", QStringList() << network << hash << m_modulesCtrl->getCurrentWalletName() << feeDatoshi << tokenName << amount);
 }
