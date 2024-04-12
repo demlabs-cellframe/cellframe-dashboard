@@ -214,6 +214,12 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case GetWallets:
                 case GetVersions:
                     break;
+                case GetMempoolList:
+                    args << net << addr << chain;
+                    break;
+                case GetTransactions:
+                    args << net << addr;
+                    break;
 //                case GetDataWallet:      doc = _cmdController->getDataWallets(walletName); break;
 //                case SendTransaction:    doc = _cmdController->sendTransaction(walletName, addr, value, tokenName, net); break;
 //                case GetTransactions:    doc = _cmdController->getTransactions(addr, net); break;

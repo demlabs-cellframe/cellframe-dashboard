@@ -30,8 +30,10 @@ private:
     QList<DapRpcService*>* m_servicePool = nullptr;
 
     QMap<QString, QString> m_serviceSignals = {{"GetNetworks", "DapGetListNetworksCommand"},
-                                               {"GetWallets", "DapGetListWalletsCommand"}, {"GetVersions", "DapVersionController"}};
-    QSet<QString> m_listCommand = {"DapGetListNetworksCommand", "DapGetListWalletsCommand", "DapVersionController"};
+                                               {"GetWallets", "DapGetListWalletsCommand"}, {"GetVersions", "DapVersionController"},
+                                               {"GetTransactions", "DapTransactionListCommand"}, {"GetMempoolList", "DapMempoolListCommand"}};
+    QSet<QString> m_listCommand = {"DapGetListNetworksCommand", "DapGetListWalletsCommand", "DapVersionController", "DapTransactionListCommand", "DapMempoolListCommand"};
+
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
