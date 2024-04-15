@@ -30,14 +30,18 @@ private:
     QList<DapRpcService*>* m_servicePool = nullptr;
 
     QMap<QString, QString> m_serviceSignals = {{"GetNetworks", "DapGetListNetworksCommand"}
-                                                , {"GetWallets", "DapGetListWalletsCommand"}
-                                                , {"GetVersions", "DapVersionController"}
-                                                , {"GetDataWallet", "DapGetWalletInfoCommand"}
-                                                , {"CondTxCreate", "DapTXCondCreateCommand"}};
+                                               , {"GetWallets", "DapGetListWalletsCommand"}
+                                               , {"GetVersions", "DapVersionController"}
+                                               , {"GetDataWallet", "DapGetWalletInfoCommand"}
+                                               , {"GetTransactions", "DapTransactionListCommand"}
+                                               , {"GetMempoolList", "DapMempoolListCommand"}
+                                               , {"CondTxCreate", "DapTXCondCreateCommand"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
                                     , "DapGetWalletInfoCommand"
+                                    , "DapTransactionListCommand"
+                                    , "DapMempoolListCommand"
                                     , "DapTXCondCreateCommand"};
 
     const QString RESULT_KEY = "result";
