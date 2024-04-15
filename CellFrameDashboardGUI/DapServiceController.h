@@ -38,8 +38,6 @@
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
 #include "handlers/DapGetListWalletsCommand.h"
-#include "handlers/DapMempoolListCommand.h"
-#include "handlers/DapTransactionListCommand.h"
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
 #include "handlers/DapGetListTokensCommand.h"
