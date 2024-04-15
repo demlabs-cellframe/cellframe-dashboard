@@ -14,6 +14,7 @@
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
 #include "handlers/stackCommand/DapCreateTransactionCommandStack.h"
+#include "handlers/stackCommand/DapTXCondCreateCommandStack.h"
 #include "handlers/DapGetOnceWalletInfoCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
@@ -53,6 +54,8 @@
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
 #include "handlers/MempoolCheckCommand.h"
+#include "handlers/DapMempoolListCommand.h"
+#include "handlers/DapTransactionListCommand.h"
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
@@ -228,6 +231,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr));
     m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateTransactionCommandStack     ("DapCreateTransactionCommand"          , nullptr, CLI_PATH));
+    m_servicePool.append(new DapTXCondCreateCommandStack          ("DapTXCondCreateCommand"               , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetOnceWalletInfoCommand          ("DapGetOnceWalletInfoCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapMempoolProcessCommand             ("DapMempoolProcessCommand"             , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetWalletHistoryCommand           ("DapGetWalletHistoryCommand"           , nullptr, CLI_PATH));
@@ -260,6 +264,8 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
     m_servicePool.append(new DapWebBlockList                      ("DapWebBlockList"                      , m_pServer));
     m_servicePool.append(new DapRcvNotify                         ("DapRcvNotify"                         , m_pServer));
+    m_servicePool.append(new DapMempoolListCommand                ("DapMempoolListCommand"                , nullptr, CLI_PATH));
+    m_servicePool.append(new DapTransactionListCommand            ("DapTransactionListCommand"            , nullptr, CLI_PATH));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
 
     for(auto& service: qAsConst(m_servicePool))

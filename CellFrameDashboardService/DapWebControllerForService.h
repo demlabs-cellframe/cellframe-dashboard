@@ -30,13 +30,23 @@ private:
     QList<DapRpcService*>* m_servicePool = nullptr;
 
     QMap<QString, QString> m_serviceSignals = {{"GetNetworks", "DapGetListNetworksCommand"}
-                                                , {"GetWallets", "DapGetListWalletsCommand"}
-                                                , {"GetVersions", "DapVersionController"}
-                                                , {"GetDataWallet", "DapGetWalletInfoCommand"}
-                                                , {"GetFee", "DapGetFeeCommand"}
-                                               , {"GetNetId", "DapNetIdCommand"}};
-    QSet<QString> m_listCommand = {"DapGetListNetworksCommand", "DapGetListWalletsCommand", "DapVersionController"
-                                    , "DapGetWalletInfoCommand", "DapGetFeeCommand", "DapNetIdCommand"};
+                                               , {"GetWallets", "DapGetListWalletsCommand"}
+                                               , {"GetVersions", "DapVersionController"}
+                                               , {"GetDataWallet", "DapGetWalletInfoCommand"}
+                                               , {"GetTransactions", "DapTransactionListCommand"}
+                                               , {"GetMempoolList", "DapMempoolListCommand"}
+                                               , {"GetFee", "DapGetFeeCommand"}
+                                               , {"GetNetId", "DapNetIdCommand"}
+                                               , {"CondTxCreate", "DapTXCondCreateCommand"}};
+    QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
+                                    , "DapGetListWalletsCommand"
+                                    , "DapVersionController"
+                                    , "DapGetWalletInfoCommand"
+                                    , "DapTransactionListCommand"
+                                    , "DapMempoolListCommand"
+                                    , "DapTXCondCreateCommand"
+                                    , "DapGetFeeCommand"
+                                    , "DapNetIdCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
