@@ -217,7 +217,9 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case GetDataWallet:
                     args << walletName;
                     break;
-//                case GetDataWallet:      doc = _cmdController->getDataWallets(walletName); break;
+                case CondTxCreate:
+                    args << net << tokenName << walletName << certName << value << unit << srv_uid;
+                    break;
 //                case SendTransaction:    doc = _cmdController->sendTransaction(walletName, addr, value, tokenName, net); break;
 //                case GetTransactions:    doc = _cmdController->getTransactions(addr, net); break;
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
@@ -229,7 +231,7 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case StakeLockHold:      doc = _cmdController->stakeLockHold(tokenName, walletName, timeStaking, net, value, reinvest, stakeNoBaseFlag); break;
 //                case GetMempoolList:     doc = _cmdController->getMempoolList(net, addr, chain); break;
 //                case GetMempoolTxHash:   doc = _cmdController->getMempoolTxHash(net, hashTx); break; //need datum hash
-//                case CondTxCreate:       doc = _cmdController->createCondTx(net, tokenName, walletName, certName, value, unit, srv_uid); break;
+////                case CondTxCreate:       doc = _cmdController->createCondTx(net, tokenName, walletName, certName, value, unit, srv_uid); break;
 //                case GetOrdersList:      doc = _cmdController->getOrdersList(net, direction, srv_uid, unit, tokenName, price_min, price_max); break;
 //                case CreateOrder:        doc = _cmdController->createOrder(net, direction, srv_uid, value, unit, tokenName, addr, hashTx, expires, certName, ext, region, continent, units); break;
 //                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;

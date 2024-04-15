@@ -32,9 +32,13 @@ private:
     QMap<QString, QString> m_serviceSignals = {{"GetNetworks", "DapGetListNetworksCommand"}
                                                 , {"GetWallets", "DapGetListWalletsCommand"}
                                                 , {"GetVersions", "DapVersionController"}
-                                                , {"GetDataWallet", "DapGetWalletInfoCommand"}};
-    QSet<QString> m_listCommand = {"DapGetListNetworksCommand", "DapGetListWalletsCommand", "DapVersionController"
-                                    , "DapGetWalletInfoCommand"};
+                                                , {"GetDataWallet", "DapGetWalletInfoCommand"}
+                                                , {"CondTxCreate", "DapTXCondCreateCommand"}};
+    QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
+                                    , "DapGetListWalletsCommand"
+                                    , "DapVersionController"
+                                    , "DapGetWalletInfoCommand"
+                                    , "DapTXCondCreateCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
