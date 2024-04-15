@@ -82,7 +82,8 @@ private:
                                     ,"DapRcvNotify"
                                     ,"DapQuitApplicationCommand"
                                     ,"DapXchangeOrderPurchase"
-                                    ,"DapXchangeOrderRemove"};
+                                    ,"DapXchangeOrderRemove"
+                                    ,"DapTXCondCreateCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H
