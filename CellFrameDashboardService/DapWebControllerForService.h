@@ -35,6 +35,8 @@ private:
                                                , {"GetDataWallet", "DapGetWalletInfoCommand"}
                                                , {"GetTransactions", "DapTransactionListCommand"}
                                                , {"GetMempoolList", "DapMempoolListCommand"}
+                                               , {"GetFee", "DapGetFeeCommand"}
+                                               , {"GetNetId", "DapNetIdCommand"}
                                                , {"CondTxCreate", "DapTXCondCreateCommand"}
                                                , {"SendTransaction", "DapCreateTransactionCommand"}
                                                , {"CreateOrder", "DapCreateVPNOrder"}};
@@ -45,6 +47,8 @@ private:
                                     , "DapTransactionListCommand"
                                     , "DapMempoolListCommand"
                                     , "DapTXCondCreateCommand"
+                                    , "DapGetFeeCommand"
+                                    , "DapNetIdCommand"
                                     , "DapCreateTransactionCommand"
                                     , "DapCreateVPNOrder"};
 
