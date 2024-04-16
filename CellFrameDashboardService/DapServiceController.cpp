@@ -55,6 +55,7 @@
 #include "handlers/MempoolCheckCommand.h"
 #include "handlers/DapMempoolListCommand.h"
 #include "handlers/DapTransactionListCommand.h"
+#include "handlers/DapLedgerTxHashCommand.h"
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
@@ -264,6 +265,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapRcvNotify                         ("DapRcvNotify"                         , m_pServer));
     m_servicePool.append(new DapMempoolListCommand                ("DapMempoolListCommand"                , nullptr, CLI_PATH));
     m_servicePool.append(new DapTransactionListCommand            ("DapTransactionListCommand"            , nullptr, CLI_PATH));
+    m_servicePool.append(new DapLedgerTxHashCommand               ("DapLedgerTxHashCommand"               , nullptr));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
 
     for(auto& service: qAsConst(m_servicePool))

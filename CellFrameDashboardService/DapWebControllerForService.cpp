@@ -229,7 +229,9 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case SendTransaction:
                     args << net << walletName << addr << tokenName << value;
                     break;
-
+                case GetLedgerTxHash:
+                    args << net << hashTx;
+                    break;
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
