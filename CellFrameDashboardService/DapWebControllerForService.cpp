@@ -223,6 +223,10 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case GetDataWallet:
                     args << walletName;
                     break;
+                case GetFee:
+                case GetNetId:
+                    args << net;
+                    break;
                 case CondTxCreate:
                     args << net << tokenName << walletName << certName << value << unit << srv_uid;
                     break;
@@ -265,9 +269,7 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case GetNodeIP:          doc = _cmdController->getNodeIP(net, addr, jsonArray); break;
 //                case NodeDump:           doc = _cmdController->nodeDump(net); break;
 //                case GetNodeNetState:    doc = _cmdController->getNodeNetState(net); break;
-//                case GetFee:             doc = _cmdController->getFee(net); break;
 //                case GetListKeys:        doc = _cmdController->getListKeys(net); break;
-//                case GetNetId:           doc = _cmdController->getNetId(net); break;
 //                case GetServiceLimits:   doc = _cmdController->getServiceLimits(net, pr_hash, cl_hash, srv_uid); break;
                 default:
                     qWarning()<<"Unknown request";
