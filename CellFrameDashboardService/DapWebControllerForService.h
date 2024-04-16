@@ -36,7 +36,8 @@ private:
                                                , {"GetTransactions", "DapTransactionListCommand"}
                                                , {"GetMempoolList", "DapMempoolListCommand"}
                                                , {"CondTxCreate", "DapTXCondCreateCommand"}
-                                               , {"SendTransaction", "DapCreateTransactionCommand"}};
+                                               , {"SendTransaction", "DapCreateTransactionCommand"}
+                                               , {"CreateOrder", "DapCreateVPNOrder"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -44,7 +45,8 @@ private:
                                     , "DapTransactionListCommand"
                                     , "DapMempoolListCommand"
                                     , "DapTXCondCreateCommand"
-                                    , "DapCreateTransactionCommand"};
+                                    , "DapCreateTransactionCommand"
+                                    , "DapCreateVPNOrder"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
