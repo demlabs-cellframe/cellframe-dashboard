@@ -39,6 +39,7 @@ private:
                                                , {"GetNetId", "DapNetIdCommand"}
                                                , {"CondTxCreate", "DapTXCondCreateCommand"}
                                                , {"SendTransaction", "DapCreateTransactionCommand"}
+                                               , {"CreateCertificate", "DapCertificateManagerCommands"}
                                                , {"CreateOrder", "DapCreateVPNOrder"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
@@ -47,6 +48,7 @@ private:
                                     , "DapTransactionListCommand"
                                     , "DapMempoolListCommand"
                                     , "DapTXCondCreateCommand"
+                                    , "DapCertificateManagerCommands"
                                     , "DapGetFeeCommand"
                                     , "DapNetIdCommand"
                                     , "DapCreateTransactionCommand"

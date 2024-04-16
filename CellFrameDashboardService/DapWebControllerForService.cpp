@@ -233,6 +233,9 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case SendTransaction:
                     args << net << walletName << addr << tokenName << value;
                     break;
+                case CreateCertificate:
+                    args << "2" << certName << certType << categoryCert;
+                    break;
                 case CreateOrder:
                 {
                     QStringList resultParams = {
@@ -259,7 +262,6 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
 //                case GetCertificates:    doc = _cmdController->getCertificates(categoryCert); break;
-//                case CreateCertificate:  doc = _cmdController->createCertificate(certType, certName,categoryCert); break;
 //                case StakeLockTake:      doc = _cmdController->stakeLockTake(walletName, net, hashTx); break;
 //                case StakeLockHold:      doc = _cmdController->stakeLockHold(tokenName, walletName, timeStaking, net, value, reinvest, stakeNoBaseFlag); break;
 //                case GetMempoolTxHash:   doc = _cmdController->getMempoolTxHash(net, hashTx); break; //need datum hash
