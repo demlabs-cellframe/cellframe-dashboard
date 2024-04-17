@@ -223,6 +223,10 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case GetDataWallet:
                     args << walletName;
                     break;
+                case GetFee:
+                case GetNetId:
+                    args << net;
+                    break;
                 case CondTxCreate:
                     args << net << tokenName << walletName << certName << value << unit << srv_uid;
                     break;
@@ -232,24 +236,47 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case GetLedgerTxHash:
                     args << net << hashTx;
                     break;
+                case CreateCertificate:
+                    args << "2" << certName << certType << categoryCert;
+                    break;
+                case CreateOrder:
+                {
+                    QStringList resultParams = {
+                        "network", net,
+                        "direction", direction,
+                        "srv_uid", srv_uid,
+                        "price", value,
+                        "price_unit", unit,
+                        "price_token", tokenName,
+                        "units", units,
+                        "node_addr", addr,
+                        "cert", certName,
+                        "region", region,
+                        "continent", continent,
+                        "ext", ext,
+                        "expires", expires,
+                        "tx_cond", hashTx
+                    };
+                    args << resultParams;
+                }
+                    break;                    
+                case StakeLockHold:
+                    args << net << walletName << timeStaking << tokenName << value << reinvest;
+                    break;
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
 //                case GetCertificates:    doc = _cmdController->getCertificates(categoryCert); break;
-//                case CreateCertificate:  doc = _cmdController->createCertificate(certType, certName,categoryCert); break;
 //                case StakeLockTake:      doc = _cmdController->stakeLockTake(walletName, net, hashTx); break;
 //                case StakeLockHold:      doc = _cmdController->stakeLockHold(tokenName, walletName, timeStaking, net, value, reinvest, stakeNoBaseFlag); break;
 //                case GetMempoolTxHash:   doc = _cmdController->getMempoolTxHash(net, hashTx); break; //need datum hash
 //                case GetOrdersList:      doc = _cmdController->getOrdersList(net, direction, srv_uid, unit, tokenName, price_min, price_max); break;
-//                case CreateOrder:        doc = _cmdController->createOrder(net, direction, srv_uid, value, unit, tokenName, addr, hashTx, expires, certName, ext, region, continent, units); break;
 //                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;
 //                case NodeAdd:            doc = _cmdController->nodeAdd(net, addr, ip, port); break;
 //                case GetNodeIP:          doc = _cmdController->getNodeIP(net, addr, jsonArray); break;
 //                case NodeDump:           doc = _cmdController->nodeDump(net); break;
 //                case GetNodeNetState:    doc = _cmdController->getNodeNetState(net); break;
-//                case GetFee:             doc = _cmdController->getFee(net); break;
 //                case GetListKeys:        doc = _cmdController->getListKeys(net); break;
-//                case GetNetId:           doc = _cmdController->getNetId(net); break;
 //                case GetServiceLimits:   doc = _cmdController->getServiceLimits(net, pr_hash, cl_hash, srv_uid); break;
                 default:
                     qWarning()<<"Unknown request";

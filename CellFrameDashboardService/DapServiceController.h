@@ -83,7 +83,8 @@ private:
                                     ,"DapQuitApplicationCommand"
                                     ,"DapXchangeOrderPurchase"
                                     ,"DapXchangeOrderRemove"
-                                    ,"DapTXCondCreateCommand"};
+                                    ,"DapTXCondCreateCommand"
+                                    ,"DapStakeLockHoldCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

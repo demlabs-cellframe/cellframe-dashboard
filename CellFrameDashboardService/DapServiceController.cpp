@@ -1,6 +1,7 @@
 #include "DapServiceController.h"
 
 #include "handlers/DapAbstractCommand.h"
+#include "handlers/DapNetIdCommand.h"
 #include "handlers/DapQuitApplicationCommand.h"
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapUpdateLogsCommand.h"
@@ -14,6 +15,7 @@
 #include "handlers/DapGetWalletAddressesCommand.h"
 #include "handlers/stackCommand/DapCreateTransactionCommandStack.h"
 #include "handlers/stackCommand/DapTXCondCreateCommandStack.h"
+#include "handlers/stackCommand/DapStakeLockHoldCommandStack.h"
 #include "handlers/DapGetOnceWalletInfoCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
@@ -226,6 +228,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetWalletAddressesCommand         ("DapGetWalletAddressesCommand"         , nullptr));
     m_servicePool.append(new DapGetListOrdersCommand              ("DapGetListOrdersCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetNetworksStateCommand           ("DapGetNetworksStateCommand"           , nullptr, CLI_PATH));
+    m_servicePool.append(new DapNetIdCommand                      ("DapNetIdCommand"                      , nullptr));
     m_servicePool.append(new DapNetworkSingleSyncCommand          ("DapNetworkSingleSyncCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr));
     m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , nullptr, CLI_PATH));
@@ -259,6 +262,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
     m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
+    m_servicePool.append(new DapStakeLockHoldCommandStack         ("DapStakeLockHoldCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer));
     m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
     m_servicePool.append(new DapWebBlockList                      ("DapWebBlockList"                      , m_pServer));

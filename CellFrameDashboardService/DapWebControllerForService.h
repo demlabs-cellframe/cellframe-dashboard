@@ -35,9 +35,14 @@ private:
                                                , {"GetDataWallet", "DapGetWalletInfoCommand"}
                                                , {"GetTransactions", "DapTransactionListCommand"}
                                                , {"GetMempoolList", "DapMempoolListCommand"}
+                                               , {"GetFee", "DapGetFeeCommand"}
+                                               , {"GetNetId", "DapNetIdCommand"}
                                                , {"CondTxCreate", "DapTXCondCreateCommand"}
                                                , {"SendTransaction", "DapCreateTransactionCommand"}
-                                               , {"GetLedgerTxHash", "DapLedgerTxHashCommand"}};
+                                               , {"GetLedgerTxHash", "DapLedgerTxHashCommand"}
+                                               , {"CreateCertificate", "DapCertificateManagerCommands"}
+                                               , {"CreateOrder", "DapCreateVPNOrder"}
+                                               , {"StakeLockHold", "DapStakeLockHoldCommand"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -45,8 +50,13 @@ private:
                                     , "DapTransactionListCommand"
                                     , "DapMempoolListCommand"
                                     , "DapTXCondCreateCommand"
+                                    , "DapLedgerTxHashCommand"
+                                    , "DapCertificateManagerCommands"
+                                    , "DapGetFeeCommand"
+                                    , "DapNetIdCommand"
                                     , "DapCreateTransactionCommand"
-                                    , "DapLedgerTxHashCommand"};
+                                    , "DapCreateVPNOrder"
+                                    , "DapStakeLockHoldCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";

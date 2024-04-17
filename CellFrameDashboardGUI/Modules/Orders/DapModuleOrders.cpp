@@ -113,7 +113,20 @@ void DapModuleOrders::createStakeOrder(QStringList args)
 
 void DapModuleOrders::createVPNOrder(QStringList args)
 {
-    s_serviceCtrl->requestToService("DapCreateVPNOrder", args);
+    QStringList resultParams = {"network", args[0],
+                                "direction", args[1],
+                                "srv_uid", args[2],
+                                "price", args[3],
+                                "price_unit", args[4],
+                                "price_token", args[5],
+                                "units", args[6],
+                                "node_addr", args[7],
+                                "cert", args[8],
+                                "region", args[9],
+                                "continent", args[10]};
+
+    
+    s_serviceCtrl->requestToService("DapCreateVPNOrder", resultParams);
 }
 
 void DapModuleOrders::slotUpdateOrders()
