@@ -256,8 +256,16 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                     };
                     args << resultParams;
                 }
-                    break;                    
-
+                    break;
+                case GetMempoolTxHash:
+                    args << net << hashTx;
+                    break;
+                case GetOrdersList:
+                    args << net << direction << srv_uid << unit << tokenName << price_min << price_max;
+                    break;
+                case GetCertificates:
+                    args << "9" << categoryCert;
+                    break;
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;

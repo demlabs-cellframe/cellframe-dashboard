@@ -40,7 +40,10 @@ private:
                                                , {"CondTxCreate", "DapTXCondCreateCommand"}
                                                , {"SendTransaction", "DapCreateTransactionCommand"}
                                                , {"CreateCertificate", "DapCertificateManagerCommands"}
-                                               , {"CreateOrder", "DapCreateVPNOrder"}};
+                                               , {"CreateOrder", "DapCreateVPNOrder"}
+                                               , {"GetMempoolTxHash", "MempoolCheckCommand"}
+                                               , {"GetOrdersList", "DapGetListOrdersCommand"}
+                                               , {"GetCertificates", "DapCertificateManagerCommands"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -52,7 +55,10 @@ private:
                                     , "DapGetFeeCommand"
                                     , "DapNetIdCommand"
                                     , "DapCreateTransactionCommand"
-                                    , "DapCreateVPNOrder"};
+                                    , "DapCreateVPNOrder"
+                                    , "MempoolCheckCommand"
+                                    , "DapGetListOrdersCommand"
+                                    , "DapCertificateManagerCommands"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
