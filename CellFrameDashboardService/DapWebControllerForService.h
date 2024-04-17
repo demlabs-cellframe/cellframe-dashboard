@@ -43,7 +43,9 @@ private:
                                                , {"CreateOrder", "DapCreateVPNOrder"}
                                                , {"GetMempoolTxHash", "MempoolCheckCommand"}
                                                , {"GetOrdersList", "DapGetListOrdersCommand"}
-                                               , {"GetCertificates", "DapCertificateManagerCommands"}};
+                                               , {"GetCertificates", "DapCertificateManagerCommands"}
+                                               , {"StakeLockHold", "DapStakeLockHoldCommand"}};
+
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -58,7 +60,8 @@ private:
                                     , "DapCreateVPNOrder"
                                     , "MempoolCheckCommand"
                                     , "DapGetListOrdersCommand"
-                                    , "DapCertificateManagerCommands"};
+                                    , "DapCertificateManagerCommands"
+                                    , "DapStakeLockHoldCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
