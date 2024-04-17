@@ -322,8 +322,8 @@ Item
                                 currTheme.textColorRedHovered
                         textButton:
                             side !== "Buy" ?
-                                qsTr("Buy ") + tokenBuy :
-                                qsTr("Sell ") + tokenBuy
+                                qsTr("Buy ") + dexModule.token1 :
+                                qsTr("Sell ") + dexModule.token1 
                         horizontalAligmentText: Text.AlignHCenter
                         indentTextRight: 0
                         fontButton: mainFont.dapFont.medium14
