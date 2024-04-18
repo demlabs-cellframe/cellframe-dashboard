@@ -43,7 +43,7 @@ private:
     DapHistoryProxyModel *m_historyProxyModel = nullptr;
     bool isSendReqeust{false};
     QQmlContext *context;
-
+    QByteArray *m_historyByteArray;
     QString m_walletName {""};
 };
 

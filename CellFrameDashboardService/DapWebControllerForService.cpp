@@ -283,10 +283,15 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case StakeLockHold:
                     args << net << walletName << timeStaking << tokenName << value << reinvest;
                     break;
+                case StakeLockTake:
+                    args << net << walletName << hashTx;
+                    break;
+                case TxCreateJson:
+                    args << list;
+                    break;                    
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
-//                case StakeLockTake:      doc = _cmdController->stakeLockTake(walletName, net, hashTx); break;
 //                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;
 //                case NodeAdd:            doc = _cmdController->nodeAdd(net, addr, ip, port); break;
 //                case GetNodeIP:          doc = _cmdController->getNodeIP(net, addr, jsonArray); break;

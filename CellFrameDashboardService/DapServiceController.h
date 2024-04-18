@@ -84,7 +84,8 @@ private:
                                     ,"DapXchangeOrderPurchase"
                                     ,"DapXchangeOrderRemove"
                                     ,"DapTXCondCreateCommand"
-                                    ,"DapStakeLockHoldCommand"};
+                                    ,"DapStakeLockHoldCommand"
+                                    ,"DapCreateJsonTransactionCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H
