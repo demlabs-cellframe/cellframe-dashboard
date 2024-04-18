@@ -261,7 +261,13 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                     args << net << hashTx;
                     break;
                 case GetOrdersList:
-                    args << net << direction << srv_uid << unit << tokenName << price_min << price_max;
+                    args << "net" << net
+                         << "direction" << direction
+                         << "srv_uid" << srv_uid
+                         << "unit" << unit
+                         << "tokenName" << tokenName
+                         << "price_min" << price_min
+                         << "price_max" << price_max;
                     break;
                 case GetCertificates:
                     args << "9" << categoryCert;
