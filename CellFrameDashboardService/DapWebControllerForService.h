@@ -42,6 +42,7 @@ private:
                                                , {"CreateCertificate", "DapCertificateManagerCommands"}
                                                , {"CreateOrder", "DapCreateVPNOrder"}
                                                , {"StakeLockHold", "DapStakeLockHoldCommand"}
+                                               , {"StakeLockTake", "DapStakeLockTakeCommand"}
                                                , {"TxCreateJson", "DapCreateJsonTransactionCommand"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
@@ -56,6 +57,7 @@ private:
                                     , "DapCreateTransactionCommand"
                                     , "DapCreateVPNOrder"
                                     , "DapStakeLockHoldCommand"
+                                    , "DapStakeLockTakeCommand"
                                     , "DapCreateJsonTransactionCommand"};
 
     const QString RESULT_KEY = "result";

@@ -260,6 +260,9 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case StakeLockHold:
                     args << net << walletName << timeStaking << tokenName << value << reinvest;
                     break;
+                case StakeLockTake:
+                    args << net << walletName << hashTx;
+                    break;
                 case TxCreateJson:
                     args << list;
                     break;                    
@@ -267,7 +270,6 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
 //                case GetCertificates:    doc = _cmdController->getCertificates(categoryCert); break;
-//                case StakeLockTake:      doc = _cmdController->stakeLockTake(walletName, net, hashTx); break;
 //                case GetMempoolTxHash:   doc = _cmdController->getMempoolTxHash(net, hashTx); break; //need datum hash
 //                case GetOrdersList:      doc = _cmdController->getOrdersList(net, direction, srv_uid, unit, tokenName, price_min, price_max); break;
 //                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;
