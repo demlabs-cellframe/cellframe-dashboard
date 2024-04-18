@@ -39,6 +39,7 @@ private:
                                                , {"GetNetId", "DapNetIdCommand"}
                                                , {"CondTxCreate", "DapTXCondCreateCommand"}
                                                , {"SendTransaction", "DapCreateTransactionCommand"}
+                                               , {"GetLedgerTxHash", "DapLedgerTxHashCommand"}
                                                , {"CreateCertificate", "DapCertificateManagerCommands"}
                                                , {"CreateOrder", "DapCreateVPNOrder"}
                                                , {"GetMempoolTxHash", "MempoolCheckCommand"}
@@ -53,6 +54,7 @@ private:
                                     , "DapTransactionListCommand"
                                     , "DapMempoolListCommand"
                                     , "DapTXCondCreateCommand"
+                                    , "DapLedgerTxHashCommand"
                                     , "DapCertificateManagerCommands"
                                     , "DapGetFeeCommand"
                                     , "DapNetIdCommand"
