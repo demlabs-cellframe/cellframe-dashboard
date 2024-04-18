@@ -41,7 +41,8 @@ private:
                                                , {"SendTransaction", "DapCreateTransactionCommand"}
                                                , {"CreateCertificate", "DapCertificateManagerCommands"}
                                                , {"CreateOrder", "DapCreateVPNOrder"}
-                                               , {"StakeLockHold", "DapStakeLockHoldCommand"}};
+                                               , {"StakeLockHold", "DapStakeLockHoldCommand"}
+                                               , {"TxCreateJson", "DapCreateJsonTransactionCommand"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -54,7 +55,8 @@ private:
                                     , "DapNetIdCommand"
                                     , "DapCreateTransactionCommand"
                                     , "DapCreateVPNOrder"
-                                    , "DapStakeLockHoldCommand"};
+                                    , "DapStakeLockHoldCommand"
+                                    , "DapCreateJsonTransactionCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
