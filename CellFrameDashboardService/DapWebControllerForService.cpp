@@ -264,13 +264,18 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                     args << net << hashTx;
                     break;
                 case GetOrdersList:
-                    args << "net" << net
-                         << "direction" << direction
-                         << "srv_uid" << srv_uid
-                         << "unit" << unit
-                         << "tokenName" << tokenName
-                         << "price_min" << price_min
-                         << "price_max" << price_max;
+                {
+                    QStringList resultParams = {
+                        "net", net,
+                        "direction", direction,
+                        "srv_uid", srv_uid,
+                        "unit", unit,
+                        "tokenName", tokenName,
+                        "price_min", price_min,
+                        "price_max", price_max
+                    };
+                    args << resultParams;              
+                }
                     break;
                 case GetCertificates:
                     args << "9" << categoryCert;
@@ -281,11 +286,7 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
-//                case GetCertificates:    doc = _cmdController->getCertificates(categoryCert); break;
 //                case StakeLockTake:      doc = _cmdController->stakeLockTake(walletName, net, hashTx); break;
-//                case StakeLockHold:      doc = _cmdController->stakeLockHold(tokenName, walletName, timeStaking, net, value, reinvest, stakeNoBaseFlag); break;
-//                case GetMempoolTxHash:   doc = _cmdController->getMempoolTxHash(net, hashTx); break; //need datum hash
-//                case GetOrdersList:      doc = _cmdController->getOrdersList(net, direction, srv_uid, unit, tokenName, price_min, price_max); break;
 //                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;
 //                case NodeAdd:            doc = _cmdController->nodeAdd(net, addr, ip, port); break;
 //                case GetNodeIP:          doc = _cmdController->getNodeIP(net, addr, jsonArray); break;
