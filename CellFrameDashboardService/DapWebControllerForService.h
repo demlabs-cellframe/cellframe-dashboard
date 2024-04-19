@@ -42,7 +42,11 @@ private:
                                                , {"GetLedgerTxHash", "DapLedgerTxHashCommand"}
                                                , {"CreateCertificate", "DapCertificateManagerCommands"}
                                                , {"CreateOrder", "DapCreateVPNOrder"}
-                                               , {"StakeLockHold", "DapStakeLockHoldCommand"}};
+                                               , {"StakeLockHold", "DapStakeLockHoldCommand"}
+                                               , {"GetListKeys", "DapGetListKeysCommand"}
+                                               , {"NodeDump", "DapNodeDumpCommand"}
+                                               , {"GetNodeIP", "DapGetNodeIPCommand"}
+                                               , {"GetNodeStatus", "DapGetNodeStatus"}};
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -56,7 +60,11 @@ private:
                                     , "DapNetIdCommand"
                                     , "DapCreateTransactionCommand"
                                     , "DapCreateVPNOrder"
-                                    , "DapStakeLockHoldCommand"};
+                                    , "DapStakeLockHoldCommand"
+                                    , "DapGetListKeysCommand"
+                                    , "DapNodeDumpCommand"
+                                    , "DapGetNodeIPCommand"
+                                    , "DapGetNodeStatus"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
