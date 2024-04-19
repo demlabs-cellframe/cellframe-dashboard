@@ -28,7 +28,7 @@
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
-#include "handlers/DapGetListOdersCommand.h"
+#include "handlers/DapGetListOrdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapGetListWalletsCommand.h"
