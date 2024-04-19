@@ -123,6 +123,7 @@ DapRectangleLitAndShaded
 
                         Text
                         {
+                            id: statusText
                             text: tx_status === "ACCEPTED" || tx_status === "PROCESSING" ? status : "Declined"
                             color: text === "Sent" ?      currTheme.orange :
                                    text === "Pending" ?   currTheme.darkYellow :
@@ -263,33 +264,51 @@ DapRectangleLitAndShaded
                     }
 
                     DapToolTipInfo{
-                        property string normalIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
-                        property string hoverIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+                        property string normalIcon: statusText.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
+                                                                            : "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
+
+                        property string hoverIcon: statusText.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
+                                                                            : "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+
                         property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
+
                         id: explorerIcon
                         Layout.preferredHeight: 18
                         Layout.preferredWidth: 18
-                        contentText: qsTr("Explorer")
+                        contentText: statusText.text === "Queued" ? qsTr("Remove") : qsTr("Explorer")
 
                         toolTip.width: text.implicitWidth + 16
                         toolTip.x: -toolTip.width/2 + 8
 
-                        enabled: tx_status === "DECLINED" || tx_status === "PROCESSING" ? false :
+                        enabled: statusText.text === "Queued" ? true : tx_status === "DECLINED" || tx_status === "PROCESSING" ? false :
                                   network !== "private"?
                                   true : false
 
-                        indicatorSrcNormal: tx_status === "DECLINED"  || tx_status === "PROCESSING" ? disabledIcon :
+                        indicatorSrcNormal: statusText.text === "Queued" ? normalIcon : tx_status === "DECLINED"  || tx_status === "PROCESSING" ? disabledIcon :
                                                 network !== "private"?
                                                 normalIcon : disabledIcon
 
-                        indicatorSrcHover: tx_status === "DECLINED"   || tx_status === "PROCESSING" ? disabledIcon :
+                        indicatorSrcHover: statusText.text === "Queued" ? hoverIcon : tx_status === "DECLINED"   || tx_status === "PROCESSING" ? disabledIcon :
                                                 network !== "private"?
                                                 hoverIcon : disabledIcon
 
-                        onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+                        onClicked: 
+                        {
+                            if(statusText.text === "Queued")
+                            {
+                                var stringLists = [[network, wallet_name, date_to_secs]]
+                                    dapServiceController.tryRemoveTransactions(stringLists)
+                            }
+                            else
+                            {
+                                Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+                            }
+                        }
+                        
+                        
 
-                        width: 18
-                        height: 18
+                        width: statusText.text === "Queued" ? 16 : 18
+                        height: statusText.text === "Queued" ? 16 : 18
                     }
                 }
 
