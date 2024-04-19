@@ -16,6 +16,7 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     , m_timerHistoryUpdate(new QTimer(this))
     , m_historyModel(new DapHistoryModel)
     , m_historyProxyModel(new DapHistoryProxyModel())
+    , m_historyByteArray(new QByteArray())
 {
     m_historyProxyModel->setSourceModel(m_historyModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
@@ -61,12 +62,17 @@ void DapModuleTxExplorer::initConnect()
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 {
     isSendReqeust = false;
-//    qDebug() << "DapModuleTxExplorer::setHistoryModel"
-//             << "isEqual" << (rcvData.toString() == "isEqual");
+    auto historyByte = rcvData.toByteArray();
+    if(*m_historyByteArray == historyByte)
+    {
+        return;
+    }
+    *m_historyByteArray = historyByte;
+
     if(rcvData.toString() == "isEqual")
         return;
 
-    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonDocument doc = QJsonDocument::fromJson(historyByte);
 
     if (!doc.isObject())
         return;

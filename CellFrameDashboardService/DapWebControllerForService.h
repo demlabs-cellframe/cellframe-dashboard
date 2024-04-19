@@ -46,7 +46,10 @@ private:
                                                , {"GetListKeys", "DapGetListKeysCommand"}
                                                , {"NodeDump", "DapNodeDumpCommand"}
                                                , {"GetNodeIP", "DapGetNodeIPCommand"}
-                                               , {"GetNodeStatus", "DapGetNodeStatus"}};
+                                               , {"GetNodeStatus", "DapGetNodeStatus"}
+                                               , {"StakeLockTake", "DapStakeLockTakeCommand"}
+                                               , {"TxCreateJson", "DapCreateJsonTransactionCommand"}};
+
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -64,7 +67,9 @@ private:
                                     , "DapGetListKeysCommand"
                                     , "DapNodeDumpCommand"
                                     , "DapGetNodeIPCommand"
-                                    , "DapGetNodeStatus"};
+                                    , "DapGetNodeStatus"
+                                    , "DapStakeLockTakeCommand"
+                                    , "DapCreateJsonTransactionCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";

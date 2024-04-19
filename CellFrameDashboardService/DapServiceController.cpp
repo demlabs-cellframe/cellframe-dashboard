@@ -16,6 +16,8 @@
 #include "handlers/stackCommand/DapCreateTransactionCommandStack.h"
 #include "handlers/stackCommand/DapTXCondCreateCommandStack.h"
 #include "handlers/stackCommand/DapStakeLockHoldCommandStack.h"
+#include "handlers/stackCommand/DapStakeLockTakeCommandStack.h"
+#include "handlers/stackCommand/DapCreateJsonTransactionCommandStack.h"
 #include "handlers/DapGetOnceWalletInfoCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
@@ -267,6 +269,8 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
     m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
     m_servicePool.append(new DapStakeLockHoldCommandStack         ("DapStakeLockHoldCommand"              , nullptr, CLI_PATH));
+    m_servicePool.append(new DapStakeLockTakeCommandStack         ("DapStakeLockTakeCommand"              , nullptr, CLI_PATH));
+    m_servicePool.append(new DapCreateJsonTransactionCommandStack ("DapCreateJsonTransactionCommand"      , nullptr, CLI_PATH));
     m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer));
     m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
     m_servicePool.append(new DapWebBlockList                      ("DapWebBlockList"                      , m_pServer));
