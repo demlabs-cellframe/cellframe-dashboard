@@ -674,12 +674,47 @@ Rectangle {
         }
     }
 
+    FontMetrics {
+        id: metrics
+    }
+
+    function getWidth(font, text)
+    {
+        var maxStr = ""
+        var count = text.length
+        metrics.font = font
+
+        var widthStr = metrics.boundingRect(text).width + 60
+        return widthStr
+    }
+
     Connections
     {
         target: dapServiceController
 
         function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
         function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
+
+        function onTransactionRemoved(rcvData)
+        {
+            var jsonDocument = JSON.parse(rcvData)
+            var result = jsonDocument.result
+            var widthWindow = getWidth(dapMainWindow.infoItem.textComponent.font, result)
+            var icon = "check_icon.png"
+            if(result === qsTr("Nothing has been deleted."))
+            {
+                icon = "no_icon.png"
+            }
+
+            console.log("[TEST] width = ", widthWindow)
+            console.log("[TEST] icon = ", icon)
+            dapMainWindow.infoItem.showInfo(
+                widthWindow,0,
+                dapMainWindow.width*0.5,
+                8,
+                result,
+                "qrc:/Resources/" + pathTheme + "/icons/other/" + icon)
+        }
 
 //        function onVersionControllerResult(versionResult)
 //        {

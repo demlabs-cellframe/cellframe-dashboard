@@ -33,7 +33,7 @@
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
-#include "handlers/DapGetListOdersCommand.h"
+#include "handlers/DapGetListOrdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
@@ -61,6 +61,7 @@
 #include "handlers/DapCreatePassForWallet.h"
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
+#include "handlers/DapRemoveTransactionsQueueCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -148,7 +149,7 @@ public:
     bool getReadingChains() const;
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
-
+    Q_INVOKABLE void tryRemoveTransactions(const QVariant& transactions);
 //    QByteArray s_bufferTokensJson;
 //    QByteArray s_bufferOrdersJson;
 //    QByteArray s_bufferPairJson;
@@ -273,7 +274,7 @@ signals:
     void rcvWordBook(const QVariant& rcvData);
 
     void rcvDictionary(const QVariant& rcvData);
-
+    void transactionRemoved(const QVariant& rcvData);
     void nodeRestart();
 
     void rcvRemoveResult(const QVariant& rcvData);
@@ -282,7 +283,7 @@ signals:
 
     void createdVPNOrder(const QVariant& order);
     void createdStakeOrder(const QVariant& order);
-
+    
 private slots:
     /// Register command.
     void registerCommand();

@@ -280,64 +280,9 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetFeeCommand("DapGetFeeCommand",m_DAPRpcSocket))), QString("rcvFee")));
     // The command creates a password for the wallet
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreatePassForWallet("DapCreatePassForWallet", m_DAPRpcSocket))), QString("passwordCreated")));
+    
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveTransactionsQueueCommand("DapRemoveTransactionsQueueCommand", m_DAPRpcSocket))), QString("transactionRemoved")));
 
-//    connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
-//    {
-////        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
-////        QList<DapWallet> tempWallets;
-
-////        QDataStream in(&array, QIODevice::ReadOnly);
-////        in >> tempWallets;
-
-////        QList<QObject*> wallets;
-////        auto begin = tempWallets.begin();
-////        auto end = tempWallets.end();
-////        DapWallet * wallet = nullptr;
-////        for(;begin != end; ++begin)
-////        {
-////            wallet = new DapWallet(*begin);
-////            wallets.append(wallet);
-////        }
-
-//        emit walletsReceived(walletList);
-//    });
-
-//    connect(this, &DapServiceController::walletInfoReceived, [=] (const QVariant& wallet_arg)
-//    {
-//        QByteArray  array = QByteArray::fromHex(wallet_arg.toByteArray());
-//        DapWallet wallet;
-
-//        QDataStream in(&array, QIODevice::ReadOnly);
-//        in >> wallet;
-
-////        qDebug() << "walletInfoReceived" << wallet.getName();
-
-//        DapWallet * outWallet = new DapWallet(wallet);
-
-//        emit walletReceived(outWallet);
-//    });
-
-
-//    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
-//    {
-//        QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
-//        QList<DapNetworkStr> tempNetworks;
-
-//        QDataStream in(&array, QIODevice::ReadOnly);
-//        in >> tempNetworks;
-
-//        QList<QObject*> networks;
-//        auto begin = tempNetworks.begin();
-//        auto end = tempNetworks.end();
-//        DapNetworkStr * network = nullptr;
-//        for(;begin != end; ++begin)
-//        {
-//            network = new DapNetworkStr(*begin);
-//            networks.append(network);
-//        }
-
-//        emit networksStatesReceived(networks);
-//    });
 
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {
@@ -407,11 +352,27 @@ void DapServiceController::registerCommand()
             emit signalTokensListReceived("isEqual");
         }*/
     });
-
-
-
-
     registerEmmitedSignal();
+}
+
+void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
+{
+    QList<QStringList> list;
+    QVariantList lists = transactions.toList();
+    for (const QVariant& listVariant : lists) {
+        QStringList strList = listVariant.toStringList();
+        list.append(strList);
+    }
+    QVariantList variantList;
+    for (const QStringList& strList : list) {
+        QVariant variant = QVariant::fromValue(strList);
+        variantList.append(variant);
+    }
+
+    QVariant finalVariant = QVariant::fromValue(variantList);
+    this->requestToService("DapRemoveTransactionsQueueCommand", finalVariant);
+
+//    bool a=0;
 }
 
 /// Find the emitted signal.

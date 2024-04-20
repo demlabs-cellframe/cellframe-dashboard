@@ -85,7 +85,9 @@ private:
                                     ,"DapXchangeOrderRemove"
                                     ,"DapTXCondCreateCommand"
                                     ,"DapStakeLockHoldCommand"
-                                    ,"DapCreateJsonTransactionCommand"};
+                                    ,"DapCreateJsonTransactionCommand"
+                                    ,"DapRemoveTransactionsQueueCommand"
+                                    ,"DapStakeLockTakeCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

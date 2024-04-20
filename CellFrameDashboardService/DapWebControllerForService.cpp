@@ -264,6 +264,26 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                     };
                     args << resultParams;
                 }
+                    break;
+                case GetMempoolTxHash:
+                    args << net << hashTx;
+                    break;
+                case GetOrdersList:
+                {
+                    QStringList resultParams = {
+                        "net", net,
+                        "direction", direction,
+                        "srv_uid", srv_uid,
+                        "unit", unit,
+                        "tokenName", tokenName,
+                        "price_min", price_min,
+                        "price_max", price_max
+                    };
+                    args << resultParams;              
+                }
+                    break;
+                case GetCertificates:
+                    args << "9" << categoryCert;
                     break;                    
                 case StakeLockHold:
                     args << net << walletName << timeStaking << tokenName << value << reinvest;
@@ -289,15 +309,8 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
-//                case GetCertificates:    doc = _cmdController->getCertificates(categoryCert); break;
-//                case GetMempoolTxHash:   doc = _cmdController->getMempoolTxHash(net, hashTx); break; //need datum hash
-//                case GetOrdersList:      doc = _cmdController->getOrdersList(net, direction, srv_uid, unit, tokenName, price_min, price_max); break;
-//                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;
 //                case NodeAdd:            doc = _cmdController->nodeAdd(net, addr, ip, port); break;
-//                case GetNodeIP:          doc = _cmdController->getNodeIP(net, addr, jsonArray); break;
-//                case NodeDump:           doc = _cmdController->nodeDump(net); break;
 //                case GetNodeNetState:    doc = _cmdController->getNodeNetState(net); break;
-//                case GetListKeys:        doc = _cmdController->getListKeys(net); break;
 //                case GetServiceLimits:   doc = _cmdController->getServiceLimits(net, pr_hash, cl_hash, srv_uid); break;
                 default:
                     qWarning()<<"Unknown request";
@@ -313,7 +326,6 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
             }
             else
             {
-
                 qWarning()<<"[Web3] Incorrect id";
                 doc = _cmdController->processingResult("bad", "Incorrect id");
             }

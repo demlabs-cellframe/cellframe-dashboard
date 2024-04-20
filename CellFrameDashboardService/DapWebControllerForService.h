@@ -42,6 +42,9 @@ private:
                                                , {"GetLedgerTxHash", "DapLedgerTxHashCommand"}
                                                , {"CreateCertificate", "DapCertificateManagerCommands"}
                                                , {"CreateOrder", "DapCreateVPNOrder"}
+                                               , {"GetMempoolTxHash", "MempoolCheckCommand"}
+                                               , {"GetOrdersList", "DapGetListOrdersCommand"}
+                                               , {"GetCertificates", "DapCertificateManagerCommands"}
                                                , {"StakeLockHold", "DapStakeLockHoldCommand"}
                                                , {"GetListKeys", "DapGetListKeysCommand"}
                                                , {"NodeDump", "DapNodeDumpCommand"}
@@ -63,6 +66,8 @@ private:
                                     , "DapNetIdCommand"
                                     , "DapCreateTransactionCommand"
                                     , "DapCreateVPNOrder"
+                                    , "MempoolCheckCommand"
+                                    , "DapGetListOrdersCommand"
                                     , "DapStakeLockHoldCommand"
                                     , "DapGetListKeysCommand"
                                     , "DapNodeDumpCommand"

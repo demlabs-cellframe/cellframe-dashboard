@@ -28,7 +28,7 @@
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
-#include "handlers/DapGetListOdersCommand.h"
+#include "handlers/DapGetListOrdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapGetListWalletsCommand.h"
@@ -64,6 +64,7 @@
 #include "handlers/DapNodeDumpCommand.h"
 #include "handlers/DapGetNodeIPCommand.h"
 #include "handlers/DapGetNodeStatus.h"
+#include "handlers/DapRemoveTransactionsQueueCommand.h"
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
@@ -268,6 +269,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
     m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
+    m_servicePool.append(new DapRemoveTransactionsQueueCommand    ("DapRemoveTransactionsQueueCommand"    , nullptr));
     m_servicePool.append(new DapStakeLockHoldCommandStack         ("DapStakeLockHoldCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapStakeLockTakeCommandStack         ("DapStakeLockTakeCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateJsonTransactionCommandStack ("DapCreateJsonTransactionCommand"      , nullptr, CLI_PATH));
