@@ -471,6 +471,10 @@ QString DapModuleDex::multCoins(const QString& a, const QString& b)
     {
         resA.append(".0");
     }
+    else if(resA[resA.size()-1] == '.')
+    {
+        resA.append("0");
+    }
 
     if(b.isEmpty() || b == "0.0" || b == "0")
     {
@@ -480,6 +484,10 @@ QString DapModuleDex::multCoins(const QString& a, const QString& b)
     if(!resB.contains('.'))
     {
         resB.append(".0");
+    }
+    else if(resB[resB.size()-1] == '.')
+    {
+        resB.append("0");
     }
 
     Dap::Coin oneVal = resA;
@@ -498,17 +506,25 @@ QString DapModuleDex::divCoins(const QString& a, const QString& b)
     {
         resA.append(".0");
     }
+    else if(resA[resA.size()-1] == '.')
+    {
+        resA.append("0");
+    }
 
     if(b.isEmpty() || b == "0.0" || b == "0")
     {
         return "0.0";
     }
+
     QString resB(b);
     if(!resB.contains('.'))
     {
         resB.append(".0");
     }
-
+    else if(resB[resB.size()-1] == '.')
+    {
+        resB.append("0");
+    }
     Dap::Coin oneVal = resA;
     Dap::Coin twoVal = resB;
     return roundCoins((oneVal / twoVal).toCoinsString());
@@ -525,17 +541,24 @@ QString DapModuleDex::minusCoins(const QString& a, const QString& b)
     {
         resA.append(".0");
     }
+    else if(resA[resA.size()-1] == '.')
+    {
+        resA.append("0");
+    }
 
     if(b.isEmpty() || b == "0.0" || b == "0")
     {
-        return "0.0";
+        return a;
     }
     QString resB(b);
     if(!resB.contains('.'))
     {
         resB.append(".0");
     }
-
+    else if(resB[resB.size()-1] == '.')
+    {
+        resB.append("0");
+    }
     Dap::Coin oneVal = resA;
     Dap::Coin twoVal = resB;
     return roundCoins((oneVal - twoVal).toCoinsString());
@@ -673,7 +696,6 @@ void DapModuleDex::setStepChart(const int &index)
 
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
-    qDebug() << "[TEST] setCurrentTokenPair name pair = " << namePair;
     if(namePair.isEmpty())
     {
         m_currentPair = DEX::InfoTokenPair();
