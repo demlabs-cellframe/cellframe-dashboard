@@ -289,27 +289,31 @@ Page
                 }
 
                 DapToolTipInfo{
-                    property string normalIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
-                    property string hoverIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+                    property string normalIcon: textSatus.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
+                                                                        : "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
+
+                    property string hoverIcon: textSatus.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
+                                                                        : "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+
                     property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
+
                     id: explorerIcon
                     Layout.preferredHeight: 18
                     Layout.preferredWidth: 18
-                    Layout.leftMargin: 14
-                    contentText: qsTr("Explorer")
+                    contentText: textSatus.text === "Queued" ? qsTr("Remove") : qsTr("Explorer")
 
                     toolTip.width: text.implicitWidth + 16
                     toolTip.x: -toolTip.width/2 + 8
 
-                    enabled: tx_status === "DECLINED" || tx_status === "PROCESSING" ? false :
+                    enabled: textSatus.text === "Queued" ? true : tx_status === "DECLINED" || tx_status === "PROCESSING" ? false :
                               network !== "private"?
                               true : false
 
-                    indicatorSrcNormal: tx_status === "DECLINED"  || tx_status === "PROCESSING" ? disabledIcon :
+                    indicatorSrcNormal: textSatus.text === "Queued" ? normalIcon : tx_status === "DECLINED"  || tx_status === "PROCESSING" ? disabledIcon :
                                             network !== "private"?
                                             normalIcon : disabledIcon
 
-                    indicatorSrcHover: tx_status === "DECLINED"   || tx_status === "PROCESSING" ? disabledIcon :
+                    indicatorSrcHover: textSatus.text === "Queued" ? hoverIcon : tx_status === "DECLINED"   || tx_status === "PROCESSING" ? disabledIcon :
                                             network !== "private"?
                                             hoverIcon : disabledIcon
                 }
@@ -320,7 +324,15 @@ Page
                 enabled: !copyBtn.mouseArea.containsMouse
                 onClicked: {
                     if(explorerIcon.mouseArea.containsMouse && explorerIcon.enabled)
-                        Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+                        if(textSatus.text === "Queued")
+                        {
+                            var stringLists = [[network, wallet_name, date_to_secs]]
+                                dapServiceController.tryRemoveTransactions(stringLists)
+                        }
+                        else
+                        {
+                            Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+                        }
                     else if(logicExplorer.selectTxIndex !== index)
                     {
                         logicExplorer.initDetailsModel(model)
