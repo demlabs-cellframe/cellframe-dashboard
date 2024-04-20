@@ -60,6 +60,10 @@
 #include "handlers/DapMempoolListCommand.h"
 #include "handlers/DapTransactionListCommand.h"
 #include "handlers/DapLedgerTxHashCommand.h"
+#include "handlers/DapGetListKeysCommand.h"
+#include "handlers/DapNodeDumpCommand.h"
+#include "handlers/DapGetNodeIPCommand.h"
+#include "handlers/DapGetNodeStatus.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
 #include "TransactionQueue/DapTransactionQueueController.h"
 
@@ -276,6 +280,10 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapMempoolListCommand                ("DapMempoolListCommand"                , nullptr, CLI_PATH));
     m_servicePool.append(new DapTransactionListCommand            ("DapTransactionListCommand"            , nullptr, CLI_PATH));
     m_servicePool.append(new DapLedgerTxHashCommand               ("DapLedgerTxHashCommand"               , nullptr));
+    m_servicePool.append(new DapGetListKeysCommand                ("DapGetListKeysCommand"                , nullptr));
+    m_servicePool.append(new DapNodeDumpCommand                   ("DapNodeDumpCommand"                   , nullptr));
+    m_servicePool.append(new DapGetNodeIPCommand                  ("DapGetNodeIPCommand"                  , nullptr));
+    m_servicePool.append(new DapGetNodeStatus                     ("DapGetNodeStatus"                     , nullptr));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
 
     for(auto& service: qAsConst(m_servicePool))
