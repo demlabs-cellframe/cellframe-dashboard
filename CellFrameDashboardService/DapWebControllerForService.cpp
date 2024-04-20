@@ -35,6 +35,11 @@ void DapWebControllerForService::respondFromServise(const QVariant& result)
         qDebug() << "[Web3] Status OK id: " << strId;
         doc = _cmdController->processingResult("ok", "", replyObj[RESULT_KEY].toObject());
     }
+    else if(replyObj[RESULT_KEY].isString())
+    {
+        qDebug() << "[Web3] Status OK id: " << strId;
+        doc = _cmdController->processingResult("ok", "", replyObj[RESULT_KEY].toString());
+    }
 
     _tcpServer->sendResponce(doc.toJson(), id);
 }
@@ -283,21 +288,29 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case StakeLockHold:
                     args << net << walletName << timeStaking << tokenName << value << reinvest;
                     break;
+                case GetListKeys:
+                    args << net;
+                    break;
+                case NodeDump:
+                    args << net;
+                    break;
+                case GetNodeIP:
+                    args << net << addr << jsonArray;
+                    break;
+                case GetNodeStatus:
+                    args << s_nodeStatus;
+                    break;
                 case StakeLockTake:
                     args << net << walletName << hashTx;
                     break;
                 case TxCreateJson:
                     args << list;
-                    break;                    
+                    break;
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
-//                case GetNodeStatus:      doc = _cmdController->getNodeStatus(); break;
 //                case NodeAdd:            doc = _cmdController->nodeAdd(net, addr, ip, port); break;
-//                case GetNodeIP:          doc = _cmdController->getNodeIP(net, addr, jsonArray); break;
-//                case NodeDump:           doc = _cmdController->nodeDump(net); break;
 //                case GetNodeNetState:    doc = _cmdController->getNodeNetState(net); break;
-//                case GetListKeys:        doc = _cmdController->getListKeys(net); break;
 //                case GetServiceLimits:   doc = _cmdController->getServiceLimits(net, pr_hash, cl_hash, srv_uid); break;
                 default:
                     qWarning()<<"Unknown request";

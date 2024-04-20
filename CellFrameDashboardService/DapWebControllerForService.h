@@ -46,8 +46,13 @@ private:
                                                , {"GetOrdersList", "DapGetListOrdersCommand"}
                                                , {"GetCertificates", "DapCertificateManagerCommands"}
                                                , {"StakeLockHold", "DapStakeLockHoldCommand"}
+                                               , {"GetListKeys", "DapGetListKeysCommand"}
+                                               , {"NodeDump", "DapNodeDumpCommand"}
+                                               , {"GetNodeIP", "DapGetNodeIPCommand"}
+                                               , {"GetNodeStatus", "DapGetNodeStatus"}
                                                , {"StakeLockTake", "DapStakeLockTakeCommand"}
                                                , {"TxCreateJson", "DapCreateJsonTransactionCommand"}};
+
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
                                     , "DapVersionController"
@@ -64,6 +69,10 @@ private:
                                     , "MempoolCheckCommand"
                                     , "DapGetListOrdersCommand"
                                     , "DapStakeLockHoldCommand"
+                                    , "DapGetListKeysCommand"
+                                    , "DapNodeDumpCommand"
+                                    , "DapGetNodeIPCommand"
+                                    , "DapGetNodeStatus"
                                     , "DapStakeLockTakeCommand"
                                     , "DapCreateJsonTransactionCommand"};
 
