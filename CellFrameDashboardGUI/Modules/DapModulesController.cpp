@@ -16,6 +16,7 @@
 #include "dApps/DapModuledApps.h"
 #include "Diagnostics/DapModuleDiagnostics.h"
 #include "Orders/DapModuleOrders.h"
+#include "MasterNode/DapModuleMasterNode.h"
 
 #include "Models/DapWalletListModel.h"
 
@@ -66,6 +67,7 @@ void DapModulesController::initModules()
     addModule("dAppsModule", new DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("ordersModule", new DapModuleOrders(this));
+//    addModule("nodeMasterModule", new DapModuleMasterNode(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 
