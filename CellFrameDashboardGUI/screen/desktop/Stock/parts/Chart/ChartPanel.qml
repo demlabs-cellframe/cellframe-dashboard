@@ -8,6 +8,7 @@ import "../DapPairComboBox"
 
 Item
 {
+    id: root
     property real roundValue: 1000000
     property alias tokenPriceText: tokenPriceText
 
@@ -17,6 +18,58 @@ Item
 
     Component.onCompleted:
     {
+    }
+
+    ListModel {
+        id: selectorModel
+        ListElement {
+            name: qsTr("1m")
+        }
+        ListElement {
+            name: qsTr("2m")
+        }
+        ListElement {
+            name: qsTr("5m")
+        }
+        ListElement {
+            name: qsTr("15m")
+        }
+        ListElement {
+            name: qsTr("30m")
+        }
+        ListElement {
+            name: qsTr("1h")
+        }
+        ListElement {
+            name: qsTr("4h")
+        }
+        ListElement {
+            name: qsTr("12h")
+        }
+        ListElement {
+            name: qsTr("24h")
+        }
+        ListElement {
+            name: qsTr("7D")
+        }
+        ListElement {
+            name: qsTr("14D")
+        }
+        ListElement {
+            name: qsTr("1M")
+        }
+    }
+
+    ListModel {
+        id: typePanelModel
+        ListElement {
+            name: qsTr("Regular mode")
+            workName: "regular"
+        }
+        ListElement {
+            name: qsTr("Advanced mode")
+            workName: "advanced"
+        }
     }
 
     ColumnLayout
@@ -35,14 +88,16 @@ Item
             DapCustomComboBox
             {
                 id: comboboxNetwork
-                Layout.minimumWidth: 184
-                height: 32
+                Layout.minimumWidth: 100
+                leftMarginDisplayText: 0
 
+                height: 32
+                popupWidth: 200
+                isHighlightDisplayTextPopup: true
                 backgroundColorShow: currTheme.secondaryBackground
                 backgroundColorNormal: currTheme.secondaryBackground
 
                 isSingleColor: true
-                isNecessaryToHideCurrentIndex: true
                 popupBorderWidth: 0
 
                 model: dexNetModel
@@ -109,7 +164,7 @@ Item
             {
                 id: pairBox
 
-                Layout.minimumWidth: 184
+                Layout.minimumWidth: 117
                 height: 32
                 model:modelTokenPair
 
@@ -125,13 +180,97 @@ Item
                 }
             }
 
+            RowLayout
+            {
+                Layout.fillWidth: true
+                Text
+                {
+                    font: mainFont.dapFont.regular13
+                    color: currTheme.gray
+                    text: qsTr("Total: ")
+                }
+
+                Text
+                {
+                    font: mainFont.dapFont.regular13
+                    color: currTheme.white
+                    text: "100500" + qsTr(" pairs")
+                }
+            }
+
+
+            DapSelector
+            {
+                Layout.alignment: Qt.AlignRight
+                height: 24
+                textFont: mainFont.dapFont.regular16
+                selectorModel: typePanelModel
+                selectorListView.interactive: false
+                width: 240
+                onItemSelected:
+                {
+                }
+
+                Component.onCompleted:
+                {
+                }
+            }
+        }
+
+        RowLayout
+        {
+            Layout.topMargin: 16
+            Layout.bottomMargin: 8
+            spacing: 10
+            
+            Item
+            {
+                Layout.alignment: Qt.AlignVCenter
+                height: 30
+                width: 240
+                Text
+                {
+                    id: textItem
+                    height: 30
+                    font: mainFont.dapFont.medium24
+                    color: currTheme.white
+                    text: dexModule.displayText + ":"
+                    verticalAlignment: Qt.AlignVCenter
+                    
+                    topPadding: OS_WIN_FLAG ? 5 : 0
+                }
+
+                DapBigNumberText
+                {
+                    id: tokenPriceText
+                    anchors.left: textItem.right
+                    // Layout.fillWidth: true
+                    height: 30
+                    textFont: mainFont.dapFont.medium24
+                    textColor: currTheme.green
+                    outSymbols: 9
+                    fullNumber: dexModule.currentRate
+                    copyButtonVisible: false
+                }
+            }
+
+
+
+            /*            Text
+            {
+                id: tokenPriceText
+                font: mainFont.dapFont.medium24
+                color: currTheme.textColorGreen
+                text: stockDataWorker.currentTokenPrice.
+                    toFixed(roundPower)
+            }*/
             ColumnLayout
             {
                 height: 35
 
                 Text
                 {
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     color: currTheme.gray
                     text: qsTr("24h Hight")
                 }
@@ -151,7 +290,7 @@ Item
 
                 Text
                 {
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     color: currTheme.gray
 
                     text: qsTr("24h Low")
@@ -188,47 +327,6 @@ Item
                     text: volume24h.toFixed(2) + " " + tokenPairsWorker.tokenBuy
                 }
             }
-
-        }
-
-        ListModel {
-            id: selectorModel
-            ListElement {
-                name: qsTr("1m")
-            }
-            ListElement {
-                name: qsTr("2m")
-            }
-            ListElement {
-                name: qsTr("5m")
-            }
-            ListElement {
-                name: qsTr("15m")
-            }
-            ListElement {
-                name: qsTr("30m")
-            }
-            ListElement {
-                name: qsTr("1h")
-            }
-            ListElement {
-                name: qsTr("4h")
-            }
-            ListElement {
-                name: qsTr("12h")
-            }
-            ListElement {
-                name: qsTr("24h")
-            }
-            ListElement {
-                name: qsTr("7D")
-            }
-            ListElement {
-                name: qsTr("14D")
-            }
-            ListElement {
-                name: qsTr("1M")
-            }
         }
 
         DapSelector
@@ -249,47 +347,6 @@ Item
             {
                 chartItem.setCandleSize(currentIndex)
             }
-        }
-
-        RowLayout
-        {
-            Layout.topMargin: 16
-            Layout.bottomMargin: 8
-            spacing: 10
-
-            Text
-            {
-                id: textItem
-                height: 30
-                font: mainFont.dapFont.medium24
-                color: currTheme.white
-                text: dexModule.displayText + ":"
-                verticalAlignment: Qt.AlignVCenter
-                Layout.alignment: Qt.AlignVCenter
-                topPadding: OS_WIN_FLAG ? 5 : 0
-            }
-
-            DapBigNumberText
-            {
-                id: tokenPriceText
-                Layout.alignment: Qt.AlignVCenter
-                Layout.fillWidth: true
-                height: 30
-                textFont: mainFont.dapFont.medium24
-                textColor: currTheme.green
-                outSymbols: 15
-                fullNumber: dexModule.currentRate
-                copyButtonVisible: true
-            }
-
-/*            Text
-            {
-                id: tokenPriceText
-                font: mainFont.dapFont.medium24
-                color: currTheme.textColorGreen
-                text: stockDataWorker.currentTokenPrice.
-                    toFixed(roundPower)
-            }*/
         }
 
         CandleChart
@@ -450,7 +507,7 @@ Item
     function updateTokenPrice()
     {
         if (candleChartWorker.currentTokenPrice <
-            candleChartWorker.previousTokenPrice)
+                candleChartWorker.previousTokenPrice)
             tokenPriceText.textColor = currTheme.red
         else
             tokenPriceText.textColor = currTheme.green
