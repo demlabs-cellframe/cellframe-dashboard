@@ -303,6 +303,12 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
                 case TxCreateJson:
                     args << list;
                     break;
+                case NodeAdd:
+                    args << net << addr << ip << port;
+                    break;
+                case GetServiceLimits:
+                    args << net << pr_hash << cl_hash << srv_uid;
+                    break;
 //                case TxCreateJson:       doc = _cmdController->sendJsonTransaction(list); break;
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;

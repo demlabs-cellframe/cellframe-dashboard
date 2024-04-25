@@ -53,7 +53,9 @@ private:
                                                , {"StakeLockTake", "DapStakeLockTakeCommand"}
                                                , {"TxCreateJson", "DapCreateJsonTransactionCommand"}
                                                , {"GetNodeNetState", "DapGetNetworksStateCommand"}
-                                               , {"TxCreateJson", "DapCreateJsonTransactionCommand"}};
+                                               , {"TxCreateJson", "DapCreateJsonTransactionCommand"}
+                                               , {"NodeAdd", "DapAddNodeCommand"}
+                                               , {"GetServiceLimits", "DapGetServiceLimitsCommand"}};
 
     QSet<QString> m_listCommand = {"DapGetListNetworksCommand"
                                     , "DapGetListWalletsCommand"
@@ -77,7 +79,9 @@ private:
                                     , "DapGetNodeStatus"
                                     , "DapStakeLockTakeCommand"
                                     , "DapCreateJsonTransactionCommand"
-                                    , "DapGetNetworksStateCommand"};
+                                    , "DapGetNetworksStateCommand"
+                                    , "DapAddNodeCommand"
+                                    , "DapGetServiceLimitsCommand"};
 
     const QString RESULT_KEY = "result";
     const QString WEB3_KEY = "web3";
