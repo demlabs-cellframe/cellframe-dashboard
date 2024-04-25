@@ -140,8 +140,8 @@ Item{
                         Item
                         {
                             height: parent.height
-                            width: parent.width - 144
                             anchors.left: parent.left
+                            anchors.right: statusProtected !== "" ? protectIcon.left : removeIcon.left
                             anchors.leftMargin: 24
 
                             DapBigText
