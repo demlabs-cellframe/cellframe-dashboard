@@ -65,6 +65,8 @@
 #include "handlers/DapGetNodeIPCommand.h"
 #include "handlers/DapGetNodeStatus.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
+#include "handlers/DapAddNodeCommand.h"
+#include "handlers/DapGetServiceLimitsCommand.h"
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
@@ -284,6 +286,8 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapNodeDumpCommand                   ("DapNodeDumpCommand"                   , nullptr));
     m_servicePool.append(new DapGetNodeIPCommand                  ("DapGetNodeIPCommand"                  , nullptr));
     m_servicePool.append(new DapGetNodeStatus                     ("DapGetNodeStatus"                     , nullptr));
+    m_servicePool.append(new DapAddNodeCommand                    ("DapAddNodeCommand"                    , nullptr));
+    m_servicePool.append(new DapGetServiceLimitsCommand           ("DapGetServiceLimitsCommand"                    , nullptr));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
 
     for(auto& service: qAsConst(m_servicePool))
