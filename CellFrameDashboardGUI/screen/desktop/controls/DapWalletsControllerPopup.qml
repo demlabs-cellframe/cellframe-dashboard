@@ -7,6 +7,23 @@ import "qrc:/widgets"
 
 Item{
     property var walletListBuff
+    property bool isBackSide: visible ? (walletActivatePopup.visible || walletDeactivatePopup.visible || removeWalletPopup.visible) : false
+    property int minAnimDuration: 100
+
+    onIsBackSideChanged:
+    {
+        if(isBackSide)
+        {
+            minAnimDuration = 100
+            backgroundFrame.opacity = 0.0
+            walletsFrame.opacity = 0.0
+        }
+        else
+        {
+            minAnimDuration = 0
+            show()
+        }
+    }
 
     Rectangle
     {
@@ -23,7 +40,7 @@ Item{
             onClicked: hide()
         }
 
-        Behavior on opacity {NumberAnimation{duration: 100}}
+        Behavior on opacity {NumberAnimation{duration: minAnimDuration}}
     }
 
     Rectangle
@@ -33,7 +50,7 @@ Item{
         visible: opacity
         opacity: 0
 
-        Behavior on opacity {NumberAnimation{duration: 200}}
+        Behavior on opacity {NumberAnimation{duration: minAnimDuration*2}}
 
         width: 328
         height: walletModelList.count > 4 ? 401 : 97 + walletModelList.count * 61
@@ -115,17 +132,17 @@ Item{
                     height: 61
                     width: walletsListView.width
 
-                    RowLayout
+                    Item
                     {
                         width: parent.width
                         height: 60
 
                         Item
                         {
-                            width: 224
-                            Layout.leftMargin: 24
-                            Layout.fillHeight: true
-                            Layout.alignment: Qt.AlignLeft
+                            height: parent.height
+                            width: parent.width - 144
+                            anchors.left: parent.left
+                            anchors.leftMargin: 24
 
                             DapBigText
                             {
@@ -140,22 +157,69 @@ Item{
 
                         Rectangle
                         {
+                            id: protectIcon
+                            width: 32
+                            height: 32
+                            radius: 4
+                            color: protectArea.containsMouse ? currTheme.rowHover : currTheme.mainBackground
+                            visible: statusProtected !== ""
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 64
+
+                            Image
+                            {
+                                anchors.centerIn: parent
+                                source: statusProtected === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+                                                                        : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
+                                mipmap: true
+                            }
+
+                            DapCustomToolTip
+                            {
+                                contentText: statusProtected === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet")
+                            }
+
+                            MouseArea
+                            {
+                                id: protectArea
+                                hoverEnabled: true
+                                anchors.fill: parent
+
+                                onClicked:
+                                {
+                                    if(statusProtected === "non-Active")
+                                    {
+                                        walletActivatePopup.show(walletName, false)
+                                    }
+                                    else
+                                    {
+                                        walletDeactivatePopup.show(walletName)
+                                    }
+                                }
+                            }
+                        }
+
+                        Rectangle
+                        {
                             id: removeIcon
-                            Layout.leftMargin: 24
-                            Layout.rightMargin: 24
-                            Layout.alignment: Qt.AlignRight
                             width: 32
                             height: 32
                             radius: 4
                             color: area.containsMouse ? currTheme.rowHover : currTheme.mainBackground
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 24
 
-                            Image{
+                            Image
+                            {
                                 anchors.centerIn: parent
                                 source: "qrc:/Resources/BlackTheme/icons/other/remove_wallet.svg"
                                 mipmap: true
                             }
 
-                            MouseArea{
+                            MouseArea
+                            {
                                 id: area
                                 hoverEnabled: true
                                 anchors.fill: parent
