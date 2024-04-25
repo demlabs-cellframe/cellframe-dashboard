@@ -140,6 +140,7 @@ Page
 
                 Item
                 {
+                    id: payItem
                     anchors.fill: parent
                     anchors.margins: 12
                     Text
@@ -202,6 +203,7 @@ Page
 
                     Item
                     {
+                        id: tokenPay
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
                         width: textTokenName.width + imageArrow.width
@@ -228,20 +230,29 @@ Page
                             source: "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_down_rect.svg"
                         }
                     }
-                    Text
+
+                    Item
                     {
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
-                        horizontalAlignment: Qt.AlignRight
-                        verticalAlignment: Qt.AlignBottom
-                        font: mainFont.dapFont.medium20
-                        text: qsTr("88.24124")
-                        color: currTheme.white
+                        anchors.left: tokenPay.right
+                        height: 24
+
+                        DapBigText
+                        {
+                            anchors.fill: parent
+                            textElement.horizontalAlignment: Qt.AlignRight
+                            textElement.verticalAlignment: Qt.AlignBottom
+                            textFont: mainFont.dapFont.medium20
+                            textColor: currTheme.white
+                            fullText: "88.241234534545345345345345345345344"
+                        }
+
                     }
                 }
 
             }
-
+            // You receive
             Rectangle
             {
                 height: 76
@@ -253,6 +264,91 @@ Page
                 border.color: currTheme.input
                 border.width: 1
 
+                Item
+                {
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    Text
+                    {
+                        id: youReceiveText
+                        height: 16
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        text: qsTr("You pay")
+                        font: mainFont.dapFont.regular11
+                        color: currTheme.lightGray
+                    }
+
+                    DapBalanceComponent
+                    {
+                        id: textBalance2
+                        height: 16
+                        anchors.left: youReceiveText.right
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        anchors.leftMargin: 4
+                        anchors.rightMargin: 4
+                        label: qsTr("Balance:")
+                        textColor: currTheme.white
+                        textFont: mainFont.dapFont.regular11
+                        text: "10.56589798"
+
+                        Component.onCompleted:
+                        {
+
+                        }
+                    }
+
+
+
+                    Item
+                    {
+                        id: tokenReceive
+                        anchors.bottom: parent.bottom
+                        anchors.left:  parent.left
+                        width: textToken2Name.width + imageArrow2.width
+                        height: 24
+                        Text
+                        {
+                            id: textToken2Name
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            font: mainFont.dapFont.medium20
+                            text: qsTr("CELL")
+                            color: currTheme.white
+                            verticalAlignment: Qt.AlignBottom
+                        }
+                        Image
+                        {
+                            id: imageArrow2
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            width: 24
+                            height: 24
+                            source: "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_down_rect.svg"
+                        }
+                    }
+
+                    Item
+                    {
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.left: tokenReceive.right
+                        height: 24
+
+                        DapBigText
+                        {
+                            anchors.fill: parent
+                            textElement.horizontalAlignment: Qt.AlignRight
+                            textElement.verticalAlignment: Qt.AlignBottom
+                            textFont: mainFont.dapFont.medium20
+                            textColor: currTheme.white
+                            fullText: "88.245344"
+                        }
+                    }
+                }
             }
 
             Image{
@@ -263,7 +359,6 @@ Page
             }
         }
 
-
         Rectangle
         {
             height: 76
@@ -276,19 +371,6 @@ Page
             border.width: 1
 
         }
-
-        Rectangle
-        {
-            height: 76
-            Layout.fillWidth: parent
-            Layout.rightMargin: 16
-            Layout.leftMargin: 16
-            color: currTheme.mainBackground
-            radius: 4
-            border.color: currTheme.input
-            border.width: 1
-        }
-
 
         Rectangle
         {
