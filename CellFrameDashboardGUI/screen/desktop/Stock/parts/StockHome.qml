@@ -13,9 +13,32 @@ Item
     signal goToRightHome()
     signal goToDoneCreate()
 
+    property string defaultModeType: "regular"
+    property string currantModeType: "regular"
+
+    property string panelPath: ""
+
+    function updateDefaultPanel()
+    {
+        if(currantModeType === "regular")
+        {
+            panelPath = "CreateOrderLight/CreateOrderLight.qml"
+        }
+        else if(currantModeType === "advanced")
+        {
+            panelPath = "OrderBook/OrderBook.qml"
+        }
+    }
+
+    onCurrantModeTypeChanged:
+    {
+        updateDefaultPanel()
+        changeRightPage(panelPath)
+    }
+
     onGoToRightHome:
     {
-        changeRightPage("OrderBook/OrderBook.qml")
+        changeRightPage(panelPath)
     }
     onGoToDoneCreate:
     {
@@ -24,8 +47,9 @@ Item
 
     Component.onCompleted:
     {
+        updateDefaultPanel()
 //        logicStock.initPairModel()
-        changeRightPage("OrderBook/OrderBook.qml")
+        changeRightPage(panelPath)
 //        changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
 

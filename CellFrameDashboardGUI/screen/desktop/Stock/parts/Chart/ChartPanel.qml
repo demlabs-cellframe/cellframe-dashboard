@@ -201,14 +201,28 @@ Item
 
             DapSelector
             {
+                id: modeSelector
                 Layout.alignment: Qt.AlignRight
                 height: 24
                 textFont: mainFont.dapFont.regular16
+                defaultIndex:
+                {
+                    for(var i = 0; i < typePanelModel.count; i++)
+                    {
+                        if(typePanelModel.get(i).workName === defaultModeType)
+                        {
+                            return i
+                        }
+                    }
+                    return 0
+                }
+
                 selectorModel: typePanelModel
                 selectorListView.interactive: false
                 width: 240
                 onItemSelected:
                 {
+                    currantModeType = typePanelModel.get(modeSelector.currentIndex).workName
                 }
 
                 Component.onCompleted:

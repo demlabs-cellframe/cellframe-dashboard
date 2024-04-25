@@ -25,6 +25,9 @@ QtObject {
     readonly property color mainButtonColorHover1         : "#7F65FF"
     readonly property color secondaryButtonColor          : "#373A42"
 
+    readonly property color darkGreen                     : "#515A44"
+    readonly property color lightGray                     : "#A2A8B2"
+
     //Colors
     readonly property color white                         : "#ffffff"
     readonly property color gray                          : "#B2B2B2"
