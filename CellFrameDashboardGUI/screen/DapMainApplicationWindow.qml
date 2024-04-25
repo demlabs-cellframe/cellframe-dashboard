@@ -152,7 +152,7 @@ Rectangle {
         id: walletsControllerPopup
         anchors.fill: parent
         visible: false
-        z: 10
+        z: 9
     }
 
     DapRemoveWalletPopup{
