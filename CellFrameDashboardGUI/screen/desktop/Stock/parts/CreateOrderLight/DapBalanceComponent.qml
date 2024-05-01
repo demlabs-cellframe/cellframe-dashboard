@@ -31,6 +31,7 @@ RowLayout {
         Layout.preferredWidth: Math.min(root.width - labelItem.implicitWidth, textElement.implicitWidth)
         Layout.fillHeight: true
         textFont: parent.textFont
+        textElement.elide: Text.ElideRight
         textColor: currTheme.gray
     }
 }
