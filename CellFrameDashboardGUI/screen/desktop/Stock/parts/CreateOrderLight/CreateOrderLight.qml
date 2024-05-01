@@ -265,7 +265,7 @@ Page
                 source: arrowMouseArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button_hover.svg" : "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button.svg"
                 y: payRect.y + payRect.height + 6 - height/2
                 z: payRect.z + 1
-                rotation: arrowMouseArea.containsMouse ? 180 : 0
+                rotation: arrowMouseArea.containsMouse ? -180 : 0
 
                 MouseArea
                 {
