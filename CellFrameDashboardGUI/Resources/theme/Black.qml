@@ -18,6 +18,8 @@ QtObject {
     readonly property color grid                          : "#3E4249"
     readonly property color rowHover                      : "#474B53"
     readonly property color border                        : "#2E2E32"
+    readonly property color tokenChangeButton             : "#3C424C"
+    readonly property color tokenChangeButtonHover        : "#6F7B8F"
 
     readonly property color mainButtonColorNormal0        : "#A361FF"
     readonly property color mainButtonColorNormal1        : "#9580FF"
@@ -26,6 +28,7 @@ QtObject {
     readonly property color secondaryButtonColor          : "#373A42"
 
     readonly property color darkGreen                     : "#515A44"
+    readonly property color lightGreen2                   : "#788466"
     readonly property color lightGray                     : "#A2A8B2"
 
     //Colors
