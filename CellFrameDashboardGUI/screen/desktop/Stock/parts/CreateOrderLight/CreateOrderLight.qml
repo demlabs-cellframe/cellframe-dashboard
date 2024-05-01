@@ -120,15 +120,19 @@ Page
 
         Item
         {
+            property int spaceMargin: 12
+
+            id: rectanglesItem
             Layout.fillWidth: parent
             Layout.rightMargin: 15
             Layout.leftMargin: 15
-            height: 166
-
+            Layout.topMargin: 8
+            height: payRect.height + receiveRect.height + priceRect.height + expiresRect.height + 3 * rectanglesItem.spaceMargin
 
             // "You pay" field
             Rectangle
             {
+                id: payRect
                 height: 76
                 anchors.top: parent.top
                 anchors.left: parent.left
@@ -140,9 +144,9 @@ Page
 
                 Item
                 {
-                    id: payItem
                     anchors.fill: parent
                     anchors.margins: 12
+
                     Text
                     {
                         id: youPayText
@@ -166,24 +170,20 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: "10.5658979879879687698778"
-
-                        Component.onCompleted:
-                        {
-
-                        }
+                        text: "10.565897987987"
                     }
-
 
                     Rectangle
                     {
                         id: maxBtn
                         anchors.right: parent.right
+                        anchors.rightMargin: 3
                         anchors.top: parent.top
-                        color: currTheme.darkGreen
+                        color: maxBtnMouseArea.containsMouse ? currTheme.lightGreen2 : currTheme.darkGreen
                         height: 16
                         width: 32
                         radius: 4
+
                         Text {
                             anchors.fill: parent
                             text: qsTr("MAX")
@@ -191,9 +191,12 @@ Page
                             color: currTheme.lime
                             horizontalAlignment: Qt.AlignHCenter
                         }
+
                         MouseArea
                         {
+                            id: maxBtnMouseArea
                             anchors.fill: parent
+                            hoverEnabled: true
                             onClicked:
                             {
 
@@ -208,6 +211,7 @@ Page
                         anchors.left:  parent.left
                         width: textTokenName.width + imageArrow.width
                         height: 24
+
                         Text
                         {
                             id: textTokenName
@@ -236,29 +240,56 @@ Page
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.left: tokenPay.right
+                        anchors.leftMargin: 4
                         height: 24
 
                         DapBigText
                         {
                             anchors.fill: parent
-                            textElement.horizontalAlignment: Qt.AlignRight
-                            textElement.verticalAlignment: Qt.AlignBottom
+                            horizontalAlign: Qt.AlignRight
+                            verticalAlign: Qt.AlignBottom
                             textFont: mainFont.dapFont.medium20
-                            textColor: currTheme.white
-                            fullText: "88.241234534545345345345345345345344"
+                            textElement.elide: Text.ElideRight
+                            fullText: "88.2412345345453453"
                         }
+                    }
+                }
+            }
 
+            // arrow between
+            Image
+            {
+                width: 32
+                height: 32
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: arrowMouseArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button_hover.svg" : "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button.svg"
+                y: payRect.y + payRect.height + 6 - height/2
+                z: payRect.z + 1
+                rotation: arrowMouseArea.containsMouse ? 180 : 0
+
+                MouseArea
+                {
+                    id: arrowMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked:
+                    {
+                        console.log("arrow clicked")
                     }
                 }
 
+                Behavior on rotation {NumberAnimation{duration: 100}}
             }
-            // You receive
+
+            // "You receive" field
             Rectangle
             {
+                id: receiveRect
                 height: 76
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.bottom: parent.bottom
+                anchors.top: payRect.bottom
+                anchors.topMargin: rectanglesItem.spaceMargin
                 color: currTheme.mainBackground
                 radius: 4
                 border.color: currTheme.input
@@ -274,7 +305,7 @@ Page
                         height: 16
                         anchors.left: parent.left
                         anchors.top: parent.top
-                        text: qsTr("You pay")
+                        text: qsTr("You receive")
                         font: mainFont.dapFont.regular11
                         color: currTheme.lightGray
                     }
@@ -287,19 +318,17 @@ Page
                         anchors.top: parent.top
                         anchors.right: parent.right
                         anchors.leftMargin: 4
-                        anchors.rightMargin: 4
+                        anchors.rightMargin: 3
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: "10.56589798"
+                        text: "10.5658979000000"
 
                         Component.onCompleted:
                         {
 
                         }
                     }
-
-
 
                     Item
                     {
@@ -341,56 +370,207 @@ Page
                         DapBigText
                         {
                             anchors.fill: parent
-                            textElement.horizontalAlignment: Qt.AlignRight
-                            textElement.verticalAlignment: Qt.AlignBottom
+                            horizontalAlign: Qt.AlignRight
+                            verticalAlign: Qt.AlignBottom
                             textFont: mainFont.dapFont.medium20
-                            textColor: currTheme.white
-                            fullText: "88.245344"
+                            textElement.elide: Text.ElideRight
+                            fullText: "88.245344283967287387587482736496958"
                         }
                     }
                 }
             }
 
-            Image{
-                anchors.centerIn: parent
-                source: "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button.svg"
-                width: 32
-                height: 32
+            // "Price" field
+            Rectangle
+            {
+                id: priceRect
+                height: 76
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: receiveRect.bottom
+                anchors.topMargin: rectanglesItem.spaceMargin
+                color: currTheme.mainBackground
+                radius: 4
+                border.color: currTheme.input
+                border.width: 1
+
+                Item
+                {
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    Text
+                    {
+                        height: 16
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        text: qsTr("Pay ") + textTokenName.text + qsTr(" at rate")
+                        font: mainFont.dapFont.regular11
+                        color: currTheme.lightGray
+                    }
+                    Text
+                    {
+                        height: 16
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        text: qsTr("Set to market")
+                        font: mainFont.dapFont.regular11
+                        color: currTheme.lime
+                    }
+                    Text
+                    {
+                        id: priceText
+                        height: 24
+                        anchors.bottom: parent.bottom
+                        anchors.left:  parent.left
+                        anchors.right: switchButton.left
+                        font: mainFont.dapFont.medium20
+                        text: "1.1213435235264344"
+                        color: currTheme.white
+                        verticalAlignment: Qt.AlignBottom
+                    }
+                    Rectangle
+                    {
+                        id: switchButton
+                        width: tokenSwitch.contentWidth + imageArrows.width + 6
+                        height: 16
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.leftMargin: 4
+                        anchors.rightMargin: 2
+                        color:  priceMouseArea.containsMouse ? currTheme.tokenChangeButtonHover : currTheme.tokenChangeButton
+                        radius: 4
+                        Text
+                        {
+                            id: tokenSwitch
+                            height: parent.height
+                            text: textToken2Name.text
+                            anchors.left: parent.left
+                            anchors.leftMargin: 3
+                            font: mainFont.dapFont.medium12
+                            color: currTheme.inputActive
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        Image
+                        {
+                            id: imageArrows
+                            width: 16
+                            height: 16
+                            anchors.right: parent.right
+                            anchors.rightMargin: 3
+                            source: "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_left_right.svg"
+                        }
+                        MouseArea
+                        {
+                            id: priceMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked:
+                            {
+                                console.log("change tokens clicked")
+                            }
+                        }
+                    }
+                }
             }
-        }
 
-        Rectangle
-        {
-            height: 76
-            Layout.fillWidth: parent
-            Layout.rightMargin: 16
-            Layout.leftMargin: 16
-            color: currTheme.mainBackground
-            radius: 4
-            border.color: currTheme.input
-            border.width: 1
+            // "Expires" field
+            Rectangle
+            {
+                id: expiresRect
+                height: 76
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: priceRect.bottom
+                anchors.topMargin: rectanglesItem.spaceMargin
+                color: currTheme.mainBackground
+                radius: 4
+                border.color: currTheme.input
+                border.width: 1
+                opacity: 0.4
 
-        }
+                Item
+                {
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    Text
+                    {
+                        id: expiresLabelText
+                        height: 16
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        text: qsTr("Expires in")
+                        font: mainFont.dapFont.regular11
+                        color: currTheme.lightGray
+                    }
+                    Item {
+                        width: 16
+                        height: 16
+                        anchors.left: expiresLabelText.right
+                        anchors.leftMargin: 2
+                        anchors.top: parent.top
 
-        Rectangle
-        {
-            height: 76
-            Layout.fillWidth: parent
-            Layout.rightMargin: 16
-            Layout.leftMargin: 16
-            color: currTheme.mainBackground
-            radius: 4
-            border.color: currTheme.input
-            border.width: 1
-        }
+                        Image
+                        {
+                            id: orderIcon
+                            anchors.fill: parent
+                            mipmap: true
+                            source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info_small.svg"
+                        }
 
-        Rectangle
-        {
-            height: 40
-            Layout.fillWidth: parent
-            Layout.rightMargin: 16
-            Layout.leftMargin: 16
-            color: currTheme.mainBackground
+                        DapCustomToolTip
+                        {
+                            contentText: qsTr("Come back later")
+                            visible: i_tooltipMouseArea.containsMouse
+                        }
+
+                        MouseArea
+                        {
+                            id: i_tooltipMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                        }
+                    }
+
+                    Item
+                    {
+                        height: 24
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        Text {
+                            text: qsTr("7 Days")
+                            anchors.left: parent.left
+                            anchors.right: imageArrow3.left
+                            anchors.rightMargin: 4
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            font: mainFont.dapFont.medium20
+                            color: currTheme.white
+                            horizontalAlignment: Text.AlignLeft
+                        }
+                        Image
+                        {
+                            id: imageArrow3
+                            width: 24
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            height: 24
+                            source: "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_down_rect.svg"
+                        }
+                        MouseArea
+                        {
+                            id: expiresMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked:
+                            {
+                                console.log("select expires clicked")
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         // CREATE BUTTON
