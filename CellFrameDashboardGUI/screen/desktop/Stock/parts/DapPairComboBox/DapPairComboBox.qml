@@ -10,9 +10,6 @@ ComboBox {
 
     implicitHeight: 45
 
-    leftPadding: 15
-    rightPadding: 15
-
     property int maximumPopupHeight: 230
     property int widthPopup: 296
 
@@ -81,21 +78,6 @@ ComboBox {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-//                Text
-//                {
-//                    id: changeText
-//                    anchors.right: parent.right
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    anchors.rightMargin: 16
-//                    text: logic.getModelData(index, "change")
-//                    color: menuDelegate.highlighted ?
-//                               currTheme.hilightTextColorComboBox :
-//                               text[0] === "+" ? currTheme.textColorGreen:currTheme.textColorRed
-//                    font: mainFont.dapFont.regular13
-//                    elide: Text.ElideRight
-//                    verticalAlignment: Text.AlignVCenter
-//                }
-
                 Rectangle{
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -139,9 +121,8 @@ ComboBox {
             id: canvas
             width: 24
             height: 24
-            x: control.width - width - control.rightPadding
+            anchors.right: control.right
             y: control.topPadding + (control.availableHeight - height) / 2
-
             fillMode: Image.PreserveAspectFit
             source: "icons/icon_arrow_down.png"
             sourceSize.width: 24
@@ -269,15 +250,7 @@ ComboBox {
                                 text: qsTr("Price")
                                 font: mainFont.dapFont.medium12
                                 color: currTheme.white
-
                             }
-//                            Text{
-//                                anchors.right: parent.right
-//                                anchors.verticalCenter: parent.verticalCenter
-//                                text: qsTr("Change")
-//                                font: mainFont.dapFont.medium12
-//                                color: currTheme.textColor
-//                            }
                         }
                     }
                 }
@@ -333,17 +306,6 @@ ComboBox {
                     samples: 10
                     cached: true
                 }
-
-//                InnerShadow {
-//                    anchors.fill: popupBackGrnd
-//                    horizontalOffset: 1
-//                    verticalOffset: 0
-//                    radius: 1
-//                    samples: 10
-//                    cached: true
-//                    color: "#524D64"
-//                    source: popupBackGrnd
-//                }
             }
     }
 }

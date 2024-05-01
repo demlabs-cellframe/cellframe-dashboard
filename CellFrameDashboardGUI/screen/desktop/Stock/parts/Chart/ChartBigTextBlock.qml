@@ -2,14 +2,13 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 
-RowLayout {
+Item {
     property alias label: labelItem.text
-    property alias text: textItem.fullNumber
+    property alias text: textItem.fullText
     property alias labelVisible: labelItem.visible
     property alias textColor: textItem.textElement.color
     property var fontComponent: mainFont.dapFont.regular12
 
-    spacing: 3
     Text
     {
         id: labelItem
@@ -17,19 +16,14 @@ RowLayout {
         color: currTheme.gray
     }
 
-    DapBigNumberText
+    DapBigText
     {
         id: textItem
-        Layout.alignment: Qt.AlignLeft
-        Layout.fillWidth: true
+        anchors.left: labelItem.right
+        anchors.right: parent.right
         height: labelItem.height
         textFont: fontComponent
-        textElement.color: currTheme.gray
-        outSymbols: 8
-
-        copyButtonVisible: false
-    }
-    Item {
-        Layout.fillWidth: true
+        textColor: currTheme.gray
+        textElement.elide: Text.ElideRight
     }
 }
