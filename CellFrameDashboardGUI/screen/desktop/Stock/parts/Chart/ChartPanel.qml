@@ -75,11 +75,7 @@ Item
     ColumnLayout
     {
         anchors.fill: parent
-        //anchors.margins: 10
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
-        anchors.topMargin: 16
-        anchors.bottomMargin: 16
+        anchors.margins: 16
         spacing: 0
 
         Item
@@ -407,7 +403,7 @@ Item
         CandleChart
         {
             id: chartItem
-            Layout.topMargin: 8
+            Layout.topMargin: 5
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -465,7 +461,7 @@ Item
     {
         parent: chartItem
         x: 0
-        y: 0
+        y: 16
         width: childrenRect.width
         height: childrenRect.height
 
