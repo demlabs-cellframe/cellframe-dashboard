@@ -85,18 +85,20 @@ Item
             RowLayout
             {
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
                 spacing: 20
 
                 DapButton
                 {
                     enabled: walletModule.balanceDEX ? true : false
                     id: createOrderButton
-                    Layout.fillWidth: true
+                    Layout.fillWidth: visible
                     implicitHeight: 36
                     textButton: qsTr("Create order")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
+                    visible: currantModeType === "advanced"
                     onClicked:
                     {
                         changeRightPage("CreateOrder/OrderCreate.qml")
@@ -109,7 +111,8 @@ Item
 
                 DapButton
                 {
-                    Layout.fillWidth: true
+                    Layout.fillWidth: createOrderButton.visible
+                    Layout.preferredWidth: createOrderButton.visible ? -1 : 331
                     implicitHeight: 36
                     textButton: qsTr("Orders")
                     horizontalAligmentText: Text.AlignHCenter

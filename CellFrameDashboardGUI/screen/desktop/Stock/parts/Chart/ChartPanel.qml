@@ -75,30 +75,34 @@ Item
     ColumnLayout
     {
         anchors.fill: parent
-        anchors.margins: 10
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
+        anchors.margins: 16
         spacing: 0
 
-        RowLayout
+        Item
         {
             Layout.fillWidth: true
-            spacing: 20
+            height: 24
 
             DapCustomComboBox
             {
                 id: comboboxNetwork
-                Layout.minimumWidth: 100
-                leftMarginDisplayText: 0
+                width: 100
+                implicitHeight: 24
+                delegateHeight: 40
+                popupWidth: width + leftMarginPopupContain + rightMarginPopupContain
+                popupBorderWidth: 0
 
-                height: 32
-                popupWidth: 200
+                anchors.left: parent.left
+
+                leftMarginDisplayText: 0
+                rightMarginIndicator: 0
+                leftMarginPopupContain: 16
+                rightMarginPopupContain: 16
+
                 isHighlightDisplayTextPopup: true
+                isSingleColor: true
                 backgroundColorShow: currTheme.secondaryBackground
                 backgroundColorNormal: currTheme.secondaryBackground
-
-                isSingleColor: true
-                popupBorderWidth: 0
 
                 model: dexNetModel
                 mainTextRole: "name"
@@ -106,7 +110,8 @@ Item
 
                 onModelChanged:
                 {
-                    if(count > 0) {
+                    if(count > 0)
+                    {
                         var f_network = dexModule.networkFilter
                         for(var i = 0; i < model.count; i++)
                         {
@@ -163,12 +168,15 @@ Item
             DapPairComboBox
             {
                 id: pairBox
+                width: 137
+                implicitHeight: 24
+                anchors.left: comboboxNetwork.right
+                anchors.leftMargin: 16
 
-                Layout.minimumWidth: 117
-                height: 32
                 model:modelTokenPair
 
-                onCurrentIndexChanged: {
+                onCurrentIndexChanged:
+                {
                     walletModule.updateBalanceDEX()
                 }
 
@@ -176,35 +184,18 @@ Item
                 {
                     dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
                     walletModule.updateBalanceDEX()
-
                 }
             }
-
-            RowLayout
-            {
-                Layout.fillWidth: true
-                Text
-                {
-                    font: mainFont.dapFont.regular13
-                    color: currTheme.gray
-                    text: qsTr("Total: ")
-                }
-
-                Text
-                {
-                    font: mainFont.dapFont.regular13
-                    color: currTheme.white
-                    text: "100500" + qsTr(" pairs")
-                }
-            }
-
 
             DapSelector
             {
                 id: modeSelector
-                Layout.alignment: Qt.AlignRight
+                width: 240
                 height: 24
-                textFont: mainFont.dapFont.regular16
+
+                anchors.right: parent.right
+
+                textFont: mainFont.dapFont.regular13
                 defaultIndex:
                 {
                     for(var i = 0; i < typePanelModel.count; i++)
@@ -219,126 +210,171 @@ Item
 
                 selectorModel: typePanelModel
                 selectorListView.interactive: false
-                width: 240
+
                 onItemSelected:
                 {
                     currantModeType = typePanelModel.get(modeSelector.currentIndex).workName
                 }
-
-                Component.onCompleted:
-                {
-                }
             }
         }
 
-        RowLayout
+        Item
         {
+            height: 33
             Layout.topMargin: 16
-            Layout.bottomMargin: 8
-            spacing: 10
+            Layout.fillWidth: true
             
             Item
             {
-                Layout.alignment: Qt.AlignVCenter
-                height: 30
+                id: rateArea
                 width: 240
+                height: 30
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+
                 Text
                 {
                     id: textItem
                     height: 30
-                    font: mainFont.dapFont.medium24
+                    anchors.left: parent.left
+                    font: mainFont.dapFont.regular24
                     color: currTheme.white
-                    text: dexModule.displayText + ":"
+                    text: dexModule.displayText + ": "
                     verticalAlignment: Qt.AlignVCenter
-                    
                     topPadding: OS_WIN_FLAG ? 5 : 0
                 }
 
-                DapBigNumberText
+                DapBigText
                 {
                     id: tokenPriceText
-                    anchors.left: textItem.right
-                    // Layout.fillWidth: true
                     height: 30
-                    textFont: mainFont.dapFont.medium24
+                    anchors.left: textItem.right
+                    anchors.right: parent.right
+                    textFont: mainFont.dapFont.regular24
                     textColor: currTheme.green
-                    outSymbols: 9
-                    fullNumber: dexModule.currentRate
-                    copyButtonVisible: false
+                    textElement.elide: Text.ElideRight
+                    fullText: dexModule.currentRate
                 }
             }
 
-
-
-            /*            Text
+            Item
             {
-                id: tokenPriceText
-                font: mainFont.dapFont.medium24
-                color: currTheme.textColorGreen
-                text: stockDataWorker.currentTokenPrice.
-                    toFixed(roundPower)
-            }*/
-            ColumnLayout
-            {
-                height: 35
+                id: hightArea
+                width: 55
+                height: 33
+                anchors.left: rateArea.right
+                anchors.leftMargin: 37
 
                 Text
                 {
                     font: mainFont.dapFont.regular12
                     color: currTheme.gray
                     text: qsTr("24h Hight")
+                    anchors.left: parent.left
+                    anchors.top: parent.top
                 }
 
-                Text
+                DapBigText
                 {
                     id: max24hText
-                    font: mainFont.dapFont.regular12
-                    color: currTheme.white
-                    text: candleChartWorker.maximum24h.toFixed(roundPower)
+                    height: textElement.contentHeight
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    textElement.elide: Text.ElideRight
+                    textFont: mainFont.dapFont.regular13
+                    fullText: candleChartWorker.maximum24h
                 }
             }
 
-            ColumnLayout
+            Item
             {
-                height: 35
+                id: lowArea
+                width: 55
+                height: 33
+                anchors.left: hightArea.right
+                anchors.leftMargin: 40
 
                 Text
                 {
                     font: mainFont.dapFont.regular12
                     color: currTheme.gray
-
                     text: qsTr("24h Low")
+                    anchors.left: parent.left
+                    anchors.top: parent.top
                 }
 
-                Text
+                DapBigText
                 {
                     id: min24hText
-                    font: mainFont.dapFont.regular12
-                    color: currTheme.white
-
-                    text: candleChartWorker.minimum24h.toFixed(roundPower)
+                    height: textElement.contentHeight
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    textElement.elide: Text.ElideRight
+                    textFont: mainFont.dapFont.regular13
+                    fullText: candleChartWorker.minimum24h
                 }
             }
 
-            ColumnLayout
+            Item
             {
-                height: 35
+                id: volumeArea
+                width: 60
+                height: 33
                 visible: false
+                anchors.left: lowArea.right
+                anchors.leftMargin: 40
 
                 Text
                 {
                     font: mainFont.dapFont.medium12
                     color: currTheme.gray
-
                     text: qsTr("24h Volume")
+                    anchors.left: parent.left
+                    anchors.top: parent.top
                 }
+
+                DapBigText
+                {
+                    height: textElement.contentHeight
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    textElement.elide: Text.ElideRight
+                    textFont: mainFont.dapFont.regular13
+                    fullText: volume24h.toFixed(4) + " " + tokenPairsWorker.tokenBuy
+                }
+            }
+
+            Item
+            {
+                width: 60
+                height: 33
+                visible: false
+                id: changeArea
+                anchors.left: volumeArea.right
+                anchors.leftMargin: 40
 
                 Text
                 {
-                    font: mainFont.dapFont.regular12
-                    color: currTheme.white
+                    font: mainFont.dapFont.medium12
+                    color: currTheme.gray
+                    text: qsTr("24h Change")
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                }
 
-                    text: volume24h.toFixed(2) + " " + tokenPairsWorker.tokenBuy
+                DapBigText
+                {
+                    height: textElement.contentHeight
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    textElement.elide: Text.ElideRight
+                    textFont: mainFont.dapFont.regular13
+                    textColor: fullText.indexOf("+") >= 0 ? currTheme.green : fullText.indexOf("-") >= 0 ? currTheme.red : currTheme.white
+                    fullText: "+4.32%"
                 }
             }
         }
@@ -346,10 +382,11 @@ Item
         DapSelector
         {
             Layout.topMargin: 16
-            height: 35
+            height: 32
             defaultIndex: dexModule.stepChart
             selectorModel: selectorModel
             selectorListView.interactive: false
+            textFont: mainFont.dapFont.regular14
 
             onItemSelected:
             {
@@ -366,7 +403,7 @@ Item
         CandleChart
         {
             id: chartItem
-            Layout.topMargin: 8
+            Layout.topMargin: 5
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -424,82 +461,73 @@ Item
     {
         parent: chartItem
         x: 0
-        y: 0
+        y: 16
         width: childrenRect.width
         height: childrenRect.height
 
         color: "#a0363A42"
 
-        RowLayout
+        ChartTextBlock
         {
-            spacing: 10
+            id: textDate
+            width: 110
+            anchors.left: parent.left
+            labelVisible: false
+            textFont: mainFont.dapFont.regular13
+            text: "-"
+            textColor: currTheme.gray
+        }
 
-            ChartTextBlock
-            {
-                id: textDate
-                Layout.preferredWidth: 100
-                Layout.fillWidth: true
-                labelVisible: false
-                text: "-"
-                textColor: currTheme.gray
-            }
+        ChartBigTextBlock
+        {
+            id: textOpen
+            width: 80
+            anchors.left: textDate.right
+            anchors.leftMargin: 16
+            label: qsTr("Open: ")
+            text: "-"
+            fontComponent: mainFont.dapFont.regular13
+        }
 
-            ChartBigTextBlock
-            {
-                id: textOpen
-                Layout.preferredWidth: 100
-                Layout.fillWidth: true
-                label: qsTr("Open:")
-                text: "-"
-            }
-
-            ChartBigTextBlock
-            {
-                id: textHigh
-                Layout.preferredWidth: 95
-                Layout.fillWidth: true
-                label: qsTr("High:")
-                text: "-"
-            }
-            ChartBigTextBlock
-            {
-                id: textLow
-                Layout.preferredWidth: 90
-                Layout.fillWidth: true
-                label: qsTr("Low:")
-                text: "-"
-            }
-            ChartBigTextBlock
-            {
-                id: textClose
-                Layout.preferredWidth: 100
-                Layout.fillWidth: true
-                label: qsTr("Close:")
-                text: "-"
-            }
-            ChartTextBlock
-            {
-                id: textChange
-                Layout.preferredWidth: 100
-                Layout.fillWidth: true
-                label: qsTr("Change:")
-                text: "-"
-            }
-
-            MouseArea
-            {
-                Layout.fillHeight: parent
-                Layout.fillWidth: parent
-                hoverEnabled: true
-                onEntered:
-                {
-                    chartItem.areaCanvas.hoverEnabled = false
-                }
-                onExited:
-                {
-                    chartItem.areaCanvas.hoverEnabled = true
-                }
-            }
+        ChartBigTextBlock
+        {
+            id: textHigh
+            width: 80
+            anchors.left: textOpen.right
+            anchors.leftMargin: 16
+            label: qsTr("High: ")
+            text: "-"
+            fontComponent: mainFont.dapFont.regular13
+        }
+        ChartBigTextBlock
+        {
+            id: textLow
+            width: 80
+            anchors.left: textHigh.right
+            anchors.leftMargin: 16
+            label: qsTr("Low: ")
+            text: "-"
+            fontComponent: mainFont.dapFont.regular13
+        }
+        ChartBigTextBlock
+        {
+            id: textClose
+            width: 80
+            anchors.left: textLow.right
+            anchors.leftMargin: 16
+            label: qsTr("Close: ")
+            text: "-"
+            fontComponent: mainFont.dapFont.regular13
+        }
+        ChartTextBlock
+        {
+            id: textChange
+            width: 80
+            anchors.left: textClose.right
+            anchors.leftMargin: 16
+            label: qsTr("Change: ")
+            text: "-"
+            textFont: mainFont.dapFont.regular13
         }
     }
 
