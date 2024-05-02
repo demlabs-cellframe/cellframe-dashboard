@@ -19,7 +19,7 @@ DapRightPanelDone
         {
             messageImage = iconOk
             headerText = qsTr("Placed to queue")
-            messageText = qsTr("Pending")
+            messageText = ""
         }
         else
         {
