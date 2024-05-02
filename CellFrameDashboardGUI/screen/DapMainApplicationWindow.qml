@@ -706,8 +706,6 @@ Rectangle {
                 icon = "no_icon.png"
             }
 
-            console.log("[TEST] width = ", widthWindow)
-            console.log("[TEST] icon = ", icon)
             dapMainWindow.infoItem.showInfo(
                 widthWindow,0,
                 dapMainWindow.width*0.5,
