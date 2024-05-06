@@ -61,7 +61,8 @@ private slots:
     void rcvReplyFromClient(QVariant);
     void rcvBlockListFromClient(QVariant);
     void sendConnectRequest(QString site, int index);
-
+    void sendUpdateHistory(const QVariant&);
+    void sendUpdateWallets(const QVariant&);
 private:
     /// Service core.
     DapUiService        *m_pServer {nullptr};
@@ -87,7 +88,9 @@ private:
                                     ,"DapStakeLockHoldCommand"
                                     ,"DapCreateJsonTransactionCommand"
                                     ,"DapRemoveTransactionsQueueCommand"
-                                    ,"DapStakeLockTakeCommand"};
+                                    ,"DapStakeLockTakeCommand"
+                                    ,"DapHistoryServiceInitCommand"
+                                    ,"DapWalletServiceInitCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

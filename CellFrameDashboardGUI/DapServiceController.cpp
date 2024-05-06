@@ -283,6 +283,9 @@ void DapServiceController::registerCommand()
     
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveTransactionsQueueCommand("DapRemoveTransactionsQueueCommand", m_DAPRpcSocket))), QString("transactionRemoved")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapServiceInitCommand("DapHistoryServiceInitCommand", m_DAPRpcSocket))), QString("historyServiceInitRcv")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapServiceInitCommand("DapWalletServiceInitCommand", m_DAPRpcSocket))), QString("walletsServiceInitRcv")));
 
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {
@@ -380,22 +383,18 @@ void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
-//    qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
+    //qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {
         return it.first->getName() == transceiver->getName() ? true : false;
     });
-        
+
     for (int idx = 0; idx < metaObject()->methodCount(); ++idx) 
     {
         const QMetaMethod method = metaObject()->method(idx);
         if (method.methodType() == QMetaMethod::Signal && method.name() == service->second)
         {
-            if(method.name() == "rcvXchangeTokenPriceAverage")
-            {
-                bool a = 0;
-            }
             metaObject()->method(idx).invoke(this, Q_ARG(QVariant, aValue));
         }
     }
