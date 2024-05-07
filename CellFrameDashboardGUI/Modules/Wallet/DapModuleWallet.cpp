@@ -42,6 +42,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
 DapModuleWallet::~DapModuleWallet()
 {
     disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
+    disconnect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv,    this, &DapModuleWallet::rcvWalletsInfo);
     disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
     disconnect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
     disconnect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
@@ -64,6 +65,7 @@ void DapModuleWallet::initConnect()
 {
     connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModuleWallet::rcvFee, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletsReceived, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletReceived, this, &DapModuleWallet::rcvWalletInfo, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletRemoved, this, &DapModuleWallet::rcvRemoveWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);

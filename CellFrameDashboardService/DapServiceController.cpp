@@ -67,6 +67,7 @@
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
 #include "handlers/DapAddNodeCommand.h"
 #include "handlers/DapGetServiceLimitsCommand.h"
+#include "handlers/DapServiceInitCommand.h"
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
@@ -287,8 +288,10 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetNodeIPCommand                  ("DapGetNodeIPCommand"                  , nullptr));
     m_servicePool.append(new DapGetNodeStatus                     ("DapGetNodeStatus"                     , nullptr));
     m_servicePool.append(new DapAddNodeCommand                    ("DapAddNodeCommand"                    , nullptr));
-    m_servicePool.append(new DapGetServiceLimitsCommand           ("DapGetServiceLimitsCommand"                    , nullptr));
+    m_servicePool.append(new DapGetServiceLimitsCommand           ("DapGetServiceLimitsCommand"           , nullptr));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
+    m_servicePool.append(new DapServiceInitCommand                ("DapHistoryServiceInitCommand"         , m_pServer));
+    m_servicePool.append(new DapServiceInitCommand                ("DapWalletServiceInitCommand"          , m_pServer));
 
     for(auto& service: qAsConst(m_servicePool))
     {
@@ -340,6 +343,7 @@ void DapServiceController::initAdditionalParamrtrsService()
         {
             DapGetWalletsInfoCommand* command = dynamic_cast<DapGetWalletsInfoCommand*>(service);
             connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletsInfoCommand::queueDataUpdate);
+            connect(command, &DapGetWalletsInfoCommand::queuedUpdated,  this, &DapServiceController::sendUpdateWallets);
         }
         if(service->getName() == "DapGetWalletInfoCommand")
         {
@@ -350,6 +354,19 @@ void DapServiceController::initAdditionalParamrtrsService()
         {
             DapGetAllWalletHistoryCommand* command = dynamic_cast<DapGetAllWalletHistoryCommand*>(service);
             connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetAllWalletHistoryCommand::queueDataUpdate);
+            connect(command, &DapGetAllWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
         }
     }
+}
+
+void DapServiceController::sendUpdateHistory(const QVariant& data)
+{
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapHistoryServiceInitCommand"));
+    transceiver->notifyToClient(data);
+}
+
+void DapServiceController::sendUpdateWallets(const QVariant& data)
+{
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWalletServiceInitCommand"));
+    transceiver->notifyToClient(data);
 }

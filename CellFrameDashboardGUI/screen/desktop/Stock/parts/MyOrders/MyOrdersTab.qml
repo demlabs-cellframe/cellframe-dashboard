@@ -104,14 +104,14 @@ RowLayout
 
         function onRcvXchangeRemove(rcvData)
         {
-
             if(rcvData.success)
             {
+                var msg = rcvData.toQueue ? qsTr("Placed to queue") : qsTr("Order removed")
                 dapMainWindow.infoItem.showInfo(
                             180,0,
                             dapMainWindow.width*0.5,
                             8,
-                            qsTr("Order removed"),
+                            msg,
                             "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
             }
             else
