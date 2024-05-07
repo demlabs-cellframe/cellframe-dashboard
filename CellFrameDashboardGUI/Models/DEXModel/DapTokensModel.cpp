@@ -92,6 +92,7 @@ QHash<int, QByteArray> DapTokensModel::roleNames() const
 
 void DapTokensModel::updateModel(const QList<DEX::InfoTokenPair>& data)
 {
+    qDebug() << "KTT" << "updateModel NEW class" << data.size();
   beginResetModel();
   {
     m_items.clear();
@@ -108,6 +109,7 @@ void DapTokensModel::updateModel(const QList<DEX::InfoTokenPair>& data)
     }
   }
   endResetModel();
+   qDebug() << "KTT" << "updateModel NEW class finish" << data.size();
 }
 
 void DapTokensModel::updateModel(const DEX::InfoTokenPair &data)

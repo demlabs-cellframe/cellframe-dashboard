@@ -162,8 +162,10 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         m_tokensPair.append(std::move(tmpPair));
     }
     m_netListModel->setStringList(std::move(netList));
+    qDebug() << "KTT" << "updateModel start" << m_tokensPair.size();
     m_tokenPairsModel->updateModel(m_tokensPair);
     m_tokensModel->updateModel(m_tokensPair);
+    qDebug() << "KTT" << "updateModel finish" << m_tokensPair.size();
     if(!m_ordersHistoryCash->isEmpty() && isFirstUpdate)
     {
         setOrdersHistory(*m_ordersHistoryCash);
