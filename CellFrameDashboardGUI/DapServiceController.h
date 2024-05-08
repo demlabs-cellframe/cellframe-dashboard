@@ -61,6 +61,7 @@
 #include "handlers/DapCreatePassForWallet.h"
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
+#include "handlers/DapNodeManagmentCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -282,6 +283,8 @@ signals:
 
     void createdVPNOrder(const QVariant& order);
     void createdStakeOrder(const QVariant& order);
+
+    void nodeManagmentRespond(const QVariant& rcvData);
 
 private slots:
     /// Register command.

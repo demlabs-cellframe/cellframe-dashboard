@@ -50,6 +50,7 @@
 #include "handlers/DapCreatePassForWallet.h"
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
+#include "handlers/DapNodeManagmentCommand.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -238,7 +239,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreatePassForWallet               ("DapCreatePassForWallet"               , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
-
+    m_servicePool.append(new DapNodeManagmentCommand              ("DapNodeManagmentCommand"              , nullptr));
     for(auto& service: qAsConst(m_servicePool))
     {
         QThread * thread = new QThread(m_pServer);

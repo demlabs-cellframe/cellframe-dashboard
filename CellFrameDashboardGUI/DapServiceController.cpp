@@ -281,6 +281,8 @@ void DapServiceController::registerCommand()
     // The command creates a password for the wallet
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreatePassForWallet("DapCreatePassForWallet", m_DAPRpcSocket))), QString("passwordCreated")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeManagmentCommand("DapNodeManagmentCommand", m_DAPRpcSocket))), QString("nodeManagmentRespond")));
+
 //    connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
 //    {
 ////        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
@@ -369,6 +371,11 @@ void DapServiceController::registerCommand()
     {
         qDebug()<<"Rcv web request " << rcvData;
     });
+
+    connect(this, &DapServiceController::nodeManagmentRespond, [=] (const QVariant& rcvData)
+            {
+                qDebug()<<"nodeManagmentRespond " << rcvData;
+            });
 
     connect(this, &DapServiceController::dapWebBlockList, [=] (const QVariant& rcvData)
             {

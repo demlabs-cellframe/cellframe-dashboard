@@ -46,7 +46,7 @@ Page
                 DapRectangleLitAndShaded
                 {
                     property alias dapContent:content
-                    visible: false
+                    visible: true
 
                     id:generalBlock
                     Layout.fillWidth: true
@@ -57,7 +57,7 @@ Page
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
-                    Layout.minimumHeight: 230
+                    Layout.minimumHeight: 182
 
                     contentData: DapGeneralBlock{id:content}
                 }
