@@ -12,11 +12,13 @@ Item
 {
     signal goToRightHome()
     signal goToDoneCreate()
+    signal goToTokensList()
 
     property string defaultModeType: "regular"
     property string currantModeType: "regular"
 
     property string panelPath: ""
+    property string tokensListPath: "CreateOrderLight/TokensListRightPanel.qml"
 
     function updateDefaultPanel()
     {
@@ -43,6 +45,10 @@ Item
     onGoToDoneCreate:
     {
         changeRightPage("CreateOrder/OrderCreateDone.qml")
+    }
+    onGoToTokensList:
+    {
+        changeRightPage(tokensListPath)
     }
 
     Component.onCompleted:
@@ -133,7 +139,6 @@ Item
                     }
                 }
             }
-
         }
 
         DapRectangleLitAndShaded
@@ -149,23 +154,44 @@ Item
 
             contentData:
                 StackView {
-                    id: rightStackView
-                    anchors.fill: parent
+                id: rightStackView
+                anchors.fill: parent
+                clip: true
 
-                    clip: true
+                pushExit: Transition {
+                    id: pushExit
+                    PropertyAction { property: "x"; value: pushExit.ViewTransition.item.pos }
+                }
+                popEnter: Transition {
+                    id: popEnter
+                    PropertyAction { property: "x"; value: popEnter.ViewTransition.item.pos }
                 }
 
-//                OrderBook
-//                {
-//                    anchors.fill: parent
-//                }
+                pushEnter: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        easing.type: Easing.Linear
+                        from: 350
+                        to: 0
+                        duration: 350
+                    }
+                }
+                popExit: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        from: 0
+                        to: 350
+                        duration: 350
+                    }
+                }
+            }
         }
 
     }
 
     function changeRightPage(page)
     {
-        rightStackView.clear()
+        rightStackView.pop()
         rightStackView.push(page)
     }
 }
