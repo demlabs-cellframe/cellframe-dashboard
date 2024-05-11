@@ -380,5 +380,6 @@
         <file>Resources/BlackTheme/icons/other/arrow_left_right.svg</file>
         <file>Resources/BlackTheme/icons/other/arrow_button_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_info_small.svg</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/TokensListRightPanel.qml</file>
     </qresource>
 </RCC>

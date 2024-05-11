@@ -8,6 +8,7 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
     , m_tokenPairsModel(new DapTokenPairModel())
+    , m_tokensModel(new DapTokensModel())
     , m_ordersModel(new DapOrderHistoryModel())
     , m_proxyModel(new OrdersHistoryProxyModel())
     , m_tokenPairsProxyModel(new TokenPairsProxyModel())
@@ -23,6 +24,7 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
 {
     m_tokenPairsProxyModel->setSourceModel(m_tokenPairsModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokensList", m_tokensModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModelNonFilter", m_ordersModel);
     m_proxyModel->setSourceModel(m_ordersModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModel", m_proxyModel);
@@ -50,6 +52,7 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
 DapModuleDex::~DapModuleDex()
 {
     delete m_tokenPairsModel;
+    delete m_tokensModel;
     delete m_ordersModel;
     delete m_proxyModel;
     delete m_netListModel;
@@ -160,7 +163,7 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     }
     m_netListModel->setStringList(std::move(netList));
     m_tokenPairsModel->updateModel(m_tokensPair);
-
+    m_tokensModel->updateModel(m_tokensPair);
     if(!m_ordersHistoryCash->isEmpty() && isFirstUpdate)
     {
         setOrdersHistory(*m_ordersHistoryCash);
