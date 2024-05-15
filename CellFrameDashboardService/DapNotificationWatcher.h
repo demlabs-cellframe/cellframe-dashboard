@@ -31,6 +31,8 @@ public slots:
 
     void frontendConnected();
 
+    void isStartNodeChanged(bool isStart);
+
 signals:
     void rcvNotify(QVariant);
     void changeConnectState(QString);
@@ -48,6 +50,8 @@ private:
     QTimer * m_initTimer;
 
     QString m_socketState;
+
+    bool m_isStartNode = true;
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H

@@ -242,6 +242,12 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapNodeManagmentCommand              ("DapNodeManagmentCommand"              , nullptr));
     for(auto& service: qAsConst(m_servicePool))
     {
+        if(service->getName() == "DapNodeManagmentCommand")
+        {
+            DapNodeManagmentCommand* command = dynamic_cast<DapNodeManagmentCommand*>(service);
+            connect(command, &DapNodeManagmentCommand::isStartNodeChanged, m_watcher, &DapNotificationWatcher::isStartNodeChanged);
+
+        }
         QThread * thread = new QThread(m_pServer);
         service->moveToThread(thread);
         connect(thread, &QThread::finished, m_pServer, &QObject::deleteLater);
