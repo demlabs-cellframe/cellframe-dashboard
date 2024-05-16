@@ -71,7 +71,9 @@
 
 /// Standard constructor.
 /// @param parent Parent.
-DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
+DapServiceController::DapServiceController(QObject *parent)
+    : QObject(parent)
+    , m_reqularRequestsCtrl(new DapRegularRequestsController(new DapCommandList(this)))
 {
     connect(this, &DapServiceController::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";
@@ -109,6 +111,12 @@ DapServiceController::~DapServiceController()
         delete m_threadNotify;
     }
 
+    if(m_threadRegular)
+    {
+        m_threadRegular->quit();
+        m_threadRegular->wait();
+        delete m_threadRegular;
+    }
 }
 
 /// Start service: creating server and socket.
@@ -125,6 +133,12 @@ bool DapServiceController::start()
     connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
     connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
     m_threadNotify->start();
+
+    m_threadRegular = new QThread();
+    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
+    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
+    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
+    m_threadRegular->start();
 
 //    m_syncControll = new DapNetSyncController(watcher, this);
     m_web3Controll = new DapWebControll(this);
@@ -151,6 +165,8 @@ bool DapServiceController::start()
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
         connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
+        // Regular request controller
+        m_reqularRequestsCtrl->start();
     }
 #endif
     else
@@ -243,10 +259,22 @@ void DapServiceController::initServices()
     {
         QThread * thread = new QThread(m_pServer);
         service->moveToThread(thread);
+
+        DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);
+        if(serviceCommand->isNeedListNetworks())
+        {
+            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, serviceCommand, &DapAbstractCommand::rcvListNetworks);
+
+        }
+        if(serviceCommand->isNeedListWallets())
+        {
+            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, serviceCommand, &DapAbstractCommand::rcvListWallets);
+        }
+
         connect(thread, &QThread::finished, m_pServer, &QObject::deleteLater);
         connect(thread, &QThread::finished, thread, &QObject::deleteLater);
-        thread->start();
 
+        thread->start();
         m_threadPool.append(thread);
         m_pServer->addService(service);
     }
@@ -257,5 +285,4 @@ void DapServiceController::initServices()
     m_pServer->addService(new DapWebBlockList           ("DapWebBlockList"           , m_pServer));
     m_pServer->addService(new DapRcvNotify              ("DapRcvNotify"              , m_pServer));
     m_pServer->addService(new DapQuitApplicationCommand ("DapQuitApplicationCommand" , m_pServer));
-
 }
