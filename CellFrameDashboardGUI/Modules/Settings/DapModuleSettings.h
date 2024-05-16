@@ -52,8 +52,8 @@ signals:
     void dashboardVersionChanged();
     void guiRequestChanged();
     void clearDataProcessingChanged();
-    void isNodeStartedChanged(bool);
-    void isNodeAutorunChanged(bool);
+    void isNodeStartedChanged();
+    void isNodeAutorunChanged();
 
     void resultNodeRequest(QString);
     void errorNodeRequest(QString);
