@@ -16,6 +16,7 @@ DapRegularRequestsController::~DapRegularRequestsController()
 {
     delete m_timerUpdateListWallets;
     delete m_timerUpdateListNetworks;
+    delete m_cmdList;
 }
 
 void DapRegularRequestsController::start()
