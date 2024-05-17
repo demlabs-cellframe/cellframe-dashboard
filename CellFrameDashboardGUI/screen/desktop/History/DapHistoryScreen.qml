@@ -261,6 +261,7 @@ Page
 
                     DapCopyButton
                     {
+                        id: copyBtn2
                         height: 16
                         visible: x_lblAmount.visible
                         popupText: qsTr("Value copied")
@@ -321,7 +322,7 @@ Page
 
             MouseArea {
                 anchors.fill: parent
-                enabled: !copyBtn.mouseArea.containsMouse
+                enabled: !(copyBtn.mouseArea.containsMouse || copyBtn2.mouseArea.containsMouse)
                 onClicked: {
                     if(explorerIcon.mouseArea.containsMouse && explorerIcon.enabled)
                         if(textSatus.text === "Queued")
