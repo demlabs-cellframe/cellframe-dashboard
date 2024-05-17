@@ -30,7 +30,7 @@ DapRectangleLitAndShaded {
     opacity: visible ? 1.0 : 0.0
 
     function checkRequiredField(){
-        requiredFieldValid = titleCertificateTextInput.text.length > 0
+        requiredFieldValid = titleCertificateTextInput.text.length > 0 && titleCertificateTextInput.text.length < 40
                              && signatureTypeCertificateComboBox.currentIndex >= 0
     }
 
