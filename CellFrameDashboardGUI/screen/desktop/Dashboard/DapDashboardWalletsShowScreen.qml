@@ -284,14 +284,32 @@ DapRectangleLitAndShaded
                                 {
                                     Layout.fillWidth: true
 
-                                    Text
+                                    Item
                                     {
                                         Layout.fillWidth: true
-                                        font: mainFont.dapFont.regular12
-                                        color: currTheme.lime
-                                        text: qsTr("available balance:")
-                                        horizontalAlignment: Text.AlignRight
+
+                                        height: 19
+                                        width: 100
+                                        Text
+                                        {
+                                            id: availableText
+                                            font: mainFont.dapFont.regular12
+                                            anchors.topMargin: 2
+                                            anchors.fill: parent
+                                            color: currTheme.textColorGrayTwo
+                                            text: qsTr("available balance:")
+                                            horizontalAlignment: Text.AlignRight
+                                        }
+
+                                        Image {
+                                            width: availableText.width
+                                            height: 1
+                                            anchors.bottom: parent.bottom
+                                            source: "qrc:/Resources/"+ pathTheme +"/icons/other/dash.svg"
+                                        }
                                     }
+
+
 
                                     DapBigText
                                     {

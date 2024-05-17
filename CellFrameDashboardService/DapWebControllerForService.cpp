@@ -313,7 +313,7 @@ void DapWebControllerForService::clientRequest(QString req, int idUser)
 //                case GetLedgerTxHash:    doc = _cmdController->getLedgetTxHash(hashTx, net); break;
 //                case GetLedgerTxListAll: doc = _cmdController->getLedgetTxListAll(net); break;
 //                case NodeAdd:            doc = _cmdController->nodeAdd(net, addr, ip, port); break;
-//                case GetServiceLimits:   doc = _cmdController->getServiceLimits(net, pr_hash, cl_hash, srv_uid); break;
+
                 default:
                     qWarning()<<"Unknown request";
                     doc = _cmdController->processingResult("bad", "Unknown request: " + method);
