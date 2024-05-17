@@ -23,8 +23,8 @@ private:
 
     DapCommandList *m_cmdList;
 
-    QTimer *m_timerUpdateListNetworks;
-    QTimer *m_timerUpdateListWallets;
+    QTimer *m_timerUpdateListNetworks = nullptr;
+    QTimer *m_timerUpdateListWallets = nullptr;
 
     /// Compare it with current to send signals only if them different
     QString m_lastRespondNetworks;

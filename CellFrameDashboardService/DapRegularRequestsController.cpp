@@ -7,9 +7,9 @@
 DapRegularRequestsController::DapRegularRequestsController(DapCommandList *cmdList, QObject *parent)
     : QObject(parent)
     , m_cmdList(cmdList)
+    , m_timerUpdateListNetworks(new QTimer())
+    , m_timerUpdateListWallets(new QTimer())
 {
-    m_timerUpdateListNetworks = new QTimer();
-    m_timerUpdateListWallets = new QTimer();
 }
 
 DapRegularRequestsController::~DapRegularRequestsController()
