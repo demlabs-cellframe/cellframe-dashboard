@@ -17,14 +17,12 @@ win32 {
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
-    $$PWD/DapWebControllerForService.cpp \
     $$PWD/main.cpp \
     DapNetSyncController.cpp \
     DapNotificationWatcher.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    $$PWD/DapWebControllerForService.h \
     DapNetSyncController.h \
     DapNotificationWatcher.h
 
