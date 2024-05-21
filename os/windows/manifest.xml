@@ -3,10 +3,10 @@
       <assemblyIdentity 
           version="1.0.0.0"
           processorArchitecture="X86"
-          name="Cellframe-Wallet.exe"
+          name="Cellframe-Dashboard.exe"
           type="win32"/> 
 
-     <description>Cellframe network wallet</description> 
+     <description>Cellframe network dashboard</description>
      <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
         <security>
            <requestedPrivileges>
