@@ -355,6 +355,7 @@
         <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
         <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
         <file>Resources/BlackTheme/icons/other/delete_button.svg</file>
+        <file>Resources/BlackTheme/icons/other/delete_button_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/dash.svg</file>
         <file>screen/desktop/controls/DapRemoveWalletPopup.qml</file>
         <file>screen/desktop/controls/DapRemoveOrderPopup.qml</file>
