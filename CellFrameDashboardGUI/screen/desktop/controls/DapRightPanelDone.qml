@@ -52,13 +52,6 @@ DapRectangleLitAndShaded {
             wrapMode: Text.WordWrap
             color: currTheme.gray
             font: mainFont.dapFont.regular16
-
-            onTextChanged: {
-                if(textMessage.implicitWidth > parent.width)
-                    wrapMode = Text.WrapAnywhere
-                else
-                    wrapMode = Text.WordWrap
-            }
         }
 
         Item
