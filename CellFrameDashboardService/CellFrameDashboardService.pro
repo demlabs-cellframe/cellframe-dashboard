@@ -20,13 +20,15 @@ SOURCES += \
     $$PWD/DapWebControllerForService.cpp \
     $$PWD/main.cpp \
     DapNetSyncController.cpp \
-    DapNotificationWatcher.cpp
+    DapNotificationWatcher.cpp \
+    DapRegularRequestsController.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
     $$PWD/DapWebControllerForService.h \
     DapNetSyncController.h \
-    DapNotificationWatcher.h
+    DapNotificationWatcher.h \
+    DapRegularRequestsController.h
 
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 
