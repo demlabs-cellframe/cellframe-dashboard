@@ -17,7 +17,6 @@ win32 {
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
-    $$PWD/DapWebControllerForService.cpp \
     $$PWD/main.cpp \
     DapNetSyncController.cpp \
     DapNotificationWatcher.cpp \
@@ -25,7 +24,6 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    $$PWD/DapWebControllerForService.h \
     DapNetSyncController.h \
     DapNotificationWatcher.h \
     DapRegularRequestsController.h
