@@ -9,7 +9,7 @@ DapCreateWalletForm
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =
-                qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
+                qsTr("Enter the wallet name using Latin letters, dashes, underscore or numbers.")
             console.warn("Empty wallet name")
         }
         else if(logicWallet.walletType === "Protected" && dapTextInputPassword.length < 4)
