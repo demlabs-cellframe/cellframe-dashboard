@@ -123,8 +123,8 @@ win32 {
    service_target.CONFIG += no_check_exist
    INSTALLS += service_target
 
-   CONFIG += embed_manifest_exe
-   QMAKE_LFLAGS_WINDOWS += /MANIFESTUAC:"level='requireAdministrator'"
+   CONFIG -= embed_manifest_exe
+   RC_FILE = ../os/windows/resources.rc
 }
 
 mac {
