@@ -122,6 +122,9 @@ win32 {
    #force qmake generate installs in makefiles for unbuilded targets
    service_target.CONFIG += no_check_exist
    INSTALLS += service_target
+
+   CONFIG += embed_manifest_exe
+   QMAKE_LFLAGS_WINDOWS += /MANIFESTUAC:"level='requireAdministrator'"
 }
 
 mac {
