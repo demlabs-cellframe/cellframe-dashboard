@@ -92,7 +92,7 @@
 /// @param parent Parent.
 DapServiceController::DapServiceController(QObject *parent)
     : QObject(parent)
-    , m_reqularRequestsCtrl(new DapRegularRequestsController(new DapCommandList(this)))
+    , m_reqularRequestsCtrl(new DapRegularRequestsController())
 {
     connect(this, &DapServiceController::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";

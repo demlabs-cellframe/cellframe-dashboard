@@ -10,7 +10,7 @@ class DapRegularRequestsController : public QObject
 {
     Q_OBJECT
 public:
-    DapRegularRequestsController(DapCommandList *cmdList, QObject *parent = nullptr);
+    DapRegularRequestsController(QObject *parent = nullptr);
     ~DapRegularRequestsController();
 
     void start();
@@ -19,10 +19,14 @@ signals:
     void listNetworksUpdated(const QVariant &netlist);
     void listWalletsUpdated(const QVariant &wallets);
 
+private slots:
+    void updateListNetworks();
+    void updateListWallets();
+
 private:
     const int TIMER_COUNT = 1000;
 
-    DapCommandList *m_cmdList;
+    DapCommandList *m_cmdList = nullptr;
 
     QTimer *m_timerUpdateListNetworks = nullptr;
     QTimer *m_timerUpdateListWallets = nullptr;
@@ -31,10 +35,6 @@ private:
     bool compareWithLastRespond(const QVariant &current, QByteArray &last);
     QByteArray m_lastRespondNetworks;
     QByteArray m_lastRespondWallets;
-
-    void updateListNetworks();
-    void updateListWallets();
-
 };
 
 #endif // DAPREGULARREQUESTSCONTROLLER_H

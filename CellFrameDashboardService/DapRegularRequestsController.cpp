@@ -8,9 +8,9 @@
 #include <QJsonDocument>
 
 
-DapRegularRequestsController::DapRegularRequestsController(DapCommandList *cmdList, QObject *parent)
+DapRegularRequestsController::DapRegularRequestsController(QObject *parent)
     : QObject(parent)
-    , m_cmdList(cmdList)
+    , m_cmdList(new DapCommandList())
     , m_timerUpdateListNetworks(new QTimer())
     , m_timerUpdateListWallets(new QTimer())
 {
@@ -28,13 +28,15 @@ void DapRegularRequestsController::start()
     m_timerUpdateListNetworks->start(TIMER_COUNT);
     m_timerUpdateListWallets->start(TIMER_COUNT);
 
-    connect(m_timerUpdateListNetworks, &QTimer::timeout, this, [=] {
-        updateListNetworks();
-    });
+    connect(m_timerUpdateListNetworks, &QTimer::timeout, this, &DapRegularRequestsController::updateListNetworks);
+    //[=] {
+//        updateListNetworks();
+//    });
 
-    connect(m_timerUpdateListWallets, &QTimer::timeout, this, [=] {
-        updateListWallets();
-    });
+    connect(m_timerUpdateListWallets, &QTimer::timeout, this, &DapRegularRequestsController::updateListWallets);
+//            [=] {
+//        updateListWallets();
+//    });
 }
 
 void DapRegularRequestsController::updateListNetworks()
