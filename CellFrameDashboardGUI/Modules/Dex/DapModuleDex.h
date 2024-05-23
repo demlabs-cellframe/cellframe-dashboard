@@ -99,7 +99,7 @@ signals:
     void dexNetListChanged();
     void networkFilterChanged(const QString& network);
     void stepChartChanged(const int& index);
-private slots:
+protected slots:
     void startInitData();
 
     void respondTokenPairs(const QVariant &rcvData);
@@ -107,7 +107,7 @@ private slots:
     void respondTokenPairsHistory(const QVariant &rcvData);
     void respondOrdersHistory(const QVariant &rcvData);
     void respondTxList(const QVariant &rcvData);
-private:
+protected:
     void onInit();
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
@@ -115,7 +115,7 @@ private:
     QString roundCoins(const QString& str);
 
     inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
-private:
+protected:
 
     DapModulesController  *m_modulesCtrl = nullptr;
     DapTokenPairModel* m_tokenPairsModel = nullptr;

@@ -6,7 +6,7 @@
 
 //***Modules***//
 #include "Wallet/DapModuleWallet.h"
-#include "Dex/DapModuleDex.h"
+#include "Dex/DapModuleDexLightPanel.h"
 #include "TxExplorer/DapModuleTxExplorer.h"
 #include "Certificates/DapModuleCertificates.h"
 #include "Tokens/DapModuleTokens.h"
@@ -56,7 +56,7 @@ DapModulesController::~DapModulesController()
 void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
-    addModule("dexModule", new DapModuleDex(this));
+    addModule("dexModule", new DapModuleDexLightPanel(this));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
