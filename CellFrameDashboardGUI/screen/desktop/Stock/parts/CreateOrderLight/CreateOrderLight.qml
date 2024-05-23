@@ -233,6 +233,16 @@ Page
                             height: 24
                             source: "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_down_rect.svg"
                         }
+
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                console.log("Select token1 clicked")
+                                goToTokensList()
+                            }
+                        }
                     }
 
                     Item
@@ -357,6 +367,15 @@ Page
                             width: 24
                             height: 24
                             source: "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_down_rect.svg"
+                        }
+
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                console.log("Select token2 clicked")
+                            }
                         }
                     }
 
