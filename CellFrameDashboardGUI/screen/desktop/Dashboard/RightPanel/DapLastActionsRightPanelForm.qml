@@ -273,8 +273,8 @@ DapRectangleLitAndShaded
                         property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
 
                         id: explorerIcon
-                        Layout.preferredHeight: 18
-                        Layout.preferredWidth: 18
+                        Layout.preferredHeight: 16
+                        Layout.preferredWidth: 16
                         contentText: statusText.text === "Queued" ? qsTr("Remove") : qsTr("Explorer")
 
                         toolTip.width: text.implicitWidth + 16
@@ -304,11 +304,6 @@ DapRectangleLitAndShaded
                                 Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
                             }
                         }
-                        
-                        
-
-                        width: statusText.text === "Queued" ? 16 : 18
-                        height: statusText.text === "Queued" ? 16 : 18
                     }
                 }
 
