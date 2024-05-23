@@ -267,7 +267,7 @@ DapRectangleLitAndShaded
                         property string normalIcon: statusText.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
                                                                             : "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
 
-                        property string hoverIcon: statusText.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
+                        property string hoverIcon: statusText.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button_hover.svg"
                                                                             : "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
 
                         property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"

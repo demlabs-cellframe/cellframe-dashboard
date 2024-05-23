@@ -35,12 +35,9 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
 
 void DapModuleTxExplorer::initConnect()
 {
-    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived,
-            this, &DapModuleTxExplorer::setHistoryModel,
-            Qt::QueuedConnection);
-    connect(m_timerHistoryUpdate, &QTimer::timeout,
-            this, &DapModuleTxExplorer::slotHistoryUpdate,
-            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::historyServiceInitRcv, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
+    connect(m_timerHistoryUpdate, &QTimer::timeout, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
 
     connect(this, &DapAbstractModule::statusProcessingChanged, [=]
     {

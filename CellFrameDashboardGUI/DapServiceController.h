@@ -62,6 +62,7 @@
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
+#include "handlers/DapServiceInitCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -283,7 +284,9 @@ signals:
 
     void createdVPNOrder(const QVariant& order);
     void createdStakeOrder(const QVariant& order);
-    
+
+    void historyServiceInitRcv(const QVariant& rcvData);
+    void walletsServiceInitRcv(const QVariant& rcvData);
 private slots:
     /// Register command.
     void registerCommand();

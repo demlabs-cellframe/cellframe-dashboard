@@ -28,6 +28,7 @@ typedef class DapRpcLocalServer DapUiService;
 
 #include "DapNotificationWatcher.h"
 #include "DapNetSyncController.h"
+#include "DapRegularRequestsController.h"
 
 /**
  * @brief The DapServiceController class
@@ -61,7 +62,8 @@ private slots:
     void rcvReplyFromClient(QVariant);
     void rcvBlockListFromClient(QVariant);
     void sendConnectRequest(QString site, int index);
-
+    void sendUpdateHistory(const QVariant&);
+    void sendUpdateWallets(const QVariant&);
 private:
     /// Service core.
     DapUiService        *m_pServer {nullptr};
@@ -69,6 +71,9 @@ private:
     DapNotificationWatcher *m_watcher;
     DapNetSyncController *m_syncControll;
     DapWebControllerForService *m_web3Controll;
+
+    QThread *m_threadRegular;
+    DapRegularRequestsController *m_reqularRequestsCtrl;
 
     QList<QThread*> m_threadPool;
     QThread* m_threadNotify;
@@ -87,7 +92,9 @@ private:
                                     ,"DapStakeLockHoldCommand"
                                     ,"DapCreateJsonTransactionCommand"
                                     ,"DapRemoveTransactionsQueueCommand"
-                                    ,"DapStakeLockTakeCommand"};
+                                    ,"DapStakeLockTakeCommand"
+                                    ,"DapHistoryServiceInitCommand"
+                                    ,"DapWalletServiceInitCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

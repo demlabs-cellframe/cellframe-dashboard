@@ -261,6 +261,7 @@ Page
 
                     DapCopyButton
                     {
+                        id: copyBtn2
                         height: 16
                         visible: x_lblAmount.visible
                         popupText: qsTr("Value copied")
@@ -292,7 +293,7 @@ Page
                     property string normalIcon: textSatus.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
                                                                         : "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
 
-                    property string hoverIcon: textSatus.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button.svg"
+                    property string hoverIcon: textSatus.text === "Queued" ? "qrc:/Resources/"+ pathTheme +"/icons/other/delete_button_hover.svg"
                                                                         : "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
 
                     property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
@@ -321,7 +322,7 @@ Page
 
             MouseArea {
                 anchors.fill: parent
-                enabled: !copyBtn.mouseArea.containsMouse
+                enabled: !(copyBtn.mouseArea.containsMouse || copyBtn2.mouseArea.containsMouse)
                 onClicked: {
                     if(explorerIcon.mouseArea.containsMouse && explorerIcon.enabled)
                         if(textSatus.text === "Queued")
