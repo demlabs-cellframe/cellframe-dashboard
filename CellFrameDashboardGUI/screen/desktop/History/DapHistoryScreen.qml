@@ -299,8 +299,8 @@ Page
                     property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
 
                     id: explorerIcon
-                    Layout.preferredHeight: 18
-                    Layout.preferredWidth: 18
+                    Layout.preferredHeight: textSatus.text === "Queued" ? 16 : 18
+                    Layout.preferredWidth: textSatus.text === "Queued" ? 16 : 18
                     contentText: textSatus.text === "Queued" ? qsTr("Remove") : qsTr("Explorer")
 
                     toolTip.width: text.implicitWidth + 16

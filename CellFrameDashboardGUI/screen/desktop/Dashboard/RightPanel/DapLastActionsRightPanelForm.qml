@@ -273,8 +273,8 @@ DapRectangleLitAndShaded
                         property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
 
                         id: explorerIcon
-                        Layout.preferredHeight: 16
-                        Layout.preferredWidth: 16
+                        Layout.preferredHeight: statusText.text === "Queued" ? 16 : 18
+                        Layout.preferredWidth: statusText.text === "Queued" ? 16 : 18
                         contentText: statusText.text === "Queued" ? qsTr("Remove") : qsTr("Explorer")
 
                         toolTip.width: text.implicitWidth + 16
