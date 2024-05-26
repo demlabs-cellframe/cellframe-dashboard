@@ -34,6 +34,7 @@ Item
 
     onCurrantModeTypeChanged:
     {
+        dexModule.setTypePanel(currantModeType)
         updateDefaultPanel()
         changeRightPage(panelPath)
     }
@@ -53,6 +54,7 @@ Item
 
     Component.onCompleted:
     {
+        dexModule.setTypePanel(currantModeType)
         updateDefaultPanel()
 //        logicStock.initPairModel()
         changeRightPage(panelPath)

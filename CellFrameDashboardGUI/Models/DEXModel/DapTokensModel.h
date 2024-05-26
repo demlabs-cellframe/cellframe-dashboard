@@ -15,13 +15,10 @@ class ItemTokensListBridge : public QObject
 protected:
     struct Data;
 
-    Q_PROPERTY (QString change        READ change       NOTIFY changeChanged)
-    Q_PROPERTY (QString network       READ network      NOTIFY networkChanged)
     Q_PROPERTY (QString rate          READ rate         NOTIFY rateChanged)
-    Q_PROPERTY (QString token1        READ token1       NOTIFY token1Changed)
-    Q_PROPERTY (QString token2        READ token2       NOTIFY token2Changed)
+    Q_PROPERTY (QString token         READ token        NOTIFY tokenChanged)
     Q_PROPERTY (QString displayText   READ displayText  NOTIFY displayTextChanged)
-
+    Q_PROPERTY (QString type          READ type         NOTIFY typeChanged)
 
 protected:
     Data *d;
@@ -35,21 +32,15 @@ public:
     ~ItemTokensListBridge();
 
 public:
-    Q_INVOKABLE QString change() const;
-    Q_INVOKABLE QString network() const;
     Q_INVOKABLE QString rate() const;
-    Q_INVOKABLE QString token1() const;
-    Q_INVOKABLE QString token2() const;
+    Q_INVOKABLE QString token() const;
     Q_INVOKABLE QString displayText() const;
-
+    Q_INVOKABLE QString type() const;
 signals:
-    void changeChanged();
-    void networkChanged();
     void rateChanged();
-    void token1Changed();
-    void token2Changed();
+    void tokenChanged();
     void displayTextChanged();
-
+    void typeChanged();
 public:
     ItemTokensListBridge &operator = (const ItemTokensListBridge &a_src);
     ItemTokensListBridge &operator = (ItemTokensListBridge &&a_src);
@@ -68,33 +59,18 @@ public:
     {
         invalid = -1,
         displayText = Qt::DisplayRole,
-        token1     = Qt::UserRole,
-        token2,
-        network,
-        change,
-        rate
+        token     = Qt::UserRole,
+        rate,
+        type
     };
     Q_ENUM(FieldId)
 
     struct Item
     {
         QString displayText = "";
-        QString token1 = "";
-        QString token2 = "";
-        QString network = "";
-        QString change = "";
+        QString token = "";
         QString rate = "";
-
-        Item& operator=(const DEX::InfoTokenPair& other)
-        {
-            displayText = other.displayText;
-            token1 = other.token1;
-            token2 = other.token2;
-            network = other.network;
-            change = other.change;
-            rate = other.rate;
-            return *this;
-        }
+        QString type = "";
     };
 
     typedef QList<DapTokensModel::Item>::Iterator Iterator;
@@ -114,8 +90,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 public:
-    void updateModel(const QList<DEX::InfoTokenPair> &data);
-    void updateModel(const DEX::InfoTokenPair &data);
+    void updateModel(const QList<DEX::InfoTokenPairLight> &data);
     /// find item with the same name and return it's index. otherwise returns -1
     Q_INVOKABLE int indexOf (const DapTokensModel::Item &a_item) const;
 

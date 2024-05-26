@@ -20,6 +20,14 @@ namespace DEX
         OTHER_ORDERS
     };
 
+    struct InfoTokenPairLight
+    {
+        QString rate = "";
+        QString token = "";
+        QString type = "";
+        QString displayText = "";
+    };
+
     struct InfoTokenPair
     {
         QString change = "";

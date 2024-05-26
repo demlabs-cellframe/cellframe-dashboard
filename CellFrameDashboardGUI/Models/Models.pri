@@ -1,6 +1,5 @@
 
 HEADERS += \
-    $$PWD/DEXModel/DapTokensModel.h \
     $$PWD/DapInfoWalletModel.h \
     $$PWD/DapWalletListModel.h \
     $$PWD/DapOrdersModel.h \
@@ -14,13 +13,14 @@ HEADERS += \
     $$PWD/AbstractModels/DapAbstractWalletList.h \
     $$PWD/AbstractModels/DapAbstractDiagnosticModel.h \
     $$PWD/DEXModel/DEXTypes.h \
+    $$PWD/DEXModel/DapTokensModel.h \
+    $$PWD/DEXModel/TokensProxyModel.h \
     $$PWD/DEXModel/DapTokenPairModel.h \
     $$PWD/DEXModel/DapOrderHistoryModel.h \
     $$PWD/DEXModel/TokenPairsProxyModel.h \
     $$PWD/DEXModel/OrdersHistoryProxyModel.h
 
 SOURCES += \
-    $$PWD/DEXModel/DapTokensModel.cpp \
     $$PWD/DapInfoWalletModel.cpp \
     $$PWD/DapWalletListModel.cpp \
     $$PWD/DapOrdersModel.cpp \
@@ -34,6 +34,8 @@ SOURCES += \
     $$PWD/AbstractModels/DapAbstractWalletList.cpp \
     $$PWD/AbstractModels/DapAbstractDiagnosticModel.cpp \
     $$PWD/DEXModel/DEXTypes.cpp \
+    $$PWD/DEXModel/DapTokensModel.cpp \
+    $$PWD/DEXModel/TokensProxyModel.cpp \
     $$PWD/DEXModel/DapTokenPairModel.cpp \
     $$PWD/DEXModel/DapOrderHistoryModel.cpp \
     $$PWD/DEXModel/TokenPairsProxyModel.cpp \

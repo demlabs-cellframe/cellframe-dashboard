@@ -14,6 +14,9 @@ Page
 
     property string currentOrder: "Limit"
 
+    property string currantRate: ""
+    property bool isInvert: false
+
     Component.onCompleted:
     {
         walletModule.startUpdateFee()
@@ -50,10 +53,7 @@ Page
     ColumnLayout
     {
         id: layout
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        height: 42
+        anchors.fill: parent
         spacing: 12
 
         ListView
@@ -145,7 +145,9 @@ Page
                 Item
                 {
                     anchors.fill: parent
-                    anchors.margins: 12
+                    anchors.topMargin: 12
+                    anchors.leftMargin: 12
+                    anchors.rightMargin: 12
 
                     Text
                     {
@@ -170,7 +172,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: "10.565897987987"
+                        text: walletModule.getBalanceDEX(dexModule.token1)
                     }
 
                     Rectangle
@@ -199,7 +201,7 @@ Page
                             hoverEnabled: true
                             onClicked:
                             {
-
+                                sellText.text = textBalance.text
                             }
                         }
                     }
@@ -209,6 +211,7 @@ Page
                         id: tokenPay
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
+                        anchors.bottomMargin: 12
                         width: textTokenName.width + imageArrow.width
                         height: 24
 
@@ -219,7 +222,7 @@ Page
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
                             font: mainFont.dapFont.medium20
-                            text: qsTr("USDT")
+                            text: dexModule.token1
                             color: currTheme.white
                             verticalAlignment: Qt.AlignBottom
                         }
@@ -239,29 +242,28 @@ Page
                             anchors.fill: parent
                             onClicked:
                             {
-                                console.log("Select token1 clicked")
+                                dexModule.setTypeListToken("sell")
                                 goToTokensList()
                             }
                         }
                     }
 
-                    Item
+                    DapTextField
                     {
+                        id: sellText
+                        backgroundColor: currTheme.mainBackground
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.left: tokenPay.right
-                        anchors.leftMargin: 4
-                        height: 24
-
-                        DapBigText
-                        {
-                            anchors.fill: parent
-                            horizontalAlign: Qt.AlignRight
-                            verticalAlign: Qt.AlignBottom
-                            textFont: mainFont.dapFont.medium20
-                            textElement.elide: Text.ElideRight
-                            fullText: "88.2412345345453453"
-                        }
+                        anchors.bottomMargin: 7
+                        placeholderText: ""
+                        validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
+                        font: mainFont.dapFont.medium20
+                        height: 32
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignBottom
+                        selectByMouse: true
+                        DapContextMenu{}
                     }
                 }
             }
@@ -308,7 +310,9 @@ Page
                 Item
                 {
                     anchors.fill: parent
-                    anchors.margins: 12
+                    anchors.topMargin: 12
+                    anchors.leftMargin: 12
+                    anchors.rightMargin: 12
                     Text
                     {
                         id: youReceiveText
@@ -332,12 +336,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: "10.5658979000000"
-
-                        Component.onCompleted:
-                        {
-
-                        }
+                        text: walletModule.getBalanceDEX(dexModule.token2)
                     }
 
                     Item
@@ -345,6 +344,7 @@ Page
                         id: tokenReceive
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
+                        anchors.bottomMargin: 12
                         width: textToken2Name.width + imageArrow2.width
                         height: 24
                         Text
@@ -354,7 +354,7 @@ Page
                             anchors.top: parent.top
                             anchors.bottom: parent.bottom
                             font: mainFont.dapFont.medium20
-                            text: qsTr("CELL")
+                            text: dexModule.token2
                             color: currTheme.white
                             verticalAlignment: Qt.AlignBottom
                         }
@@ -374,27 +374,28 @@ Page
                             anchors.fill: parent
                             onClicked:
                             {
-                                console.log("Select token2 clicked")
+                                dexModule.setTypeListToken("buy")
+                                goToTokensList()
                             }
                         }
                     }
 
-                    Item
+                    DapTextField
                     {
+                        id: buyText
+                        backgroundColor: currTheme.mainBackground
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.left: tokenReceive.right
-                        height: 24
-
-                        DapBigText
-                        {
-                            anchors.fill: parent
-                            horizontalAlign: Qt.AlignRight
-                            verticalAlign: Qt.AlignBottom
-                            textFont: mainFont.dapFont.medium20
-                            textElement.elide: Text.ElideRight
-                            fullText: "88.245344283967287387587482736496958"
-                        }
+                        anchors.bottomMargin: 7
+                        placeholderText: ""
+                        validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
+                        font: mainFont.dapFont.medium20
+                        height: 32
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignBottom
+                        selectByMouse: true
+                        DapContextMenu{}
                     }
                 }
             }
@@ -416,13 +417,15 @@ Page
                 Item
                 {
                     anchors.fill: parent
-                    anchors.margins: 12
+                    anchors.topMargin: 12
+                    anchors.leftMargin: 12
+                    anchors.rightMargin: 12
                     Text
                     {
+                        id: rateRectHeader
                         height: 16
                         anchors.left: parent.left
                         anchors.top: parent.top
-                        text: qsTr("Pay ") + textTokenName.text + qsTr(" at rate")
                         font: mainFont.dapFont.regular11
                         color: currTheme.lightGray
                     }
@@ -435,17 +438,23 @@ Page
                         font: mainFont.dapFont.regular11
                         color: currTheme.lime
                     }
-                    Text
+
+                    DapTextField
                     {
                         id: priceText
-                        height: 24
+                        backgroundColor: currTheme.mainBackground
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
                         anchors.right: switchButton.left
+                        anchors.bottomMargin: 7
+                        placeholderText: ""
+                        validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                         font: mainFont.dapFont.medium20
-                        text: "1.1213435235264344"
-                        color: currTheme.white
-                        verticalAlignment: Qt.AlignBottom
+                        height: 32
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignBottom
+                        selectByMouse: true
+                        DapContextMenu{}
                     }
                     Rectangle
                     {
@@ -454,6 +463,7 @@ Page
                         height: 16
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 12
                         anchors.leftMargin: 4
                         anchors.rightMargin: 2
                         color:  priceMouseArea.containsMouse ? currTheme.tokenChangeButtonHover : currTheme.tokenChangeButton
@@ -462,7 +472,7 @@ Page
                         {
                             id: tokenSwitch
                             height: parent.height
-                            text: textToken2Name.text
+                            text: isInvert ? dexModule.token2 : dexModule.token1
                             anchors.left: parent.left
                             anchors.leftMargin: 3
                             font: mainFont.dapFont.medium12
@@ -485,10 +495,18 @@ Page
                             hoverEnabled: true
                             onClicked:
                             {
+                                isInvert = !isInvert
+                                rateRectagleTextUpdate()
                                 console.log("change tokens clicked")
                             }
                         }
                     }
+                }
+                Component.onCompleted: {
+                    currantRate = dexModule.currentRate
+                    priceText.text = dexModule.currentRate
+                    isInvert = false
+                    rateRectagleTextUpdate()
                 }
             }
 
@@ -496,7 +514,8 @@ Page
             Rectangle
             {
                 id: expiresRect
-                height: 76
+                visible: false
+                height: 0//76
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: priceRect.bottom
@@ -590,6 +609,50 @@ Page
                     }
                 }
             }
+
+            Rectangle
+            {
+                id: resultPriceRect
+                height: 40
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: expiresRect.bottom
+                color: currTheme.mainBackground
+                radius: 4
+                RowLayout
+                {
+                    anchors.fill: parent
+                    anchors.leftMargin: 16
+                    anchors.rightMargin: 16
+                    spacing: 0
+
+                    Text
+                    {
+                        id: miniRateText
+                        font: mainFont.dapFont.medium18
+                        color: currTheme.white
+                    }
+
+                    DapBigText
+                    {
+                        id: miniRateText2
+                        textElement.horizontalAlignment: Text.AlignLeft
+                        Layout.fillWidth: true
+                        height: 20
+                        horizontalAlign: Qt.AlignLeft
+                        verticalAlign: Qt.AlignCenter
+                        textFont: mainFont.dapFont.medium18
+                    }
+                }
+
+                Component.onCompleted: {
+                    miniRateFieldUpdate()
+                }
+            }
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
 
         // CREATE BUTTON
@@ -597,15 +660,43 @@ Page
         {
             id: createButton
             Layout.alignment: Qt.AlignCenter
-            Layout.topMargin: 12
+            Layout.bottomMargin: 40
             implicitHeight: 36
-            implicitWidth: 132
-            textButton: qsTr("Create")
+            implicitWidth: 318
+            textButton: qsTr("Create order")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
             enabled: false
             onClicked: {console.log("create order")}
+        }
+    }
+
+    function rateRectagleTextUpdate()
+    {
+        var token = isInvert ? dexModule.token2 : dexModule.token1
+        rateRectHeader.text = qsTr("Pay ") + token + qsTr(" at rate")
+        tokenSwitch.text = isInvert ? dexModule.token1 : dexModule.token2
+        priceText.text = isInvert ? dexModule.invertValue(currantRate) : currantRate
+    }
+
+    function miniRateFieldUpdate()
+    {
+        miniRateText.text = "1 " + dexModule.token1 + " = "
+        miniRateText2.fullText = dexModule.currentRate + " " + dexModule.token2
+    }
+
+    Connections
+    {
+        target: dexModule
+
+        function onCurrentTokenPairChanged()
+        {
+            currantRate = dexModule.currentRate
+            priceText.text = dexModule.currentRate
+            isInvert = false
+            rateRectagleTextUpdate()
+            miniRateFieldUpdate()
         }
     }
 }

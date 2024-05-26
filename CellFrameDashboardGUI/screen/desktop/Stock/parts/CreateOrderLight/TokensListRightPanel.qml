@@ -145,7 +145,7 @@ Page
                     anchors.verticalCenter: parent.verticalCenter
                     horizontalAlignment: Text.AlignLeft
                     font: mainFont.dapFont.medium14
-                    text: token1
+                    text: displayText
                     color: currTheme.white
                 }
 
@@ -154,14 +154,27 @@ Page
                     id: rateText
                     height: 18
                     anchors.left: tokenName.right
-                    anchors.right: parent.right
+                    anchors.right: tokenText.left
                     anchors.leftMargin: 10
-                    anchors.rightMargin: 15
+                    anchors.rightMargin: 4
                     anchors.verticalCenter: parent.verticalCenter
                     horizontalAlign: Text.AlignRight
                     textElement.elide: Text.ElideRight
                     textFont: mainFont.dapFont.medium14
                     fullText: rate
+                }
+
+                Text
+                {
+                    id: tokenText
+                    height: 18
+                    anchors.right: parent.right
+                    anchors.rightMargin: 15
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: Text.AlignRight
+                    color: currTheme.white
+                    font: mainFont.dapFont.medium14
+                    text: token
                 }
 
                 Rectangle
@@ -180,6 +193,15 @@ Page
                     hoverEnabled: true
                     onClicked:
                     {
+                         goToRightHome()
+                        if(type === "sell")
+                        {
+                            dexModule.setCurrentTokenSell(displayText)
+                        }
+                        else
+                        {
+                            dexModule.setCurrentTokenBuy(displayText)
+                        }
 
                     }
                 }

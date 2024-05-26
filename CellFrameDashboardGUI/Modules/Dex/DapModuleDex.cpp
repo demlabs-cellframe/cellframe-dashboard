@@ -8,7 +8,6 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
     , m_tokenPairsModel(new DapTokenPairModel())
-    , m_tokensModel(new DapTokensModel())
     , m_ordersModel(new DapOrderHistoryModel())
     , m_proxyModel(new OrdersHistoryProxyModel())
     , m_tokenPairsProxyModel(new TokenPairsProxyModel())
@@ -24,7 +23,6 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
 {
     m_tokenPairsProxyModel->setSourceModel(m_tokenPairsModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokensList", m_tokensModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModelNonFilter", m_ordersModel);
     m_proxyModel->setSourceModel(m_ordersModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModel", m_proxyModel);
@@ -52,7 +50,6 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
 DapModuleDex::~DapModuleDex()
 {
     delete m_tokenPairsModel;
-    delete m_tokensModel;
     delete m_ordersModel;
     delete m_proxyModel;
     delete m_netListModel;
@@ -162,8 +159,8 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         m_tokensPair.append(std::move(tmpPair));
     }
     m_netListModel->setStringList(std::move(netList));
-    m_tokenPairsModel->updateModel(m_tokensPair);
-    m_tokensModel->updateModel(m_tokensPair);
+    updateTokenModels();
+
     if(!m_ordersHistoryCash->isEmpty() && isFirstUpdate)
     {
         setOrdersHistory(*m_ordersHistoryCash);
@@ -175,6 +172,11 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     {
         setCurrentTokenPair(m_tokensPair.first().displayText, m_tokensPair.first().network);
     }
+}
+
+void DapModuleDex::updateTokenModels()
+{
+    m_tokenPairsModel->updateModel(m_tokensPair);
 }
 
 void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
@@ -725,13 +727,18 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
         }
     }
 
+    workersUpdate();
+    emit currentTokenPairChanged();
+}
+
+void DapModuleDex::workersUpdate()
+{
     m_stockDataWorker->getOrderBookWorker()->setTokenPair(m_currentPair);
     m_stockDataWorker->getOrderBookWorker()->setCurrentRate(m_currentPair.rate);
     m_stockDataWorker->getOrderBookWorker()->setBookModel(*m_ordersHistoryCash);
     requestHistoryTokenPairs();
     m_stockDataWorker->getCandleChartWorker()->respondTokenPairsHistory(QJsonArray());
     m_proxyModel->setPairAndNetworkOrderFilter(m_currentPair.displayText, m_currentPair.network);
-    emit currentTokenPairChanged();
 }
 
 void DapModuleDex::setStatusProcessing(bool status)

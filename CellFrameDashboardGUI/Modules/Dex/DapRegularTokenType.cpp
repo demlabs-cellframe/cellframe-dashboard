@@ -19,16 +19,22 @@ void DapRegularTokenType::setBuyToken(const QString& value)
     emit buyTokenChanged();
 }
 
-void DapRegularTokenType::setSellNetwork(const QString& value)
+void DapRegularTokenType::setNetwork(const QString& value)
 {
-    m_sellNetwork = value;
-    emit sellNetworkChanged();
+    m_network = value;
+    emit networkChanged();
 }
 
-void DapRegularTokenType::setBuyNetwork(const QString& value)
+void DapRegularTokenType::setBuyTokenCount(const QString& value)
 {
-    m_buyNetwork = value;
-    emit buyNetworkChanged();
+    m_buyTokenCount = value;
+    emit buyTokenCountChanged();
+}
+
+void DapRegularTokenType::setSellTokenCount(const QString& value)
+{
+    m_sellTokenCount = value;
+    emit sellTokenCountChanged();
 }
 
 void DapRegularTokenType::currentPairChanged(const DEX::InfoTokenPair& pair)

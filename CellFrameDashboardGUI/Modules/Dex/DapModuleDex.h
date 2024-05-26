@@ -11,7 +11,6 @@
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
 #include "Models/DEXModel/DapTokenPairModel.h"
-#include "Models/DEXModel/DapTokensModel.h"
 #include "Models/DEXModel/DapOrderHistoryModel.h"
 #include "Models/DEXModel/OrdersHistoryProxyModel.h"
 #include "Models/DEXModel/DEXTypes.h"
@@ -116,11 +115,14 @@ protected:
     QString roundCoins(const QString& str);
 
     inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
+
+    virtual void workersUpdate();
+    virtual void updateTokenModels();
 protected:
 
     DapModulesController  *m_modulesCtrl = nullptr;
     DapTokenPairModel* m_tokenPairsModel = nullptr;
-    DapTokensModel* m_tokensModel = nullptr;
+
     DapOrderHistoryModel *m_ordersModel = nullptr;
     OrdersHistoryProxyModel *m_proxyModel = nullptr;
     TokenPairsProxyModel *m_tokenPairsProxyModel = nullptr;

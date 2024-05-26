@@ -19,12 +19,10 @@ struct ItemTokensListBridge::Data
 
 static const QHash<QString, DapTokensModel::DapTokensModel::FieldId> s_fieldIdMap =
 {
-    {"change",      DapTokensModel::FieldId::change},
-    {"network",     DapTokensModel::FieldId::network},
     {"rate",        DapTokensModel::FieldId::rate},
-    {"token1",      DapTokensModel::FieldId::token1},
-    {"token2",      DapTokensModel::FieldId::token2},
-    {"displayText", DapTokensModel::FieldId::displayText}
+    {"token",      DapTokensModel::FieldId::token},
+    {"displayText", DapTokensModel::FieldId::displayText},
+    {"type", DapTokensModel::FieldId::type}
 };
 
 DapTokensModel::DapTokensModel (QObject *a_parent)
@@ -90,38 +88,22 @@ QHash<int, QByteArray> DapTokensModel::roleNames() const
   return names;
 }
 
-void DapTokensModel::updateModel(const QList<DEX::InfoTokenPair>& data)
+void DapTokensModel::updateModel(const QList<DEX::InfoTokenPairLight>& data)
 {
   beginResetModel();
   {
     m_items.clear();
     for(const auto& item: data)
     {
-      DapTokensModel::Item tmpItem;
-      tmpItem.token1 = item.token1;
-      tmpItem.token2 = item.token2;
-      tmpItem.change = item.change;
-      tmpItem.displayText = item.displayText;
-      tmpItem.network = item.network;
-      tmpItem.rate = item.rate;
-      m_items.append(std::move(tmpItem));
+       DapTokensModel::Item tmpItem;
+       tmpItem.token = item.token;
+       tmpItem.displayText = item.displayText;
+       tmpItem.rate = item.rate;
+       tmpItem.type = item.type;
+       m_items.append(std::move(tmpItem));
     }
   }
   endResetModel();
-}
-
-void DapTokensModel::updateModel(const DEX::InfoTokenPair &data)
-{
-  for(int i = 0; i < m_items.size(); i++)
-  {
-    if(m_items[i].displayText == data.displayText)
-    {
-      beginInsertRows (QModelIndex(), i, i);
-      m_items[i] = data;
-      endInsertRows();
-      return;
-    }
-  }
 }
 
 int DapTokensModel::indexOf (const DapTokensModel::Item &a_item) const
@@ -257,12 +239,10 @@ QVariant DapTokensModel::_getValue (const DapTokensModel::Item &a_item, int a_fi
     {
     case DapTokensModel::FieldId::invalid: break;
 
-    case DapTokensModel::FieldId::change:      return a_item.change;
-    case DapTokensModel::FieldId::network:     return a_item.network;
-    case DapTokensModel::FieldId::rate:        return a_item.rate;
-    case DapTokensModel::FieldId::token1:      return a_item.token1;
-    case DapTokensModel::FieldId::token2:      return a_item.token2;
-    case DapTokensModel::FieldId::displayText: return a_item.displayText;
+    case DapTokensModel::FieldId::rate:         return a_item.rate;
+    case DapTokensModel::FieldId::token:        return a_item.token;
+    case DapTokensModel::FieldId::displayText:  return a_item.displayText;
+    case DapTokensModel::FieldId::type:         return a_item.type;
     }
 
   return QVariant();
@@ -274,12 +254,10 @@ void DapTokensModel::_setValue (DapTokensModel::Item &a_item, int a_fieldId, con
     {
     case DapTokensModel::FieldId::invalid: break;
 
-    case DapTokensModel::FieldId::change:      a_item.change       = a_value.toString(); break;
-    case DapTokensModel::FieldId::network:     a_item.network      = a_value.toString(); break;
     case DapTokensModel::FieldId::rate:        a_item.rate         = a_value.toString(); break;
-    case DapTokensModel::FieldId::token1:      a_item.token1       = a_value.toString(); break;
-    case DapTokensModel::FieldId::token2:      a_item.token2       = a_value.toString(); break;
+    case DapTokensModel::FieldId::token:       a_item.token       = a_value.toString(); break;
     case DapTokensModel::FieldId::displayText: a_item.displayText  = a_value.toString(); break;
+    case DapTokensModel::FieldId::type:        a_item.type  = a_value.toString(); break;
     }
 }
 
@@ -313,12 +291,10 @@ ItemTokensListBridge::ItemTokensListBridge (ItemTokensListBridge::Data *a_data)
 {
   if (!d || !d->model)
     return;
-  connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::changeChanged);
-  connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::networkChanged);
   connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::rateChanged);
-  connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::token1Changed);
-  connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::token2Changed);
+  connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::tokenChanged);
   connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::displayTextChanged);
+  connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensListBridge::typeChanged);
 }
 
 ItemTokensListBridge::ItemTokensListBridge (QObject *a_parent)
@@ -345,29 +321,19 @@ ItemTokensListBridge::~ItemTokensListBridge()
   delete d;
 }
 
-QString ItemTokensListBridge::change() const
-{
-  return (d && d->item) ? d->item->change : QString();
-}
-
-QString ItemTokensListBridge::network() const
-{
-  return (d && d->item) ? d->item->network : QString();
-}
-
 QString ItemTokensListBridge::rate() const
 {
   return (d && d->item) ? d->item->rate : QString();
 }
 
-QString ItemTokensListBridge::token1() const
+QString ItemTokensListBridge::token() const
 {
-  return (d && d->item) ? d->item->token1 : QString();
+  return (d && d->item) ? d->item->token : QString();
 }
 
-QString ItemTokensListBridge::token2() const
+QString ItemTokensListBridge::type() const
 {
-  return (d && d->item) ? d->item->token2 : QString();
+  return (d && d->item) ? d->item->type : QString();
 }
 
 QString ItemTokensListBridge::displayText() const
