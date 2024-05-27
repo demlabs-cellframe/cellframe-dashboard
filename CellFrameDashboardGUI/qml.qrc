@@ -196,6 +196,7 @@
         <file>screen/desktop/Stock/LogicStock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreate.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrderLight/CreateOrderLight.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/DapOrderTextField.qml</file>
         <file>screen/desktop/Stock/icons/sellIcon.png</file>
         <file>screen/desktop/Stock/icons/sellBuy_icon.png</file>
         <file>screen/desktop/Stock/icons/buyIcon.png</file>

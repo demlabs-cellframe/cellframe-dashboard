@@ -17,21 +17,20 @@ Page
     property string currantRate: ""
     property bool isInvert: false
 
-    Component.onCompleted:
+
+//    Component.onCompleted:
+//    {
+//        walletModule.startUpdateFee()
+//    }
+
+//    Component.onDestruction:
+//    {
+//        walletModule.stopUpdateFee()
+//    }
+
+    onCurrantRateChanged:
     {
-        walletModule.startUpdateFee()
-    }
-
-    Component.onDestruction:
-    {
-        walletModule.stopUpdateFee()
-    }
-
-    Connections
-    {
-        target: dapServiceController
-
-
+        miniRateFieldUpdate()
     }
 
     ListModel
@@ -68,10 +67,12 @@ Page
             currentIndex: 0
             onCurrentIndexChanged:
             {
-                logicOrders.currentTabName = tabsModel.get(currentIndex).name
-                logicOrders.currentTabTechName = tabsModel.get(currentIndex).techName
+                dexModule.orderType = ordersRateType.get(currentIndex).techName
+
+//                logicOrders.currentTabName = tabsModel.get(currentIndex).name
+//                logicOrders.currentTabTechName = tabsModel.get(currentIndex).techName
                 ordersModule.currentTab = currentIndex
-                navigator.clear()
+//                navigator.clear()
             }
 
             delegate:
@@ -115,6 +116,10 @@ Page
 
                 Behavior on x {NumberAnimation{duration: 200}}
                 Behavior on width {NumberAnimation{duration: 200}}
+            }
+
+            Component.onCompleted: {
+                tabsView.currentIndex = findIndexByTechName(dexModule.orderType)
             }
         }
 
@@ -202,6 +207,7 @@ Page
                             onClicked:
                             {
                                 sellText.text = textBalance.text
+                                updateBuyField()
                             }
                         }
                     }
@@ -248,7 +254,7 @@ Page
                         }
                     }
 
-                    DapTextField
+                    DapOrderTextField
                     {
                         id: sellText
                         backgroundColor: currTheme.mainBackground
@@ -264,6 +270,21 @@ Page
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
                         DapContextMenu{}
+
+                        onTextChanged:
+                        {
+                            dexModule.sellValueField = text
+                        }
+
+                        onEdited:
+                        {
+                            updateBuyField()
+                        }
+                    }
+
+                    Component.onCompleted: 
+                    {
+                        sellText.text = dexModule.sellValueField
                     }
                 }
             }
@@ -380,7 +401,7 @@ Page
                         }
                     }
 
-                    DapTextField
+                    DapOrderTextField
                     {
                         id: buyText
                         backgroundColor: currTheme.mainBackground
@@ -395,7 +416,17 @@ Page
                         horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
+
+                        enabled: !dexModule.isMarketType
+
                         DapContextMenu{}
+
+                        onEdited:
+                        {
+                            isInvert = false
+                            currantRate = dexModule.divCoins(buyText.text, sellText.text)
+                            rateRectagleTextUpdate()
+                        }
                     }
                 }
             }
@@ -404,7 +435,8 @@ Page
             Rectangle
             {
                 id: priceRect
-                height: 76
+                visible: !dexModule.isMarketType
+                height: dexModule.isMarketType ? 0 : 76
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: receiveRect.bottom
@@ -437,9 +469,21 @@ Page
                         text: qsTr("Set to market")
                         font: mainFont.dapFont.regular11
                         color: currTheme.lime
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked:
+                            {
+                                currantRate = dexModule.currentRate
+                                priceText.setText(dexModule.currentRate)
+                                isInvert = false
+                                rateRectagleTextUpdate()
+                            }
+                        }
                     }
 
-                    DapTextField
+                    DapOrderTextField
                     {
                         id: priceText
                         backgroundColor: currTheme.mainBackground
@@ -455,6 +499,12 @@ Page
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
                         DapContextMenu{}
+                        onEdited:
+                        {
+                            isInvert = false
+                            currantRate = priceText.text
+                            rateRectagleTextUpdate()
+                        }
                     }
                     Rectangle
                     {
@@ -504,7 +554,7 @@ Page
                 }
                 Component.onCompleted: {
                     currantRate = dexModule.currentRate
-                    priceText.text = dexModule.currentRate
+                    priceText.setText(dexModule.currentRate)
                     isInvert = false
                     rateRectagleTextUpdate()
                 }
@@ -677,13 +727,29 @@ Page
         var token = isInvert ? dexModule.token2 : dexModule.token1
         rateRectHeader.text = qsTr("Pay ") + token + qsTr(" at rate")
         tokenSwitch.text = isInvert ? dexModule.token1 : dexModule.token2
-        priceText.text = isInvert ? dexModule.invertValue(currantRate) : currantRate
+        var text = isInvert ? dexModule.invertValue(currantRate) : currantRate
+        priceText.setText(text)
+        if(!buyText.activeFocus) updateBuyField()
     }
 
     function miniRateFieldUpdate()
     {
         miniRateText.text = "1 " + dexModule.token1 + " = "
-        miniRateText2.fullText = dexModule.currentRate + " " + dexModule.token2
+        miniRateText2.fullText = currantRate + " " + dexModule.token2
+    }
+
+    function updateBuyField()
+    {
+        buyText.setText(dexModule.multCoins(sellText.text, currantRate))
+    }
+
+    function findIndexByTechName(techName)
+    {
+        for (var i = 0; i < ordersRateType.count; i++) {
+            if (ordersRateType.get(i).techName === techName) {
+                return i;
+            }
+        }
     }
 
     Connections
@@ -693,10 +759,11 @@ Page
         function onCurrentTokenPairChanged()
         {
             currantRate = dexModule.currentRate
-            priceText.text = dexModule.currentRate
+            priceText.setText(dexModule.currentRate)
             isInvert = false
             rateRectagleTextUpdate()
             miniRateFieldUpdate()
+            updateBuyField()
         }
     }
 }

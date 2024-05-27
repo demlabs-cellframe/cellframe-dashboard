@@ -145,3 +145,15 @@ bool DapModuleDexLightPanel::isRegularTypeMode()
 {
     return m_typePanel == "regular";
 }
+
+void DapModuleDexLightPanel::setOrderType(const QString &type)
+{
+    m_orderType = type;
+    emit orderTypeChanged();
+}
+
+void DapModuleDexLightPanel::setSellValueField(const QString& value)
+{
+    m_sellValueField = value;
+    emit sellValueFieldChanged();
+}
