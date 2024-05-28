@@ -195,7 +195,11 @@ Page
                             hoverEnabled: true
                             onClicked:
                             {
-                                sellText.text = textBalance.text
+                                var network = walletModule.getFee(dexModule.networkPair).network_fee
+                                var validator = walletModule.getFee(dexModule.networkPair).validator_fee
+                                var resBalance = dexModule.minusCoins(textBalance.text, validator)
+                                resBalance = dexModule.minusCoins(resBalance, network)
+                                sellText.text = resBalance
                                 updateBuyField()
                             }
                         }
@@ -706,8 +710,22 @@ Page
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
-            enabled: false
-            onClicked: {console.log("create order")}
+            onClicked: 
+            {
+                var resultAmount = sellText.text//isSell ? fields.amount.textValue : fields.total.textValue
+                var resultTokenName = dexModule.token1//isSell ? fields.amount.textToken : fields.total.textToken
+                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
+                console.log("Wallet: " + walletResult)
+                if(walletResult === "OK")
+                {
+                    var createOrder = dexModule.tryCreateOrder(true, currantRate, resultAmount, walletModule.getFee(dexModule.networkPair).validator_fee)
+                    console.log("Order: " + createOrder)
+                }
+                else
+                {
+                    messageText.text = walletResult
+                }
+            }
         }
     }
 
