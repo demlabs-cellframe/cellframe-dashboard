@@ -18,15 +18,6 @@ Page
     property bool isInvert: false
 
 
-//    Component.onCompleted:
-//    {
-//        walletModule.startUpdateFee()
-//    }
-
-//    Component.onDestruction:
-//    {
-//        walletModule.stopUpdateFee()
-//    }
 
     onCurrantRateChanged:
     {
@@ -69,10 +60,8 @@ Page
             {
                 dexModule.orderType = ordersRateType.get(currentIndex).techName
 
-//                logicOrders.currentTabName = tabsModel.get(currentIndex).name
-//                logicOrders.currentTabTechName = tabsModel.get(currentIndex).techName
                 ordersModule.currentTab = currentIndex
-//                navigator.clear()
+
             }
 
             delegate:
@@ -307,7 +296,9 @@ Page
                     hoverEnabled: true
                     onClicked:
                     {
-                        console.log("arrow clicked")
+                        sellText.setText(buyText.text)
+                        currantRate = dexModule.invertValue(currantRate)
+                        dexModule.swapTokens();
                     }
                 }
 
@@ -423,7 +414,6 @@ Page
 
                         onEdited:
                         {
-                            isInvert = false
                             currantRate = dexModule.divCoins(buyText.text, sellText.text)
                             rateRectagleTextUpdate()
                         }
@@ -501,8 +491,7 @@ Page
                         DapContextMenu{}
                         onEdited:
                         {
-                            isInvert = false
-                            currantRate = priceText.text
+                            currantRate = isInvert ? dexModule.invertValue(priceText.text) : priceText.text
                             rateRectagleTextUpdate()
                         }
                     }
@@ -758,8 +747,15 @@ Page
 
         function onCurrentTokenPairChanged()
         {
-            currantRate = dexModule.currentRate
-            priceText.setText(dexModule.currentRate)
+            if(!dexModule.isSwapTokens)
+            {
+                currantRate = dexModule.currentRate
+                priceText.setText(dexModule.currentRate)
+            }
+            else
+            {
+                dexModule.isSwapTokens = false;
+            }
             isInvert = false
             rateRectagleTextUpdate()
             miniRateFieldUpdate()

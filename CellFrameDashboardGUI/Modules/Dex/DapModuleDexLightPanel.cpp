@@ -121,6 +121,7 @@ void DapModuleDexLightPanel::setCurrentTokenBuy(const QString& token)
     {
         m_currentPair.token1 = m_currentPair.token2;
         m_currentPair.token2 = token;
+        m_currentPair.rate = invertValue(m_currentPair.rate);
     }
     else
     {
@@ -156,4 +157,21 @@ void DapModuleDexLightPanel::setSellValueField(const QString& value)
 {
     m_sellValueField = value;
     emit sellValueFieldChanged();
+}
+
+void DapModuleDexLightPanel::setIsSwapTokens(bool value)
+{
+    m_isSwapTokens = value;
+    emit isSwapTokensChanged();
+}
+
+void DapModuleDexLightPanel::swapTokens()
+{
+    setIsSwapTokens(true);
+    QString tmpToken = m_currentPair.token1;
+    m_currentPair.token1 = m_currentPair.token2;
+    m_currentPair.token2 = tmpToken;
+    m_currentPair.rate = invertValue(m_currentPair.rate);
+    workersUpdate();
+    emit currentTokenPairChanged();
 }

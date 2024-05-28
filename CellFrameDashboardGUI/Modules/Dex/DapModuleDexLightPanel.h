@@ -31,9 +31,17 @@ public:
 
     Q_INVOKABLE void setCurrentTokenSell(const QString& token);
     Q_INVOKABLE void setCurrentTokenBuy(const QString& token);
+
+    Q_INVOKABLE void swapTokens();
+
+    Q_PROPERTY(bool isSwapTokens READ getIsSwapTokens WRITE setIsSwapTokens NOTIFY isSwapTokensChanged)
+    bool getIsSwapTokens() const { return m_isSwapTokens; }
+    void setIsSwapTokens(bool value);
+
 signals:
     void sellValueFieldChanged();
     void orderTypeChanged();
+    void isSwapTokensChanged();
 protected:
     void updateTokenModels() override;
     void workersUpdate() override;
@@ -51,6 +59,8 @@ private:
 
     QString m_orderType = "Limit";
     QString m_sellValueField = "1.0";
+
+    bool m_isSwapTokens = false;
 };
 
 #endif // DAPMODULEDEXLIGHTPANEL_H
