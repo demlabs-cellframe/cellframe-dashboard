@@ -283,30 +283,35 @@ Page
             }
 
             // arrow between
-            Image
+            Item
             {
                 width: 32
                 height: 32
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: arrowMouseArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button_hover.svg" : "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button.svg"
                 y: payRect.y + payRect.height + 6 - height/2
                 z: payRect.z + 1
-                rotation: arrowMouseArea.containsMouse ? -180 : 0
+
+                Image
+                {
+                    id: animArrowIcon
+                    anchors.fill: parent
+                    source: arrowMouseArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button_hover.svg" : "qrc:/Resources/"+ pathTheme +"/icons/other/arrow_button.svg"
+
+                    Behavior on rotation {NumberAnimation{duration: 100}}
+                }
 
                 MouseArea
                 {
                     id: arrowMouseArea
-                    anchors.fill: parent
+                    width: 24
+                    height: 24
+                    anchors.centerIn: parent
                     hoverEnabled: true
-                    onClicked:
+                    onContainsMouseChanged:
                     {
-                        sellText.setText(buyText.text)
-                        currantRate = dexModule.invertValue(currantRate)
-                        dexModule.swapTokens();
+                        animArrowIcon.rotation = containsMouse ? -180 : 0
                     }
                 }
-
-                Behavior on rotation {NumberAnimation{duration: 100}}
             }
 
             // "You receive" field
@@ -690,6 +695,50 @@ Page
 
                 Component.onCompleted: {
                     miniRateFieldUpdate()
+                }
+            }
+
+            // Error message
+            Item
+            {
+                id: errorMsgRect
+                height: textError.contentHeight + 24
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: resultPriceRect.bottom
+                anchors.topMargin: 12
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: "transparent"
+                    radius: 4
+                    border.width: 1
+                    border.color: currTheme.orange
+                }
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: currTheme.orange
+                    opacity: 0.12
+                    radius: 4
+                }
+
+                Text
+                {
+                    id: textError
+                    width: errorMsgRect.width
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.margins: 12
+                    font: mainFont.dapFont.regular11
+                    color: currTheme.orange
+                    text: qsTr("Limit price is 100% lower than the market. You will be selling your USDT exceedingly cheap.")
+                    wrapMode: Text.WordWrap
+                    lineHeight: 16
+                    lineHeightMode: Text.FixedHeight
                 }
             }
         }
