@@ -38,11 +38,9 @@ bool OrdersHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex
 
     if(m_isRegular)
     {
-        if(m_network != item.network)
-            return false;
-        if(m_tokenBuy != item.tokenBuyOrigin || m_tokenSell != item.tokenSellOrigin)
-            return false;
-
+        if(m_network != item.network)return false;
+        if(m_tokenBuy != item.tokenBuyOrigin || m_tokenSell != item.tokenSellOrigin) return false;
+        if(item.status != m_statusOrder) return false;
 
         if(m_isHashCallback)
         {

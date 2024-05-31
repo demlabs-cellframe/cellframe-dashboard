@@ -42,6 +42,7 @@ public:
     bool getIsSwapTokens() const { return m_isSwapTokens; }
     void setIsSwapTokens(bool value);
 
+    Q_INVOKABLE QString tryCreateOrderRegular(const QString& price, const QString& amount, const QString& fee);
 signals:
     void sellValueFieldChanged();
     void orderTypeChanged();
