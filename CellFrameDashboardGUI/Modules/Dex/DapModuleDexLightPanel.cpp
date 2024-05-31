@@ -7,6 +7,7 @@ DapModuleDexLightPanel::DapModuleDexLightPanel(DapModulesController *parent)
 {
     m_tokenProxyModel->setSourceModel(m_tokensModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokensList", m_tokenProxyModel);
+    m_proxyModel->setIsRegularType(isRegularTypePanel());
 }
 
 DapModuleDexLightPanel::~DapModuleDexLightPanel()
@@ -80,6 +81,7 @@ void DapModuleDexLightPanel::workersUpdate()
     m_currentPair.displayText = m_currentPair.token1 + "/" + m_currentPair.token2;
     regularTokensUpdate();
     updateRegularModels();
+    m_proxyModel->setCurrentTokenPair(m_currentPair.token1, m_currentPair.token2);
 }
 
 void DapModuleDexLightPanel::regularTokensUpdate()
@@ -140,9 +142,11 @@ void DapModuleDexLightPanel::setTypeListToken(const QString& type)
 void DapModuleDexLightPanel::setTypePanel(const QString& type)
 {
     m_typePanel = type;
+    m_proxyModel->setIsRegularType(isRegularTypePanel());
+    emit typePanelChanged();
 }
 
-bool DapModuleDexLightPanel::isRegularTypeMode()
+bool DapModuleDexLightPanel::isRegularTypePanel()
 {
     return m_typePanel == "regular";
 }

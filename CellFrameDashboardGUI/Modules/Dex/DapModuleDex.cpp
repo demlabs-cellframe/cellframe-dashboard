@@ -335,6 +335,9 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
             QString network = order["network"].toString();
             QString amountToken = order["amount_token"].toString();
             QString rate = order["rate"].toString();
+            tmpData.sellTokenOrigin = sellToken;
+            tmpData.buyTokenOrigin = buyToken;
+            tmpData.rateOrigin = rate;
 
             tmpData.network = network;
 
