@@ -1,23 +1,50 @@
 #include "DapModuleDexLightPanel.h"
 
+#include <QJsonValue>
+
 DapModuleDexLightPanel::DapModuleDexLightPanel(DapModulesController *parent)
     : DapModuleDex(parent)
     , m_tokensModel(new DapTokensModel())
     , m_tokenProxyModel(new TokensProxyModel())
+    , m_regTokenPairsModel(new DapTokenPairModel())
 {
     m_tokenProxyModel->setSourceModel(m_tokensModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokensList", m_tokenProxyModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPairRegular", m_regTokenPairsModel);
 }
 
 DapModuleDexLightPanel::~DapModuleDexLightPanel()
 {
     delete m_tokensModel;
     delete m_tokenProxyModel;
+    delete m_regTokenPairsModel;
 }
 
 void DapModuleDexLightPanel::updateTokenModels()
 {
     DapModuleDex::updateTokenModels();
+
+    DEX::InfoTokenPair firstPair;
+    firstPair.token1  = m_currentPair.token1;
+    firstPair.token2  = m_currentPair.token2;
+    firstPair.rate    = m_currentPair.rate;
+    firstPair.network = m_currentPair.network;
+    firstPair.change  = m_currentPair.change;
+    firstPair.displayText = firstPair.token1 + "/" + firstPair.token2;
+
+    DEX::InfoTokenPair secondPair;
+    secondPair.token1  = m_currentPair.token2;
+    secondPair.token2  = m_currentPair.token1;
+    secondPair.rate    = invertValue(m_currentPair.rate);
+    secondPair.network = m_currentPair.network;
+    secondPair.change  = m_currentPair.change;
+    secondPair.displayText = secondPair.token1 + "/" + secondPair.token2;
+
+    QList<DEX::InfoTokenPair> m_regularTokensPair;
+    m_regularTokensPair.append(std::move(firstPair));
+    m_regularTokensPair.append(std::move(secondPair));
+    m_regTokenPairsModel->updateModel(m_regularTokensPair);
+
     updateRegularModels();
 }
 

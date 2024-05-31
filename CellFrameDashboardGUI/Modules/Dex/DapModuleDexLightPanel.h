@@ -28,6 +28,7 @@ public:
     Q_INVOKABLE void setTypeListToken(const QString& type);
     //                                          regular/advanced
     Q_INVOKABLE void setTypePanel(const QString& type);
+    Q_INVOKABLE bool isRegularTypeMode();
 
     Q_INVOKABLE void setCurrentTokenSell(const QString& token);
     Q_INVOKABLE void setCurrentTokenBuy(const QString& token);
@@ -41,10 +42,12 @@ private:
     void setLightCurrentTokenPair(const DEX::InfoTokenPair& pair);
     void regularTokensUpdate();
     void updateRegularModels();
-    bool isRegularTypeMode();
+    //bool isRegularTypeMode();
 private:
     DapTokensModel* m_tokensModel = nullptr;
     TokensProxyModel* m_tokenProxyModel = nullptr;
+
+    DapTokenPairModel* m_regTokenPairsModel = nullptr;
 
     QString m_typeListToken = "sell";
     QString m_typePanel = "";

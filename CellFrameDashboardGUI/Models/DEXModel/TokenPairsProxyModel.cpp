@@ -42,7 +42,8 @@ QString TokenPairsProxyModel::getFirstItem() const
 
 void TokenPairsProxyModel::setNetworkFilter(const QString& network)
 {
-    m_network = network == "All" || network == "Networks" ? QString() : network;
+    //m_network = network == "All" || network == "Networks" ? QString() : network;
+    m_network = network == "Networks" ? QString() : network;
     m_currentDisplayText.clear();
     invalidateFilter();
 }
@@ -55,7 +56,8 @@ void TokenPairsProxyModel::setDisplayTextFilter(const QString& str)
 
 void TokenPairsProxyModel::setNewPairFilter(const QString& pair, const QString& network)
 {
-    m_network = network == "All" || network == "Networks" ? QString() : network;
+    //m_network = network == "All" || network == "Networks" ? QString() : network;
+    m_network = network == "Networks" ? QString() : network;
     m_currentDisplayText = pair;
     invalidateFilter();
 }

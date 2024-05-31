@@ -9,7 +9,7 @@ ComboBox {
     id: control
 
     implicitHeight: 45
-
+    property alias searchVisible: true
     property int maximumPopupHeight: 230
     property int widthPopup: 296
 
@@ -205,6 +205,7 @@ ComboBox {
                     spacing: 8
                     SearchElement{
                         id: search
+                        visible: searchVisible
                         Layout.fillWidth: true
                         onFindHandler: {
                             modelTokenPair.setDisplayTextFilter(text)

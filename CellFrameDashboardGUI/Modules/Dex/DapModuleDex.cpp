@@ -138,7 +138,7 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     bool isFirstUpdate = m_tokensPair.isEmpty();
 
     m_tokensPair.clear();
-    QStringList netList = {"All"};
+    QStringList netList = {};
 
     for(const QJsonValue& value: tokenPairsArray)
     {
@@ -708,13 +708,13 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
     else
     {
         auto tmpPair = std::find_if(m_tokensPair.begin(), m_tokensPair.end(), [namePair, network](const DEX::InfoTokenPair item)
-                 {
-            if(network == "All")
-            {
-                return namePair == item.displayText;
-            }
-            return namePair == item.displayText && network == item.network;
-        });
+                                    {
+                                        // if(network == "All")
+                                        // {
+                                        //     return namePair == item.displayText;
+                                        // }
+                                        return namePair == item.displayText && network == item.network;
+                                    });
 
         if(tmpPair != m_tokensPair.end())
         {
