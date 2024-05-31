@@ -335,6 +335,9 @@ void DapModuleDex::setOrdersHistory(const QByteArray& data)
             QString network = order["network"].toString();
             QString amountToken = order["amount_token"].toString();
             QString rate = order["rate"].toString();
+            tmpData.sellTokenOrigin = sellToken;
+            tmpData.buyTokenOrigin = buyToken;
+            tmpData.rateOrigin = rate;
 
             tmpData.network = network;
 
@@ -422,6 +425,18 @@ QString DapModuleDex::invertValue(const QString& price)
     if(!price.contains('.'))
     {
         resPrice.append(".0");
+    }
+    else
+    {
+        auto list = price.split(".");
+        if(list[0].isEmpty())
+        {
+            resPrice = "0." + list[1];
+        }
+        else if(list[1].isEmpty())
+        {
+            resPrice = list[0] + ".0";
+        }
     }
 
     Dap::Coin oneVal = QString("1.0");

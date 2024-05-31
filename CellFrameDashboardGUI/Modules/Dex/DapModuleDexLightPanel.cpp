@@ -11,6 +11,7 @@ DapModuleDexLightPanel::DapModuleDexLightPanel(DapModulesController *parent)
     m_tokenProxyModel->setSourceModel(m_tokensModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokensList", m_tokenProxyModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPairRegular", m_regTokenPairsModel);
+    m_proxyModel->setIsRegularType(isRegularTypePanel());
 }
 
 DapModuleDexLightPanel::~DapModuleDexLightPanel()
@@ -107,6 +108,7 @@ void DapModuleDexLightPanel::workersUpdate()
     m_currentPair.displayText = m_currentPair.token1 + "/" + m_currentPair.token2;
     regularTokensUpdate();
     updateRegularModels();
+    m_proxyModel->setCurrentTokenPair(m_currentPair.token1, m_currentPair.token2);
 }
 
 void DapModuleDexLightPanel::regularTokensUpdate()
@@ -148,6 +150,7 @@ void DapModuleDexLightPanel::setCurrentTokenBuy(const QString& token)
     {
         m_currentPair.token1 = m_currentPair.token2;
         m_currentPair.token2 = token;
+        m_currentPair.rate = invertValue(m_currentPair.rate);
     }
     else
     {
@@ -166,9 +169,11 @@ void DapModuleDexLightPanel::setTypeListToken(const QString& type)
 void DapModuleDexLightPanel::setTypePanel(const QString& type)
 {
     m_typePanel = type;
+    m_proxyModel->setIsRegularType(isRegularTypePanel());
+    emit typePanelChanged();
 }
 
-bool DapModuleDexLightPanel::isRegularTypeMode()
+bool DapModuleDexLightPanel::isRegularTypePanel()
 {
     return m_typePanel == "regular";
 }
@@ -183,4 +188,21 @@ void DapModuleDexLightPanel::setSellValueField(const QString& value)
 {
     m_sellValueField = value;
     emit sellValueFieldChanged();
+}
+
+void DapModuleDexLightPanel::setIsSwapTokens(bool value)
+{
+    m_isSwapTokens = value;
+    emit isSwapTokensChanged();
+}
+
+void DapModuleDexLightPanel::swapTokens()
+{
+    setIsSwapTokens(true);
+    QString tmpToken = m_currentPair.token1;
+    m_currentPair.token1 = m_currentPair.token2;
+    m_currentPair.token2 = tmpToken;
+    m_currentPair.rate = invertValue(m_currentPair.rate);
+    workersUpdate();
+    emit currentTokenPairChanged();
 }

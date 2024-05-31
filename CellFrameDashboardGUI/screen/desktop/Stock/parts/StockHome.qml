@@ -14,27 +14,26 @@ Item
     signal goToDoneCreate()
     signal goToTokensList()
 
-    property string defaultModeType: "regular"
-    property string currantModeType: "regular"
+    property string currentModeType: "regular"
 
     property string panelPath: ""
     property string tokensListPath: "CreateOrderLight/TokensListRightPanel.qml"
 
     function updateDefaultPanel()
     {
-        if(currantModeType === "regular")
+        if(dexModule.typePanel === "regular")
         {
             panelPath = "CreateOrderLight/CreateOrderLight.qml"
         }
-        else if(currantModeType === "advanced")
+        else if(dexModule.typePanel === "advanced")
         {
             panelPath = "OrderBook/OrderBook.qml"
         }
     }
 
-    onCurrantModeTypeChanged:
+    onCurrentModeTypeChanged:
     {
-        dexModule.setTypePanel(currantModeType)
+        dexModule.typePanel = currentModeType
         updateDefaultPanel()
         changeRightPage(panelPath)
     }
@@ -54,7 +53,6 @@ Item
 
     Component.onCompleted:
     {
-        dexModule.setTypePanel(currantModeType)
         updateDefaultPanel()
 //        logicStock.initPairModel()
         changeRightPage(panelPath)
@@ -106,7 +104,7 @@ Item
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
-                    visible: currantModeType === "advanced"
+                    visible: !dexModule.isRegularTypePanel()
                     onClicked:
                     {
                         changeRightPage("CreateOrder/OrderCreate.qml")

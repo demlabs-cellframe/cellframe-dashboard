@@ -24,17 +24,30 @@ public:
     Q_PROPERTY(bool isMarketType READ isMarketType NOTIFY orderTypeChanged)
     bool isMarketType() const { return m_orderType == "Market"; }
 
+    Q_PROPERTY(bool isRegularTypePanel READ isRegularTypePanel NOTIFY typePanelChanged)
+    bool isRegularTypePanel();
+
     //                                              sell/buy
     Q_INVOKABLE void setTypeListToken(const QString& type);
     //                                          regular/advanced
+    Q_PROPERTY(QString typePanel READ getTypePanel WRITE setTypePanel NOTIFY typePanelChanged)
     Q_INVOKABLE void setTypePanel(const QString& type);
-    Q_INVOKABLE bool isRegularTypeMode();
+    QString getTypePanel() {return m_typePanel;}
 
     Q_INVOKABLE void setCurrentTokenSell(const QString& token);
     Q_INVOKABLE void setCurrentTokenBuy(const QString& token);
+
+    Q_INVOKABLE void swapTokens();
+
+    Q_PROPERTY(bool isSwapTokens READ getIsSwapTokens WRITE setIsSwapTokens NOTIFY isSwapTokensChanged)
+    bool getIsSwapTokens() const { return m_isSwapTokens; }
+    void setIsSwapTokens(bool value);
+
 signals:
     void sellValueFieldChanged();
     void orderTypeChanged();
+    void isSwapTokensChanged();
+    void typePanelChanged();
 protected:
     void updateTokenModels() override;
     void workersUpdate() override;
@@ -42,7 +55,7 @@ private:
     void setLightCurrentTokenPair(const DEX::InfoTokenPair& pair);
     void regularTokensUpdate();
     void updateRegularModels();
-    //bool isRegularTypeMode();
+
 private:
     DapTokensModel* m_tokensModel = nullptr;
     TokensProxyModel* m_tokenProxyModel = nullptr;
@@ -50,10 +63,13 @@ private:
     DapTokenPairModel* m_regTokenPairsModel = nullptr;
 
     QString m_typeListToken = "sell";
-    QString m_typePanel = "";
+
+    QString m_typePanel = "regular";
 
     QString m_orderType = "Limit";
     QString m_sellValueField = "1.0";
+
+    bool m_isSwapTokens = false;
 };
 
 #endif // DAPMODULEDEXLIGHTPANEL_H

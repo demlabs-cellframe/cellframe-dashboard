@@ -9,7 +9,7 @@ ComboBox {
     id: control
 
     implicitHeight: 45
-    property alias searchVisible: true
+    property bool searchVisible: true
     property int maximumPopupHeight: 230
     property int widthPopup: 296
 
@@ -195,7 +195,7 @@ ComboBox {
             Rectangle
             {
                 width: popup.width
-                height: 71
+                implicitHeight: searchVisible ? 71 : 35
                 z:2
                 color: currTheme.secondaryBackground
 

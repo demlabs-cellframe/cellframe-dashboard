@@ -180,7 +180,8 @@ Item
                 anchors.left: comboboxNetwork.right
                 anchors.leftMargin: 16
 
-                model: modelTokenPair
+                searchVisible: !dexModule.isRegularTypePanel
+                model: dexModule.isRegularTypePanel ? modelTokenPairRegular : modelTokenPair
 
                 onCurrentIndexChanged:
                 {
@@ -207,7 +208,7 @@ Item
                 {
                     for(var i = 0; i < typePanelModel.count; i++)
                     {
-                        if(typePanelModel.get(i).workName === defaultModeType)
+                        if(typePanelModel.get(i).workName === dexModule.typePanel)
                         {
                             return i
                         }
@@ -220,7 +221,7 @@ Item
 
                 onItemSelected:
                 {
-                    currantModeType = typePanelModel.get(modeSelector.currentIndex).workName
+                    currentModeType = typePanelModel.get(modeSelector.currentIndex).workName
                 }
             }
         }
