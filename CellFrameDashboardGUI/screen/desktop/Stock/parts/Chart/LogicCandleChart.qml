@@ -44,6 +44,7 @@ QtObject
     property real roundedStepPrice: 0
     property real roundedMaxPrice: 0
     property int gridPricePower: 8
+    property int elideMaxLength: 8
 
     readonly property real roundedCoefficient: 1
 
@@ -678,6 +679,13 @@ QtObject
         ctx.stroke()
     }
 
+    function elidedText(text) {
+        if (text.length > elideMaxLength) {
+            return text.substring(0, elideMaxLength) + "..."
+        }
+        return text
+    }
+
     function drawHorizontalLineText(ctx, y, text, color, power, border = false)
     {
         ctx.font = "normal "+fontSize+"px "+fontFamilies
@@ -692,7 +700,8 @@ QtObject
         }
 
         ctx.fillStyle = color
-        ctx.fillText(text.toFixed(power), chartWidth + fontIndent, y + fontSize*0.3)
+
+        ctx.fillText(elidedText(text.toFixed(power)), chartWidth + fontIndent, y + fontSize*0.3)
         ctx.stroke()
     }
 

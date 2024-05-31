@@ -356,7 +356,6 @@ Item
         y: 0
         width: childrenRect.width
         height: childrenRect.height
-
         color: "#a0363A42"
 
         RowLayout
@@ -414,20 +413,19 @@ Item
                 label: qsTr("Change:")
                 text: "-"
             }
+        }
 
-            MouseArea
+        MouseArea
+        {
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered:
             {
-                Layout.fillHeight: parent
-                Layout.fillWidth: parent
-                hoverEnabled: true
-                onEntered:
-                {
-                    chartItem.areaCanvas.hoverEnabled = false
-                }
-                onExited:
-                {
-                    chartItem.areaCanvas.hoverEnabled = true
-                }
+                chartItem.areaCanvas.hoverEnabled = false
+            }
+            onExited:
+            {
+                chartItem.areaCanvas.hoverEnabled = true
             }
         }
     }
