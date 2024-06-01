@@ -716,6 +716,14 @@ void DapModuleDex::setStepChart(const int &index)
 
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
+    if(!setCurrentTokenPairVariable(namePair, network)) return;
+
+    workersUpdate();
+    emit currentTokenPairChanged();
+}
+
+bool DapModuleDex::setCurrentTokenPairVariable(const QString& namePair, const QString &network)
+{
     if(namePair.isEmpty())
     {
         m_currentPair = DEX::InfoTokenPair();
@@ -724,10 +732,6 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
     {
         auto tmpPair = std::find_if(m_tokensPair.begin(), m_tokensPair.end(), [namePair, network](const DEX::InfoTokenPair item)
                                     {
-                                        // if(network == "All")
-                                        // {
-                                        //     return namePair == item.displayText;
-                                        // }
                                         return namePair == item.displayText && network == item.network;
                                     });
 
@@ -738,12 +742,10 @@ void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& n
         else
         {
             qWarning() << "Not found pair: " << namePair;
-            return;
+            return false;
         }
     }
-
-    workersUpdate();
-    emit currentTokenPairChanged();
+    return true;
 }
 
 void DapModuleDex::workersUpdate()

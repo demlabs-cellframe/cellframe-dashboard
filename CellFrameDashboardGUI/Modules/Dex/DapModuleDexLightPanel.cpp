@@ -24,28 +24,6 @@ DapModuleDexLightPanel::~DapModuleDexLightPanel()
 void DapModuleDexLightPanel::updateTokenModels()
 {
     DapModuleDex::updateTokenModels();
-
-    DEX::InfoTokenPair firstPair;
-    firstPair.token1  = m_currentPair.token1;
-    firstPair.token2  = m_currentPair.token2;
-    firstPair.rate    = m_currentPair.rate;
-    firstPair.network = m_currentPair.network;
-    firstPair.change  = m_currentPair.change;
-    firstPair.displayText = firstPair.token1 + "/" + firstPair.token2;
-
-    DEX::InfoTokenPair secondPair;
-    secondPair.token1  = m_currentPair.token2;
-    secondPair.token2  = m_currentPair.token1;
-    secondPair.rate    = invertValue(m_currentPair.rate);
-    secondPair.network = m_currentPair.network;
-    secondPair.change  = m_currentPair.change;
-    secondPair.displayText = secondPair.token1 + "/" + secondPair.token2;
-
-    QList<DEX::InfoTokenPair> m_regularTokensPair;
-    m_regularTokensPair.append(std::move(firstPair));
-    m_regularTokensPair.append(std::move(secondPair));
-    m_regTokenPairsModel->updateModel(m_regularTokensPair);
-
     updateRegularModels();
 }
 
@@ -100,6 +78,27 @@ void DapModuleDexLightPanel::updateRegularModels()
     }
 
     m_tokensModel->updateModel(std::move(modelData));
+
+    DEX::InfoTokenPair firstPair;
+    firstPair.token1  = m_currentPair.token1;
+    firstPair.token2  = m_currentPair.token2;
+    firstPair.rate    = m_currentPair.rate;
+    firstPair.network = m_currentPair.network;
+    firstPair.change  = m_currentPair.change;
+    firstPair.displayText = firstPair.token1 + "/" + firstPair.token2;
+
+    DEX::InfoTokenPair secondPair;
+    secondPair.token1  = m_currentPair.token2;
+    secondPair.token2  = m_currentPair.token1;
+    secondPair.rate    = invertValue(m_currentPair.rate);
+    secondPair.network = m_currentPair.network;
+    secondPair.change  = m_currentPair.change;
+    secondPair.displayText = secondPair.token1 + "/" + secondPair.token2;
+
+    QList<DEX::InfoTokenPair> m_regularTokensPair;
+    m_regularTokensPair.append(std::move(firstPair));
+    m_regularTokensPair.append(std::move(secondPair));
+    m_regTokenPairsModel->updateModel(m_regularTokensPair);
 }
 
 void DapModuleDexLightPanel::workersUpdate()
@@ -205,4 +204,50 @@ void DapModuleDexLightPanel::swapTokens()
     m_currentPair.rate = invertValue(m_currentPair.rate);
     workersUpdate();
     emit currentTokenPairChanged();
+}
+
+void DapModuleDexLightPanel::setNetworkFilterText(const QString &network)
+{
+    DapModuleDex::setNetworkFilterText(network);
+
+    if(isRegularTypePanel() && !network.isEmpty())
+    {
+        for(const auto& item: m_tokensPair)
+        {
+            if(item.network == network)
+            {
+                setCurrentTokenPair(item.displayText, network);
+            }
+        }
+    }
+}
+
+bool DapModuleDexLightPanel::setCurrentTokenPairVariable(const QString& namePair, const QString &network)
+{
+    if(!isRegularTypePanel()) return DapModuleDex::setCurrentTokenPairVariable(namePair, network);
+
+    if(namePair.isEmpty() || network.isEmpty())
+    {
+        m_currentPair = DEX::InfoTokenPair();
+    }
+    else
+    {
+        if(m_currentPair.displayText.isEmpty()
+            || m_currentPair.displayText  == "/") return DapModuleDex::setCurrentTokenPairVariable(namePair, network);
+
+        auto listPair = namePair.split("/");
+        if(m_currentPair.token1 != listPair[0])
+        {
+            setIsSwapTokens(true);
+            QString tmpToken = m_currentPair.token1;
+            m_currentPair.token1 = m_currentPair.token2;
+            m_currentPair.token2 = tmpToken;
+            m_currentPair.rate = invertValue(m_currentPair.rate);
+        }
+        else
+        {
+            return DapModuleDex::setCurrentTokenPairVariable(namePair, network);
+        }
+    }
+    return true;
 }

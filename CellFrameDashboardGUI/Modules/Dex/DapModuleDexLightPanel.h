@@ -43,12 +43,16 @@ public:
     bool getIsSwapTokens() const { return m_isSwapTokens; }
     void setIsSwapTokens(bool value);
 
+public slots:
+    void setNetworkFilterText(const QString &network) override;
+
 signals:
     void sellValueFieldChanged();
     void orderTypeChanged();
     void isSwapTokensChanged();
     void typePanelChanged();
 protected:
+    bool setCurrentTokenPairVariable(const QString& namePair, const QString &network) override;
     void updateTokenModels() override;
     void workersUpdate() override;
 private:
@@ -70,6 +74,9 @@ private:
     QString m_sellValueField = "1.0";
 
     bool m_isSwapTokens = false;
+
+    // DapModuleDex interface
+
 };
 
 #endif // DAPMODULEDEXLIGHTPANEL_H
