@@ -26,8 +26,12 @@ public:
 
     //                                              sell/buy
     Q_INVOKABLE void setTypeListToken(const QString& type);
+
+    Q_PROPERTY(QString typePanel READ getTypePanel WRITE setTypePanel NOTIFY typePanelChanged)
     //                                          regular/advanced
     Q_INVOKABLE void setTypePanel(const QString& type);
+    QString getTypePanel() {return m_typePanel;}
+    Q_INVOKABLE bool isRegularTypePanel();
 
     Q_INVOKABLE void setCurrentTokenSell(const QString& token);
     Q_INVOKABLE void setCurrentTokenBuy(const QString& token);
@@ -38,10 +42,12 @@ public:
     bool getIsSwapTokens() const { return m_isSwapTokens; }
     void setIsSwapTokens(bool value);
 
+    Q_INVOKABLE QString tryCreateOrderRegular(const QString& price, const QString& amount, const QString& fee);
 signals:
     void sellValueFieldChanged();
     void orderTypeChanged();
     void isSwapTokensChanged();
+    void typePanelChanged();
 protected:
     void updateTokenModels() override;
     void workersUpdate() override;
@@ -49,13 +55,14 @@ private:
     void setLightCurrentTokenPair(const DEX::InfoTokenPair& pair);
     void regularTokensUpdate();
     void updateRegularModels();
-    bool isRegularTypeMode();
+
 private:
     DapTokensModel* m_tokensModel = nullptr;
     TokensProxyModel* m_tokenProxyModel = nullptr;
 
     QString m_typeListToken = "sell";
-    QString m_typePanel = "";
+
+    QString m_typePanel = "regular";
 
     QString m_orderType = "Limit";
     QString m_sellValueField = "1.0";

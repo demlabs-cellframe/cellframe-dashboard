@@ -10,9 +10,28 @@ Item
 
     Component.onCompleted:
     {
-        ordersModel.setOrderFilter("Sell", "Other", "OPENED")
-        setCurrentMainScreen(allOrders)
-        buysellbothSelector.selectorListView.currentIndex = 2
+        if(!dexModule.isRegularTypePanel())
+        {
+            ordersModel.setOrderFilter("Sell", "Other", "OPENED")
+            setCurrentMainScreen(allOrders)
+            buysellbothSelector.selectorListView.currentIndex = 2
+        }
+        else
+        {
+            ordersModel.setOrderFilter("Sell", "My_orders", "OPENED")
+            setCurrentMainScreen(myOrders)
+            buysellText.visible = false
+            buysellSelector.visible = false
+            buysellbothSelector.visible = false
+            textPair.visible = false
+            comboboxPair.visible = false
+            textPeriod.visible = false
+            layoutPeriod1.visible = false
+            layoutPeriod2.visible = false
+        }
+
+        updateOrderSelectorModel()
+
     }
 
     ColumnLayout {
@@ -31,15 +50,6 @@ Item
 
         ListModel {
             id: selectorModel
-            ListElement {
-                name: qsTr("Orders")
-            }
-            ListElement {
-                name: qsTr("My orders")
-            }
-            ListElement {
-                name: qsTr("Order history")
-            }
         }
 
         DapSelector
@@ -52,77 +62,116 @@ Item
 
             onItemSelected:
             {
-
-                if (currentIndex === 0)
+                if(!dexModule.isRegularTypePanel())
                 {
-                    ordersModel.setOrderFilter("Sell", "Other", "OPENED")
-                    setCurrentMainScreen(allOrders)
+                    if (currentIndex === 0)
+                    {
+                        ordersModel.setOrderFilter("Sell", "Other", "OPENED")
+                        setCurrentMainScreen(allOrders)
 
-                    buysellSelector.setSelected("first")
-                    buysellText.visible = true
-                    buysellSelector.visible = true
-                    buysellbothSelector.visible = false
-                    textPair.visible = false
-                    comboboxPair.visible = false
-                    // comboboxPair.displayText = "All pairs"
-//                    textSide.visible = false
-//                    buttonsSide.visible = false
-                    textPeriod.visible = false
-                    layoutPeriod1.visible = false
-                    layoutPeriod2.visible = false
+                        buysellSelector.setSelected("first")
+                        buysellText.visible = true
+                        buysellSelector.visible = true
+                        buysellbothSelector.visible = false
+                        textPair.visible = false
+                        comboboxPair.visible = false
+                        textPeriod.visible = false
+                        layoutPeriod1.visible = false
+                        layoutPeriod2.visible = false
+                    }
+                    else if (currentIndex === 1)
+                    {
+                        ordersModel.setOrderFilter("Both", "My_orders", "OPENED")
+                        setCurrentMainScreen(myOrders)
+
+                        buysellbothSelector.selectorListView.currentIndex = 2
+                        buysellText.visible = true
+                        buysellSelector.visible = false
+                        buysellbothSelector.visible = true
+                        textPair.visible = false
+                        comboboxPair.visible = false
+                        textPeriod.visible = false
+                        layoutPeriod1.visible = false
+                        layoutPeriod2.visible = false
+                        setFilterPeriod("All time")
+                    }
+                    else if (currentIndex === 2)
+                    {
+                        ordersModel.setOrderFilter("Both", "All", "CLOSED")
+                        setCurrentMainScreen(ordersHistory)
+
+                        buysellbothSelector.selectorListView.currentIndex = 2
+                        buysellText.visible = true
+                        buysellSelector.visible = false
+                        buysellbothSelector.visible = true
+                        textPair.visible = false
+                        comboboxPair.visible = false
+                        textPeriod.visible = true
+                        layoutPeriod1.visible = true
+                        layoutPeriod2.visible = true
+
+                        if (button1Day.selected)
+                            ordersModel.setPeriodOrderFilter("Day")
+                        if (button1Week.selected)
+                            ordersModel.setPeriodOrderFilter("Week")
+                        if (button1Month.selected)
+                            ordersModel.setPeriodOrderFilter("Month")
+                        if (button3Month.selected)
+                            ordersModel.setPeriodOrderFilter("3 Month")
+                        if (button6Month.selected)
+                            ordersModel.setPeriodOrderFilter("6 Month")
+                        if (button1Year.selected)
+                            ordersModel.setPeriodOrderFilter("All")
+                    }
                 }
-                if (currentIndex === 1)
+                else
                 {
-                    ordersModel.setOrderFilter("Both", "My_orders", "OPENED")
-                    //setFilterSide("Both")
-                    setCurrentMainScreen(myOrders)
+                    if (currentIndex === 0)
+                    {
+                        ordersModel.setOrderFilter("Sell", "My_orders", "OPENED")
+                        setCurrentMainScreen(myOrders)
 
-                    buysellbothSelector.selectorListView.currentIndex = 2
-                    buysellText.visible = true
-                    buysellSelector.visible = false
-                    buysellbothSelector.visible = true
-                    textPair.visible = false
-                    comboboxPair.visible = false
-                    // comboboxPair.displayText = "All pairs"
-//                    textSide.visible = true
-//                    buttonsSide.visible = true
-                    textPeriod.visible = false
-                    layoutPeriod1.visible = false
-                    layoutPeriod2.visible = false
-                    setFilterPeriod("All time")
+                        buysellbothSelector.selectorListView.currentIndex = 2
+                        buysellText.visible = false
+                        buysellSelector.visible = false
+                        buysellbothSelector.visible = false
+                        textPair.visible = false
+                        comboboxPair.visible = false
+                        textPeriod.visible = false
+                        layoutPeriod1.visible = false
+                        layoutPeriod2.visible = false
+                        setFilterPeriod("All time")
+                    }
+                    else if (currentIndex === 1)
+                    {
+                        ordersModel.setOrderFilter("Sell", "My_orders", "CLOSED")
+                        setCurrentMainScreen(ordersHistory)
+
+                        buysellbothSelector.selectorListView.currentIndex = 2
+                        buysellText.visible = false
+                        buysellSelector.visible = false
+                        buysellbothSelector.visible = false
+                        textPair.visible = false
+                        comboboxPair.visible = false
+                        textPeriod.visible = true
+                        layoutPeriod1.visible = true
+                        layoutPeriod2.visible = true
+
+                        if (button1Day.selected)
+                            ordersModel.setPeriodOrderFilter("Day")
+                        if (button1Week.selected)
+                            ordersModel.setPeriodOrderFilter("Week")
+                        if (button1Month.selected)
+                            ordersModel.setPeriodOrderFilter("Month")
+                        if (button3Month.selected)
+                            ordersModel.setPeriodOrderFilter("3 Month")
+                        if (button6Month.selected)
+                            ordersModel.setPeriodOrderFilter("6 Month")
+                        if (button1Year.selected)
+                            ordersModel.setPeriodOrderFilter("All")
+                    }
                 }
-                if (currentIndex === 2)
-                {
-                    ordersModel.setOrderFilter("Both", "All", "CLOSED")
-                    //setFilterSide("Both")
-                    setCurrentMainScreen(ordersHistory)
 
-                    buysellbothSelector.selectorListView.currentIndex = 2
-                    buysellText.visible = true
-                    buysellSelector.visible = false
-                    buysellbothSelector.visible = true
-                    textPair.visible = false
-                    comboboxPair.visible = false
-                    // comboboxPair.displayText = "All pairs"
-//                    textSide.visible = true
-//                    buttonsSide.visible = true
-                    textPeriod.visible = true
-                    layoutPeriod1.visible = true
-                    layoutPeriod2.visible = true
-
-                    if (button1Day.selected)
-                        ordersModel.setPeriodOrderFilter("Day")
-                    if (button1Week.selected)
-                        ordersModel.setPeriodOrderFilter("Week")
-                    if (button1Month.selected)
-                        ordersModel.setPeriodOrderFilter("Month")
-                    if (button3Month.selected)
-                        ordersModel.setPeriodOrderFilter("3 Month")
-                    if (button6Month.selected)
-                        ordersModel.setPeriodOrderFilter("6 Month")
-                    if (button1Year.selected)
-                        ordersModel.setPeriodOrderFilter("All")
-                }
             }
         }
 
@@ -207,23 +256,10 @@ Item
                     {
                         ordersModel.setFilterSide("Buy")
                     }
-                    //setFilterSide("sell")
                 else
                 {
                     ordersModel.setFilterSide("Sell")
                 }
-                   // setFilterSide("buy")
-//                isSell = secondSelected
-//                if (isSell)
-//                {
-//                    textMode.text = qsTr("Sell ") + tokenPairsWorker.tokenBuy
-//                }
-//                else
-//                {
-//                    textMode.text = qsTr("Buy ") + tokenPairsWorker.tokenBuy
-
-//                }
-//                sellBuyChanged()
             }
         }
 
@@ -251,8 +287,6 @@ Item
             height: 42
             font: mainFont.dapFont.regular16
             defaultText: qsTr("All pairs")
-            //TODO: These parameters have been fixed so far and we are not touching them from here yet
-            //onCurrentIndexChanged: ordersModel.setPairOrderFilter(model.get(currentIndex).name)
             model: dexRightPairModel
         }
 
@@ -502,6 +536,17 @@ Item
         button6Month.selected = false
         button1Year.selected = false
 
+    }
+
+    function updateOrderSelectorModel()
+    {
+        selectorModel.clear()
+        if(!dexModule.isRegularTypePanel())
+        {
+            selectorModel.append({name: qsTr("Orders")})
+        }
+        selectorModel.append({name: qsTr("My orders")})
+        selectorModel.append({name: qsTr("Order history")})
     }
 
     Connections{

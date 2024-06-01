@@ -44,15 +44,20 @@ namespace DEX
         QString hash = "";
         QString sellToken = "";
         QString buyToken = "";
+        QString sellTokenOrigin = "";
+        QString buyTokenOrigin = "";
         QString network = "";
         QString amount = "";
         QString amountDatoshi = "";
         QString rate = "";
+        QString rateOrigin = "";
         QString time = "";
         QString unixTime = "";
         QString filled = "";
         QString status = "";
         QString side = "";
+        QString adaptiveSide = "";
+        QString adaptivePair = "";
     };
 
     struct TXList
