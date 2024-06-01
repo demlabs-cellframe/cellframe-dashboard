@@ -217,6 +217,7 @@ void DapModuleDexLightPanel::setNetworkFilterText(const QString &network)
             if(item.network == network)
             {
                 setCurrentTokenPair(item.displayText, network);
+                break;
             }
         }
     }
@@ -238,7 +239,6 @@ bool DapModuleDexLightPanel::setCurrentTokenPairVariable(const QString& namePair
         auto listPair = namePair.split("/");
         if(m_currentPair.token1 != listPair[0])
         {
-            setIsSwapTokens(true);
             QString tmpToken = m_currentPair.token1;
             m_currentPair.token1 = m_currentPair.token2;
             m_currentPair.token2 = tmpToken;
