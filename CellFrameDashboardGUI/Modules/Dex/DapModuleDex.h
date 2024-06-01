@@ -30,10 +30,6 @@ class  DapModuleDex : public DapAbstractModule
         BASE_IS_EMPTY
     };
 
-public slots:
-    void setNetworkFilterText(const QString &network);
-    void setStepChart(const int &index);
-
 public:
     explicit DapModuleDex(DapModulesController *parent = nullptr);
     ~DapModuleDex();
@@ -89,6 +85,9 @@ public:
     Q_INVOKABLE bool isValidValue(const QString& value);
 
     void setStatusProcessing(bool status) override;
+public slots:
+    virtual void setNetworkFilterText(const QString &network);
+    void setStepChart(const int &index);
 
 signals:
     void currentTokenPairChanged();
@@ -99,7 +98,7 @@ signals:
     void dexNetListChanged();
     void networkFilterChanged(const QString& network);
     void stepChartChanged(const int& index);
-private slots:
+protected slots:
     void startInitData();
 
     void respondTokenPairs(const QVariant &rcvData);
@@ -107,7 +106,7 @@ private slots:
     void respondTokenPairsHistory(const QVariant &rcvData);
     void respondOrdersHistory(const QVariant &rcvData);
     void respondTxList(const QVariant &rcvData);
-private:
+protected:
     void onInit();
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
@@ -115,10 +114,15 @@ private:
     QString roundCoins(const QString& str);
 
     inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
-private:
+
+    virtual bool setCurrentTokenPairVariable(const QString& namePair, const QString &network);
+    virtual void workersUpdate();
+    virtual void updateTokenModels();
+protected:
 
     DapModulesController  *m_modulesCtrl = nullptr;
     DapTokenPairModel* m_tokenPairsModel = nullptr;
+
     DapOrderHistoryModel *m_ordersModel = nullptr;
     OrdersHistoryProxyModel *m_proxyModel = nullptr;
     TokenPairsProxyModel *m_tokenPairsProxyModel = nullptr;

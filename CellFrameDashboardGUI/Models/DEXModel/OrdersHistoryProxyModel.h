@@ -17,9 +17,7 @@ public:
 
     Q_INVOKABLE void setFilterSide(const QString& type);
     Q_INVOKABLE void setAffilationOrderFilter(const QString& type);
-    Q_INVOKABLE void setStatusOrderFilter(const QString& type);
     Q_INVOKABLE void setPeriodOrderFilter(const QString& period);
-    Q_INVOKABLE void setPairOrderFilter(const QString& pair = "All pairs");
     Q_INVOKABLE void setNetworkOrderFilter(const QString& network = "All");
     Q_INVOKABLE void setPairAndNetworkOrderFilter(const QString& pair = "All pairs", const QString& network = "All");
     Q_INVOKABLE void setOrderFilter(const QString& type, const QString& affilation = "All"
@@ -30,10 +28,10 @@ public:
     Q_PROPERTY (bool isSellFilter        READ isSellFilter       NOTIFY isSellFilterChanged)
     bool isSellFilter() {return m_typeOrder == DEX::TypeSide::SELL;}
 
-//    Q_INVOKABLE QVariant getItem(const QString& hash) const;
+    void setIsRegularType(bool isRegular);
 
     void setIsHashCallback(Callback handler) {m_isHashCallback = handler;}
-
+    void setCurrentTokenPair(const QString& tokenSell, const QString& tokenBuy);
 signals:
     void isSellFilterChanged();
 
@@ -72,6 +70,10 @@ private:
 
     DEX::AffilationOrder m_affilationOrder = DEX::AffilationOrder::ALL;
     DEX::TypeSide m_typeOrder = DEX::TypeSide::BOTH;
+
+    bool m_isRegular = false;
+    QString m_tokenSell = "";
+    QString m_tokenBuy = "";
 };
 
 #endif // ORDERSHISTORYPROXYMODEL_H
