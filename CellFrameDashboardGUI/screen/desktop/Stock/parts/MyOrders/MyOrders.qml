@@ -114,12 +114,12 @@ Item
                 anchors.fill: parent
                 spacing: 0
                 HeaderLabel{
-                    Layout.preferredWidth: 70
+                    Layout.preferredWidth: 80
                     label.text: qsTr("You pay")
                     label.anchors.leftMargin: 16
                 }
                 HeaderLabel{
-                    Layout.preferredWidth: 70
+                    Layout.preferredWidth: 80
                     label.text: qsTr("Your receive")
                 }
                 HeaderLabel{
@@ -243,13 +243,13 @@ Item
                 spacing: 0
 
                 HeaderLabel{
-                    Layout.preferredWidth: 70
+                    Layout.preferredWidth: 80
                     label.text: tokenSellOrigin
                     label.font: mainFont.dapFont.regular13
                     label.anchors.leftMargin: 16
                 }
                 HeaderLabel{
-                    Layout.preferredWidth: 70
+                    Layout.preferredWidth: 80
                     label.text: tokenBuyOrigin
                     label.font: mainFont.dapFont.regular13
                 }

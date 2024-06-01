@@ -504,6 +504,20 @@ Page
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
                         DapContextMenu{}
+                        onTextChanged:
+                        {
+                            var message = dexModule.getWarning(sellText.text, buyText.text , currantRate)
+                            if(message !== "")
+                            {
+                                errorMsgRect.visible = true
+                                textError.text = message
+                            }
+                            else
+                            {
+                                errorMsgRect.visible = false
+                            }
+                        }
+
                         onEdited:
                         {
                             currantRate = isInvert ? dexModule.invertValue(priceText.text) : priceText.text
@@ -713,7 +727,7 @@ Page
                 anchors.right: parent.right
                 anchors.top: resultPriceRect.bottom
                 anchors.topMargin: 12
-
+                visible: false
                 Rectangle
                 {
                     anchors.fill: parent

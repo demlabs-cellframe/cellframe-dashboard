@@ -44,6 +44,8 @@ public:
     void setIsSwapTokens(bool value);
     
     Q_INVOKABLE QString tryCreateOrderRegular(const QString& price, const QString& amount, const QString& fee);
+
+    Q_INVOKABLE QString getWarning(const QString& sellValue, const QString& buyValue, const QString& rateValue);
 public slots:
     void setNetworkFilterText(const QString &network) override;
 
@@ -76,9 +78,6 @@ private:
     QString m_sellValueField = "1.0";
 
     bool m_isSwapTokens = false;
-
-    // DapModuleDex interface
-
 };
 
 #endif // DAPMODULEDEXLIGHTPANEL_H

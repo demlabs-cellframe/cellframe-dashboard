@@ -208,6 +208,10 @@ void DapModuleDexLightPanel::swapTokens()
 
 void DapModuleDexLightPanel::setNetworkFilterText(const QString &network)
 {
+    if(network == m_currentPair.network)
+    {
+        return;
+    }
     DapModuleDex::setNetworkFilterText(network);
 
     if(isRegularTypePanel() && !network.isEmpty())
@@ -310,8 +314,6 @@ QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, cons
         Dap::Coin feeInt = feeOrder;
         QString feeDatoshi = feeInt.toDatoshiString();
 
-        priceOrder = priceOrder;
-
         if(suitableOrder == model.end())
         {
             requestOrderCreate(QStringList() << m_currentPair.network << tokenSell << tokenBuy
@@ -325,4 +327,50 @@ QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, cons
 
     }
     return "OK";
+}
+
+QString DapModuleDexLightPanel::getWarning(const QString& sellValue, const QString& buyValue, const QString& rateValue)
+{
+    Dap::Coin rate = rateValue;
+    Dap::Coin currentRate = m_currentPair.rate;
+    Dap::Coin hundred = QString("100.0");
+    Dap::Coin twenty = QString("20.0");
+    QString level, percent, costStr;
+
+    auto getRealPercent = [](const QString& value) ->QString
+    {
+        auto list = value.split('.');
+        return QString("%1").arg(list[0]);
+    };
+
+    if(rate > currentRate)
+    {
+        level = "higher";
+        costStr = "chip";
+        Dap::Coin delta = rate - currentRate;
+        Dap::Coin percentCoin = (delta / currentRate) * hundred;
+        auto str = percentCoin.toCoinsString();
+        if(percentCoin > twenty)
+        {
+            percent = getRealPercent(percentCoin.toCoinsString());
+        }
+    }
+    else
+    {
+        level = "lower";
+        costStr = "expensive";
+        Dap::Coin delta = currentRate - rate;
+        Dap::Coin percentCoin = delta / currentRate;
+        percentCoin = percentCoin * hundred;
+        auto str = percentCoin.toCoinsString();
+        if(percentCoin > twenty)
+        {
+            percent = getRealPercent(percentCoin.toCoinsString());
+        }
+    }
+
+    QString result = QString("Limit price is %1 %2% than the market. You will be selling your %3 exceedingly %4.")
+                         .arg(level).arg(percent).arg(m_currentPair.token1).arg(costStr);
+
+    return percent.isEmpty()? QString() : result;
 }

@@ -108,6 +108,14 @@ Item
                 mainTextRole: "name"
                 font: mainFont.dapFont.medium14
 
+                Component.onCompleted:
+                {
+                    if(comboboxNetwork.displayText !== dexModule.networkPair)
+                    {
+                        comboboxNetwork.displayText = dexModule.networkPair
+                    }
+                }
+
                 onModelChanged:
                 {
                     if(count > 0)
@@ -128,8 +136,24 @@ Item
                 {
                     if(count > 0 && currentIndex < 0)
                     {
-                        setCurrentIndex(0)
-                        dexModule.networkFilter = displayText
+                        if(dexModule.networkPair !== "")
+                        {
+                            for(var i = 0; i < model.count; i++)
+                            {
+                                if(dexModule.networkPair=== model.get(i).name)
+                                {
+                                    setCurrentIndex(i)
+                                    return
+                                }
+                            }
+                        }
+                        else
+                        {
+                            setCurrentIndex(0)
+                        }
+                        // console.log("[TEST] onCountChanged ",displayText)
+                        
+                        // dexModule.networkFilter = displayText
                     }
                 }
 
