@@ -305,6 +305,14 @@ Page
                     height: 24
                     anchors.centerIn: parent
                     hoverEnabled: true
+
+                    onClicked:
+                    {
+                        sellText.setText(buyText.text)
+                        currantRate = dexModule.invertValue(currantRate)
+                        dexModule.swapTokens();
+                    }
+
                     onContainsMouseChanged:
                     {
                         animArrowIcon.rotation = containsMouse ? -180 : 0
