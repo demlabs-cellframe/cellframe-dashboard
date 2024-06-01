@@ -24,14 +24,15 @@ public:
     Q_PROPERTY(bool isMarketType READ isMarketType NOTIFY orderTypeChanged)
     bool isMarketType() const { return m_orderType == "Market"; }
 
+    Q_PROPERTY(bool isRegularTypePanel READ isRegularTypePanel NOTIFY typePanelChanged)
+    bool isRegularTypePanel();
+
     //                                              sell/buy
     Q_INVOKABLE void setTypeListToken(const QString& type);
-
-    Q_PROPERTY(QString typePanel READ getTypePanel WRITE setTypePanel NOTIFY typePanelChanged)
     //                                          regular/advanced
+    Q_PROPERTY(QString typePanel READ getTypePanel WRITE setTypePanel NOTIFY typePanelChanged)
     Q_INVOKABLE void setTypePanel(const QString& type);
     QString getTypePanel() {return m_typePanel;}
-    Q_INVOKABLE bool isRegularTypePanel();
 
     Q_INVOKABLE void setCurrentTokenSell(const QString& token);
     Q_INVOKABLE void setCurrentTokenBuy(const QString& token);
@@ -41,14 +42,19 @@ public:
     Q_PROPERTY(bool isSwapTokens READ getIsSwapTokens WRITE setIsSwapTokens NOTIFY isSwapTokensChanged)
     bool getIsSwapTokens() const { return m_isSwapTokens; }
     void setIsSwapTokens(bool value);
-
+    
     Q_INVOKABLE QString tryCreateOrderRegular(const QString& price, const QString& amount, const QString& fee);
+public slots:
+    void setNetworkFilterText(const QString &network) override;
+
+    
 signals:
     void sellValueFieldChanged();
     void orderTypeChanged();
     void isSwapTokensChanged();
     void typePanelChanged();
 protected:
+    bool setCurrentTokenPairVariable(const QString& namePair, const QString &network) override;
     void updateTokenModels() override;
     void workersUpdate() override;
 private:
@@ -60,6 +66,8 @@ private:
     DapTokensModel* m_tokensModel = nullptr;
     TokensProxyModel* m_tokenProxyModel = nullptr;
 
+    DapTokenPairModel* m_regTokenPairsModel = nullptr;
+
     QString m_typeListToken = "sell";
 
     QString m_typePanel = "regular";
@@ -68,6 +76,9 @@ private:
     QString m_sellValueField = "1.0";
 
     bool m_isSwapTokens = false;
+
+    // DapModuleDex interface
+
 };
 
 #endif // DAPMODULEDEXLIGHTPANEL_H

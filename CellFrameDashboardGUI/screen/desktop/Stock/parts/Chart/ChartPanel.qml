@@ -126,7 +126,11 @@ Item
 
                 onCountChanged:
                 {
-                    if(count > 0 && currentIndex < 0) setCurrentIndex(0)
+                    if(count > 0 && currentIndex < 0)
+                    {
+                        setCurrentIndex(0)
+                        dexModule.networkFilter = displayText
+                    }
                 }
 
                 onItemSelected:
@@ -153,7 +157,10 @@ Item
                                 break
                             }
                         }
-                        if(!isFound) comboboxNetwork.displayText = "All"
+                        if(!isFound)
+                        {
+                            if(dexNetModel.count > 0) comboboxNetwork.setCurrentIndex(0)
+                        }
                     }
 
                     function onNetworkFilterChanged(network)
@@ -173,7 +180,8 @@ Item
                 anchors.left: comboboxNetwork.right
                 anchors.leftMargin: 16
 
-                model:modelTokenPair
+                searchVisible: !dexModule.isRegularTypePanel
+                model: dexModule.isRegularTypePanel ? modelTokenPairRegular : modelTokenPair
 
                 onCurrentIndexChanged:
                 {
