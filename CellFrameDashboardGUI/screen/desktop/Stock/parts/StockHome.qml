@@ -57,12 +57,10 @@ Item
 
     onGoToRightHome:
     {
-        console.log("[TEST] Done")
         changeRightPage(panelPath)
     }
     onGoToDoneCreate:
     {
-        console.log("[TEST] onGoToDoneCreate")
         changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
     onGoToTokensList:

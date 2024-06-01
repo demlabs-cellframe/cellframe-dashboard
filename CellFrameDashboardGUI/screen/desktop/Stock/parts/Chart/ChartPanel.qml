@@ -151,9 +151,6 @@ Item
                         {
                             setCurrentIndex(0)
                         }
-                        // console.log("[TEST] onCountChanged ",displayText)
-                        
-                        // dexModule.networkFilter = displayText
                     }
                 }
 
