@@ -123,7 +123,7 @@ Item
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
-                    visible: !dexModule.isRegularTypePanel()
+                    visible: !dexModule.isRegularTypePanel
                     onClicked:
                     {
                         changeRightPage("CreateOrder/OrderCreate.qml")

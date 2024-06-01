@@ -10,7 +10,7 @@ Item
 
     Component.onCompleted:
     {
-        if(!dexModule.isRegularTypePanel())
+        if(!dexModule.isRegularTypePanel)
         {
             ordersModel.setOrderFilter("Sell", "Other", "OPENED")
             setCurrentMainScreen(allOrders)
@@ -62,7 +62,7 @@ Item
 
             onItemSelected:
             {
-                if(!dexModule.isRegularTypePanel())
+                if(!dexModule.isRegularTypePanel)
                 {
                     if (currentIndex === 0)
                     {
@@ -541,7 +541,7 @@ Item
     function updateOrderSelectorModel()
     {
         selectorModel.clear()
-        if(!dexModule.isRegularTypePanel())
+        if(!dexModule.isRegularTypePanel)
         {
             selectorModel.append({name: qsTr("Orders")})
         }

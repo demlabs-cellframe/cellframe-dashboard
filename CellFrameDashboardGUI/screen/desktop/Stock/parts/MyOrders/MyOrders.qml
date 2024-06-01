@@ -64,7 +64,7 @@ Item
 
             RowLayout{
                 id: headerComponent
-                visible: !dexModule.isRegularTypePanel()
+                visible: !dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
                 // HeaderLabel{
@@ -110,7 +110,7 @@ Item
             }
 
             RowLayout{
-                visible: dexModule.isRegularTypePanel()
+                visible: dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
                 HeaderLabel{
@@ -174,7 +174,7 @@ Item
             }
             RowLayout
             {
-                visible: !dexModule.isRegularTypePanel()
+                visible: !dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
                 // HeaderLabel{
@@ -238,7 +238,7 @@ Item
 
             RowLayout
             {
-                visible: dexModule.isRegularTypePanel()
+                visible: dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
 
