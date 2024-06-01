@@ -28,24 +28,6 @@ Page
         walletModule.stopUpdateFee()
     }
 
-    Connections
-    {
-        target: dapServiceController
-
-        function onRcvXchangeCreate(rcvData)
-        {
-            logicStock.resultCreate = rcvData
-            goToDoneCreate()
-        }
-
-        function onRcvXchangeOrderPurchase(rcvData)
-        {
-            logicStock.resultCreate = rcvData
-            goToDoneCreate()
-        }
-    }
-
-
     Item
     {
 

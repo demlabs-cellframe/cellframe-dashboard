@@ -42,10 +42,12 @@ public:
     Q_PROPERTY(bool isSwapTokens READ getIsSwapTokens WRITE setIsSwapTokens NOTIFY isSwapTokensChanged)
     bool getIsSwapTokens() const { return m_isSwapTokens; }
     void setIsSwapTokens(bool value);
-
+    
+    Q_INVOKABLE QString tryCreateOrderRegular(const QString& price, const QString& amount, const QString& fee);
 public slots:
     void setNetworkFilterText(const QString &network) override;
 
+    
 signals:
     void sellValueFieldChanged();
     void orderTypeChanged();

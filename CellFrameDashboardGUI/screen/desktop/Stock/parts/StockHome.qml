@@ -31,6 +31,23 @@ Item
         }
     }
 
+    Connections
+    {
+        target: dapServiceController
+
+        function onRcvXchangeCreate(rcvData)
+        {
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
+
+        function onRcvXchangeOrderPurchase(rcvData)
+        {
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
+    }
+
     onCurrentModeTypeChanged:
     {
         dexModule.typePanel = currentModeType
@@ -40,10 +57,12 @@ Item
 
     onGoToRightHome:
     {
+        console.log("[TEST] Done")
         changeRightPage(panelPath)
     }
     onGoToDoneCreate:
     {
+        console.log("[TEST] onGoToDoneCreate")
         changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
     onGoToTokensList:
@@ -104,7 +123,7 @@ Item
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
-                    visible: !dexModule.isRegularTypePanel()
+                    visible: !dexModule.isRegularTypePanel
                     onClicked:
                     {
                         changeRightPage("CreateOrder/OrderCreate.qml")

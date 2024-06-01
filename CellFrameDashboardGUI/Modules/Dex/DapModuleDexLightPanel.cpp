@@ -251,3 +251,78 @@ bool DapModuleDexLightPanel::setCurrentTokenPairVariable(const QString& namePair
     }
     return true;
 }
+
+QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, const QString& amount, const QString& fee)
+{
+    auto checkValue = [](const QString& str) -> QString
+    {
+        if(str.isEmpty())
+        {
+            return str;
+        }
+        QString result = str;
+        if(!str.contains('.'))
+        {
+            result.append(".0");
+        }
+        return result;
+    };
+
+    if(m_ordersModel)
+    {
+        QString tokenSell = m_currentPair.token1;
+        QString tokenBuy = m_currentPair.token2;
+        QString walletName = m_modulesCtrl->getCurrentWalletName();
+        QString amountOrder = checkValue(amount);
+        QString feeOrder = checkValue(fee);
+        QString priceOrder = checkValue(price);
+
+        auto& model = m_ordersModel->getListModel();
+
+
+        auto suitableOrder = std::find_if(model.begin(), model.end(), [&](const DapOrderHistoryModel::Item& item){
+            if(item.status == "CLOSED")
+            {
+                return false;
+            }
+            if(item.tokenSellOrigin != tokenBuy || item.tokenBuyOrigin != tokenSell || item.network != m_currentPair.network)
+            {
+                return false;
+            }
+            if(item.rateOrigin != priceOrder)
+            {
+                return false;
+            }
+
+            Dap::Coin itemDatoshi= item.amount;
+            Dap::Coin currantDatoshi= amountOrder;
+            if(itemDatoshi >= currantDatoshi)
+            {
+                qInfo() << "HASH: " << item.hash;
+                return true;
+            }
+
+            return false;
+        });
+
+        Dap::Coin amount256 = amountOrder;
+        QString amountDatoshi = amount256.toDatoshiString();
+        Dap::Coin feeInt = feeOrder;
+        QString feeDatoshi = feeInt.toDatoshiString();
+
+        priceOrder = priceOrder;
+
+        if(suitableOrder == model.end())
+        {
+            requestOrderCreate(QStringList() << m_currentPair.network << tokenSell << tokenBuy
+                                             << walletName << amountDatoshi << priceOrder << feeDatoshi);
+        }
+        else
+        {
+            requestOrderPurchase(QStringList() << suitableOrder->hash << m_currentPair.network
+                                               << walletName << amountDatoshi << feeDatoshi << tokenSell);
+        }
+
+    }
+    return "OK";
+}

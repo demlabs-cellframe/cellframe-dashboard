@@ -64,6 +64,7 @@ Item
 
             RowLayout{
                 id: headerComponent
+                visible: !dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
                 // HeaderLabel{
@@ -107,6 +108,42 @@ Item
                     //label.text: qsTr("Cancel")
                 }
             }
+
+            RowLayout{
+                visible: dexModule.isRegularTypePanel
+                anchors.fill: parent
+                spacing: 0
+                HeaderLabel{
+                    Layout.preferredWidth: 70
+                    label.text: qsTr("You pay")
+                    label.anchors.leftMargin: 16
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 70
+                    label.text: qsTr("Your receive")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Amount")
+                }                
+                HeaderLabel{
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Order rate")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 135
+                    label.text: qsTr("Created")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 49
+                    label.text: qsTr("Filled")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 69
+                    //label.text: qsTr("Cancel")
+                }
+            }
+
         }
         delegate: openOrdersdelegate
         Component.onCompleted: currentIndex = -1
@@ -137,6 +174,7 @@ Item
             }
             RowLayout
             {
+                visible: !dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
                 // HeaderLabel{
@@ -198,6 +236,61 @@ Item
                 }
             }
 
+            RowLayout
+            {
+                visible: dexModule.isRegularTypePanel
+                anchors.fill: parent
+                spacing: 0
+
+                HeaderLabel{
+                    Layout.preferredWidth: 70
+                    label.text: tokenSellOrigin
+                    label.font: mainFont.dapFont.regular13
+                    label.anchors.leftMargin: 16
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 70
+                    label.text: tokenBuyOrigin
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderBigLabel{
+                    Layout.preferredWidth: 150
+                    label.fullText: amount
+                    label.textFont: mainFont.dapFont.regular13
+                }
+                HeaderBigLabel{
+                    Layout.preferredWidth: 150
+                    label.fullText: price
+                    label.textFont: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 135
+                    label.text: date
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 49
+                    label.text: filled
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 69
+                    label.text: qsTr("Cancel")
+                    label.font: mainFont.dapFont.regular13
+                    label.color: mouseArea.containsMouse ?
+                                     currTheme.red :
+                                     currTheme.lime
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            removeOrderPopup.show(model)
+
+                            logic.initOrdersModels()
+                        }
+                    }
+                }
+            }
             Rectangle{
                 id:frameDelegate
                 anchors.fill: parent
