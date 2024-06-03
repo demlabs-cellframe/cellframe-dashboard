@@ -267,6 +267,7 @@ Page
                         onTextChanged:
                         {
                             dexModule.sellValueField = text
+                            isFieldOK()
                         }
 
                         onEdited:
@@ -429,6 +430,11 @@ Page
 
                         DapContextMenu{}
 
+                        onTextChanged:
+                        {
+                            createButton.enabled = isFieldOK()
+                        }
+
                         onEdited:
                         {
                             currantRate = dexModule.divCoins(buyText.text, sellText.text)
@@ -509,6 +515,7 @@ Page
                         onTextChanged:
                         {
                             updateErrorField(false, getWarning())
+                            createButton.enabled = isFieldOK()
                         }
 
                         onEdited:
@@ -872,16 +879,19 @@ Page
     function getWarning()
     {
         var result = "";
-        var percent = dexModule.getDeltaRatePercent(currantRate)
-        var isLow = percent.substring(0,1) === "-"
-        percent = percent.substring(1)
-        var persentInt = parseInt(percent)
-        if(persentInt > 20)
+        if(isOKValue(currantRate))
         {
-            var level = isLow ? qsTr("higher") : qsTr("chip")
-            var costStr = isLow ? qsTr("lower") : qsTr("expensive")
+            var percent = dexModule.getDeltaRatePercent(currantRate)
+            var isLow = percent.substring(0,1) === "-"
+            percent = percent.substring(1)
+            var persentInt = parseInt(percent)
+            if(persentInt > 20)
+            {
+                var level = isLow ? qsTr("higher") : qsTr("chip")
+                var costStr = isLow ? qsTr("lower") : qsTr("expensive")
 
-            result = qsTr("Limit price is ") + level + " " + percent + "% " + qsTr(" than the market. You will be selling your ") + dexModule.token1 + qsTr(" exceedingly ") + costStr
+                result = qsTr("Limit price is ") + level + " " + percent + "% " + qsTr(" than the market. You will be selling your ") + dexModule.token1 + qsTr(" exceedingly ") + costStr
+            }            
         }
 
         if(dexModule.token1.substring(0,1)==="m")
@@ -890,6 +900,24 @@ Page
         }
 
         return result;
+    }
+
+    function isFieldOK()
+    {
+        if(isOKValue(priceText.text) && isOKValue(buyText.text) && isOKValue(sellText.text))
+        {
+            return true
+        }
+        return false
+    }
+
+    function isOKValue(value)
+    {
+        if(!isNaN(parseFloat(value)))
+        {
+            if (parseFloat(value) > 0) return true
+        }
+        return false;
     }
 
     Connections

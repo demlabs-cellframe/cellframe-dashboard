@@ -346,7 +346,8 @@ QString DapModuleDexLightPanel::getDeltaRatePercent(const QString& rateValue)
     if(rate > currentRate)
     {
         Dap::Coin delta = rate - currentRate;
-        Dap::Coin percentCoin = (delta / currentRate) * hundred;
+
+        Dap::Coin percentCoin = m_currentPair.rate == "0.0" ? hundred : (delta / currentRate) * hundred;
         auto str = percentCoin.toCoinsString();
         if(percentCoin > twenty)
         {
