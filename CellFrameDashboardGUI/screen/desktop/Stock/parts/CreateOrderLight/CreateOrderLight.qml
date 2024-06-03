@@ -17,6 +17,8 @@ Page
     property string currantRate: ""
     property bool isInvert: false
 
+    property var messageRectColor: currTheme.orange
+
     onCurrantRateChanged:
     {
         miniRateFieldUpdate()
@@ -506,16 +508,7 @@ Page
                         DapContextMenu{}
                         onTextChanged:
                         {
-                            var message = dexModule.getWarning(sellText.text, buyText.text , currantRate)
-                            if(message !== "")
-                            {
-                                errorMsgRect.visible = true
-                                textError.text = message
-                            }
-                            else
-                            {
-                                errorMsgRect.visible = false
-                            }
+                            updateErrorField(false, getWarning())
                         }
 
                         onEdited:
@@ -730,17 +723,18 @@ Page
                 visible: false
                 Rectangle
                 {
+
                     anchors.fill: parent
                     color: "transparent"
                     radius: 4
                     border.width: 1
-                    border.color: currTheme.orange
+                    border.color: messageRectColor
                 }
 
                 Rectangle
                 {
                     anchors.fill: parent
-                    color: currTheme.orange
+                    color: messageRectColor
                     opacity: 0.12
                     radius: 4
                 }
@@ -785,14 +779,38 @@ Page
                 var resultTokenName = dexModule.token1
                 var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                 console.log("Wallet: " + walletResult)
-                if(walletResult === "OK")
+
+                if(walletResult.code === 0)
                 {
                     var createOrder = dexModule.tryCreateOrderRegular(currantRate, resultAmount, walletModule.getFee(dexModule.networkPair).validator_fee)
                     console.log("Order: " + createOrder)
                 }
                 else
                 {
-                    messageText.text = walletResult
+                    var message = ""
+                    switch(walletResult.code) {
+                        case 1:
+                            message = qsTr("Error, network not found")
+                            updateErrorField(true, message)
+                            break
+                        case 2:
+                            message = qsTr(" There are not enough tokens available. Not enough to pay the network usage fee. Fee = %1. Current value = %2")
+                            .arg(walletResult.firstValue).arg(walletResult.secondValue)
+                            updateErrorField(true, message)
+                            break
+                        case 3:
+                            message = qsTr(" There are not enough tokens available. Not enough to pay the fee. Fee = %1. Current value = %2")
+                            .arg(walletResult.firstValue).arg(walletResult.secondValue)
+                            updateErrorField(true, message)
+                            break
+                        case 4:
+                            message = qsTr("There are not enough tokens available, taking into account all commissions. Necessary = %1. Available = %2.")
+                            .arg(walletResult.firstValue).arg(walletResult.secondValue)
+                            updateErrorField(true, message)
+                            break
+                        default:
+                            break
+                    }
                 }
             }
         }
@@ -828,6 +846,52 @@ Page
         }
     }
 
+    function updateErrorField(isErrorCheck, message)
+    {
+        if(!isErrorCheck)
+        {
+            if(message !== "")
+            {
+                messageRectColor = currTheme.orange
+                errorMsgRect.visible = true
+                textError.text = message
+            }
+            else
+            {
+                errorMsgRect.visible = false
+            }
+        }
+        else
+        {
+            messageRectColor = currTheme.red
+            errorMsgRect.visible = true
+            textError.text = message
+        }
+    }
+
+    function getWarning()
+    {
+        var result = "";
+        var percent = dexModule.getDeltaRatePercent(currantRate)
+        var isLow = percent.substring(0,1) === "-"
+        percent = percent.substring(1)
+        var persentInt = parseInt(percent)
+        if(persentInt > 20)
+        {
+            var level = isLow ? qsTr("higher") : qsTr("chip")
+            var costStr = isLow ? qsTr("lower") : qsTr("expensive")
+
+            result = qsTr("Limit price is ") + level + " " + percent + "% " + qsTr(" than the market. You will be selling your ") + dexModule.token1 + qsTr(" exceedingly ") + costStr
+        }
+
+        if(dexModule.token1.substring(0,1)==="m")
+        {
+            result = qsTr("Warning! To unstake you need to have the exact amount of cell in the wallet you staked.")
+        }
+
+        return result;
+    }
+
     Connections
     {
         target: dexModule
@@ -847,6 +911,8 @@ Page
             rateRectagleTextUpdate()
             miniRateFieldUpdate()
             updateBuyField()
+
+            updateErrorField(false, getWarning())
         }
     }
 }

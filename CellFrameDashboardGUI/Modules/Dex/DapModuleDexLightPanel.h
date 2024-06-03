@@ -45,7 +45,7 @@ public:
     
     Q_INVOKABLE QString tryCreateOrderRegular(const QString& price, const QString& amount, const QString& fee);
 
-    Q_INVOKABLE QString getWarning(const QString& sellValue, const QString& buyValue, const QString& rateValue);
+    Q_INVOKABLE QString getDeltaRatePercent(const QString& rateValue);
 public slots:
     void setNetworkFilterText(const QString &network) override;
 

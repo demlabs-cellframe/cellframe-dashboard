@@ -329,13 +329,13 @@ QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, cons
     return "OK";
 }
 
-QString DapModuleDexLightPanel::getWarning(const QString& sellValue, const QString& buyValue, const QString& rateValue)
+QString DapModuleDexLightPanel::getDeltaRatePercent(const QString& rateValue)
 {
     Dap::Coin rate = rateValue;
     Dap::Coin currentRate = m_currentPair.rate;
     Dap::Coin hundred = QString("100.0");
     Dap::Coin twenty = QString("20.0");
-    QString level, percent, costStr;
+    QString percent = "+0.0";
 
     auto getRealPercent = [](const QString& value) ->QString
     {
@@ -345,32 +345,24 @@ QString DapModuleDexLightPanel::getWarning(const QString& sellValue, const QStri
 
     if(rate > currentRate)
     {
-        level = "higher";
-        costStr = "chip";
         Dap::Coin delta = rate - currentRate;
         Dap::Coin percentCoin = (delta / currentRate) * hundred;
         auto str = percentCoin.toCoinsString();
         if(percentCoin > twenty)
         {
-            percent = getRealPercent(percentCoin.toCoinsString());
+            percent = "-" + getRealPercent(percentCoin.toCoinsString());
         }
     }
     else
     {
-        level = "lower";
-        costStr = "expensive";
         Dap::Coin delta = currentRate - rate;
         Dap::Coin percentCoin = delta / currentRate;
         percentCoin = percentCoin * hundred;
         auto str = percentCoin.toCoinsString();
         if(percentCoin > twenty)
         {
-            percent = getRealPercent(percentCoin.toCoinsString());
+            percent = "+" + getRealPercent(percentCoin.toCoinsString());
         }
     }
-
-    QString result = QString("Limit price is %1 %2% than the market. You will be selling your %3 exceedingly %4.")
-                         .arg(level).arg(percent).arg(m_currentPair.token1).arg(costStr);
-
-    return percent.isEmpty()? QString() : result;
+    return percent;
 }
