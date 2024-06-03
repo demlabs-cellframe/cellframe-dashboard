@@ -544,7 +544,15 @@ QtObject
                     setSelectedCandleNumber(i)
                     selectedChange = true
                 }
+            }
 
+            if(i === candleChartWorker.firstVisibleCandle)
+            {
+                if (mouseVisible && mouseX < candleX - mouseCandleWidth*0.5)
+                {
+                    setSelectedCandleNumber(candleChartWorker.firstVisibleCandle)
+                    selectedChange = true
+                }
             }
 
             if (selectedCandleNumber === i)
