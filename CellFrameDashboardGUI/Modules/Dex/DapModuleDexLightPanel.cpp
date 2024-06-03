@@ -168,6 +168,22 @@ void DapModuleDexLightPanel::setTypeListToken(const QString& type)
 void DapModuleDexLightPanel::setTypePanel(const QString& type)
 {
     m_typePanel = type;
+
+    if(!isRegularTypePanel())
+    {
+        for(const auto& item: m_tokensPair)
+        {
+            if(item.network == m_currentPair.network)
+            {
+                if(item.token1 == m_currentPair.token2 && item.token2 == m_currentPair.token1)
+                {
+                    setCurrentTokenPair(item.displayText, m_currentPair.network);
+                    break;
+                }
+            }
+        }
+    }
+
     m_proxyModel->setIsRegularType(isRegularTypePanel());
     emit typePanelChanged();
 }
@@ -212,10 +228,13 @@ void DapModuleDexLightPanel::setNetworkFilterText(const QString &network)
     {
         return;
     }
-    DapModuleDex::setNetworkFilterText(network);
 
-    if(isRegularTypePanel() && !network.isEmpty())
+    if(isRegularTypePanel())
     {
+        if(network.isEmpty())
+        {
+            return;
+        }
         for(const auto& item: m_tokensPair)
         {
             if(item.network == network)
@@ -224,6 +243,10 @@ void DapModuleDexLightPanel::setNetworkFilterText(const QString &network)
                 break;
             }
         }
+    }
+    else
+    {
+        DapModuleDex::setNetworkFilterText(network);
     }
 }
 
