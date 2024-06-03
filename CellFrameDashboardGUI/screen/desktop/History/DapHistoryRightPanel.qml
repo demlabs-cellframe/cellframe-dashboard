@@ -15,6 +15,28 @@ Item
         anchors.fill: parent
         spacing: 0
 
+        /*
+        // TEMPORARY TESTING FEE COMPONENT
+        Item
+        {
+            Layout.topMargin: 20
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignTop
+
+            height: 100
+
+            DapFeeComponent
+            {
+                id: feeIndicator
+                anchors.centerIn: parent
+
+                onCurrentValueChanged:
+                {
+                    console.log("New value:", currentValue)
+                }
+            }
+        }*/
+
         Text {
             Layout.minimumHeight: 35
             Layout.maximumHeight: 35
