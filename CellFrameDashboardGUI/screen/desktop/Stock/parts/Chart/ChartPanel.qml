@@ -218,11 +218,8 @@ Item
             DapSelector
             {
                 id: modeSelector
-                width: 240
                 height: 24
-
                 anchors.right: parent.right
-
                 textFont: mainFont.dapFont.regular13
                 defaultIndex:
                 {
