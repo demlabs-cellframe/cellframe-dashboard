@@ -28,6 +28,10 @@ DapTextField {
 
     function setText(text)
     {
+        if(textValue.text === text)
+        {
+            return
+        }
         isInputText = false
         textValue.text = text
     }
