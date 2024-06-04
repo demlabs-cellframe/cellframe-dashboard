@@ -3,7 +3,6 @@ import QtQml 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-//import ".."
 import "../DapPairComboBox"
 
 Item
@@ -493,70 +492,86 @@ Item
         y: 16
         width: childrenRect.width
         height: childrenRect.height
-
         color: "#a0363A42"
 
-        ChartTextBlock
+        Item
         {
-            id: textDate
-            width: 110
-            anchors.left: parent.left
-            labelVisible: false
-            textFont: mainFont.dapFont.regular13
-            text: "-"
-            textColor: currTheme.gray
-        }
+            anchors.fill: parent
+            z: parent.z + 1
 
-        ChartBigTextBlock
-        {
-            id: textOpen
-            width: 80
-            anchors.left: textDate.right
-            anchors.leftMargin: 16
-            label: qsTr("Open: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
+            ChartTextBlock
+            {
+                id: textDate
+                width: 110
+                anchors.left: parent.left
+                labelVisible: false
+                textFont: mainFont.dapFont.regular13
+                text: "-"
+                textColor: currTheme.gray
+            }
+            ChartBigTextBlock
+            {
+                id: textOpen
+                width: 80
+                anchors.left: textDate.right
+                anchors.leftMargin: 16
+                label: qsTr("Open: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartBigTextBlock
+            {
+                id: textHigh
+                width: 80
+                anchors.left: textOpen.right
+                anchors.leftMargin: 16
+                label: qsTr("High: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartBigTextBlock
+            {
+                id: textLow
+                width: 80
+                anchors.left: textHigh.right
+                anchors.leftMargin: 16
+                label: qsTr("Low: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartBigTextBlock
+            {
+                id: textClose
+                width: 80
+                anchors.left: textLow.right
+                anchors.leftMargin: 16
+                label: qsTr("Close: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartTextBlock
+            {
+                id: textChange
+                width: 80
+                anchors.left: textClose.right
+                anchors.leftMargin: 16
+                label: qsTr("Change: ")
+                text: "-"
+                textFont: mainFont.dapFont.regular13
+            }
         }
-
-        ChartBigTextBlock
+        MouseArea
         {
-            id: textHigh
-            width: 80
-            anchors.left: textOpen.right
-            anchors.leftMargin: 16
-            label: qsTr("High: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
-        }
-        ChartBigTextBlock
-        {
-            id: textLow
-            width: 80
-            anchors.left: textHigh.right
-            anchors.leftMargin: 16
-            label: qsTr("Low: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
-        }
-        ChartBigTextBlock
-        {
-            id: textClose
-            width: 80
-            anchors.left: textLow.right
-            anchors.leftMargin: 16
-            label: qsTr("Close: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
-        }
-        ChartTextBlock
-        {
-            id: textChange
-            width: 80
-            anchors.left: textClose.right
-            anchors.leftMargin: 16
-            label: qsTr("Change: ")
-            text: "-"
-            textFont: mainFont.dapFont.regular13
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered:
+            {
+                chartItem.areaCanvas.hoverEnabled = false
+            }
+            onExited:
+            {
+                chartItem.areaCanvas.hoverEnabled = true
+            }
         }
     }
 
