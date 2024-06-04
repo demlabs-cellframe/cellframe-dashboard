@@ -494,65 +494,71 @@ Item
         height: childrenRect.height
         color: "#a0363A42"
 
-        ChartTextBlock
+        Item
         {
-            id: textDate
-            width: 110
-            anchors.left: parent.left
-            labelVisible: false
-            textFont: mainFont.dapFont.regular13
-            text: "-"
-            textColor: currTheme.gray
-        }
-        ChartBigTextBlock
-        {
-            id: textOpen
-            width: 80
-            anchors.left: textDate.right
-            anchors.leftMargin: 16
-            label: qsTr("Open: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
-        }
-        ChartBigTextBlock
-        {
-            id: textHigh
-            width: 80
-            anchors.left: textOpen.right
-            anchors.leftMargin: 16
-            label: qsTr("High: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
-        }
-        ChartBigTextBlock
-        {
-            id: textLow
-            width: 80
-            anchors.left: textHigh.right
-            anchors.leftMargin: 16
-            label: qsTr("Low: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
-        }
-        ChartBigTextBlock
-        {
-            id: textClose
-            width: 80
-            anchors.left: textLow.right
-            anchors.leftMargin: 16
-            label: qsTr("Close: ")
-            text: "-"
-            fontComponent: mainFont.dapFont.regular13
-        }
-        ChartTextBlock
-        {
-            id: textChange
-            width: 80
-            anchors.left: textClose.right
-            anchors.leftMargin: 16
-            label: qsTr("Change: ")
-            text: "-"
-            textFont: mainFont.dapFont.regular13
+            anchors.fill: parent
+            z: parent.z + 1
+
+            ChartTextBlock
+            {
+                id: textDate
+                width: 110
+                anchors.left: parent.left
+                labelVisible: false
+                textFont: mainFont.dapFont.regular13
+                text: "-"
+                textColor: currTheme.gray
+            }
+            ChartBigTextBlock
+            {
+                id: textOpen
+                width: 80
+                anchors.left: textDate.right
+                anchors.leftMargin: 16
+                label: qsTr("Open: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartBigTextBlock
+            {
+                id: textHigh
+                width: 80
+                anchors.left: textOpen.right
+                anchors.leftMargin: 16
+                label: qsTr("High: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartBigTextBlock
+            {
+                id: textLow
+                width: 80
+                anchors.left: textHigh.right
+                anchors.leftMargin: 16
+                label: qsTr("Low: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartBigTextBlock
+            {
+                id: textClose
+                width: 80
+                anchors.left: textLow.right
+                anchors.leftMargin: 16
+                label: qsTr("Close: ")
+                text: "-"
+                fontComponent: mainFont.dapFont.regular13
+            }
+            ChartTextBlock
+            {
+                id: textChange
+                width: 80
+                anchors.left: textClose.right
+                anchors.leftMargin: 16
+                label: qsTr("Change: ")
+                text: "-"
+                textFont: mainFont.dapFont.regular13
+            }
         }
         MouseArea
         {
