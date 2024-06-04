@@ -18,6 +18,7 @@ DapTextField {
 
             isInputText = true
         }
+        if(!focus) cursorPosition = 0
     }
 
     onFocusChanged:
