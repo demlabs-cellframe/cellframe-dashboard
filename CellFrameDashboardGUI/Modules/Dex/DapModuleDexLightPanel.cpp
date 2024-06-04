@@ -40,11 +40,11 @@ void DapModuleDexLightPanel::updateRegularModels()
 
         if(sellTokenName == item.token1)
         {
-            tmpDataSell.insert(item.token2, invertValue(item.rate));
+            tmpDataSell.insert(item.token2, item.rate);
         }
         else if(sellTokenName == item.token2)
         {
-            tmpDataSell.insert(item.token1, item.rate);
+            tmpDataSell.insert(item.token1, invertValue(item.rate));
         }
 
         if(buyTokenName == item.token1)
@@ -62,7 +62,7 @@ void DapModuleDexLightPanel::updateRegularModels()
     {
         DEX::InfoTokenPairLight buyToken;
         buyToken.token = sellTokenName;
-        buyToken.rate = tmpDataSell[token];
+        buyToken.rate = tmpDataBuy[token];
         buyToken.displayText = token;
         buyToken.type = "buy";
         modelData.append(buyToken);
@@ -71,7 +71,7 @@ void DapModuleDexLightPanel::updateRegularModels()
     {
         DEX::InfoTokenPairLight sellToken;
         sellToken.token = buyTokenName;
-        sellToken.rate = tmpDataBuy[token];
+        sellToken.rate = tmpDataSell[token];
         sellToken.displayText = token;
         sellToken.type = "sell";
         modelData.append(sellToken);
@@ -105,19 +105,9 @@ void DapModuleDexLightPanel::workersUpdate()
 {
     DapModuleDex::workersUpdate();
     m_currentPair.displayText = m_currentPair.token1 + "/" + m_currentPair.token2;
-    regularTokensUpdate();
-    updateRegularModels();
+    
     m_proxyModel->setCurrentTokenPair(m_currentPair.token1, m_currentPair.token2);
-}
-
-void DapModuleDexLightPanel::regularTokensUpdate()
-{
-
-}
-
-void DapModuleDexLightPanel::setLightCurrentTokenPair(const DEX::InfoTokenPair& pair)
-{
-
+    updateRegularModels();
 }
 
 void DapModuleDexLightPanel::setCurrentTokenSell(const QString& token)
@@ -263,13 +253,18 @@ bool DapModuleDexLightPanel::setCurrentTokenPairVariable(const QString& namePair
         if(m_currentPair.displayText.isEmpty()
             || m_currentPair.displayText  == "/") return DapModuleDex::setCurrentTokenPairVariable(namePair, network);
 
+        if(m_currentPair.network != network)
+        {
+            return DapModuleDex::setCurrentTokenPairVariable(namePair, network);
+        }
         auto listPair = namePair.split("/");
-        if(m_currentPair.token1 != listPair[0])
+        if(m_currentPair.token1 == listPair[1] && m_currentPair.token2 == listPair[0])
         {
             QString tmpToken = m_currentPair.token1;
             m_currentPair.token1 = m_currentPair.token2;
             m_currentPair.token2 = tmpToken;
             m_currentPair.rate = invertValue(m_currentPair.rate);
+            m_currentPair.network = network;
         }
         else
         {

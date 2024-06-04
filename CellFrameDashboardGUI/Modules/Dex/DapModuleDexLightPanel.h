@@ -60,8 +60,6 @@ protected:
     void updateTokenModels() override;
     void workersUpdate() override;
 private:
-    void setLightCurrentTokenPair(const DEX::InfoTokenPair& pair);
-    void regularTokensUpdate();
     void updateRegularModels();
 
 private:
