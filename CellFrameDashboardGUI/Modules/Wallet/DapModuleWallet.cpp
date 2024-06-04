@@ -801,8 +801,27 @@ void DapModuleWallet::setWalletTokenModel(const QString& network)
     emit tokenModelChanged();
 }
 
-QString DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
+QVariantMap DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
 {
+    /// result message
+    /// 0 - OK
+    /// 1 - Error, network not found
+    /// 2 - Error. It is not possible to pay the Internet fee
+    /// 3 - Error. It is not possible to pay the Validate fee
+    /// 4 - Error. It is not possible to pay
+    ///
+
+    auto resultMap = [&](int number, const QString& message = "",  const QString& firstValue = "", const QString& secondValue = "") -> QVariantMap
+    {
+        QVariantMap mapResult;
+        mapResult.insert("code", number);
+        mapResult.insert("firstValue", firstValue);
+        mapResult.insert("secondValue", secondValue);
+        mapResult.insert("message", message);
+
+        return mapResult;
+    };
+
     auto checkValue = [](const QString& str) -> QString
     {
         if(str.isEmpty())
@@ -822,7 +841,7 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
     const auto& infoWallet = m_walletsInfo[m_currentWallet.second];
     if(!infoWallet.walletInfo.contains(network))
     {
-        return tr("Error, network not found");
+        return resultMap(1, tr("Error, network not found"));
     }
     const auto& infoNetwork = infoWallet.walletInfo[network];
 
@@ -863,7 +882,7 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
                 Dap::Coin value = netValue;
                 if(value < net)
                 {
-                    return tr("Error. It is not possible to pay the Internet fee");
+                    return resultMap(2, tr("Error. It is not possible to pay the Internet fee"), value.toCoinsString(), net.toCoinsString());
                 }
             }
         }
@@ -893,9 +912,8 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
                 Dap::Coin value = netValue;
                 if(value < fee)
                 {
-                    return tr("Error. It is not possible to pay the Validate fee");
+                    return resultMap(3, tr("Error. It is not possible to pay the Validate fee"), value.toCoinsString(), fee.toCoinsString());
                 }
-
             }
         }
     }
@@ -907,10 +925,10 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
     qDebug() << "value = " << value.toCoinsString() << " result = " << result.toCoinsString();
     if(value < result)
     {
-        return tr("Error. It is not possible to pay");
+        return resultMap(4, tr("Error. It is not possible to pay"), value.toCoinsString(), result.toCoinsString());
     }
 
-    return "OK";
+    return resultMap(0, "OK");
 }
 
 QVariantMap DapModuleWallet::getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker)

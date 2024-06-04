@@ -12,20 +12,67 @@ Item
 {
     signal goToRightHome()
     signal goToDoneCreate()
+    signal goToTokensList()
+
+    property string currentModeType: "regular"
+
+    property string panelPath: ""
+    property string tokensListPath: "CreateOrderLight/TokensListRightPanel.qml"
+
+    function updateDefaultPanel()
+    {
+        if(dexModule.typePanel === "regular")
+        {
+            panelPath = "CreateOrderLight/CreateOrderLight.qml"
+        }
+        else if(dexModule.typePanel === "advanced")
+        {
+            panelPath = "OrderBook/OrderBook.qml"
+        }
+    }
+
+    Connections
+    {
+        target: dapServiceController
+
+        function onRcvXchangeCreate(rcvData)
+        {
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
+
+        function onRcvXchangeOrderPurchase(rcvData)
+        {
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
+    }
+
+    onCurrentModeTypeChanged:
+    {
+        dexModule.typePanel = currentModeType
+        updateDefaultPanel()
+        changeRightPage(panelPath)
+    }
 
     onGoToRightHome:
     {
-        changeRightPage("OrderBook/OrderBook.qml")
+        changeRightPage(panelPath)
     }
     onGoToDoneCreate:
     {
         changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
+    onGoToTokensList:
+    {
+        changeRightPage(tokensListPath)
+    }
 
     Component.onCompleted:
     {
+        updateDefaultPanel()
 //        logicStock.initPairModel()
-        changeRightPage("OrderBook/OrderBook.qml")
+        changeRightPage(panelPath)
 //        changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
 
@@ -61,18 +108,20 @@ Item
             RowLayout
             {
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
                 spacing: 20
 
                 DapButton
                 {
                     enabled: walletModule.balanceDEX ? true : false
                     id: createOrderButton
-                    Layout.fillWidth: true
+                    Layout.fillWidth: visible
                     implicitHeight: 36
                     textButton: qsTr("Create order")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
+                    visible: !dexModule.isRegularTypePanel
                     onClicked:
                     {
                         changeRightPage("CreateOrder/OrderCreate.qml")
@@ -85,7 +134,8 @@ Item
 
                 DapButton
                 {
-                    Layout.fillWidth: true
+                    Layout.fillWidth: createOrderButton.visible
+                    Layout.preferredWidth: createOrderButton.visible ? -1 : 331
                     implicitHeight: 36
                     textButton: qsTr("Orders")
                     horizontalAligmentText: Text.AlignHCenter
@@ -106,7 +156,6 @@ Item
                     }
                 }
             }
-
         }
 
         DapRectangleLitAndShaded
@@ -122,23 +171,44 @@ Item
 
             contentData:
                 StackView {
-                    id: rightStackView
-                    anchors.fill: parent
+                id: rightStackView
+                anchors.fill: parent
+                clip: true
 
-                    clip: true
+                pushExit: Transition {
+                    id: pushExit
+                    PropertyAction { property: "x"; value: pushExit.ViewTransition.item.pos }
+                }
+                popEnter: Transition {
+                    id: popEnter
+                    PropertyAction { property: "x"; value: popEnter.ViewTransition.item.pos }
                 }
 
-//                OrderBook
-//                {
-//                    anchors.fill: parent
-//                }
+                pushEnter: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        easing.type: Easing.Linear
+                        from: 350
+                        to: 0
+                        duration: 350
+                    }
+                }
+                popExit: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        from: 0
+                        to: 350
+                        duration: 350
+                    }
+                }
+            }
         }
 
     }
 
     function changeRightPage(page)
     {
-        rightStackView.clear()
+        rightStackView.pop()
         rightStackView.push(page)
     }
 }

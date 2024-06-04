@@ -20,19 +20,24 @@ struct ItemOrderHistoryBridge::Data
 
 static const QHash<QString, DapOrderHistoryModel::DapOrderHistoryModel::FieldId> s_fieldIdMap =
     {
-        {"pair",      DapOrderHistoryModel::FieldId::pair},
-        {"date",      DapOrderHistoryModel::FieldId::date},
-        {"unixDate",  DapOrderHistoryModel::FieldId::unixDate},
-        {"type",      DapOrderHistoryModel::FieldId::type},
-        {"side",      DapOrderHistoryModel::FieldId::side},
-        {"hash",      DapOrderHistoryModel::FieldId::hash},
-        {"price",     DapOrderHistoryModel::FieldId::price},
-        {"filled",    DapOrderHistoryModel::FieldId::filled},
-        {"amount",    DapOrderHistoryModel::FieldId::amount},
-        {"status",    DapOrderHistoryModel::FieldId::status},
-        {"network",   DapOrderHistoryModel::FieldId::network},
-        {"tokenBuy",  DapOrderHistoryModel::FieldId::tokenBuy},
-        {"tokenSell", DapOrderHistoryModel::FieldId::tokenSell}
+        {"pair",            DapOrderHistoryModel::FieldId::pair},
+        {"date",            DapOrderHistoryModel::FieldId::date},
+        {"unixDate",        DapOrderHistoryModel::FieldId::unixDate},
+        {"type",            DapOrderHistoryModel::FieldId::type},
+        {"side",            DapOrderHistoryModel::FieldId::side},
+        {"hash",            DapOrderHistoryModel::FieldId::hash},
+        {"price",           DapOrderHistoryModel::FieldId::price},
+        {"filled",          DapOrderHistoryModel::FieldId::filled},
+        {"amount",          DapOrderHistoryModel::FieldId::amount},
+        {"status",          DapOrderHistoryModel::FieldId::status},
+        {"network",         DapOrderHistoryModel::FieldId::network},
+        {"tokenBuy",        DapOrderHistoryModel::FieldId::tokenBuy},
+        {"tokenSell",       DapOrderHistoryModel::FieldId::tokenSell},
+        {"tokenBuyOrigin",  DapOrderHistoryModel::FieldId::tokenBuyOrigin},
+        {"tokenSellOrigin", DapOrderHistoryModel::FieldId::tokenSellOrigin},
+        {"adaptiveSide",    DapOrderHistoryModel::FieldId::adaptiveSide},
+        {"adaptivePair",    DapOrderHistoryModel::FieldId::adaptivePair},
+        {"rateOrigin",    DapOrderHistoryModel::FieldId::rateOrigin}  
 };
 
 DapOrderHistoryModel::DapOrderHistoryModel (QObject *a_parent)
@@ -107,6 +112,7 @@ void DapOrderHistoryModel::updateModel(const QList<DEX::Order> &data)
         {
             DapOrderHistoryModel::Item tmpItem;
             tmpItem.pair = item.side == "Buy" ? item.buyToken + "/" + item.sellToken : item.sellToken + "/" + item.buyToken;
+            tmpItem.adaptivePair = item.sellTokenOrigin + "/" + item.buyTokenOrigin;
             QDateTime time = QDateTime::fromSecsSinceEpoch(item.unixTime.toLongLong());
             tmpItem.date = time.toString("yyyy-MM-dd hh:mm");
             tmpItem.unixDate = item.unixTime;
@@ -120,11 +126,17 @@ void DapOrderHistoryModel::updateModel(const QList<DEX::Order> &data)
             tmpItem.network = item.network;
             tmpItem.tokenBuy = item.buyToken;
             tmpItem.tokenSell = item.sellToken;
+            tmpItem.tokenBuyOrigin = item.buyTokenOrigin;
+            tmpItem.tokenSellOrigin = item.sellTokenOrigin;
+            tmpItem.adaptiveSide = item.adaptiveSide;
+            tmpItem.adaptivePair = item.adaptivePair;
+            tmpItem.rateOrigin = item.rateOrigin;
             m_items.append(std::move(tmpItem));
         }
     }
     endResetModel();
 }
+
 
 int DapOrderHistoryModel::indexOf (const DapOrderHistoryModel::Item &a_item) const
 {
@@ -271,19 +283,24 @@ QVariant DapOrderHistoryModel::_getValue (const DapOrderHistoryModel::Item &a_it
     {
     case DapOrderHistoryModel::FieldId::invalid: break;
 
-    case DapOrderHistoryModel::FieldId::pair:       return a_item.pair;
-    case DapOrderHistoryModel::FieldId::date:       return a_item.date;
-    case DapOrderHistoryModel::FieldId::unixDate:   return a_item.unixDate;
-    case DapOrderHistoryModel::FieldId::type:       return a_item.type;
-    case DapOrderHistoryModel::FieldId::side:       return a_item.side;
-    case DapOrderHistoryModel::FieldId::hash:       return a_item.hash;
-    case DapOrderHistoryModel::FieldId::price:      return a_item.price;
-    case DapOrderHistoryModel::FieldId::filled:     return a_item.filled;
-    case DapOrderHistoryModel::FieldId::amount:     return a_item.amount;
-    case DapOrderHistoryModel::FieldId::status:     return a_item.status;
-    case DapOrderHistoryModel::FieldId::network:    return a_item.network;
-    case DapOrderHistoryModel::FieldId::tokenBuy:   return a_item.tokenBuy;
-    case DapOrderHistoryModel::FieldId::tokenSell:  return a_item.tokenSell;
+    case DapOrderHistoryModel::FieldId::pair:               return a_item.pair;
+    case DapOrderHistoryModel::FieldId::date:               return a_item.date;
+    case DapOrderHistoryModel::FieldId::unixDate:           return a_item.unixDate;
+    case DapOrderHistoryModel::FieldId::type:               return a_item.type;
+    case DapOrderHistoryModel::FieldId::side:               return a_item.side;
+    case DapOrderHistoryModel::FieldId::hash:               return a_item.hash;
+    case DapOrderHistoryModel::FieldId::price:              return a_item.price;
+    case DapOrderHistoryModel::FieldId::filled:             return a_item.filled;
+    case DapOrderHistoryModel::FieldId::amount:             return a_item.amount;
+    case DapOrderHistoryModel::FieldId::status:             return a_item.status;
+    case DapOrderHistoryModel::FieldId::network:            return a_item.network;
+    case DapOrderHistoryModel::FieldId::tokenBuy:           return a_item.tokenBuy;
+    case DapOrderHistoryModel::FieldId::tokenSell:          return a_item.tokenSell;
+    case DapOrderHistoryModel::FieldId::tokenBuyOrigin:     return a_item.tokenBuyOrigin;
+    case DapOrderHistoryModel::FieldId::tokenSellOrigin:    return a_item.tokenSellOrigin;
+    case DapOrderHistoryModel::FieldId::adaptiveSide:       return a_item.adaptiveSide;
+    case DapOrderHistoryModel::FieldId::adaptivePair:       return a_item.adaptivePair;
+    case DapOrderHistoryModel::FieldId::rateOrigin:         return a_item.rateOrigin;
     }
 
     return QVariant();
@@ -332,6 +349,11 @@ ItemOrderHistoryBridge::ItemOrderHistoryBridge (ItemOrderHistoryBridge::Data *a_
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::networkChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::tokenBuyChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::tokenSellChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::tokenBuyOriginChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::tokenSellOriginChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::adaptiveSideChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::adaptivePairChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemOrderHistoryBridge::rateOriginChanged);
 }
 
 ItemOrderHistoryBridge::ItemOrderHistoryBridge (QObject *a_parent)
@@ -421,6 +443,31 @@ QString ItemOrderHistoryBridge::tokenBuy() const
 QString ItemOrderHistoryBridge::tokenSell() const
 {
     return (d && d->item) ? d->item->tokenSell : QString();
+}
+
+QString ItemOrderHistoryBridge::tokenBuyOrigin() const
+{
+    return (d && d->item) ? d->item->tokenBuyOrigin : QString();
+}
+
+QString ItemOrderHistoryBridge::tokenSellOrigin() const
+{
+    return (d && d->item) ? d->item->tokenSellOrigin : QString();
+}
+
+QString ItemOrderHistoryBridge::adaptiveSide() const
+{
+    return (d && d->item) ? d->item->adaptiveSide : QString();
+}
+
+QString ItemOrderHistoryBridge::rateOrigin() const
+{
+    return (d && d->item) ? d->item->rateOrigin : QString();
+}
+
+QString ItemOrderHistoryBridge::adaptivePair() const
+{
+    return (d && d->item) ? d->item->adaptivePair : QString();
 }
 
 ItemOrderHistoryBridge &ItemOrderHistoryBridge::operator =(const ItemOrderHistoryBridge &a_src)
