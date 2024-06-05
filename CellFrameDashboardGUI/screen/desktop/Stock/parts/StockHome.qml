@@ -14,10 +14,21 @@ Item
     signal goToDoneCreate()
     signal goToTokensList()
 
-    property string currentModeType: "regular"
-
     property string panelPath: ""
     property string tokensListPath: "CreateOrderLight/TokensListRightPanel.qml"
+
+
+    Connections
+    {
+        target: dexModule
+
+        function onTypePanelChanged()
+        {
+            updateDefaultPanel()
+            changeRightPage(panelPath)
+        }
+
+    }
 
     function updateDefaultPanel()
     {
@@ -46,13 +57,6 @@ Item
             logicStock.resultCreate = rcvData
             goToDoneCreate()
         }
-    }
-
-    onCurrentModeTypeChanged:
-    {
-        dexModule.typePanel = currentModeType
-        updateDefaultPanel()
-        changeRightPage(panelPath)
     }
 
     onGoToRightHome:

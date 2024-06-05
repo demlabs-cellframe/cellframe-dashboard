@@ -238,7 +238,7 @@ Item
 
                 onItemSelected:
                 {
-                    currentModeType = typePanelModel.get(modeSelector.currentIndex).workName
+                    dexModule.typePanel = typePanelModel.get(modeSelector.currentIndex).workName
                 }
             }
         }
