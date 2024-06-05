@@ -376,8 +376,7 @@
         <file>Resources/BlackTheme/icons/other/ic_copy_white.svg</file>
         <file>screen/desktop/MasterNode/DapMasterNodeTab.qml</file>
         <file>screen/desktop/MasterNode/DapMasterNodeScreen.qml</file>
-        <file>screen/desktop/MasterNode/DapMasterNodeScreenForm.qml</file>
-        <file>screen/desktop/MasterNode/RightPanel/DapMasterNodeOrders.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml</file>
         <file>Resources/BlackTheme/icons/navigation/icon_master_node.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_info_orange.svg</file>
         <file>screen/desktop/Stock/parts/CreateOrderLight/DapBalanceComponent.qml</file>
@@ -386,5 +385,6 @@
         <file>Resources/BlackTheme/icons/other/ic_info_small.svg</file>
         <file>screen/desktop/Stock/parts/CreateOrderLight/TokensListRightPanel.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/parts/HeaderBigLabel.qml</file>
+        <file>screen/desktop/MasterNode/DapMainMasterNodeScreen.qml</file>
     </qresource>
 </RCC>

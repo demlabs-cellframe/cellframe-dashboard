@@ -6,8 +6,18 @@ import "../controls"
 import "../../"
 import "qrc:/widgets"
 
-DapMasterNodeScreenForm {
+Page {
+    id: dapMasterNodeScreen
+
+    background: Rectangle
+    {
+        color: currTheme.mainBackground
+    }
 
 
+    DapMainMasterNodeScreen
+    {
+        anchors.fill: parent
+    }
 
 }
