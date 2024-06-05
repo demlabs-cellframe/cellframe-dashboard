@@ -30,6 +30,7 @@ QtObject {
                     networksModel.get(i).linksCount = data.linksCount.toString()
                     networksModel.get(i).activeLinksCount = data.activeLinksCount.toString()
                     networksModel.get(i).nodeAddress = data.nodeAddress
+                    networksModel.get(i).syncPercent = data.syncPercent
                 }
             }
         }
@@ -41,14 +42,14 @@ QtObject {
                                    "errorMessage" : data.errorMessage,
                                    "linksCount" : data.linksCount.toString(),
                                    "activeLinksCount" : data.activeLinksCount.toString(),
-                                   "nodeAddress" : data.nodeAddress})
+                                   "nodeAddress" : data.nodeAddress,
+                                   "syncPercent" : data.syncPercent})
         }
     }
 
     function modelUpdate(networksStatesList)
     {
         if (!isNetworkListsEqual(networksModel, networksStatesList)) {
-
             networksModel.clear()
             for (var i = 0; i < networksStatesList.length; ++i)
             {
@@ -58,7 +59,8 @@ QtObject {
                                         "errorMessage" : networksStatesList[i].errorMessage,
                                         "linksCount" : networksStatesList[i].linksCount,
                                         "activeLinksCount" : networksStatesList[i].activeLinksCount,
-                                        "nodeAddress" : networksStatesList[i].nodeAddress})
+                                        "nodeAddress" : networksStatesList[i].nodeAddress,
+                                        "syncPercent" : networksStatesList[i].syncPercent})
             }
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)
@@ -83,6 +85,8 @@ QtObject {
                     curModel.set(i, {"activeLinksCount": newData[i].activeLinksCount})
                 if (curModel.get(i).nodeAddress !== newData[i].nodeAddress)
                     curModel.set(i, {"nodeAddress": newData[i].nodeAddress})
+                if (curModel.get(i).syncPercent !== newData[i].syncPercent)
+                    curModel.set(i, {"syncPercent": newData[i].syncPercent})
             }
         }
     }
@@ -103,6 +107,8 @@ QtObject {
             popup.activeLinksCount = curDataFromModel.activeLinksCount
         if (popup.nodeAddress !== curDataFromModel.nodeAddress)
             popup.nodeAddress = curDataFromModel.nodeAddress
+        if (popup.syncPercent !== curDataFromModel.syncPercent)
+            popup.syncPercent = curDataFromModel.syncPercent
     }
 
     function updateContentInAllOpenedPopups(curModel)
@@ -126,5 +132,9 @@ QtObject {
         }
     }
 
-
+    function percentToRatio(text)
+    {
+        var percent = parseFloat(text)
+        return percent >= 100.0 ? 1.0 : percent / 100.0
+    }
 }
