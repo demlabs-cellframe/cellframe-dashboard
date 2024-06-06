@@ -177,7 +177,7 @@ Item
                                      180,0,
                                      dapMainWindow.width*0.5,
                                      8,
-                                     qsTr("Wallet converted"),
+                                     qsTr("Wallet created"),
                                      "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
 
 
