@@ -172,7 +172,7 @@ Section "${APP_NAME}" CORE
 	
 	CopyFiles "$ConfigPath\share\configs\${NODE_NAME}.cfg.tpl" "$ConfigPath\etc\${NODE_NAME}.cfg"
 	StrCpy $net1 "Backbone"
-	StrCpy $net2 "KelVPN"
+	StrCpy $net2 "Backbone"
 	StrCpy $net3 "meleena"
 	
 	CopyFiles "$ConfigPath\share\configs\network\$net1.cfg.tpl" "$ConfigPath\etc\network\$net1.cfg"
