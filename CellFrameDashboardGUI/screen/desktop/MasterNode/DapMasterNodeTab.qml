@@ -8,11 +8,10 @@ import "qrc:/widgets"
 
 DapPage {
 
-    readonly property string createNewOrder:  path + "/Orders/RightPanel/DapMasterNodeOrdes.qml"
+    readonly property string startMasterNodePanel:  path + "/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml"
 
 
     Component{id: emptyRightPanel; Item{}}
-
 
     dapHeader.initialItem: DapSearchTopPanel{
 
@@ -22,7 +21,7 @@ DapPage {
     dapScreen.initialItem:
         DapMasterNodeScreen
         {
-            id: dashboardScreen
+
         }
 
     dapRightPanelFrame.visible: true
@@ -30,14 +29,12 @@ DapPage {
 
     Component.onCompleted:
     {
-//        logicMainApp.requestToService("DapCertificateManagerCommands", 1)
-//        logicMainApp.requestToService("DapGetListTokensCommand","")
-//        ordersModule.statusProcessing = true
+
     }
 
     Component.onDestruction:
     {
-        //ordersModule.statusProcessing = false
+
     }
 
 

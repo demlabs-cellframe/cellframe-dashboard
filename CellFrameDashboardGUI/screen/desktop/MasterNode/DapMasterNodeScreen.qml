@@ -13,4 +13,11 @@ Page {
     {
         color: currTheme.mainBackground
     }
+
+
+    DapMainMasterNodeScreen
+    {
+        anchors.fill: parent
+    }
+
 }
