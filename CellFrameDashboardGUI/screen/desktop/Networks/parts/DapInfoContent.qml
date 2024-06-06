@@ -9,7 +9,7 @@ import "../../controls"
 
 Item {
 
-    property alias nameStatus: nameStatus
+    property alias nameStatus: nameAndStatus.indicator
     property alias buttonSync: buttonSync
     property alias buttonNetwork: buttonNetwork
 
@@ -240,46 +240,19 @@ Item {
         }
     }
 
-    RowLayout {
-        anchors.horizontalCenter: parent.horizontalCenter
+    Item
+    {
+        width: parent.width
+        height: 42
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 14
 
-        height: 15
-        spacing: 5
-//        width: nameText.implicitWidth + nameStatus.width + spacing
-
-        Text {
-            id: nameText
-            Layout.alignment: Qt.AlignVCenter
-            Layout.fillWidth: true
-            Layout.maximumWidth: item_width/2
-            font: mainFont.dapFont.medium12
-            color: currTheme.white
-            text: name
-            elide: Text.ElideMiddle
-        }
-
-        Item{
-            Layout.preferredHeight: 8
-            Layout.preferredWidth: 8
-
-            Image {
-                id: nameStatus
-                anchors.centerIn: parent
-                sourceSize: Qt.size(8,8)
-//                mipmap: true
-                antialiasing: true
-//                smooth: false
-                fillMode: Image.PreserveAspectFit
-
-                source: networkState === "NET_STATE_ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
-                        networkState !== targetState ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
-                        networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
-                                                    "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg"
-
-                opacity: networkState !== targetState? animationController.opacity : 1
-            }
+        DapNetworkNameStatusComponent
+        {
+            id: nameAndStatus
+            nameOfNetwork: name
+            stateOfNetwork: networkState
+            stateOfTarget: targetState
+            percentOfSync: syncPercent
         }
     }
 }

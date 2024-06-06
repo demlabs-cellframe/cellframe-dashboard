@@ -31,32 +31,6 @@ Item {
         }
     }
 
-    Item
-    {
-        id: animationController
-        visible: false
-
-        SequentialAnimation {
-            NumberAnimation {
-                target: animationController
-                properties: "opacity"
-                from: 1.0
-                to: 0.1
-                duration: 700
-            }
-
-            NumberAnimation {
-                target: animationController
-                properties: "opacity"
-                from: 0.1
-                to: 1.0
-                duration: 700
-            }
-            loops: Animation.Infinite
-            running: true
-        }
-    }
-
     RowLayout
     {
         anchors.fill: parent
