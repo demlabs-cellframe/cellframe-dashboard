@@ -491,6 +491,12 @@ Item
         height: childrenRect.height
         color: "#a0363A42"
 
+        Component.onCompleted:
+        {
+            candleLogic.topInfoTextField = y
+            candleLogic.bottomInfoTextField = y + 16
+        }
+
         Item
         {
             anchors.fill: parent
