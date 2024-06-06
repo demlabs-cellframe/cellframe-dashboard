@@ -69,9 +69,9 @@ Page
             delegate:
                 Item{
                 property int textWidth: tabName.implicitWidth
-                property int spacing: 24
+                property int spacing: 16
                 height: 42
-                width: textWidth + spacing*2
+                width: textWidth + spacing * 2
 
                 MouseArea
                 {
