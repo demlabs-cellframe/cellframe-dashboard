@@ -69,9 +69,9 @@ QVariant MathWorker::multCoins(QVariant  arg1, QVariant arg2, QVariant getDatosh
     MULT_256_COIN(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
-        return dap_chain_balance_print(accum);
+        return QVariant::fromValue(dap_chain_balance_print(accum));
     else
-        return dap_chain_balance_to_coins(accum);
+        return QVariant::fromValue(dap_chain_balance_to_coins(accum));
 }
 
 QVariant MathWorker::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
@@ -87,9 +87,9 @@ QVariant MathWorker::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi
     DIV_256_COIN(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
-        return dap_chain_balance_print(accum);
+        return QVariant::fromValue(dap_chain_balance_print(accum));
     else
-        return dap_chain_balance_to_coins(accum);
+        return QVariant::fromValue(dap_chain_balance_to_coins(accum));
 }
 
 QVariant MathWorker::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
@@ -104,9 +104,9 @@ QVariant MathWorker::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDato
     MULT_256_256(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
-        return dap_chain_balance_print(accum);
+        return QVariant::fromValue(dap_chain_balance_print(accum));
     else
-        return dap_chain_balance_to_coins(accum);
+        return QVariant::fromValue(dap_chain_balance_to_coins(accum));
 }
 
 QVariant MathWorker::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
@@ -122,9 +122,9 @@ QVariant MathWorker::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatos
     DIV_256(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
-        return dap_chain_balance_print(accum);
+        return QVariant::fromValue(dap_chain_balance_print(accum));
     else
-        return dap_chain_balance_to_coins(accum);
+        return QVariant::fromValue(dap_chain_balance_to_coins(accum));
 }
 
 QVariant MathWorker::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
@@ -138,9 +138,9 @@ QVariant MathWorker::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi
     SUM_256_256(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
-        return dap_chain_balance_print(accum);
+        return QVariant::fromValue(dap_chain_balance_print(accum));
     else
-        return dap_chain_balance_to_coins(accum);
+        return QVariant::fromValue(dap_chain_balance_to_coins(accum));
 }
 
 QVariant MathWorker::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
@@ -154,9 +154,9 @@ QVariant MathWorker::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi
     SUBTRACT_256_256(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
-        return dap_chain_balance_print(accum);
+        return QVariant::fromValue(dap_chain_balance_print(accum));
     else
-        return dap_chain_balance_to_coins(accum);
+        return QVariant::fromValue(dap_chain_balance_to_coins(accum));
 }
 
 QVariant MathWorker::isEqual(QVariant arg1, QVariant arg2)
@@ -175,13 +175,13 @@ QVariant MathWorker::coinsToBalance(QVariant coins)
 
     QString cointStr = coins.toString();
     QString value;
-    if(cointStr.contains(".") && cointStr[cointStr.length() - 1] != ".")
+    if(cointStr.contains(".") && cointStr[cointStr.length() - 1] != QString("."))
         value = cointStr;
     else
         value = QString::number(coins.toDouble(), 'f', 1);
 
     uint256_t convert = dap_chain_coins_to_balance(value.toStdString().data());
-    return dap_chain_balance_print(convert);
+    return QVariant::fromValue(dap_chain_balance_print(convert));
 }
 
 QVariant MathWorker::balanceToCoins(QVariant balance)
@@ -189,5 +189,5 @@ QVariant MathWorker::balanceToCoins(QVariant balance)
     if(balance.toString().isEmpty()) return "0";
 
     uint256_t convert =  dap_uint256_scan_uninteger(balance.toString().toStdString().data());
-    return dap_chain_balance_to_coins(convert);
+    return QVariant::fromValue(dap_chain_balance_to_coins(convert));
 }

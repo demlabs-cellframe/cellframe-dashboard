@@ -5,6 +5,7 @@
 #include <QHttpMultiPart>
 #include <QNetworkReply>
 #include <QJsonDocument>
+#include <QRegExp>
 
 static QString group = "global.users.statistic";
 

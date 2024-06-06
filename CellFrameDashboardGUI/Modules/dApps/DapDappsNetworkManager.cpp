@@ -1,4 +1,5 @@
 #include "DapDappsNetworkManager.h"
+#include <QRegExp>
 
 DapDappsNetworkManager::DapDappsNetworkManager(QString path, QString pathPlugins, QWidget *parent)
     : QWidget{parent}

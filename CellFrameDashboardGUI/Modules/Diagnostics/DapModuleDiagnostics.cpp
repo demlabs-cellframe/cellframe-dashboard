@@ -1,6 +1,8 @@
 #include "DapModuleDiagnostics.h"
 #include <algorithm>
 #include <QJsonValue>
+#include <QJsonObject>
+#include <QJsonArray>
 
 namespace sendFlagsData
 {
@@ -202,13 +204,14 @@ void DapModuleDiagnostics::addNodeToList(QString mac)
 void DapModuleDiagnostics::removeNodeFromList(QString mac)
 {
     QJsonArray arr = s_node_list_selected.array();
+    int iter_counter = 0;
 
-    for (auto itr = arr.begin(); itr != arr.end(); itr++)
+    for (auto itr = arr.begin(); itr != arr.end(); itr++, iter_counter++)
     {
         QJsonObject obj = itr->toObject();
         if(obj["mac"].toString() == mac)
         {
-            arr.removeAt(itr.i);
+            arr.removeAt(iter_counter);
             break;
         }
     }
@@ -230,15 +233,17 @@ void DapModuleDiagnostics::updateNode(const QJsonArray& array)
 void DapModuleDiagnostics::searchSelectedNodes(QString filtr)
 {
     QJsonArray arr = s_node_list_selected.array();
+    int iter_counter = 0;
 
-    for (auto itr = arr.begin(); itr != arr.end(); itr++)
+    for (auto itr = arr.begin(); itr != arr.end(); itr++, iter_counter++)
     {
         QJsonObject obj = itr->toObject();
 
         if(!obj["mac"].toString().toLower().contains(filtr.toLower()))
         {
-            arr.removeAt(itr.i);
+            arr.removeAt(iter_counter);
             itr--;
+            iter_counter--;
         }
     }
 
@@ -250,14 +255,14 @@ void DapModuleDiagnostics::searchSelectedNodes(QString filtr)
 void DapModuleDiagnostics::searchAllNodes(QString filtr)
 {
     QJsonArray arr = s_node_list.array();
-
-    for (auto itr = arr.begin(); itr != arr.end(); itr++)
+    int iter_counter = 0;
+    for (auto itr = arr.begin(); itr != arr.end(); itr++, iter_counter++)
     {
         QJsonObject obj = itr->toObject();
 
         if(!obj["mac"].toString().toLower().contains(filtr.toLower()))
         {
-            arr.removeAt(itr.i);
+            arr.removeAt(iter_counter);
             itr--;
         }
     }

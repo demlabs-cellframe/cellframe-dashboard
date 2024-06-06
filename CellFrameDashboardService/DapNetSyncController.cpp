@@ -41,7 +41,7 @@ QStringList DapNetSyncController::getNetworkList()
         result.remove('\t');
         result.remove("Networks:");
         if(!(result.isEmpty() || result.isNull() || result.contains('\'')))
-            list = result.split('\n', QString::SkipEmptyParts);
+            list = result.split('\n', Qt::SkipEmptyParts);
     }
     else
         qWarning() << "Net list ERROR! Result:" << result;
@@ -63,7 +63,7 @@ void DapNetSyncController::goSyncNet(QString net)
 
 void DapNetSyncController::rcvNotifState(QString state)
 {
-    if(state == QAbstractSocket::SocketState::ConnectedState)
+    if(state == QString::number(QAbstractSocket::SocketState::ConnectedState))
     {
         if(state != m_nodeState)
         {

@@ -57,7 +57,7 @@ bool DapNotificationWatcher::initWatcher()
         if (!m_listenPath.isEmpty())
         {
             m_socket = new QLocalSocket(this);
-            connect((QLocalSocket*)m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error),
+            connect((QLocalSocket*)m_socket, &QLocalSocket::error,
                     this, &DapNotificationWatcher::slotError);
 
             connect((QLocalSocket*)m_socket, &QLocalSocket::connected,
@@ -75,7 +75,7 @@ bool DapNotificationWatcher::initWatcher()
         else
         {
             m_socket = new QTcpSocket(this);
-            connect((QTcpSocket*)m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+            connect((QTcpSocket*)m_socket, &QTcpSocket::error,
                     this, &DapNotificationWatcher::slotError);
 
             connect((QTcpSocket*)m_socket, &QTcpSocket::connected,
@@ -177,7 +177,7 @@ void DapNotificationWatcher::socketReadyRead()
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)
 {
     qDebug() << "Notify socket state changed" << socketState;
-    m_socketState = socketState;
+    m_socketState = QString::number(socketState);
     changeConnectState(m_socketState);
 }
 
@@ -185,8 +185,8 @@ void DapNotificationWatcher::reconnectFunc()
 {
     m_reconnectTimer->stop();
 
-    if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
-       m_socketState != QAbstractSocket::SocketState::ConnectingState)
+    if(m_socketState != QString::number(QAbstractSocket::SocketState::ConnectedState) &&
+       m_socketState != QString::number(QAbstractSocket::SocketState::ConnectingState))
     {
         m_reconnectTimer->start(5000);
         qWarning()<< "Notify socket reconnecting...";
@@ -195,10 +195,10 @@ void DapNotificationWatcher::reconnectFunc()
 
 void DapNotificationWatcher::frontendConnected()
 {
-    if(m_socketState != ((QTcpSocket*)m_socket)->state())
-        m_socketState = ((QTcpSocket*)m_socket)->state();
+    if(m_socketState != QString::number(((QTcpSocket*)m_socket)->state()))
+        m_socketState = QString::number(((QTcpSocket*)m_socket)->state());
 
-    if(m_socketState == QAbstractSocket::SocketState::ConnectedState)
+    if(m_socketState == QString::number(QAbstractSocket::SocketState::ConnectedState))
         sendNotifyState("Notify socket connected");
     else
         sendNotifyState("Notify socket error");

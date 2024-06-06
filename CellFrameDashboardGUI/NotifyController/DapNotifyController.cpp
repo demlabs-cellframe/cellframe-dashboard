@@ -17,15 +17,15 @@ void DapNotifyController::rcvData(QVariant data)
     if(map.contains("connect_state"))
     {
         QVariant value = map["connect_state"];
-        if(value.toString() != QAbstractSocket::SocketState::ConnectedState &&
-            value.toString() != QAbstractSocket::SocketState::ConnectingState)
+        if(value.toString() != QString::number(QAbstractSocket::SocketState::ConnectedState) &&
+            value.toString() != QString::number(QAbstractSocket::SocketState::ConnectingState))
 
         {
             bool isFirst = false;
             if(value.toString() != m_connectState)
                 isFirst = true;
 
-            m_connectState = value.toInt();
+            m_connectState = QString::number(value.toInt());
             emit socketState(m_connectState, true, isFirst);
         }
         else

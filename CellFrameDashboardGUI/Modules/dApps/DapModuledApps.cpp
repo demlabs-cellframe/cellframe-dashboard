@@ -1,5 +1,6 @@
 #include "DapModuledApps.h"
 #include <sys/stat.h>
+#include <QTime>
 
 #define TIME_INTERVAL 500
 

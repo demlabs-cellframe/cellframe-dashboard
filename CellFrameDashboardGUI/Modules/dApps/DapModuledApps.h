@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QVariant>
 
 #include "DapServiceController.h"
 #include "../DapAbstractModule.h"
@@ -12,6 +13,8 @@
 #include <QCryptographicHash>
 #include <dap_hash.h>
 #include "zip/unpackzip.h"
+
+using namespace std;
 
 class DapModuledApps : public DapAbstractModule
 {
@@ -26,6 +29,7 @@ private:
     //file manage work
     void readPluginsFile(QString *path);
     void updateFileConfig();
+    // void sortList(){};
     void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
     bool zipManage(QString &path);
     bool checkDuplicates(QString name, QString verifed);
@@ -72,7 +76,7 @@ private:
     uint m_timeInterval;
     quint64 m_bytesDownload;
     quint64 m_bytesTotal;
-    QTime m_timeRecord;
+    QElapsedTimer m_timeRecord;
     QString m_speed, m_time;
 
     DapModulesController  *m_modulesCtrl;

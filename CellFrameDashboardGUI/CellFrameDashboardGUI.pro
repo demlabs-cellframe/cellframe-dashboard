@@ -1,4 +1,4 @@
-QT += qml quick widgets svg network
+QT += qml quick widgets svg network core5compat
 
 include(../config.pri)
 TARGET = $${BRAND}

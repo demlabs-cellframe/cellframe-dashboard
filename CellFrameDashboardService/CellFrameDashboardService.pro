@@ -1,4 +1,4 @@
-QT += core network
+QT += core network core5compat
 
 include(../config.pri)
 

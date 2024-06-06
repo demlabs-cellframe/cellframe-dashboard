@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QString>
+#include <QVariant>
 
 
 #include <dap_chain_common.h>
