@@ -5,18 +5,18 @@ import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 
-Component {
-
-    Item{
-
+Component
+{
+    Item
+    {
         id:controlDelegate
         width: networksModel.count >= visible_count ?
                    networkList.width / visible_count :
                    networkList.width / networksModel.count
         height: 40
 
-
-        Rectangle{
+        Rectangle
+        {
             anchors.centerIn: parent
             width: 295
             height: parent.height
@@ -29,51 +29,14 @@ Component {
                 hoverEnabled: true
             }
 
-            RowLayout {
-                id:content
-                anchors.centerIn: parent
-                spacing: 5
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Text {
-                    id: txt_left
-                    Layout.fillWidth: true
-                    Layout.maximumWidth: item_width/2
-                    font: mainFont.dapFont.bold12
-                    color: currTheme.white
-                    elide: Text.ElideMiddle
-
-                    text: name
-                }
-
-                Image{
-                    id:img
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.preferredHeight: 8
-                    Layout.preferredWidth: 8
-                    width: 8
-                    height: 8
-                    mipmap: true
-
-                    source: networkState === "NET_STATE_ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
-                            networkState !== targetState ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
-                            networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png":
-                                                        "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.png"
-
-                    opacity: networkState !== targetState? animationController.opacity : 1
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
+            DapNetworkNameStatusComponent
+            {
+                nameOfNetwork: name
+                stateOfNetwork: networkState
+                stateOfTarget: targetState
+                percentOfSync: syncPercent
             }
-
         }
-
-
 
         DapInfoDelegate
         {
