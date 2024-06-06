@@ -62,6 +62,8 @@ Page
 
                 ordersModule.currentTab = currentIndex
 
+                currantRate = dexModule.currentRate
+                rateRectagleTextUpdate()
             }
 
             delegate:
@@ -837,7 +839,7 @@ Page
     {
         miniRateText.text = "1 " + dexModule.token1 + " = "
         miniRateText2.fullText = currantRate + " " + dexModule.token2
-    }
+    }    
 
     function updateBuyField()
     {
