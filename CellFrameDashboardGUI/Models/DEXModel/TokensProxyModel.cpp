@@ -13,10 +13,16 @@ bool TokensProxyModel::filterAcceptsRow(int source_row, const QModelIndex &sourc
     {
         return true;
     }
-    DapTokensModel::Item item = model->getItem(source_row);
+    const DapTokensModel::Item& item = model->getItem(source_row);
     bool isType = item.type == m_type;
 
-    return isType;
+    bool isQuery = true;
+    if(!m_query.isEmpty() && !item.displayText.toLower().contains(m_query.toLower()))
+    {
+        isQuery = false;
+    }
+
+    return isType && isQuery;
 }
 
 void TokensProxyModel::setParmsModel(const QString& type)
@@ -26,7 +32,13 @@ void TokensProxyModel::setParmsModel(const QString& type)
         Q_ASSERT_X(TYPE_LIST.contains(type), "type filter", "the type is specified incorrectly");
         m_type = type;
     }
+    m_query.clear();
 
+    invalidateFilter();
+}
 
+void TokensProxyModel::searchQuery(const QString& text)
+{
+    m_query = text;
     invalidateFilter();
 }
