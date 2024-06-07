@@ -90,19 +90,32 @@ DapRectangleLitAndShaded
                 }
             }
 
+            ListModel
+            {
+                id: typeCreateCerificateModel
+
+                ListElement
+                {
+                    name: qsTr("Create new certificate")
+                    techName: "newCertificate"
+                }
+                ListElement
+                {
+                    name: qsTr("Upload certificate")
+                    techName: "uploadCertificate"
+                }
+            }
+
             DapCustomComboBox
             {
                 id: newCertificateCombobox
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-                height: 42
+                Layout.leftMargin: 25
+                Layout.rightMargin: 25
+                height: 40
                 font: mainFont.dapFont.regular14
                 backgroundColorShow: currTheme.secondaryBackground
-                //            meodel: dexTokenModel
-
-                //            mainTextRole: "tokenName"
-
+                model: typeCreateCerificateModel
             }
 
             /// Create new certificate
@@ -127,9 +140,9 @@ DapRectangleLitAndShaded
             {
                 id: newCertificateName
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-                height: 42
+                Layout.leftMargin: 30
+                Layout.rightMargin: 30
+                height: 40
 
                 validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
                 font: mainFont.dapFont.regular16
@@ -146,9 +159,9 @@ DapRectangleLitAndShaded
             DapCustomComboBox{
                 id: typeCertificateCombobox
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-                height: 42
+                Layout.leftMargin: 25
+                Layout.rightMargin: 25
+                height: 40
                 font: mainFont.dapFont.regular14
                 backgroundColorShow: currTheme.secondaryBackground
 
@@ -177,9 +190,9 @@ DapRectangleLitAndShaded
                 id: comboBoxCurrentWallet
 
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-                height: 42
+                Layout.leftMargin: 25
+                Layout.rightMargin: 25
+                height: 40
                 displayText: walletModule.currentWalletName
                 font: mainFont.dapFont.regular14
 
@@ -240,6 +253,27 @@ DapRectangleLitAndShaded
                     anchors.leftMargin: 16
                 }
             }
+            
+            DapTextField
+            {
+                id: nodeIpText
+                Layout.fillWidth: true
+                Layout.leftMargin: 30
+                Layout.rightMargin: 35
+                Layout.bottomMargin: 4
+                height: 29
+
+                validator: RegExpValidator { regExp: /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/ }
+                font: mainFont.dapFont.regular16
+                horizontalAlignment: Text.AlignLeft
+
+                bottomLineVisible: true
+                bottomLineSpacing: 6
+                bottomLineLeftRightMargins: 7
+                text: "127.0.0.1"
+                selectByMouse: true
+                DapContextMenu{}
+            }
 
             /// Node port
             Rectangle
@@ -259,6 +293,26 @@ DapRectangleLitAndShaded
                 }
             }
 
+            DapTextField
+            {
+                id: nodePortText
+                Layout.fillWidth: true
+                Layout.leftMargin: 30
+                Layout.rightMargin: 35
+                Layout.bottomMargin: 4
+                height: 29
+
+                validator: RegExpValidator { regExp: /^(\d{1,5})$/ }
+                font: mainFont.dapFont.regular16
+                horizontalAlignment: Text.AlignLeft
+
+                bottomLineVisible: true
+                bottomLineSpacing: 6
+                bottomLineLeftRightMargins: 7
+                text: "8079"
+                selectByMouse: true
+                DapContextMenu{}
+            }
 
             /// Stake value
             Rectangle
@@ -268,6 +322,7 @@ DapRectangleLitAndShaded
                 height: 30
                 Text
                 {
+                    id: stakeValueHeaderText
                     color: currTheme.white
                     text: qsTr("Stake value")
                     font: mainFont.dapFont.medium12
@@ -276,21 +331,49 @@ DapRectangleLitAndShaded
                     anchors.left: parent.left
                     anchors.leftMargin: 16
                 }
+
+                DapBalanceComponent
+                {
+                    id: textBalance
+                    height: 16
+                    anchors.left: stakeValueHeaderText.right
+                    anchors.top: parent.top
+                    anchors.right: stakeInfoIcon.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.leftMargin: 4
+                    anchors.rightMargin: 4
+                    label: qsTr("Balance:")
+                    textColor: currTheme.white
+                    textFont: mainFont.dapFont.regular11
+                    text: walletModule.getBalanceDEX(dexModule.token1)
+                }
+
+                Image
+                {
+                    id: stakeInfoIcon
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 15
+                    height: 16
+                    width: 16
+                    mipmap: true
+                    source: "qrc:/Resources/BlackTheme/icons/other/ic_infoGray.svg"
+                }
             }
 
             RowLayout
             {
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
-
+                Layout.leftMargin: 36
+                Layout.rightMargin: 36
+                spacing: 32
                 DapTextField
                 {
                     property string realAmount: "0.00"
                     property string abtAmount: "0.00"
 
                     id: textInputStakeValue
-                    Layout.fillWidth: true
+
                     width: 171
                     Layout.minimumHeight: 40
                     Layout.maximumHeight: 40
@@ -304,25 +387,16 @@ DapRectangleLitAndShaded
                     DapContextMenu{}
                 }
 
-                Rectangle
+                Text
                 {
-                    id: frameSenderWalletToken
-                    color: "transparent"
-                    height: 42
-                    width: 125
-                    Layout.leftMargin: 5
-                    Layout.rightMargin: 0
-                    Text
-                    {
-                        id: comboboxToken
-                        anchors.fill: parent
-                        text: "-"
+                    id: comboboxToken
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter
+                    text: "-"
+                    color: currTheme.white
+                    font: mainFont.dapFont.regular16
 
-                        font: mainFont.dapFont.regular16
-
-                    }
                 }
-
             }
 
             // Button "Start Master Node"
