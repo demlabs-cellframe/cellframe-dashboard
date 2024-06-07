@@ -154,7 +154,7 @@ Item
                     id: continueBtn
                     Layout.fillWidth: true
                     implicitHeight: 40
-                    textButton: qsTr("Continue")
+                    textButton: qsTr("Confirm")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.regular14
@@ -177,7 +177,7 @@ Item
                                      180,0,
                                      dapMainWindow.width*0.5,
                                      8,
-                                     qsTr("Wallet created"),
+                                     qsTr("Password created"),
                                      "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
 
 

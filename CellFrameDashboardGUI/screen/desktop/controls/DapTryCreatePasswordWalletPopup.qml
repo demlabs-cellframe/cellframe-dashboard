@@ -115,7 +115,7 @@ Item
                     id: continueBtn
                     Layout.fillWidth: true
                     implicitHeight: 40
-                    textButton: qsTr("Confirm")
+                    textButton: qsTr("Continue")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.regular14
