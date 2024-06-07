@@ -11,6 +11,7 @@
 #include "DapAbstractModule.h"
 #include "../DapServiceController.h"
 #include "Models/DapStringListModel.h"
+#include "Models/DapCertificatesModel.h"
 #include "qsettings.h"
 
 class DapModulesController : public QObject
@@ -70,6 +71,7 @@ private:
     QTimer *m_timerUpdateData;
     QSettings *s_settings;
     DapStringListModel* m_netListModel = nullptr;
+    DapCertificatesModel* m_certListModel = nullptr;
 
     bool m_firstDataLoad{false}; 
     QStringList m_netList;
