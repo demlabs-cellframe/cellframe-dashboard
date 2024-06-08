@@ -45,6 +45,7 @@ QtObject {
     readonly property color coral                         : "#10E3C1"
     readonly property color neon                          : "#79FFFA"
     readonly property color lime                          : "#DBFF71"
+    readonly property color buttonGray                    : "#666E7D"
 
     //Params
     readonly property real frameRadius                    : 12
