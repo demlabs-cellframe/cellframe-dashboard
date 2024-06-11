@@ -30,7 +30,11 @@ private:
     void readPluginsFile(QString *path);
     void updateFileConfig();
     // void sortList(){};
-    void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
+    void sortList() { std::sort(m_pluginsList.begin(), m_pluginsList.end(),  [](const QVariant &a, const QVariant &b)
+        { 
+            return a.toStringList()[0] > b.toStringList()[0]; 
+        }); 
+    };
     bool zipManage(QString &path);
     bool checkDuplicates(QString name, QString verifed);
     bool checkHttps(QString path);

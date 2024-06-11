@@ -1,4 +1,4 @@
-QT += qml quick widgets svg network core5compat
+QT += qml quick widgets svg network core5compat statemachine
 
 include(../config.pri)
 TARGET = $${BRAND}

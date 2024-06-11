@@ -42,7 +42,7 @@ macos-amd64:
 
 linux-amd64-debian-buster:
     extends: .build
-    image: demlabs/amd64/debian-buster:linuxbuilder
+    image: demlabs/amd64/debian-bullseye:linuxbuilder-qt6
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script: 
       - ./prod_build/build.sh --target linux release
@@ -63,7 +63,7 @@ linux-arm64-debian-bullseye:
 
 linux-debug-amd64-debian-buster:
     extends: .build
-    image: demlabs/amd64/debian-buster:linuxbuilder
+    image:  demlabs/amd64/debian-bullseye:linuxbuilder-qt6
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script: 
       - ./prod_build/build.sh --target linux debug

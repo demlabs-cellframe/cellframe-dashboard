@@ -1,4 +1,4 @@
-QT += core network core5compat
+QT += core network core5compat statemachine
 
 include(../config.pri)
 
@@ -87,11 +87,14 @@ INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/crypto/include/ \
     $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/common
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
+include (../dap-ui-sdk/vpn/common/libdap-qt-vpn-common.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../web3_api/web3_api.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/ \
-               $$_PRO_FILE_PWD_/../dapRPCProtocol/
+               $$_PRO_FILE_PWD_/../dapRPCProtocol/ \
+               ../dap-ui-sdk/core/ \
+               ../dap-ui-sdk/vpn/common/  
 
 INCLUDEPATH += $$NODE_BUILD_PATH/dap-sdk/deps/include/json-c/
 LIBS += -L$$NODE_BUILD_PATH/dap-sdk/deps/lib/ -ldap_json-c
