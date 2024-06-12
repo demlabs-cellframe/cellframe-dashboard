@@ -162,7 +162,7 @@ DapRectangleLitAndShaded
                     anchors.rightMargin: 30
                     height: 30
 
-                    validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
+                    validator: RegExpValidator { regExp: /[0-9a-z\_\:\(\)\?\@\.\s*]+/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignLeft
 
@@ -364,7 +364,7 @@ DapRectangleLitAndShaded
                     anchors.leftMargin: 16
                 }
             }
-            
+
             DapTextField
             {
                 id: nodeIpText
@@ -500,7 +500,7 @@ DapRectangleLitAndShaded
 
                 Text
                 {
-                    id: comboboxToken
+                    id: textInputStakeToken
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
                     text: "-"
@@ -529,7 +529,22 @@ DapRectangleLitAndShaded
 
                 onClicked:
                 {
+                    var result = {
+                        "isUploadCert" : certificateLogic !== "newCertificate",
+                        "certName" : certificateLogic !== "newCertificate" ? certificateName.text : newCertificateName.text,
+                        "sign" : certificateLogic !== "newCertificate" ? signatureName.text : typeCertificateCombobox.displayText,
+                        "walletName" : walletModule.currentWalletName,
+                        "walletAddress" : walletModule.getAddressWallet(nodeMasterModule.currentNetwork, walletModule.currentWalletName),
+                        "network" : nodeMasterModule.currentNetwork,
+                        "fee" : feeController.currentValue,
+                        "feeToken" : feeController.valueName,
+                        "nodeIP" : nodeIpText.text,
+                        "port" : nodePortText.text,
+                        "stakeValue" : textInputStakeValue.text,
+                        "stakeToken" : textInputStakeToken.text
+                    }
 
+                    nodeMasterModule.startMasterNode(result)
                 }
             }
         }

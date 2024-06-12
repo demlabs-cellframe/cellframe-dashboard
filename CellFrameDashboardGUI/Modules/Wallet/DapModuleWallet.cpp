@@ -1019,3 +1019,41 @@ void DapModuleWallet::updateBalanceDEX()
 {
     emit currantBalanceDEXChanged();
 }
+
+QString DapModuleWallet::getTokenBalance(const QString& network, const QString& tokenName, const QString& walletName) const
+{
+    QString name = walletName.isEmpty() ? m_currentWallet.second : walletName;
+    if(!m_walletsInfo.contains(name))
+    {
+        return QString("0.0");
+    }
+    const auto& info = m_walletsInfo[name];
+    if(!info.walletInfo.contains(network))
+    {
+        return QString("0.0");
+    }
+
+    for(const auto& tokenInfo: info.walletInfo[network].networkInfo)
+    {
+        if(tokenInfo.ticker == tokenName)
+        {
+            return tokenInfo.value;
+        }
+    }
+    return QString("0.0");
+}
+
+QString DapModuleWallet::getAddressWallet(const QString &network, const QString& walletName) const
+{
+    QString name = walletName.isEmpty() ? m_currentWallet.second : walletName;
+    if(!m_walletsInfo.contains(name))
+    {
+        return QString();
+    }
+    const auto& info = m_walletsInfo[name];
+    if(!info.walletInfo.contains(network))
+    {
+        return QString();
+    }
+    return info.walletInfo[network].address;
+}

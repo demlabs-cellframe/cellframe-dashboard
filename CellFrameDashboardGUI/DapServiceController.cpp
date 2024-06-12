@@ -177,9 +177,7 @@ void DapServiceController::notifyService(const QString &asServiceName, const QVa
 void DapServiceController::registerCommand()
 {
 
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(
-                                    new DapCertificateManagerCommands(DapCertificateCommands::serviceName(), m_DAPRpcSocket)))
-                                    , QString("certificateManagerOperationResult")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCertificateManagerCommands(DapCertificateCommands::serviceName(), m_DAPRpcSocket))), QString("certificateManagerOperationResult")));
 
     // Application shutdown team
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_DAPRpcSocket))), QString()));

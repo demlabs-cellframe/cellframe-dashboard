@@ -52,6 +52,8 @@ public:
     Q_INVOKABLE QVariantMap approveTx(QVariantMap);
     Q_INVOKABLE void sendTx(QVariantMap);
     Q_INVOKABLE void setWalletTokenModel(const QString& network);
+    Q_INVOKABLE QString getTokenBalance(const QString &network, const QString& tokenName, const QString& walletName = "") const;
+    Q_INVOKABLE QString getAddressWallet(const QString &network, const QString& walletName = "") const;
 
     Q_INVOKABLE QVariantMap isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
 
