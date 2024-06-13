@@ -62,14 +62,16 @@ Page
 
                 ordersModule.currentTab = currentIndex
 
+                currantRate = dexModule.currentRate
+                rateRectagleTextUpdate()
             }
 
             delegate:
                 Item{
                 property int textWidth: tabName.implicitWidth
-                property int spacing: 24
+                property int spacing: 16
                 height: 42
-                width: textWidth + spacing*2
+                width: textWidth + spacing * 2
 
                 MouseArea
                 {
@@ -463,7 +465,7 @@ Page
                 {
                     anchors.fill: parent
                     anchors.topMargin: 12
-                    anchors.leftMargin: 12
+                    // anchors.leftMargin: 12
                     anchors.rightMargin: 12
                     Text
                     {
@@ -471,6 +473,7 @@ Page
                         height: 16
                         anchors.left: parent.left
                         anchors.top: parent.top
+                        anchors.leftMargin: 12
                         font: mainFont.dapFont.regular11
                         color: currTheme.lightGray
                     }
@@ -502,6 +505,7 @@ Page
                         backgroundColor: currTheme.mainBackground
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
+                        anchors.leftMargin: 4
                         anchors.right: switchButton.left
                         anchors.bottomMargin: 7
                         placeholderText: ""
@@ -690,8 +694,8 @@ Page
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.leftMargin: 16
-                    anchors.rightMargin: 16
+                    anchors.leftMargin: 12
+                    anchors.rightMargin: 12
                     spacing: 0
 
                     Text
@@ -837,7 +841,7 @@ Page
     {
         miniRateText.text = "1 " + dexModule.token1 + " = "
         miniRateText2.fullText = currantRate + " " + dexModule.token2
-    }
+    }    
 
     function updateBuyField()
     {

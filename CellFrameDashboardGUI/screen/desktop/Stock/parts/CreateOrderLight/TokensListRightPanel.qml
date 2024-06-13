@@ -90,12 +90,7 @@ Page
 
             onTextChanged:
             {
-
-            }
-
-            onDisplayTextChanged:
-            {
-
+                modelTokensList.searchQuery(text)
             }
 
             Keys.onReturnPressed: focus = true
