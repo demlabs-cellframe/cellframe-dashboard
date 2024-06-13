@@ -27,6 +27,7 @@
 #include "handlers/DapGetWalletTokenInfoCommand.h"
 #include "models/DapWalletModel.h"
 #include "handlers/DapCreateTransactionCommand.h"
+#include "handlers/DapSrvStakeDelegateCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapGetAllWalletHistoryCommand.h"
@@ -62,6 +63,7 @@
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
+#include "handlers/DapCheckTransactionsQueueCommand.h"
 #include "handlers/DapServiceInitCommand.h"
 
 
@@ -187,6 +189,8 @@ signals:
     /// A signal is emitted if a transaction is successfully created.
     /// @param aResult Transaction result.
     void transactionCreated(const QVariant& aResult);
+
+    void srvStakeDelegateCreated(const QVariant& aResult);
     /// Signal emitted in case of successful processing of the mempool.
     /// @param aResult Mempool processing result.
     void mempoolProcessed(const QVariant& aResult);
@@ -277,6 +281,7 @@ signals:
 
     void rcvDictionary(const QVariant& rcvData);
     void transactionRemoved(const QVariant& rcvData);
+    void transactionInfoReceived(const QVariant& rcvData);
     void nodeRestart();
 
     void rcvRemoveResult(const QVariant& rcvData);

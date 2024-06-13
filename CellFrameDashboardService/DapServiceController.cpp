@@ -14,6 +14,7 @@
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
 #include "handlers/stackCommand/DapCreateTransactionCommandStack.h"
+#include "handlers/stackCommand/DapSrvStakeDelegateCommandStack.h"
 #include "handlers/stackCommand/DapTXCondCreateCommandStack.h"
 #include "handlers/stackCommand/DapStakeLockHoldCommandStack.h"
 #include "handlers/stackCommand/DapStakeLockTakeCommandStack.h"
@@ -65,6 +66,7 @@
 #include "handlers/DapGetNodeIPCommand.h"
 #include "handlers/DapGetNodeStatus.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
+#include "handlers/DapCheckTransactionsQueueCommand.h"
 #include "handlers/DapAddNodeCommand.h"
 #include "handlers/DapGetServiceLimitsCommand.h"
 #include "handlers/DapServiceInitCommand.h"
@@ -259,6 +261,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr));
     m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateTransactionCommandStack     ("DapCreateTransactionCommand"          , nullptr, CLI_PATH));
+    m_servicePool.append(new DapSrvStakeDelegateCommandStack      ("DapSrvStakeDelegateCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapTXCondCreateCommandStack          ("DapTXCondCreateCommand"               , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetOnceWalletInfoCommand          ("DapGetOnceWalletInfoCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapMempoolProcessCommand             ("DapMempoolProcessCommand"             , nullptr, CLI_PATH));
@@ -289,6 +292,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
     m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
     m_servicePool.append(new DapRemoveTransactionsQueueCommand    ("DapRemoveTransactionsQueueCommand"    , nullptr));
+    m_servicePool.append(new DapCheckTransactionsQueueCommand     ("DapCheckTransactionsQueueCommand"     , nullptr));
     m_servicePool.append(new DapStakeLockHoldCommandStack         ("DapStakeLockHoldCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapStakeLockTakeCommandStack         ("DapStakeLockTakeCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateJsonTransactionCommandStack ("DapCreateJsonTransactionCommand"      , nullptr, CLI_PATH));
