@@ -211,7 +211,7 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
     tryStopCreationMasterNode();
 }
 
-void DapModuleMasterNode::startWaitingNode()()
+void DapModuleMasterNode::startWaitingNode()
 {
     // Инициируем ожидаение запуска ноды.
 }
