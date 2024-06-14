@@ -141,9 +141,7 @@ Page
                 Item
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 12
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 12
+                    anchors.margins: 12
 
                     Text
                     {
@@ -175,7 +173,6 @@ Page
                     {
                         id: maxBtn
                         anchors.right: parent.right
-                        anchors.rightMargin: 3
                         anchors.top: parent.top
                         color: maxBtnMouseArea.containsMouse ? currTheme.lightGreen2 : currTheme.darkGreen
                         height: 16
@@ -212,7 +209,6 @@ Page
                         id: tokenPay
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
-                        anchors.bottomMargin: 12
                         width: textTokenName.width + imageArrow.width
                         height: 24
 
@@ -256,7 +252,9 @@ Page
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.left: tokenPay.right
-                        anchors.bottomMargin: 7
+                        anchors.leftMargin: 4
+                        anchors.rightMargin: -8
+                        anchors.bottomMargin: -7
                         placeholderText: ""
                         validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                         font: mainFont.dapFont.medium20
@@ -342,9 +340,8 @@ Page
                 Item
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 12
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 12
+                    anchors.margins: 12
+
                     Text
                     {
                         id: youReceiveText
@@ -364,7 +361,6 @@ Page
                         anchors.top: parent.top
                         anchors.right: parent.right
                         anchors.leftMargin: 4
-                        anchors.rightMargin: 3
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
@@ -376,9 +372,9 @@ Page
                         id: tokenReceive
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
-                        anchors.bottomMargin: 12
                         width: textToken2Name.width + imageArrow2.width
                         height: 24
+
                         Text
                         {
                             id: textToken2Name
@@ -419,7 +415,9 @@ Page
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.left: tokenReceive.right
-                        anchors.bottomMargin: 7
+                        anchors.leftMargin: 4
+                        anchors.rightMargin: -8
+                        anchors.bottomMargin: -7
                         placeholderText: ""
                         validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                         font: mainFont.dapFont.medium20
@@ -427,7 +425,6 @@ Page
                         horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
-
                         enabled: !dexModule.isMarketType
 
                         DapContextMenu{}
@@ -464,16 +461,14 @@ Page
                 Item
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 12
-                    // anchors.leftMargin: 12
-                    anchors.rightMargin: 12
+                    anchors.margins: 12
+
                     Text
                     {
                         id: rateRectHeader
                         height: 16
                         anchors.left: parent.left
                         anchors.top: parent.top
-                        anchors.leftMargin: 12
                         font: mainFont.dapFont.regular11
                         color: currTheme.lightGray
                     }
@@ -505,9 +500,10 @@ Page
                         backgroundColor: currTheme.mainBackground
                         anchors.bottom: parent.bottom
                         anchors.left:  parent.left
-                        anchors.leftMargin: 4
+                        anchors.rightMargin: 4
                         anchors.right: switchButton.left
-                        anchors.bottomMargin: 7
+                        anchors.leftMargin: -8
+                        anchors.bottomMargin: -7
                         placeholderText: ""
                         validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                         font: mainFont.dapFont.medium20
@@ -515,6 +511,7 @@ Page
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
+
                         DapContextMenu{}
                         onTextChanged:
                         {
@@ -535,9 +532,6 @@ Page
                         height: 16
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 12
-                        anchors.leftMargin: 4
-                        anchors.rightMargin: 2
                         color:  priceMouseArea.containsMouse ? currTheme.tokenChangeButtonHover : currTheme.tokenChangeButton
                         radius: 4
                         Text
@@ -647,7 +641,8 @@ Page
                         anchors.left: parent.left
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
-                        Text {
+                        Text
+                        {
                             text: qsTr("7 Days")
                             anchors.left: parent.left
                             anchors.right: imageArrow3.left
@@ -691,11 +686,12 @@ Page
                 anchors.top: expiresRect.bottom
                 color: currTheme.mainBackground
                 radius: 4
+
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 12
+                    anchors.leftMargin: 16
+                    anchors.rightMargin: 16
                     spacing: 0
 
                     Text

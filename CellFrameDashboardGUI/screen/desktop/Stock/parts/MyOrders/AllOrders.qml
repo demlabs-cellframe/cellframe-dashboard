@@ -92,7 +92,6 @@ Item
                 HeaderLabel{
                     Layout.preferredWidth: 120
                     label.text: qsTr("Date")
-                    label.anchors.leftMargin: 16
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 90
@@ -198,7 +197,6 @@ Item
                 HeaderLabel{
                     Layout.minimumWidth: 120
                     label.text: date
-                    label.anchors.leftMargin: 16
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
