@@ -703,6 +703,7 @@ Page
                         id: miniRateText
                         font: mainFont.dapFont.medium18
                         color: currTheme.white
+                        verticalAlignment: Qt.AlignVCenter
                     }
 
                     DapBigText
@@ -712,7 +713,6 @@ Page
                         Layout.fillWidth: true
                         height: 20
                         horizontalAlign: Qt.AlignLeft
-                        verticalAlign: Qt.AlignCenter
                         textFont: mainFont.dapFont.medium18
                     }
                 }
