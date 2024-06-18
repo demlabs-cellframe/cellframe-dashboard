@@ -30,10 +30,10 @@ unix {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
 		CONFIG(debug, debug|release) {
-	      	NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_rwd/build/
+                SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_rwd/dist/
     	}
     	CONFIG(release, debug|release) {
-        	NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_release/build/
+                SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_release/dist/
 	    }
 
     
@@ -82,7 +82,7 @@ unix {
     mac {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
-        NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_osx_release/build/
+        SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_release/dist/
 
         DEFINES += CLI_PATH=\\\"/Applications/$${BRAND}.app/Contents/MacOS/$${BRAND_BASE_LO}-node-cli\\\" \
 	    TOOLS_PATH=\\\"/Applications/$${BRAND}.app/Contents/MacOS/$${BRAND_BASE_LO}-node-tool\\\" \
@@ -98,7 +98,7 @@ win32 {
         DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\" \
 	HAVE_STRNDUP
 
-    NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_windows_release/build/
+    SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
 
     QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3

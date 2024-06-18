@@ -1,7 +1,5 @@
 QT += core network
 
-include(../config.pri)
-
 TARGET = $${BRAND}Service
 DEFINES += SIMULATOR_DEX
 win32 {
@@ -15,6 +13,59 @@ win32 {
 #    TARGET = DashboardService
 #}
 
+INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/modules/common/ \
+                $$SDK_INSTALL_PATH/include/dap/core/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/Keccak/FIPS202/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/common \
+                $$SDK_INSTALL_PATH/include/dap/crypto/rand/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/ \
+                $$SDK_INSTALL_PATH/include/dap/net/client/ \
+                $$SDK_INSTALL_PATH/include/dap/io/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/ch/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/stream/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/session/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/enc_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/http_client \
+                $$SDK_INSTALL_PATH/include/dap/net/server/json_rpc/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/notify_server/ \
+                $$SDK_INSTALL_PATH/include/dap/global_db/ \
+                $$SDK_INSTALL_PATH/include/json-c/ \
+                $$SDK_INSTALL_PATH/include/modules/net/ \
+                $$SDK_INSTALL_PATH/include/modules/chain/ \
+
+
+LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/http_server/libdap_http_server.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
+
+include (../dap-ui-sdk/crypto/libdap-qt-crypto.pri)
+include (../dap-ui-sdk/core/libdap-qt.pri)
+include (../dap-ui-sdk/stream/libdap-qt-stream.pri)
+#include (../dap-ui-sdk/vpn/common/libdap-qt-vpn-common.pri)
+#include (../dap-ui-sdk/vpn/client/libdap-qt-vpn-client.pri)
+#include (../dap-ui-sdk/vpn/client/DapStateMachine/dap-state-machine.pri)
+#include (../dap-ui-sdk/vpn/client/DapCmdHandlers/dap-cmd-handlers.pri)
+
+include (../cellframe-ui-sdk/stream/ch/chain/net/srv/libdap-qt-stream-ch-chain-net-srv.pri)
+include (../cellframe-ui-sdk/stream/ch/chain/net/srv/vpn/libdap-qt-stream-ch-chain-net-srv-vpn.pri)
+include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
+include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+
+include (../web3_api/web3_api.pri)
+
+INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
+
+
 SOURCES += \
     $$PWD/DapServiceController.cpp \
     $$PWD/main.cpp \
@@ -27,75 +78,6 @@ HEADERS += \
     DapNetSyncController.h \
     DapNotificationWatcher.h \
     DapRegularRequestsController.h
-
-include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
-
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/core/ -ldap_core
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/core/libdap_core.a
-INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/include/ \
-    $$PWD/../cellframe-node/dap-sdk/3rdparty/uthash/src/
-
-unix {
-    INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/src/unix/
-}
-
-win32 {
-    LIBS += -L$$NODE_BUILD_PATH/dap-sdk/core/src/win32/ -ldap_core_win32
-    INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/src/win32/ \
-        $$PWD/../cellframe-node/dap-sdk/3rdparty/wepoll/
-}
-
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/net/client/ -ldap_client \
-    -L$$NODE_BUILD_PATH/dap-sdk/io/ -ldap_io \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/enc_server/ -ldap_enc_server \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/http_server/ -ldap_http_server \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/ -ldap_json_rpc \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/ -ldap_notify_srv
-
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/net/client/libdap_client.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/core/libdap_server_core.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/enc_server/libdap_enc_server.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/http_server/libdap_http_server.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/libdap_json_rpc.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/libdap_notify_srv.a
-
-
-INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/net/client/include/ \
-    $$PWD/../cellframe-node/dap-sdk/io/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/enc_server/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/http_server/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/http_server/http_client/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/json_rpc/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/notify_server/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/stream/ch/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/stream/stream/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/stream/session/include/
-
-LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/modules/common/ -ldap_chain_common
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/modules/common/libdap_chain_common.a
-INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/modules/common/include/
-
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/ -ldap_crypto
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/src/Kyber/crypto_kem/kyber512/optimized/ -ldap_crypto_kyber512
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/crypto/libdap_crypto.a
-INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/crypto/include/ \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/rand/ \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/ \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/Kyber/crypto_kem/kyber512/optimized \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/high/Keccak/FIPS202 \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/high/common \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/common
-
-include (../dap-ui-sdk/core/libdap-qt.pri)
-include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
-include (../web3_api/web3_api.pri)
-
-INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/ \
-               $$_PRO_FILE_PWD_/../dapRPCProtocol/
-
-INCLUDEPATH += $$NODE_BUILD_PATH/dap-sdk/deps/include/json-c/
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/deps/lib/ -ldap_json-c
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/deps/lib/libdap_json-c.a
 
 linux-* {
     BUILD_FLAG = static

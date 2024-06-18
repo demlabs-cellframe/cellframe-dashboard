@@ -1,6 +1,5 @@
 QT += qml quick widgets svg network
 
-include(../config.pri)
 TARGET = $${BRAND}
 
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
