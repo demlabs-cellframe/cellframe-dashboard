@@ -95,6 +95,8 @@ private:
                                     ,"DapCheckTransactionsQueueCommand"
                                     ,"DapStakeLockTakeCommand"
                                     ,"DapHistoryServiceInitCommand"
+                                    ,"DapVoitingCreateCommand"
+                                    ,"DapVoitingVoteCommand"
                                     ,"DapWalletServiceInitCommand"};
 };
 
