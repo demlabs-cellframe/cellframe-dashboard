@@ -349,8 +349,15 @@ QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, cons
 
 QString DapModuleDexLightPanel::getDeltaRatePercent(const QString& rateValue)
 {
-    Dap::Coin rate = rateValue;
+    auto testRateList = rateValue.split('.');
+    if(testRateList.size() != 2) return "0.0";
+    if(testRateList[0].isEmpty()) return "0.0";
+    if(testRateList[1].isEmpty()) return "0.0";
+    if(m_currentPair.rate.isEmpty() || m_currentPair.rate == "0.0")
+        return "0.0";
+
     Dap::Coin currentRate = m_currentPair.rate.isEmpty() ? QString("0.0") : m_currentPair.rate;
+    Dap::Coin rate = rateValue;
     Dap::Coin hundred = QString("100.0");
     Dap::Coin twenty = QString("20.0");
     QString percent = "+0.0";

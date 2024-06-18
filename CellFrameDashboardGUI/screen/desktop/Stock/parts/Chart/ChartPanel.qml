@@ -266,7 +266,6 @@ Item
                     color: currTheme.white
                     text: dexModule.displayText + ": "
                     verticalAlignment: Qt.AlignVCenter
-                    topPadding: OS_WIN_FLAG ? 5 : 0
                 }
 
                 DapBigText
