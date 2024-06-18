@@ -756,7 +756,7 @@ Page
                     anchors.margins: 12
                     font: mainFont.dapFont.regular11
                     color: currTheme.orange
-                    text: qsTr("Limit price is 100% lower than the market. You will be selling your USDT exceedingly cheap.")
+                    // text: qsTr("Limit price is 100% lower than the market. You will be selling your USDT exceedingly cheap.")
                     wrapMode: Text.WordWrap
                     lineHeight: 16
                     lineHeightMode: Text.FixedHeight
