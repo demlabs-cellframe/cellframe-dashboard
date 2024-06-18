@@ -8,16 +8,39 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
 {
     connect(s_serviceCtrl, &DapServiceController::certificateManagerOperationResult, this, &DapModuleMasterNode::respondCreateCertificate);
     connect(s_serviceCtrl, &DapServiceController::nodeRestart, this, &DapModuleMasterNode::nodeRestart);
+    connect(m_modulesCtrl, &DapModulesController::netListUpdated, this, &DapModuleMasterNode::networkListUpdateSlot);
+}
+
+bool DapModuleMasterNode::checkTokenName() const
+{
+    return !m_currentNetwork.isEmpty() && m_tokens.contains(m_currentNetwork);
 }
 
 QString DapModuleMasterNode::stakeTokenName() const
 {
-    if(m_currentNetwork.isEmpty() || !m_stakeTokens.contains(m_currentNetwork))
-    {
-        return "-";
-    }
-    return m_stakeTokens[m_currentNetwork];
+    return checkTokenName() ? m_tokens[m_currentNetwork].first : "-";
 }
+
+QString DapModuleMasterNode::mainTokenName() const
+{
+    return checkTokenName() ? m_tokens[m_currentNetwork].second : "-";
+}
+
+QString DapModuleMasterNode::networksList() const
+{
+    QJsonArray resultArr;
+    for(auto net: m_masterNodeInfo.keys())
+    {
+        QJsonObject obj;
+        obj["net"] = net;
+        obj["isMaster"] = m_masterNodeInfo[net].isMaster;
+        resultArr.append(obj);
+    }
+
+    QJsonDocument doc(resultArr);
+    return QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+}
+
 
 void DapModuleMasterNode::setCurrentNetwork(const QString& networkName)
 {
@@ -70,7 +93,7 @@ void DapModuleMasterNode::createMasterNode()
         if(m_currantStartMaster["isUploadCert"].toBool()) getInfoCertificate();
         else createCertificate();
     }
-        break;
+    break;
     case LaunchStage::UPDATE_CONFIG:
         tryUpdateNetworkConfig();
         break;
@@ -173,11 +196,11 @@ void DapModuleMasterNode::tryUpdateNetworkConfig()
     worker->writeNodeValue("mempool", "auto_proc", "true");
     worker->saveAllChanges();
     stageComplated();
-//    s_serviceCtrl->requestToService("DapNetworkConfigurationCommand", QStringList() << m_currantStartMaster["network"].toString()
-//                                                                                    << m_currantStartMaster["certName"].toString()
-//                                                                                    << m_currantStartMaster["walletName"].toString()
-//                                                                                    << m_currantStartMaster["walletAddress"].toString()
-//                                                                                    << m_currantStartMaster["fee"].toString());
+    //    s_serviceCtrl->requestToService("DapNetworkConfigurationCommand", QStringList() << m_currantStartMaster["network"].toString()
+    //                                                                                    << m_currantStartMaster["certName"].toString()
+    //                                                                                    << m_currantStartMaster["walletName"].toString()
+    //                                                                                    << m_currantStartMaster["walletAddress"].toString()
+    //                                                                                    << m_currantStartMaster["fee"].toString());
 }
 
 void DapModuleMasterNode::tryRestartNode()
@@ -221,6 +244,46 @@ void DapModuleMasterNode::nodeRestart()
     // Запустить ожидание старта ноды.
     bool a=0;
 }
+
+void DapModuleMasterNode::networkListUpdateSlot()
+{
+    QMap<QString, bool> checkList;
+    for(auto key: m_masterNodeInfo.keys())
+    {
+        checkList.insert(key, false);
+    }
+
+    QStringList netlist = m_modulesCtrl->getNetworkList();
+    for(auto net: netlist)
+    {
+        if(checkList.contains(net))
+        {
+            checkList[net] = true;
+        }
+        else
+        {
+            addNetwork(net);
+        }
+    }
+
+    for(auto key: checkList.keys(false))
+    {
+        if(!m_masterNodeInfo[key].isMaster) m_masterNodeInfo.remove(key);
+    }
+
+    emit networksListChanged();
+}
+
+void DapModuleMasterNode::addNetwork(const QString &net)
+{
+    MasterNodeInfo info;
+    info.isMaster = net == "Backbone";
+    info.nodeAddress = "1234:5678";
+    // TODO
+
+    m_masterNodeInfo.insert(net, info);
+}
+
 
 void DapModuleMasterNode::tryStopCreationMasterNode()
 {
