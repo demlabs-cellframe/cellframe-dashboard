@@ -183,7 +183,7 @@ RowLayout
     DefaultRightPanel
     {
         id: defaultRightPanel
-        Layout.minimumWidth: 350
+        Layout.minimumWidth: !dexModule.isRegularTypePanel ? 350 : 270
         Layout.fillHeight: true
     }
 

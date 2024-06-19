@@ -18,12 +18,19 @@ QtObject {
     readonly property color grid                          : "#3E4249"
     readonly property color rowHover                      : "#474B53"
     readonly property color border                        : "#2E2E32"
+    readonly property color tokenChangeButton             : "#3C424C"
+    readonly property color tokenChangeButtonHover        : "#6F7B8F"
+    readonly property color progressBarActive             : "#A2E115"
 
     readonly property color mainButtonColorNormal0        : "#A361FF"
     readonly property color mainButtonColorNormal1        : "#9580FF"
     readonly property color mainButtonColorHover0         : "#7930DE"
     readonly property color mainButtonColorHover1         : "#7F65FF"
     readonly property color secondaryButtonColor          : "#373A42"
+
+    readonly property color darkGreen                     : "#515A44"
+    readonly property color lightGreen2                   : "#788466"
+    readonly property color lightGray                     : "#A2A8B2"
 
     //Colors
     readonly property color white                         : "#ffffff"
@@ -38,6 +45,7 @@ QtObject {
     readonly property color coral                         : "#10E3C1"
     readonly property color neon                          : "#79FFFA"
     readonly property color lime                          : "#DBFF71"
+    readonly property color buttonGray                    : "#666E7D"
 
     //Params
     readonly property real frameRadius                    : 12

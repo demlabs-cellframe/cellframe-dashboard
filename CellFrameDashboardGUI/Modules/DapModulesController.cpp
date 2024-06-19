@@ -6,7 +6,7 @@
 
 //***Modules***//
 #include "Wallet/DapModuleWallet.h"
-#include "Dex/DapModuleDex.h"
+#include "Dex/DapModuleDexLightPanel.h"
 #include "TxExplorer/DapModuleTxExplorer.h"
 #include "Certificates/DapModuleCertificates.h"
 #include "Tokens/DapModuleTokens.h"
@@ -57,7 +57,7 @@ DapModulesController::~DapModulesController()
 void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
-    addModule("dexModule", new DapModuleDex(this));
+    addModule("dexModule", new DapModuleDexLightPanel(this));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
@@ -67,7 +67,7 @@ void DapModulesController::initModules()
     addModule("dAppsModule", new DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("ordersModule", new DapModuleOrders(this));
-//    addModule("nodeMasterModule", new DapModuleMasterNode(this));
+    addModule("nodeMasterModule", new DapModuleMasterNode(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 

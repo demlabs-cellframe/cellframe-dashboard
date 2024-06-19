@@ -14,6 +14,7 @@
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
 #include "handlers/stackCommand/DapCreateTransactionCommandStack.h"
+#include "handlers/stackCommand/DapSrvStakeDelegateCommandStack.h"
 #include "handlers/stackCommand/DapTXCondCreateCommandStack.h"
 #include "handlers/stackCommand/DapStakeLockHoldCommandStack.h"
 #include "handlers/stackCommand/DapStakeLockTakeCommandStack.h"
@@ -65,9 +66,15 @@
 #include "handlers/DapGetNodeIPCommand.h"
 #include "handlers/DapGetNodeStatus.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
+#include "handlers/DapCheckTransactionsQueueCommand.h"
 #include "handlers/DapAddNodeCommand.h"
 #include "handlers/DapGetServiceLimitsCommand.h"
 #include "handlers/DapServiceInitCommand.h"
+#include "handlers/stackCommand/DapVoitingCreateCommandStack.h"
+#include "handlers/stackCommand/DapVoitingVoteCommandStack.h"
+#include "handlers/DapVoitingListCommand.h"
+#include "handlers/DapVoitingDumpCommand.h"
+
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
@@ -259,6 +266,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr));
     m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateTransactionCommandStack     ("DapCreateTransactionCommand"          , nullptr, CLI_PATH));
+    m_servicePool.append(new DapSrvStakeDelegateCommandStack      ("DapSrvStakeDelegateCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapTXCondCreateCommandStack          ("DapTXCondCreateCommand"               , nullptr, CLI_PATH));
     m_servicePool.append(new DapGetOnceWalletInfoCommand          ("DapGetOnceWalletInfoCommand"          , nullptr, CLI_PATH));
     m_servicePool.append(new DapMempoolProcessCommand             ("DapMempoolProcessCommand"             , nullptr, CLI_PATH));
@@ -289,6 +297,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
     m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
     m_servicePool.append(new DapRemoveTransactionsQueueCommand    ("DapRemoveTransactionsQueueCommand"    , nullptr));
+    m_servicePool.append(new DapCheckTransactionsQueueCommand     ("DapCheckTransactionsQueueCommand"     , nullptr));
     m_servicePool.append(new DapStakeLockHoldCommandStack         ("DapStakeLockHoldCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapStakeLockTakeCommandStack         ("DapStakeLockTakeCommand"              , nullptr, CLI_PATH));
     m_servicePool.append(new DapCreateJsonTransactionCommandStack ("DapCreateJsonTransactionCommand"      , nullptr, CLI_PATH));
@@ -305,6 +314,10 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetNodeStatus                     ("DapGetNodeStatus"                     , nullptr));
     m_servicePool.append(new DapAddNodeCommand                    ("DapAddNodeCommand"                    , nullptr));
     m_servicePool.append(new DapGetServiceLimitsCommand           ("DapGetServiceLimitsCommand"           , nullptr));
+    m_servicePool.append(new DapVoitingCreateCommandStack         ("DapVoitingCreateCommand"              , nullptr));
+    m_servicePool.append(new DapVoitingVoteCommandStack                ("DapVoitingVoteCommand"                , nullptr));
+    m_servicePool.append(new DapVoitingListCommand                ("DapVoitingListCommand"                , nullptr));
+    m_servicePool.append(new DapVoitingDumpCommand                ("DapVoitingDumpCommand"                , nullptr));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
     m_servicePool.append(new DapServiceInitCommand                ("DapHistoryServiceInitCommand"         , m_pServer));
     m_servicePool.append(new DapServiceInitCommand                ("DapWalletServiceInitCommand"          , m_pServer));
@@ -382,7 +395,9 @@ void DapServiceController::initAdditionalParamrtrsService()
         {
             DapGetAllWalletHistoryCommand* command = dynamic_cast<DapGetAllWalletHistoryCommand*>(service);
             connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetAllWalletHistoryCommand::queueDataUpdate);
+            connect(controller, &DapTransactionQueueController::newTransactionAdded, command, &DapGetAllWalletHistoryCommand::transactionFromQueudAdded);
             connect(command, &DapGetAllWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
+            connect(command, &DapGetAllWalletHistoryCommand::transactionMoved,  controller, &DapTransactionQueueController::updateInfoTransaction);
         }
     }
 }

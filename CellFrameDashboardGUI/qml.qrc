@@ -131,7 +131,10 @@
         <file>Resources/BlackTheme/icons/navigation/icon_wallet.png</file>
         <file>Resources/BlackTheme/icons/navigation/vpn-client_icon.png</file>
         <file>Resources/BlackTheme/icons/other/back.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_button.svg</file>
         <file>Resources/BlackTheme/icons/other/back_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_down.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_down_rect.svg</file>
         <file>Resources/BlackTheme/icons/other/bg-menuitem_active.png</file>
         <file>Resources/BlackTheme/icons/other/bg-menuitem_hover.png</file>
         <file>Resources/BlackTheme/icons/other/browser.svg</file>
@@ -192,6 +195,8 @@
         <file>screen/desktop/Stock/parts/StockHome.qml</file>
         <file>screen/desktop/Stock/LogicStock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreate.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/CreateOrderLight.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/DapOrderTextField.qml</file>
         <file>screen/desktop/Stock/icons/sellIcon.png</file>
         <file>screen/desktop/Stock/icons/sellBuy_icon.png</file>
         <file>screen/desktop/Stock/icons/buyIcon.png</file>
@@ -371,8 +376,17 @@
         <file>Resources/BlackTheme/icons/other/ic_copy_white.svg</file>
         <file>screen/desktop/MasterNode/DapMasterNodeTab.qml</file>
         <file>screen/desktop/MasterNode/DapMasterNodeScreen.qml</file>
-        <file>screen/desktop/MasterNode/RightPanel/DapMasterNodeOrders.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml</file>
         <file>Resources/BlackTheme/icons/navigation/icon_master_node.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_info_orange.svg</file>
+        <file>Resources/BlackTheme/icons/other/upload_icon.svg</file>
+        <file>Resources/BlackTheme/icons/other/detach_icon.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_left_right.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_button_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_info_small.svg</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/TokensListRightPanel.qml</file>
+        <file>screen/desktop/Stock/parts/MyOrders/parts/HeaderBigLabel.qml</file>
+        <file>screen/desktop/Networks/parts/DapNetworkNameStatusComponent.qml</file>
+        <file>screen/desktop/MasterNode/DapMainMasterNodeScreen.qml</file>
     </qresource>
 </RCC>

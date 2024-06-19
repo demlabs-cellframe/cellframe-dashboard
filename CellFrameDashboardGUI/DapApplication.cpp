@@ -98,6 +98,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     s_modulesInit = new DapModulesController(qmlEngine());
     connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
     connect(s_modulesInit, &DapModulesController::netListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
+    s_modulesInit->setConfigWorker(configWorker);
 }
 
 DapApplication::~DapApplication()

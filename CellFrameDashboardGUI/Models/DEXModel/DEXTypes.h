@@ -20,6 +20,14 @@ namespace DEX
         OTHER_ORDERS
     };
 
+    struct InfoTokenPairLight
+    {
+        QString rate = "";
+        QString token = "";
+        QString type = "";
+        QString displayText = "";
+    };
+
     struct InfoTokenPair
     {
         QString change = "";
@@ -36,15 +44,20 @@ namespace DEX
         QString hash = "";
         QString sellToken = "";
         QString buyToken = "";
+        QString sellTokenOrigin = "";
+        QString buyTokenOrigin = "";
         QString network = "";
         QString amount = "";
         QString amountDatoshi = "";
         QString rate = "";
+        QString rateOrigin = "";
         QString time = "";
         QString unixTime = "";
         QString filled = "";
         QString status = "";
         QString side = "";
+        QString adaptiveSide = "";
+        QString adaptivePair = "";
     };
 
     struct TXList

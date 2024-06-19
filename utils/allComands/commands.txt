@@ -1,19 +1,22 @@
-srv_stake order create -net <net_name> -value <value> -cert <priv_cert_name> 
-srv_stake order remove -net <net_name> -order <order_hash> [-H {hex | base58(default)}]
-srv_stake order update -net <net_name> -order <order_hash> [-H {hex | base58(default)}] -cert <priv_cert_name>  -value <value>
-srv_stake order list -net <net_name>
-srv_stake delegate -cert <pub_cert_name> -net <net_name> -w <wallet_name> -value <datoshi> [-node_addr <node_addr>] -fee <value> 
+srv_stake order create [fee] -net <net_name> -value <value> -cert <priv_cert_name> [-H {hex(default) | base58}]
+srv_stake order create validator -net <net_name> -value_min <minimum_stake_value> -value_max <maximum_stake_value> -tax <percent> -cert <priv_cert_name> [-node_addr <for_validator_node>] [-H {hex(default) | base58}]
+srv_stake order create staker -net <net_name> -w <wallet_with_m_tokens> -value <stake_value> -fee <value> -tax <percent> [-addr <for_tax_collecting>]  [-cert <for_order_signing>] [-H {hex(default) | base58}]
+srv_stake order update -net <net_name> -order <order_hash> [-params]
+srv_stake order list [fee | validator | staker] -net <net_name>
+srv_stake order remove -net <net_name> -order <order_hash>
+srv_stake delegate {-cert <pub_cert_name> -value <datoshi> | -order <order_hash> {[-tax_addr <wallet_addr_for_tax_collecting>] | -cert <priv_cert_name> [-node_addr <for_validator_node>]}} -net <net_name> -w <wallet_name> -fee <value>
+srv_stake invalidate -net <net_name> {-tx <transaction_hash> | -cert <delegated_cert> | -cert_pkey_hash <pkey_hash>} {-w <wallet_name> -fee <value> | -poa_cert <cert_name>}
 srv_stake approve -net <net_name> -tx <transaction_hash> -poa_cert <priv_cert_name>
 srv_stake list keys -net <net_name> [-cert <delegated_cert> | -pkey <pkey_hash_str>]
 srv_stake list tx -net <net_name> 
-srv_stake invalidate -net <net_name> {-tx <transaction_hash> | -cert <delegated_cert> | -cert_pkey_hash <pkey_hash>} {-w <wallet_name> -fee <value> | -poa_cert <cert_name>}
-srv_stake min_value -net <net_name> -cert <cert_name> -value <value>	Sets the minimum stake value
-srv_stake check -net <net_name> -tx <tx_hash>	Check remote validator
+srv_stake min_value -net <net_name> -cert <cert_name> -value <value>
+srv_stake check -net <net_name> -tx <tx_hash>
 dag event create -net <net_name> -chain <chain_name> -datum <datum_hash> [-H {hex | base58(default)}]
 dag event cancel -net <net_name> -chain <chain_name> -event <event_hash>
 dag event sign -net <net_name> -chain <chain_name> -event <event_hash>
-dag event dump -net <net_name> -chain <chain_name> -event <event_hash> -from {events | events_lasts | threshold | round.new  | round.<Round id in hex>} [-H {hex | base58(default)}]
-dag event list -net <net_name> -chain <chain_name> -from {events | events_lasts | threshold | round.new | round.<Round id in hex>}
+dag event dump -net <net_name> -chain <chain_name> -event <event_hash> -from {events | events_lasts | threshold | round.new  | round.<round_id_in_hex>} [-H {hex | base58(default)}]
+dag event list -net <net_name> -chain <chain_name> -from {events | events_lasts | threshold | round.new | round.<round_id_in_hex>}
+dag event count -net <net_name> -chain <chain_name>
 dag round complete -net <net_name> -chain <chain_name> 
 dag round find -net <net_name> -chain <chain_name> -datum <datum_hash> 
 dag_poa event sign -net <net_name> -chain <chain_name> -event <event_hash> [-H {hex | base58(default)}]
@@ -23,54 +26,75 @@ block -net <net_name> -chain <chain_name> new_datum_del <datum_hash>
 block -net <net_name> -chain <chain_name> new_datum_list
 block -net <net_name> -chain <chain_name> new_datum
 block -net <net_name> -chain <chain_name> dump <block_hash>
-block -net <net_name> -chain <chain_name> list [-from_hash <block_hash>] [-to_hash <block_hash>][-from_dt <datetime>] [-to_dt <datetime>] [-cert <priv_cert_name> -unspent]
-block -net <net_name> -chain <chain_name> fee collect
+block -net <net_name> -chain <chain_name> list [{signed | first_signed}] [-from_hash <block_hash>] [-to_hash <block_hash>] [-from_date <YYMMDD>] [-to_date <YYMMDD>] [{-cert <signing_cert_name> | -pkey_hash <signing_cert_pkey_hash>} [-unspent]]
+block -net <net_name> -chain <chain_name> count
+block -net <net_name> -chain <chain_name> fee collect -cert <priv_cert_name> -addr <addr> -hashes <hashes_list> -fee <value>
+block -net <net_name> -chain <chain_name> reward set -cert <poa_cert_name> -value <value>
+block -net <net_name> -chain <chain_name> reward show -cert <poa_cert_name> -value <value>
+block -net <net_name> -chain <chain_name> reward collect -cert <priv_cert_name> -addr <addr> -hashes <hashes_list> -fee <value>
+block -net <net_name> -chain <chain_name> autocollect status
+block -net <net_name> -chain <chain_name> autocollect renew
 block_poa -net <net_name> -chain <chain_name> block sign [-cert <priv_cert_name>] 
-esbocs min_validators_count set -net <net_name> -chain <chain_name> -cert <poa_cert_name> -val_count <value>	Sets minimum validators count for ESBOCS consensus
-esbocs min_validators_count print -net <net_name> -chain <chain_name>	Show minimum validators count for ESBOCS consensus
-net list [chains -n <chain net name>]	List all networks or list all chains in selected networknet -net <chain net name> [-mode {update | all}] go {online | offline | sync}
-net -net <chain net name> get {status | fee | id}
-net -net <chain net name> stats {tx | tps} [-from <From time>] [-to <To time>] [-prev_sec <Seconds>] 
-net -net <chain net name> [-mode {update | all}] sync {all | gdb | chains}
-net -net <chain net name> link {list | add | del | info | disconnect_all}
-net -net <chain net name> ca add {-cert <cert name> | -hash <cert hash>}
-net -net <chain net name> ca list
-net -net <chain net name> ca del -hash <cert hash> [-H {hex | base58(default)}]
-net -net <chain net name> ledger reload
-net -net <chain net name> poa_cets list
-net_srv -net <net_name> order find [-direction {sell | buy}] [-srv_uid <Service UID>] [-price_unit <price unit>]
-net_srv -net <net_name> order delete -hash <Order hash>
-net_srv -net <net_name> order dump -hash <Order hash>
+esbocs min_validators_count set -net <net_name> -chain <chain_name> -cert <poa_cert_name> -val_count <value>
+esbocs min_validators_count print -net <net_name> -chain <chain_name>
+net list [chains -net <chain net name>]
+net -net <chain net name> [-mode {update | all}] go {online | offline | sync}
+net -net <chain_net_name> get {status | fee | id}
+net -net <chain_net_name> stats tx [-from <from_time>] [-to <to_time>] [-prev_day <days>]
+net -net <chain_net_name> [-mode {update | all}] sync {all | gdb | chains}
+net -net <chain net name> link {list | add | del | info [-addr] | disconnect_all}
+net -net <chain_net_name> ca add {-cert <cert_name> | -hash <cert_hash>}
+net -net <chain_net_name> ca list
+net -net <chain_net_name> ca del -hash <cert_hash> [-H {hex | base58(default)}]
+net -net <chain_net_name> ledger reload
+net -net <chain_net_name> poa_certs list
+net_srv -net <net_name> order find [-direction {sell | buy}] [-srv_uid <service_UID>] [-price_unit <price_unit>] [-price_token <token_ticker>] [-price_min <price_minimum>] [-price_max <price_maximum>]
+net_srv -net <net_name> order delete -hash <order_hash>
+net_srv -net <net_name> order dump -hash <order_hash>
 net_srv -net <net_name> order create -direction {sell | buy} -srv_uid <Service UID> -price <Price>
+net_srv get_limits -net <net_name> -srv_uid <Service_UID> -provider_pkey_hash <Service_provider_public_key_hash> -client_pkey_hash <Client_public_key_hash>
+net_srv report
 srv_xchange order create -net <net_name> -token_sell <token_ticker> -token_buy <token_ticker> -w <wallet_name> -value <value> -rate <value> -fee <value>
-srv_xchange order remove -net <net_name> -order <order_hash> -w <wallet_name>
-srv_xchange order update -net <net_name> -order <order_hash> -w <wallet_name> [-token_sell <token_ticker>] [-net_buy <net_name>] [-token_buy <token_ticker>] [-coins <value>] [-rate <value>]
-srv_xchange order history -net <net_name> {-order <order_hash> | -addr <wallet_addr>}	Shows transaction history for the selected order
-srv_xchange order status -net <net_name> -order <order_hash>	Shows current amount of unselled coins from the selected order and percentage of its completion
-srv_xchange orders -net <net_name>
-srv_xchange purchase -order <order hash> -net <net_name> -w <wallet_name> -value <value> -fee <value>
-srv_xchange tx_list -net <net_name> [-time_from <yymmdd> -time_to <yymmdd>][[-addr <wallet_addr>  [-status closed | open] ]
+srv_xchange order remove -net <net_name> -order <order_hash> -w <wallet_name> -fee <value_datoshi>
+srv_xchange order history -net <net_name> {-order <order_hash> | -addr <wallet_addr>}
+srv_xchange order status -net <net_name> -order <order_hash>
+srv_xchange orders -net <net_name> [-status {opened|closed|all}] [-token_from <token_ticker>] [-token_to <token_ticker>]
+srv_xchange purchase -order <order_hash> -net <net_name> -w <wallet_name> -value <value> -fee <value>
+srv_xchange tx_list -net <net_name> [-time_from <From time>] [-time_to <To time>][[-addr <wallet_addr>  [-status {inactive|active|all}] ]
 srv_xchange token_pair -net <net_name> list all
-srv_xchange token_pair -net <net_name> price average -token_from <token_ticker> -token_to <token_ticker> [-time_from <From time>] [-time_to <To time>]  
-srv_xchange token_pair -net <net_name> price history -token_from <token_ticker> -token_to <token_ticker> [-time_from <From time>] [-time_to <To time>] 
-srv_xchange enable
-srv_xchange disable
-srv_datum -net <net_name> -chain <chain_name> datum save -datum <datum_hash>
-srv_datum -net <net_name> -chain <chain_name> datum load -datum <datum_hash>
-vpn_client [start -addr <server address> -port <server port>| stop | status] -net <net name>
-vpn_client init -w <wallet name> -token <token name> -value <value> -net <net name>
-vpn_client stop -net <net name>
-vpn_client status -net <net name>
-vpn_client check -addr <ip addr> -port <port> -net <net name>
-vpn_client check result -net <net name> [-H hex|base58(default)]
-global_db cells add -cell <cell id> 
+srv_xchange token_pair -net <net_name> rate average -token_from <token_ticker> -token_to <token_ticker>
+srv_xchange token_pair -net <net_name> rate history -token_from <token_ticker> -token_to <token_ticker> [-time_from <From_time>] [-time_to <To_time>] 
+voting create -net <net_name> -question <"Question_string"> -options <"Option0", "Option1" ... "OptionN"> [-expire <voting_expire_time_in_RCF822>] [-max_votes_count <Votes_count>] [-delegated_key_required] [-vote_changing_allowed] -fee <value_datoshi> -w <fee_wallet_name>
+voting vote -net <net_name> -hash <voting_hash> -option_idx <option_index> [-cert <delegate_cert_name>] -fee <value_datoshi> -w <fee_wallet_name>
+voting list -net <net_name>
+voting dump -net <net_name> -hash <voting_hash>
+stake_lock hold -net <net_name> -w <wallet_name> -time_staking <in_YYMMDD> -token <ticker> -value <value> -fee <value>[-chain <chain>] [-reinvest <percentage_from_1_to_100>]
+stake_lock take -net <net_name> -w <wallet_name> -tx <transaction_hash> -fee <value> [-chain <chain>]
+srv_datum -net <net_name> -chain <chain_name> datum {save | load} -datum <datum_hash>
+vpn_client start -addr <server_address> -port <server_port> -net <net_name>
+vpn_client init -w <wallet_name> -token <token_name> -value <value> -net <net_name>
+vpn_client stop -net <net_name>
+vpn_client status -net <net_name>
+vpn_client check -addr <ip_addr> -port <port> -net <net_name>
+vpn_client check result -net <net_name> [-H hex|base58(default)]
+global_db cells add -cell <cell_id> 
 global_db flush 
-global_db write -group <group_name> -key <key_name> -value <value>global_db read -group <group_name> -key <key_name>global_db delete -group <group_name> -key <key_name>global_db drop_table -group <group_name>
-global_db get_keys -group <group name>
-mempool sign -cert <priv_cert_name> -net <net_name> -chain <chain_name> -file <filename> [-mime {<SIGNER_FILENAME,SIGNER_FILENAME_SHORT,SIGNER_FILESIZE,SIGNER_DATE,SIGNER_MIME_MAGIC> | <SIGNER_ALL_FLAGS>}]
-mempool check -cert <priv_cert_name> -net <net_name> {-file <filename> | -hash <hash>} [-mime {<SIGNER_FILENAME,SIGNER_FILENAME_SHORT,SIGNER_FILESIZE,SIGNER_DATE,SIGNER_MIME_MAGIC> | <SIGNER_ALL_FLAGS>}]
-node add  -net <net_name> {-addr <node_address> | -alias <node_alias>} -port <port> -cell <cell id>  {-ipv4 <ipv4 external address> | -ipv6 <ipv6 external address>}
-node del -net <net_name> {-addr <node_address> | -alias <node_alias>}
+global_db write -group <group_name> -key <key_name> -value <value>
+global_db read -group <group_name> -key <key_name>
+global_db delete -group <group_name> -key <key_name>
+global_db group_list
+global_db drop_table -group <group_name>
+global_db get_keys -group <group_name>
+mempool list -net <net_name> [-chain <chain_name>] [-addr <addr>] [-brief]
+mempool check -net <net_name> [-chain <chain_name>] -datum <datum_hash>
+mempool proc -net <net_name> -chain <chain_name> -datum <datum_hash>
+mempool proc_all -net <net_name> -chain <chain_name>
+mempool delete -net <net_name> -chain <chain_name> -datum <datum_hash>
+mempool dump -net <net_name> -chain <chain_name> -datum <datum_hash>
+mempool add_ca -net <net_name> [-chain <chain_name>] -ca_name <pub_cert_name>
+mempool count -net <net_name> [-chain <chain_name>]
+node add  -net <net_name> 
+node del -net <net_name> -addr <node_address> 
 node link {add | del}  -net <net_name> {-addr <node_address> | -alias <node_alias>} -link <node_address>
 node alias -addr <node_address> -alias <node_alias>
 node connect -net <net_name> {-addr <node_address> | -alias <node_alias> | auto}
@@ -90,49 +114,46 @@ wallet info {-addr <addr> | -w <wallet_name>} -net <net_name>
 wallet activate -w <wallet_name> -password <password> [-ttl <password_ttl_in_minutes>]
 wallet deactivate -w <wallet_name> -password <password>
 wallet convert -w <wallet_name> -password <password>
-token_update -net <net_name> -chain <chain_name> -token <existing token_ticker> -type private -total_supply <the same or more> -decimals <18>
-token_update -net <net_name> -chain <chain_name> -token <existing token_ticker> -type CF20 -total_supply <the same or more/if 0 = endless> -decimals <18>
-token_decl -net <net_name> -chain <chain_name> -token <token_ticker> -total_supply <total supply> -signs_total <sign total> -signs_emission <signs for emission> -certs <certs list>
-token_decl -net <net_name> -chain <chain_name> -token <token_ticker> -type private -total_supply <total supply> -decimals <18> -signs_total <sign total> -signs_emission <signs for emission> -certs <certs list> -flags [<Flag 1>][,<Flag 2>]...[,<Flag N>]...
-token_decl -net <net_name> -chain <chain_name> -token <token_ticker> -type CF20 -total_supply <total supply/if 0 = endless> -decimals <18> -signs_total <sign total> -signs_emission <signs for emission> -certs <certs list>
-token_update_sign -net <net_name> -chain <chain_name> -datum <datum_hash> -certs <certs list> -new_certs <certs list>
-token_decl_sign -net <net_name> -chain <chain_name> -datum <datum_hash> -certs <certs list>
-token_emit { sign | -token <mempool_token_ticker> -emission_value <value>-addr <addr> [-chain_emission <chain_name>] -net <net_name> -certs <cert list>
-mempool_list -net <net_name> [-chain <chain_name>] [-addr <addr>] [-fast] 
-mempool_list -net <net_name> [-chain <chain_name>] [-addr <addr>] [-fast] 
-mempool_check -net <net_name> -datum <datum hash>
-mempool_proc -net <net_name> -datum <datum hash> -chain <chain name>
-mempool_proc_all -net <net_name> -chain <chain_name>
-mempool_delete -net <net_name> -datum <datum hash>
-mempool_add_ca -net <net_name> [-chain <chain_name>] -ca_name <priv_cert_name>
+token_update -net <net_name> [-chain <chain_name>] -token <existing_token_ticker> -type {private | CF20} -total_supply <the_same_or_more> -decimals <18> -signs_total <the_same_total_as_the_token_you_are_updating> -signs_emission <the_same_total_as_the_token_you_are_updating> -certs <use_the_certificates_of_the_token_you_are_update> -flags <ALL_BLOCKED,ALL_ALLOWED,ALL_FROZEN,ALL_UNFROZEN,STATIC_FLAGS,STATIC_PERMISSIONS_ALL,STATIC_PERMISSIONS_DATUM_TYPE,STATIC_PERMISSIONS_TX_SENDER,STATIC_PERMISSIONS_TX_RECEIVER>
+token_decl -net <net_name> [-chain <chain_name>] -token <token_ticker> -total_supply <total_supply> -signs_total <sign_total> -signs_emission <signs_for_emission> -certs <certs_list>
+token_decl -net <net_name> [-chain <chain_name>] -token <token_ticker> -type {private | CF20} -total_supply <total_supply> -decimals <18> -signs_total <sign_total> -signs_emission <signs_for_emission> -certs <certs_list> -flags <ALL_BLOCKED,ALL_ALLOWED,ALL_FROZEN,ALL_UNFROZEN,STATIC_ALL,STATIC_FLAGS,STATIC_PERMISSIONS_ALL,STATIC_PERMISSIONS_DATUM_TYPE,STATIC_PERMISSIONS_TX_SENDER,STATIC_PERMISSIONS_TX_RECEIVER>
+token_update_sign -net <net_name> [-chain <chain_name>] -datum <datum_hash> -certs <certs_list> -new_certs <certs_list>
+token_decl_sign -net <net_name> [-chain <chain_name>] -datum <datum_hash> -certs <certs_list>
+token_emit { sign -emission <hash> | -token <mempool_token_ticker> -emission_value <value>
+mempool list -net <net_name> [-chain <chain_name>] [-addr <addr>] [-brief]
+mempool check -net <net_name> [-chain <chain_name>] -datum <datum_hash>
+mempool proc -net <net_name> -chain <chain_name> -datum <datum_hash>
+mempool proc_all -net <net_name> -chain <chain_name>
+mempool delete -net <net_name> -chain <chain_name> -datum <datum_hash>
+mempool dump -net <net_name> -chain <chain_name> -datum <datum_hash>
+mempool add_ca -net <net_name> [-chain <chain_name>] -ca_name <pub_cert_name>
+mempool count -net <net_name> [-chain <chain_name>]
 chain_ca_pub -net <net_name> [-chain <chain_name>] -ca_name <priv_cert_name>
 chain_ca_copy -net <net_name> [-chain <chain_name>] -ca_name <pub_cert_name>
-tx_create -net <net_name> -chain <chain_name> -value <value> -token <token_ticker> -to_addr <addr>{-from_wallet <wallet_name> | -from_emission <emission_hash> {-cert <cert_name> | -wallet_fee <wallet_name>}} -fee <value>
-tx_create_json -net <net_name> -chain <chain_name> -json <json_file_path>
-tx_cond_create -net <net_name> -token <token_ticker> -w <wallet_name> -cert <pub_cert_name> -value <value_datoshi> -fee <value> -unit {mb | kb | b | sec | day} -srv_uid <numeric_uid>
-tx_verify -net <net_name> -chain <chain_name> -tx <tx_hash>
-tx_history  {-addr <addr> | -w <wallet_name> | -tx <tx_hash>} [-net <net_name>] [-chain <chain_name>]
-tx_history -all -net <net_name> [-chain <chain_name>]
+tx_create -net <net_name> [-chain <chain_name>] -value <value> -token <token_ticker> -to_addr <addr>{-from_wallet <wallet_name> | [-from_emission <emission_hash>] {-cert <cert_name> | -wallet_fee <wallet_name>}} -fee <value>
+tx_create_json -net <net_name> [-chain <chain_name>] -json <json_file_path>
+tx_cond_create -net <net_name> -token <token_ticker> -w <wallet_name> -cert <pub_cert_name> -value <value_datoshi> -fee <value> -unit {B | SEC} -srv_uid <numeric_uid>
+tx_cond_remove -net <net_name> -hashes <hash1,hash2...> -w <wallet_name> -fee <value> -srv_uid <numeric_uid>
+tx_cond_unspent_find -net <net_name> -srv_uid <numeric_uid> -w <wallet_name> 
+tx_verify -net <net_name> [-chain <chain_name>] -tx <tx_hash>
 tx_history  {-addr <addr> | -w <wallet_name> | -tx <tx_hash>} [-net <net_name>] [-chain <chain_name>]
 tx_history -all -net <net_name> [-chain <chain_name>]
 ledger list coins -net <net_name>
 ledger list threshold [-hash <tx_treshold_hash>] -net <net_name>
 ledger list balance -net <net_name>
 ledger info -hash <tx_hash> -net <net_name> [-unspent]
-ledger tx -all -net <net_name>
-ledger tx {-addr <addr> | -w <wallet_name> | -tx <tx_hash>} -net <net_name>
 token list -net <net_name>
 token info -net <net_name> -name <token_ticker>
 print_log [ts_after <timestamp>] [limit <line_numbers>]
 stats cpu
-gdb_export filename <filename without extension> [-groups <group names list>]
-gdb_import filename <filename without extension>
+gdb_export filename <filename_without_extension> [-groups <group_names_list>]
+gdb_import filename <filename_without_extension>
 remove -gdb
 remove -chains [-net <net_name> | -all]
-decree create common -net <net_name> [-chain <chain_name>] -decree_chain <chain_name> -certs <certs list> -<Subtype param name> <Subtype param Value>
-decree create service -net <net_name> [-chain <chain_name>] -decree_chain <chain_name> -srv_id <service_id> -certs <certs list> -<Subtype param name> <Subtype param Value>
+decree create common -net <net_name> [-chain <chain_name>] -decree_chain <chain_name> -certs <certs_list> {-fee <net_fee_value> -to_addr <net_fee_wallet_addr> | -new_certs <new_owners_certs_list> | -signs_verify <value>}
+decree create service -net <net_name> [-chain <chain_name>] -decree_chain <chain_name> -srv_id <service_id> -certs <certs_list> -fee <value> -to_addr <wallet_addr> -new_certs <certs_list> -signs_verify <value>
 decree sign -net <net_name> [-chain <chain_name>] -datum <datum_hash> -certs <certs_list>
-decree anchor -net <net_name> -chain <chain_name> -datum <datum_hash> -certs <certs_list>
-decree find -net <net_name> -hash <decree_hash>. Find decree by hash and show it's status (apllied or not)
-decree info -net <net_name>. Displays information about the parameters of the decrees in the network.
+decree anchor -net <net_name> [-chain <chain_name>] -datum <datum_hash> -certs <certs_list>
+decree find -net <net_name> -hash <decree_hash>
+decree info -net <net_name>
 exit
