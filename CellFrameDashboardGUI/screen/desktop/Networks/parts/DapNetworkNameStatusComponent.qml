@@ -13,12 +13,12 @@ Item
 
     Item
     {
-        width: 24
-        height: 24
+        width: 15
+        height: 15
         anchors.right: nameAndIndicatorItem.left
         anchors.rightMargin: 2
         anchors.verticalCenter: parent.verticalCenter
-        visible: progressItem.visible
+        visible: !(stateOfNetwork === "NET_STATE_OFFLINE" || stateOfNetwork === "NET_STATE_ONLINE")
 
         Image
         {

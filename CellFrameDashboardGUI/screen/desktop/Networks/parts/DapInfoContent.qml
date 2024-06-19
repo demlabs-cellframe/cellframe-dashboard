@@ -163,16 +163,52 @@ Item {
         ///-------
 
         //body
-        DapRowInfoText
+        Item
         {
             Layout.topMargin: 8
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
+            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + stateIndicator.width
             Layout.preferredHeight: 15
 
-            staticText.text: qsTr("State: ")
-            dynamicText.text: networkState
-            onTextChangedSign: buttonNetwork.setText()
+            DapRowInfoText
+            {
+                id: stateTextBlock
+                anchors.top: parent.top
+                anchors.left: parent.left
+                height: parent.height
+
+                staticText.text: qsTr("State: ")
+                dynamicText.text: logicNet.percentToRatio(syncPercent) < 1.0 ? networkState + " " + (logicNet.percentToRatio(syncPercent) * 100).toFixed(0) + "%" : networkState
+                onTextChangedSign: buttonNetwork.setText()
+            }
+
+            Item
+            {
+                id: stateIndicator
+                width: 15
+                height: 15
+                anchors.right: parent.right
+                anchors.top: parent.top
+                visible: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
+
+                Image
+                {
+                    id: syncIcon
+                    anchors.fill: parent
+                    sourceSize: Qt.size(24,24)
+                    antialiasing: true
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/Resources/" + pathTheme + "/icons/other/sync.svg"
+
+                    NumberAnimation on rotation {
+                        from: 0
+                        to: -360
+                        duration: 1000
+                        loops: Animation.Infinite
+                        running: true
+                    }
+                }
+            }
         }
 
         Text {
