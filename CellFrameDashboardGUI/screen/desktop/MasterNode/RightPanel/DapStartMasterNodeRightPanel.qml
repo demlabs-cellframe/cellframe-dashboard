@@ -11,6 +11,9 @@ DapRectangleLitAndShaded
 {
     id: root
 
+    property string certificateLogic: "newCertificate"
+    property bool isUpload: false
+
     color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
@@ -51,7 +54,7 @@ DapRectangleLitAndShaded
             color: currTheme.white
         }
     }
-
+    contentData:
     ScrollView
     {
         id: scrollView
@@ -70,7 +73,7 @@ DapRectangleLitAndShaded
         {
 //            anchors.fill: parent
             width: scrollView.width
-            spacing: 16
+            spacing: 20
 
             /// Certificate
             Rectangle
@@ -110,12 +113,16 @@ DapRectangleLitAndShaded
             {
                 id: newCertificateCombobox
                 Layout.fillWidth: true
-                Layout.leftMargin: 25
+                Layout.leftMargin: 20
                 Layout.rightMargin: 25
                 height: 40
-                font: mainFont.dapFont.regular14
+                font: mainFont.dapFont.regular16
                 backgroundColorShow: currTheme.secondaryBackground
                 model: typeCreateCerificateModel
+                onCurrentIndexChanged:
+                {
+                    certificateLogic = typeCreateCerificateModel.get(currentIndex).techName
+                }
             }
 
             /// Create new certificate
@@ -136,35 +143,139 @@ DapRectangleLitAndShaded
                 }
             }
 
-            DapTextField
+            Rectangle
             {
-                id: newCertificateName
+                id: newCertRect
                 Layout.fillWidth: true
-                Layout.leftMargin: 30
-                Layout.rightMargin: 30
-                height: 40
+                height: 90
+                color: currTheme.secondaryBackground
 
-                validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
-                font: mainFont.dapFont.regular16
-                horizontalAlignment: Text.AlignLeft
+                visible: certificateLogic === "newCertificate"
 
-                bottomLineVisible: true
-                bottomLineSpacing: 6
-                bottomLineLeftRightMargins: 7
+                DapTextField
+                {
+                    id: newCertificateName
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.leftMargin: 30
+                    anchors.rightMargin: 30
+                    height: 30
 
-                selectByMouse: true
-                DapContextMenu{}
+                    validator: RegExpValidator { regExp: /[0-9a-z\_\:\(\)\?\@\.\s*]+/ }
+                    font: mainFont.dapFont.regular16
+                    horizontalAlignment: Text.AlignLeft
+
+                    bottomLineVisible: true
+                    bottomLineSpacing: 6
+                    bottomLineLeftRightMargins: 7
+
+                    selectByMouse: true
+                    DapContextMenu{}
+                }
+
+                DapCustomComboBox{
+                    id: typeCertificateCombobox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: newCertificateName.bottom
+                    anchors.leftMargin: 20
+                    anchors.rightMargin: 25
+                    anchors.topMargin: 20
+                    height: 40
+                    font: mainFont.dapFont.regular16
+                    backgroundColorShow: currTheme.secondaryBackground
+                }
             }
 
-            DapCustomComboBox{
-                id: typeCertificateCombobox
+            Rectangle
+            {
+                id: uploadCertRect
                 Layout.fillWidth: true
-                Layout.leftMargin: 25
-                Layout.rightMargin: 25
-                height: 40
-                font: mainFont.dapFont.regular14
-                backgroundColorShow: currTheme.secondaryBackground
+                height: 110
+                color: currTheme.secondaryBackground
+                visible: certificateLogic !== "newCertificate"
+                RowLayout
+                {
+                    id: certLayout
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.leftMargin: 36
+                    anchors.rightMargin: 36
+                    height: 15
+                    anchors.topMargin: 0
 
+                    Text
+                    {
+                        color: currTheme.gray
+                        text: qsTr("Certificate")
+                        font: mainFont.dapFont.regular12
+                        horizontalAlignment: Text.AlignLeft
+                        Layout.alignment: Qt.AlignLeft
+
+                    }
+
+                    Text
+                    {
+                        id: certificateName
+                        color: currTheme.white
+                        text: "-"
+                        font: mainFont.dapFont.regular13
+                        horizontalAlignment: Text.AlignRight
+                        Layout.alignment: Qt.AlignRight
+                    }
+                }
+
+                RowLayout
+                {
+                    id: sigLayout
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: certLayout.bottom
+                    anchors.leftMargin: 36
+                    anchors.rightMargin: 36
+                    height: 15
+                    anchors.topMargin: 20
+
+                    Text
+                    {
+                        color: currTheme.gray
+                        text: qsTr("Signature")
+                        font: mainFont.dapFont.regular12
+                        horizontalAlignment: Text.AlignLeft
+                        Layout.alignment: Qt.AlignLeft
+
+                    }
+
+                    Text
+                    {
+                        id: signatureName
+                        color: currTheme.white
+                        text: "-"
+                        font: mainFont.dapFont.regular13
+                        horizontalAlignment: Text.AlignRight
+                        Layout.alignment: Qt.AlignRight
+                    }
+                }
+
+                DapButtonWithImage
+                {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.leftMargin: 36
+                    anchors.rightMargin: 36
+                    height: 40
+                    pathImage: !isUpload ? "qrc:/Resources/BlackTheme/icons/other/upload_icon.svg" : "qrc:/Resources/BlackTheme/icons/other/detach_icon.svg"
+                    buttonText: !isUpload ? qsTr("Upload certificate") : qsTr("Unpin certificate")
+
+                    onClicked:
+                    {
+                        isUpload = !isUpload
+                        console.log("upload certificate clicked")
+                    }
+                }
             }
 
             /// Wallet
@@ -253,7 +364,7 @@ DapRectangleLitAndShaded
                     anchors.leftMargin: 16
                 }
             }
-            
+
             DapTextField
             {
                 id: nodeIpText
@@ -389,7 +500,7 @@ DapRectangleLitAndShaded
 
                 Text
                 {
-                    id: comboboxToken
+                    id: textInputStakeToken
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
                     text: "-"
@@ -416,13 +527,27 @@ DapRectangleLitAndShaded
                 fontButton: mainFont.dapFont.medium14
                 textButton: "Start Master Node"
 
-                Text
+                onClicked:
                 {
+                    var result = {
+                        "isUploadCert" : certificateLogic !== "newCertificate",
+                        "certName" : certificateLogic !== "newCertificate" ? certificateName.text : newCertificateName.text,
+                        "sign" : certificateLogic !== "newCertificate" ? signatureName.text : typeCertificateCombobox.displayText,
+                        "walletName" : walletModule.currentWalletName,
+                        "walletAddress" : walletModule.getAddressWallet(nodeMasterModule.currentNetwork, walletModule.currentWalletName),
+                        "network" : nodeMasterModule.currentNetwork,
+                        "fee" : feeController.currentValue,
+                        "feeToken" : feeController.valueName,
+                        "nodeIP" : nodeIpText.text,
+                        "port" : nodePortText.text,
+                        "stakeValue" : textInputStakeValue.text,
+                        "stakeToken" : textInputStakeToken.text
+                    }
 
+                    nodeMasterModule.startMasterNode(result)
                 }
             }
         }
-
 
     }
 }

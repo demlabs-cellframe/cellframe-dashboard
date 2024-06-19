@@ -266,7 +266,6 @@ Item
                     color: currTheme.white
                     text: dexModule.displayText + ": "
                     verticalAlignment: Qt.AlignVCenter
-                    topPadding: OS_WIN_FLAG ? 5 : 0
                 }
 
                 DapBigText
@@ -437,10 +436,10 @@ Item
                 var date = new Date(timeValue)
 
                 textDate.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
-                textOpen.text = openValue//.toFixed(roundPower)
-                textHigh.text = highValue//.toFixed(roundPower)
-                textLow.text = lowValue//.toFixed(roundPower)
-                textClose.text = closeValue//.toFixed(roundPower)
+                openValue !== undefined ? textOpen.text = openValue : textOpen.text = "0.0"//.toFixed(roundPower)
+                openValue !== highValue ? textHigh.text = highValue : textHigh.text = "0.0"//.toFixed(roundPower)
+                openValue !== lowValue ? textLow.text = lowValue : textLow.text = "0.0"//.toFixed(roundPower)
+                openValue !== closeValue ? textClose.text = closeValue : textClose.text = "0.0"//.toFixed(roundPower)
 
                 if (openValue > 0.0000000000000000001)
                 {
@@ -490,6 +489,12 @@ Item
         width: childrenRect.width
         height: childrenRect.height
         color: "#a0363A42"
+
+        Component.onCompleted:
+        {
+            candleLogic.topInfoTextField = y
+            candleLogic.bottomInfoTextField = y + 16
+        }
 
         Item
         {

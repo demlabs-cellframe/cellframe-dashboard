@@ -13,6 +13,7 @@
 #include "Models/DapStringListModel.h"
 #include "Models/DapCertificatesModel.h"
 #include "qsettings.h"
+#include "../ConfigWorker/configworker.h"
 
 class DapModulesController : public QObject
 {
@@ -22,6 +23,9 @@ public:
     ~DapModulesController();
 
     DapServiceController* getServiceController() const {return s_serviceCtrl;}
+    void setConfigWorker(ConfigWorker* worker) {m_configWorker = worker;}
+    ConfigWorker* getConfigWorker() {return m_configWorker;}
+
     QSettings* getSettings() {return s_settings;}
     void tryStartModules() { emit initDone(); }
     const QStringList& getNetworkList() const {return m_netList;}
@@ -79,6 +83,8 @@ private:
     QStringList m_walletList;
     int m_currentWalletIndex{-1};
     QString m_currentWalletName{""};
+
+    ConfigWorker *m_configWorker = nullptr;
 
 public slots:
     Q_INVOKABLE void updateListWallets();

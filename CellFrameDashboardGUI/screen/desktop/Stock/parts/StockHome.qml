@@ -141,7 +141,7 @@ Item
                     Layout.fillWidth: createOrderButton.visible
                     Layout.preferredWidth: createOrderButton.visible ? -1 : 331
                     implicitHeight: 36
-                    textButton: qsTr("Orders")
+                    textButton: !dexModule.isRegularTypePanel ? qsTr("Orders") : qsTr("My orders")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
