@@ -1,13 +1,13 @@
 QT += core network
 
+include (../config.pri)
 TARGET = $${BRAND}Service
 DEFINES += SIMULATOR_DEX
 win32 {
     CONFIG -= console
 }
 
-include(../config.pri)
-
+include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 #android {
 #    QT += core androidextras
 #    TEMPLATE = lib
@@ -15,51 +15,56 @@ include(../config.pri)
 #    TARGET = DashboardService
 #}
 
-INCLUDEPATH += $$SDK_INSTALL_PATH/include/dap/crypto/ \
+INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/ \
+                $$SDK_INSTALL_PATH/include/dap/net/client/ \
+                $$SDK_INSTALL_PATH/include/dap/io/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/enc_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/json_rpc/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/notify_server/ \
                 $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/Keccak/FIPS202/ \
                 $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/common \
                 $$SDK_INSTALL_PATH/include/dap/crypto/rand/ \
-                $$SDK_INSTALL_PATH/include/dap/core/ \
-                $$SDK_INSTALL_PATH/include/dap/net/client/ \
-                $$SDK_INSTALL_PATH/include/dap/io/ \
                 $$SDK_INSTALL_PATH/include/dap/net/stream/ch/ \
                 $$SDK_INSTALL_PATH/include/dap/net/stream/stream/ \
                 $$SDK_INSTALL_PATH/include/dap/net/stream/session/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/enc_server/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/ \
                 $$SDK_INSTALL_PATH/include/dap/net/server/http_server/http_client \
-                $$SDK_INSTALL_PATH/include/dap/net/server/json_rpc/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/notify_server/ \
                 $$SDK_INSTALL_PATH/include/dap/global_db/ \
                 $$SDK_INSTALL_PATH/include/json-c/ \
                 $$SDK_INSTALL_PATH/include/modules/common/ \
                 $$SDK_INSTALL_PATH/include/modules/net/ \
                 $$SDK_INSTALL_PATH/include/modules/chain/ \
+                $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
 
 
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
-LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/http_server/libdap_http_server.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
 LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 
-include (../dap-ui-sdk/crypto/libdap-qt-crypto.pri)
+#include (../dap-ui-sdk/crypto/libdap-qt-crypto.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
-include (../dap-ui-sdk/stream/libdap-qt-stream.pri)
+#include (../dap-ui-sdk/stream/libdap-qt-stream.pri)
 #include (../dap-ui-sdk/vpn/common/libdap-qt-vpn-common.pri)
 #include (../dap-ui-sdk/vpn/client/libdap-qt-vpn-client.pri)
 #include (../dap-ui-sdk/vpn/client/DapStateMachine/dap-state-machine.pri)
 #include (../dap-ui-sdk/vpn/client/DapCmdHandlers/dap-cmd-handlers.pri)
 
-include (../cellframe-ui-sdk/stream/ch/chain/net/srv/libdap-qt-stream-ch-chain-net-srv.pri)
-include (../cellframe-ui-sdk/stream/ch/chain/net/srv/vpn/libdap-qt-stream-ch-chain-net-srv-vpn.pri)
-include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
+#include (../cellframe-ui-sdk/stream/ch/chain/net/srv/libdap-qt-stream-ch-chain-net-srv.pri)
+#include (../cellframe-ui-sdk/stream/ch/chain/net/srv/vpn/libdap-qt-stream-ch-chain-net-srv-vpn.pri)
+
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
 include (../web3_api/web3_api.pri)
