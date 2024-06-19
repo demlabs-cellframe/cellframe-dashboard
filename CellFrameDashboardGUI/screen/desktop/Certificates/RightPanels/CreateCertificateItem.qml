@@ -8,7 +8,6 @@ import "qrc:/widgets"
 import "../parts"
 import "../models"
 import "../../controls"
-import ".."
 
 
 DapRectangleLitAndShaded {
@@ -155,7 +154,7 @@ DapRectangleLitAndShaded {
             height: 139 
             spacing: 0
 
-            DapCertComboBox
+            DapCertificatesComboBox
             {
                 id: signatureTypeCertificateComboBox
                 height: 42

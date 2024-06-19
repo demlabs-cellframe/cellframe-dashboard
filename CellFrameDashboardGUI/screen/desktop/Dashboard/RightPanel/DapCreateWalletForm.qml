@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
 import "../../controls"
-import "../../Certificates"
 
 DapRectangleLitAndShaded
 {
@@ -157,7 +156,7 @@ DapRectangleLitAndShaded
                     color: "transparent"
                     Layout.fillWidth: true
 
-                    DapCertComboBox
+                    DapCertificatesComboBox
                     {
                         id: comboBoxSignatureTypeWallet
                         anchors.fill: parent
