@@ -22,7 +22,6 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/DapInfoWalletModel.cpp \
-    $$PWD/DapWalletListModel.cpp \
     $$PWD/DapOrdersModel.cpp \
     $$PWD/DapHistoryModel.cpp \
     $$PWD/DapHistoryProxyModel.cpp \
