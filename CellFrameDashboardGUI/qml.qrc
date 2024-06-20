@@ -388,5 +388,6 @@
         <file>screen/desktop/Stock/parts/MyOrders/parts/HeaderBigLabel.qml</file>
         <file>screen/desktop/Networks/parts/DapNetworkNameStatusComponent.qml</file>
         <file>screen/desktop/MasterNode/DapMainMasterNodeScreen.qml</file>
+        <file>screen/desktop/controls/DapCertificatesComboBox.qml</file>
     </qresource>
 </RCC>

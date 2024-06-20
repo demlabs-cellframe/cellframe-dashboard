@@ -14,7 +14,6 @@ Item {
 
     property int selectedAccessKeyType: 0
 
-    property alias signatureType: signatureType
     property alias createCertificateOptional: createCertificateOptional
 
 
@@ -89,32 +88,6 @@ Item {
             return result
         }
     }  //createCertificateOptional
-    ListModel {        //this common model
-        id: signatureType
-        ListElement
-        {
-            name: "Crystal-Dylithium"
-            signature: "sig_dil"
-            secondname: qsTr("Recommended")
-        }
-        ListElement
-        {
-            name: "Falcon"
-            signature: "sig_falcon"
-        }
-//        ListElement
-//        {
-//            name: "Bliss"
-//            signature: "sig_bliss"
-//            secondname: ""
-//        }
-//        ListElement
-//        {
-//            name: "Picnic"
-//            signature: "sig_picnic"
-//            secondname: ""
-//        }
-    }
 
 
     ListModel {

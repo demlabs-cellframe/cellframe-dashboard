@@ -29,7 +29,8 @@ DapRectangleLitAndShaded {
     visible: false
     opacity: visible ? 1.0 : 0.0
 
-    function checkRequiredField(){
+    function checkRequiredField()
+    {
         requiredFieldValid = titleCertificateTextInput.text.length > 0 && titleCertificateTextInput.text.length < 40
                              && signatureTypeCertificateComboBox.currentIndex >= 0
     }
@@ -153,23 +154,19 @@ DapRectangleLitAndShaded {
             height: 139 
             spacing: 0
 
-            DapCustomComboBox {
+            DapCertificatesComboBox
+            {
                 id: signatureTypeCertificateComboBox
-                height: 42 
+                height: 42
                 Layout.topMargin: 10
                 Layout.fillWidth: true
                 Layout.leftMargin: 24
                 Layout.rightMargin: 18
-                backgroundColorShow: currTheme.secondaryBackground
 
-                model: models.signatureType
-
-                onCurrentIndexChanged: {
-                        checkRequiredField()
-                    }
-
-                defaultText: qsTr("Signature type")
-                font: mainFont.dapFont.regular16
+                onCurrentIndexChanged:
+                {
+                    checkRequiredField()
+                }
             }
 
             DapTextField
@@ -302,7 +299,7 @@ DapRectangleLitAndShaded {
             onClicked: {   //enabled when requiredFieldValid
                 if (checkOptionalField())
                     logics.createCertificate(titleCertificateTextInput.text
-                                             , models.signatureType.get(signatureTypeCertificateComboBox.currentIndex).signature
+                                             , signatureTypeCertificateComboBox.selectedSignature
                                              , models.createCertificateOptional.getDataToJson())
                 else
                     console.warn("not valid optional field")
