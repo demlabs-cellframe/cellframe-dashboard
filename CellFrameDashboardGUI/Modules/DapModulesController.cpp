@@ -28,13 +28,11 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     , s_serviceCtrl(&DapServiceController::getInstance())
     , s_settings(new QSettings(this))
     , m_netListModel(new DapStringListModel)
-    , m_certListModel(new DapCertificatesModel)
 {
     initWorkers();
     initModules();
     m_netListModel->setStringList({"All"});
     s_appEngine->rootContext()->setContextProperty("netListModelGlobal", m_netListModel);
-    s_appEngine->rootContext()->setContextProperty("certListModel", m_certListModel);
     m_timerUpdateData = new QTimer(this);
 
     getNetworkList();

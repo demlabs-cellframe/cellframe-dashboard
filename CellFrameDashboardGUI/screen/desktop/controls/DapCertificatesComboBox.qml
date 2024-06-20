@@ -14,6 +14,12 @@ DapCustomComboBox
 
     ListModel {id: sigModel }
 
+    property var certList: [
+        {name: "Dylithium", sign: "sig_dil",    secondName: "Recommended"},
+        {name: "Falcon",    sign: "sig_falcon", secondName: ""},
+        {name: "Bliss",     sign: "sig_bliss",  secondName: "Depricated"},
+        {name: "Picnic",    sign: "sig_picnic", secondName: "Depricated"}
+    ]
     height: 42
     model: sigModel
 
@@ -28,13 +34,13 @@ DapCustomComboBox
 
     Component.onCompleted:
     {
-        for(var i=0; i<certListModel.size; ++i)
+        for(var i = 0; i < certList.length; ++i)
         {
             if(!isRestoreMode && i>1) break;
             sigModel.append({
-                       "name": certListModel.get(i).name,
-                       "sign": certListModel.get(i).sign,
-                       "secondname": certListModel.get(i).secondName
+                       "name": certList[i].name,
+                       "sign": certList[i].sign,
+                       "secondname": certList[i].secondName
                    })
         }
     }
