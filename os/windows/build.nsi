@@ -103,7 +103,7 @@ Section "${APP_NAME}" CORE
 !insertmacro killAll
 	File "opt/cellframe-dashboard/bin/${APP_NAME}.exe"
 	File "opt/cellframe-dashboard/bin/${APP_NAME}Service.exe"
-!insertmacro varPaths
+
 	InitPluginsDir
 	SetOutPath "$PLUGINSDIR"
 	
@@ -112,7 +112,6 @@ Section "${APP_NAME}" CORE
 	WriteRegStr HKLM "${UNINSTALL_PATH}" "DisplayVersion" "${APP_VERSION}"
 	WriteRegStr HKLM "${UNINSTALL_PATH}" "Publisher" "${PUBLISHER}"
 	WriteRegStr HKLM "${UNINSTALL_PATH}" "DisplayIcon" "$INSTDIR\${EXE_NAME}"	
-	WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\${NODE_NAME}.exe" 		"RUNASADMIN"
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
 	CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${EXE_NAME}"
 SectionEnd
