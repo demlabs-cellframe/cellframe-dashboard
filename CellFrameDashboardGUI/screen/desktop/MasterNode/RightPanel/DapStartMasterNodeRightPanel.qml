@@ -174,7 +174,7 @@ DapRectangleLitAndShaded
                     DapContextMenu{}
                 }
 
-                DapCustomComboBox{
+                DapCertificatesComboBox{
                     id: typeCertificateCombobox
                     anchors.left: parent.left
                     anchors.right: parent.right

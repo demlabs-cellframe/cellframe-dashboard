@@ -189,7 +189,6 @@ Item {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 visible: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
-
                 Text
                 {
                     id: progressPercentText
