@@ -165,9 +165,12 @@ Item {
         //body
         Item
         {
+            property bool showProgress: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
+            property int progressItemsWidth: showProgress ? progressItem.width : 0
+
             Layout.topMargin: 8
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + progressItem.width
+            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + progressItemsWidth
             Layout.preferredHeight: 15
 
             DapRowInfoText
@@ -188,7 +191,7 @@ Item {
                 height: 15
                 anchors.right: parent.right
                 anchors.top: parent.top
-                visible: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
+                visible: parent.showProgress
 
                 Text
                 {
