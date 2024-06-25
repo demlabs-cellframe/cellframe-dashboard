@@ -203,32 +203,26 @@ Item {
                     text: " " + (logicNet.percentToRatio(syncPercent) * 100).toFixed(0) + "%"
                 }
 
-                Item
+
+                Image
                 {
                     id: progressSpinerItem
-                    width: 15
-                    height: 15
+
                     anchors.right: parent.right
-                    anchors.top: parent.top
+                    anchors.verticalCenter: parent.verticalCenter
+                    antialiasing: true
+                    mipmap: true
+                    source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
+                    // sourceSize: Qt.size(15,15)
+                    // source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
 
-                    Image
+                    NumberAnimation on rotation
                     {
-                        anchors.fill: parent
-                        antialiasing: true
-                        fillMode: Image.PreserveAspectFit
-                        sourceSize: Qt.size(24,24)
-                        source: "qrc:/Resources/" + pathTheme + "/icons/other/sync.svg"
-                        // sourceSize: Qt.size(15,15)
-                        // source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
-
-                        NumberAnimation on rotation
-                        {
-                            from: 0
-                            to: -360
-                            duration: 1000
-                            loops: Animation.Infinite
-                            running: true
-                        }
+                        from: 0
+                        to: -360
+                        duration: 1000
+                        loops: Animation.Infinite
+                        running: true
                     }
                 }
             }
