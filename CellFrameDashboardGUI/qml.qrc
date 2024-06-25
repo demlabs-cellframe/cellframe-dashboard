@@ -164,6 +164,7 @@
         <file>Resources/BlackTheme/icons/other/receipt_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/search.svg</file>
         <file>Resources/BlackTheme/icons/other/spinner_network.svg</file>
+        <file>Resources/BlackTheme/icons/other/loader.svg</file>
         <file>Resources/BlackTheme/icons/other/sync.svg</file>
         <file>Resources/BlackTheme/Illustratons/comingsoon_illustration.png</file>
         <file>Resources/BlackTheme/Illustratons/illustration_vpn-service.svg</file>
@@ -377,6 +378,7 @@
         <file>screen/desktop/MasterNode/DapMasterNodeTab.qml</file>
         <file>screen/desktop/MasterNode/DapMasterNodeScreen.qml</file>
         <file>screen/desktop/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapLoaderMasterNodeRightPanel.qml</file>
         <file>Resources/BlackTheme/icons/navigation/icon_master_node.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_info_orange.svg</file>
         <file>Resources/BlackTheme/icons/other/upload_icon.svg</file>

@@ -34,29 +34,6 @@ public:
     int getCurrentWalletIndex() const { return m_currentWalletIndex; }
     const QString& getCurrentWalletName() const { return m_currentWalletName; }
 
-    QQmlApplicationEngine *s_appEngine;
-    //Modules
-    QMap<QString, DapAbstractModule*> m_listModules;
-    QMap<QString, QObject*> m_listWorkers;
-
-    DapServiceController *s_serviceCtrl;   
-    // QByteArray m_walletList;
-
-
-    Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
-    int currentWalletIndex(){return m_currentWalletIndex;};
-    void setCurrentWalletIndex(int newIndex);
-    Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
-    QString currentWalletName(){return m_currentWalletName;}
-
-    QString testData{"test data"};
-
-    //workers
-    DateWorker * m_dateWorker;
-    StringWorker * m_stringWorker;
-    MathWorker * m_mathWorker;
-
-public:
     void initModules();
     void initWorkers();
     void restoreIndex();
@@ -68,21 +45,18 @@ public:
     QObject* getWorker(const QString &key);
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
-private:
-    void updateNetworkListModel();
-private:
-    QTimer *m_timerUpdateData;
-    QSettings *s_settings;
-    DapStringListModel* m_netListModel = nullptr;
+    QQmlApplicationEngine *s_appEngine;
 
-    bool m_firstDataLoad{false}; 
-    QStringList m_netList;
+    DapServiceController *s_serviceCtrl;   
 
-    QStringList m_walletList;
-    int m_currentWalletIndex{-1};
-    QString m_currentWalletName{""};
+    Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
+    int currentWalletIndex(){return m_currentWalletIndex;};
+    void setCurrentWalletIndex(int newIndex);
+    Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
+    QString currentWalletName(){return m_currentWalletName;}
 
-    ConfigWorker *m_configWorker = nullptr;
+    Q_PROPERTY (int isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
+    int isNodeWorking(){return m_isNodeWorking;};
 
 public slots:
     Q_INVOKABLE void updateListWallets();
@@ -102,6 +76,35 @@ signals:
     void sigFeeRcv(const QVariant &rcvData);
 
     void feeUpdateChanged();
+
+    void nodeWorkingChanged();
+private:
+    void updateNetworkListModel();
+private:
+
+    //Modules
+    QMap<QString, DapAbstractModule*> m_listModules;
+    QMap<QString, QObject*> m_listWorkers;
+
+    //workers
+    DateWorker * m_dateWorker;
+    StringWorker * m_stringWorker;
+    MathWorker * m_mathWorker;
+
+    QTimer *m_timerUpdateData;
+    QSettings *s_settings;
+    DapStringListModel* m_netListModel = nullptr;
+
+    bool m_firstDataLoad{false}; 
+    QStringList m_netList;
+
+    QStringList m_walletList;
+    int m_currentWalletIndex{-1};
+    QString m_currentWalletName{""};
+
+    ConfigWorker *m_configWorker = nullptr;
+
+    bool m_isNodeWorking = false;
 };
 
 #endif // DAPMODULESCONTROLLER_H

@@ -9,6 +9,19 @@ import "qrc:/widgets"
 DapPage {
 
     readonly property string startMasterNodePanel:  path + "/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml"
+    readonly property string loaderMasterNodePanel:  path + "/MasterNode/RightPanel/DapLoaderMasterNodeRightPanel.qml"
+
+    property var registrationStagesText: [
+        qsTr("Checking public key"),
+        qsTr("Updating configs"),
+        qsTr("Restarting node"),
+        qsTr("Creating order"),
+        qsTr("Adding node data in network and checking added data"),
+        qsTr("Creating order"),
+        qsTr("Checking stake result"),
+        qsTr("Sending stake hash for verify"),
+        qsTr("Checking all data")
+    ]
 
 
     Component{id: emptyRightPanel; Item{}}
