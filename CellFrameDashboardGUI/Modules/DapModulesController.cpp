@@ -127,6 +127,16 @@ void DapModulesController::rcvNetList(const QVariant &rcvData)
     m_netList = rcvData.toStringList();
     updateNetworkListModel();
     emit netListUpdated();
+    if(m_netList.isEmpty() && m_isNodeWorking)
+    {
+        m_isNodeWorking = false;
+        emit nodeWorkingChanged();
+    }
+    else if(!m_netList.isEmpty() && !m_isNodeWorking)
+    {
+        m_isNodeWorking = true;
+        emit nodeWorkingChanged();
+    }
 }
 
 void DapModulesController::updateNetworkListModel()
