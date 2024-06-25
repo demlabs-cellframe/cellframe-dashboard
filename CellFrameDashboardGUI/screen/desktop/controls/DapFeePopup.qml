@@ -26,6 +26,7 @@ Popup {
     property alias fee3Value : fee3Value
 
     property string network: ""
+    property string user_validatorFee: "0.00"
 
     property bool isLoading: false
 
@@ -37,8 +38,10 @@ Popup {
         "validator_fee": "0.00"
     }
 
+    property int extraHight: user_validatorFee !== feeStruct.validator_fee ? fee1Layout.implicitHeight + dapWarnText.contentHeight + 16*2 : 0
+
     width: 306
-    height: 298
+    height: 262 + extraHight
 
     parent: Overlay.overlay
     x: (parent.width - width) * 0.5
@@ -173,6 +176,7 @@ Popup {
                 Layout.fillWidth: true
                 Layout.topMargin: 12
                 spacing: 0
+                visible: user_validatorFee !== feeStruct.validator_fee
 
                 Text{
                     id:fee2Name
@@ -194,7 +198,7 @@ Popup {
                         anchors.fill: parent
                         textFont: mainFont.dapFont.medium14
                         textColor: currTheme.white
-                        fullText: feeStruct.validator_fee + " " + feeStruct.fee_ticker
+                        fullText: user_validatorFee + " " + feeStruct.fee_ticker
                         horizontalAlign: Text.AlignRight
                     }
                 }
@@ -240,6 +244,21 @@ Popup {
             Layout.fillWidth: true
             height: 1
             color: currTheme.rowHover
+        }
+
+        Text
+        {
+            id: dapWarnText
+            width: dialog.width - 32 * 2
+            Layout.fillWidth: true
+            Layout.topMargin: 16
+            font: mainFont.dapFont.medium14
+            color: currTheme.white
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
+            text: qsTr("Your validator offers a commission of %1, but you want to pay %2").arg(feeStruct.validator_fee).arg(user_validatorFee)
+            visible: user_validatorFee !== feeStruct.validator_fee
         }
 
         RowLayout

@@ -91,6 +91,7 @@ DapNewPaymentMainRightPanelForm
                         console.log("dapWalletMessagePopup.smartOpen")
                         walletModule.stopUpdateFee()
                         dapWalletMessagePopup.network = dapComboboxNetwork.displayText
+                        dapWalletMessagePopup.user_validatorFee = dapFeeController.currentValue
                         dapWalletMessagePopup.smartOpen(
                                     qsTr("Confirming the transaction"),
                                     qsTr("Attention, the transaction fee will be "))

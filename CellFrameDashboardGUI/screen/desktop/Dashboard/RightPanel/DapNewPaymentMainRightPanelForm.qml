@@ -20,6 +20,8 @@ DapRectangleLitAndShaded
     /// @param dapComboBoxTokenModel Token combobox model.
     property alias dapComboBoxTokenModel: comboboxToken.model
 
+    property alias dapFeeController: feeController
+
     property alias dapComboboxNetwork: comboboxNetwork
     property alias dapComboboxChain: comboboxChain
 
@@ -514,6 +516,60 @@ DapRectangleLitAndShaded
             }
         }
 
+        // Validator fee
+        Rectangle
+        {
+            id: frameValidatorFee
+            Layout.topMargin: 20
+            Layout.fillWidth: true
+            color: currTheme.mainBackground
+            height: 30
+            Text
+            {
+                id: textValidatorFee
+                color: currTheme.white
+                text: qsTr("Validator fee")
+                font: mainFont.dapFont.medium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 16
+            }
+        }
+
+        DapFeeComponent
+        {
+            id: feeController
+
+            Layout.fillWidth: true
+            Layout.topMargin: 20
+            Layout.leftMargin: 16
+            Layout.rightMargin: 16
+
+            Component.onCompleted:
+            {
+                var min = 0.00000000000000001
+                var max = 0.05
+                var median = 0.05
+
+                var temp_ranges =
+                        {
+                    "veryLow": min,
+                    "low": (median - min)/2,
+                    "middle": median,
+                    "high": median * 1.5,
+                    "veryHigh": median * 2
+                }
+                rangeValues = temp_ranges
+                valueName = "mtCELL"
+                powerRound = 3
+                spinBoxStep = 0.005
+
+                setUp()
+            }
+        }
+
+
         Item{Layout.fillHeight: true}
 
         Text
@@ -587,6 +643,8 @@ DapRectangleLitAndShaded
                 frameInputAmountPayment.visible = false
                 frameRecipientWallet.visible = false
                 frameRecipientWalletAddress.visible = false
+                frameValidatorFee.visible = false
+                feeController.visible = false
                 textNotEnoughTokensWarning.visible = false
                 buttonSend.visible = false
             }
@@ -596,6 +654,8 @@ DapRectangleLitAndShaded
                 frameInputAmountPayment.visible = true
                 frameRecipientWallet.visible = true
                 frameRecipientWalletAddress.visible = true
+                frameValidatorFee.visible = true
+                feeController.visible = true
                 textNotEnoughTokensWarning.visible = true
                 buttonSend.visible = true
             }
