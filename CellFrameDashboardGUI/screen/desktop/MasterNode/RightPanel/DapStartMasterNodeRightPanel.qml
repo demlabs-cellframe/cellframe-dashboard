@@ -530,9 +530,9 @@ DapRectangleLitAndShaded
                 onClicked:
                 {
                     var result = {
-                        "isUploadCert" : certificateLogic !== "newCertificate",
-                        "certName" : certificateLogic !== "newCertificate" ? certificateName.text : newCertificateName.text,
-                        "sign" : certificateLogic !== "newCertificate" ? signatureName.text : typeCertificateCombobox.displayText,
+                        "isUploadCert" : false, //certificateLogic !== "newCertificate",
+                        "certName" : nodeMasterModule.currentNetwork +".test11",// certificateLogic !== "newCertificate" ? certificateName.text : newCertificateName.text,
+                        "sign" : "sig_dil",//certificateLogic !== "newCertificate" ? signatureName.text : typeCertificateCombobox.displayText,
                         "walletName" : walletModule.currentWalletName,
                         "walletAddress" : walletModule.getAddressWallet(nodeMasterModule.currentNetwork, walletModule.currentWalletName),
                         "network" : nodeMasterModule.currentNetwork,
@@ -540,15 +540,26 @@ DapRectangleLitAndShaded
                         "feeToken" : feeController.valueName,
                         "nodeIP" : nodeIpText.text,
                         "port" : nodePortText.text,
-                        "stakeValue" : textInputStakeValue.text,
-                        "stakeToken" : textInputStakeToken.text
+                        "stakeValue" : "10.0",//textInputStakeValue.text,
+                        "stakeToken" : textInputStakeToken.text,
+                        "stakeFee": walletModule.getFee(nodeMasterModule.currentNetwork).validator_fee
                     }
 
                     nodeMasterModule.startMasterNode(result)
+                    dapRightPanel.push(loaderMasterNodePanel)
                 }
             }
         }
 
+    }
+
+    Component.onCompleted:
+    {
+        walletModule.startUpdateFee()
+    }
+    Component.onDestruction:
+    {
+        walletModule.stopUpdateFee()
     }
 }
 
