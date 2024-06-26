@@ -324,6 +324,18 @@ void DapServiceController::initServices()
 
     for(auto& service: qAsConst(m_servicePool))
     {
+        DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);
+        if(serviceCommand->isNeedListNetworks())
+        {
+            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, serviceCommand, &DapAbstractCommand::rcvListNetworks);
+
+        }
+
+        if(serviceCommand->isNeedListWallets())
+        {
+            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, serviceCommand, &DapAbstractCommand::rcvListWallets);
+        }
+
         if(m_onceThreadList.contains(service->getName()))
         {
             m_pServer->addService(service);
@@ -331,17 +343,6 @@ void DapServiceController::initServices()
         }
         QThread * thread = new QThread(m_pServer);
         service->moveToThread(thread);
-
-        DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);
-        if(serviceCommand->isNeedListNetworks())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, serviceCommand, &DapAbstractCommand::rcvListNetworks);
-
-        }
-        if(serviceCommand->isNeedListWallets())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, serviceCommand, &DapAbstractCommand::rcvListWallets);
-        }
 
         connect(thread, &QThread::finished, m_pServer, &QObject::deleteLater);
         connect(thread, &QThread::finished, thread, &QObject::deleteLater);

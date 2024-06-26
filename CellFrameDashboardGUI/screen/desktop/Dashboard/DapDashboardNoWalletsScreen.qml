@@ -69,7 +69,7 @@ Page
                     {
                         font: mainFont.dapFont.medium14
                         color: currTheme.white
-                        text: qsTr("Already have a wallet ?")
+                        text: qsTr("Already have a wallet?")
                     }
                     Text
                     {
