@@ -11,7 +11,6 @@ Item
     property string headerText: qsTr("What is needed to set up a master node?")
     property string variableText: qsTr("At least 10000 $%1 ready for staking or at least 10 %2 (received for prior stakes in total of at least 10000 $%1)")
 
-    anchors.fill: parent
     anchors.margins: 16
 
     ListModel

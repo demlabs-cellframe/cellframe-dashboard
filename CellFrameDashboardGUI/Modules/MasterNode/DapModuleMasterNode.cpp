@@ -277,9 +277,28 @@ void DapModuleMasterNode::networkListUpdateSlot()
 void DapModuleMasterNode::addNetwork(const QString &net)
 {
     MasterNodeInfo info;
-    info.isMaster = net == "Backbone";
-    info.nodeAddress = "1234:5678";
     // TODO
+    // insert data for master node
+
+    // temporary random data:
+    info.isMaster = net == "Backbone";
+    info.publicKey = "0xB236424A551FDE2170ACACE905582B7772234C029C621A023EC04DC6C22B74C2";
+    info.nodeAddress = "8343::1E4B::428B::101A";
+    info.nodeIP = "127.0.0.1";
+    info.nodePort = "8079";
+    info.stakeAmount = "22.0921931283 mCELL";
+    info.stakeHash = "0xF01C34E60F4BF387EBC07451F988BA07EB8EAAE9B184870A16BF495E53523764";
+    info.walletName = "MainWallet";
+    info.walletAddr = "0xB236424A551FDE2170ACACE905582B7772234C029C621A023EC04DC6C22B74C2";
+
+    info.validator.availabilityOrder = true;
+    info.validator.nodePresence = true;
+    info.validator.nodeWeight = "18.21239088%";
+    info.validator.nodeStatus = "active";
+    info.validator.blocksSigned = "1249";
+    info.validator.totalRewards = "0.45 CELL";
+    info.validator.networksBlocks = "8042";
+    // finish temporary data
 
     m_masterNodeInfo.insert(net, info);
 }
@@ -293,4 +312,37 @@ void DapModuleMasterNode::tryStopCreationMasterNode()
     /// 1 - Problems with changing the config
     ///
 
+}
+
+QVariantMap DapModuleMasterNode::masterNodeData() const
+{
+    MasterNodeInfo info = m_masterNodeInfo[m_currentNetwork];
+    QVariantMap result;
+
+    result.insert("publicKey", info.publicKey);
+    result.insert("nodeAddress", info.nodeAddress);
+    result.insert("nodeIP", info.nodeIP);
+    result.insert("nodePort", info.nodePort);
+    result.insert("stakeAmount", info.stakeAmount);
+    result.insert("stakeHash", info.stakeHash);
+    result.insert("walletName", info.walletName);
+    result.insert("walletAddr", info.walletAddr);
+
+    return result;
+}
+
+QVariantMap DapModuleMasterNode::validatorData() const
+{
+    MasterNodeValidator info = m_masterNodeInfo[m_currentNetwork].validator;
+    QVariantMap result;
+
+    result.insert("availabilityOrder", info.availabilityOrder);
+    result.insert("nodePresence", info.nodePresence);
+    result.insert("nodeWeight", info.nodeWeight);
+    result.insert("nodeStatus", info.nodeStatus);
+    result.insert("blocksSigned", info.blocksSigned);
+    result.insert("totalRewards", info.totalRewards);
+    result.insert("networksBlocks", info.networksBlocks);
+
+    return result;
 }

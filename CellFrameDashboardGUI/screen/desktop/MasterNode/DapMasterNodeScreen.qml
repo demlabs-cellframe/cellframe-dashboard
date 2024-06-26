@@ -23,7 +23,19 @@ Page
 
     ListModel { id: networkTabsModel }
 
-
+    state: "DEFAULT_SCREEN"
+    states: [
+        State {
+            name: "DEFAULT_SCREEN"
+            PropertyChanges { target: baseScreen; visible: true }
+            PropertyChanges { target: masterScrollView; visible: false }
+        },
+        State {
+            name: "IS_MASTER_SCREEN"
+            PropertyChanges { target: baseScreen; visible: false }
+            PropertyChanges { target: masterScrollView; visible: true }
+        }
+    ]
 
     DapRectangleLitAndShaded
     {
@@ -36,7 +48,6 @@ Page
         contentData:
             Item
         {
-            width: parent.width
             anchors.fill: parent
 
             ListView
@@ -44,13 +55,16 @@ Page
                 id: tabsView
                 width: parent.width
                 height: 42
+                anchors.top: parent.top
+                anchors.left: parent.left
                 orientation: ListView.Horizontal
                 model: networkTabsModel
                 interactive: false
                 onCurrentIndexChanged:
                 {
                     currentNetwork = networkTabsModel.get(currentIndex).net
-                    nodeMasterModule.setCurrentNetwork(currentNetwork)
+                    nodeMasterModule.currentNetwork = currentNetwork
+                    dapMasterNodeScreen.state = networkTabsModel.get(currentIndex).isMaster ? "IS_MASTER_SCREEN" : "DEFAULT_SCREEN"
                 }
 
                 delegate:
@@ -103,6 +117,16 @@ Page
 
                 Rectangle
                 {
+                    id: tabsBottomline
+                    width: parent.width
+                    height: 1
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    color: currTheme.grid
+                }
+
+                Rectangle
+                {
                     anchors.top: parent.bottom
                     anchors.topMargin: -3
                     width: networkTabsModel.count > 0 ? tabsView.currentItem.width : 0
@@ -110,6 +134,7 @@ Page
 
                     radius: 8
                     x: networkTabsModel.count > 0 ? tabsView.currentItem.x : 0
+                    z: parent.z + 1
                     color: currTheme.lime
 
                     Behavior on x {NumberAnimation{duration: 200}}
@@ -117,25 +142,39 @@ Page
                 }
             }
 
-            Item
+            // Default screen
+            DapMainMasterNodeScreen
             {
-                id: screensContent
-                width: parent.width
+                id: baseScreen
+                anchors.top: tabsView.bottom
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+            }
+
+            // is master node Screen
+            ScrollView
+            {
+                id: masterScrollView
                 anchors.fill: parent
                 anchors.topMargin: tabsView.height
-                visible: networkTabsModel.count > 0
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                clip: true
 
-                DapMainMasterNodeScreen
+                contentData:
+                    ColumnLayout
                 {
-                    id: baseScreen
-                    visible: currentIndex < 0 ? false : !networkTabsModel.get(currentIndex).isMaster
-                }
-
-                DapMasterNodeInfoScreen
-                {
-                    id: masterNodeScreen
+                    id: screensContent
                     width: parent.width
-                    visible: currentIndex < 0 ? false : networkTabsModel.get(currentIndex).isMaster
+                    spacing: 0
+
+                    DapIsMasterNodeScreen
+                    {
+                        id: masterNodeScreen
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignTop
+                    }
                 }
             }
         }

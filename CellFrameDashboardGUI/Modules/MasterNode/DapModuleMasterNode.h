@@ -36,7 +36,7 @@ public:
     Q_PROPERTY(QString mainTokenName READ mainTokenName NOTIFY currentNetworkChanged)
     QString mainTokenName() const;
 
-    Q_PROPERTY(QString currentNetwork READ currentNetwork NOTIFY currentNetworkChanged)
+    Q_PROPERTY(QString currentNetwork READ currentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
     QString currentNetwork() const { return m_currentNetwork;}
     void setCurrentNetwork(const QString& networkName);
 
@@ -48,12 +48,19 @@ public:
     Q_PROPERTY(QString networksList READ networksList NOTIFY networksListChanged)
     QString networksList() const;
 
+    Q_PROPERTY(QVariantMap masterNodeData READ masterNodeData NOTIFY masterNodeDataChanged)
+    QVariantMap masterNodeData() const;
+
+    Q_PROPERTY(QVariantMap validatorData READ validatorData NOTIFY validatorDataChanged)
+    QVariantMap validatorData() const;
 
 signals:
     void currentNetworkChanged();
     void creationStageChanged();
     void masterNodeCreated();
     void networksListChanged();
+    void masterNodeDataChanged();
+    void validatorDataChanged();
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
     void nodeRestart();
@@ -106,13 +113,14 @@ private:
     struct MasterNodeInfo
     {
         bool isMaster;
-        QString walletName;
         QString publicKey;
         QString nodeAddress;
         QString nodeIP;
         QString nodePort;
         QString stakeAmount;
-        QString hash;
+        QString stakeHash;
+        QString walletName;
+        QString walletAddr;
         MasterNodeValidator validator;
         MasterNodeVPN vpn;
         MasterNodeDEX dex;
