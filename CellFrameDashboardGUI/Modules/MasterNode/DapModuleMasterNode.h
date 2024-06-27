@@ -47,7 +47,10 @@ public:
     Q_PROPERTY(QString stakeTokenName READ stakeTokenName NOTIFY currentNetworkChanged)
     QString stakeTokenName() const;
 
-    Q_PROPERTY(QString currentNetwork READ currentNetwork NOTIFY currentNetworkChanged)
+    Q_PROPERTY(QString mainTokenName READ mainTokenName NOTIFY currentNetworkChanged)
+    QString mainTokenName() const;
+
+    Q_PROPERTY(QString currentNetwork READ currentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
     QString currentNetwork() const { return m_currentNetwork;}
     void setCurrentNetwork(const QString& networkName);
 
@@ -56,13 +59,26 @@ public:
 
     Q_INVOKABLE int startMasterNode(const QVariantMap& value);
 
+    Q_PROPERTY(QString networksList READ networksList NOTIFY networksListChanged)
+    QString networksList() const;
+
+    Q_PROPERTY(QVariantMap masterNodeData READ masterNodeData NOTIFY masterNodeDataChanged)
+    QVariantMap masterNodeData() const;
+
+    Q_PROPERTY(QVariantMap validatorData READ validatorData NOTIFY validatorDataChanged)
+    QVariantMap validatorData() const;
+
 signals:
     void currentNetworkChanged();
     void creationStageChanged();
     void masterNodeCreated();
+    void networksListChanged();
+    void masterNodeDataChanged();
+    void validatorDataChanged();
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
     void nodeRestart();
+    void networkListUpdateSlot();
 
     void workNodeChanged();
     void addedNode(const QVariant &rcvData);
@@ -72,6 +88,7 @@ private slots:
     void pespondMempoolCheck(const QVariant &rcvData);
 
     void mempoolCheck();
+
 private:
     void createMasterNode();
     void stageComplated();
@@ -91,8 +108,8 @@ private:
     void tryRestartNode();
     void startWaitingNode();
 
-//    void tryPublishingNode();
-//    void tryBlockToken();
+    //    void tryPublishingNode();
+    //    void tryBlockToken();
 
 private:
     DapModulesController  *m_modulesCtrl;
@@ -105,14 +122,58 @@ private:
     QVariantMap m_currantStartMaster;
     QList<LaunchStage> m_startStage;
 
+    struct MasterNodeValidator
+    {
+        bool availabilityOrder;
+        bool nodePresence;
+        QString nodeWeight;
+        QString nodeStatus;
+        QString blocksSigned;
+        QString totalRewards;
+        QString networksBlocks;
+    };
+
+    struct MasterNodeVPN
+    {
+    };
+
+    struct MasterNodeDEX
+    {
+    };
+
+    struct MasterNodeInfo
+    {
+        bool isMaster;
+        QString publicKey;
+        QString nodeAddress;
+        QString nodeIP;
+        QString nodePort;
+        QString stakeAmount;
+        QString stakeHash;
+        QString walletName;
+        QString walletAddr;
+        MasterNodeValidator validator;
+        MasterNodeVPN vpn;
+        MasterNodeDEX dex;
+    };
+
     const int TIME_OUT_CHECK_STAKE = 5000;
 
-    const QMap<QString, QString> m_stakeTokens = {{"Backbone","mCELL"},
-                                                  {"KelVPN","mKEL"},
-                                                  {"raiden","mtCELL"},
-                                                  {"riemann","mtKEL"},
-                                                  {"mileena","mtMIL"},
-                                                  {"subzero","mtCELL"}};
+    const QMap<QString, QPair<QString, QString>> m_tokens = {{"Backbone", qMakePair(QString("mCELL"), QString("CELL"))},
+                                                             {"KelVPN", qMakePair(QString("mKEL"), QString("KEL"))},
+                                                             {"raiden", qMakePair(QString("mtCELL"), QString("tCELL"))},
+                                                             {"riemann", qMakePair(QString("mtKEL"), QString("tKEL"))},
+                                                             {"mileena", qMakePair(QString("mtMIL"), QString("tMIL"))},
+                                                             {"subzero", qMakePair(QString("mtCELL"), QString("tCELL"))}};
+
+
+
+    QMap<QString, MasterNodeInfo> m_masterNodeInfo;
+
+    void addNetwork(const QString &net);
+    bool checkTokenName() const;
+
+
 
     const QList<LaunchStage> PATTERN_STAGE = {//LaunchStage::CHECK_PUBLIC_KEY,
 //                                               LaunchStage::UPDATE_CONFIG,

@@ -6,49 +6,120 @@ import "qrc:/widgets"
 import "../../"
 import "qrc:/"
 
-Page
+Item
 {
-    id: dapMasterNodeScreen
+    property string headerText: qsTr("What is needed to set up a master node?")
+    property string variableText: qsTr("At least 10000 $%1 ready for staking or at least 10 %2 (received for prior stakes in total of at least 10000 $%1)")
 
-    background: Rectangle
+    anchors.margins: 16
+
+    ListModel
     {
-        color: currTheme.mainBackground
+        id: textBlocks
+
+        ListElement
+        {
+            head: qsTr("— A machine that will stay running 24/7")
+            body: qsTr("A home PC, a VPS or a Raspberry Pi will be suitable.
+A mechanism has been developed to track the participation of master nodes in the consensus, which takes into account inaccessible nodes at the time of voting. Despite this, your node must be online 24/7, otherwise it will not earn validators fees.")
+        }
+        ListElement
+        {
+            head: qsTr("— Linux OS or MacOS")
+            body: qsTr("At the moment, it is possible to set up a master node on Linux and MacOS. In the future, support for Windows and Android will be added as well.")
+        }
+        ListElement
+        {
+            head: qsTr("— A public IP address")
+            body: qsTr("While it is possible to use a private IP address, this will complicate the maintenance process. In the case of a private one, tracking of IP address changes will be required, as well as timely updates to the public node list. Otherwise, the node will not participate in consensus and will not earn validators fees.")
+        }
+        ListElement
+        {
+            head: qsTr("— IPv4 protocol")
+            body: qsTr("The option to use an IP address with IPv6 protocol will be implemented in the future.")
+        }
+        ListElement
+        {
+            head: qsTr("— Your Backbone wallet balance must have")
+            body: ""
+        }
     }
 
-    DapRectangleLitAndShaded
+    Text
     {
-        anchors.fill: parent
-        color: currTheme.secondaryBackground
-        radius: currTheme.frameRadius
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+        id: header
+        width: parent.width
+        anchors.left: parent.left
+        anchors.top: parent.top
+        text: headerText
+        font: mainFont.dapFont.medium14
+        color: currTheme.white
+        wrapMode: Text.WordWrap
+    }
 
-        contentData:
-        Item
+    ListView
+    {
+        width: parent.width
+        anchors.left: parent.left
+        anchors.top: header.bottom
+        anchors.bottom: startMasterNode.top
+        anchors.topMargin: 16
+        anchors.bottomMargin: 16
+        clip: true
+        model: textBlocks
+        spacing: 16
+
+        delegate:
+            Item
         {
-            anchors.fill: parent
+            width: parent.width
+            height: headText.contentHeight + 8 + bodyText.contentHeight
 
-
-            DapButton
+            Text
             {
-                id: startMasterNode
+                id: headText
+                width: parent.width
+                anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 16
-                anchors.right: parent.right
-                anchors.rightMargin: 16
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 16
+                text: head
+                font: mainFont.dapFont.medium12
+                color: currTheme.white
+                wrapMode: Text.WordWrap
+            }
 
-                implicitHeight: 36
-                textButton: qsTr("Start Master Node")
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                fontButton: mainFont.dapFont.medium14
-                onClicked:
-                {
-                    dapRightPanel.push(startMasterNodePanel)
-                }
+            Text
+            {
+                id: bodyText
+                width: parent.width
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                text: body
+                font: mainFont.dapFont.regular12
+                color: currTheme.white
+                wrapMode: Text.WordWrap
             }
         }
+    }
+
+    DapButton
+    {
+        id: startMasterNode
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        implicitHeight: 36
+        textButton: qsTr("Start Master Node")
+        horizontalAligmentText: Text.AlignHCenter
+        indentTextRight: 0
+        fontButton: mainFont.dapFont.medium14
+        onClicked:
+        {
+            dapRightPanel.push(startMasterNodePanel)
+        }
+    }
+
+    function updateText()
+    {
+        textBlocks.get(textBlocks.count-1).body = variableText.arg(currentMainToken).arg(currentStakeToken)
     }
 }

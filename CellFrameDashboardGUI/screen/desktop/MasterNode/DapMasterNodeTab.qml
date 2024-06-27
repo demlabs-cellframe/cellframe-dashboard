@@ -26,6 +26,7 @@ DapPage {
 
     Component{id: emptyRightPanel; Item{}}
 
+
     dapHeader.initialItem: DapSearchTopPanel{
 
         isVisibleSearch: false
@@ -49,6 +50,7 @@ DapPage {
     {
 
     }
+
 
 
 }
