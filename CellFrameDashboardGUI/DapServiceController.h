@@ -66,7 +66,7 @@
 #include "handlers/DapCheckTransactionsQueueCommand.h"
 #include "handlers/DapServiceInitCommand.h"
 #include "handlers/DapAddNodeCommand.h"
-
+#include "handlers/DapCheckQueueTransactionCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -295,6 +295,7 @@ signals:
     void historyServiceInitRcv(const QVariant& rcvData);
     void walletsServiceInitRcv(const QVariant& rcvData);
     void rcvAddNode(const QVariant& rcvData);
+    void rcvCheckQueueTransaction(const QVariant& rcvData);
 
 private slots:
     /// Register command.

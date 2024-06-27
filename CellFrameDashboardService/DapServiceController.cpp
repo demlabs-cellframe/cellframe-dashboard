@@ -74,6 +74,7 @@
 #include "handlers/stackCommand/DapVoitingVoteCommandStack.h"
 #include "handlers/DapVoitingListCommand.h"
 #include "handlers/DapVoitingDumpCommand.h"
+#include "handlers/DapCheckQueueTransactionCommand.h"
 
 #include "TransactionQueue/DapTransactionQueueController.h"
 
@@ -315,12 +316,13 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapAddNodeCommand                    ("DapAddNodeCommand"                    , nullptr));
     m_servicePool.append(new DapGetServiceLimitsCommand           ("DapGetServiceLimitsCommand"           , nullptr));
     m_servicePool.append(new DapVoitingCreateCommandStack         ("DapVoitingCreateCommand"              , nullptr));
-    m_servicePool.append(new DapVoitingVoteCommandStack                ("DapVoitingVoteCommand"                , nullptr));
+    m_servicePool.append(new DapVoitingVoteCommandStack           ("DapVoitingVoteCommand"                , nullptr));
     m_servicePool.append(new DapVoitingListCommand                ("DapVoitingListCommand"                , nullptr));
     m_servicePool.append(new DapVoitingDumpCommand                ("DapVoitingDumpCommand"                , nullptr));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
     m_servicePool.append(new DapServiceInitCommand                ("DapHistoryServiceInitCommand"         , m_pServer));
     m_servicePool.append(new DapServiceInitCommand                ("DapWalletServiceInitCommand"          , m_pServer));
+    m_servicePool.append(new DapCheckQueueTransactionCommand      ("DapCheckQueueTransactionCommand"      , nullptr));
 
     for(auto& service: qAsConst(m_servicePool))
     {

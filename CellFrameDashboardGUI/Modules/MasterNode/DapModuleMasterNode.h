@@ -32,12 +32,19 @@ class DapModuleMasterNode : public DapAbstractModule
     {
         CHECK_PUBLIC_KEY = 0,
         UPDATE_CONFIG,
-//        TRY_RESTART_NODE,
         RESTARTING_NODE,
         ADDINNG_NODE_DATA,
         SENDING_STAKE,
         CHECKING_STAKE,
         CHECKING_ALL_DATA
+    };
+
+    enum TransctionStage
+    {
+        UNKNOWN = 0,
+        QUEUE,
+        MEMPOOL,
+        CHECK
     };
 
     Q_OBJECT
@@ -67,11 +74,12 @@ private slots:
     void workNodeChanged();
     void addedNode(const QVariant &rcvData);
 
-    void pespondStakeDelegate(const QVariant &rcvData);
-    void pespondCheckStakeDelegate(const QVariant &rcvData);
-    void pespondMempoolCheck(const QVariant &rcvData);
+    void respondStakeDelegate(const QVariant &rcvData);
+    void respondCheckStakeDelegate(const QVariant &rcvData);
+    void respondMempoolCheck(const QVariant &rcvData);
 
     void mempoolCheck();
+    void checkStake();
 private:
     void createMasterNode();
     void stageComplated();
@@ -90,9 +98,6 @@ private:
     void tryUpdateNetworkConfig();
     void tryRestartNode();
     void startWaitingNode();
-
-//    void tryPublishingNode();
-//    void tryBlockToken();
 
 private:
     DapModulesController  *m_modulesCtrl;
@@ -114,13 +119,15 @@ private:
                                                   {"mileena","mtMIL"},
                                                   {"subzero","mtCELL"}};
 
-    const QList<LaunchStage> PATTERN_STAGE = {//LaunchStage::CHECK_PUBLIC_KEY,
-//                                               LaunchStage::UPDATE_CONFIG,
-//                                               LaunchStage::RESTARTING_NODE,
-//                                               LaunchStage::CREATING_ORDER,
-//                                               LaunchStage::ADDINNG_NODE_DATA,
+    const QList<LaunchStage> PATTERN_STAGE = {LaunchStage::CHECK_PUBLIC_KEY,
+                                               LaunchStage::UPDATE_CONFIG,
+                                               LaunchStage::RESTARTING_NODE,
+                                               LaunchStage::ADDINNG_NODE_DATA,
                                                LaunchStage::SENDING_STAKE,
                                                LaunchStage::CHECKING_STAKE,
-                                               /*LaunchStage::RESTARTING_NODE,
-                                               LaunchStage::CHECKING_ALL_DATA*/};
+                                               LaunchStage::RESTARTING_NODE,
+                                               LaunchStage::CHECKING_ALL_DATA};
+
+    const QString STAKE_HASH_KEY = "stakeHash";
+    const QString QUEUE_HASH_KEY = "queueHash";
 };
