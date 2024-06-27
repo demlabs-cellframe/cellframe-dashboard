@@ -165,9 +165,12 @@ Item {
         //body
         Item
         {
+            property bool showProgress: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
+            property int progressItemsWidth: showProgress ? progressItem.width : 0
+
             Layout.topMargin: 8
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + stateIndicator.width
+            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + progressItemsWidth
             Layout.preferredHeight: 15
 
             DapRowInfoText
@@ -176,36 +179,56 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 height: parent.height
-
                 staticText.text: qsTr("State: ")
-                dynamicText.text: logicNet.percentToRatio(syncPercent) < 1.0 ? networkState + " " + (logicNet.percentToRatio(syncPercent) * 100).toFixed(0) + "%" : networkState
+                dynamicText.text: displayNetworkState
                 onTextChangedSign: buttonNetwork.setText()
             }
 
             Item
             {
-                id: stateIndicator
-                width: 15
+                id: progressItem
+                width: progressPercentText.implicitWidth + progressSpinerItem.width
                 height: 15
                 anchors.right: parent.right
                 anchors.top: parent.top
-                visible: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
+                visible: parent.showProgress
 
-                Image
+                Text
                 {
-                    id: syncIcon
-                    anchors.fill: parent
-                    sourceSize: Qt.size(24,24)
-                    antialiasing: true
-                    fillMode: Image.PreserveAspectFit
-                    source: "qrc:/Resources/" + pathTheme + "/icons/other/sync.svg"
+                    id: progressPercentText
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    font: mainFont.dapFont.regular12
+                    color: currTheme.white
+                    text: " " + (logicNet.percentToRatio(syncPercent) * 100).toFixed(0) + "%"
+                }
 
-                    NumberAnimation on rotation {
-                        from: 0
-                        to: -360
-                        duration: 1000
-                        loops: Animation.Infinite
-                        running: true
+                Item
+                {
+                    id: progressSpinerItem
+                    width: 15
+                    height: 15
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+
+                    Image
+                    {
+                        anchors.fill: parent
+                        antialiasing: true
+                        fillMode: Image.PreserveAspectFit
+                        sourceSize: Qt.size(24,24)
+                        source: "qrc:/Resources/" + pathTheme + "/icons/other/sync.svg"
+                        // sourceSize: Qt.size(15,15)
+                        // source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
+
+                        NumberAnimation on rotation
+                        {
+                            from: 0
+                            to: -360
+                            duration: 1000
+                            loops: Animation.Infinite
+                            running: true
+                        }
                     }
                 }
             }
@@ -234,7 +257,7 @@ Item {
             Layout.preferredHeight: 15
 
             staticText.text: qsTr("Target state: ")
-            dynamicText.text: targetState
+            dynamicText.text: displayTargetState
             onTextChangedSign: buttonNetwork.setText()
         }
 
@@ -292,8 +315,3 @@ Item {
         }
     }
 }
-
-
-
-
-
