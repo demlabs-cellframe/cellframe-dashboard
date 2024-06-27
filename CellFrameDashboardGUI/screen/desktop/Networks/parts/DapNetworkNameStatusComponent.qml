@@ -11,6 +11,7 @@ Item
 
     anchors.fill: parent
 
+    // spiner
     Item
     {
         width: 15
@@ -24,12 +25,15 @@ Item
         {
             id: syncIcon
             anchors.fill: parent
-            sourceSize: Qt.size(24,24)
             antialiasing: true
             fillMode: Image.PreserveAspectFit
+            sourceSize: Qt.size(24,24)
             source: "qrc:/Resources/" + pathTheme + "/icons/other/sync.svg"
+            // sourceSize: Qt.size(15,15)
+            // source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
 
-            NumberAnimation on rotation {
+            NumberAnimation on rotation
+            {
                 from: 0
                 to: -360
                 duration: 1000
@@ -71,7 +75,6 @@ Item
             sourceSize: Qt.size(8,8)
             antialiasing: true
             fillMode: Image.PreserveAspectFit
-
             source: stateOfNetwork === "NET_STATE_ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
                                                           stateOfNetwork !== stateOfTarget ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
                                                                                          stateOfNetwork === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
@@ -87,8 +90,7 @@ Item
         anchors.right: nameAndIndicatorItem.right
         anchors.top: nameAndIndicatorItem.bottom
         anchors.topMargin: 3
-
-        visible: logicNet.percentToRatio(percentOfSync) < 1.0
+        visible: !(stateOfNetwork === "NET_STATE_OFFLINE" || stateOfNetwork === "NET_STATE_ONLINE")
 
         Rectangle
         {

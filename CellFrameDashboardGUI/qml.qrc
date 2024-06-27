@@ -391,6 +391,7 @@
         <file>screen/desktop/Networks/parts/DapNetworkNameStatusComponent.qml</file>
         <file>screen/desktop/MasterNode/DapMainMasterNodeScreen.qml</file>
         <file>screen/desktop/controls/DapCertificatesComboBox.qml</file>
+        <file>Resources/BlackTheme/icons/other/sync_15x15.svg</file>
         <file>screen/desktop/MasterNode/parts/DapIsMasterNodeScreen.qml</file>
     </qresource>
 </RCC>
