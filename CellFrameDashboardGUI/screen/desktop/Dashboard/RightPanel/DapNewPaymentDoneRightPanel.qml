@@ -25,7 +25,7 @@ DapRightPanelDone
         {
             messageImage = iconBad
             headerText = qsTr("Error")
-            messageText = commandResult.errorMessage
+            messageText = commandResult.error
         }
     }
 }
