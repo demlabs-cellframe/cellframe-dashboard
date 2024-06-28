@@ -10,23 +10,47 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
 {
     connect(s_serviceCtrl, &DapServiceController::certificateManagerOperationResult, this, &DapModuleMasterNode::respondCreateCertificate);
     connect(s_serviceCtrl, &DapServiceController::nodeRestart, this, &DapModuleMasterNode::nodeRestart);
-    connect(s_serviceCtrl, &DapServiceController::rcvAddNode, this, &DapModuleMasterNode::addedNode);
-    connect(s_serviceCtrl, &DapServiceController::srvStakeDelegateCreated, this, &DapModuleMasterNode::pespondStakeDelegate);
+    connect(m_modulesCtrl, &DapModulesController::netListUpdated, this, &DapModuleMasterNode::networkListUpdateSlot);
 
+    connect(s_serviceCtrl, &DapServiceController::rcvAddNode, this, &DapModuleMasterNode::addedNode);
+    connect(s_serviceCtrl, &DapServiceController::srvStakeDelegateCreated, this, &DapModuleMasterNode::respondStakeDelegate);
+    connect(s_serviceCtrl, &DapServiceController::rcvCheckQueueTransaction, this, &DapModuleMasterNode::respondCheckStakeDelegate);
 
     connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, &DapModuleMasterNode::workNodeChanged);
-    connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::mempoolCheck);
+    connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
 
+}
+
+bool DapModuleMasterNode::checkTokenName() const
+{
+    return !m_currentNetwork.isEmpty() && m_tokens.contains(m_currentNetwork);
 }
 
 QString DapModuleMasterNode::stakeTokenName() const
 {
-    if(m_currentNetwork.isEmpty() || !m_stakeTokens.contains(m_currentNetwork))
-    {
-        return "-";
-    }
-    return m_stakeTokens[m_currentNetwork];
+    return checkTokenName() ? m_tokens[m_currentNetwork].first : "-";
 }
+
+QString DapModuleMasterNode::mainTokenName() const
+{
+    return checkTokenName() ? m_tokens[m_currentNetwork].second : "-";
+}
+
+QString DapModuleMasterNode::networksList() const
+{
+    QJsonArray resultArr;
+    for(auto net: m_masterNodeInfo.keys())
+    {
+        QJsonObject obj;
+        obj["net"] = net;
+        obj["isMaster"] = m_masterNodeInfo[net].isMaster;
+        resultArr.append(obj);
+    }
+
+    QJsonDocument doc(resultArr);
+    return QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+}
+
 
 void DapModuleMasterNode::setCurrentNetwork(const QString& networkName)
 {
@@ -87,7 +111,7 @@ void DapModuleMasterNode::createMasterNode()
             createCertificate();
         }
     }
-        break;
+    break;
     case LaunchStage::UPDATE_CONFIG:
         tryUpdateNetworkConfig();
         break;
@@ -245,9 +269,24 @@ void DapModuleMasterNode::mempoolCheck()
     }
 }
 
+void DapModuleMasterNode::checkStake()
+{
+    if(m_currantStartMaster.contains(QUEUE_HASH_KEY))
+    {
+        s_serviceCtrl->requestToService("DapCheckQueueTransactionCommand", QStringList()
+                                                                                << m_currantStartMaster[QUEUE_HASH_KEY].toString()
+                                                                                << m_currantStartMaster["walletName"].toString()
+                                                                                << m_currantStartMaster["network"].toString());
+    }
+    else
+    {
+        tryStopCreationMasterNode("No stake delegate hash found.");
+    }
+}
+
 void DapModuleMasterNode::tryCheckStakeDelegate()
 {
-    mempoolCheck();
+    checkStake();
     m_checkStakeTimer->start(TIME_OUT_CHECK_STAKE);
 }
 
@@ -270,7 +309,6 @@ void DapModuleMasterNode::tryUpdateNetworkConfig()
     worker->writeNodeValue("mempool", "auto_proc", "true");
     worker->saveAllChanges();
     stageComplated();
-
 }
 
 void DapModuleMasterNode::tryRestartNode()
@@ -279,7 +317,7 @@ void DapModuleMasterNode::tryRestartNode()
 //    stageComplated();
 }
 
-void DapModuleMasterNode::pespondMempoolCheck(const QVariant &rcvData)
+void DapModuleMasterNode::respondMempoolCheck(const QVariant &rcvData)
 {
     QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
     QJsonObject replyObj = replyDoc.object();
@@ -330,7 +368,7 @@ void DapModuleMasterNode::pespondMempoolCheck(const QVariant &rcvData)
 
 void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 {
-    if(m_startStage.first() != LaunchStage::CHECK_PUBLIC_KEY)
+    if(m_startStage.isEmpty() || m_startStage.first() != LaunchStage::CHECK_PUBLIC_KEY)
     {
         return;
     }
@@ -409,6 +447,64 @@ void DapModuleMasterNode::nodeRestart()
     // Запустить ожидание старта ноды.
 }
 
+void DapModuleMasterNode::networkListUpdateSlot()
+{
+    QMap<QString, bool> checkList;
+    for(auto key: m_masterNodeInfo.keys())
+    {
+        checkList.insert(key, false);
+    }
+
+    QStringList netlist = m_modulesCtrl->getNetworkList();
+    for(auto net: netlist)
+    {
+        if(checkList.contains(net))
+        {
+            checkList[net] = true;
+        }
+        else
+        {
+            addNetwork(net);
+        }
+    }
+
+    for(auto key: checkList.keys(false))
+    {
+        if(!m_masterNodeInfo[key].isMaster) m_masterNodeInfo.remove(key);
+    }
+
+    emit networksListChanged();
+}
+
+void DapModuleMasterNode::addNetwork(const QString &net)
+{
+    MasterNodeInfo info;
+    // TODO
+    // insert data for master node
+
+    // temporary random data:
+    info.isMaster = net == "Backbone";
+    info.publicKey = "0xB236424A551FDE2170ACACE905582B7772234C029C621A023EC04DC6C22B74C2";
+    info.nodeAddress = "8343::1E4B::428B::101A";
+    info.nodeIP = "127.0.0.1";
+    info.nodePort = "8079";
+    info.stakeAmount = "22.0921931283 mCELL";
+    info.stakeHash = "0xF01C34E60F4BF387EBC07451F988BA07EB8EAAE9B184870A16BF495E53523764";
+    info.walletName = "MainWallet";
+    info.walletAddr = "0xB236424A551FDE2170ACACE905582B7772234C029C621A023EC04DC6C22B74C2";
+
+    info.validator.availabilityOrder = true;
+    info.validator.nodePresence = true;
+    info.validator.nodeWeight = "18.21239088%";
+    info.validator.nodeStatus = "active";
+    info.validator.blocksSigned = "1249";
+    info.validator.totalRewards = "0.45 CELL";
+    info.validator.networksBlocks = "8042";
+    // finish temporary data
+
+    m_masterNodeInfo.insert(net, info);
+}
+
 void DapModuleMasterNode::tryStopCreationMasterNode(const QString& message)
 {
     // Логика остановки создания мастер ноды
@@ -431,19 +527,36 @@ void DapModuleMasterNode::workNodeChanged()
     }
 }
 
-void DapModuleMasterNode::pespondStakeDelegate(const QVariant &rcvData)
+void DapModuleMasterNode::respondStakeDelegate(const QVariant &rcvData)
 {
     QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
     QJsonObject replyObj = replyDoc.object();
+
+    if(replyObj.contains("error"))
+    {
+        auto error = replyObj["error"].toString();
+        qInfo() << "The transaction was not created. Message:" << error;
+        tryStopCreationMasterNode("The transaction was not created.");
+        return;
+    }
+
     QJsonObject resultObj = replyObj["result"].toObject();
+
+    QString stakeHash, queueHash;
     if(resultObj.contains("tx_hash"))
     {
-        m_currantStartMaster.insert("stakeHash", resultObj["tx_hash"].toString());
-        stageComplated();
+        stakeHash = resultObj["tx_hash"].toString();
+        m_currantStartMaster.insert(STAKE_HASH_KEY, stakeHash);
     }
-    else if(resultObj.contains("idQueue"))
+    if(resultObj.contains("idQueue"))
     {
+        queueHash = resultObj["idQueue"].toString();
+        m_currantStartMaster.insert(QUEUE_HASH_KEY, queueHash);
+    }
 
+    if(!stakeHash.isEmpty() || !queueHash.isEmpty())
+    {
+        stageComplated();
     }
     else
     {
@@ -452,7 +565,89 @@ void DapModuleMasterNode::pespondStakeDelegate(const QVariant &rcvData)
     }
 }
 
-void DapModuleMasterNode::pespondCheckStakeDelegate(const QVariant &rcvData)
+void DapModuleMasterNode::respondCheckStakeDelegate(const QVariant &rcvData)
 {
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    if(!replyObj.contains("result"))
+    {
+        qWarning() << "[DapModuleMasterNode] Error in the data";
+        return;
+    }
+    auto resultObject = replyObj["result"].toObject();
+    QString txHash, queueHash, state;
+    auto getItem = [&resultObject](const QString& name, QString& buff)
+    {
+        if(!resultObject.contains(name))
+        {
+            qWarning() << QString("[respondCheckStakeDelegate]The \"%1\" element was not found.").arg(name);
+            buff = "";
+            return;
+        }
+        buff = resultObject[name].toString();
+    };
 
+    getItem(STAKE_HASH_KEY, queueHash);
+    getItem("state", state);
+    getItem("txHash", txHash);
+
+    if(m_currantStartMaster.contains(STAKE_HASH_KEY) && m_currantStartMaster[STAKE_HASH_KEY].toString() != queueHash)
+    {
+        qDebug() << "[DapModuleMasterNode][respondCheckStakeDelegate]The response came from another request.";
+        return;
+    }
+
+    if(state == "mempool")
+    {
+        if(!m_currantStartMaster.contains(STAKE_HASH_KEY) && !txHash.isEmpty())
+        {
+            m_currantStartMaster.insert(STAKE_HASH_KEY, txHash);
+        }
+    }
+    else if(state == "notFound")
+    {
+        if(!m_currantStartMaster.contains(STAKE_HASH_KEY))
+        {
+            qDebug() << "It looks like the transaction was rejected.";
+            tryStopCreationMasterNode("It looks like the transaction was rejected.");
+        }
+        else
+        {
+            qInfo() << "We are looking for information about the transaction. By hash: " << m_currantStartMaster[STAKE_HASH_KEY].toString();
+            mempoolCheck();
+        }
+    }
+}
+
+QVariantMap DapModuleMasterNode::masterNodeData() const
+{
+    MasterNodeInfo info = m_masterNodeInfo[m_currentNetwork];
+    QVariantMap result;
+
+    result.insert("publicKey", info.publicKey);
+    result.insert("nodeAddress", info.nodeAddress);
+    result.insert("nodeIP", info.nodeIP);
+    result.insert("nodePort", info.nodePort);
+    result.insert("stakeAmount", info.stakeAmount);
+    result.insert("stakeHash", info.stakeHash);
+    result.insert("walletName", info.walletName);
+    result.insert("walletAddr", info.walletAddr);
+
+    return result;
+}
+
+QVariantMap DapModuleMasterNode::validatorData() const
+{
+    MasterNodeValidator info = m_masterNodeInfo[m_currentNetwork].validator;
+    QVariantMap result;
+
+    result.insert("availabilityOrder", info.availabilityOrder);
+    result.insert("nodePresence", info.nodePresence);
+    result.insert("nodeWeight", info.nodeWeight);
+    result.insert("nodeStatus", info.nodeStatus);
+    result.insert("blocksSigned", info.blocksSigned);
+    result.insert("totalRewards", info.totalRewards);
+    result.insert("networksBlocks", info.networksBlocks);
+
+    return result;
 }
