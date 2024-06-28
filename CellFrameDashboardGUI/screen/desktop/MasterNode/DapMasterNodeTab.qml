@@ -5,11 +5,13 @@ import "qrc:/"
 import "../../"
 import "../controls"
 import "qrc:/widgets"
+import "RightPanel"
 
 DapPage {
 
     readonly property string startMasterNodePanel:  path + "/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml"
     readonly property string loaderMasterNodePanel:  path + "/MasterNode/RightPanel/DapLoaderMasterNodeRightPanel.qml"
+    readonly property string createMasterNodeDone: path + "/MasterNode/RightPanel/DapCreateMasterNodeDone.qml"
 
     property var registrationStagesText: [
         qsTr("Checking public key"),
@@ -38,7 +40,12 @@ DapPage {
         }
 
     dapRightPanelFrame.visible: true
-    dapRightPanel.initialItem: emptyRightPanel
+    //dapRightPanel.initialItem: emptyRightPanel
+    dapRightPanel.initialItem:
+        DapCreateMasterNodeDone
+    {
+
+    }
 
     Component.onCompleted:
     {
