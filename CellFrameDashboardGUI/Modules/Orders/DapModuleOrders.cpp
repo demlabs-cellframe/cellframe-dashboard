@@ -8,7 +8,9 @@ DapModuleOrders::DapModuleOrders(DapModulesController *parent)
     , m_timerUpdateOrders(new QTimer())
 {
 
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrders", s_ordersModel);
+    m_ordersProxyModel.setSourceModel(&m_ordersModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrders", &m_ordersModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrdersProxy", &m_ordersProxyModel);
 
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
@@ -26,6 +28,26 @@ DapModuleOrders::~DapModuleOrders()
     disconnect(m_timerUpdateOrders, &QTimer::timeout, this, &DapModuleOrders::slotUpdateOrders);
 
     delete m_timerUpdateOrders;
+}
+
+void DapModuleOrders::setPkeyFilterText(const QString &pkey)
+{
+    if(!pkey.isEmpty())
+    {
+        m_pkeyFilter = pkey;
+        m_ordersProxyModel.setPkeyFilter(pkey);
+        emit pkeyFilterChanged(m_pkeyFilter);
+    }
+}
+
+void DapModuleOrders::setNodeAddrFilterText(const QString &nodeAddr)
+{
+    if(!nodeAddr.isEmpty())
+    {
+        m_nodeAddrFilter = nodeAddr;
+        m_ordersProxyModel.setNodeAddrFilter(nodeAddr);
+        emit nodeAddrFilterChanged(m_nodeAddrFilter);
+    }
 }
 
 void DapModuleOrders::getOrdersList()

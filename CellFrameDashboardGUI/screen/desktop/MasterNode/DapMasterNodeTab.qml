@@ -10,6 +10,7 @@ DapPage {
 
     readonly property string startMasterNodePanel:  path + "/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml"
     readonly property string loaderMasterNodePanel:  path + "/MasterNode/RightPanel/DapLoaderMasterNodeRightPanel.qml"
+    readonly property string ordersMasterNodePanel:  path + "/MasterNode/RightPanel/DapOrdersMasterNodeRightPanel.qml"
 
     property var registrationStagesText: [
         qsTr("Checking public key"),
@@ -43,7 +44,7 @@ DapPage {
 
     Component.onCompleted:
     {
-
+        dapRightPanel.push(ordersMasterNodePanel)
     }
 
     Component.onDestruction:
