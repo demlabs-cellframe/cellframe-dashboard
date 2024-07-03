@@ -63,6 +63,7 @@
 #include "handlers/DapLedgerTxHashCommand.h"
 #include "handlers/DapGetListKeysCommand.h"
 #include "handlers/DapNodeDumpCommand.h"
+#include "handlers/DapNodeListCommand.h"
 #include "handlers/DapGetNodeIPCommand.h"
 #include "handlers/DapGetNodeStatus.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
@@ -311,6 +312,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapLedgerTxHashCommand               ("DapLedgerTxHashCommand"               , nullptr));
     m_servicePool.append(new DapGetListKeysCommand                ("DapGetListKeysCommand"                , nullptr));
     m_servicePool.append(new DapNodeDumpCommand                   ("DapNodeDumpCommand"                   , nullptr));
+    m_servicePool.append(new DapNodeListCommand                   ("DapNodeListCommand"                   , nullptr));
     m_servicePool.append(new DapGetNodeIPCommand                  ("DapGetNodeIPCommand"                  , nullptr));
     m_servicePool.append(new DapGetNodeStatus                     ("DapGetNodeStatus"                     , nullptr));
     m_servicePool.append(new DapAddNodeCommand                    ("DapAddNodeCommand"                    , nullptr));
