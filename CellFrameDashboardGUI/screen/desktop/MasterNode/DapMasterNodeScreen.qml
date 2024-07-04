@@ -214,7 +214,21 @@ Page
             if(indexFound < 0) indexFound = 0
             tabsView.currentIndex = indexFound
         }
+    }
 
+    function changeCurrentWallet(wallet)
+    {
+        if(wallet !== "") {
+            walletModule.setCurrentWallet(wallet)
+            txExplorerModule.setWalletName(wallet)
+            walletModule.getWalletsInfo("true")
+
+            // This move to "Validator actions" buttons for activate wallet
+            // if(walletModelList.get(walletModule.currentWalletIndex).statusProtected === "non-Active")
+            // {
+            //     walletActivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, false)
+            // }
+        }
     }
 
     Connections
@@ -224,6 +238,7 @@ Page
         function onCurrentNetworkChanged()
         {
             updateTokens()
+            changeCurrentWallet(nodeMasterModule.currentWalletName)
         }
 
         function onNetworksListChanged()
