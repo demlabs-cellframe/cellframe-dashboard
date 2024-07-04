@@ -4,6 +4,7 @@
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
+
 }
 
 void DapNotifyController::rcvData(QVariant data)

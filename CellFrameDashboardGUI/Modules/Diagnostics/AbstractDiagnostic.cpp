@@ -6,6 +6,8 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 
+#include "NodePathManager.h"
+
 static QString group = "global.users.statistic";
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
@@ -18,6 +20,8 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     , m_manager(new QNetworkAccessManager())
 #endif
 {
+    nodeCli = NodePathManager::getInstance().nodePaths.nodePath_cli;
+
     connect(s_timer_write, &QTimer::timeout,
             this, &AbstractDiagnostic::write_data,
             Qt::QueuedConnection);
@@ -173,7 +177,7 @@ void AbstractDiagnostic::remove_data()
 {
     QString key = s_mac.toString();
     QProcess proc;
-    QString program = QString(CLI_PATH);
+    QString program = QString(nodeCli);
     QStringList arguments;
     arguments << "global_db" << "delete" << "-group" << QString(group) << "-key" << QString(key);
     proc.start(program, arguments);
@@ -290,7 +294,7 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
 {
     QJsonDocument nodes;
     QProcess proc;
-    QString program = QString(CLI_PATH);
+    QString program = QString(nodeCli);
     QStringList arguments;
     arguments << "global_db" << "get_keys" << "-group" << QString(group);
     proc.start(program, arguments);
@@ -420,7 +424,7 @@ void AbstractDiagnostic::write_data()
     QString key = s_mac.toString();
 
     QProcess proc;
-    QString program = QString(CLI_PATH);
+    QString program = QString(nodeCli);
     QStringList arguments;
     arguments << "global_db" << "write" << "-group" << QString(group)
               << "-key" << QString(key) << "-value" << QByteArray(docBuff.toJson());
@@ -484,7 +488,7 @@ QJsonDocument AbstractDiagnostic::read_data()
         QString key = mac["mac"].toString();
 
         QProcess proc;
-        QString program = QString(CLI_PATH);
+        QString program = QString(nodeCli);
         QStringList arguments;
         arguments << "global_db" << "read" << "-group" << QString(group)
                   << "-key" << QString(key);

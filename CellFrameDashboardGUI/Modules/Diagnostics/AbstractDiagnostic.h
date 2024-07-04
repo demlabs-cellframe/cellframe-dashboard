@@ -24,12 +24,16 @@
 #include <QNetworkInterface>
 #include <QNetworkAccessManager>
 
+#include "NodePathManager.h"
+
 class AbstractDiagnostic : public QObject
 {
     Q_OBJECT
 public:
     explicit AbstractDiagnostic(QObject * parent = nullptr);
     ~AbstractDiagnostic();
+
+    QString nodeCli{""};
 
 public:
     void start_diagnostic();
@@ -40,7 +44,7 @@ public:
     QString get_memory_string(size_t num);
     QJsonValue get_mac();
 
-    QJsonDocument get_full_info(){return s_full_info;};
+    QJsonDocument get_full_info(){return s_full_info;}
 
     QJsonObject roles_processing();
 

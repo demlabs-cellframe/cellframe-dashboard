@@ -22,9 +22,12 @@
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
 
+#include "NodePathManager.h"
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
+
 
 //#ifdef Q_OS_WIN32
 //#include <windows.h>
@@ -104,6 +107,7 @@ void createDapLogger()
 #endif
                          }
                      });
+
 #endif
 }
 
@@ -180,6 +184,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("Cellframe Network");
     QCoreApplication::setOrganizationDomain("cellframe.net");
     QCoreApplication::setApplicationName(DAP_BRAND);
+
+    NodePathManager::getInstance().init("GUI");
 
     createDapLogger();
     //std::unique_ptr<DapLogger> logger_ptr = DapLogger::instance();

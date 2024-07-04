@@ -1,8 +1,13 @@
 #include "LinuxDiagnostic.h"
 
+#include "NodePathManager.h"
+
 LinuxDiagnostic::LinuxDiagnostic(AbstractDiagnostic *parent)
     : AbstractDiagnostic{parent}
 {
+    nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
+    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath;
+
     connect(s_timer_update, &QTimer::timeout,
             this, &LinuxDiagnostic::info_update,
             Qt::QueuedConnection);
@@ -35,7 +40,7 @@ void LinuxDiagnostic::info_update(){
 long LinuxDiagnostic::get_pid()
 {
     long pid;
-    QString path = QString("%1/var/run/cellframe-node.pid").arg(NODE_DIR_PATH);
+    QString path = QString("%1/var/run/cellframe-node.pid").arg(nodeDirPath);
 
     QFile file(path);
     QByteArray data;
@@ -228,8 +233,8 @@ QJsonObject LinuxDiagnostic::get_process_info(long proc_id, int totalRam)
    QString status = "Offline";
    process_info.insert("status", "Offline");
 
-   QString path = NODE_PATH;
-   QString node_dir = NODE_DIR_PATH;
+   QString path = nodePath;
+   QString node_dir = nodeDirPath;
 
    QString log_size, db_size, chain_size;
    log_size   = QString::number(get_file_size("log", node_dir) / 1024);

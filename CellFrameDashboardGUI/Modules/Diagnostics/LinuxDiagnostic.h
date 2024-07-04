@@ -30,6 +30,9 @@ class LinuxDiagnostic : public AbstractDiagnostic
 public:
     explicit LinuxDiagnostic(AbstractDiagnostic * parent = nullptr);
 
+    QString nodePath{""};
+    QString nodeDirPath{""};
+
 private:
     QJsonObject get_sys_info();
     bool get_cpu_times(size_t &idle_time, size_t &total_time);
