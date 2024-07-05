@@ -396,5 +396,9 @@
         <file>Resources/BlackTheme/icons/other/sync_15x15.svg</file>
         <file>screen/desktop/MasterNode/parts/DapIsMasterNodeScreen.qml</file>
         <file>screen/desktop/MasterNode/RightPanel/DapLastActionsMasterNode.qml</file>
+        <file>Resources/BlackTheme/icons/other/lock_20.svg</file>
+        <file>Resources/BlackTheme/icons/other/lock_hover_20.svg</file>
+        <file>Resources/BlackTheme/icons/other/unlock_20.svg</file>
+        <file>Resources/BlackTheme/icons/other/unlock_hover_20.svg</file>
     </qresource>
 </RCC>

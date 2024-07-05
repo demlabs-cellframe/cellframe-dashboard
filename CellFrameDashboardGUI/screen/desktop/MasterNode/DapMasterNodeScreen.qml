@@ -49,6 +49,7 @@ Page
             Item
         {
             anchors.fill: parent
+            visible: networkTabsModel.count > 0
 
             ListView
             {
@@ -222,12 +223,6 @@ Page
             walletModule.setCurrentWallet(wallet)
             txExplorerModule.setWalletName(wallet)
             walletModule.getWalletsInfo("true")
-
-            // This move to "Validator actions" buttons for activate wallet
-            // if(walletModelList.get(walletModule.currentWalletIndex).statusProtected === "non-Active")
-            // {
-            //     walletActivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, false)
-            // }
         }
     }
 
