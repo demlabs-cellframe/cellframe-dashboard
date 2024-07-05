@@ -185,8 +185,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("cellframe.net");
     QCoreApplication::setApplicationName(DAP_BRAND);
 
-    NodePathManager::getInstance().init("GUI");
-
     createDapLogger();
     //std::unique_ptr<DapLogger> logger_ptr = DapLogger::instance();
     int result = RESTART_CODE;
@@ -220,6 +218,7 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
+        NodePathManager::getInstance().init("GUI");
         DapLogger::instance()->startUpdateTimer();
         result = app->exec();
         delete app;

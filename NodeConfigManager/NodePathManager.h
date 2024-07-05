@@ -76,7 +76,7 @@ private:
     void checkNodeDir(QString oldPath, QString newPath);
 
 signals:
-    void signalIsNeedInstallNode(bool isNeed, QString url);
+    Q_INVOKABLE void signalIsNeedInstallNode(bool isNeed, QString url);
 
 public slots:
     void slotCheckUpdateNode(QString currentNodeVersion);

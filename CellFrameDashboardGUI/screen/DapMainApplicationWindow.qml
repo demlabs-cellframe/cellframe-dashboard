@@ -110,6 +110,15 @@ Rectangle {
             click()
         }
     }
+    DapVersionPopup
+    {
+        id: messagePopupUpdateNode
+
+        onSignalAccept:
+        {
+            logicMainApp.updateNode()
+        }
+    }
 
     DapWebMessagePopup{
         id: webPopup
@@ -785,6 +794,22 @@ Rectangle {
 
             modelPluginsUpdated()
             logicMainApp.updateModelAppsTab()
+        }
+    }
+
+    Connections{
+        target: nodePathManager
+        function onSignalIsNeedInstallNode(isNeed, url)
+        {
+            console.log("onSignalIsNeedInstallNode", isNeed, url)
+            if(isNeed)
+            {
+                logicMainApp.urlDownloadNode = url
+                messagePopupUpdateNode.dapButtonCancel.visible = true
+                messagePopupUpdateNode.dapButtonOk.textButton = "Download"
+                messagePopupUpdateNode.dapButtonCancel.textButton = "Cancel"
+                messagePopupUpdateNode.smartOpenVersion(qsTr("Node download"), "", "", qsTr("Your device is missing cellfarme-node. Click \"Download\" to download the latest version."))
+            }
         }
     }
 }
