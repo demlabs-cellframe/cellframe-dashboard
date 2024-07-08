@@ -101,11 +101,12 @@
 /// @param parent Parent.
 DapServiceController::DapServiceController(QObject *parent)
     : QObject(parent)
-    , m_reqularRequestsCtrl(new DapRegularRequestsController(nodeCliPath, nodeToolPath))
 {
 
     nodeCliPath =  NodePathManager::getInstance().nodePaths.nodePath_cli;
     nodeToolPath = NodePathManager::getInstance().nodePaths.nodePath_tool;
+
+    m_reqularRequestsCtrl = new DapRegularRequestsController(nodeCliPath, nodeToolPath);
 
     connect(this, &DapServiceController::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";
@@ -308,7 +309,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapStakeLockHoldCommandStack         ("DapStakeLockHoldCommand"              , nullptr, nodeCliPath));
     m_servicePool.append(new DapStakeLockTakeCommandStack         ("DapStakeLockTakeCommand"              , nullptr, nodeCliPath));
     m_servicePool.append(new DapCreateJsonTransactionCommandStack ("DapCreateJsonTransactionCommand"      , nullptr, nodeCliPath));
-    m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer));
+    m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer, nodeCliPath));
     m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
     m_servicePool.append(new DapWebBlockList                      ("DapWebBlockList"                      , m_pServer));
     m_servicePool.append(new DapRcvNotify                         ("DapRcvNotify"                         , m_pServer));

@@ -113,16 +113,20 @@ bool NodePathManager::writeMem()
 
 void NodePathManager::checkNodeDir(QString oldPath, QString newPath)
 {
-    QString separator = QDir::separator();
+//    QString separator = QDir::separator();
 
 #ifdef Q_OS_WIN
+    QString separator = "\\";
     QString suffix = ".exe";
 #else
     QString suffix = "";
+    QString separator = "/";
 #endif
 
-    QFileInfo oldfileNode(newPath);
-    QFileInfo newfileNode(oldPath);
+    separator = "/";
+
+    QFileInfo oldfileNode(oldPath);
+    QFileInfo newfileNode(newPath);
 
     if(oldfileNode.exists())
     {
