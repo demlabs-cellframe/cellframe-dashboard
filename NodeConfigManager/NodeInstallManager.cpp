@@ -8,7 +8,7 @@ NodeInstallManager::NodeInstallManager(bool flag_RK, QObject *parent)
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
-    m_latest = "latest-amd64";
+    //m_latest = "latest-amd64";
     m_url = QUrl(QString("https://pub.cellframe.net/linux/cellframe-node/%1/%2/").arg(branch).arg(m_latest));
     m_suffix =  QString(".deb");
 
