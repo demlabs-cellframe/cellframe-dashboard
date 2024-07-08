@@ -61,6 +61,9 @@ public:
     QString currentNetwork() const { return m_currentNetwork;}
     void setCurrentNetwork(const QString& networkName);
 
+    Q_PROPERTY(QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
+    QString currentWalletName() const { return m_masterNodeInfo[m_currentNetwork].isMaster ? m_masterNodeInfo[m_currentNetwork].walletName : QString();}
+
     Q_PROPERTY(int creationStage READ creationStage NOTIFY creationStageChanged)
     int creationStage() const;
 
@@ -77,6 +80,7 @@ public:
 
 signals:
     void currentNetworkChanged();
+    void currentWalletNameChanged();
     void creationStageChanged();
     void masterNodeCreated();
     void networksListChanged();
