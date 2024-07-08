@@ -395,5 +395,6 @@
         <file>Resources/BlackTheme/icons/other/check_icon.svg</file>
         <file>Resources/BlackTheme/icons/other/sync_15x15.svg</file>
         <file>screen/desktop/MasterNode/parts/DapIsMasterNodeScreen.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml</file>
     </qresource>
 </RCC>
