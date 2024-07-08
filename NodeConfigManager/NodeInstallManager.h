@@ -26,7 +26,13 @@ private:
     QNetworkAccessManager * m_networkManager;
 
     QUrl m_url;
-    QString m_latest{"latest"};
+
+#ifdef __x86_64__
+    QString m_latest{"latest-amd64"};
+#else
+    QString m_latest{"latest-arm64"};
+#endif
+
     QString m_fileName, m_suffix;
 
 
