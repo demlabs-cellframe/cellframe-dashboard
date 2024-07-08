@@ -116,7 +116,8 @@ Rectangle {
 
         onSignalAccept:
         {
-            logicMainApp.updateNode()
+            if(accept)
+                logicMainApp.updateNode()
         }
     }
 

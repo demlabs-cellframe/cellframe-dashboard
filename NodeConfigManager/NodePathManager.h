@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QBuffer>
 #include <QFileInfo>
+#include <QDir>
 
 #include "NodeInstallManager.h"
 
@@ -71,9 +72,19 @@ private:
     bool readMem();
     bool writeMem();
 
-    void fillNodePath();
 
     void checkNodeDir(QString oldPath, QString newPath);
+
+    QString getNodeConfigPath();
+    QString getNodeNewBinaryPath();
+
+    void fillNodePath();
+
+#ifdef WIN32
+    LONG GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue);
+    LONG GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bool bDefaultValue);
+    LONG GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &strValue, const std::wstring &strDefaultValue);
+#endif
 
 signals:
     Q_INVOKABLE void signalIsNeedInstallNode(bool isNeed, QString url);

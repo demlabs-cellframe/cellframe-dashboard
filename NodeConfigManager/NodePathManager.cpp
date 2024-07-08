@@ -113,12 +113,11 @@ bool NodePathManager::writeMem()
 
 void NodePathManager::checkNodeDir(QString oldPath, QString newPath)
 {
+    QString separator = QDir::separator();
 
 #ifdef Q_OS_WIN
-    QString slash = "\\";
     QString suffix = ".exe";
 #else
-    QString slash = "/";
     QString suffix = "";
 #endif
 
@@ -129,18 +128,18 @@ void NodePathManager::checkNodeDir(QString oldPath, QString newPath)
     {
         QString dir = oldfileNode.absolutePath();
         nodePaths.nodeDirPath     = dir;
-        nodePaths.nodePath        = dir + slash + "cellframe-node" + suffix;
-        nodePaths.nodePath_cli    = dir + slash + "cellframe-node-cli" + suffix;
-        nodePaths.nodePath_tool   = dir + slash + "cellframe-node-tool" + suffix;
+        nodePaths.nodePath        = dir + separator + "cellframe-node" + suffix;
+        nodePaths.nodePath_cli    = dir + separator + "cellframe-node-cli" + suffix;
+        nodePaths.nodePath_tool   = dir + separator + "cellframe-node-tool" + suffix;
         nodePaths.nodeInstallType = OldInstall;
     }
     else if(newfileNode.exists())
     {
         QString dir = newfileNode.absolutePath();
         nodePaths.nodeDirPath     = dir;
-        nodePaths.nodePath        = dir + slash + "cellframe-node" + suffix;
-        nodePaths.nodePath_cli    = dir + slash + "cellframe-node-cli" + suffix;
-        nodePaths.nodePath_tool   = dir + slash + "cellframe-node-tool" + suffix;
+        nodePaths.nodePath        = dir + separator + "cellframe-node" + suffix;
+        nodePaths.nodePath_cli    = dir + separator + "cellframe-node-cli" + suffix;
+        nodePaths.nodePath_tool   = dir + separator + "cellframe-node-tool" + suffix;
         nodePaths.nodeInstallType = NewInstall;
     }
     else
@@ -155,21 +154,123 @@ void NodePathManager::fillNodePath()
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
     checkNodeDir("/opt/cellframe-node/bin/cellframe-node",
-                 "/opt/cellframe-node/bin/cellframe-node");
+                 getNodeNewBinaryPath());
 
 #elif defined (Q_OS_MACOS)
 
     checkNodeDir("/Applications/CellframeDashboard.app/Contents/MacOS/cellframe-node",
-                 "/Applications/CellframeNode.app/Contents/MacOS/cellframe-node");
+                 getNodeNewBinaryPath());
 
 #elif defined (Q_OS_WIN)
 
     checkNodeDir("./cellframe-node.exe",
-                 "./../cellframe-node/cellframe-node.exe");
+                 getNodeNewBinaryPath());
 
 #elif defined Q_OS_ANDROID
     qDebug()<<"Unknown node path";
 #else
     qDebug()<<"Unknown node path";
+#endif
+}
+
+#ifdef WIN32
+
+LONG NodePathManager::GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue)
+{
+    nValue = nDefaultValue;
+    DWORD dwBufferSize(sizeof(DWORD));
+    DWORD nResult(0);
+    LONG nError = ::RegQueryValueExW(hKey,
+                                     strValueName.c_str(),
+                                     0,
+                                     NULL,
+                                     reinterpret_cast<LPBYTE>(&nResult),
+                                     &dwBufferSize);
+    if (ERROR_SUCCESS == nError)
+    {
+        nValue = nResult;
+    }
+    return nError;
+}
+
+
+LONG NodePathManager::GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bool bDefaultValue)
+{
+    DWORD nDefValue((bDefaultValue) ? 1 : 0);
+    DWORD nResult(nDefValue);
+    LONG nError = GetDWORDRegKey(hKey, strValueName.c_str(), nResult, nDefValue);
+    if (ERROR_SUCCESS == nError)
+    {
+        bValue = (nResult != 0) ? true : false;
+    }
+    return nError;
+}
+
+
+LONG NodePathManager::GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &strValue, const std::wstring &strDefaultValue)
+{
+    strValue = strDefaultValue;
+    WCHAR szBuffer[512];
+    DWORD dwBufferSize = sizeof(szBuffer);
+    ULONG nError;
+    nError = RegQueryValueExW(hKey, strValueName.c_str(), 0, NULL, (LPBYTE)szBuffer, &dwBufferSize);
+    if (ERROR_SUCCESS == nError)
+    {
+        strValue = szBuffer;
+    }
+    return nError;
+}
+#endif
+
+
+QString NodePathManager::getNodeConfigPath(){
+#ifdef __linux__
+    return "/opt/cellframe-node/";
+#endif
+
+#ifdef __APPLE__
+    return  "/Applications/CellframeNode.app/Contents/Resources/";
+#endif
+
+#ifdef WIN32
+    HKEY hKey;
+    LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders", 0, KEY_READ, &hKey);
+    bool bExistsAndSuccess (lRes == ERROR_SUCCESS);
+    bool bDoesNotExistsSpecifically (lRes == ERROR_FILE_NOT_FOUND);
+    std::wstring path;
+    GetStringRegKey(hKey, L"Common Documents", path, L"");
+    std::string stdpath(path.begin(),path.end());
+    return QString::fromWCharArray(path.c_str());
+#endif
+}
+
+QString NodePathManager::getNodeNewBinaryPath(){
+#ifdef __linux__
+    return "/opt/cellframe-node/bin/cellframe-node";
+#endif
+
+#ifdef __APPLE__
+    return  "/Applications/CellframeNode.app/Contents/MacOS/cellframe-node";
+#endif
+
+#ifdef WIN32
+    //HKLM "Software\${APP_NAME}" "Path"
+    HKEY hKey;
+    LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\cellframe-node\\", 0, KEY_READ, &hKey);
+    bool bExistsAndSuccess (lRes == ERROR_SUCCESS);
+    bool bDoesNotExistsSpecifically (lRes == ERROR_FILE_NOT_FOUND);
+    std::wstring path;
+    GetStringRegKey(hKey, L"Path", path, L"");
+    std::string stdpath(path.begin(),path.end());
+
+    if(QString::fromWCharArray(path.c_str()).isEmpty())
+    {
+        return "./cellframe-node.exe";
+    }
+    else
+    {
+        return QString(QString::fromWCharArray(path.c_str()) + "/cellframe-node.exe");
+    }
+
 #endif
 }
