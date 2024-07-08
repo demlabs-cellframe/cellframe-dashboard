@@ -400,5 +400,6 @@
         <file>Resources/BlackTheme/icons/other/lock_hover_20.svg</file>
         <file>Resources/BlackTheme/icons/other/unlock_20.svg</file>
         <file>Resources/BlackTheme/icons/other/unlock_hover_20.svg</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml</file>
     </qresource>
 </RCC>
