@@ -11,7 +11,9 @@
 
 #include "NodeInstallManager.h"
 
-
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 class NodePathManager: public QObject
 {
