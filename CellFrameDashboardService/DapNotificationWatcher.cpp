@@ -166,7 +166,7 @@ void DapNotificationWatcher::socketReadyRead()
         QJsonParseError error;
         QJsonDocument reply = QJsonDocument::fromJson(list[i], &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning()<<"Notify parse error. " << error.errorString();
+//            qWarning()<<"Notify parse error. " << error.errorString(); // more logs
         }
         else{
             QJsonObject obj = reply.object();

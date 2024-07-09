@@ -21,8 +21,14 @@ void NodePathManager::init(QString target)
 
     m_initMemFlag = initMem();
 
-    qDebug()<<"Init mem status: "   + QString(m_initMemFlag?"true":"false")
-            <<"Node install type: " + QString::number(nodePaths.nodeInstallType);
+    qDebug()<<"--------------------------- Init QShareMemory ---------------------------"
+            <<"Mem target: "        + m_target
+            <<"Mem status: "        + QString(m_initMemFlag?"true":"false")
+            <<"Node install type: " + QString::number(nodePaths.nodeInstallType)
+            <<"Mem cli path: "      + nodePaths.nodePath_cli
+            <<"Mem tool path: "     + nodePaths.nodePath_tool
+            <<"Mem dir path: "      + nodePaths.nodeDirPath
+            <<"Mem node path: "     + nodePaths.nodePath;
 
     if(target == "GUI")
     {
