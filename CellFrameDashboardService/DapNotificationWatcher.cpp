@@ -98,9 +98,10 @@ bool DapNotificationWatcher::initWatcher()
             ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
             ((QTcpSocket*)m_socket)->waitForConnected();
         }
+        m_statusInitWatcher = true;
         return true;
     }
-
+    m_statusInitWatcher = false;
     return false;
 }
 

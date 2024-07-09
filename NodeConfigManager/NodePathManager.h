@@ -31,6 +31,7 @@ public:
     bool getInitFlag(){return m_initMemFlag;}
     QString getTarget(){return m_target;}
     QString getUrlForNodeDownload();
+    void checkNeedDownload();
 
     void init(QString target);
 

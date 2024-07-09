@@ -170,7 +170,7 @@ QJsonObject MacDiagnostic::get_process_info(int totalRam)
     }
 
     QString status = "Offline";
-    QString node_dir = QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/").arg(getenv("USER")); //todo: create define
+    QString node_dir = QString(nodeDirPath.remove("MacOS") + "Resources");
 
     QString log_size, db_size, chain_size;
     log_size   = QString::number(get_file_size("log", node_dir) / 1024);

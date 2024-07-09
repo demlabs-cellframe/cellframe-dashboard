@@ -111,7 +111,8 @@ DapServiceController::DapServiceController(QObject *parent)
     connect(this, &DapServiceController::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";
         NodePathManager::getInstance().init("Service");
-        m_watcher->frontendConnected();
+        if(m_watcher->m_statusInitWatcher)
+            m_watcher->frontendConnected();
         m_web3Controll->rcvFrontendConnectStatus(true);
     });
 

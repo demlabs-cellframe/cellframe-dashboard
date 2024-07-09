@@ -268,7 +268,14 @@ QString DapModuleLog::getNodeLogPath()
         qWarning() << "Fatal Error: Can't obtain username";
         return QString();
     }
-    return QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log").arg(l_username);
+    QDir dirOld(QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log").arg(l_username));
+    QDir dirNew("/Applications/CellframeNode.app/Contents/Resources/var/log");
+
+    if(dirNew.exists())
+        return dirNew.absolutePath();
+    else
+        return dirOld.absolutePath();
+
 #elif defined (Q_OS_WIN)
     return QString("%1/cellframe-node/var/log").arg(regWGetUsrPath());
 #elif defined Q_OS_ANDROID

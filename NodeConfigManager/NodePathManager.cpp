@@ -30,7 +30,17 @@ void NodePathManager::init(QString target)
             <<"Mem dir path: "      + nodePaths.nodeDirPath
             <<"Mem node path: "     + nodePaths.nodePath;
 
-    if(target == "GUI")
+    checkNeedDownload();
+}
+
+QString NodePathManager::getUrlForNodeDownload()
+{
+    return m_instMngr->getUrlForDownload();
+}
+
+void NodePathManager::checkNeedDownload()
+{
+    if(m_target == "GUI")
     {
         switch (nodePaths.nodeInstallType) {
         case Unknown:
@@ -45,11 +55,6 @@ void NodePathManager::init(QString target)
             break;
         }
     }
-}
-
-QString NodePathManager::getUrlForNodeDownload()
-{
-    return m_instMngr->getUrlForDownload();
 }
 
 void NodePathManager::slotCheckUpdateNode(QString currentNodeVersion)
