@@ -34,6 +34,8 @@ public:
     ~AbstractDiagnostic();
 
     QString nodeCli{""};
+    QString nodePath{""};
+    QString nodeDirPath{""};
 
 public:
     void start_diagnostic();

@@ -256,22 +256,22 @@ void DapServiceController::rcvBlockListFromClient(QVariant result)
 void DapServiceController::initServices()
 {
     m_servicePool.append(new DapCertificateManagerCommands        ("DapCertificateManagerCommands"        , nullptr, nodeCliPath, nodeToolPath));
-    m_servicePool.append(new DapActivateClientCommand             ("DapActivateClientCommand"             , nullptr));
+    m_servicePool.append(new DapActivateClientCommand             ("DapActivateClientCommand"             , nullptr, nodeCliPath));
     m_servicePool.append(new DapUpdateLogsCommand                 ("DapUpdateLogsCommand"                 , nullptr, LOG_FILE));
-    m_servicePool.append(new DapAddWalletCommand                  ("DapAddWalletCommand"                  , nullptr));
-    m_servicePool.append(new DapRemoveWalletCommand               ("DapRemoveWalletCommand"               , nullptr));
+    m_servicePool.append(new DapAddWalletCommand                  ("DapAddWalletCommand"                  , nullptr, nodeCliPath));
+    m_servicePool.append(new DapRemoveWalletCommand               ("DapRemoveWalletCommand"               , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetWalletInfoCommand              ("DapGetWalletInfoCommand"              , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetWalletsInfoCommand             ("DapGetWalletsInfoCommand"             , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetListNetworksCommand            ("DapGetListNetworksCommand"            , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetNetworkStatusCommand           ("DapGetNetworkStatusCommand"           , nullptr, nodeCliPath));
     m_servicePool.append(new DapNetworkGoToCommand                ("DapNetworkGoToCommand"                , nullptr, nodeCliPath));
     m_servicePool.append(new DapExportLogCommand                  ("DapExportLogCommand"                  , nullptr));
-    m_servicePool.append(new DapGetWalletAddressesCommand         ("DapGetWalletAddressesCommand"         , nullptr));
+    m_servicePool.append(new DapGetWalletAddressesCommand         ("DapGetWalletAddressesCommand"         , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetListOrdersCommand              ("DapGetListOrdersCommand"              , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetNetworksStateCommand           ("DapGetNetworksStateCommand"           , nullptr, nodeCliPath));
-    m_servicePool.append(new DapNetIdCommand                      ("DapNetIdCommand"                      , nullptr));
+    m_servicePool.append(new DapNetIdCommand                      ("DapNetIdCommand"                      , nullptr, nodeCliPath));
     m_servicePool.append(new DapNetworkSingleSyncCommand          ("DapNetworkSingleSyncCommand"          , nullptr, nodeCliPath));
-    m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr));
+    m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , nullptr, nodeCliPath));
     m_servicePool.append(new DapCreateTransactionCommandStack     ("DapCreateTransactionCommand"          , nullptr, nodeCliPath));
     m_servicePool.append(new DapSrvStakeDelegateCommandStack      ("DapSrvStakeDelegateCommand"           , nullptr, nodeCliPath));
@@ -295,17 +295,17 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetXchangeTokenPriceAverage       ("DapGetXchangeTokenPriceAverage"       , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetXchangeTokenPriceHistory       ("DapGetXchangeTokenPriceHistory"       , nullptr, nodeCliPath));
     m_servicePool.append(new DapDictionaryCommand                 ("DapDictionaryCommand"                 , nullptr, nodeCliPath));
-    m_servicePool.append(new DapXchangeOrderPurchaseStack         ("DapXchangeOrderPurchase"              , nullptr));
+    m_servicePool.append(new DapXchangeOrderPurchaseStack         ("DapXchangeOrderPurchase"              , nullptr, nodeCliPath));
     m_servicePool.append(new DapWalletActivateOrDeactivateCommand ("DapWalletActivateOrDeactivateCommand" , nullptr, nodeCliPath));
     m_servicePool.append(new DapNodeRestart                       ("DapNodeRestart"                       , nullptr, nodeCliPath));
     m_servicePool.append(new DapRemoveChainsOrGdbCommand          ("DapRemoveChainsOrGdbCommand"          , nullptr, nodeCliPath));
     m_servicePool.append(new DapGetFeeCommand                     ("DapGetFeeCommand"                     , nullptr, nodeCliPath));
     m_servicePool.append(new DapCreatePassForWallet               ("DapCreatePassForWallet"               , nullptr, nodeCliPath));
-    m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr));
-    m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr));
-    m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr));
-    m_servicePool.append(new DapRemoveTransactionsQueueCommand    ("DapRemoveTransactionsQueueCommand"    , nullptr));
-    m_servicePool.append(new DapCheckTransactionsQueueCommand     ("DapCheckTransactionsQueueCommand"     , nullptr));
+    m_servicePool.append(new DapCreateVPNOrder                    ("DapCreateVPNOrder"                    , nullptr, nodeCliPath));
+    m_servicePool.append(new DapCreateStakeOrder                  ("DapCreateStakeOrder"                  , nullptr, nodeCliPath));
+    m_servicePool.append(new MempoolCheckCommand                  ("MempoolCheckCommand"                  , nullptr, nodeCliPath));
+    m_servicePool.append(new DapRemoveTransactionsQueueCommand    ("DapRemoveTransactionsQueueCommand"    , nullptr, nodeCliPath));
+    m_servicePool.append(new DapCheckTransactionsQueueCommand     ("DapCheckTransactionsQueueCommand"     , nullptr, nodeCliPath));
     m_servicePool.append(new DapStakeLockHoldCommandStack         ("DapStakeLockHoldCommand"              , nullptr, nodeCliPath));
     m_servicePool.append(new DapStakeLockTakeCommandStack         ("DapStakeLockTakeCommand"              , nullptr, nodeCliPath));
     m_servicePool.append(new DapCreateJsonTransactionCommandStack ("DapCreateJsonTransactionCommand"      , nullptr, nodeCliPath));
@@ -315,22 +315,22 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapRcvNotify                         ("DapRcvNotify"                         , m_pServer));
     m_servicePool.append(new DapMempoolListCommand                ("DapMempoolListCommand"                , nullptr, nodeCliPath));
     m_servicePool.append(new DapTransactionListCommand            ("DapTransactionListCommand"            , nullptr, nodeCliPath));
-    m_servicePool.append(new DapLedgerTxHashCommand               ("DapLedgerTxHashCommand"               , nullptr));
-    m_servicePool.append(new DapGetListKeysCommand                ("DapGetListKeysCommand"                , nullptr));
-    m_servicePool.append(new DapNodeDumpCommand                   ("DapNodeDumpCommand"                   , nullptr));
-    m_servicePool.append(new DapNodeListCommand                   ("DapNodeListCommand"                   , nullptr));
-    m_servicePool.append(new DapGetNodeIPCommand                  ("DapGetNodeIPCommand"                  , nullptr));
-    m_servicePool.append(new DapGetNodeStatus                     ("DapGetNodeStatus"                     , nullptr));
-    m_servicePool.append(new DapAddNodeCommand                    ("DapAddNodeCommand"                    , nullptr));
-    m_servicePool.append(new DapGetServiceLimitsCommand           ("DapGetServiceLimitsCommand"           , nullptr));
-    m_servicePool.append(new DapVoitingCreateCommandStack         ("DapVoitingCreateCommand"              , nullptr));
-    m_servicePool.append(new DapVoitingVoteCommandStack           ("DapVoitingVoteCommand"                , nullptr));
-    m_servicePool.append(new DapVoitingListCommand                ("DapVoitingListCommand"                , nullptr));
-    m_servicePool.append(new DapVoitingDumpCommand                ("DapVoitingDumpCommand"                , nullptr));
+    m_servicePool.append(new DapLedgerTxHashCommand               ("DapLedgerTxHashCommand"               , nullptr, nodeCliPath));
+    m_servicePool.append(new DapGetListKeysCommand                ("DapGetListKeysCommand"                , nullptr, nodeCliPath));
+    m_servicePool.append(new DapNodeDumpCommand                   ("DapNodeDumpCommand"                   , nullptr, nodeCliPath));
+    m_servicePool.append(new DapNodeListCommand                   ("DapNodeListCommand"                   , nullptr, nodeCliPath));
+    m_servicePool.append(new DapGetNodeIPCommand                  ("DapGetNodeIPCommand"                  , nullptr, nodeCliPath));
+    m_servicePool.append(new DapGetNodeStatus                     ("DapGetNodeStatus"                     , nullptr, nodeCliPath));
+    m_servicePool.append(new DapAddNodeCommand                    ("DapAddNodeCommand"                    , nullptr, nodeCliPath));
+    m_servicePool.append(new DapGetServiceLimitsCommand           ("DapGetServiceLimitsCommand"           , nullptr, nodeCliPath));
+    m_servicePool.append(new DapVoitingCreateCommandStack         ("DapVoitingCreateCommand"              , nullptr, nodeCliPath));
+    m_servicePool.append(new DapVoitingVoteCommandStack           ("DapVoitingVoteCommand"                , nullptr, nodeCliPath));
+    m_servicePool.append(new DapVoitingListCommand                ("DapVoitingListCommand"                , nullptr, nodeCliPath));
+    m_servicePool.append(new DapVoitingDumpCommand                ("DapVoitingDumpCommand"                , nullptr, nodeCliPath));
     m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
     m_servicePool.append(new DapServiceInitCommand                ("DapHistoryServiceInitCommand"         , m_pServer));
     m_servicePool.append(new DapServiceInitCommand                ("DapWalletServiceInitCommand"          , m_pServer));
-    m_servicePool.append(new DapCheckQueueTransactionCommand      ("DapCheckQueueTransactionCommand"      , nullptr));
+    m_servicePool.append(new DapCheckQueueTransactionCommand      ("DapCheckQueueTransactionCommand"      , nullptr, nodeCliPath));
 
     for(auto& service: qAsConst(m_servicePool))
     {

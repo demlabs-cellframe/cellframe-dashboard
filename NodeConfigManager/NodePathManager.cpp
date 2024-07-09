@@ -137,18 +137,19 @@ void NodePathManager::checkNodeDir(QString oldPath, QString newPath)
         nodePaths.nodePath_tool   = dir + separator + "cellframe-node-tool" + suffix;
         nodePaths.nodeInstallType = OldInstall;
     }
-    else if(newfileNode.exists())
+    else
     {
+
         QString dir = newfileNode.absolutePath();
         nodePaths.nodeDirPath     = dir;
         nodePaths.nodePath        = dir + separator + "cellframe-node" + suffix;
         nodePaths.nodePath_cli    = dir + separator + "cellframe-node-cli" + suffix;
         nodePaths.nodePath_tool   = dir + separator + "cellframe-node-tool" + suffix;
-        nodePaths.nodeInstallType = NewInstall;
-    }
-    else
-    {
-        nodePaths.reset(NoInstall);
+
+        if(newfileNode.exists())
+            nodePaths.nodeInstallType = NewInstall;
+        else
+            nodePaths.nodeInstallType = NoInstall;
     }
 }
 

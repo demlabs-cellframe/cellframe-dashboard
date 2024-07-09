@@ -1,12 +1,11 @@
 #include "LinuxDiagnostic.h"
 
-#include "NodePathManager.h"
-
 LinuxDiagnostic::LinuxDiagnostic(AbstractDiagnostic *parent)
     : AbstractDiagnostic{parent}
 {
+    nodeCli     = NodePathManager::getInstance().nodePaths.nodePath_cli;
     nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
-    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath;
+    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath.remove("/bin");
 
     connect(s_timer_update, &QTimer::timeout,
             this, &LinuxDiagnostic::info_update,

@@ -6,6 +6,11 @@ static unsigned long long _previousIdleTicks = 0;
 MacDiagnostic::MacDiagnostic(AbstractDiagnostic *parent)
     : AbstractDiagnostic{parent}
 {
+
+    nodeCli     = NodePathManager::getInstance().nodePaths.nodePath_cli;
+    nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
+    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath;
+
     connect(s_timer_update, &QTimer::timeout,
             this, &MacDiagnostic::info_update,
             Qt::QueuedConnection);
