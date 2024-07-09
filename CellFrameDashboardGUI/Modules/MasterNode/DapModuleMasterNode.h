@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QMap>
 #include <QList>
+#include <QVariantMap>
 
 #include "DapServiceController.h"
 #include "../DapAbstractModule.h"
@@ -36,6 +37,7 @@ class DapModuleMasterNode : public DapAbstractModule
         ADDINNG_NODE_DATA,
         SENDING_STAKE,
         CHECKING_STAKE,
+        SEND_FORM,
         CHECKING_ALL_DATA
     };
 
@@ -46,85 +48,6 @@ class DapModuleMasterNode : public DapAbstractModule
         MEMPOOL,
         CHECK
     };
-
-    Q_OBJECT
-public:
-    explicit DapModuleMasterNode(DapModulesController *parent);
-
-    Q_PROPERTY(QString stakeTokenName READ stakeTokenName NOTIFY currentNetworkChanged)
-    QString stakeTokenName() const;
-
-    Q_PROPERTY(QString mainTokenName READ mainTokenName NOTIFY currentNetworkChanged)
-    QString mainTokenName() const;
-
-    Q_PROPERTY(QString currentNetwork READ currentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
-    QString currentNetwork() const { return m_currentNetwork;}
-    void setCurrentNetwork(const QString& networkName);
-
-    Q_PROPERTY(int creationStage READ creationStage NOTIFY creationStageChanged)
-    int creationStage() const;
-
-    Q_INVOKABLE int startMasterNode(const QVariantMap& value);
-
-    Q_PROPERTY(QString networksList READ networksList NOTIFY networksListChanged)
-    QString networksList() const;
-
-    Q_PROPERTY(QVariantMap masterNodeData READ masterNodeData NOTIFY masterNodeDataChanged)
-    QVariantMap masterNodeData() const;
-
-    Q_PROPERTY(QVariantMap validatorData READ validatorData NOTIFY validatorDataChanged)
-    QVariantMap validatorData() const;
-
-signals:
-    void currentNetworkChanged();
-    void creationStageChanged();
-    void masterNodeCreated();
-    void networksListChanged();
-    void masterNodeDataChanged();
-    void validatorDataChanged();
-private slots:
-    void respondCreateCertificate(const QVariant &rcvData);
-    void nodeRestart();
-    void networkListUpdateSlot();
-
-    void workNodeChanged();
-    void addedNode(const QVariant &rcvData);
-
-    void respondStakeDelegate(const QVariant &rcvData);
-    void respondCheckStakeDelegate(const QVariant &rcvData);
-    void respondMempoolCheck(const QVariant &rcvData);
-
-    void mempoolCheck();
-    void checkStake();
-private:
-    void createMasterNode();
-    void stageComplated();
-
-    void saveStageList();
-    void loadStageList();
-
-    void createCertificate();
-    void getInfoCertificate();
-    void getHashCertificate(const QString& certName);
-    void tryStopCreationMasterNode(const QString &message);
-    void addNode();
-    void stakeDelegate();
-    void tryCheckStakeDelegate();
-
-    void tryUpdateNetworkConfig();
-    void tryRestartNode();
-    void startWaitingNode();
-
-private:
-    DapModulesController  *m_modulesCtrl;
-    QTimer* m_checkStakeTimer = nullptr;
-
-    QString m_currentNetwork = "raiden";
-
-    QList<QVariantMap> m_startedMasterNodeList;
-
-    QVariantMap m_currantStartMaster;
-    QList<LaunchStage> m_startStage;
 
     struct MasterNodeValidator
     {
@@ -161,6 +84,121 @@ private:
         MasterNodeDEX dex;
     };
 
+    Q_OBJECT
+public:
+    explicit DapModuleMasterNode(DapModulesController *parent);
+
+    Q_PROPERTY(QString stakeTokenName READ stakeTokenName NOTIFY currentNetworkChanged)
+    QString stakeTokenName() const;
+
+    Q_PROPERTY(QString mainTokenName READ mainTokenName NOTIFY currentNetworkChanged)
+    QString mainTokenName() const;
+
+    Q_PROPERTY(QString currentNetwork READ currentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
+    QString currentNetwork() const { return m_currentNetwork;}
+    void setCurrentNetwork(const QString& networkName);
+
+    Q_PROPERTY(int creationStage READ creationStage NOTIFY creationStageChanged)
+    int creationStage() const;
+
+    Q_INVOKABLE int startMasterNode(const QVariantMap& value);
+
+    Q_PROPERTY(QString networksList READ networksList NOTIFY networksListChanged)
+    QString networksList() const;
+
+    Q_PROPERTY(QVariantMap masterNodeData READ masterNodeData NOTIFY masterNodeDataChanged)
+    QVariantMap masterNodeData() const;
+
+    Q_PROPERTY(QVariantMap validatorData READ validatorData NOTIFY validatorDataChanged)
+    QVariantMap validatorData() const;
+
+    Q_INVOKABLE bool tryGetInfoCertificate(const QString& filePath);
+    Q_INVOKABLE void clearCertificate();
+
+    Q_PROPERTY(QString certName READ getCertName NOTIFY certNameChanged)
+    QString getCertName() const {return m_certName;}
+    void setCertName(const QString& name);
+
+    Q_PROPERTY(QString signature READ getSignature NOTIFY signatureChanged)
+    QString getSignature() const {return m_signature;}
+    void setSignature(const QString& signature);
+
+    Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeStarted)
+    bool getIsRegistrationNode() const {return !m_startStage.isEmpty();}
+
+    Q_PROPERTY(bool isSandingDataStage READ isSandingDataStage NOTIFY creationStageChanged)
+    bool isSandingDataStage() const;
+signals:
+    void currentNetworkChanged();
+    void creationStageChanged();
+    void masterNodeCreated();
+    void networksListChanged();
+    void masterNodeDataChanged();
+    void validatorDataChanged();
+    void certNameChanged();
+    void signatureChanged();
+
+    void registrationNodeStarted();
+private slots:
+    void respondCreateCertificate(const QVariant &rcvData);
+    void nodeRestart();
+    void networkListUpdateSlot();
+
+    void workNodeChanged();
+    void addedNode(const QVariant &rcvData);
+    void respondNetworkStatus(const QVariant &rcvData);
+    void respondNodeListCommand(const QVariant &rcvData);
+
+    void respondStakeDelegate(const QVariant &rcvData);
+    void respondCheckStakeDelegate(const QVariant &rcvData);
+    void respondMempoolCheck(const QVariant &rcvData);
+
+    void mempoolCheck();
+    void checkStake();
+private:
+    void createMasterNode();
+    void stageComplated();
+
+    void saveStageList();
+    void loadStageList();
+
+    void createCertificate();
+    void getInfoCertificate();
+    void moveCertificate();
+    void dumpCertificate();
+    void getHashCertificate(const QString& certName);
+    void tryStopCreationMasterNode(int code, const QString &message = "");
+    void addNode();
+    void requestNodeList();
+    void stakeDelegate();
+    void tryCheckStakeDelegate();
+    void getInfoNode();
+    void getNodeLIst();
+
+    void tryUpdateNetworkConfig();
+    void tryRestartNode();
+    void startWaitingNode();
+
+    void addNetwork(const QString &net);
+    bool checkTokenName() const;
+
+private:
+    DapModulesController  *m_modulesCtrl;
+    QTimer* m_checkStakeTimer = nullptr;
+
+    QString m_currentNetwork = "raiden";
+
+    QList<QVariantMap> m_startedMasterNodeList;
+
+    QVariantMap m_currantStartMaster;
+    QList<QPair<LaunchStage, int>> m_startStage;
+
+    QString m_certName = "-";
+    QString m_signature = "-";
+    QString m_certPath;
+    bool m_isNetworkStatusRequest = false;
+    bool m_isNodeListRequest = false;
+
     const int TIME_OUT_CHECK_STAKE = 5000;
 
     const QMap<QString, QPair<QString, QString>> m_tokens = {{"Backbone", qMakePair(QString("mCELL"), QString("CELL"))},
@@ -171,22 +209,15 @@ private:
                                                              {"subzero", qMakePair(QString("mtCELL"), QString("tCELL"))}};
 
 
-
     QMap<QString, MasterNodeInfo> m_masterNodeInfo;
 
-    void addNetwork(const QString &net);
-    bool checkTokenName() const;
-
-
-
-    const QList<LaunchStage> PATTERN_STAGE = {LaunchStage::CHECK_PUBLIC_KEY,
-                                               LaunchStage::UPDATE_CONFIG,
-                                               LaunchStage::RESTARTING_NODE,
-                                               LaunchStage::ADDINNG_NODE_DATA,
-                                               LaunchStage::SENDING_STAKE,
-                                               LaunchStage::CHECKING_STAKE,
-                                               LaunchStage::RESTARTING_NODE,
-                                               LaunchStage::CHECKING_ALL_DATA};
+    const QList<QPair<LaunchStage, int>> PATTERN_STAGE = {{LaunchStage::CHECK_PUBLIC_KEY, 0},
+                                                          {LaunchStage::UPDATE_CONFIG, 1},
+                                                          {LaunchStage::RESTARTING_NODE, 2},
+                                                          {LaunchStage::ADDINNG_NODE_DATA, 3},
+                                                          {LaunchStage::SENDING_STAKE, 4},
+                                                          {LaunchStage::CHECKING_STAKE, 5},
+                                                          {LaunchStage::SEND_FORM, 6}};
 
     const QString STAKE_HASH_KEY = "stakeHash";
     const QString QUEUE_HASH_KEY = "queueHash";
