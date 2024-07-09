@@ -169,6 +169,8 @@ int main(int argc, char *argv[]) {
 #else
 int main(int argc, char *argv[])
 {
+    NodePathManager::getInstance().init("Service");
+
     // Creating a semaphore for locking external resources, as well as initializing an external resource-memory
     QSystemSemaphore systemSemaphore(QString("systemSemaphore for %1").arg("CellFrameDashboardService"), 1);
 
@@ -177,7 +179,6 @@ int main(int argc, char *argv[])
     QSharedMemory memmoryApp(QString("memmory for %1").arg("CellFrameDashboardService"));
     // Check for the existence of a running instance of the program
     bool isRunning = DapHelper::getInstance().checkExistenceRunningInstanceApp(systemSemaphore, memmoryApp, memmoryAppBagFix);
-    NodePathManager::getInstance().init("Service");
 
     if(isRunning)
     {
