@@ -396,5 +396,6 @@
         <file>Resources/BlackTheme/icons/other/sync_15x15.svg</file>
         <file>screen/desktop/MasterNode/parts/DapIsMasterNodeScreen.qml</file>
         <file>screen/desktop/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml</file>
+        <file>Resources/BlackTheme/icons/other/loader_orange.svg</file>
     </qresource>
 </RCC>

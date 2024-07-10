@@ -46,5 +46,9 @@ void DapNotifyController::rcvData(QVariant data)
         {
             emit netStates(map);
         }
+        else if(value.toString() == "chain_init")
+        {
+            emit chainsLoadProgress(map);
+        }
     }
 }

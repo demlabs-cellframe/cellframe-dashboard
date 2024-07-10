@@ -51,6 +51,12 @@ bool DapNotificationWatcher::initWatcher()
         m_listenAddr = configReader.getItemString("notify_server", "listen_address", "");
         m_listenPort = configReader.getItemInt("notify_server", "listen_port", 0);
 
+        if(m_listenAddr.contains(":"))
+        {
+            m_listenPort = QString(m_listenAddr.split(":")[1]).toUInt();
+            m_listenAddr = m_listenAddr.split(":")[0];
+        }
+
         qDebug() << "Tcp config: " << m_listenAddr << m_listenPort;
         connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(slotReconnect()));
 
