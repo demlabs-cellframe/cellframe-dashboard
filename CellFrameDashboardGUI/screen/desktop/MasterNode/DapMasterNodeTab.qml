@@ -58,4 +58,23 @@ DapPage {
     {
 
     }
+
+    Connections
+    {
+        target: nodeMasterModule
+
+        function onRegistrationNodeStarted()
+        {
+            dapRightPanel.push(loaderMasterNodePanel)
+        }
+
+        function onCreationStageChanged()
+        {
+            if(nodeMasterModule.isSandingDataStage)
+            {
+                
+            }
+        }
+    }
+
 }

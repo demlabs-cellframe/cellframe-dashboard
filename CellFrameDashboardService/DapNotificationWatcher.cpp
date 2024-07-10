@@ -116,7 +116,6 @@ void DapNotificationWatcher::slotReconnect()
     qInfo()<<"DapNotificationWatcher::slotReconnect()" << m_listenAddr << m_listenPort;
     ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
     ((QTcpSocket*)m_socket)->waitForConnected(3000);
-
     sendNotifyState("Notify socket error");
 
 #ifdef Q_OS_WIN
