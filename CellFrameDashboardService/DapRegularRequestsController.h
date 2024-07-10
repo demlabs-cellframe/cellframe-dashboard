@@ -6,11 +6,13 @@
 #include <QByteArray>
 #include "handlers/DapCommandList.h"
 
+#include "NodePathManager.h"
+
 class DapRegularRequestsController : public QObject
 {
     Q_OBJECT
 public:
-    DapRegularRequestsController(QObject *parent = nullptr);
+    DapRegularRequestsController(QString cliPath, QString toolPath, QObject *parent = nullptr);
     ~DapRegularRequestsController();
 
     void start();
@@ -24,6 +26,10 @@ private slots:
     void updateListWallets();
 
 private:
+
+    QString m_nodeCliPath;
+    QString m_nodeToolPath;
+
     const int TIMER_COUNT = 1000;
 
     DapCommandList *m_cmdList = nullptr;

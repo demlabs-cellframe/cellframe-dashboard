@@ -17,6 +17,7 @@ public:
     ~DapNotificationWatcher();
 
     bool initWatcher();
+    bool m_statusInitWatcher{false};
     const QString& getSocketState() const {return m_socketState;}
 public slots:
     void slotError();
@@ -47,7 +48,7 @@ private:
     QTimer * m_reconnectTimer;
     QTimer * m_initTimer;
 
-    QString m_socketState;
+    QString m_socketState{""};
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H
