@@ -205,7 +205,8 @@ Page
 
                             Connections{
                                 target: commandHelperController
-                                onHelpListGeted:
+
+                                function onHelpListGeted(list)
                                 {
                                     findMaxLenIndex(list)
                                     suggestionsBox.model = list

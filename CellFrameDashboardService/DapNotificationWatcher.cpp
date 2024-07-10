@@ -51,6 +51,12 @@ bool DapNotificationWatcher::initWatcher()
         m_listenAddr = configReader.getItemString("notify_server", "listen_address", "");
         m_listenPort = configReader.getItemInt("notify_server", "listen_port", 0);
 
+        if(m_listenAddr.contains(":"))
+        {
+            m_listenPort = QString(m_listenAddr.split(":")[1]).toUInt();
+            m_listenAddr = m_listenAddr.split(":")[0];
+        }
+
         qDebug() << "Tcp config: " << m_listenAddr << m_listenPort;
         connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(slotReconnect()));
 
@@ -92,9 +98,10 @@ bool DapNotificationWatcher::initWatcher()
             ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
             ((QTcpSocket*)m_socket)->waitForConnected();
         }
+        m_statusInitWatcher = true;
         return true;
     }
-
+    m_statusInitWatcher = false;
     return false;
 }
 
@@ -109,7 +116,6 @@ void DapNotificationWatcher::slotReconnect()
     qInfo()<<"DapNotificationWatcher::slotReconnect()" << m_listenAddr << m_listenPort;
     ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
     ((QTcpSocket*)m_socket)->waitForConnected(3000);
-
     sendNotifyState("Notify socket error");
 
 #ifdef Q_OS_WIN
@@ -160,7 +166,7 @@ void DapNotificationWatcher::socketReadyRead()
         QJsonParseError error;
         QJsonDocument reply = QJsonDocument::fromJson(list[i], &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning()<<"Notify parse error. " << error.errorString();
+//            qWarning()<<"Notify parse error. " << error.errorString(); // more logs
         }
         else{
             QJsonObject obj = reply.object();

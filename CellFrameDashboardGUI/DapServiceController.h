@@ -67,6 +67,8 @@
 #include "handlers/DapServiceInitCommand.h"
 #include "handlers/DapAddNodeCommand.h"
 #include "handlers/DapCheckQueueTransactionCommand.h"
+#include "handlers/DapNodeListCommand.h"
+#include "handlers/MempoolCheckCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -296,7 +298,8 @@ signals:
     void walletsServiceInitRcv(const QVariant& rcvData);
     void rcvAddNode(const QVariant& rcvData);
     void rcvCheckQueueTransaction(const QVariant& rcvData);
-
+    void rcvNodeListCommand(const QVariant& rcvData);
+    void rcvMempoolCheckCommand(const QVariant& rcvData);
 private slots:
     /// Register command.
     void registerCommand();

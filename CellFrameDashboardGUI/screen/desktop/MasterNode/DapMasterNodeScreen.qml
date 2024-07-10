@@ -49,6 +49,7 @@ Page
             Item
         {
             anchors.fill: parent
+            visible: networkTabsModel.count > 0
 
             ListView
             {
@@ -214,7 +215,15 @@ Page
             if(indexFound < 0) indexFound = 0
             tabsView.currentIndex = indexFound
         }
+    }
 
+    function changeCurrentWallet(wallet)
+    {
+        if(wallet !== "") {
+            walletModule.setCurrentWallet(wallet)
+            txExplorerModule.setWalletName(wallet)
+            walletModule.getWalletsInfo("true")
+        }
     }
 
     Connections
@@ -224,6 +233,7 @@ Page
         function onCurrentNetworkChanged()
         {
             updateTokens()
+            changeCurrentWallet(nodeMasterModule.currentWalletName)
         }
 
         function onNetworksListChanged()

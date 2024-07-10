@@ -584,6 +584,46 @@ QString DapModuleDex::minusCoins(const QString& a, const QString& b)
     return roundCoins((oneVal - twoVal).toCoinsString());
 }
 
+int DapModuleDex::diffNumber(const QString& a, const QString& b)
+{
+    // 2 - bigger
+    // 1 - equally
+    // 0 - less
+    if(a.isEmpty() || a == "0.0" || a == "0")
+    {
+        return 0;
+    }
+    QString resA(a);
+    if(!resA.contains('.'))
+    {
+        resA.append(".0");
+    }
+    else if(resA[resA.size()-1] == '.')
+    {
+        resA.append("0");
+    }
+
+    if(b.isEmpty() || b == "0.0" || b == "0")
+    {
+        return 0;
+    }
+    QString resB(b);
+    if(!resB.contains('.'))
+    {
+        resB.append(".0");
+    }
+    else if(resB[resB.size()-1] == '.')
+    {
+        resB.append("0");
+    }
+
+    Dap::Coin oneVal = resA;
+    Dap::Coin twoVal = resB;
+    if(resA > resB) return 2;
+    else if(resA == resB) return 1;
+    else return 0;
+}
+
 QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee)
 {
     auto checkValue = [](const QString& str) -> QString

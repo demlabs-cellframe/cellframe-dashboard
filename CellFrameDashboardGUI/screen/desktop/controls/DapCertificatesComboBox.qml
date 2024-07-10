@@ -43,5 +43,7 @@ DapCustomComboBox
                        "secondname": certList[i].secondName
                    })
         }
+
+        setCurrentIndex(0)
     }
 }

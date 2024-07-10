@@ -16,7 +16,3 @@ TRANSLATIONS += \
     Resources/Translations/Translation_cs.ts \
     Resources/Translations/Translation_pt.ts \
     Resources/Translations/Translation_nl.ts
-
-#SUBDIRS = CellFrameNode CellFrameDashboardGUI CellFrameDashboardService
-#CellFrameDashboardGUI.depends = CellFrameDashboardService
-#CellFrameDashboardService.depends = CellFrameNode
