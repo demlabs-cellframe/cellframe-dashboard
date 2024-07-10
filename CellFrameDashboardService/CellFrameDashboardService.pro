@@ -65,9 +65,12 @@ include (../dap-ui-sdk/core/libdap-qt.pri)
 #include (../cellframe-ui-sdk/stream/ch/chain/net/srv/libdap-qt-stream-ch-chain-net-srv.pri)
 #include (../cellframe-ui-sdk/stream/ch/chain/net/srv/vpn/libdap-qt-stream-ch-chain-net-srv-vpn.pri)
 
+include(../NodeConfigManager/NodeConfigManager.pri)
+
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
 include (../web3_api/web3_api.pri)
+
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
@@ -75,13 +78,11 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 SOURCES += \
     $$PWD/DapServiceController.cpp \
     $$PWD/main.cpp \
-    DapNetSyncController.cpp \
     DapNotificationWatcher.cpp \
     DapRegularRequestsController.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    DapNetSyncController.h \
     DapNotificationWatcher.h \
     DapRegularRequestsController.h
 

@@ -7,12 +7,13 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-
-DapRegularRequestsController::DapRegularRequestsController(QObject *parent)
+DapRegularRequestsController::DapRegularRequestsController(QString cliPath, QString toolPath, QObject *parent)
     : QObject(parent)
-    , m_cmdList(new DapCommandList())
+    , m_cmdList(new DapCommandList(cliPath, toolPath))
     , m_timerUpdateListNetworks(new QTimer())
     , m_timerUpdateListWallets(new QTimer())
+    , m_nodeCliPath(cliPath)
+    , m_nodeToolPath(toolPath)
 {
 }
 

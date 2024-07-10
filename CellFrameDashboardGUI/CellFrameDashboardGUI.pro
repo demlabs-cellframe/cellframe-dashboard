@@ -62,6 +62,8 @@ LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
 
+include(../NodeConfigManager/NodeConfigManager.pri)
+
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 
