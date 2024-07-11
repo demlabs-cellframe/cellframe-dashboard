@@ -24,13 +24,11 @@ Item
         Image
         {
             id: syncIcon
-            anchors.fill: parent
+            anchors.centerIn: parent
             antialiasing: true
             fillMode: Image.PreserveAspectFit
-            sourceSize: Qt.size(24,24)
-            source: "qrc:/Resources/" + pathTheme + "/icons/other/sync.svg"
-            // sourceSize: Qt.size(15,15)
-            // source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
+            sourceSize: Qt.size(15,15)
+            source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
 
             NumberAnimation on rotation
             {
