@@ -166,11 +166,12 @@ Item {
         Item
         {
             property bool showProgress: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
-            property int progressItemsWidth: showProgress ? progressItem.width : 0
+            property string progressText: showProgress ? " " + (logicNet.percentToRatio(syncPercent) * 100).toFixed(0) + "%" : ""
+            property int spinerWidth: showProgress ? stateSpinerIcon.width : 0
 
             Layout.topMargin: 8
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + progressItemsWidth
+            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + spinerWidth
             Layout.preferredHeight: 15
 
             DapRowInfoText
@@ -180,56 +181,30 @@ Item {
                 anchors.left: parent.left
                 height: parent.height
                 staticText.text: qsTr("State: ")
-                dynamicText.text: displayNetworkState
+                dynamicText.text: displayNetworkState + parent.progressText
                 onTextChangedSign: buttonNetwork.setText()
             }
 
-            Item
+            Image
             {
-                id: progressItem
-                width: progressPercentText.implicitWidth + progressSpinerItem.width
+                id: stateSpinerIcon
+                width: 15
                 height: 15
                 anchors.right: parent.right
-                anchors.top: parent.top
+                anchors.verticalCenter: parent.verticalCenter
                 visible: parent.showProgress
+                antialiasing: true
+                fillMode: Image.PreserveAspectFit
+                sourceSize: Qt.size(15,15)
+                source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
 
-                Text
+                NumberAnimation on rotation
                 {
-                    id: progressPercentText
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    font: mainFont.dapFont.regular12
-                    color: currTheme.white
-                    text: " " + (logicNet.percentToRatio(syncPercent) * 100).toFixed(0) + "%"
-                }
-
-                Item
-                {
-                    id: progressSpinerItem
-                    width: 15
-                    height: 15
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-
-                    Image
-                    {
-                        anchors.fill: parent
-                        antialiasing: true
-                        fillMode: Image.PreserveAspectFit
-                        sourceSize: Qt.size(24,24)
-                        source: "qrc:/Resources/" + pathTheme + "/icons/other/sync.svg"
-                        // sourceSize: Qt.size(15,15)
-                        // source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
-
-                        NumberAnimation on rotation
-                        {
-                            from: 0
-                            to: -360
-                            duration: 1000
-                            loops: Animation.Infinite
-                            running: true
-                        }
-                    }
+                    from: 0
+                    to: -360
+                    duration: 1000
+                    loops: Animation.Infinite
+                    running: true
                 }
             }
         }
