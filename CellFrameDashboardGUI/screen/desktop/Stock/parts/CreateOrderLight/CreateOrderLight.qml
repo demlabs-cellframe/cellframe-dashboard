@@ -524,9 +524,7 @@ Page
                             var tmpValue = isInvert ? dexModule.invertValue(priceText.text) : priceText.text
                             var substrings = tmpValue.split('.')
                             var lenghtValue = substrings.length
-                            console.log("[TEST] 1 ", substrings)
-                            console.log("[TEST] 2 ", lenghtValue)
-                            console.log("[TEST] 3 ", tmpValue)
+
                             if(tmpValue === "")
                             {
                                 tmpValue = "0.0"
