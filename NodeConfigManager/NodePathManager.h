@@ -10,6 +10,7 @@
 #include <QDir>
 
 #include "NodeInstallManager.h"
+#include "NodeConfigToolController.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -35,7 +36,6 @@ public:
 
     void init(QString target);
 
-public:
     struct NodePaths{
         QString nodeDirPath = "";
         QString nodePath = "";
@@ -54,10 +54,10 @@ public:
     }nodePaths;
 
 
+    NodeInstallManager *m_instMngr;
+    NodeConfigToolController *m_cfgToolCtrl;
 
 private:
-    NodeInstallManager *m_instMngr;
-
     QSharedMemory m_sharedMemory;
     bool m_initMemFlag{false};
 
@@ -67,7 +67,6 @@ private:
         OldInstall,
         NewInstall
     };
-
 
 private:
 
@@ -83,11 +82,6 @@ private:
 
     void fillNodePath();
 
-#ifdef WIN32
-    LONG GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue);
-    LONG GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bool bDefaultValue);
-    LONG GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &strValue, const std::wstring &strDefaultValue);
-#endif
 
 signals:
     Q_INVOKABLE void signalIsNeedInstallNode(bool isNeed, QString url);

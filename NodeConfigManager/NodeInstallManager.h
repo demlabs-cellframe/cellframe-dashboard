@@ -11,6 +11,7 @@
 #include <QNetworkReply>
 #include <QTimer>
 #include <QFileInfo>
+#include <QSysInfo>
 
 class NodeInstallManager: public QObject
 {
@@ -27,11 +28,11 @@ private:
 
     QUrl m_url;
 
-#ifdef __x86_64__
-    QString m_latest{"latest-amd64"};
-#else
-    QString m_latest{"latest-arm64"};
-#endif
+//#ifdef __x86_64__
+//    QString m_latest{"latest-amd64"};
+//#else
+//    QString m_latest{"latest-arm64"};
+//#endif
 
     QString m_fileName, m_suffix;
 

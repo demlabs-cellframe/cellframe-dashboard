@@ -1,12 +1,6 @@
 #include "DapNotificationWatcher.h"
-#include <QLocalSocket>
-#include <QDebug>
-#include <dap_config.h>
-#include <QTcpSocket>
-#include <QTimer>
-#include <dapconfigreader.h>
-#include <QJsonDocument>
-#include <QProcess>
+
+
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -115,18 +109,22 @@ void DapNotificationWatcher::slotReconnect()
 {
     qInfo()<<"DapNotificationWatcher::slotReconnect()" << m_listenAddr << m_listenPort;
     ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
-    ((QTcpSocket*)m_socket)->waitForConnected(3000);
+    ((QTcpSocket*)m_socket)->waitForConnected(5000);
     sendNotifyState("Notify socket error");
 
 #ifdef Q_OS_WIN
-    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, 0, "Local\\" DAP_BRAND_BASE_LO "-node");
-    if (!hEvent) {
-        qInfo() << "Restarting the node: "
-                << QProcess::startDetached("schtasks.exe", QStringList({"/run", "/I", "/TN", DAP_BRAND_BASE_LO "-node"}));
-    } else {
-        CloseHandle(hEvent);
+
+    if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
+       m_socketState != QAbstractSocket::SocketState::ConnectingState)
+    {
+        if(NodePathManager::getInstance().m_cfgToolCtrl->runNode())
+            qInfo()<<"Succes restart node";
+        else
+            qWarning()<<"Error restart node";
     }
+
 #endif
+
 }
 
 void DapNotificationWatcher::socketConnected()
@@ -194,7 +192,7 @@ void DapNotificationWatcher::reconnectFunc()
     if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
        m_socketState != QAbstractSocket::SocketState::ConnectingState)
     {
-        m_reconnectTimer->start(5000);
+        m_reconnectTimer->start(10000);
         qWarning()<< "Notify socket reconnecting...";
     }
 }

@@ -4,7 +4,9 @@ NodePathManager::NodePathManager( QObject *parent)
     : QObject(parent)
     , m_sharedMemory(m_keyName)
     , m_instMngr(new NodeInstallManager(true))
+    , m_cfgToolCtrl(new NodeConfigToolController())
 {
+
 }
 
 NodePathManager &NodePathManager::getInstance()
@@ -31,6 +33,7 @@ void NodePathManager::init(QString target)
             <<"Mem node path: "     + nodePaths.nodePath;
 
     checkNeedDownload();
+
 }
 
 QString NodePathManager::getUrlForNodeDownload()
@@ -189,56 +192,6 @@ void NodePathManager::fillNodePath()
 #endif
 }
 
-#ifdef WIN32
-
-LONG NodePathManager::GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue)
-{
-    nValue = nDefaultValue;
-    DWORD dwBufferSize(sizeof(DWORD));
-    DWORD nResult(0);
-    LONG nError = ::RegQueryValueExW(hKey,
-                                     strValueName.c_str(),
-                                     0,
-                                     NULL,
-                                     reinterpret_cast<LPBYTE>(&nResult),
-                                     &dwBufferSize);
-    if (ERROR_SUCCESS == nError)
-    {
-        nValue = nResult;
-    }
-    return nError;
-}
-
-
-LONG NodePathManager::GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bool bDefaultValue)
-{
-    DWORD nDefValue((bDefaultValue) ? 1 : 0);
-    DWORD nResult(nDefValue);
-    LONG nError = GetDWORDRegKey(hKey, strValueName.c_str(), nResult, nDefValue);
-    if (ERROR_SUCCESS == nError)
-    {
-        bValue = (nResult != 0) ? true : false;
-    }
-    return nError;
-}
-
-
-LONG NodePathManager::GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &strValue, const std::wstring &strDefaultValue)
-{
-    strValue = strDefaultValue;
-    WCHAR szBuffer[512];
-    DWORD dwBufferSize = sizeof(szBuffer);
-    ULONG nError;
-    nError = RegQueryValueExW(hKey, strValueName.c_str(), 0, NULL, (LPBYTE)szBuffer, &dwBufferSize);
-    if (ERROR_SUCCESS == nError)
-    {
-        strValue = szBuffer;
-    }
-    return nError;
-}
-#endif
-
-
 QString NodePathManager::getNodeConfigPath(){
 #ifdef __linux__
     return "/opt/cellframe-node/";
@@ -254,7 +207,7 @@ QString NodePathManager::getNodeConfigPath(){
     bool bExistsAndSuccess (lRes == ERROR_SUCCESS);
     bool bDoesNotExistsSpecifically (lRes == ERROR_FILE_NOT_FOUND);
     std::wstring path;
-    GetStringRegKey(hKey, L"Common Documents", path, L"");
+    m_cfgToolCtrl->GetStringRegKey(hKey, L"Common Documents", path, L"");
     std::string stdpath(path.begin(),path.end());
     return QString::fromWCharArray(path.c_str());
 #endif
@@ -276,7 +229,7 @@ QString NodePathManager::getNodeNewBinaryPath(){
     bool bExistsAndSuccess (lRes == ERROR_SUCCESS);
     bool bDoesNotExistsSpecifically (lRes == ERROR_FILE_NOT_FOUND);
     std::wstring path;
-    GetStringRegKey(hKey, L"Path", path, L"");
+    m_cfgToolCtrl->GetStringRegKey(hKey, L"Path", path, L"");
     std::string stdpath(path.begin(),path.end());
 
     if(QString::fromWCharArray(path.c_str()).isEmpty())
