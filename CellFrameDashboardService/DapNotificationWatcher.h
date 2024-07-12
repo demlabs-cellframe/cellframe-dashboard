@@ -1,13 +1,20 @@
 #ifndef DAPNOTIFICATIONWATCHER_H
 #define DAPNOTIFICATIONWATCHER_H
+
 #include <QThread>
 #include <QIODevice>
 #include <QLocalSocket>
+#include <QTcpSocket>
 #include <QTimer>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QDebug>
+#include <QProcess>
 
+#include "dap_config.h"
+#include "dapconfigreader.h"
+#include "NodePathManager.h"
 
 class DapNotificationWatcher : public QObject
 {

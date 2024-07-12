@@ -6,19 +6,25 @@ NodeInstallManager::NodeInstallManager(bool flag_RK, QObject *parent)
 {
     QString branch = flag_RK ? "release-5.3" : "master";
 
+    QString procArch = QSysInfo::currentCpuArchitecture();
+    QString latest = "latest-"+procArch;
+    if(procArch == "x86_64")
+        latest = "latest-amd64";
+
+
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
 
-    m_url = QUrl(QString("https://pub.cellframe.net/linux/cellframe-node/%1/%2/").arg(branch).arg(m_latest));
+    m_url = QUrl(QString("https://pub.cellframe.net/linux/cellframe-node/%1/%2/").arg(branch).arg(latest));
     m_suffix =  QString(".deb");
 
 #elif defined (Q_OS_MACOS)
 
-    m_url = QUrl(QString("https://pub.cellframe.net/macos/cellframe-node/%1/%2/").arg(branch).arg(m_latest));//todo: need branch
+    m_url = QUrl(QString("https://pub.cellframe.net/macos/cellframe-node/%1/%2/").arg(branch).arg(latest));//todo: need branch
     m_suffix =  QString(".pkg");
 
 #elif defined (Q_OS_WIN)
 
-    m_url = QUrl(QString("https://pub.cellframe.net/windows/cellframe-node/%1/%2/").arg(branch).arg(m_latest)); //todo: need branch
+    m_url = QUrl(QString("https://pub.cellframe.net/windows/cellframe-node/%1/%2/").arg(branch).arg(latest)); //todo: need branch
     m_suffix =  QString(".exe");
 
 #elif defined Q_OS_ANDROID
