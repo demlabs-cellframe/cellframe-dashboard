@@ -8,7 +8,7 @@ import "../../Settings/NodeSettings"
 
 Rectangle
 {
-    property bool isMasterNode: true
+    property bool isMasterNode: nodeMasterModule.isMasterNode
 
     id: root
 

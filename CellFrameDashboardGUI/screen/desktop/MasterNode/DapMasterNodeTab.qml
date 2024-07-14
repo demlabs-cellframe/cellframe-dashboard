@@ -52,7 +52,14 @@ DapPage {
 
     Component.onCompleted:
     {
-        dapRightPanel.push(baseMasterNodePanel)
+        if(nodeMasterModule.isSandingDataStage)
+        {
+            dapRightPanel.push(createMasterNodeDone)
+        }
+        else
+        {
+            dapRightPanel.push(baseMasterNodePanel)
+        }
     }
 
     Component.onDestruction:
@@ -73,7 +80,7 @@ DapPage {
         {
             if(nodeMasterModule.isSandingDataStage)
             {
-                
+                dapRightPanel.push(createMasterNodeDone)
             }
         }
     }

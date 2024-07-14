@@ -684,6 +684,16 @@ DapRectangleLitAndShaded
         }
     }
 
+    Connections
+    {
+        target: walletModule
+
+        function onCurrentWalletChanged()
+        {
+            textBalance.text = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+        }
+    }
+
     function defaultNewCertificateName()
     {
         newCertificateName.text = nodeMasterModule.currentNetwork.toLowerCase() + "."

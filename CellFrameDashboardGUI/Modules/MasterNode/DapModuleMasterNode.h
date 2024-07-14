@@ -38,7 +38,7 @@ class DapModuleMasterNode : public DapAbstractModule
         SENDING_STAKE,
         CHECKING_STAKE,
         SEND_FORM,
-        CHECKING_ALL_DATA
+        ORDER_VALIDATOR
     };
 
     enum TransctionStage
@@ -70,15 +70,16 @@ class DapModuleMasterNode : public DapAbstractModule
 
     struct MasterNodeInfo
     {
-        bool isMaster;
-        QString publicKey;
-        QString nodeAddress;
-        QString nodeIP;
-        QString nodePort;
-        QString stakeAmount;
-        QString stakeHash;
-        QString walletName;
-        QString walletAddr;
+        bool isMaster = false;
+        bool isOfline = false;
+        QString publicKey = "";
+        QString nodeAddress = "";
+        QString nodeIP = "";
+        QString nodePort = "";
+        QString stakeAmount = "";
+        QString stakeHash = "";
+        QString walletName= "";
+        QString walletAddr = "";
         MasterNodeValidator validator;
         MasterNodeVPN vpn;
         MasterNodeDEX dex;
@@ -131,6 +132,9 @@ public:
 
     Q_PROPERTY(bool isSandingDataStage READ isSandingDataStage NOTIFY creationStageChanged)
     bool isSandingDataStage() const;
+
+    Q_PROPERTY(bool isMasterNode READ isMasterNode NOTIFY masterNodeChanged)
+    bool isMasterNode() const;
 signals:
     void currentNetworkChanged();
     void currentWalletNameChanged();
@@ -143,6 +147,7 @@ signals:
     void signatureChanged();
 
     void registrationNodeStarted();
+    void masterNodeChanged();
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
     void nodeRestart();
@@ -159,12 +164,17 @@ private slots:
 
     void mempoolCheck();
     void checkStake();
+    void createStakeOrder();
 private:
     void createMasterNode();
     void stageComplated();
 
     void saveStageList();
     void loadStageList();
+    void saveCurrentRegistration();
+    void loadCurrentRegistration();
+    void saveMasterNodeBase();
+    void loadMasterNodeBase();
 
     void createCertificate();
     void getInfoCertificate();
@@ -195,6 +205,8 @@ private:
     QList<QVariantMap> m_startedMasterNodeList;
 
     QVariantMap m_currantStartMaster;
+    QMap<QString, QVariantMap> m_masterNodes;
+
     QList<QPair<LaunchStage, int>> m_startStage;
 
     QString m_certName = "-";
@@ -221,7 +233,9 @@ private:
                                                           {LaunchStage::ADDINNG_NODE_DATA, 3},
                                                           {LaunchStage::SENDING_STAKE, 4},
                                                           {LaunchStage::CHECKING_STAKE, 5},
-                                                          {LaunchStage::SEND_FORM, 6}};
+                                                          {LaunchStage::SEND_FORM, 6},
+                                                          {LaunchStage::ORDER_VALIDATOR, 7},
+                                                          {LaunchStage::RESTARTING_NODE, 8}};
 
     const QString STAKE_HASH_KEY = "stakeHash";
     const QString QUEUE_HASH_KEY = "queueHash";

@@ -69,6 +69,7 @@
 #include "handlers/DapCheckQueueTransactionCommand.h"
 #include "handlers/DapNodeListCommand.h"
 #include "handlers/MempoolCheckCommand.h"
+#include "handlers/DapCreateStakeOrder.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -300,6 +301,7 @@ signals:
     void rcvCheckQueueTransaction(const QVariant& rcvData);
     void rcvNodeListCommand(const QVariant& rcvData);
     void rcvMempoolCheckCommand(const QVariant& rcvData);
+    void rcvCreateStakeOrder(const QVariant& rcvData);
 private slots:
     /// Register command.
     void registerCommand();
