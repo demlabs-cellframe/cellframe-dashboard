@@ -15,10 +15,15 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::rcvAddNode, this, &DapModuleMasterNode::addedNode);
     connect(s_serviceCtrl, &DapServiceController::srvStakeDelegateCreated, this, &DapModuleMasterNode::respondStakeDelegate);
     connect(s_serviceCtrl, &DapServiceController::rcvCheckQueueTransaction, this, &DapModuleMasterNode::respondCheckStakeDelegate);
+    connect(s_serviceCtrl, &DapServiceController::networkStatusReceived, this, &DapModuleMasterNode::respondNetworkStatus);
+    connect(s_serviceCtrl, &DapServiceController::rcvNodeListCommand, this, &DapModuleMasterNode::respondNodeListCommand);
+    connect(s_serviceCtrl, &DapServiceController::rcvMempoolCheckCommand, this, &DapModuleMasterNode::respondMempoolCheck);
 
     connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, &DapModuleMasterNode::workNodeChanged);
     connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
 
+    loadStageList();
+    loadCurrentRegistration();
 }
 
 bool DapModuleMasterNode::checkTokenName() const
@@ -56,6 +61,7 @@ void DapModuleMasterNode::setCurrentNetwork(const QString& networkName)
 {
     m_currentNetwork = networkName;
     emit currentNetworkChanged();
+    emit masterNodeChanged();
 }
 
 int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
@@ -63,48 +69,69 @@ int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
     /// request code
     /// 0 - OK
     /// 1 - the previous wizard has not been created yet
-    /// 2 - some problem
+    /// 2 - The certificate name is not specified correctly
     /// 3 - The certificate name is not appropriate.
     /// 4 -
 
-//    if(!m_currantStartMaster.isEmpty())
-//    {
-//        return 1;
-//    }
+    if(!m_currantStartMaster.isEmpty())
+    {
+        return 1;
+    }
 
-    if(!value.contains("certName"))
+    QString certName = value["certName"].toString();
+
+    if(!certName.contains(QString(m_currentNetwork + '.')))
+    {
+        return 2;
+    }
+    certName.remove(QString(m_currentNetwork + '.'));
+    certName = certName.trimmed();
+    if(certName.isEmpty())
     {
         return 2;
     }
 
-    if(!value["certName"].toString().contains(QString(m_currentNetwork + '.')))
+    bool isUploadCert = value["isUploadCert"].toBool();
+    if(isUploadCert)
     {
-        return 3;
+        if(m_certPath.isEmpty())
+        {
+            return 3;
+        }
     }
 
+
     m_currantStartMaster = value;
+    if(isUploadCert)
+    {
+        m_currantStartMaster.insert("certPath", m_certPath);
+    }
+
     m_startStage = PATTERN_STAGE;
-    m_modulesCtrl->getSettings()->setValue("startNodeInfo", m_currantStartMaster);
+    saveCurrentRegistration();
     saveStageList();
     createMasterNode();
-
+    emit registrationNodeStarted();
     return 0;
 }
 
 void DapModuleMasterNode::createMasterNode()
 {
+//    stakeDelegate();
+//    return;
+
     if(m_startStage.isEmpty())
     {
         return;
     }
 
-    switch(m_startStage.first())
+    switch(m_startStage.first().first)
     {
     case LaunchStage::CHECK_PUBLIC_KEY:
     {
         if(m_currantStartMaster["isUploadCert"].toBool())
         {
-            getInfoCertificate();
+            moveCertificate();
         }
         else
         {
@@ -117,9 +144,7 @@ void DapModuleMasterNode::createMasterNode()
         break;
     case LaunchStage::RESTARTING_NODE:
         tryRestartNode();
-        // Ожидание ноды
         break;
-
     case LaunchStage::ADDINNG_NODE_DATA:
         addNode();
         break;
@@ -129,7 +154,11 @@ void DapModuleMasterNode::createMasterNode()
     case LaunchStage::CHECKING_STAKE:
         tryCheckStakeDelegate();
         break;
-    case LaunchStage::CHECKING_ALL_DATA:
+    case LaunchStage::SEND_FORM:
+
+        break;
+    case LaunchStage::ORDER_VALIDATOR:
+        createStakeOrder();
         break;
     default:
         break;
@@ -142,16 +171,19 @@ int DapModuleMasterNode::creationStage() const
     {
         return 0;
     }
-    return static_cast<int>(m_startStage.first());
+    return static_cast<int>(m_startStage.first().first);
 }
 
 void DapModuleMasterNode::saveStageList()
 {
     QList<int> stageList;
-    for (const LaunchStage &stage : m_startStage) {
-        stageList.append(static_cast<int>(stage));
+    QList<int> indexList;
+    for (const auto &stage : m_startStage) {
+        stageList.append(static_cast<int>(stage.first));
+        indexList.append(static_cast<int>(stage.second));
     }
     m_modulesCtrl->getSettings()->setValue("startStageNode", QVariant::fromValue(stageList));
+    m_modulesCtrl->getSettings()->setValue("startIndexNode", QVariant::fromValue(indexList));
 }
 
 void DapModuleMasterNode::stageComplated()
@@ -177,15 +209,39 @@ void DapModuleMasterNode::stageComplated()
 
 void DapModuleMasterNode::loadStageList()
 {
-    QList<LaunchStage> resultList;
+    QList<QPair<LaunchStage, int>> resultList;
     QList<int> stageList = m_modulesCtrl->getSettings()->value("startStageNode").value<QList<int>>();
-
-    for (int stageInt : stageList)
+    QList<int> indexList = m_modulesCtrl->getSettings()->value("startIndexNode").value<QList<int>>();
+    if(stageList.size() != indexList.size())
     {
-        resultList.append(static_cast<LaunchStage>(stageInt));
+        return;
+    }
+    for (int i = 0; i < stageList.size(); i++)
+    {
+        resultList.append({static_cast<LaunchStage>(stageList[i]), indexList[i]});
     }
 
     m_startStage = resultList;
+}
+
+void DapModuleMasterNode::saveCurrentRegistration()
+{
+    m_modulesCtrl->getSettings()->setValue("currentStartMaster", QVariant::fromValue(m_currantStartMaster));
+}
+
+void DapModuleMasterNode::loadCurrentRegistration()
+{
+    m_currantStartMaster = m_modulesCtrl->getSettings()->value("currentStartMaster").toMap();
+}
+
+void DapModuleMasterNode::saveMasterNodeBase()
+{
+    m_modulesCtrl->getSettings()->setValue("masterNodes", QVariant::fromValue(m_masterNodes));
+}
+
+void DapModuleMasterNode::loadMasterNodeBase()
+{
+    m_masterNodes = m_modulesCtrl->getSettings()->value("masterNodes").value<QMap<QString, QVariantMap>>();
 }
 
 void DapModuleMasterNode::createCertificate()
@@ -193,7 +249,7 @@ void DapModuleMasterNode::createCertificate()
     if(!m_currantStartMaster.contains("certName") || !m_currantStartMaster.contains("sign"))
     {
         qWarning() << "There is no certificate name or signature.";
-        tryStopCreationMasterNode("There is no certificate name or signature.");
+        tryStopCreationMasterNode(0, "There is no certificate name or signature.");
         return;
     }
     qInfo() << "[DapModuleMasterNode] [Creating a master node] A " << m_currantStartMaster["certName"].toString() << " certificate is being created";
@@ -206,6 +262,11 @@ void DapModuleMasterNode::createCertificate()
 void DapModuleMasterNode::getHashCertificate(const QString& certName)
 {
     s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "10" << certName);
+}
+
+void DapModuleMasterNode::requestNodeList()
+{
+    s_serviceCtrl->requestToService("DapNodeListCommand", QStringList() << m_currantStartMaster["network"].toString());
 }
 
 void DapModuleMasterNode::addNode()
@@ -240,7 +301,7 @@ void DapModuleMasterNode::stakeDelegate()
         }
         else if(stakeValue.isEmpty())
         {
-            tryStopCreationMasterNode("An empty value was specified for freezing m-tokens.");
+            tryStopCreationMasterNode(1, "An empty value was specified for freezing m-tokens.");
             return;
         }
     }
@@ -265,7 +326,7 @@ void DapModuleMasterNode::mempoolCheck()
     }
     else
     {
-        tryStopCreationMasterNode("No stake delegate hash found.");
+        tryStopCreationMasterNode(3, "No stake delegate hash found in the mempool.");
     }
 }
 
@@ -280,7 +341,40 @@ void DapModuleMasterNode::checkStake()
     }
     else
     {
-        tryStopCreationMasterNode("No stake delegate hash found.");
+        tryStopCreationMasterNode(4, "No stake delegate hash found in the queue.");
+    }
+}
+
+void DapModuleMasterNode::createStakeOrder()
+{
+    if(m_currantStartMaster.contains("fee"))
+    {
+        tryStopCreationMasterNode(7, "The value of the desired commission was not found.");
+        return;
+    }
+    Dap::Coin feeCoin(m_currantStartMaster["fee"].toString());
+    QString feeDatoshi = feeCoin.toDatoshiString();
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList()
+                                                           << m_currantStartMaster["network"].toString()
+                                                           << feeDatoshi
+                                                           << m_currantStartMaster["certName"].toString());
+}
+
+void DapModuleMasterNode::getInfoNode()
+{
+    if(!m_isNetworkStatusRequest)
+    {
+        m_isNetworkStatusRequest = true;
+        s_serviceCtrl->requestToService("DapGetNetworkStatusCommand", QStringList() << m_currantStartMaster["network"].toString());
+    }
+}
+
+void DapModuleMasterNode::getNodeLIst()
+{
+    if(!m_isNodeListRequest)
+    {
+        m_isNodeListRequest = true;
+        s_serviceCtrl->requestToService("DapNodeListCommand", QStringList() << m_currantStartMaster["network"].toString());
     }
 }
 
@@ -295,12 +389,50 @@ void DapModuleMasterNode::getInfoCertificate()
     s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "1");
 }
 
+void DapModuleMasterNode::moveCertificate()
+{
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
+                                                                                   << m_currantStartMaster["certName"].toString()
+                                                                                   << m_currantStartMaster["certPath"].toString());
+}
+
+void DapModuleMasterNode::dumpCertificate()
+{
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "3" << m_certName << m_certPath);
+}
+
+bool DapModuleMasterNode::tryGetInfoCertificate(const QString& filePath)
+{
+    qDebug() << "[DapModuleMasterNode] Selected file: " << filePath;
+
+    QString tmpFilePath = filePath;
+    tmpFilePath.remove("file://");
+    QRegularExpression regular = QRegularExpression(R"(\/([a-zA-Z0-9.-_][^\/]+).dcert)");
+    QRegularExpressionMatch match = regular.match(tmpFilePath);
+    if (!match.hasMatch())
+    {
+        qDebug() << "[DapModuleMasterNode] unidentified file path";
+        return false;
+    }
+    QString certName = match.captured(1);
+    setCertName(certName);
+    m_certPath = tmpFilePath;
+    dumpCertificate();
+    return true;
+}
+
+void DapModuleMasterNode::clearCertificate()
+{
+    setCertName("-");
+    setSignature("-");
+}
+
 void DapModuleMasterNode::tryUpdateNetworkConfig()
 {
     auto* worker = m_modulesCtrl->getConfigWorker();
     if(!worker)
     {
-        tryStopCreationMasterNode("There are node configuration problems.");
+        tryStopCreationMasterNode(5, "There are node configuration problems.");
         return;
     }
     worker->writeConfigValue(m_currantStartMaster["network"].toString(), "esbocs", "blocks-sign-cert", m_currantStartMaster["certName"].toString());
@@ -314,7 +446,6 @@ void DapModuleMasterNode::tryUpdateNetworkConfig()
 void DapModuleMasterNode::tryRestartNode()
 {
     s_serviceCtrl->requestToService("DapNodeRestart", QStringList());
-//    stageComplated();
 }
 
 void DapModuleMasterNode::respondMempoolCheck(const QVariant &rcvData)
@@ -334,6 +465,7 @@ void DapModuleMasterNode::respondMempoolCheck(const QVariant &rcvData)
     {
         return;
     }
+    m_checkStakeTimer->stop();
     QString code;
     if(result.contains("atom"))
     {
@@ -356,24 +488,17 @@ void DapModuleMasterNode::respondMempoolCheck(const QVariant &rcvData)
     {
         stageComplated();
     }
-    else if(source == "mempool")
-    {
-        qDebug() << "[DapModuleMasterNode] The transaction is in the mempool";
-    }
     else
     {
-        tryStopCreationMasterNode("The transaction may have failed.");
+        qDebug() << "[DapModuleMasterNode] The transaction is in the mempool";
+        tryStopCreationMasterNode(6, "The transaction may have failed.");
     }
 }
 
 void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 {
-    if(m_startStage.isEmpty() || m_startStage.first() != LaunchStage::CHECK_PUBLIC_KEY)
-    {
-        return;
-    }
-
     QJsonObject replyObj = rcvData.toJsonObject();
+
     if(!replyObj.contains("command"))
     {
         qDebug() << "Unexpected response from the service. There is no command block.";
@@ -388,7 +513,6 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
         {
             if(replyObj["status"].toString() == "OK")
             {
-                tryStopCreationMasterNode("");
                 return true;
             }
         }
@@ -397,8 +521,14 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 
     if(command == 2)
     {
+        if(m_startStage.isEmpty() || m_startStage.first().first != LaunchStage::CHECK_PUBLIC_KEY)
+        {
+            return;
+        }
+
         if(!checkStatus())
         {
+            tryStopCreationMasterNode(11, "Couldn't create a certificate.");
             return;
         }
 
@@ -408,10 +538,28 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
             return;
         }
     }
+    else if(command == 3)
+    {
+        QString name;
+        if(data.contains("name"))
+        {
+            name = data["name"].toString();
+        }
+        if(!name.isEmpty() && name == m_certName && data.contains("signature"))
+        {
+            setSignature(data["signature"].toString());
+        }
+    }
     else if(command == 10)
     {
+        if(m_startStage.isEmpty() || m_startStage.first().first != LaunchStage::CHECK_PUBLIC_KEY)
+        {
+            return;
+        }
+
         if(!checkStatus())
         {
+            tryStopCreationMasterNode(12, "The public key of the certificate was not found.");
             return;
         }
         QString certName, hash;
@@ -426,7 +574,27 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
         if(!certName.isEmpty() && !hash.isEmpty())
         {
             m_currantStartMaster.insert("certHash", hash);
+            saveCurrentRegistration();
             stageComplated();
+            return;
+        }
+    }
+    if(command == 11)
+    {
+        if(m_startStage.isEmpty() || m_startStage.first().first != LaunchStage::CHECK_PUBLIC_KEY)
+        {
+            return;
+        }
+
+        if(!checkStatus())
+        {
+            tryStopCreationMasterNode(13, "couldn't copy the file.");
+            return;
+        }
+
+        if(data.contains("fileName") && data["fileName"].toString() == m_currantStartMaster["certName"].toString())
+        {
+            getHashCertificate(m_currantStartMaster["certName"].toString());
             return;
         }
     }
@@ -434,7 +602,69 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 
 void DapModuleMasterNode::addedNode(const QVariant &rcvData)
 {
+    auto result = rcvData.toString();
+    if(result == "successfully")
+    {
+        getInfoNode();
+    }
+    else
+    {
+        tryStopCreationMasterNode(14, "I couldn't add a node.");
+    }
+}
 
+void DapModuleMasterNode::respondNetworkStatus(const QVariant &rcvData)
+{
+    if(m_isNetworkStatusRequest)
+    {
+        QJsonObject replyObj = rcvData.toJsonObject();
+        if(!replyObj.contains("name") || !replyObj.contains("nodeAddress"))
+        {
+            tryStopCreationMasterNode( 2, "Other problems. Contact customer support.");
+            qWarning() << "The data of the net info team has changed" << replyObj;
+            return;
+        }
+
+        QString network = replyObj["name"].toString();
+        if(network == m_currantStartMaster["network"].toString())
+        {
+            m_currantStartMaster.insert("nodeAddress", replyObj["nodeAddress"].toString());
+            saveCurrentRegistration();
+            m_isNetworkStatusRequest = false;
+            getNodeLIst();
+        }
+    }
+}
+
+void DapModuleMasterNode::respondNodeListCommand(const QVariant &rcvData)
+{
+    if(m_isNodeListRequest)
+    {
+
+        auto replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+        QJsonObject replyObj = replyDoc.object();
+        m_isNodeListRequest = false;
+        if(replyObj.contains("error"))
+        {
+            auto error = replyObj["error"].toString();
+            qInfo() << "The list of nodes has not been received. Message:" << error;
+            tryStopCreationMasterNode(15, "The list of nodes has not been received.");
+            return;
+        }
+
+        auto resultArr = replyObj["result"].toArray();
+        auto addr = m_currantStartMaster["nodeAddress"].toString();
+        for(const auto& itemValue: resultArr)
+        {
+            QJsonObject item = itemValue.toObject();
+            if(item.contains("node address") && item["node address"].toString() == addr)
+            {
+                stageComplated();
+                return;
+            }
+        }
+        tryStopCreationMasterNode(16, "Your node was not found in the list.");
+     }
 }
 
 void DapModuleMasterNode::startWaitingNode()
@@ -474,6 +704,7 @@ void DapModuleMasterNode::networkListUpdateSlot()
     }
 
     emit networksListChanged();
+    emit masterNodeChanged();
 }
 
 void DapModuleMasterNode::addNetwork(const QString &net)
@@ -505,19 +736,33 @@ void DapModuleMasterNode::addNetwork(const QString &net)
     m_masterNodeInfo.insert(net, info);
 }
 
-void DapModuleMasterNode::tryStopCreationMasterNode(const QString& message)
+void DapModuleMasterNode::tryStopCreationMasterNode(int code, const QString& message)
 {
-    // Логика остановки создания мастер ноды
+    // The logic of stopping the node.
     /// errors
-    /// 0 - couldn't create a certificate
-    /// 1 - Problems with changing the config
-    ///
-    qDebug() << "[DapModuleMasterNode] The node registration operation was interrupted.";
+    /// 0 - There is no certificate name or signature.
+    /// 1 - An empty value was specified for freezing m-tokens.
+    /// 2 - Other problems. Contact customer support.
+    /// 3 - No stake delegate hash found in the mempool.
+    /// 4 - No stake delegate hash found in the queue.
+    /// 5 - There are node configuration problems.
+    /// 6 - The transaction may have failed.
+    /// 7 - The value of the desired commission was not found.
+    /// 8 - The transaction was not created.
+    /// 9 - There was a problem with the detention of tokens, we need to make another attempt.
+    /// 10 -
+    /// 11 - Couldn't create a certificate
+    /// 12 - The public key of the certificate was not found.
+    /// 13 - couldn't copy the file.
+    /// 14 - Other problems.
+    /// 15 - The list of nodes has not been received.
+    /// 16 - Your node was not found in the list.
+    qDebug() << "[DapModuleMasterNode] The node registration operation was interrupted." << message;
 }
 
 void DapModuleMasterNode::workNodeChanged()
 {
-    if(m_startStage.isEmpty() || m_startStage.first() != LaunchStage::RESTARTING_NODE)
+    if(m_startStage.isEmpty() || m_startStage.first().first != LaunchStage::RESTARTING_NODE)
     {
         return;
     }
@@ -536,7 +781,7 @@ void DapModuleMasterNode::respondStakeDelegate(const QVariant &rcvData)
     {
         auto error = replyObj["error"].toString();
         qInfo() << "The transaction was not created. Message:" << error;
-        tryStopCreationMasterNode("The transaction was not created.");
+        tryStopCreationMasterNode(8, "The transaction was not created.");
         return;
     }
 
@@ -552,6 +797,7 @@ void DapModuleMasterNode::respondStakeDelegate(const QVariant &rcvData)
     {
         queueHash = resultObj["idQueue"].toString();
         m_currantStartMaster.insert(QUEUE_HASH_KEY, queueHash);
+        saveCurrentRegistration();
     }
 
     if(!stakeHash.isEmpty() || !queueHash.isEmpty())
@@ -561,7 +807,7 @@ void DapModuleMasterNode::respondStakeDelegate(const QVariant &rcvData)
     else
     {
         qDebug() << "[DapModuleMasterNode] [pespondStakeDelegate]There was a problem with the detention of tokens, we need to make another attempt.";
-        tryStopCreationMasterNode("There was a problem with the detention of tokens, we need to make another attempt.");
+        tryStopCreationMasterNode(9, "There was a problem with the detention of tokens, we need to make another attempt.");
     }
 }
 
@@ -587,11 +833,11 @@ void DapModuleMasterNode::respondCheckStakeDelegate(const QVariant &rcvData)
         buff = resultObject[name].toString();
     };
 
-    getItem(STAKE_HASH_KEY, queueHash);
+    getItem("queueHash", queueHash);
     getItem("state", state);
     getItem("txHash", txHash);
 
-    if(m_currantStartMaster.contains(STAKE_HASH_KEY) && m_currantStartMaster[STAKE_HASH_KEY].toString() != queueHash)
+    if(m_currantStartMaster.contains(QUEUE_HASH_KEY) && m_currantStartMaster[QUEUE_HASH_KEY].toString() != queueHash)
     {
         qDebug() << "[DapModuleMasterNode][respondCheckStakeDelegate]The response came from another request.";
         return;
@@ -602,6 +848,7 @@ void DapModuleMasterNode::respondCheckStakeDelegate(const QVariant &rcvData)
         if(!m_currantStartMaster.contains(STAKE_HASH_KEY) && !txHash.isEmpty())
         {
             m_currantStartMaster.insert(STAKE_HASH_KEY, txHash);
+            saveCurrentRegistration();
         }
     }
     else if(state == "notFound")
@@ -609,7 +856,7 @@ void DapModuleMasterNode::respondCheckStakeDelegate(const QVariant &rcvData)
         if(!m_currantStartMaster.contains(STAKE_HASH_KEY))
         {
             qDebug() << "It looks like the transaction was rejected.";
-            tryStopCreationMasterNode("It looks like the transaction was rejected.");
+            tryStopCreationMasterNode(10, "It looks like the transaction was rejected.");
         }
         else
         {
@@ -650,4 +897,38 @@ QVariantMap DapModuleMasterNode::validatorData() const
     result.insert("networksBlocks", info.networksBlocks);
 
     return result;
+}
+
+void DapModuleMasterNode::setCertName(const QString& name)
+{
+    m_certName = name;
+    emit certNameChanged();
+}
+
+void DapModuleMasterNode::setSignature(const QString& signature)
+{
+    m_signature = signature;
+    emit signatureChanged();
+}
+
+bool DapModuleMasterNode::isSandingDataStage() const
+{
+    if(m_startStage.isEmpty())
+    {
+        return false;
+    }
+    return m_startStage.first().first == LaunchStage::SEND_FORM;
+}
+
+bool DapModuleMasterNode::isMasterNode() const
+{
+    if(m_currentNetwork.isEmpty())
+    {
+        return false;
+    }
+    if(!m_masterNodeInfo.contains(m_currentNetwork))
+    {
+        return false;
+    }
+    return m_masterNodeInfo[m_currentNetwork].isMaster;
 }

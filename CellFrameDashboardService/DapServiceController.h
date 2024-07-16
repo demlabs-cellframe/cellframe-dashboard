@@ -27,8 +27,9 @@ typedef class DapRpcLocalServer DapUiService;
 #include "DapWebControllerForService.h"
 
 #include "DapNotificationWatcher.h"
-#include "DapNetSyncController.h"
 #include "DapRegularRequestsController.h"
+
+#include "NodePathManager.h"
 
 /**
  * @brief The DapServiceController class
@@ -48,6 +49,9 @@ public:
     /// Start service: creating server and socket.
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
+
+    QString nodeCliPath{""};
+    QString nodeToolPath{""};
 
 private:
     void initServices();
@@ -69,7 +73,6 @@ private:
     DapUiService        *m_pServer {nullptr};
 
     DapNotificationWatcher *m_watcher;
-    DapNetSyncController *m_syncControll;
     DapWebControllerForService *m_web3Controll;
 
     QThread *m_threadRegular;

@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.3
 import "qrc:/widgets"
 import "../../../"
 import "../../controls"
@@ -13,6 +14,7 @@ DapRectangleLitAndShaded
 
     property string certificateLogic: "newCertificate"
     property bool isUpload: false
+    property var messageRectColor: currTheme.orange
 
     color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
@@ -186,6 +188,11 @@ DapRectangleLitAndShaded
                     font: mainFont.dapFont.regular16
                     backgroundColorShow: currTheme.secondaryBackground
                 }
+                Component.onCompleted:
+                {
+
+                }
+
             }
 
             Rectangle
@@ -220,7 +227,7 @@ DapRectangleLitAndShaded
                     {
                         id: certificateName
                         color: currTheme.white
-                        text: "-"
+                        text: nodeMasterModule.certName
                         font: mainFont.dapFont.regular13
                         horizontalAlignment: Text.AlignRight
                         Layout.alignment: Qt.AlignRight
@@ -252,7 +259,7 @@ DapRectangleLitAndShaded
                     {
                         id: signatureName
                         color: currTheme.white
-                        text: "-"
+                        text: nodeMasterModule.signature
                         font: mainFont.dapFont.regular13
                         horizontalAlignment: Text.AlignRight
                         Layout.alignment: Qt.AlignRight
@@ -272,9 +279,30 @@ DapRectangleLitAndShaded
 
                     onClicked:
                     {
-                        isUpload = !isUpload
+                        if(!isUpload)
+                        {
+                            fileDialog.open()
+                        }
+                        else
+                        {
+                            nodeMasterModule.clearCertificate();
+                            isUpload = false;
+                        }
                         console.log("upload certificate clicked")
                     }
+                }
+            }
+
+            FileDialog
+            {
+                id: fileDialog
+                folder: shortcuts.home
+                nameFilters: ["Certifiacates (*.dcert)"]
+                onAccepted:
+                {
+                    console.log("File: ", fileUrl)
+                    if(nodeMasterModule.tryGetInfoCertificate(fileUrl)) isUpload = true
+                    else isUpload = false
                 }
             }
 
@@ -314,7 +342,8 @@ DapRectangleLitAndShaded
                 backgroundColorShow: currTheme.secondaryBackground
                 Component.onCompleted:
                 {
-
+                    setCurrentIndex(walletModule.currentWalletIndex)
+                    displayText = walletModule.currentWalletName
                 }
 
                 defaultText: qsTr("Wallets")
@@ -345,6 +374,8 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
+
+                valueName: nodeMasterModule.mainTokenName
             }
 
             /// Node IP
@@ -456,7 +487,7 @@ DapRectangleLitAndShaded
                     label: qsTr("Balance:")
                     textColor: currTheme.white
                     textFont: mainFont.dapFont.regular11
-                    text: walletModule.getBalanceDEX(dexModule.token1)
+                    text: walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
                 }
 
                 Image
@@ -488,7 +519,7 @@ DapRectangleLitAndShaded
                     width: 171
                     Layout.minimumHeight: 40
                     Layout.maximumHeight: 40
-                    placeholderText: "0.0"
+                    text: "10.0"
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
@@ -503,10 +534,53 @@ DapRectangleLitAndShaded
                     id: textInputStakeToken
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
-                    text: "-"
+                    text: nodeMasterModule.stakeTokenName
                     color: currTheme.white
                     font: mainFont.dapFont.regular16
 
+                }
+            }
+
+            // Error message
+            Item
+            {
+                id: errorMsgRect
+                implicitHeight: textError.implicitHeight + 24
+                Layout.fillWidth: true
+                Layout.leftMargin: 35
+                Layout.rightMargin: 35
+                visible: false
+                Rectangle
+                {
+
+                    anchors.fill: parent
+                    color: "transparent"
+                    radius: 4
+                    border.width: 1
+                    border.color: messageRectColor
+                }
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: messageRectColor
+                    opacity: 0.12
+                    radius: 4
+                }
+
+                Text
+                {
+                    id: textError
+                    width: errorMsgRect.width
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.margins: 12
+                    font: mainFont.dapFont.regular11
+                    color: currTheme.orange
+                    wrapMode: Text.WordWrap
+                    lineHeight: 16
+                    lineHeightMode: Text.FixedHeight
                 }
             }
 
@@ -530,9 +604,9 @@ DapRectangleLitAndShaded
                 onClicked:
                 {
                     var result = {
-                        "isUploadCert" : false, //certificateLogic !== "newCertificate",
-                        "certName" : nodeMasterModule.currentNetwork +".test11",// certificateLogic !== "newCertificate" ? certificateName.text : newCertificateName.text,
-                        "sign" : "sig_dil",//certificateLogic !== "newCertificate" ? signatureName.text : typeCertificateCombobox.displayText,
+                        "isUploadCert" : certificateLogic !== "newCertificate",
+                        "certName" : certificateLogic !== "newCertificate" ? certificateName.text : newCertificateName.text,
+                        "sign" : certificateLogic !== "newCertificate" ? signatureName.text : typeCertificateCombobox.selectedSignature,
                         "walletName" : walletModule.currentWalletName,
                         "walletAddress" : walletModule.getAddressWallet(nodeMasterModule.currentNetwork, walletModule.currentWalletName),
                         "network" : nodeMasterModule.currentNetwork,
@@ -540,13 +614,50 @@ DapRectangleLitAndShaded
                         "feeToken" : feeController.valueName,
                         "nodeIP" : nodeIpText.text,
                         "port" : nodePortText.text,
-                        "stakeValue" : "10.0",//textInputStakeValue.text,
+                        "stakeValue" : textInputStakeValue.text,
                         "stakeToken" : textInputStakeToken.text,
                         "stakeFee": walletModule.getFee(nodeMasterModule.currentNetwork).validator_fee
                     }
+                    var message = ""
+                    var diffNeedValue = dexModule.diffNumber(textInputStakeValue.text, "10.0")
+                    if (diffNeedValue === 0)
+                    {
+                        message = qsTr("The specified value is less than the minimum required.")
+                        updateErrorField(message)
+                        return
+                    }
 
-                    nodeMasterModule.startMasterNode(result)
-                    dapRightPanel.push(loaderMasterNodePanel)
+                    var walletBalance = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+                    diffNeedValue = dexModule.diffNumber(textInputStakeValue.text, walletBalance)
+                    if (diffNeedValue === 2)
+                    {
+                        message = qsTr("There are fewer funds on the balance sheet than indicated.")
+                        updateErrorField(message)
+                        return
+                    }
+                  
+                    var startInfo = nodeMasterModule.startMasterNode(result)
+
+                    if(startInfo > 0)
+                    {
+
+                        switch(startInfo) {
+                            case 1:
+                                message = qsTr("The previous master node has not been registered yet.")
+                                updateErrorField(message)
+                                break
+                            case 2:
+                                message = qsTr("The certificate name is not specified correctly")
+                                updateErrorField(message)
+                                break
+                            case 3:
+                                message = qsTr("There is no path to the certificate.")
+                                updateErrorField(message)
+                                break
+                            default:
+                                break
+                        }
+                    }
                 }
             }
         }
@@ -556,10 +667,43 @@ DapRectangleLitAndShaded
     Component.onCompleted:
     {
         walletModule.startUpdateFee()
+        defaultNewCertificateName()
     }
     Component.onDestruction:
     {
         walletModule.stopUpdateFee()
+    }
+
+    Connections
+    {
+        target: nodeMasterModule
+
+        function onCurrentNetworkChanged()
+        {
+            defaultNewCertificateName()
+        }
+    }
+
+    Connections
+    {
+        target: walletModule
+
+        function onCurrentWalletChanged()
+        {
+            textBalance.text = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+        }
+    }
+
+    function defaultNewCertificateName()
+    {
+        newCertificateName.text = nodeMasterModule.currentNetwork.toLowerCase() + "."
+    }
+    
+    function updateErrorField(message)
+    {
+        messageRectColor = currTheme.red
+        errorMsgRect.visible = true
+        textError.text = message
     }
 }
 

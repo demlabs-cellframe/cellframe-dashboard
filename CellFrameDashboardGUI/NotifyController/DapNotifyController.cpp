@@ -1,9 +1,11 @@
 #include "DapNotifyController.h"
 #include "qjsondocument.h"
 #include "qjsonobject.h"
+#include "NodePathManager.h"
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
+
 }
 
 void DapNotifyController::rcvData(QVariant data)
@@ -23,10 +25,14 @@ void DapNotifyController::rcvData(QVariant data)
         {
             bool isFirst = false;
             if(value.toString() != m_connectState)
+            {
                 isFirst = true;
+                NodePathManager::getInstance().init("GUI");
+            }
 
             m_connectState = value.toInt();
             emit socketState(m_connectState, true, isFirst);
+
         }
         else
         {

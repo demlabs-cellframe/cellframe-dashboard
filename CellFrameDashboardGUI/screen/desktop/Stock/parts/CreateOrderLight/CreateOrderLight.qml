@@ -548,8 +548,35 @@ Page
 
                         onEdited:
                         {
-                            currantRate = isInvert ? dexModule.invertValue(priceText.text) : priceText.text
-                            rateRectagleTextUpdate()
+                            var tmpValue = isInvert ? dexModule.invertValue(priceText.text) : priceText.text
+                            var substrings = tmpValue.split('.')
+                            var lenghtValue = substrings.length
+
+                            if(tmpValue === "")
+                            {
+                                tmpValue = "0.0"
+                            }
+                            else if(lenghtValue === 2)
+                            {
+                                if(substrings[0] === "" && substrings[1] === "")
+                                {
+                                    tmpValue = "0.0"
+                                }
+                                else if(substrings[0] === "")
+                                {
+                                    tmpValue = "0." + substrings[1]
+                                }
+                                else if(substrings[1] === "")
+                                {
+                                    tmpValue = substrings[0] + ".0"
+                                }
+                            }
+                            else if(lenghtValue === 1)
+                            {
+                                tmpValue = tmpValue = substrings[0] + ".0"
+                            }
+
+                            currantRate = tmpValue
                         }
                     }
                     Rectangle

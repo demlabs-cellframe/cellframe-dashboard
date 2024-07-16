@@ -138,10 +138,10 @@ Item
             {
                 id: valueText
                 anchors.left: keyText.right
-                anchors.right: copyIcon.left
+                anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.leftMargin: textMargins
-                anchors.rightMargin: 8
+                anchors.rightMargin: 8  + rightAdditional.width
                 font: mainFont.dapFont.regular14
                 color: currTheme.white
                 wrapMode: Text.Wrap
@@ -150,19 +150,92 @@ Item
 
             Item
             {
-                id: copyIcon
-                width: 20
+                id: rightAdditional
+                width: copyIcon.visible ? copyIcon.width : unlockItem.visible ? unlockItem.width : 0
                 height: 20
                 anchors.top: parent.top
                 anchors.right: parent.right
-                visible: copy
 
-                DapCopyButton
+                Item
                 {
-                    anchors.centerIn: parent
-                    popupText: qsTr("Value copied")
-                    onCopyClicked: {
-                        clipboard.setText(valueText.text)
+                    id: copyIcon
+                    width: 20
+                    height: 20
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    visible: copy
+
+                    DapCopyButton
+                    {
+                        anchors.fill: parent
+                        width: 20
+                        height: 20
+                        popupText: qsTr("Value copied")
+                        onCopyClicked: {
+                            clipboard.setText(valueText.text)
+                        }
+                    }
+                }
+
+                Item
+                {
+                    property string statusProtected: walletModelList.get(walletModule.currentWalletIndex).statusProtected
+
+                    id: unlockItem
+                    width: 20 + unlockText.contentWidth + 2
+                    height: 20
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    visible: key == "walletName" && unlockItem.statusProtected !== ""
+
+                    Image
+                    {
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        width: 20
+                        height: 20
+                        source: unlockItem.statusProtected === "non-Active" ?
+                                    (unlockArea.containsMouse ? "qrc:/Resources/" + pathTheme + "/icons/other/lock_hover_20.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/lock_20.svg")
+                                  : (unlockArea.containsMouse ? "qrc:/Resources/" + pathTheme + "/icons/other/unlock_hover_20.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/unlock_20.svg")
+                        mipmap: true
+                    }
+
+                    Text
+                    {
+                        id: unlockText
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        font: mainFont.dapFont.regular14
+                        color: unlockArea.containsMouse ? currTheme.orange : currTheme.lime
+                        text: unlockItem.statusProtected === "non-Active" ? qsTr("Unlock") : qsTr("Lock")
+                    }
+
+                    MouseArea
+                    {
+                        id: unlockArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked:
+                        {
+                            if(unlockItem.statusProtected === "non-Active")
+                            {
+                                walletActivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName, false)
+                            }
+                            else
+                            {
+                                walletDeactivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName)
+                            }
+                        }
+                    }
+
+                    Connections
+                    {
+                        target: walletModule
+
+                        function onListWalletChanged()
+                        {
+                            unlockItem.statusProtected = walletModelList.get(walletModule.currentWalletIndex).statusProtected
+                        }
                     }
                 }
             }
