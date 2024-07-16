@@ -54,6 +54,7 @@ bool NodeConfigToolController::initConfTool()
 #endif
 
     QFileInfo confTool(m_nodeConfToolPath);
+    qDebug()<<"ConfTool is exist : " << confTool.exists();
     if(!confTool.exists())
     {
         qWarning()<<"Could not find cellframe-node-config";
