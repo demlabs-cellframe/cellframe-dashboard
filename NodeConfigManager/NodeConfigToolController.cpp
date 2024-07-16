@@ -8,6 +8,9 @@ NodeConfigToolController::NodeConfigToolController(QObject *parent)
 
 bool NodeConfigToolController::runNode()
 {
+    if(!m_statusInitConfTool)
+        m_statusInitConfTool = initConfTool();
+    
     if(m_statusInitConfTool)
     {
         if(!serviceCommand(Status)["result"].toString().contains("enabled"));
