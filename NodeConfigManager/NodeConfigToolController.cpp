@@ -8,6 +8,8 @@ NodeConfigToolController::NodeConfigToolController(QObject *parent)
 
 bool NodeConfigToolController::runNode()
 {
+    qDebug()<<"m_statusInitConfTool" << m_statusInitConfTool;
+    qDebug()<<"m_nodeConfToolPath" << m_nodeConfToolPath;
     if(m_statusInitConfTool)
     {
         if(!serviceCommand(Status)["result"].toString().contains("enabled"));
@@ -102,7 +104,7 @@ QJsonObject NodeConfigToolController::serviceCommand(TypeServiceCommands type)
         break;
     }
 
-    qDebug()<< result;
+    qDebug()<< result << status;
 
     status = !result.isEmpty();
     return QJsonObject{{"status", status},
@@ -116,6 +118,8 @@ QString NodeConfigToolController::sendRequest(QString req)
     proc.setArguments(req.split(" "));
 
     proc.start();
+
+    qDebug()<<"Program: " << m_nodeConfToolPath<< "CMD: " <<req;
 
     if(proc.waitForFinished())
     {
