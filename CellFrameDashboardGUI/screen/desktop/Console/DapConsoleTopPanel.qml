@@ -8,6 +8,10 @@ import "qrc:/widgets"
 
 Controls.DapTopPanel {
 
+    Controls.DapLoadingTopPanel
+    {
+    }
+
     RowLayout
     {
         id: layout

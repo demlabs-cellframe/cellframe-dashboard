@@ -110,6 +110,7 @@ Item {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
+                enabled: modulesController.isNodeWorking
 
                 DapCustomToolTip{
                     contentText: qsTr("Create certificate")
@@ -129,6 +130,7 @@ Item {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.medium14
+                enabled: modulesController.isNodeWorking
 
                 onClicked:
                 {
@@ -158,7 +160,7 @@ Item {
                 textButton: qsTr("Export private certificate to public")
                 Layout.preferredHeight: 36
 
-                enabled: root.certificateSelected && bothAccessTypeCertificateSelected
+                enabled: root.certificateSelected && bothAccessTypeCertificateSelected && modulesController.isNodeWorking
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36
                 implicitWidth: 318
@@ -178,7 +180,7 @@ Item {
                 textButton: qsTr("Export certificate to mempool") // qsTr("Export public certificate to mempool")
                 Layout.preferredHeight: 36
 
-                enabled: root.certificateSelected
+                enabled: root.certificateSelected && modulesController.isNodeWorking
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36
                 implicitWidth: 318
@@ -199,7 +201,7 @@ Item {
                 Layout.preferredHeight: 36
                 visible: false
 
-                enabled: root.certificateSelected
+                enabled: root.certificateSelected && modulesController.isNodeWorking
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36
                 implicitWidth: 318
@@ -218,7 +220,7 @@ Item {
                 textButton: qsTr("Delete certificate")
                 Layout.preferredHeight: 36
 
-                enabled: root.certificateSelected
+                enabled: root.certificateSelected && modulesController.isNodeWorking
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36
                 implicitWidth: 318
