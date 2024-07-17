@@ -585,6 +585,8 @@ void DapModuleWallet::rcvFee(const QVariant &rcvData)
 {
     auto feeDoc = QJsonDocument::fromJson(rcvData.toByteArray());
 
+    qDebug() << "KTT" << "rcvFee" << feeDoc.toJson(QJsonDocument::Compact);
+
     QJsonObject feeObject = feeDoc.object();
     if(feeObject.isEmpty())
     {
@@ -620,6 +622,7 @@ void DapModuleWallet::rcvFee(const QVariant &rcvData)
             QStringList validatorKeys = netValidatorObject.keys();
             for(const QString& itemName: validatorKeys)
             {
+                qDebug() << "KTT" << "fee key:" << itemName << "value:" << netValidatorObject[itemName].toString();
                 tmpFeeInfo.validatorFee.insert(itemName, netValidatorObject[itemName].toString());
             }
         }
@@ -638,6 +641,7 @@ QVariantMap DapModuleWallet::getFee(QString network)
         mapResult.insert("fee_ticker","UNKNOWN");
         mapResult.insert("network_fee", "0.00");
         mapResult.insert("validator_fee", "0.00");
+        mapResult.insert("min_fee", "0.00");
         return mapResult;
     }
     CommonWallet::FeeInfo& fee = m_feeInfo[network];
@@ -645,6 +649,9 @@ QVariantMap DapModuleWallet::getFee(QString network)
     mapResult.insert("fee_ticker", fee.validatorFee["fee_ticker"]);
     mapResult.insert("network_fee", fee.netFee["fee_coins"]);
     mapResult.insert("validator_fee", fee.validatorFee["median_fee_coins"]);
+    mapResult.insert("min_fee", fee.validatorFee["min_fee_coins"]);
+
+    qDebug() << "KTT" << "fee.validatorFee" << fee.validatorFee.keys();
 
     return mapResult;
 }

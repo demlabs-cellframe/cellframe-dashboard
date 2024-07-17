@@ -539,31 +539,45 @@ DapRectangleLitAndShaded
 
         DapFeeComponent
         {
-            id: feeController
+            property string lastStructData: ""
 
+            id: validatorFee
             Layout.fillWidth: true
             Layout.topMargin: 20
             Layout.leftMargin: 16
             Layout.rightMargin: 16
 
+            function recvNewFeeData(data)
+            {
+                if(data === "")
+                {
+                    validatorFee.lastStructData = data
+                    return
+                }
+                if(validatorFee.lastStructData == "")
+                {
+                    validatorFee.lastStructData = data
+                    validatorFee.valueName = data["fee_ticker"]
+                }
+            }
+
             Component.onCompleted:
             {
-                var min = 0.00000000000000001
-                var max = 0.05
-                var median = 0.05
+                init()
+            }
 
-                var temp_ranges =
-                        {
+            function init(min, middle)
+            {
+                rangeValues =                         {
                     "veryLow": min,
-                    "low": (median - min)/2,
-                    "middle": median,
-                    "high": median * 1.5,
-                    "veryHigh": median * 2
+                    "low": (middle - min)/2,
+                    "middle": middle,
+                    "high": middle * 1.5,
+                    "veryHigh": middle * 2
                 }
-                rangeValues = temp_ranges
                 valueName = "mtCELL"
-                powerRound = 3
-                spinBoxStep = 0.005
+                powerRound = 2
+                spinBoxStep = 0.01
 
                 setUp()
             }
@@ -664,6 +678,23 @@ DapRectangleLitAndShaded
 
             balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                                  + " " + dapComboBoxToken.displayText
+
+        }
+    }
+
+    Connections
+    {
+        target: walletModule
+
+        function onFeeInfoUpdated()
+        {
+            console.log("KTT", "feeInfoUpdated")
+            var feeStruct = walletModule.getFee(dapComboboxNetwork.displayText)
+            if(validatorFee.lastStructData !== feeStruct)
+            {
+                validatorFee.lastStructData = feeStruct
+            }
+            console.log("KTT", "feeStruct", JSON.stringify(feeStruct))
 
         }
     }
