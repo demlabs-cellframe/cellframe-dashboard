@@ -18,7 +18,7 @@ Item
         height: 15
         anchors.right: nameAndIndicatorItem.left
         anchors.rightMargin: 2
-        anchors.verticalCenter: parent.verticalCenter
+        y: parent.height / 2 - height / 2
         visible: !(stateOfNetwork === "NET_STATE_OFFLINE" || stateOfNetwork === "NET_STATE_ONLINE")
 
         Image
