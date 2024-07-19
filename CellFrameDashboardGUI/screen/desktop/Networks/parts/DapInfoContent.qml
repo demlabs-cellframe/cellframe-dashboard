@@ -191,7 +191,7 @@ Item {
                 width: 15
                 height: 15
                 anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
+                y: parent.height / 2 - height / 2
                 visible: parent.showProgress
                 antialiasing: true
                 fillMode: Image.PreserveAspectFit
