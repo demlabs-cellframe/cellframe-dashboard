@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../DapPairComboBox"
+import "../../../controls"
 
 Item
 {
@@ -190,6 +191,11 @@ Item
                         dexModule.setCurrentTokenPair(pair, comboboxNetwork.displayText)
                     }
                 }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
+                }
             }
 
             DapPairComboBox
@@ -212,6 +218,11 @@ Item
                 {
                     dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
                     walletModule.updateBalanceDEX()
+                }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
                 }
             }
 
@@ -401,6 +412,11 @@ Item
                     fullText: "+4.32%"
                 }
             }
+
+            DapLoadingPanel
+            {
+                radiusEnabled: true
+            }
         }
 
         DapSelector
@@ -477,6 +493,11 @@ Item
                     textClose.textColor = currTheme.green
                     textChange.textColor = currTheme.green
                 }
+            }
+
+            DapLoadingPanel
+            {
+                spinerEnabled: true
             }
         }
     }

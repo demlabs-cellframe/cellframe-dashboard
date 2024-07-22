@@ -402,5 +402,8 @@
         <file>Resources/BlackTheme/icons/other/unlock_20.svg</file>
         <file>Resources/BlackTheme/icons/other/unlock_hover_20.svg</file>
         <file>screen/desktop/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml</file>
+        <file>Resources/BlackTheme/icons/other/loader_orange.svg</file>
+        <file>screen/desktop/controls/DapLoadingPanel.qml</file>
+        <file>screen/desktop/controls/DapLoadingTopPanel.qml</file>
     </qresource>
 </RCC>

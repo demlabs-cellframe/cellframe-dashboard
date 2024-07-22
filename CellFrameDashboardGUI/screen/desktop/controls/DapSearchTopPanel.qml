@@ -13,6 +13,10 @@ DapTopPanel {
 
     signal findHandler(string text)
 
+    DapLoadingTopPanel
+    {
+    }
+
     Item{
         anchors.left: parent.left
         anchors.top: parent.top
