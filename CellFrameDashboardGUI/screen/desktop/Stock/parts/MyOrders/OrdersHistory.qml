@@ -54,6 +54,7 @@ Item
 
             RowLayout
             {
+                visible: !dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
                 // HeaderLabel{
@@ -81,6 +82,37 @@ Item
                 HeaderLabel{
                     Layout.preferredWidth: 150
                     label.text: qsTr("Price")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 49
+                    label.text: qsTr("Filled")
+                }
+            }
+
+            RowLayout{
+                visible: dexModule.isRegularTypePanel
+                anchors.fill: parent
+                spacing: 0
+                HeaderLabel{
+                    Layout.preferredWidth: 80
+                    label.text: qsTr("You pay")
+                    label.anchors.leftMargin: 16
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 80
+                    label.text: qsTr("Your receive")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Amount")
+                }                
+                HeaderLabel{
+                    Layout.preferredWidth: 150
+                    label.text: qsTr("Order rate")
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 135
+                    label.text: qsTr("Created")
                 }
                 HeaderLabel{
                     Layout.preferredWidth: 49
@@ -118,6 +150,7 @@ Item
             }
             RowLayout
             {
+                visible: !dexModule.isRegularTypePanel
                 anchors.fill: parent
                 spacing: 0
                 // HeaderLabel{
@@ -151,6 +184,45 @@ Item
                 HeaderLabel{
                     Layout.preferredWidth: 150
                     label.text: price
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 49
+                    label.text: filled
+                    label.font: mainFont.dapFont.regular13
+                }
+            }
+
+            RowLayout
+            {
+                visible: dexModule.isRegularTypePanel
+                anchors.fill: parent
+                spacing: 0
+
+                HeaderLabel{
+                    Layout.preferredWidth: 80
+                    label.text: tokenSellOrigin
+                    label.font: mainFont.dapFont.regular13
+                    label.anchors.leftMargin: 16
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 80
+                    label.text: tokenBuyOrigin
+                    label.font: mainFont.dapFont.regular13
+                }
+                HeaderBigLabel{
+                    Layout.preferredWidth: 150
+                    label.fullText: amount
+                    label.textFont: mainFont.dapFont.regular13
+                }
+                HeaderBigLabel{
+                    Layout.preferredWidth: 150
+                    label.fullText: price
+                    label.textFont: mainFont.dapFont.regular13
+                }
+                HeaderLabel{
+                    Layout.preferredWidth: 135
+                    label.text: date
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{

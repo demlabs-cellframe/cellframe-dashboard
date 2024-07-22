@@ -22,9 +22,12 @@
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
 
+#include "NodePathManager.h"
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
+
 
 //#ifdef Q_OS_WIN32
 //#include <windows.h>
@@ -104,6 +107,7 @@ void createDapLogger()
 #endif
                          }
                      });
+
 #endif
 }
 
@@ -191,6 +195,7 @@ int main(int argc, char *argv[])
 
     while (result == RESTART_CODE)
     {
+        NodePathManager::getInstance().init("GUI");
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);
@@ -214,6 +219,7 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
+        NodePathManager::getInstance().checkNeedDownload();
         DapLogger::instance()->startUpdateTimer();
         result = app->exec();
         delete app;

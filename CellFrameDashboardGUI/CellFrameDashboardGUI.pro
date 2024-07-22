@@ -1,12 +1,99 @@
 QT += qml quick widgets svg network
 
-include(../config.pri)
+include (../config.pri)
 TARGET = $${BRAND}
 
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
     DAP_SETTINGS_FILE=\\\"settings.json\\\"
 
 DEFINES += SIMULATOR_DEX
+
+include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
+
+INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
+
+#TRANSLATIONS += \
+#    Resources/Translations/Translation_ru.ts \
+#    Resources/Translations/Translation_zh.ts \
+#    Resources/Translations/Translation_cs.ts \
+#    Resources/Translations/Translation_pt.ts \
+#    Resources/Translations/Translation_nl.ts
+
+
+INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/ \
+                $$SDK_INSTALL_PATH/include/dap/net/client/ \
+                $$SDK_INSTALL_PATH/include/dap/io/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/enc_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/json_rpc/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/notify_server/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/Keccak/FIPS202/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/common \
+                $$SDK_INSTALL_PATH/include/dap/crypto/rand/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/ch/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/stream/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/session/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/http_client \
+                $$SDK_INSTALL_PATH/include/dap/global_db/ \
+                $$SDK_INSTALL_PATH/include/json-c/ \
+                $$SDK_INSTALL_PATH/include/modules/common/ \
+                $$SDK_INSTALL_PATH/include/modules/net/ \
+                $$SDK_INSTALL_PATH/include/modules/chain/ \
+                $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
+
+
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/http_server/libdap_http_server.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
+LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
+
+include (Models/Models.pri)
+include($$PWD/Modules/Modules.pri)
+
+include(../NodeConfigManager/NodeConfigManager.pri)
+
+include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
+include (../dap-ui-sdk/core/libdap-qt.pri)
+
+include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
+
+win32 {
+    RC_ICONS = $$PWD/Resources/icon_win32.ico
+    HEADERS += $$PWD/Modules/Diagnostics/WinDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/WinDiagnostic.cpp
+}
+
+mac {
+    ICON = Resources/CellframeDashboard.icns
+    HEADERS += $$PWD/Modules/Diagnostics/MacDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/MacDiagnostic.cpp
+}
+else: !win32 {
+    ICON = qrc:/Resources/icon.ico
+
+    HEADERS += $$PWD/Modules/Diagnostics/LinuxDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/LinuxDiagnostic.cpp
+}
+
+!android {
+    MOC_DIR = moc
+    OBJECTS_DIR = obj
+    RCC_DIR = rcc
+    UI_DIR = uic
+}
 
 HEADERS += $$PWD/DapServiceController.h \
     Autocomplete/CommandHelperController.h \
@@ -45,124 +132,17 @@ SOURCES += $$PWD/main.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
-include (Models/Models.pri)
-include($$PWD/Modules/Modules.pri)
-include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
-
-win32 {
-    RC_ICONS = $$PWD/Resources/icon_win32.ico
-    HEADERS += $$PWD/Modules/Diagnostics/WinDiagnostic.h
-    SOURCES += $$PWD/Modules/Diagnostics/WinDiagnostic.cpp
-}
-
-mac {
-    ICON = Resources/CellframeDashboard.icns
-    HEADERS += $$PWD/Modules/Diagnostics/MacDiagnostic.h
-    SOURCES += $$PWD/Modules/Diagnostics/MacDiagnostic.cpp
-}
-else: !win32 {
-    ICON = qrc:/Resources/icon.ico
-
-    HEADERS += $$PWD/Modules/Diagnostics/LinuxDiagnostic.h
-    SOURCES += $$PWD/Modules/Diagnostics/LinuxDiagnostic.cpp
-}
-
-
-!android {
-    MOC_DIR = moc
-    OBJECTS_DIR = obj
-    RCC_DIR = rcc
-    UI_DIR = uic
-}
-
-INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
-
 OTHER_FILES += libdap-qt-ui-qml \
                libdap-qt-ui-chain-wallet
 
 RESOURCES += $$PWD/qml.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
-TRANSLATIONS += \
-    Resources/Translations/Translation_ru.ts \
-    Resources/Translations/Translation_zh.ts \
-    Resources/Translations/Translation_cs.ts \
-    Resources/Translations/Translation_pt.ts \
-    Resources/Translations/Translation_nl.ts
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-#QML_IMPORT_PATH =
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
 !isEmpty(target.path): INSTALLS += target
 
-include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
-include (../dap-ui-sdk/core/libdap-qt.pri)
-
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/core/ -ldap_core
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/core/libdap_core.a
-INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/include/ \
-    $$PWD/../cellframe-node/dap-sdk/3rdparty/uthash/src/
-
-unix {
-    INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/src/unix/
-}
-
-win32 {
-    LIBS += -L$$NODE_BUILD_PATH/dap-sdk/core/src/win32/ -ldap_core_win32
-    INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/src/win32/ \
-        $$PWD/../cellframe-node/dap-sdk/3rdparty/wepoll/
-}
-
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/net/client/ -ldap_client \
-    -L$$NODE_BUILD_PATH/dap-sdk/io/ -ldap_io \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/enc_server/ -ldap_enc_server \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/http_server/ -ldap_http_server \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/ -ldap_json_rpc \
-    -L$$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/ -ldap_notify_srv
-
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/net/client/libdap_client.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/core/libdap_server_core.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/enc_server/libdap_enc_server.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/http_server/libdap_http_server.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/libdap_json_rpc.a \
-#    $$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/libdap_notify_srv.a
-
-
-INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/net/client/include/ \
-    $$PWD/../cellframe-node/dap-sdk/io/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/enc_server/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/http_server/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/http_server/http_client/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/json_rpc/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/server/notify_server/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/stream/ch/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/stream/stream/include/ \
-    $$PWD/../cellframe-node/dap-sdk/net/stream/session/include/
-
-LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/modules/common/ -ldap_chain_common
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/modules/common/libdap_chain_common.a
-INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/modules/common/include/
-
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/ -ldap_crypto
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/src/Kyber/crypto_kem/kyber512/optimized/ -ldap_crypto_kyber512
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/crypto/libdap_crypto.a
-INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/crypto/include/ \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/rand/ \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/ \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/Kyber/crypto_kem/kyber512/optimized \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/high/Keccak/FIPS202 \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/high/common \
-    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/common
-
-INCLUDEPATH += $$NODE_BUILD_PATH/dap-sdk/deps/include/json-c/
-LIBS += -L$$NODE_BUILD_PATH/dap-sdk/deps/lib/ -ldap_json-c
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/deps/lib/libdap_json-c.a
-
-include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
-include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 linux-* {
     LIBS += -lrt -lmagic

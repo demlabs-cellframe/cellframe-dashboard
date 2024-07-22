@@ -1,12 +1,6 @@
 #include "DapNotificationWatcher.h"
-#include <QLocalSocket>
-#include <QDebug>
-#include <dap_config.h>
-#include <QTcpSocket>
-#include <QTimer>
-#include <dapconfigreader.h>
-#include <QJsonDocument>
-#include <QProcess>
+
+
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -51,6 +45,12 @@ bool DapNotificationWatcher::initWatcher()
         m_listenAddr = configReader.getItemString("notify_server", "listen_address", "");
         m_listenPort = configReader.getItemInt("notify_server", "listen_port", 0);
 
+        if(m_listenAddr.contains(":"))
+        {
+            m_listenPort = QString(m_listenAddr.split(":")[1]).toUInt();
+            m_listenAddr = m_listenAddr.split(":")[0];
+        }
+
         qDebug() << "Tcp config: " << m_listenAddr << m_listenPort;
         connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(slotReconnect()));
 
@@ -92,9 +92,10 @@ bool DapNotificationWatcher::initWatcher()
             ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
             ((QTcpSocket*)m_socket)->waitForConnected();
         }
+        m_statusInitWatcher = true;
         return true;
     }
-
+    m_statusInitWatcher = false;
     return false;
 }
 
@@ -106,20 +107,23 @@ void DapNotificationWatcher::slotError()
 
 void DapNotificationWatcher::slotReconnect()
 {
-    qInfo()<<"DapNotificationWatcher::slotReconnect()" << m_listenAddr << m_listenPort;
-    ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
-    ((QTcpSocket*)m_socket)->waitForConnected(3000);
-
+    qInfo()<<"DapNotificationWatcher::slotReconnect()" << m_listenAddr << m_listenPort << "Socket state" << m_socketState;
     sendNotifyState("Notify socket error");
 
+    ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
+    ((QTcpSocket*)m_socket)->waitForConnected(5000);
+
 #ifdef Q_OS_WIN
-    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, 0, "Local\\" DAP_BRAND_BASE_LO "-node");
-    if (!hEvent) {
-        qInfo() << "Restarting the node: "
-                << QProcess::startDetached("schtasks.exe", QStringList({"/run", "/I", "/TN", DAP_BRAND_BASE_LO "-node"}));
-    } else {
-        CloseHandle(hEvent);
+
+    if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
+       m_socketState != QAbstractSocket::SocketState::ConnectingState)
+    {
+        if(NodeConfigToolController::getInstance().runNode())
+            qInfo()<<"Succes restart node";
+        else
+            qWarning()<<"Error restart node";
     }
+
 #endif
 }
 
@@ -160,7 +164,7 @@ void DapNotificationWatcher::socketReadyRead()
         QJsonParseError error;
         QJsonDocument reply = QJsonDocument::fromJson(list[i], &error);
         if (error.error != QJsonParseError::NoError) {
-            qWarning()<<"Notify parse error. " << error.errorString();
+//            qWarning()<<"Notify parse error. " << error.errorString(); // more logs
         }
         else{
             QJsonObject obj = reply.object();
@@ -188,7 +192,7 @@ void DapNotificationWatcher::reconnectFunc()
     if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
        m_socketState != QAbstractSocket::SocketState::ConnectingState && m_isStartNode)
     {
-        m_reconnectTimer->start(5000);
+        m_reconnectTimer->start(10000);
         qWarning()<< "Notify socket reconnecting...";
     }
 }

@@ -13,45 +13,13 @@ DapRectangleLitAndShaded
     property alias dapComboBoxSignatureTypeWallet: comboBoxSignatureTypeWallet
     property alias dapButtonNext: buttonNext
     property alias dapWalletNameWarning: textWalletNameWarning
-    property alias dapSignatureTypeWalletModel: signatureTypeWallet
+    property alias dapSignatureTypeWalletModel: comboBoxSignatureTypeWallet.filteredModel
     property alias dapTextInputPassword: textInputPasswordWallet
 
     color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
-
-
-    ListModel
-    {
-        id: signatureTypeWallet
-
-        Component.onCompleted: {
-            append({
-                       "name": "Dilithium",
-                       "sign": "sig_dil",
-                       "secondname": "Recommended"
-                   })
-            append({
-                       "name": "Falcon",
-                       "sign": "sig_falcon",
-                       "secondname": ""
-                   })
-            // 'bliss' and 'picnic' only for restore mode
-            if(logicWallet.restoreWalletMode) {
-                append({
-                           "name": "Bliss",
-                           "sign": "sig_bliss",
-                           "secondname": "Depricated"
-                       })
-                append({
-                           "name": "Picnic",
-                           "sign": " sig_picnic",
-                           "secondname": "Depricated"
-                       })
-            }
-        }
-    }
 
     contentData:
 
@@ -150,9 +118,7 @@ DapRectangleLitAndShaded
                         anchors.fill: parent
                         anchors.topMargin: 20
                         anchors.bottomMargin: 20
-
-//                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\s*]+/ }
-                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\-*]+/ }
+                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\-]+/ }
                         bottomLineVisible: true
                         bottomLineSpacing: 6
                         bottomLineLeftRightMargins: 7
@@ -189,21 +155,15 @@ DapRectangleLitAndShaded
         //            width: 350
                     color: "transparent"
                     Layout.fillWidth: true
-                    DapCustomComboBox
+
+                    DapCertificatesComboBox
                     {
                         id: comboBoxSignatureTypeWallet
-                        model: signatureTypeWallet
-
-                        anchors.centerIn: parent
                         anchors.fill: parent
                         anchors.margins: 10
                         anchors.leftMargin: 22
                         anchors.rightMargin: 18
-                        backgroundColorShow: currTheme.secondaryBackground
-
-                        font: mainFont.dapFont.regular16
-
-                        defaultText: qsTr("all signature")
+                        isRestoreMode: logicWallet.restoreWalletMode
                     }
                 }
 

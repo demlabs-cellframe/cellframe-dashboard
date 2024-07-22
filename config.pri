@@ -29,20 +29,10 @@ unix {
     linux-* {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
-		CONFIG(debug, debug|release) {
-	      	NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_rwd/build/
-    	}
-    	CONFIG(release, debug|release) {
-        	NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_release/build/
-	    }
-
-    
+		CONFIG(debug, debug|release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_rwd/dist/
+    	CONFIG(release, debug|release) SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_release/dist/
 
         DEFINES += DAP_OS_LINUX _GNU_SOURCE \
-            NODE_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node\\\" \
-            NODE_DIR_PATH=\\\"/opt/$${BRAND_BASE_LO}-node\\\" \
-	    CLI_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-cli\\\" \
-	    TOOLS_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-tool\\\" \
 	    CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\" \
 	    DAP_PATH_PREFIX=\\\"/opt/$${BRAND_BASE_LO}\\\" \
 	    LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\" \
@@ -82,25 +72,23 @@ unix {
     mac {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
-        NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_osx_release/build/
+        CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_release/dist/
+		CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_rwd/dist/
 
-        DEFINES += CLI_PATH=\\\"/Applications/$${BRAND}.app/Contents/MacOS/$${BRAND_BASE_LO}-node-cli\\\" \
-	    TOOLS_PATH=\\\"/Applications/$${BRAND}.app/Contents/MacOS/$${BRAND_BASE_LO}-node-tool\\\" \
-	    DAP_VERSION=\\\"$$VERSION\\\"
+        DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
+
     }
 }
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += DAP_OS_WINDOWS \
-        CLI_PATH=\\\"$${BRAND_BASE_LO}-node-cli.exe\\\" \
-	TOOLS_PATH=\\\"$${BRAND_BASE_LO}-node-tool.exe\\\" \
         DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\" \
 	HAVE_STRNDUP
 
-    NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_windows_release/build/
+    CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_rwd/dist/
+    CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
 
     QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3
-
 }

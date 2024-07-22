@@ -12,7 +12,7 @@ bool flagSendDahsTime;
 bool flagSendMemory;
 bool flagSendMemoryFree;
 
-};
+}
 
 DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *modulesCtrl, DapAbstractModule *parent)
     : DapAbstractModule(parent)

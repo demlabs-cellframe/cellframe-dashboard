@@ -7,6 +7,7 @@
 #include "ChartTypes.h"
 #include <QSharedPointer>
 #include <QWeakPointer>
+#include <QDateTime>
 
 
 class CreateCandleChart : public QObject

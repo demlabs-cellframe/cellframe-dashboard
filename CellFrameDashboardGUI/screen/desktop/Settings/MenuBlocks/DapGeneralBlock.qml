@@ -238,15 +238,22 @@ ColumnLayout
                 borderColor: currTheme.reflectionLight
                 shadowColor: currTheme.shadowColor
 
-                checked: settingsModule.isNodeAutorun
+                checked: nodeConfigToolController.statusServiceNode
 
                 onToggled: {
+                    nodeConfigToolController.swithServiceEnabled(checked)
+                }
 
-                   settingsModule.nodeManagmentRequest(!checked ? "toDesable" : "toEnable")
+                Connections
+                {
+                    target: nodeConfigToolController
+                    function onStatusServiceNodeChanged()
+                    {
+                        switchTab.checked = nodeConfigToolController.statusServiceNode
+                    }
                 }
             }
         }
-
     }
 
     DapButton
@@ -265,13 +272,25 @@ ColumnLayout
         Layout.topMargin: 10
         Layout.bottomMargin: 20
 
-        textButton: settingsModule.isNodeStarted ? qsTr("Stop Node") : qsTr("Start Node")
+        textButton: nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
 
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
         onClicked: {
-            settingsModule.nodeManagmentRequest(settingsModule.isNodeStarted ? "stop" : "start")
+            if(nodeConfigToolController.statusProcessNode)
+                nodeConfigToolController.stopNode()
+            else
+                nodeConfigToolController.startNode()
+        }
+
+        Connections
+        {
+            target: nodeConfigToolController
+            function onStatusProcessNodeChanged()
+            {
+                resetSize.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
+            }
         }
     }
 

@@ -1,13 +1,20 @@
 #ifndef DAPNOTIFICATIONWATCHER_H
 #define DAPNOTIFICATIONWATCHER_H
+
 #include <QThread>
 #include <QIODevice>
 #include <QLocalSocket>
+#include <QTcpSocket>
 #include <QTimer>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QDebug>
+#include <QProcess>
 
+#include "dap_config.h"
+#include "dapconfigreader.h"
+#include "NodePathManager.h"
 
 class DapNotificationWatcher : public QObject
 {
@@ -17,6 +24,7 @@ public:
     ~DapNotificationWatcher();
 
     bool initWatcher();
+    bool m_statusInitWatcher{false};
     const QString& getSocketState() const {return m_socketState;}
 public slots:
     void slotError();
@@ -49,9 +57,8 @@ private:
     QTimer * m_reconnectTimer;
     QTimer * m_initTimer;
 
-    QString m_socketState;
-
     bool m_isStartNode = true;
+    QString m_socketState{""};
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H

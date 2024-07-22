@@ -5,11 +5,28 @@ import "qrc:/"
 import "../../"
 import "../controls"
 import "qrc:/widgets"
+import "RightPanel"
 
 DapPage {
 
-    readonly property string createNewOrder:  path + "/Orders/RightPanel/DapMasterNodeOrdes.qml"
+    readonly property string startMasterNodePanel:  path + "/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml"
+    readonly property string loaderMasterNodePanel:  path + "/MasterNode/RightPanel/DapLoaderMasterNodeRightPanel.qml"
+    readonly property string ordersMasterNodePanel:  path + "/MasterNode/RightPanel/DapOrdersMasterNodeRightPanel.qml"
+    readonly property string createMasterNodeDone: path + "/MasterNode/RightPanel/DapCreateMasterNodeDone.qml"
+    readonly property string lastActionsMasterNode: path + "/MasterNode/RightPanel/DapLastActionsMasterNode.qml"
+    readonly property string baseMasterNodePanel: path + "/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml"
 
+    property var registrationStagesText: [
+        qsTr("Checking public key"),
+        qsTr("Updating configs"),
+        qsTr("Restarting node"),
+        qsTr("Creating order"),
+        qsTr("Adding node data in network and checking added data"),
+        qsTr("Creating order"),
+        qsTr("Checking stake result"),
+        qsTr("Sending stake hash for verify"),
+        qsTr("Checking all data")
+    ]
 
     Component{id: emptyRightPanel; Item{}}
 
@@ -22,23 +39,50 @@ DapPage {
     dapScreen.initialItem:
         DapMasterNodeScreen
         {
-            id: dashboardScreen
+
         }
 
     dapRightPanelFrame.visible: true
-    dapRightPanel.initialItem: emptyRightPanel
+    //dapRightPanel.initialItem: emptyRightPanel
+    dapRightPanel.initialItem:
+        DapCreateMasterNodeDone
+    {
+
+    }
 
     Component.onCompleted:
     {
-//        logicMainApp.requestToService("DapCertificateManagerCommands", 1)
-//        logicMainApp.requestToService("DapGetListTokensCommand","")
-//        ordersModule.statusProcessing = true
+        if(nodeMasterModule.isSandingDataStage)
+        {
+            dapRightPanel.push(createMasterNodeDone)
+        }
+        else
+        {
+            dapRightPanel.push(baseMasterNodePanel)
+        }
     }
 
     Component.onDestruction:
     {
-        //ordersModule.statusProcessing = false
+
     }
 
+    Connections
+    {
+        target: nodeMasterModule
+
+        function onRegistrationNodeStarted()
+        {
+            dapRightPanel.push(loaderMasterNodePanel)
+        }
+
+        function onCreationStageChanged()
+        {
+            if(nodeMasterModule.isSandingDataStage)
+            {
+                dapRightPanel.push(createMasterNodeDone)
+            }
+        }
+    }
 
 }

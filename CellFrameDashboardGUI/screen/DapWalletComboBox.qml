@@ -166,8 +166,9 @@ Item
         x: -width*(1/scale-1)*0.5
         y: mainItem.height - height*(1/scale-1)*0.5
 
-        width: popupBackground.width
-        height: popupBackground.height
+        width: mainItem.width
+        height: popupListView.contentHeight < maximumPopupHeight ?
+                    popupListView.contentHeight : maximumPopupHeight
 
         padding: 0
 
@@ -181,93 +182,83 @@ Item
         Rectangle
         {
             id: popupBackground
-
             width: mainItem.width
-            height: popupListView.height + border.width*2
-
+            height: parent.height
             color: currTheme.mainBackground
-
             border.width: 1
             border.color: currTheme.mainBackground
 
-            ListView
+            ScrollView
             {
-                id: popupListView
-
-                x: popupBackground.border.width
-                y: popupBackground.border.width
-                width: mainItem.width - popupBackground.border.width*2
-                implicitHeight:
-                    contentHeight < maximumPopupHeight ?
-                        contentHeight : maximumPopupHeight
-
+                id: scrollView
+                anchors.fill: parent
+                contentHeight: popupListView.height
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: popupListView.contentHeight < maximumPopupHeight + popupBackground.border.width*2 ? ScrollBar.AlwaysOff : ScrollBar.AlwaysOn
                 clip: true
 
-                ScrollIndicator.vertical:
-                    ScrollIndicator { }
-
-                delegate:
-                Rectangle
+                contentData:
+                ListView
                 {
-                    id: menuDelegate
-                    width: mainItem.width
-                    height: 40
+                    id: popupListView
+                    x: popupBackground.border.width
+                    y: popupBackground.border.width
+                    width: mainItem.width - popupBackground.border.width*2
+                    implicitHeight: contentHeight
 
-                    color: area.containsMouse ?
-                               currTheme.lime :
-                               currTheme.mainBackground
-
-                    RowLayout
+                    delegate:
+                    Rectangle
                     {
-                        anchors.fill: parent
-                        anchors.leftMargin: 16
-                        anchors.rightMargin: 16
+                        id: menuDelegate
+                        width: mainItem.width
+                        height: 40
+                        color: area.containsMouse ?
+                                   currTheme.lime :
+                                   currTheme.mainBackground
 
-                        Text
+                        RowLayout
                         {
-                            Layout.fillWidth: true
-                            text: walletName
-                            color: area.containsMouse ?
-                                       currTheme.boxes :
-                                       currTheme.white
-                            font: mainItem.font
-                            elide: Text.ElideRight
-                            verticalAlignment: Text.AlignVCenter
+                            anchors.fill: parent
+                            anchors.leftMargin: 16
+                            anchors.rightMargin: 16
+
+                            Text
+                            {
+                                Layout.fillWidth: true
+                                text: walletName
+                                color: area.containsMouse ?
+                                           currTheme.boxes :
+                                           currTheme.white
+                                font: mainItem.font
+                                elide: Text.ElideRight
+                                verticalAlignment: Text.AlignVCenter
+                            }
+
+                            Image{
+                                id: statusIcon
+                                visible: statusProtected === "" ? false : true
+                                // wallets combobox
+                                source: statusProtected === "Active" ? enabledIcon : disabledIcon
+                                mipmap: true
+                            }
                         }
 
-                        Image{
-                            id: statusIcon
-                            visible: statusProtected === "" ? false : true
-                            // wallets combobox
-                            source: statusProtected === "Active" ? enabledIcon : disabledIcon
-                            mipmap: true
-
-                        }
-                    }
-
-                    MouseArea
-                    {
-                        id: area
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked:
+                        MouseArea
                         {
-                            popupListView.currentIndex = index
-                            popup.visible = false
-                            walletModule.setCurrentWallet(walletName)
-                            displayText = walletName;
+                            id: area
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked:
+                            {
+                                popupListView.currentIndex = index
+                                popup.visible = false
+                                walletModule.setCurrentWallet(walletName)
+                                displayText = walletName;
+                            }
                         }
                     }
                 }
-
-                // onCurrentIndexChanged:
-                // {
-                //     //displayText = walletModule.currentWalletName
-                //     mainItem.currentIndex = walletModule.currentWalletIndex
-                // }
-
             }
-
         }
 
         DropShadow

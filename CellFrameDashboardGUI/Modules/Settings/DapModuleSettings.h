@@ -25,8 +25,6 @@ public:
     Q_PROPERTY(bool clearDataProcessing READ clearDataProcessing NOTIFY clearDataProcessingChanged)
     Q_INVOKABLE bool clearDataProcessing(){return m_isNodeAutoRun;}
 
-    Q_INVOKABLE void nodeManagmentRequest(const QString& command);
-
     Q_PROPERTY(bool isNodeStarted READ isNodeStarted NOTIFY isNodeStartedChanged)
     Q_INVOKABLE bool isNodeStarted(){return m_isNodeStarted;}
 

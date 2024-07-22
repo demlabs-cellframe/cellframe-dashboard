@@ -24,10 +24,12 @@ typedef class DapRpcTCPServer DapUiService;
 typedef class DapRpcLocalServer DapUiService;
 #endif
 
-#include "DapWebControll.h"
+#include "DapWebControllerForService.h"
 
 #include "DapNotificationWatcher.h"
-#include "DapNetSyncController.h"
+#include "DapRegularRequestsController.h"
+
+#include "NodePathManager.h"
 
 /**
  * @brief The DapServiceController class
@@ -48,31 +50,57 @@ public:
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
 
+    QString nodeCliPath{""};
+    QString nodeToolPath{""};
+
 private:
     void initServices();
-    
+    void initAdditionalParamrtrsService();
 signals:
     /// The signal is emitted in case of successful connection of a new client.
     void onNewClientConnected();
     void onClientDisconnected();
-    
+    void onServiceStarted();
 private slots:
     void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
     void rcvBlockListFromClient(QVariant);
     void sendConnectRequest(QString site, int index);
-
+    void sendUpdateHistory(const QVariant&);
+    void sendUpdateWallets(const QVariant&);
 private:
     /// Service core.
     DapUiService        *m_pServer {nullptr};
 
     DapNotificationWatcher *m_watcher;
-    DapNetSyncController *m_syncControll;
-    DapWebControll *m_web3Controll;
+    DapWebControllerForService *m_web3Controll;
+
+    QThread *m_threadRegular;
+    DapRegularRequestsController *m_reqularRequestsCtrl;
 
     QList<QThread*> m_threadPool;
     QThread* m_threadNotify;
     QList<DapRpcService*> m_servicePool;
+
+    QSet<QString> m_onceThreadList = { "DapCreateTransactionCommand"
+                                    ,"DapXchangeOrderCreate"
+                                    ,"DapVersionController"
+                                    ,"DapWebConnectRequest"
+                                    ,"DapWebBlockList"
+                                    ,"DapRcvNotify"
+                                    ,"DapQuitApplicationCommand"
+                                    ,"DapXchangeOrderPurchase"
+                                    ,"DapXchangeOrderRemove"
+                                    ,"DapTXCondCreateCommand"
+                                    ,"DapStakeLockHoldCommand"
+                                    ,"DapCreateJsonTransactionCommand"
+                                    ,"DapRemoveTransactionsQueueCommand"
+                                    ,"DapCheckTransactionsQueueCommand"
+                                    ,"DapStakeLockTakeCommand"
+                                    ,"DapHistoryServiceInitCommand"
+                                    ,"DapVoitingCreateCommand"
+                                    ,"DapVoitingVoteCommand"
+                                    ,"DapWalletServiceInitCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

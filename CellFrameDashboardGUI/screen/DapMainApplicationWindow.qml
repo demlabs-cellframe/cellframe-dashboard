@@ -110,6 +110,16 @@ Rectangle {
             click()
         }
     }
+    DapVersionPopup
+    {
+        id: messagePopupUpdateNode
+
+        onSignalAccept:
+        {
+            if(accept)
+                logicMainApp.updateNode()
+        }
+    }
 
     DapWebMessagePopup{
         id: webPopup
@@ -152,7 +162,7 @@ Rectangle {
         id: walletsControllerPopup
         anchors.fill: parent
         visible: false
-        z: 10
+        z: 9
     }
 
     DapRemoveWalletPopup{
@@ -346,11 +356,11 @@ Rectangle {
             page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
 
             /// NEW MASTER NODE TAB
-//        append ({ tag: "Master Node",
-//                name: qsTr("Master Node"),
-//                bttnIco: "icon_master_node.svg",
-//                showTab: true,
-//                page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
+       append ({ tag: "Master Node",
+               name: qsTr("Master Node"),
+               bttnIco: "icon_master_node.svg",
+               showTab: true,
+               page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
 
         append ({ tag: "Settings",
             name: qsTr("Settings"),
@@ -674,12 +684,45 @@ Rectangle {
         }
     }
 
+    FontMetrics {
+        id: metrics
+    }
+
+    function getWidth(font, text)
+    {
+        var maxStr = ""
+        var count = text.length
+        metrics.font = font
+
+        var widthStr = metrics.boundingRect(text).width + 60
+        return widthStr
+    }
+
     Connections
     {
         target: dapServiceController
 
         function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
         function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
+
+        function onTransactionRemoved(rcvData)
+        {
+            var jsonDocument = JSON.parse(rcvData)
+            var result = jsonDocument.result
+            var widthWindow = getWidth(dapMainWindow.infoItem.textComponent.font, result)
+            var icon = "check_icon.png"
+            if(result === qsTr("Nothing has been deleted."))
+            {
+                icon = "no_icon.png"
+            }
+
+            dapMainWindow.infoItem.showInfo(
+                widthWindow,0,
+                dapMainWindow.width*0.5,
+                8,
+                result,
+                "qrc:/Resources/" + pathTheme + "/icons/other/" + icon)
+        }
 
 //        function onVersionControllerResult(versionResult)
 //        {
@@ -752,6 +795,22 @@ Rectangle {
 
             modelPluginsUpdated()
             logicMainApp.updateModelAppsTab()
+        }
+    }
+
+    Connections{
+        target: nodePathManager
+        function onSignalIsNeedInstallNode(isNeed, url)
+        {
+            console.log("onSignalIsNeedInstallNode", isNeed, url)
+            if(isNeed)
+            {
+                logicMainApp.urlDownloadNode = url
+                messagePopupUpdateNode.dapButtonCancel.visible = true
+                messagePopupUpdateNode.dapButtonOk.textButton = "Download"
+                messagePopupUpdateNode.dapButtonCancel.textButton = "Cancel"
+                messagePopupUpdateNode.smartOpenVersion(qsTr("Node download"), "", "", qsTr("Your device is missing cellfarme-node. Click \"Download\" to download the latest version."))
+            }
         }
     }
 }

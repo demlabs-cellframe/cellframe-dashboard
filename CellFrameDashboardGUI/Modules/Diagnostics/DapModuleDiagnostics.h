@@ -34,12 +34,12 @@ public:
     Q_PROPERTY(bool flagSendMemory      READ flagSendMemory     WRITE setFlagSendMemory     NOTIFY flagSendMemoryChanged)
     Q_PROPERTY(bool flagSendMemoryFree  READ flagSendMemoryFree WRITE setFlagSendMemoryFree NOTIFY flagSendMemoryFreeChanged)
 
-    Q_PROPERTY(QByteArray nodeList          READ nodeList           NOTIFY nodeListChanged);
-    Q_PROPERTY(QByteArray nodeListSelected  READ nodeListSelected   NOTIFY nodeListSelectedChanged);
-    Q_PROPERTY(QByteArray dataSelectedNodes READ dataSelectedNodes  NOTIFY dataSelectedNodesChanged);
+    Q_PROPERTY(QByteArray nodeList          READ nodeList           NOTIFY nodeListChanged)
+    Q_PROPERTY(QByteArray nodeListSelected  READ nodeListSelected   NOTIFY nodeListSelectedChanged)
+    Q_PROPERTY(QByteArray dataSelectedNodes READ dataSelectedNodes  NOTIFY dataSelectedNodesChanged)
 
-    Q_PROPERTY(int trackedNodesCount  READ trackedNodesCount   NOTIFY nodesCountChanged);
-    Q_PROPERTY(int allNodesCount      READ allNodesCount  NOTIFY nodesCountChanged);
+    Q_PROPERTY(int trackedNodesCount  READ trackedNodesCount   NOTIFY nodesCountChanged)
+    Q_PROPERTY(int allNodesCount      READ allNodesCount  NOTIFY nodesCountChanged)
 
     Q_INVOKABLE bool flagSendData() const;
     Q_INVOKABLE void setflagSendData(const bool &flagSendData);

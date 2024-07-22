@@ -14,11 +14,13 @@ class ItemTokensBridge : public QObject
 protected:
     struct Data;
 
-    Q_PROPERTY (QString tokenName       READ tokenName      NOTIFY tokenNameChanged)
-    Q_PROPERTY (QString value           READ value          NOTIFY valueChanged)
-    Q_PROPERTY (QString valueDatoshi    READ valueDatoshi   NOTIFY valueDatoshiChanged)
-    Q_PROPERTY (QString tiker           READ tiker          NOTIFY tikerChanged)
-    Q_PROPERTY (QString network         READ network        NOTIFY networkChanged)
+    Q_PROPERTY (QString tokenName           READ tokenName          NOTIFY tokenNameChanged)
+    Q_PROPERTY (QString value               READ value              NOTIFY valueChanged)
+    Q_PROPERTY (QString valueDatoshi        READ valueDatoshi       NOTIFY valueDatoshiChanged)
+    Q_PROPERTY (QString tiker               READ tiker              NOTIFY tikerChanged)
+    Q_PROPERTY (QString network             READ network            NOTIFY networkChanged)
+    Q_PROPERTY (QString availableDatoshi    READ availableDatoshi   NOTIFY availableDatoshiChanged)
+    Q_PROPERTY (QString availableCoins      READ availableCoins     NOTIFY availableCoinsChanged)
 
 protected:
     Data *d;
@@ -37,12 +39,17 @@ public:
     Q_INVOKABLE QString valueDatoshi() const;
     Q_INVOKABLE QString tiker() const;
     Q_INVOKABLE QString network() const;
+    Q_INVOKABLE QString availableDatoshi() const;
+    Q_INVOKABLE QString availableCoins() const;
+
 signals:
     void tokenNameChanged();
     void valueChanged();
     void valueDatoshiChanged();
     void tikerChanged();
     void networkChanged();
+    void availableDatoshiChanged();
+    void availableCoinsChanged();
 public:
     ItemTokensBridge &operator = (const ItemTokensBridge &a_src);
     ItemTokensBridge &operator = (ItemTokensBridge &&a_src);
@@ -61,7 +68,9 @@ public:
         value     = Qt::UserRole,
         valueDatoshi,
         tiker,
-        network
+        network,
+        availableDatoshi,
+        availableCoins        
     };
     Q_ENUM(FieldId)
 
@@ -72,6 +81,9 @@ public:
         QString valueDatoshi = QString();
         QString tiker = QString();
         QString network = QString();
+        QString availableDatoshi = QString();
+        QString availableCoins = QString();
+
         Item() = default;
         Item(const CommonWallet::WalletTokensInfo& token)
             : tokenName(token.tokenName)
@@ -79,6 +91,8 @@ public:
             , valueDatoshi(token.datoshi)
             , tiker(token.ticker)
             , network(token.network)
+            , availableDatoshi(token.availableDatoshi)
+            , availableCoins(token.availableCoins)            
         {}
     };
 

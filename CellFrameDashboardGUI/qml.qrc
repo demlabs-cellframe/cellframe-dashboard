@@ -22,6 +22,7 @@
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentAddedQueueRightPanel.qml</file>
         <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
         <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
         <file>screen/desktop/Certificates/CertificatesModels.qml</file>
@@ -130,7 +131,10 @@
         <file>Resources/BlackTheme/icons/navigation/icon_wallet.png</file>
         <file>Resources/BlackTheme/icons/navigation/vpn-client_icon.png</file>
         <file>Resources/BlackTheme/icons/other/back.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_button.svg</file>
         <file>Resources/BlackTheme/icons/other/back_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_down.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_down_rect.svg</file>
         <file>Resources/BlackTheme/icons/other/bg-menuitem_active.png</file>
         <file>Resources/BlackTheme/icons/other/bg-menuitem_hover.png</file>
         <file>Resources/BlackTheme/icons/other/browser.svg</file>
@@ -160,6 +164,7 @@
         <file>Resources/BlackTheme/icons/other/receipt_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/search.svg</file>
         <file>Resources/BlackTheme/icons/other/spinner_network.svg</file>
+        <file>Resources/BlackTheme/icons/other/loader.svg</file>
         <file>Resources/BlackTheme/icons/other/sync.svg</file>
         <file>Resources/BlackTheme/Illustratons/comingsoon_illustration.png</file>
         <file>Resources/BlackTheme/Illustratons/illustration_vpn-service.svg</file>
@@ -191,6 +196,8 @@
         <file>screen/desktop/Stock/parts/StockHome.qml</file>
         <file>screen/desktop/Stock/LogicStock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreate.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/CreateOrderLight.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/DapOrderTextField.qml</file>
         <file>screen/desktop/Stock/icons/sellIcon.png</file>
         <file>screen/desktop/Stock/icons/sellBuy_icon.png</file>
         <file>screen/desktop/Stock/icons/buyIcon.png</file>
@@ -353,6 +360,9 @@
         <file>screen/desktop/Orders/Parts/DapOrderHeader.qml</file>
         <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
         <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
+        <file>Resources/BlackTheme/icons/other/delete_button.svg</file>
+        <file>Resources/BlackTheme/icons/other/delete_button_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/dash.svg</file>
         <file>screen/desktop/controls/DapRemoveWalletPopup.qml</file>
         <file>screen/desktop/controls/DapRemoveOrderPopup.qml</file>
         <file>screen/desktop/Orders/RightPanel/DapOrderInfo.qml</file>
@@ -367,8 +377,33 @@
         <file>Resources/BlackTheme/icons/other/ic_copy_white.svg</file>
         <file>screen/desktop/MasterNode/DapMasterNodeTab.qml</file>
         <file>screen/desktop/MasterNode/DapMasterNodeScreen.qml</file>
-        <file>screen/desktop/MasterNode/RightPanel/DapMasterNodeOrders.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapStartMasterNodeRightPanel.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapLoaderMasterNodeRightPanel.qml</file>
         <file>Resources/BlackTheme/icons/navigation/icon_master_node.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_info_orange.svg</file>
+        <file>Resources/BlackTheme/icons/other/upload_icon.svg</file>
+        <file>Resources/BlackTheme/icons/other/detach_icon.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_left_right.svg</file>
+        <file>Resources/BlackTheme/icons/other/arrow_button_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_info_small.svg</file>
+        <file>screen/desktop/Stock/parts/CreateOrderLight/TokensListRightPanel.qml</file>
+        <file>screen/desktop/Stock/parts/MyOrders/parts/HeaderBigLabel.qml</file>
+        <file>screen/desktop/Networks/parts/DapNetworkNameStatusComponent.qml</file>
+        <file>screen/desktop/MasterNode/DapMainMasterNodeScreen.qml</file>
+        <file>screen/desktop/controls/DapCertificatesComboBox.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapCreateMasterNodeDone.qml</file>
+        <file>Resources/BlackTheme/icons/other/check_icon.svg</file>
+        <file>Resources/BlackTheme/icons/other/sync_15x15.svg</file>
+        <file>screen/desktop/MasterNode/parts/DapIsMasterNodeScreen.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapOrdersMasterNodeRightPanel.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapLastActionsMasterNode.qml</file>
+        <file>Resources/BlackTheme/icons/other/lock_20.svg</file>
+        <file>Resources/BlackTheme/icons/other/lock_hover_20.svg</file>
+        <file>Resources/BlackTheme/icons/other/unlock_20.svg</file>
+        <file>Resources/BlackTheme/icons/other/unlock_hover_20.svg</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml</file>
+        <file>Resources/BlackTheme/icons/other/loader_orange.svg</file>
+        <file>screen/desktop/controls/DapLoadingPanel.qml</file>
+        <file>screen/desktop/controls/DapLoadingTopPanel.qml</file>
     </qresource>
 </RCC>

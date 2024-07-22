@@ -35,12 +35,37 @@ bool OrdersHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex
         return true;
     }
     DapOrderHistoryModel::Item item = model->getItem(source_row);
+
+    if(m_isRegular)
+    {
+        if(m_network != item.network)return false;
+        if(m_tokenBuy != item.tokenBuyOrigin || m_tokenSell != item.tokenSellOrigin) return false;
+        if(item.status != m_statusOrder) return false;
+
+        if(m_isHashCallback)
+        {
+            if(!m_isHashCallback(item.hash))
+                return false;
+        }
+
+        bool isPeriod = true;
+        if(m_period > 0)
+        {
+            qint64 currentTime = QDateTime::currentDateTime().toSecsSinceEpoch();
+            isPeriod = (currentTime - m_period) < item.unixDate.toLongLong();
+        }
+        if(!isPeriod)
+            return false;
+
+        return true;
+    }
+
     bool isType = true;
     if(m_typeOrder != DEX::TypeSide::BOTH)
     {
         if(item.side != m_typeOrderTypeToStr[m_typeOrder])
         {
-            isType = false;
+            return false;
         }
     }
 
@@ -95,30 +120,10 @@ void OrdersHistoryProxyModel::setAffilationOrderFilter(const QString& type)
     invalidateFilter();
 }
 
-void OrdersHistoryProxyModel::setStatusOrderFilter(const QString& type)
-{
-    Q_ASSERT_X(m_testStatusOrder.contains(type), "setStatusOrderFilter", "There is no such type of orders");
-    m_statusOrder = type;
-    invalidateFilter();
-}
-
 void OrdersHistoryProxyModel::setPeriodOrderFilter(const QString& period)
 {
     Q_ASSERT_X(m_periodContainer.contains(period), "setPeriodOrderFilter", "There is no such period of orders");
     m_period = m_periodContainer[period];
-    invalidateFilter();
-}
-
-void OrdersHistoryProxyModel::setPairOrderFilter(const QString& pair)
-{
-    if(pair == "All pairs")
-    {
-        m_pair.clear();
-    }
-    else
-    {
-        m_pair = pair;
-    }
     invalidateFilter();
 }
 
@@ -188,6 +193,19 @@ void OrdersHistoryProxyModel::setOrderFilter(const QString& type, const QString&
 //    {
 //        m_network = network;
 //    }
+    invalidateFilter();
+}
+
+void OrdersHistoryProxyModel::setIsRegularType(bool isRegular)
+{
+    m_isRegular = isRegular;
+    invalidateFilter();
+}
+
+void OrdersHistoryProxyModel::setCurrentTokenPair(const QString& tokenSell, const QString& tokenBuy)
+{
+    m_tokenSell = tokenSell;
+    m_tokenBuy = tokenBuy;
     invalidateFilter();
 }
 

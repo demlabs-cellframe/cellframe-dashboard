@@ -27,13 +27,14 @@
 #include "handlers/DapGetWalletTokenInfoCommand.h"
 #include "models/DapWalletModel.h"
 #include "handlers/DapCreateTransactionCommand.h"
+#include "handlers/DapSrvStakeDelegateCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapGetAllWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
-#include "handlers/DapGetListOdersCommand.h"
+#include "handlers/DapGetListOrdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
@@ -61,7 +62,14 @@
 #include "handlers/DapCreatePassForWallet.h"
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapCreateStakeOrder.h"
-#include "handlers/DapNodeManagmentCommand.h"
+#include "handlers/DapRemoveTransactionsQueueCommand.h"
+#include "handlers/DapCheckTransactionsQueueCommand.h"
+#include "handlers/DapServiceInitCommand.h"
+#include "handlers/DapAddNodeCommand.h"
+#include "handlers/DapCheckQueueTransactionCommand.h"
+#include "handlers/DapNodeListCommand.h"
+#include "handlers/MempoolCheckCommand.h"
+#include "handlers/DapCreateStakeOrder.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -149,7 +157,7 @@ public:
     bool getReadingChains() const;
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
-
+    Q_INVOKABLE void tryRemoveTransactions(const QVariant& transactions);
 //    QByteArray s_bufferTokensJson;
 //    QByteArray s_bufferOrdersJson;
 //    QByteArray s_bufferPairJson;
@@ -185,6 +193,8 @@ signals:
     /// A signal is emitted if a transaction is successfully created.
     /// @param aResult Transaction result.
     void transactionCreated(const QVariant& aResult);
+
+    void srvStakeDelegateCreated(const QVariant& aResult);
     /// Signal emitted in case of successful processing of the mempool.
     /// @param aResult Mempool processing result.
     void mempoolProcessed(const QVariant& aResult);
@@ -274,7 +284,8 @@ signals:
     void rcvWordBook(const QVariant& rcvData);
 
     void rcvDictionary(const QVariant& rcvData);
-
+    void transactionRemoved(const QVariant& rcvData);
+    void transactionInfoReceived(const QVariant& rcvData);
     void nodeRestart();
 
     void rcvRemoveResult(const QVariant& rcvData);
@@ -284,8 +295,13 @@ signals:
     void createdVPNOrder(const QVariant& order);
     void createdStakeOrder(const QVariant& order);
 
-    void nodeManagmentRespond(const QVariant& rcvData);
-
+    void historyServiceInitRcv(const QVariant& rcvData);
+    void walletsServiceInitRcv(const QVariant& rcvData);
+    void rcvAddNode(const QVariant& rcvData);
+    void rcvCheckQueueTransaction(const QVariant& rcvData);
+    void rcvNodeListCommand(const QVariant& rcvData);
+    void rcvMempoolCheckCommand(const QVariant& rcvData);
+    void rcvCreateStakeOrder(const QVariant& rcvData);
 private slots:
     /// Register command.
     void registerCommand();
@@ -304,10 +320,12 @@ private:
 private slots:
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
     void slotNetState(QVariantMap netState){emit signalNetState(netState);}
+    void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
 
 signals:
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
+    void signalChainsLoadProgress(QVariantMap loadProgress);
 
 };
 

@@ -28,24 +28,6 @@ Page
         walletModule.stopUpdateFee()
     }
 
-    Connections
-    {
-        target: dapServiceController
-
-        function onRcvXchangeCreate(rcvData)
-        {
-            logicStock.resultCreate = rcvData
-            goToDoneCreate()
-        }
-
-        function onRcvXchangeOrderPurchase(rcvData)
-        {
-            logicStock.resultCreate = rcvData
-            goToDoneCreate()
-        }
-    }
-
-
     Item
     {
 
@@ -284,14 +266,14 @@ Page
                         var resultTokenName = isSell ? fields.amount.textToken : fields.total.textToken 
                         var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                         console.log("Wallet: " + walletResult)
-                        if(walletResult === "OK")
+                        if(walletResult.code === 0)
                         {
                             var createOrder = dexModule.tryCreateOrder(fields.sell, fields.price.textValue, resultAmount, walletModule.getFee(dexModule.networkPair).validator_fee)
                             console.log("Order: " + createOrder)
                         }
                         else
                         {
-                            messageText.text = walletResult
+                            messageText.text = walletResult.message
                         }
                     }
                 }

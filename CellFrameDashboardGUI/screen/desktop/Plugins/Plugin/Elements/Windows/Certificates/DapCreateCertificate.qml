@@ -98,7 +98,7 @@ Item {
                 {
                     logicMainApp.requestToService("DapCertificateManagerCommands"
                                                           , 2 //create cert command into service
-                                                          , textInputNameCertificate.text, signatureTypeWallet.get(0).sign
+                                                          , textInputNameCertificate.text, certListModel.get(0).sign
                                                           , getDataToJson());
                     close()
                 }

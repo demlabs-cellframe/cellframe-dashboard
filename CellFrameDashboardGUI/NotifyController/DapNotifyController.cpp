@@ -1,19 +1,21 @@
 #include "DapNotifyController.h"
 #include "qjsondocument.h"
 #include "qjsonobject.h"
+#include "NodePathManager.h"
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
 
 }
 
-
 void DapNotifyController::rcvData(QVariant data)
 {
 
     QJsonDocument doc = QJsonDocument::fromJson(data.toString().toUtf8());
     QVariantMap map = doc.object().toVariantMap();
-
+    
+//    qDebug() << "[DapNotifyController] [rcvData] A request was received from web3 :" << doc;
+    
     if(map.contains("connect_state"))
     {
         QVariant value = map["connect_state"];
@@ -23,10 +25,14 @@ void DapNotifyController::rcvData(QVariant data)
         {
             bool isFirst = false;
             if(value.toString() != m_connectState)
+            {
                 isFirst = true;
+                NodePathManager::getInstance().init("GUI");
+            }
 
             m_connectState = value.toInt();
             emit socketState(m_connectState, true, isFirst);
+
         }
         else
         {
@@ -45,6 +51,10 @@ void DapNotifyController::rcvData(QVariant data)
         else if(value.toString() == "NetStates")
         {
             emit netStates(map);
+        }
+        else if(value.toString() == "chain_init")
+        {
+            emit chainsLoadProgress(map);
         }
     }
 }

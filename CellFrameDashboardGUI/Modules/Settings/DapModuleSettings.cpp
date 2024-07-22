@@ -6,7 +6,6 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     , m_timerVersionCheck(new QTimer())
     , m_timerTimeoutService(new QTimer())
 {
-    connect(s_serviceCtrl, &DapServiceController::nodeManagmentRespond, this, &DapModuleSettings::nodeInfoRcv);
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
         initConnect();
@@ -16,8 +15,6 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     });
 
     m_isNodeAutoRun = m_modulesCtrl->getSettings()->value(SETTINGS_NODE_ENABLE_KEY, true).toBool();
-    nodeManagmentRequest(m_isNodeAutoRun ? "toEnable" : "toDesable");
-    nodeManagmentRequest("isServise");
 }
 
 DapModuleSettings::~DapModuleSettings()
@@ -123,15 +120,6 @@ void DapModuleSettings::setNodeAutorun(bool isEnable)
         m_modulesCtrl->getSettings()->setValue(SETTINGS_NODE_ENABLE_KEY, m_isNodeAutoRun);
         emit isNodeAutorunChanged();
     }
-}
-
-void DapModuleSettings::nodeManagmentRequest(const QString& command)
-{
-    if(command == "start") setNodeStatus(true);
-    else if(command == "stop") setNodeStatus(false);
-    else if(command == "toEnable") setNodeAutorun(true);
-    else if(command == "toDesable") setNodeAutorun(false);
-    s_serviceCtrl->requestToService("DapNodeManagmentCommand", QStringList() << command);
 }
 
 void DapModuleSettings::nodeInfoRcv(const QVariant& rcvData)
