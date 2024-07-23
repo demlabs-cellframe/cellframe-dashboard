@@ -8,7 +8,7 @@ Item {
     Text {
         id: staticText_
         anchors.verticalCenter: parent.verticalCenter
-        font: mainFont.dapFont.normal12
+        font: mainFont.dapFont.medium12
         color: currTheme.white
     }
     Text {
