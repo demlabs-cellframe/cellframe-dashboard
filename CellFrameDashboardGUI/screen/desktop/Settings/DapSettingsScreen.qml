@@ -57,7 +57,7 @@ Page
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
-                    Layout.minimumHeight: 182
+                    Layout.minimumHeight: nodeConfigToolController.statusServiceNode ? 182 : 126
 
                     contentData: DapGeneralBlock{id:content}
                 }

@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QJsonObject>
 #include <QDebug>
+#include <QThread>
 
 #ifdef WIN32
 #include <windows.h>
@@ -57,7 +58,6 @@ public:
 #endif
 
 private:
-
     bool initConfTool();
     QString sendRequest(QString req);
     QString getResult(QString find, QStringList list);

@@ -87,7 +87,6 @@ bool NodeConfigToolController::initConfTool()
         qWarning()<<"Could not find cellframe-node-config";
         return false;
     }
-
     m_statusInitConfTool = true;
     serviceCommand(Status);
     return true;

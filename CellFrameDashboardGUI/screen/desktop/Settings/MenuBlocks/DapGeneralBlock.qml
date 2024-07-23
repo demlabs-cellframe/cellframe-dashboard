@@ -223,7 +223,7 @@ ColumnLayout
                 font: mainFont.dapFont.regular14
                 color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
-                 text: qsTr("Node auto-start")
+                 text: qsTr("Node service enable")
             }
             DapSwitch
             {
@@ -240,8 +240,11 @@ ColumnLayout
 
                 checked: nodeConfigToolController.statusServiceNode
 
-                onToggled: {
-                    nodeConfigToolController.swithServiceEnabled(checked)
+                function toggle() {
+                    if(nodeConfigToolController.statusServiceNode)
+                        nodeConfigToolController.swithServiceEnabled(false)
+                    else
+                        nodeConfigToolController.swithServiceEnabled(true)
                 }
 
                 Connections
@@ -249,7 +252,19 @@ ColumnLayout
                     target: nodeConfigToolController
                     function onStatusServiceNodeChanged()
                     {
-                        switchTab.checked = nodeConfigToolController.statusServiceNode
+                        if(switchTab.checked !== nodeConfigToolController.statusServiceNode)
+                        {
+                            switchTab.checked = nodeConfigToolController.statusServiceNode
+
+                            if (switchTab.state == "on" && !switchTab.checked)
+                            {
+                                switchTab.state = "off";
+                            }
+                            else if(switchTab.state == "off" && switchTab.checked)
+                            {
+                                switchTab.state = "on";
+                            }
+                        }
                     }
                 }
             }
@@ -258,7 +273,7 @@ ColumnLayout
 
     DapButton
     {
-        id: resetSize
+        id: startStopNode
 
         focus: false
 
@@ -272,6 +287,8 @@ ColumnLayout
         Layout.topMargin: 10
         Layout.bottomMargin: 20
 
+        visible: switchTab.checked
+
         textButton: nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
 
         fontButton: mainFont.dapFont.medium14
@@ -284,14 +301,14 @@ ColumnLayout
                 nodeConfigToolController.startNode()
         }
 
-        Connections
-        {
-            target: nodeConfigToolController
-            function onStatusProcessNodeChanged()
-            {
-                resetSize.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
-            }
-        }
+//        Connections
+//        {
+//            target: nodeConfigToolController
+//            function onStatusProcessNodeChanged()
+//            {
+//                startStopNode.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
+//            }
+//        }
     }
 
     Connections
