@@ -20,6 +20,25 @@ DapTopPanel
         radius: 16
         color: currTheme.mainBackground
 
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: Item {
+                width: backgrndRect.width
+                height: backgrndRect.height
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: backgrndRect.width
+                    height: backgrndRect.height
+                    radius: 16
+                    Rectangle {
+                        height: backgrndRect.height
+                        width: backgrndRect.width / 2
+                        anchors.right: parent.right
+                    }
+                }
+            }
+        }
+
         Image
         {
             id: loader
