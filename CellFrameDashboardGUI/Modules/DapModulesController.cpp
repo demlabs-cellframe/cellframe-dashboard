@@ -173,13 +173,13 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
     if(!m_networksLoadProgress.contains(net))
     {
         m_networksLoadProgress.insert(net, progress);
+        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] node progress(New network). net: " << net << " progress: " << progress;
     }
     else
     {
         m_networksLoadProgress[net] = progress;
+        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] node progress. net: " << net << " progress: " << progress;
     }
-
-    qDebug() << "[DapModulesController] [rcvChainsLoadProgress] node progress. net: " << net << " progress: " << progress;
 
     // calc total percent of node loading
     int total = 0;
@@ -188,6 +188,7 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
         total += m_networksLoadProgress[net];
     }
     m_nodeLoadProgress = total / m_networksLoadProgress.count();
+    qDebug() << "[DapModulesController] [rcvChainsLoadProgress] current node progress: " << m_nodeLoadProgress;
     emit nodeLoadProgressChanged();
 }
 

@@ -54,7 +54,7 @@ void DapNotifyController::rcvData(QVariant data)
         }
         else if(value.toString() == "chain_init")
         {
-            qDebug() << "[DapNotifyController] chein init - " << map;
+            qDebug() << "[DapNotifyController] chain init - " << map;
             emit chainsLoadProgress(map);
         }
     }
