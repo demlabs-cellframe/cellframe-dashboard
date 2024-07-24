@@ -9,7 +9,7 @@ DapModuleOrders::DapModuleOrders(DapModulesController *parent)
 {
 
     m_ordersProxyModel.setSourceModel(&m_ordersModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrders", &m_ordersModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrders", s_ordersModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrdersProxy", &m_ordersProxyModel);
 
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
