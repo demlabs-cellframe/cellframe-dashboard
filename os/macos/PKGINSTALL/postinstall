@@ -3,7 +3,6 @@
 APP_NAME=Cellframe-Dashboard
 DAP_PREFIX=/Users/$USER/Applications/Cellframe.app/Contents/Resources
 SERVICE=com.demlabs."$APP_NAME"Service
-NODE=com.demlabs.cellframe-node
 
 set -x
 sudo xattr -rd com.apple.quarantine /Applications/"$APP_NAME".app
@@ -45,23 +44,20 @@ sudo chmod +x $EXEC_PREFIX/create_configs_from_tpl.sh
 
 $EXEC_PREFIX/create_configs.sh /Applications/Cellframe-Dashboard.app/
 
-#mkdir -p /Users/$USER/Library/LaunchAgents
-launchctl stop $SERVICE 
-sudo  launchctl unload -w /Library/LaunchDaemons/$SERVICE.plist
+ mkdir -p /Users/$USER/Library/LaunchAgents
+ launchctl stop $SERVICE 
+ sudo -u $USER launchctl unload -w /Users/$USER/Library/LaunchAgents/$SERVICE.plist
 
-launchctl stop $NODE
-sudo  launchctl unload -w /Library/LaunchDaemons/$NODE.plist
+sudo chown $USER /Applications/"$APP_NAME".app/Contents/Resources/$SERVICE.plist
+sudo chmod 644 /Applications/"$APP_NAME".app/Contents/Resources/$SERVICE.plist
 
-sudo ln -sf /Applications/"$APP_NAME".app/Contents/Resources/$SERVICE.plist /Library/LaunchDaemons/$SERVICE.plist
-sudo ln -sf /Applications/"$APP_NAME".app/Contents/Resources/$NODE.plist /Library/LaunchDaemons/$NODE.plist
-sudo launchctl load -w /Library/LaunchDaemons/$NODE.plist
-sudo launchctl load -w /Library/LaunchDaemons/$SERVICE.plist
+ sudo ln -sf /Applications/"$APP_NAME".app/Contents/Resources/$SERVICE.plist /Users/$USER/Library/LaunchAgents/$SERVICE.plist
+ sudo -u $USER launchctl load -w /Users/$USER/Library/LaunchAgents/$SERVICE.plist
 
 #  rm -r $DAP_PREFIX/var/lib/global_db/ || true
 #  rm -r $DAP_PREFIX/var/lib/network/ || true
 
-sudo  launchctl start $NODE
-sudo  launchctl start $SERVICE
+ sudo -u $USER launchctl start $SERVICE
 
 sudo rm $EXEC_PREFIX/*.sh
 sudo rm /Applications/$APP_NAME.plist
@@ -71,8 +67,6 @@ cp /Applications/$APP_NAME.app/Contents/Resources/cellframe-uninstaller /Applica
 Rez -append /Applications/$APP_NAME.app/Contents/Resources/uninstall_icon.rsrc -o /Applications/cellframe-uninstaller
 SetFile -a C /Applications/cellframe-uninstaller
 
-echo "node agent: $(launchctl list | grep cell)" > /tmp/cellframe-dashboard_install_logs.txt
 echo "service agent: $(launchctl list | grep cell)" > /tmp/cellframe-dashboard_install_logs.txt
 
 cd $wd
-
