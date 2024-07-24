@@ -4,10 +4,8 @@ echo "Installing time!" >> /tmp/debug_vpn.txt
 
 APP_NAME=Cellframe-Dashboard
 
-NODE=com.demlabs.cellframe-node
 SERVICE=com.demlabs.Cellframe-DashboardService
 
-launchctl stop $NODE
 launchctl stop $SERVICE
 
 #rm -r /Users/$USER/Applications/Cellframe.app/Contents/Resources/etc/ || true
@@ -48,7 +46,6 @@ echo "unloading the weirdo deps" >> /tmp/debug_dashboard.txt
 
 
 [ -e /Library/LaunchDaemons/com.demlabs."$APP_NAME"Service.plist ] && launchctl unload -w /Users/$USER/Library/LaunchAgents/com.demlabs."$APP_NAME"Service.plist
-[ -e /Library/LaunchDaemons/com.demlabs.cellframe-node.plist ] && launchctl unload -w /Users/$USER/Library/LaunchAgents/com.demlabs.cellframe-node.plist
 
 #udo rm -fr /Applications/${BRAND}.app
 
