@@ -113,12 +113,12 @@ void DapNotificationWatcher::slotReconnect()
     ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
     ((QTcpSocket*)m_socket)->waitForConnected(5000);
 
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
 
     if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
        m_socketState != QAbstractSocket::SocketState::ConnectingState)
     {
-        if(NodePathManager::getInstance().m_cfgToolCtrl->runNode())
+        if(NodeConfigToolController::getInstance().runNode())
             qInfo()<<"Succes restart node";
         else
             qWarning()<<"Error restart node";
@@ -190,7 +190,7 @@ void DapNotificationWatcher::reconnectFunc()
     m_reconnectTimer->stop();
 
     if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
-       m_socketState != QAbstractSocket::SocketState::ConnectingState)
+       m_socketState != QAbstractSocket::SocketState::ConnectingState && m_isStartNode)
     {
         m_reconnectTimer->start(10000);
         qWarning()<< "Notify socket reconnecting...";
@@ -215,4 +215,9 @@ void DapNotificationWatcher::sendNotifyState(QVariant msg)
     QJsonDocument doc;
     doc.setObject(obj);
     emit rcvNotify(doc.toVariant());
+}
+
+void DapNotificationWatcher::isStartNodeChanged(bool isStart)
+{
+    m_isStartNode = isStart;
 }

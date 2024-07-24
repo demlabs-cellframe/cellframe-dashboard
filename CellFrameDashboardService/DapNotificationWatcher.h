@@ -39,6 +39,8 @@ public slots:
 
     void frontendConnected();
 
+    void isStartNodeChanged(bool isStart);
+
 signals:
     void rcvNotify(QVariant);
     void changeConnectState(QString);
@@ -55,6 +57,7 @@ private:
     QTimer * m_reconnectTimer;
     QTimer * m_initTimer;
 
+    bool m_isStartNode = true;
     QString m_socketState{""};
 };
 

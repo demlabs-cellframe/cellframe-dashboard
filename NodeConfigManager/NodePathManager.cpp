@@ -4,7 +4,7 @@ NodePathManager::NodePathManager( QObject *parent)
     : QObject(parent)
     , m_sharedMemory(m_keyName)
     , m_instMngr(new NodeInstallManager(true))
-    , m_cfgToolCtrl(new NodeConfigToolController())
+    , m_cfgToolCtrl(&NodeConfigToolController::getInstance())
 {
 
 }

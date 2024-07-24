@@ -113,6 +113,9 @@ win32 {
    #force qmake generate installs in makefiles for unbuilded targets
    service_target.CONFIG += no_check_exist
    INSTALLS += service_target
+
+   CONFIG -= embed_manifest_exe
+   RC_FILE = ../os/windows/resources.rc
 }
 
 mac {
