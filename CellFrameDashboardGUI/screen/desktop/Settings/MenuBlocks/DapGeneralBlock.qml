@@ -52,6 +52,8 @@ ColumnLayout
         height: 30
         color: currTheme.mainBackground
 
+        visible: false
+
         Text
         {
             anchors.fill: parent
@@ -67,6 +69,8 @@ ColumnLayout
     Item {
         height: 60
         Layout.fillWidth: true
+
+        visible: false
 
         DapCustomComboBox
         {
@@ -97,6 +101,8 @@ ColumnLayout
         height: 30
         color: currTheme.mainBackground
 
+        visible: false
+
         Text
         {
             anchors.fill: parent
@@ -116,6 +122,7 @@ ColumnLayout
 
     ListView{
         id: themeView
+        visible: false
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: contentHeight
@@ -177,4 +184,157 @@ ColumnLayout
             }
         }
     }
+
+    Rectangle
+    {
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Node")
+        }
+    }
+
+    Item
+    {
+        height: 60
+        Layout.fillWidth: true
+        RowLayout
+        {
+            anchors.fill: parent
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
+
+            Text
+            {
+                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                font: mainFont.dapFont.regular14
+                color: currTheme.white
+                verticalAlignment: Qt.AlignVCenter
+                 text: qsTr("Node service enable")
+            }
+            DapSwitch
+            {
+                id: switchTab
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                Layout.preferredHeight: 26
+                Layout.preferredWidth: 46
+
+                indicatorSize: 30
+
+                backgroundColor: currTheme.mainBackground
+                borderColor: currTheme.reflectionLight
+                shadowColor: currTheme.shadowColor
+
+                checked: nodeConfigToolController.statusServiceNode
+
+                function toggle() {
+                    if(nodeConfigToolController.statusServiceNode)
+                        nodeConfigToolController.swithServiceEnabled(false)
+                    else
+                        nodeConfigToolController.swithServiceEnabled(true)
+                }
+
+                Connections
+                {
+                    target: nodeConfigToolController
+                    function onStatusServiceNodeChanged()
+                    {
+                        if(switchTab.checked !== nodeConfigToolController.statusServiceNode)
+                        {
+                            switchTab.checked = nodeConfigToolController.statusServiceNode
+
+                            if (switchTab.state == "on" && !switchTab.checked)
+                            {
+                                switchTab.state = "off";
+                            }
+                            else if(switchTab.state == "off" && switchTab.checked)
+                            {
+                                switchTab.state = "on";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    DapButton
+    {
+        id: startStopNode
+
+        focus: false
+
+        Layout.fillWidth: true
+
+        Layout.minimumHeight: 26
+        Layout.maximumHeight: 26
+
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.topMargin: 10
+        Layout.bottomMargin: 20
+
+        visible: switchTab.checked
+
+        textButton: nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
+
+        fontButton: mainFont.dapFont.medium14
+        horizontalAligmentText: Text.AlignHCenter
+
+        onClicked: {
+            if(nodeConfigToolController.statusProcessNode)
+                nodeConfigToolController.stopNode()
+            else
+                nodeConfigToolController.startNode()
+        }
+
+//        Connections
+//        {
+//            target: nodeConfigToolController
+//            function onStatusProcessNodeChanged()
+//            {
+//                startStopNode.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
+//            }
+//        }
+    }
+
+    Connections
+    {
+        target: settingsModule
+
+        function onResultNodeRequest(messaage)
+        {
+            dapMainWindow.infoItem.showInfo(
+                        200,0,
+                        dapMainWindow.width*0.5,
+                        8,
+                        messaage,
+                        "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+        }
+
+        function errorNodeRequest(messaage)
+        {
+            dapMainWindow.infoItem.showInfo(
+                        200,0,
+                        dapMainWindow.width*0.5,
+                        8,
+                        messaage,
+                        "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+        }
+    }
+
+
 }

@@ -13,6 +13,8 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
         checkVersion();
         setStatusInit(true);
     });
+
+    m_isNodeAutoRun = m_modulesCtrl->getSettings()->value(SETTINGS_NODE_ENABLE_KEY, true).toBool();
 }
 
 DapModuleSettings::~DapModuleSettings()
@@ -102,4 +104,38 @@ void DapModuleSettings::resultCrearData(const QVariant& result)
     clearDataProcessingChanged();
 //    emit sigNodeDataRemoved();
 //    qDebug()<<result;
+}
+
+void DapModuleSettings::setNodeStatus(bool isStart)
+{
+    m_isNodeStarted = isStart;
+    emit isNodeStartedChanged();
+}
+
+void DapModuleSettings::setNodeAutorun(bool isEnable)
+{
+    if(m_isNodeAutoRun != isEnable)
+    {
+        m_isNodeAutoRun = isEnable;
+        m_modulesCtrl->getSettings()->setValue(SETTINGS_NODE_ENABLE_KEY, m_isNodeAutoRun);
+        emit isNodeAutorunChanged();
+    }
+}
+
+void DapModuleSettings::nodeInfoRcv(const QVariant& rcvData)
+{
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    if(replyObj.contains("activeNode"))
+    {
+        setNodeStatus(replyObj["activeNode"].toBool());
+    }
+    else if(replyObj.contains("result"))
+    {
+        emit resultNodeRequest(replyObj["result"].toString());
+    }
+    else if(replyObj.contains("error"))
+    {
+        emit errorNodeRequest(replyObj["error"].toString());
+    }
 }

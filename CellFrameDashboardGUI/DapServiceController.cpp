@@ -284,15 +284,12 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveTransactionsQueueCommand("DapRemoveTransactionsQueueCommand", m_DAPRpcSocket))), QString("transactionRemoved")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCheckTransactionsQueueCommand("DapCheckTransactionsQueueCommand", m_DAPRpcSocket))), QString("transactionInfoReceived")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapServiceInitCommand("DapHistoryServiceInitCommand", m_DAPRpcSocket))), QString("historyServiceInitRcv")));
-
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapServiceInitCommand("DapWalletServiceInitCommand", m_DAPRpcSocket))), QString("walletsServiceInitRcv")));
-    
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddNodeCommand("DapAddNodeCommand", m_DAPRpcSocket))), QString("rcvAddNode")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCheckQueueTransactionCommand("DapCheckQueueTransactionCommand", m_DAPRpcSocket))), QString("rcvCheckQueueTransaction")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new MempoolCheckCommand("MempoolCheckCommand", m_DAPRpcSocket))), QString("rcvMempoolCheckCommand")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeListCommand("DapNodeListCommand", m_DAPRpcSocket))), QString("rcvNodeListCommand")));
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreateStakeOrder("DapCreateStakeOrder", m_DAPRpcSocket))), QString("rcvCreateStakeOrder")));
-    
+
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {
         QByteArray  array = QByteArray::fromHex(networksList.toByteArray());
