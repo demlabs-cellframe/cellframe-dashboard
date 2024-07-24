@@ -277,6 +277,7 @@ Page
                         horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
+                        maximumLength: 70
                         DapContextMenu{}
 
                         onTextChanged:
@@ -447,6 +448,7 @@ Page
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
                         enabled: !dexModule.isMarketType
+                        maximumLength: 70
 
                         DapContextMenu{}
 
@@ -538,6 +540,7 @@ Page
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
+                        maximumLength: 70
 
                         DapContextMenu{}
                         onTextChanged:
