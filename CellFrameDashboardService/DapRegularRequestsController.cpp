@@ -15,6 +15,8 @@ DapRegularRequestsController::DapRegularRequestsController(QString cliPath, QStr
     , m_nodeCliPath(cliPath)
     , m_nodeToolPath(toolPath)
 {
+
+
 }
 
 DapRegularRequestsController::~DapRegularRequestsController()
@@ -62,7 +64,7 @@ void DapRegularRequestsController::updateListNetworks()
 
     auto networksObject = respond.result.toArray()[0].toObject();
     auto networksArray = networksObject["networks"].toArray();
-    for(const auto& item: networksArray)
+    for(const auto& item: qAsConst(networksArray))
     {
         listNetworks.append(item.toString());
     }
@@ -92,7 +94,7 @@ void DapRegularRequestsController::updateListWallets()
     }
 
     auto wallets = respond.result[0].toArray();
-    for(const auto& item: wallets)
+    for(const auto& item: qAsConst(wallets))
     {
         auto walletObject = item.toObject();
 
