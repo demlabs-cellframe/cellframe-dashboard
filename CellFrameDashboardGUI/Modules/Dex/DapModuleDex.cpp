@@ -619,8 +619,8 @@ int DapModuleDex::diffNumber(const QString& a, const QString& b)
 
     Dap::Coin oneVal = resA;
     Dap::Coin twoVal = resB;
-    if(resA > resB) return 2;
-    else if(resA == resB) return 1;
+    if(oneVal > twoVal) return 2;
+    else if(oneVal == twoVal) return 1;
     else return 0;
 }
 

@@ -162,6 +162,7 @@ private slots:
     void respondCheckStakeDelegate(const QVariant &rcvData);
     void respondMempoolCheck(const QVariant &rcvData);
     void respondListKeys(const QVariant &rcvData);
+    void respondCreatedStakeOrder(const QVariant &rcvData);
 
     void mempoolCheck();
     void checkStake();
@@ -172,10 +173,13 @@ private:
 
     void saveStageList();
     void loadStageList();
+    void clearStageList();
     void saveCurrentRegistration();
     void loadCurrentRegistration();
+    void clearCurrentRegistration();
     void saveMasterNodeBase();
     void loadMasterNodeBase();
+    void clearMasterNodeBase();
 
     void createCertificate();
     void getInfoCertificate();
@@ -184,7 +188,7 @@ private:
     void getHashCertificate(const QString& certName);
     void tryStopCreationMasterNode(int code, const QString &message = "");
     void addNode();
-    void requestNodeList();
+
     void stakeDelegate();
     void tryCheckStakeDelegate();
     void getInfoNode();
@@ -234,16 +238,33 @@ private:
 
     QMap<QString, MasterNodeInfo> m_masterNodeInfo;
 
-    const QList<QPair<LaunchStage, int>> PATTERN_STAGE = {/*{LaunchStage::CHECK_PUBLIC_KEY, 0},
+    const QList<QPair<LaunchStage, int>> PATTERN_STAGE = {{LaunchStage::CHECK_PUBLIC_KEY, 0},
                                                           {LaunchStage::UPDATE_CONFIG, 1},
                                                           {LaunchStage::RESTARTING_NODE, 2},
                                                           {LaunchStage::ADDINNG_NODE_DATA, 3},
                                                           {LaunchStage::SENDING_STAKE, 4},
-                                                          {LaunchStage::CHECKING_STAKE, 5},*/
+                                                          {LaunchStage::CHECKING_STAKE, 5},
                                                           {LaunchStage::SEND_FORM, 6},
                                                           {LaunchStage::ORDER_VALIDATOR, 7},
                                                           {LaunchStage::RESTARTING_NODE, 8}};
 
     const QString STAKE_HASH_KEY = "stakeHash";
     const QString QUEUE_HASH_KEY = "queueHash";
+
+    const QString IS_UPLOAD_CERT_KEY = "isUploadCert";
+    const QString CERT_NAME_KEY = "certName";
+    const QString CERT_SIGN_KEY = "sign";
+    const QString CERT_HASH_KEY = "certHash";
+    const QString CERT_PATH_KEY = "certPath";
+    const QString NODE_ADDR_KEY = "nodeAddress";
+    const QString WALLET_NAME_KEY = "walletName";
+    const QString WALLET_ADDR_KEY = "walletAddress";
+    const QString NETWORK_KEY = "network";
+    const QString FEE_KEY = "fee";
+    const QString FEE_TOKEN_KEY = "feeToken";
+    const QString NODE_IP_KEY = "nodeIP";
+    const QString PORT_KEY = "port";
+    const QString STAKE_VALUE_KEY = "stakeValue";
+    const QString STAKE_TOKEN_KEY = "stakeToken";
+    const QString STAKE_FEE_KEY = "stakeFee";
 };
