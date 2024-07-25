@@ -161,6 +161,7 @@ private slots:
     void respondStakeDelegate(const QVariant &rcvData);
     void respondCheckStakeDelegate(const QVariant &rcvData);
     void respondMempoolCheck(const QVariant &rcvData);
+    void respondListKeys(const QVariant &rcvData);
 
     void mempoolCheck();
     void checkStake();
@@ -196,9 +197,14 @@ private:
     void addNetwork(const QString &net);
     bool checkTokenName() const;
 
+    void startWaitingPermission();
+    void getListKeys();
+
+    void finishRegistration();
 private:
     DapModulesController  *m_modulesCtrl;
     QTimer* m_checkStakeTimer = nullptr;
+    QTimer* m_listKeysTimer = nullptr;
 
     QString m_currentNetwork = "raiden";
 
@@ -216,6 +222,7 @@ private:
     bool m_isNodeListRequest = false;
 
     const int TIME_OUT_CHECK_STAKE = 5000;
+    const int TIME_OUT_LIST_KEYS = 30000;
 
     const QMap<QString, QPair<QString, QString>> m_tokens = {{"Backbone", qMakePair(QString("mCELL"), QString("CELL"))},
                                                              {"KelVPN", qMakePair(QString("mKEL"), QString("KEL"))},
@@ -227,12 +234,12 @@ private:
 
     QMap<QString, MasterNodeInfo> m_masterNodeInfo;
 
-    const QList<QPair<LaunchStage, int>> PATTERN_STAGE = {{LaunchStage::CHECK_PUBLIC_KEY, 0},
+    const QList<QPair<LaunchStage, int>> PATTERN_STAGE = {/*{LaunchStage::CHECK_PUBLIC_KEY, 0},
                                                           {LaunchStage::UPDATE_CONFIG, 1},
                                                           {LaunchStage::RESTARTING_NODE, 2},
                                                           {LaunchStage::ADDINNG_NODE_DATA, 3},
                                                           {LaunchStage::SENDING_STAKE, 4},
-                                                          {LaunchStage::CHECKING_STAKE, 5},
+                                                          {LaunchStage::CHECKING_STAKE, 5},*/
                                                           {LaunchStage::SEND_FORM, 6},
                                                           {LaunchStage::ORDER_VALIDATOR, 7},
                                                           {LaunchStage::RESTARTING_NODE, 8}};

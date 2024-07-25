@@ -204,7 +204,7 @@ void DapServiceController::registerCommand()
     // The command to get a list of available orders
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_DAPRpcSocket))), QString("ordersListReceived")));
 
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_DAPRpcSocket))), QString("networkStatesListReceived")));
+    
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand", m_DAPRpcSocket))), QString()));
 
@@ -286,12 +286,12 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapServiceInitCommand("DapHistoryServiceInitCommand", m_DAPRpcSocket))), QString("historyServiceInitRcv")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapServiceInitCommand("DapWalletServiceInitCommand", m_DAPRpcSocket))), QString("walletsServiceInitRcv")));
-    
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListKeysCommand("DapGetListKeysCommand", m_DAPRpcSocket))), QString("rcvGetListKeysCommand")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddNodeCommand("DapAddNodeCommand", m_DAPRpcSocket))), QString("rcvAddNode")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCheckQueueTransactionCommand("DapCheckQueueTransactionCommand", m_DAPRpcSocket))), QString("rcvCheckQueueTransaction")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new MempoolCheckCommand("MempoolCheckCommand", m_DAPRpcSocket))), QString("rcvMempoolCheckCommand")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeListCommand("DapNodeListCommand", m_DAPRpcSocket))), QString("rcvNodeListCommand")));
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreateStakeOrder("DapCreateStakeOrder", m_DAPRpcSocket))), QString("rcvCreateStakeOrder")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_DAPRpcSocket))), QString("networkStatesListReceived")));
     
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {
@@ -380,8 +380,6 @@ void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
 
     QVariant finalVariant = QVariant::fromValue(variantList);
     this->requestToService("DapRemoveTransactionsQueueCommand", finalVariant);
-
-//    bool a=0;
 }
 
 /// Find the emitted signal.
@@ -405,7 +403,6 @@ void DapServiceController::findEmittedSignal(const QVariant &aValue)
         }
     }
 }
-
 
 bool DapServiceController::compareJson(QByteArray buff, QVariant data)
 {

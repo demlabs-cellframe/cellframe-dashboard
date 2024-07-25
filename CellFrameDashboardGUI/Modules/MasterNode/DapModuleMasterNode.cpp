@@ -7,6 +7,7 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
     , m_checkStakeTimer(new QTimer())
+    , m_listKeysTimer(new QTimer())
 {
     connect(s_serviceCtrl, &DapServiceController::certificateManagerOperationResult, this, &DapModuleMasterNode::respondCreateCertificate);
     connect(s_serviceCtrl, &DapServiceController::nodeRestart, this, &DapModuleMasterNode::nodeRestart);
@@ -18,12 +19,14 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::networkStatusReceived, this, &DapModuleMasterNode::respondNetworkStatus);
     connect(s_serviceCtrl, &DapServiceController::rcvNodeListCommand, this, &DapModuleMasterNode::respondNodeListCommand);
     connect(s_serviceCtrl, &DapServiceController::rcvMempoolCheckCommand, this, &DapModuleMasterNode::respondMempoolCheck);
+    connect(s_serviceCtrl, &DapServiceController::rcvGetListKeysCommand, this, &DapModuleMasterNode::respondListKeys);
 
     connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, &DapModuleMasterNode::workNodeChanged);
     connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
+    connect(m_listKeysTimer, &QTimer::timeout, this, &DapModuleMasterNode::getListKeys);
 
-    loadStageList();
-    loadCurrentRegistration();
+//    loadStageList();
+//    loadCurrentRegistration();
 }
 
 bool DapModuleMasterNode::checkTokenName() const
@@ -155,7 +158,7 @@ void DapModuleMasterNode::createMasterNode()
         tryCheckStakeDelegate();
         break;
     case LaunchStage::SEND_FORM:
-
+        startWaitingPermission();
         break;
     case LaunchStage::ORDER_VALIDATOR:
         createStakeOrder();
@@ -401,6 +404,17 @@ void DapModuleMasterNode::dumpCertificate()
     s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "3" << m_certName << m_certPath);
 }
 
+void DapModuleMasterNode::getListKeys()
+{
+    s_serviceCtrl->requestToService("DapGetListKeysCommand", QStringList() << m_currantStartMaster["network"].toString());
+}
+
+void DapModuleMasterNode::startWaitingPermission()
+{
+    getListKeys();
+    m_listKeysTimer->start(TIME_OUT_LIST_KEYS);
+}
+
 bool DapModuleMasterNode::tryGetInfoCertificate(const QString& filePath)
 {
     qDebug() << "[DapModuleMasterNode] Selected file: " << filePath;
@@ -492,6 +506,19 @@ void DapModuleMasterNode::respondMempoolCheck(const QVariant &rcvData)
     {
         qDebug() << "[DapModuleMasterNode] The transaction is in the mempool";
         tryStopCreationMasterNode(6, "The transaction may have failed.");
+    }
+}
+
+void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
+{
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    QJsonObject result = replyObj["result"].toObject();
+
+    if(!result.contains("hash") || !result.contains("net"))
+    {
+        qWarning() << "[DapModuleMasterNode] Incorrect data.";
+        return;
     }
 }
 
@@ -931,4 +958,9 @@ bool DapModuleMasterNode::isMasterNode() const
         return false;
     }
     return m_masterNodeInfo[m_currentNetwork].isMaster;
+}
+
+void DapModuleMasterNode::finishRegistration()
+{
+
 }
