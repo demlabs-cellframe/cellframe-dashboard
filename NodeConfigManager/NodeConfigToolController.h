@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QJsonObject>
 #include <QDebug>
+#include <QThread>
 
 #ifdef WIN32
 #include <windows.h>
@@ -15,13 +16,20 @@
 class NodeConfigToolController : public QObject
 {
     Q_OBJECT
+    NodeConfigToolController(QObject *parent = nullptr);
 public:
-    explicit NodeConfigToolController(QObject *parent = nullptr);
+    static NodeConfigToolController &getInstance();
 
-    bool runNode();
+    Q_PROPERTY(bool statusProcessNode READ statusProcessNode NOTIFY statusProcessNodeChanged)
+    Q_PROPERTY(bool statusServiceNode READ statusServiceNode NOTIFY statusServiceNodeChanged)
+    Q_INVOKABLE bool statusServiceNode(){return m_statusServiceNode;}
+    Q_INVOKABLE bool statusProcessNode(){return m_statusProcessNode;}
 
+    bool m_statusServiceNode{false};
+    bool m_statusProcessNode{false};
     bool m_statusInitConfTool{false};
     QString m_nodeConfToolPath{""};
+    bool m_flagUserStopAutostart{false};
 
     enum TypeServiceCommands{
         Status = 0,
@@ -33,7 +41,15 @@ public:
     };
 
 
+public:
     QJsonObject serviceCommand(TypeServiceCommands type);
+
+    bool runNode();
+
+    Q_INVOKABLE void stopNode();
+    Q_INVOKABLE void startNode();
+    Q_INVOKABLE void getStatusNode();
+    Q_INVOKABLE void swithServiceEnabled(bool flag);
 
 #ifdef WIN32
     LONG GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue);
@@ -42,13 +58,14 @@ public:
 #endif
 
 private:
-
     bool initConfTool();
     QString sendRequest(QString req);
+    QString getResult(QString find, QStringList list);
 
 
 signals:
-
+    void statusProcessNodeChanged();
+    void statusServiceNodeChanged();
 };
 
 #endif // NODECONFIGTOOLCONTROLLER_H

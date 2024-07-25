@@ -31,130 +31,141 @@ Page
         lightColor: currTheme.reflectionLight
 
         contentData:
-            ColumnLayout
+            Item
         {
             anchors.fill: parent
-            spacing: 0
 
-            Item
+            DapLoadingPanel
             {
-                id: tokensShowHeader
-                Layout.fillWidth: true
-                height: 42 
-                Text
-                {
-                    anchors.fill: parent
-                    anchors.leftMargin: 16
-                    anchors.verticalCenter: parent.verticalCenter
-                    font: mainFont.dapFont.bold14
-                    color: currTheme.white
-                    verticalAlignment: Qt.AlignVCenter
-                    text: qsTr("Tokens")
-                }
+                spinerEnabled: true
+                anchors.topMargin: tokensShowHeader.height
             }
 
-            ListView
+            ColumnLayout
             {
-                id: listViewTokens
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                clip: true
-                model: dapModelTokens
+                anchors.fill: parent
+                spacing: 0
 
-                delegate: Column
+                Item
                 {
-                    id: delegateTokenView
-                    property int idx: index
-                    width: listViewTokens.width
-
-                    Rectangle
+                    id: tokensShowHeader
+                    Layout.fillWidth: true
+                    height: 42
+                    Text
                     {
-                        id: stockNameBlock
-                        height: 30 
-                        width: parent.width
-                        color: currTheme.mainBackground
-
-                        Text
-                        {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 16 
-                            anchors.verticalCenter: parent.verticalCenter
-                            font: mainFont.dapFont.medium12
-                            color: currTheme.white
-                            verticalAlignment: Qt.AlignVCenter
-                            text: network
-                        }
+                        anchors.fill: parent
+                        anchors.leftMargin: 16
+                        anchors.verticalCenter: parent.verticalCenter
+                        font: mainFont.dapFont.bold14
+                        color: currTheme.white
+                        verticalAlignment: Qt.AlignVCenter
+                        text: qsTr("Tokens")
                     }
+                }
 
-                    Repeater
+                ListView
+                {
+                    id: listViewTokens
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    clip: true
+                    model: dapModelTokens
+
+                    delegate: Column
                     {
-                        id: tokensRepeater
-                        width: parent.width
-                        model: tokens
+                        id: delegateTokenView
+                        property int idx: index
+                        width: listViewTokens.width
 
                         Rectangle
                         {
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            height: 50 
-                            color: currTheme.secondaryBackground
+                            id: stockNameBlock
+                            height: 30
+                            width: parent.width
+                            color: currTheme.mainBackground
 
-                            RowLayout
+                            Text
                             {
-                                anchors.fill: parent
+                                anchors.left: parent.left
                                 anchors.leftMargin: 16
-                                anchors.rightMargin: 16
-                                spacing: 10 
-
-                                Text
-                                {
-                                    id: currencyName
-                                    font: mainFont.dapFont.regular16
-                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
-                                    text: name
-                                    width: 172 
-                                    horizontalAlignment: Text.AlignLeft
-                                }
-
-                                Item{
-                                    Layout.fillWidth: true
-                                    Layout.fillHeight: true
-
-                                    DapBigText
-                                    {
-                                        id: currencySum
-                                        anchors.fill: parent
-                                        textFont: mainFont.dapFont.regular14
-                                        textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
-                                        fullText: mathWorker.balanceToCoins(current_supply)
-                                        horizontalAlign: Text.AlignRight
-                                    }
-                                }
+                                anchors.verticalCenter: parent.verticalCenter
+                                font: mainFont.dapFont.medium12
+                                color: currTheme.white
+                                verticalAlignment: Qt.AlignVCenter
+                                text: network
                             }
+                        }
 
-                            //  Underline
+                        Repeater
+                        {
+                            id: tokensRepeater
+                            width: parent.width
+                            model: tokens
+
                             Rectangle
                             {
-                                x: 16
-                                y: parent.height - 1
-                                width: parent.width - 32
-                                height: 1
-                                color: currTheme.mainBackground
-                            }
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                height: 50
+                                color: currTheme.secondaryBackground
 
-                            MouseArea
-                            {
-                                id: mouseArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                onClicked:
+                                RowLayout
                                 {
-                                    if(logicTokens.selectTokenIndex !== index || logicTokens.selectNetworkIndex !== delegateTokenView.idx)
+                                    anchors.fill: parent
+                                    anchors.leftMargin: 16
+                                    anchors.rightMargin: 16
+                                    spacing: 10
+
+                                    Text
                                     {
-                                        logicTokens.selectTokenIndex = index
-                                        logicTokens.selectNetworkIndex = delegateTokenView.idx
-                                        logicTokens.initDetailsModel()
-                                        navigator.tokenInfo()
+                                        id: currencyName
+                                        font: mainFont.dapFont.regular16
+                                        color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
+                                        text: name
+                                        width: 172
+                                        horizontalAlignment: Text.AlignLeft
+                                    }
+
+                                    Item{
+                                        Layout.fillWidth: true
+                                        Layout.fillHeight: true
+
+                                        DapBigText
+                                        {
+                                            id: currencySum
+                                            anchors.fill: parent
+                                            textFont: mainFont.dapFont.regular14
+                                            textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
+                                            fullText: mathWorker.balanceToCoins(current_supply)
+                                            horizontalAlign: Text.AlignRight
+                                        }
+                                    }
+                                }
+
+                                //  Underline
+                                Rectangle
+                                {
+                                    x: 16
+                                    y: parent.height - 1
+                                    width: parent.width - 32
+                                    height: 1
+                                    color: currTheme.mainBackground
+                                }
+
+                                MouseArea
+                                {
+                                    id: mouseArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked:
+                                    {
+                                        if(logicTokens.selectTokenIndex !== index || logicTokens.selectNetworkIndex !== delegateTokenView.idx)
+                                        {
+                                            logicTokens.selectTokenIndex = index
+                                            logicTokens.selectNetworkIndex = delegateTokenView.idx
+                                            logicTokens.initDetailsModel()
+                                            navigator.tokenInfo()
+                                        }
                                     }
                                 }
                             }

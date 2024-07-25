@@ -117,7 +117,7 @@ Item
 
                 DapButton
                 {
-                    enabled: walletModule.balanceDEX ? true : false
+                    enabled: !modulesController.isNodeWorking ? false : walletModule.balanceDEX ? true : false
                     id: createOrderButton
                     Layout.fillWidth: visible
                     implicitHeight: 36
@@ -145,6 +145,7 @@ Item
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
+                    enabled: modulesController.isNodeWorking
                     onClicked:
                     {
                         stockTopPanel.setBackToStockVisible(true)

@@ -21,6 +21,7 @@ QtObject {
     readonly property color tokenChangeButton             : "#3C424C"
     readonly property color tokenChangeButtonHover        : "#6F7B8F"
     readonly property color progressBarActive             : "#A2E115"
+    readonly property color loadingPanel                  : "#434852"
 
     readonly property color mainButtonColorNormal0        : "#A361FF"
     readonly property color mainButtonColorNormal1        : "#9580FF"

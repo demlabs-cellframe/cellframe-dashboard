@@ -3,11 +3,20 @@
 NodeConfigToolController::NodeConfigToolController(QObject *parent)
     : QObject{parent}
 {
-    m_statusInitConfTool = initConfTool();
+    initConfTool();
+}
+
+NodeConfigToolController &NodeConfigToolController::getInstance()
+{
+    static NodeConfigToolController instance;
+    return instance;
 }
 
 bool NodeConfigToolController::runNode()
 {
+    if(m_flagUserStopAutostart)
+        return false;
+
     if(m_statusInitConfTool)
     {
         if(!serviceCommand(Status)["result"].toString().contains("enabled"));
@@ -30,6 +39,27 @@ bool NodeConfigToolController::runNode()
 #endif
     }
     return false;
+}
+
+void NodeConfigToolController::stopNode()
+{
+    serviceCommand(Stop);
+}
+
+void NodeConfigToolController::startNode()
+{
+    serviceCommand(Start);
+}
+
+void NodeConfigToolController::getStatusNode()
+{
+    serviceCommand(Status);
+}
+
+void NodeConfigToolController::swithServiceEnabled(bool flag)
+{
+    m_flagUserStopAutostart = !flag;
+    serviceCommand(flag ? EnableAutostart : DisableAutostart);
 }
 
 bool NodeConfigToolController::initConfTool()
@@ -57,12 +87,26 @@ bool NodeConfigToolController::initConfTool()
         qWarning()<<"Could not find cellframe-node-config";
         return false;
     }
-
+    m_statusInitConfTool = true;
+    serviceCommand(Status);
     return true;
 }
 
+QString NodeConfigToolController::getResult(QString find, QStringList list)
+{
+    for(int i = 0; i < list.length(); i++)
+    {
+        if(list[i].contains(find))
+            return list[i].remove(find);
+    }
+    return "";
+}
+
+
 QJsonObject NodeConfigToolController::serviceCommand(TypeServiceCommands type)
 {
+    if(!m_statusInitConfTool)
+        initConfTool();
 
     QString result;
     bool status;
@@ -71,31 +115,43 @@ QJsonObject NodeConfigToolController::serviceCommand(TypeServiceCommands type)
     case Status:
     {
         result = sendRequest("-e service status");
+
+        QStringList resList = result.split("\n");
+        m_statusProcessNode = getResult("process: ", resList).contains("running");
+        m_statusServiceNode = getResult("service: ", resList).contains("enabled");
+
+        emit statusProcessNodeChanged();
+        emit statusServiceNodeChanged();
         break;
     }
     case EnableAutostart:
     {
         result = sendRequest("-e service enable");
+        serviceCommand(Status);
         break;
     }
     case DisableAutostart:
     {
         result = sendRequest("-e service disable");
+        serviceCommand(Status);
         break;
     }
     case Stop:
     {
         result = sendRequest("-e service stop");
+        serviceCommand(Status);
         break;
     }
     case Start:
     {
         result = sendRequest("-e service start");
+        serviceCommand(Status);
         break;
     }
     case Restart:
     {
         result = sendRequest("-e service restart");
+        serviceCommand(Status);
         break;
     }
     default:
