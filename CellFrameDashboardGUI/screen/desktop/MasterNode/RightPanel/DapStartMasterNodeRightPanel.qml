@@ -28,7 +28,8 @@ DapRectangleLitAndShaded
         anchors.top: parent.top
         height: 42
 
-        HeaderButtonForRightPanels{
+        HeaderButtonForRightPanels
+        {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 16
@@ -41,6 +42,8 @@ DapRectangleLitAndShaded
 
             normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
             hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
+
+            onClicked: dapRightPanel.push(baseMasterNodePanel)
         }
 
         Text
@@ -681,7 +684,7 @@ DapRectangleLitAndShaded
 
         function onCurrentNetworkChanged()
         {
-            defaultNewCertificateName()
+            dapRightPanel.push(baseMasterNodePanel)
         }
     }
 

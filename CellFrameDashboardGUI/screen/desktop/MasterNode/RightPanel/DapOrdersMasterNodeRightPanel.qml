@@ -36,6 +36,8 @@ DapRectangleLitAndShaded
 
             normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
             hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
+            
+            onClicked: dapRightPanel.push(baseMasterNodePanel)
         }
 
         Text
@@ -80,8 +82,15 @@ DapRectangleLitAndShaded
 
             onCurrentIndexChanged:
             {
-                // replace to All / personal filtering
-                ordersModule.setPkeyFilterText(model.get(currentIndex).techName)
+                var tachName = model.get(currentIndex).techName
+                if(tachName === "All")
+                {
+                    ordersModule.setPkeyFilterText(tachName)
+                }
+                else
+                {
+                    ordersModule.setPkeyFilterText(nodeMasterModule.getMasterNodeData("certHash"))
+                }
             }
         }
     }
@@ -285,6 +294,16 @@ DapRectangleLitAndShaded
     Component.onDestruction:
     {
         ordersModule.statusProcessing = false
+    }
+
+    Connections
+    {
+        target: nodeMasterModule
+
+        function onCurrentNetworkChanged()
+        {
+            dapRightPanel.push(baseMasterNodePanel)
+        }
     }
 }
 

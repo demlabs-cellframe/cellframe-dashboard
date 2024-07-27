@@ -41,10 +41,29 @@ DapRectangleLitAndShaded
             height: 42
             visible: txExplorerModule.statusInit
 
+            HeaderButtonForRightPanels
+            {
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
+
+                id: itemButtonClose
+                height: 20
+                width: 20
+                heightImage: 20
+                widthImage: 20
+
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
+
+                onClicked: dapRightPanel.push(baseMasterNodePanel)
+            }
+
+
             Text
             {
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
+                anchors.left: itemButtonClose.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 16
                 font: mainFont.dapFont.bold14
@@ -372,5 +391,15 @@ DapRectangleLitAndShaded
     Component.onDestruction:
     {
         modelHistory.setLastActions(false)
+    }
+
+    Connections
+    {
+        target: nodeMasterModule
+
+        function onCurrentNetworkChanged()
+        {
+            dapRightPanel.push(baseMasterNodePanel)
+        }
     }
 }

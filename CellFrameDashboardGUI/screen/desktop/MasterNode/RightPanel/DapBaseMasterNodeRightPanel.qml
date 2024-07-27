@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.3
 import "qrc:/widgets"
 import "../../../"
 import "../../controls"
@@ -39,6 +40,19 @@ Rectangle
             fontButton: mainFont.dapFont.regular14
             onClicked:
             {
+                walletDialog.open()
+            }
+        }
+
+        FileDialog
+        {
+            id: walletDialog
+            folder: shortcuts.home
+            nameFilters: ["Wallets (*.dwallet)"]
+            onAccepted:
+            {
+                console.log("Wallet: ", fileUrl)
+                nodeMasterModule.moveWallet(fileUrl)
             }
         }
 
@@ -52,9 +66,21 @@ Rectangle
             fontButton: mainFont.dapFont.regular14
             onClicked:
             {
+                certDialog.open()
             }
         }
 
+        FileDialog
+        {
+            id: certDialog
+            folder: shortcuts.home
+            nameFilters: ["Certifiacates (*.dcert)"]
+            onAccepted:
+            {
+                console.log("Certifiacate: ", fileUrl)
+                nodeMasterModule.moveCertificate(fileUrl)
+            }
+        }
 
         DapButton
         {
@@ -64,7 +90,7 @@ Rectangle
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.regular14
-            visible: isMasterNode
+            visible: false
             onClicked:
             {
             }
@@ -92,6 +118,7 @@ Rectangle
             visible: isMasterNode
             onClicked:
             {
+                dapRightPanel.push(lastActionsMasterNode)
             }
         }
 
@@ -106,6 +133,7 @@ Rectangle
             visible: isMasterNode
             onClicked:
             {
+                dapRightPanel.push(ordersMasterNodePanel)
             }
         }
 

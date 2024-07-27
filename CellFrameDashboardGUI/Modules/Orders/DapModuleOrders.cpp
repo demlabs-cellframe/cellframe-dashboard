@@ -32,12 +32,9 @@ DapModuleOrders::~DapModuleOrders()
 
 void DapModuleOrders::setPkeyFilterText(const QString &pkey)
 {
-    if(!pkey.isEmpty())
-    {
-        m_pkeyFilter = pkey;
-        m_ordersProxyModel.setPkeyFilter(pkey);
-        emit pkeyFilterChanged(m_pkeyFilter);
-    }
+    m_pkeyFilter = pkey;
+    m_ordersProxyModel.setPkeyFilter(pkey);
+    emit pkeyFilterChanged(m_pkeyFilter);
 }
 
 void DapModuleOrders::setNodeAddrFilterText(const QString &nodeAddr)

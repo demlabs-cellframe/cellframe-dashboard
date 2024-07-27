@@ -83,6 +83,50 @@ DapPage {
                 dapRightPanel.push(createMasterNodeDone)
             }
         }
+
+        function onCertMovedSignal(numberMessage)
+        {
+            if(numberMessage === 1)
+            {
+                dapMainWindow.infoItem.showInfo(
+                            120,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            qsTr("Success"),
+                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+            }
+            else
+            {
+                dapMainWindow.infoItem.showInfo(
+                            160,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            qsTr("Not a success"),
+                            "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+            }
+        }
+
+        function onWalletMovedSignal(numberMessage)
+        {
+            if(numberMessage === 1)
+            {
+                dapMainWindow.infoItem.showInfo(
+                            120,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            qsTr("Success"),
+                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+            }
+            else
+            {
+                dapMainWindow.infoItem.showInfo(
+                            160,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            qsTr("Not a success"),
+                            "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+            }
+        }
     }
 
 }

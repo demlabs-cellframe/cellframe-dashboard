@@ -71,6 +71,7 @@
 #include "handlers/MempoolCheckCommand.h"
 #include "handlers/DapCreateStakeOrder.h"
 #include "handlers/DapGetListKeysCommand.h"
+#include "handlers/DapMoveWalletCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -304,6 +305,8 @@ signals:
     void rcvMempoolCheckCommand(const QVariant& rcvData);
     void rcvCreateStakeOrder(const QVariant& rcvData);
     void rcvGetListKeysCommand(const QVariant& rcvData);
+    void moveWalletCommandReceived(const QVariant& rcvData);
+    
 private slots:
     /// Register command.
     void registerCommand();

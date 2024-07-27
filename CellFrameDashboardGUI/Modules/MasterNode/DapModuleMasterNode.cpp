@@ -21,6 +21,7 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::rcvMempoolCheckCommand, this, &DapModuleMasterNode::respondMempoolCheck);
     connect(s_serviceCtrl, &DapServiceController::rcvGetListKeysCommand, this, &DapModuleMasterNode::respondListKeys);
     connect(s_serviceCtrl, &DapServiceController::createdStakeOrder, this, &DapModuleMasterNode::respondCreatedStakeOrder);
+    connect(s_serviceCtrl, &DapServiceController::moveWalletCommandReceived, this, &DapModuleMasterNode::respondMoveWalletCommand);
 
     connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, &DapModuleMasterNode::workNodeChanged);
     connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
@@ -109,6 +110,10 @@ int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
     {
         m_currantStartMaster.insert(CERT_PATH_KEY, m_certPath);
     }
+
+    // TODO: if you need to make a fake dashboard for testing.
+    //createDemoNode();
+    //return 0;
 
     m_startStage = PATTERN_STAGE;
     saveCurrentRegistration();
@@ -439,11 +444,48 @@ void DapModuleMasterNode::getInfoCertificate()
     s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "1");
 }
 
-void DapModuleMasterNode::moveCertificate()
+void DapModuleMasterNode::moveCertificate(const QString& path)
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
-                                                                                   << m_currantStartMaster[CERT_NAME_KEY].toString()
-                                                                                   << m_currantStartMaster[CERT_PATH_KEY].toString());
+    if(path.isEmpty())
+    {
+        s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
+                                                                                       << m_currantStartMaster[CERT_NAME_KEY].toString()
+                                                                                       << m_currantStartMaster[CERT_PATH_KEY].toString());
+    }
+    else
+    {
+        auto cert = parsePath(path);
+        if(!cert.first.isEmpty() && !cert.second.isEmpty())
+        {
+            qDebug() << "[DapModuleMasterNode] [moveCertificate] We are trying to move the certificate.";
+            m_certMovedKeyRequest = true;
+            s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
+                                                                                           << cert.first
+                                                                                           << cert.second);
+        }
+        else
+        {
+            qDebug() << "[DapModuleMasterNode] [moveCertificate] The path to the certificate is specified incorrectly.";
+            emit certMovedSignal(0);
+        }
+    }
+}
+
+void DapModuleMasterNode::moveWallet(const QString& path)
+{
+    auto wallet = parsePath(path, false);
+    if(!wallet.first.isEmpty() && !wallet.second.isEmpty())
+    {
+        qDebug() << "[DapModuleMasterNode] [moveWallet] We are trying to move the wallet.";
+        m_walletMovedKeyRequest = true;
+        s_serviceCtrl->requestToService("DapMoveWalletCommand", QStringList() << wallet.first
+                                                                              << wallet.second);
+    }
+    else
+    {
+        qDebug() << "[DapModuleMasterNode] [moveWallet] The path to the wallet is specified incorrectly.";
+        emit walletMovedSignal(0);
+    }
 }
 
 void DapModuleMasterNode::dumpCertificate()
@@ -464,20 +506,9 @@ void DapModuleMasterNode::startWaitingPermission()
 
 bool DapModuleMasterNode::tryGetInfoCertificate(const QString& filePath)
 {
-    qDebug() << "[DapModuleMasterNode] Selected file: " << filePath;
-
-    QString tmpFilePath = filePath;
-    tmpFilePath.remove("file://");
-    QRegularExpression regular = QRegularExpression(R"(\/([a-zA-Z0-9.-_][^\/]+).dcert)");
-    QRegularExpressionMatch match = regular.match(tmpFilePath);
-    if (!match.hasMatch())
-    {
-        qDebug() << "[DapModuleMasterNode] unidentified file path";
-        return false;
-    }
-    QString certName = match.captured(1);
-    setCertName(certName);
-    m_certPath = tmpFilePath;
+    auto cert = parsePath(filePath);
+    setCertName(cert.first);
+    m_certPath = cert.second;
     dumpCertificate();
     return true;
 }
@@ -720,6 +751,13 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
     }
     if(command == 11)
     {
+        if(m_certMovedKeyRequest)
+        {
+            m_certMovedKeyRequest = false;
+            emit certMovedSignal(checkStatus());
+            return;
+        }
+
         if(m_startStage.isEmpty() || m_startStage.first().first != LaunchStage::CHECK_PUBLIC_KEY)
         {
             return;
@@ -915,6 +953,27 @@ void DapModuleMasterNode::workNodeChanged()
     }
 }
 
+void DapModuleMasterNode::respondMoveWalletCommand(const QVariant &rcvData)
+{
+    if(m_walletMovedKeyRequest)
+    {
+        m_walletMovedKeyRequest = false;
+        QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+        QJsonObject replyObj = replyDoc.object();
+
+        if(replyObj.contains("error"))
+        {
+            emit walletMovedSignal(0);
+            qInfo() << "There were problems when transferring the wallet.";
+        }
+        else if(replyObj.contains("result"))
+        {
+            emit walletMovedSignal(1);
+            qInfo() << "It was possible to transfer the wallet.";
+        }
+    }
+}
+
 void DapModuleMasterNode::respondStakeDelegate(const QVariant &rcvData)
 {
     QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
@@ -1089,4 +1148,52 @@ void DapModuleMasterNode::finishRegistration()
 
     clearCurrentRegistration();
     clearStageList();
+}
+
+void DapModuleMasterNode::createDemoNode()
+{
+    m_currantStartMaster.insert(CERT_NAME_KEY, "0xB236424A551FDE2170ACACE905582B7772234C029C621A023EC04DC6C22B74C2");
+    m_currantStartMaster.insert(STAKE_HASH_KEY, "0xF01C34E60F4BF387EBC07451F988BA07EB8EAAE9B184870A16BF495E53523764");
+    m_currantStartMaster.insert(NODE_ADDR_KEY, "8343::1E4B::428B::101A");
+    finishRegistration();
+}
+
+QString DapModuleMasterNode::getMasterNodeData(const QString& key)
+{
+    if(m_masterNodes.contains(m_currentNetwork))
+    {
+        if(m_masterNodes[m_currentNetwork].contains(key))
+        {
+            return m_masterNodes[m_currentNetwork][key].toString();
+        }
+        qDebug() << QString("[DapModuleMasterNode][getNodeData] Key %1 was not found. Network: ").arg(key).arg(m_currentNetwork);
+        return QString();
+    }
+    qDebug() << QString("[DapModuleMasterNode][getNodeData] Network %1 is not registered").arg(m_currentNetwork);
+    return QString();
+}
+
+QPair<QString, QString> DapModuleMasterNode::parsePath(const QString& filePath, bool isCert)
+{
+    qDebug() << "[DapModuleMasterNode] Selected file: " << filePath;
+
+    QString tmpFilePath = filePath;
+    tmpFilePath.remove("file://");
+    QRegularExpression regular;
+    if(isCert)
+    {
+        regular = QRegularExpression(R"(\/([a-zA-Z0-9.-_][^\/]+).dcert)");
+    }
+    else
+    {
+        regular = QRegularExpression(R"(\/([a-zA-Z0-9.-_][^\/]+).dwallet)");
+    }
+    QRegularExpressionMatch match = regular.match(tmpFilePath);
+    if (!match.hasMatch())
+    {
+        qDebug() << "[DapModuleMasterNode] unidentified file path";
+        return {};
+    }
+    QString name = match.captured(1);
+    return {name, tmpFilePath};
 }

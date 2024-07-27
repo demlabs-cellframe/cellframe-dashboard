@@ -135,6 +135,11 @@ public:
 
     Q_PROPERTY(bool isMasterNode READ isMasterNode NOTIFY masterNodeChanged)
     bool isMasterNode() const;
+
+    Q_INVOKABLE QString getMasterNodeData(const QString& key);
+
+    Q_INVOKABLE void moveCertificate(const QString& path = "");
+    Q_INVOKABLE void moveWallet(const QString& path = "");
 signals:
     void currentNetworkChanged();
     void currentWalletNameChanged();
@@ -148,6 +153,9 @@ signals:
 
     void registrationNodeStarted();
     void masterNodeChanged();
+
+    void certMovedSignal(const int numMessage);
+    void walletMovedSignal(const int numMessage);
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
     void nodeRestart();
@@ -163,6 +171,7 @@ private slots:
     void respondMempoolCheck(const QVariant &rcvData);
     void respondListKeys(const QVariant &rcvData);
     void respondCreatedStakeOrder(const QVariant &rcvData);
+    void respondMoveWalletCommand(const QVariant &rcvData);
 
     void mempoolCheck();
     void checkStake();
@@ -183,7 +192,7 @@ private:
 
     void createCertificate();
     void getInfoCertificate();
-    void moveCertificate();
+    
     void dumpCertificate();
     void getHashCertificate(const QString& certName);
     void tryStopCreationMasterNode(int code, const QString &message = "");
@@ -205,6 +214,10 @@ private:
     void getListKeys();
 
     void finishRegistration();
+
+    void createDemoNode();
+    //    name     path
+    QPair<QString, QString> parsePath(const QString& filePath, bool isCert = true);
 private:
     DapModulesController  *m_modulesCtrl;
     QTimer* m_checkStakeTimer = nullptr;
@@ -224,6 +237,9 @@ private:
     QString m_certPath;
     bool m_isNetworkStatusRequest = false;
     bool m_isNodeListRequest = false;
+
+    bool m_certMovedKeyRequest = false;
+    bool m_walletMovedKeyRequest = false;
 
     const int TIME_OUT_CHECK_STAKE = 5000;
     const int TIME_OUT_LIST_KEYS = 30000;
