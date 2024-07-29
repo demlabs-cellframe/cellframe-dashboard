@@ -73,7 +73,8 @@ DapTopPanel
             anchors.leftMargin: 56
             font: mainFont.dapFont.regular14
             color: currTheme.white
-            text: qsTr("The node is currently being launched ") + modulesController.nodeLoadProgress + "/100%"
+            text: modulesController.nodeLoadProgress ? qsTr("The node is currently being launched ") + modulesController.nodeLoadProgress + "/100%":
+                                                       qsTr("The node is currently being launched. Waiting for node data to be received")
         }
 
         Rectangle
