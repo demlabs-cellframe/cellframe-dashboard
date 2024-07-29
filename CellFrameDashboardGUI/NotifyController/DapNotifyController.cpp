@@ -28,8 +28,10 @@ void DapNotifyController::rcvData(QVariant data)
             {
                 isFirst = true;
                 NodePathManager::getInstance().init("GUI");
+                NodeConfigToolController::getInstance().getStatusNode();
             }
 
+            emit chainsLoadProgress(QVariantMap());
             m_connectState = value.toInt();
             emit socketState(m_connectState, true, isFirst);
 

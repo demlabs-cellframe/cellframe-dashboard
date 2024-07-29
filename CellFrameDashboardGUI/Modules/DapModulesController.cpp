@@ -149,6 +149,13 @@ void DapModulesController::rcvNetList(const QVariant &rcvData)
 
 void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
 {
+    if(rcvData.isEmpty())
+    {
+        m_nodeLoadProgress = 0;
+        emit nodeLoadProgressChanged();
+        return;
+    }
+
     // write all answers
     QJsonObject obj;
     for(const QString &key: rcvData.keys())

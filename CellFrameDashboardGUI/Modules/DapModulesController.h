@@ -51,16 +51,16 @@ public:
     DapServiceController *s_serviceCtrl;   
 
     Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
-    int currentWalletIndex(){return m_currentWalletIndex;};
+    int currentWalletIndex(){return m_currentWalletIndex;}
     void setCurrentWalletIndex(int newIndex);
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
     QString currentWalletName(){return m_currentWalletName;}
 
     Q_PROPERTY (bool isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
-    bool isNodeWorking(){return m_isNodeWorking;};
+    bool isNodeWorking(){return m_isNodeWorking;}
 
     Q_PROPERTY (int nodeLoadProgress READ nodeLoadProgress NOTIFY nodeLoadProgressChanged)
-    int nodeLoadProgress(){return m_nodeLoadProgress;};
+    int nodeLoadProgress(){return m_nodeLoadProgress;}
 
 public slots:
     Q_INVOKABLE void updateListWallets();
