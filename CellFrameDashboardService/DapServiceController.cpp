@@ -76,6 +76,7 @@
 #include "handlers/DapVoitingListCommand.h"
 #include "handlers/DapVoitingDumpCommand.h"
 #include "handlers/DapCheckQueueTransactionCommand.h"
+#include "handlers/DapMoveWalletCommand.h"
 
 #include "TransactionQueue/DapTransactionQueueController.h"
 
@@ -332,6 +333,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapServiceInitCommand                ("DapHistoryServiceInitCommand"         , m_pServer));
     m_servicePool.append(new DapServiceInitCommand                ("DapWalletServiceInitCommand"          , m_pServer));
     m_servicePool.append(new DapCheckQueueTransactionCommand      ("DapCheckQueueTransactionCommand"      , nullptr, nodeCliPath));
+    m_servicePool.append(new DapMoveWalletCommand                 ("DapMoveWalletCommand"                 , nullptr));
 
     for(auto& service: qAsConst(m_servicePool))
     {

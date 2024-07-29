@@ -9,7 +9,7 @@ DapModuleOrders::DapModuleOrders(DapModulesController *parent)
 {
 
     m_ordersProxyModel.setSourceModel(&m_ordersModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrders", &m_ordersModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrders", s_ordersModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrdersProxy", &m_ordersProxyModel);
 
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
@@ -32,12 +32,9 @@ DapModuleOrders::~DapModuleOrders()
 
 void DapModuleOrders::setPkeyFilterText(const QString &pkey)
 {
-    if(!pkey.isEmpty())
-    {
-        m_pkeyFilter = pkey;
-        m_ordersProxyModel.setPkeyFilter(pkey);
-        emit pkeyFilterChanged(m_pkeyFilter);
-    }
+    m_pkeyFilter = pkey;
+    m_ordersProxyModel.setPkeyFilter(pkey);
+    emit pkeyFilterChanged(m_pkeyFilter);
 }
 
 void DapModuleOrders::setNodeAddrFilterText(const QString &nodeAddr)

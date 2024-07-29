@@ -18,7 +18,7 @@ Item
         height: 15
         anchors.right: nameAndIndicatorItem.left
         anchors.rightMargin: 2
-        anchors.verticalCenter: parent.verticalCenter
+        y: parent.height / 2 - height / 2
         visible: !(stateOfNetwork === "NET_STATE_OFFLINE" || stateOfNetwork === "NET_STATE_ONLINE")
 
         Image
@@ -73,10 +73,9 @@ Item
             sourceSize: Qt.size(8,8)
             antialiasing: true
             fillMode: Image.PreserveAspectFit
-            source: stateOfNetwork === "NET_STATE_ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
-                                                          stateOfNetwork !== stateOfTarget ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
-                                                                                         stateOfNetwork === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
-                                                                                                                    "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg"
+            source: stateOfNetwork === "NET_STATE_OFFLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg" :
+                                        stateOfNetwork === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
+                                        "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg"                                                                                                                                                                                             
         }
     }
 

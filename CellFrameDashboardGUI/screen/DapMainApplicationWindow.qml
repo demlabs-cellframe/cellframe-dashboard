@@ -522,8 +522,8 @@ Rectangle {
                         propagateComposedEvents: true
 
                         onClicked: Qt.openUrlExternally(toolTip.contentText)
-                        onEntered: canCompactLeftMenu ? mainRowLayout.expandOrCompress(true) : {}
-                        onExited: canCompactLeftMenu ? mainRowLayout.expandOrCompress(false) : {}
+//                        onEntered: canCompactLeftMenu ? mainRowLayout.expandOrCompress(true) : {}
+//                        onExited: canCompactLeftMenu ? mainRowLayout.expandOrCompress(false) : {}
                     }
                 }
 

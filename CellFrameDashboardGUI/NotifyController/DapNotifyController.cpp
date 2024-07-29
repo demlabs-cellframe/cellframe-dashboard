@@ -28,8 +28,10 @@ void DapNotifyController::rcvData(QVariant data)
             {
                 isFirst = true;
                 NodePathManager::getInstance().init("GUI");
+                NodeConfigToolController::getInstance().getStatusNode();
             }
 
+            emit chainsLoadProgress(QVariantMap());
             m_connectState = value.toInt();
             emit socketState(m_connectState, true, isFirst);
 
@@ -51,6 +53,11 @@ void DapNotifyController::rcvData(QVariant data)
         else if(value.toString() == "NetStates")
         {
             emit netStates(map);
+        }
+        else if(value.toString() == "chain_init")
+        {
+            qDebug() << "[DapNotifyController] chain init - " << map;
+            emit chainsLoadProgress(map);
         }
     }
 }

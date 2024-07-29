@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QQmlApplicationEngine>
+#include <QJsonArray>
 
 #include "Workers/dateworker.h"
 #include "Workers/stringworker.h"
@@ -50,13 +51,16 @@ public:
     DapServiceController *s_serviceCtrl;   
 
     Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
-    int currentWalletIndex(){return m_currentWalletIndex;};
+    int currentWalletIndex(){return m_currentWalletIndex;}
     void setCurrentWalletIndex(int newIndex);
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
     QString currentWalletName(){return m_currentWalletName;}
 
-    Q_PROPERTY (int isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
-    int isNodeWorking(){return m_isNodeWorking;};
+    Q_PROPERTY (bool isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
+    bool isNodeWorking(){return m_isNodeWorking;}
+
+    Q_PROPERTY (int nodeLoadProgress READ nodeLoadProgress NOTIFY nodeLoadProgressChanged)
+    int nodeLoadProgress(){return m_nodeLoadProgress;}
 
 public slots:
     Q_INVOKABLE void updateListWallets();
@@ -65,6 +69,7 @@ public slots:
 private slots:
 
     void rcvNetList(const QVariant &rcvData);
+    void rcvChainsLoadProgress(const QVariantMap &rcvData);
 
 signals:
     void initDone();
@@ -78,6 +83,7 @@ signals:
     void feeUpdateChanged();
 
     void nodeWorkingChanged();
+    void nodeLoadProgressChanged();
 private:
     void updateNetworkListModel();
 private:
@@ -97,6 +103,10 @@ private:
 
     bool m_firstDataLoad{false}; 
     QStringList m_netList;
+
+    QMap<QString, int> m_networksLoadProgress;
+    QJsonArray nodeLoadProgressJson;
+    int m_nodeLoadProgress = 0;
 
     QStringList m_walletList;
     int m_currentWalletIndex{-1};

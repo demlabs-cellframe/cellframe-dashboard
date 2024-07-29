@@ -119,12 +119,6 @@ const int MIN_HEIGHT = 720;
 const int DEFAULT_WIDTH = 1280;
 const int DEFAULT_HEIGHT = 720;
 
-#ifndef Q_OS_WIN
-const int OS_WIN_FLAG = 0;
-#else
-const int OS_WIN_FLAG = 1;
-#endif
-
 //#ifdef Q_OS_MAC
 //const int USING_NOTIFY = 0;
 //#else
@@ -202,14 +196,26 @@ int main(int argc, char *argv[])
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
 
+        QString os;
+
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+        os = "linux";
+#elif defined Q_OS_WIN
+        os = "win";
+#elif defined Q_OS_MAC
+        os = "macos";
+#else
+        os = "unknown";
+#endif
+
         QQmlContext * context = app->qmlEngine()->rootContext();
         context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
         context->setContextProperty("MIN_WIDTH", QVariant::fromValue(MIN_WIDTH));
         context->setContextProperty("MIN_HEIGHT", QVariant::fromValue(MIN_HEIGHT));
         context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
-        context->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
         context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
+        context->setContextProperty("CURRENT_OS", QVariant::fromValue(os));
 
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QObject::connect(app->qmlEngine(), &QQmlApplicationEngine::objectCreated,

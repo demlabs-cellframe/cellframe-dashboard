@@ -9,30 +9,29 @@ OrdersProxyModel::OrdersProxyModel(QObject *parent)
 bool OrdersProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     Q_UNUSED(source_parent)
-    if(source_row == 0)
-    {
-        m_currentList.clear();
-    }
+
     const DapOrdersModel* model = static_cast<DapOrdersModel*>(sourceModel());
     if(!model)
     {
         return true;
     }
     DapOrdersModel::Item item = model->getItem(source_row);
-    bool isPKey = m_pkey.isEmpty() || m_pkey == item.pkey;
+
+    if(m_uidOrder != item.srv_uid)
+    {
+        return false;
+    }
+
+    bool isPKey = m_pkey == "All" || m_pkey == item.pkey;
+
     bool isNodeAddr = m_nodeAddr.isEmpty() || m_nodeAddr == item.node_addr;
 
-    bool result = isPKey && isNodeAddr;
-    if(result)
-    {
-        m_currentList.append(item);
-    }
-    return result;
+    return isPKey && isNodeAddr;
 }
 
 void OrdersProxyModel::setPkeyFilter(const QString& data)
 {
-    m_pkey = data == "All" ? QString() : data;
+    m_pkey = data == "All" ? "All" : data;
     invalidateFilter();
 }
 

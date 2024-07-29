@@ -14,6 +14,10 @@ Controls.DapTopPanel
     property bool isModel: false
     property string statusProtected: ""
 
+    Controls.DapLoadingTopPanel
+    {
+    }
+
     RowLayout
     {
         id: layout

@@ -28,7 +28,8 @@ DapRectangleLitAndShaded
         anchors.top: parent.top
         height: 42
 
-        HeaderButtonForRightPanels{
+        HeaderButtonForRightPanels
+        {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 16
@@ -41,6 +42,8 @@ DapRectangleLitAndShaded
 
             normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
             hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
+
+            onClicked: dapRightPanel.push(baseMasterNodePanel)
         }
 
         Text
@@ -619,6 +622,8 @@ DapRectangleLitAndShaded
                         "stakeFee": walletModule.getFee(nodeMasterModule.currentNetwork).validator_fee
                     }
                     var message = ""
+                    var walletBalance = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+
                     var diffNeedValue = dexModule.diffNumber(textInputStakeValue.text, "10.0")
                     if (diffNeedValue === 0)
                     {
@@ -627,9 +632,8 @@ DapRectangleLitAndShaded
                         return
                     }
 
-                    var walletBalance = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
-                    diffNeedValue = dexModule.diffNumber(textInputStakeValue.text, walletBalance)
-                    if (diffNeedValue === 2)
+                    diffNeedValue = dexModule.diffNumber(walletBalance, textInputStakeValue.text)
+                    if (diffNeedValue === 0)
                     {
                         message = qsTr("There are fewer funds on the balance sheet than indicated.")
                         updateErrorField(message)
@@ -680,7 +684,7 @@ DapRectangleLitAndShaded
 
         function onCurrentNetworkChanged()
         {
-            defaultNewCertificateName()
+            dapRightPanel.push(baseMasterNodePanel)
         }
     }
 

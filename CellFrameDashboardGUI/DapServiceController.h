@@ -70,6 +70,8 @@
 #include "handlers/DapNodeListCommand.h"
 #include "handlers/MempoolCheckCommand.h"
 #include "handlers/DapCreateStakeOrder.h"
+#include "handlers/DapGetListKeysCommand.h"
+#include "handlers/DapMoveWalletCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -302,6 +304,9 @@ signals:
     void rcvNodeListCommand(const QVariant& rcvData);
     void rcvMempoolCheckCommand(const QVariant& rcvData);
     void rcvCreateStakeOrder(const QVariant& rcvData);
+    void rcvGetListKeysCommand(const QVariant& rcvData);
+    void moveWalletCommandReceived(const QVariant& rcvData);
+    
 private slots:
     /// Register command.
     void registerCommand();
@@ -320,10 +325,12 @@ private:
 private slots:
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
     void slotNetState(QVariantMap netState){emit signalNetState(netState);}
+    void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
 
 signals:
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
+    void signalChainsLoadProgress(QVariantMap loadProgress);
 
 };
 

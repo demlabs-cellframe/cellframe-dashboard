@@ -135,6 +135,11 @@ public:
 
     Q_PROPERTY(bool isMasterNode READ isMasterNode NOTIFY masterNodeChanged)
     bool isMasterNode() const;
+
+    Q_INVOKABLE QString getMasterNodeData(const QString& key);
+
+    Q_INVOKABLE void moveCertificate(const QString& path = "");
+    Q_INVOKABLE void moveWallet(const QString& path = "");
 signals:
     void currentNetworkChanged();
     void currentWalletNameChanged();
@@ -148,6 +153,9 @@ signals:
 
     void registrationNodeStarted();
     void masterNodeChanged();
+
+    void certMovedSignal(const int numMessage);
+    void walletMovedSignal(const int numMessage);
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
     void nodeRestart();
@@ -161,6 +169,9 @@ private slots:
     void respondStakeDelegate(const QVariant &rcvData);
     void respondCheckStakeDelegate(const QVariant &rcvData);
     void respondMempoolCheck(const QVariant &rcvData);
+    void respondListKeys(const QVariant &rcvData);
+    void respondCreatedStakeOrder(const QVariant &rcvData);
+    void respondMoveWalletCommand(const QVariant &rcvData);
 
     void mempoolCheck();
     void checkStake();
@@ -171,19 +182,22 @@ private:
 
     void saveStageList();
     void loadStageList();
+    void clearStageList();
     void saveCurrentRegistration();
     void loadCurrentRegistration();
+    void clearCurrentRegistration();
     void saveMasterNodeBase();
     void loadMasterNodeBase();
+    void clearMasterNodeBase();
 
     void createCertificate();
     void getInfoCertificate();
-    void moveCertificate();
+    
     void dumpCertificate();
     void getHashCertificate(const QString& certName);
     void tryStopCreationMasterNode(int code, const QString &message = "");
     void addNode();
-    void requestNodeList();
+
     void stakeDelegate();
     void tryCheckStakeDelegate();
     void getInfoNode();
@@ -196,9 +210,18 @@ private:
     void addNetwork(const QString &net);
     bool checkTokenName() const;
 
+    void startWaitingPermission();
+    void getListKeys();
+
+    void finishRegistration();
+
+    void createDemoNode();
+    //    name     path
+    QPair<QString, QString> parsePath(const QString& filePath, bool isCert = true);
 private:
     DapModulesController  *m_modulesCtrl;
     QTimer* m_checkStakeTimer = nullptr;
+    QTimer* m_listKeysTimer = nullptr;
 
     QString m_currentNetwork = "raiden";
 
@@ -215,7 +238,11 @@ private:
     bool m_isNetworkStatusRequest = false;
     bool m_isNodeListRequest = false;
 
+    bool m_certMovedKeyRequest = false;
+    bool m_walletMovedKeyRequest = false;
+
     const int TIME_OUT_CHECK_STAKE = 5000;
+    const int TIME_OUT_LIST_KEYS = 30000;
 
     const QMap<QString, QPair<QString, QString>> m_tokens = {{"Backbone", qMakePair(QString("mCELL"), QString("CELL"))},
                                                              {"KelVPN", qMakePair(QString("mKEL"), QString("KEL"))},
@@ -239,4 +266,21 @@ private:
 
     const QString STAKE_HASH_KEY = "stakeHash";
     const QString QUEUE_HASH_KEY = "queueHash";
+
+    const QString IS_UPLOAD_CERT_KEY = "isUploadCert";
+    const QString CERT_NAME_KEY = "certName";
+    const QString CERT_SIGN_KEY = "sign";
+    const QString CERT_HASH_KEY = "certHash";
+    const QString CERT_PATH_KEY = "certPath";
+    const QString NODE_ADDR_KEY = "nodeAddress";
+    const QString WALLET_NAME_KEY = "walletName";
+    const QString WALLET_ADDR_KEY = "walletAddress";
+    const QString NETWORK_KEY = "network";
+    const QString FEE_KEY = "fee";
+    const QString FEE_TOKEN_KEY = "feeToken";
+    const QString NODE_IP_KEY = "nodeIP";
+    const QString PORT_KEY = "port";
+    const QString STAKE_VALUE_KEY = "stakeValue";
+    const QString STAKE_TOKEN_KEY = "stakeToken";
+    const QString STAKE_FEE_KEY = "stakeFee";
 };

@@ -40,6 +40,21 @@ Page
         }
     }
 
+    Item
+    {
+        id: whileLoadingNodePanel
+        anchors.fill: parent
+        anchors.topMargin: tabsView.height
+        anchors.bottomMargin: createButton.implicitHeight + 40
+        z: parent.z + 10
+
+        DapLoadingPanel
+        {
+            mainColor: "transparent"
+            secondColor: "transparent"
+        }
+    }
+
     ColumnLayout
     {
         id: layout
@@ -262,6 +277,7 @@ Page
                         horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
+                        maximumLength: 70
                         DapContextMenu{}
 
                         onTextChanged:
@@ -280,6 +296,12 @@ Page
                     {
                         sellText.text = dexModule.sellValueField
                     }
+                }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
+                    radiusPower: parent.radius * 2
                 }
             }
 
@@ -426,12 +448,13 @@ Page
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
                         enabled: !dexModule.isMarketType
+                        maximumLength: 70
 
                         DapContextMenu{}
 
                         onTextChanged:
                         {
-                            createButton.enabled = isFieldOK()
+                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking
                         }
 
                         onEdited:
@@ -440,6 +463,12 @@ Page
                             rateRectagleTextUpdate()
                         }
                     }
+                }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
+                    radiusPower: parent.radius * 2
                 }
             }
 
@@ -511,12 +540,13 @@ Page
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignBottom
                         selectByMouse: true
+                        maximumLength: 70
 
                         DapContextMenu{}
                         onTextChanged:
                         {
                             updateErrorField(false, getWarning())
-                            createButton.enabled = isFieldOK()
+                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking
                         }
 
                         onEdited:
@@ -600,6 +630,12 @@ Page
                     priceText.setText(dexModule.currentRate)
                     isInvert = false
                     rateRectagleTextUpdate()
+                }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
+                    radiusPower: parent.radius * 2
                 }
             }
 
@@ -702,6 +738,12 @@ Page
                         }
                     }
                 }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
+                    radiusPower: parent.radius * 2
+                }
             }
 
             Rectangle
@@ -742,6 +784,12 @@ Page
 
                 Component.onCompleted: {
                     miniRateFieldUpdate()
+                }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
+                    radiusPower: parent.radius * 2
                 }
             }
 
@@ -788,6 +836,12 @@ Page
                     lineHeight: 16
                     lineHeightMode: Text.FixedHeight
                 }
+
+                DapLoadingPanel
+                {
+                    radiusEnabled: true
+                    radiusPower: parent.radius * 2
+                }
             }
         }
 
@@ -807,6 +861,7 @@ Page
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
+            enabled: modulesController.isNodeWorking
             onClicked: 
             {
                 var resultAmount = sellText.text
