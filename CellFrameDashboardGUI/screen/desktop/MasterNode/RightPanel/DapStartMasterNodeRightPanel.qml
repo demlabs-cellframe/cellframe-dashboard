@@ -680,16 +680,6 @@ DapRectangleLitAndShaded
 
     Connections
     {
-        target: nodeMasterModule
-
-        function onCurrentNetworkChanged()
-        {
-            dapRightPanel.push(baseMasterNodePanel)
-        }
-    }
-
-    Connections
-    {
         target: walletModule
 
         function onCurrentWalletChanged()
