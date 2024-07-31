@@ -77,7 +77,7 @@ DapPage {
 
         function onCurrentNetworkChanged()
         {
-            if(nodeMasterModule.isSandingDataStage && nodeMasterModule.currentNetwork === nodeMasterModule.getDataRegistration("network"))
+            if(nodeMasterModule.isRegistrationNode && nodeMasterModule.currentNetwork === nodeMasterModule.getDataRegistration("network"))
             {
                 dapRightPanel.push(loaderMasterNodePanel)
             }

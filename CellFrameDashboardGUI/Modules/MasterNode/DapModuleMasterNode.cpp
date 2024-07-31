@@ -3,6 +3,8 @@
 #include <QJsonObject>
 #include "../DapTypes/DapCoin.h"
 
+Q_DECLARE_METATYPE(QList<int>)
+
 DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
@@ -30,6 +32,17 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     loadMasterNodeBase();
     loadStageList();
     loadCurrentRegistration();
+    if(!m_masterNodes.isEmpty())
+    {
+        for(const auto& item: m_masterNodes)
+        {
+            addNetwork(item[NETWORK_KEY].toString());
+        }
+    }
+    if(!m_currentStartMaster.isEmpty())
+    {
+        addNetwork(m_currentStartMaster[NETWORK_KEY].toString());
+    }
 }
 
 bool DapModuleMasterNode::checkTokenName() const
@@ -184,14 +197,17 @@ int DapModuleMasterNode::creationStage() const
 
 void DapModuleMasterNode::saveStageList()
 {
-    QList<int> stageList;
-    QList<int> indexList;
+    QVariantList stageList;
+    QVariantList indexList;
     for (const auto &stage : m_startStage) {
         stageList.append(static_cast<int>(stage.first));
         indexList.append(static_cast<int>(stage.second));
     }
     m_modulesCtrl->getSettings()->setValue("startStageNode", QVariant::fromValue(stageList));
     m_modulesCtrl->getSettings()->setValue("startIndexNode", QVariant::fromValue(indexList));
+
+    qDebug() << m_modulesCtrl->getSettings()->allKeys();
+    qDebug() << m_modulesCtrl->getSettings()->value("startStageNode").value<QList<int>>();
 
     m_modulesCtrl->getSettings()->setValue("errorStageMasterNode", QVariant::fromValue(m_errorStage));
 }
@@ -201,6 +217,7 @@ void DapModuleMasterNode::stageComplated()
     if(!m_startStage.isEmpty())
     {
         m_startStage.removeFirst();
+        saveStageList();
     }
     else
     {
@@ -226,15 +243,18 @@ void DapModuleMasterNode::loadStageList()
     m_errorStage = m_modulesCtrl->getSettings()->value("errorStageMasterNode").value<int>();
 
     QList<QPair<LaunchStage, int>> resultList;
-    QList<int> stageList = m_modulesCtrl->getSettings()->value("startStageNode").value<QList<int>>();
-    QList<int> indexList = m_modulesCtrl->getSettings()->value("startIndexNode").value<QList<int>>();
+    qDebug() << m_modulesCtrl->getSettings()->allKeys();
+    qDebug() << m_modulesCtrl->getSettings()->value("startStageNode").value<QList<int>>();
+    qDebug() << m_modulesCtrl->getSettings()->value("startIndexNode").value<QList<int>>();
+    QVariantList stageList = m_modulesCtrl->getSettings()->value("startStageNode").toList();//value<QList<int>>();
+    QVariantList indexList = m_modulesCtrl->getSettings()->value("startIndexNode").toList();// value<QList<int>>();
     if(stageList.size() != indexList.size())
     {
         return;
     }
     for (int i = 0; i < stageList.size(); i++)
     {
-        resultList.append({static_cast<LaunchStage>(stageList[i]), indexList[i]});
+        resultList.append({static_cast<LaunchStage>(stageList[i].toInt()), indexList[i].toInt()});
     }
 
     m_startStage = resultList;
@@ -598,6 +618,17 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
 {
     QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
     QJsonObject replyObj = replyDoc.object();
+    if(replyObj.contains("error"))
+    {
+        qWarning() << "[DapModuleMasterNode] [respondListKeys] Error message. " << replyObj["error"].toString();
+        tryStopCreationMasterNode(14, "[respondListKeys]" + replyObj["error"].toString());
+        return;
+    }
+    if(replyObj["result"].isNull())
+    {
+        tryStopCreationMasterNode(14, "[respondListKeys] The result is empty in the response.");
+        return;
+    }
     QJsonObject result = replyObj["result"].toObject();
 
     if(!result.contains("keys"))
@@ -872,10 +903,10 @@ void DapModuleMasterNode::networkListUpdateSlot()
     for(auto key: m_masterNodeInfo.keys())
     {
         checkList.insert(key, false);
-    }
-    if(!m_currentStartMaster.isEmpty())
-    {
-        checkList.insert(m_currentStartMaster[NETWORK_KEY].toString(), false);
+        if(!m_currentStartMaster.isEmpty())
+        {
+            checkList.insert(m_currentStartMaster[NETWORK_KEY].toString(), false);
+        }
     }
 
     QStringList netlist = m_modulesCtrl->getNetworkList();

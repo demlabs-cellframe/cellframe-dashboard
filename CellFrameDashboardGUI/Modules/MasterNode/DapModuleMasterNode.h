@@ -258,7 +258,7 @@ private:
 
     const QList<QPair<LaunchStage, int>> PATTERN_STAGE = {{LaunchStage::CHECK_PUBLIC_KEY, 0},
                                                           {LaunchStage::UPDATE_CONFIG, 1},
-                                                          {LaunchStage::SEND_FORM, 2},
+                                                          {LaunchStage::RESTARTING_NODE, 2},
                                                           {LaunchStage::ADDINNG_NODE_DATA, 3},
                                                           {LaunchStage::SENDING_STAKE, 4},
                                                           {LaunchStage::SEND_FORM, 5},
