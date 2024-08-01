@@ -140,6 +140,8 @@ public:
 
     Q_INVOKABLE void moveCertificate(const QString& path = "");
     Q_INVOKABLE void moveWallet(const QString& path = "");
+
+    Q_INVOKABLE void createStakeOrderForMasterNode(const QString& fee, const QString& certName);
 signals:
     void currentNetworkChanged();
     void currentWalletNameChanged();
@@ -156,6 +158,8 @@ signals:
 
     void certMovedSignal(const int numMessage);
     void walletMovedSignal(const int numMessage);
+
+    void createdStakeOrder(const bool& result);
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
     void nodeRestart();
@@ -283,4 +287,6 @@ private:
     const QString STAKE_VALUE_KEY = "stakeValue";
     const QString STAKE_TOKEN_KEY = "stakeToken";
     const QString STAKE_FEE_KEY = "stakeFee";
+
+    const QString MASTER_NODE_KEY = "master_node";
 };

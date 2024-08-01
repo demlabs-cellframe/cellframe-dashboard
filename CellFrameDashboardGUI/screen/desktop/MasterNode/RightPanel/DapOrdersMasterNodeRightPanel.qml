@@ -277,7 +277,7 @@ DapRectangleLitAndShaded
 
             onClicked:
             {
-                console.log("Create order clicked!")
+                dapRightPanel.push(orderCreateMasterNodePanel)
             }
         }
     }

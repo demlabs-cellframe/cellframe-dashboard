@@ -405,5 +405,6 @@
         <file>Resources/BlackTheme/icons/other/loader_orange.svg</file>
         <file>screen/desktop/controls/DapLoadingPanel.qml</file>
         <file>screen/desktop/controls/DapLoadingTopPanel.qml</file>
+        <file>screen/desktop/MasterNode/RightPanel/DapCreateOrderMasterNode.qml</file>
     </qresource>
 </RCC>
