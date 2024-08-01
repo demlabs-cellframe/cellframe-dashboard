@@ -91,6 +91,7 @@ DapRectangleLitAndShaded
                 if(nodeMasterModule.errorStage > -1)
                 {
                     stepsModel.get(nodeMasterModule.errorStage).result = 2
+                    errorText.text = errorTexts[nodeMasterModule.errorMessage];
                     state = "ERROR"
                 }
             }

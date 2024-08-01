@@ -139,6 +139,8 @@ public:
     Q_PROPERTY(int errorStage READ getErrorStage NOTIFY errorCreation)
     Q_INVOKABLE int getErrorStage(){return m_errorStage;}
 
+    Q_PROPERTY(int errorMessage READ getErrorMessage NOTIFY errorCreation)
+    Q_INVOKABLE int getErrorMessage(){return m_errorCode;}
 signals:
     void currentNetworkChanged();
     void currentWalletNameChanged();
@@ -242,7 +244,11 @@ private:
     bool m_certMovedKeyRequest = false;
     bool m_walletMovedKeyRequest = false;
 
+    bool m_isNeedStartRegistration = false;
+
     int m_errorStage = -1;
+    int m_errorCode = -1;
+
     const int TIME_OUT_CHECK_STAKE = 5000;
     const int TIME_OUT_LIST_KEYS = 30000;
 

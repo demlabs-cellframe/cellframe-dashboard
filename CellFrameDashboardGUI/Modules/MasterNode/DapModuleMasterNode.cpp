@@ -32,6 +32,12 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     loadMasterNodeBase();
     loadStageList();
     loadCurrentRegistration();
+
+    if(getIsRegistrationNode())
+    {
+        m_isNeedStartRegistration = true;
+    }
+
     if(!m_masterNodes.isEmpty())
     {
         for(const auto& item: m_masterNodes)
@@ -132,6 +138,8 @@ int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
     //createDemoNode();
     //return 0;
 
+    m_errorStage = -1;
+    m_errorCode = -1;
     m_startStage = PATTERN_STAGE;
     m_masterNodeInfo[m_currentNetwork].isRegNode = true;
     emit registrationNodeStarted();
@@ -210,6 +218,7 @@ void DapModuleMasterNode::saveStageList()
     qDebug() << m_modulesCtrl->getSettings()->value("startStageNode").value<QList<int>>();
 
     m_modulesCtrl->getSettings()->setValue("errorStageMasterNode", QVariant::fromValue(m_errorStage));
+    m_modulesCtrl->getSettings()->setValue("errorMessageMasterNode", QVariant::fromValue(m_errorCode));
 }
 
 void DapModuleMasterNode::stageComplated()
@@ -241,6 +250,7 @@ void DapModuleMasterNode::stageComplated()
 void DapModuleMasterNode::loadStageList()
 {
     m_errorStage = m_modulesCtrl->getSettings()->value("errorStageMasterNode").value<int>();
+    m_errorCode = m_modulesCtrl->getSettings()->value("errorMessageMasterNode").value<int>();
 
     QList<QPair<LaunchStage, int>> resultList;
     qDebug() << m_modulesCtrl->getSettings()->allKeys();
@@ -992,6 +1002,7 @@ void DapModuleMasterNode::tryStopCreationMasterNode(int code, const QString& mes
     qDebug() << "[DapModuleMasterNode] The node registration operation was interrupted. " << message;
 
     m_errorStage = m_startStage.first().second;
+    m_errorCode = code;
     saveStageList();
 
     emit errorCreation(code);
@@ -999,13 +1010,22 @@ void DapModuleMasterNode::tryStopCreationMasterNode(int code, const QString& mes
 
 void DapModuleMasterNode::workNodeChanged()
 {
-    if(m_startStage.isEmpty() || m_startStage.first().first != LaunchStage::RESTARTING_NODE)
+    if(m_startStage.isEmpty())
     {
         return;
     }
-    if(m_modulesCtrl->isNodeWorking())
+
+    bool isNodeWork = m_modulesCtrl->isNodeWorking();
+
+    if(isNodeWork && m_startStage.first().first == LaunchStage::RESTARTING_NODE)
     {
         stageComplated();
+    }
+    else if(isNodeWork && m_errorStage == -1 &&
+               m_isNeedStartRegistration && m_startStage.first().first != LaunchStage::RESTARTING_NODE)
+    {
+        m_isNeedStartRegistration = false;
+        createMasterNode();
     }
 }
 
@@ -1284,6 +1304,7 @@ int DapModuleMasterNode::getCurrentStage()
 void DapModuleMasterNode::stopAndClearRegistration()
 {
     m_errorStage = -1;
+    m_errorCode = -1;
     emit errorCreation();
     m_startStage.clear();
     m_currentStartMaster.clear();
@@ -1295,6 +1316,7 @@ void DapModuleMasterNode::stopAndClearRegistration()
 void DapModuleMasterNode::continueRegistrationNode()
 {
     m_errorStage = -1;
+    m_errorCode = -1;
     emit errorCreation();
     createMasterNode();
 }
