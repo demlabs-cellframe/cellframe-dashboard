@@ -295,16 +295,6 @@ DapRectangleLitAndShaded
     {
         ordersModule.statusProcessing = false
     }
-
-    Connections
-    {
-        target: nodeMasterModule
-
-        function onCurrentNetworkChanged()
-        {
-            dapRightPanel.push(baseMasterNodePanel)
-        }
-    }
 }
 
 

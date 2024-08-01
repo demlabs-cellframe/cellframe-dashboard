@@ -379,6 +379,7 @@ DapRectangleLitAndShaded
 
     Component.onCompleted:
     {
+        modelHistory.setNetworkFilter(nodeMasterModule.currentNetwork)
         modelHistory.setLastActions(true)
         if (walletModule.currentWalletIndex >=0 &&
             walletModule.currentWalletIndex < walletModelList.count &&
@@ -390,16 +391,7 @@ DapRectangleLitAndShaded
 
     Component.onDestruction:
     {
+        modelHistory.setNetworkFilter("All")
         modelHistory.setLastActions(false)
-    }
-
-    Connections
-    {
-        target: nodeMasterModule
-
-        function onCurrentNetworkChanged()
-        {
-            dapRightPanel.push(baseMasterNodePanel)
-        }
     }
 }
