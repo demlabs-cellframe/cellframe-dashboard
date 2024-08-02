@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 
 DapTopPanel
 {
+    property int percentLoading: modulesController.nodeLoadProgress
     property bool isNodeWorking: modulesController.isNodeWorking
 
     id: control
@@ -51,7 +52,7 @@ DapTopPanel
             smooth: true
             antialiasing: true
             fillMode: Image.PreserveAspectFit
-            source: "qrc:/Resources/" + pathTheme + "/icons/other/loader_orange.svg"
+            source: percentLoading >= 100 ? "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/loader_orange.svg"
             z: parent.z + 1
 
             RotationAnimator
@@ -61,7 +62,7 @@ DapTopPanel
                 to: 360
                 duration: 1000
                 loops: Animation.Infinite
-                running: true
+                running: percentLoading < 100
             }
         }
 
@@ -73,16 +74,17 @@ DapTopPanel
             anchors.leftMargin: 56
             font: mainFont.dapFont.regular14
             color: currTheme.white
-            text: modulesController.nodeLoadProgress ? qsTr("The node is currently being launched ") + modulesController.nodeLoadProgress + "/100%":
+            text: percentLoading >= 100 ? qsTr("The node has loaded") :
+                      percentLoading ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
                                                        qsTr("The node is currently being launched. Waiting for node data to be received")
         }
 
         Rectangle
         {
             id: progressBar
-            width: backgrndRect.width / 100 * modulesController.nodeLoadProgress
+            width: backgrndRect.width / 100 * percentLoading
             height: 4
-            color: currTheme.orange
+            color: percentLoading < 100 ? currTheme.orange : currTheme.lime
             anchors.bottom: parent.bottom
             anchors.left: parent.left
         }
