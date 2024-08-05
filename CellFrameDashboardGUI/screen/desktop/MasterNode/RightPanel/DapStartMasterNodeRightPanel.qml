@@ -337,7 +337,7 @@ DapRectangleLitAndShaded
                 Layout.rightMargin: 25
                 height: 40
                 displayText: walletModule.currentWalletName
-                font: mainFont.dapFont.regular14
+                font: mainFont.dapFont.regular16
 
                 model: walletModelList
 
