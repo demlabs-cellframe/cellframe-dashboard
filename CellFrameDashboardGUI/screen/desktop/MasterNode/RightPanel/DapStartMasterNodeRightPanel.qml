@@ -165,6 +165,7 @@ DapRectangleLitAndShaded
                     anchors.top: parent.top
                     anchors.leftMargin: 30
                     anchors.rightMargin: 30
+                    placeholderText: qsTr("Enter certificate name")
                     height: 30
 
                     validator: RegExpValidator { regExp: /[0-9a-z\_\:\(\)\?\@\.\s*]+/ }
