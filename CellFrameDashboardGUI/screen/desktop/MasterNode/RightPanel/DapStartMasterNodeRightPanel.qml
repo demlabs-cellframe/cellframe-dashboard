@@ -301,12 +301,17 @@ DapRectangleLitAndShaded
             {
                 id: fileDialog
                 folder: shortcuts.home
-                nameFilters: ["Certifiacates (*.dcert)"]
                 onAccepted:
                 {
                     console.log("File: ", fileUrl)
                     if(nodeMasterModule.tryGetInfoCertificate(fileUrl)) isUpload = true
                     else isUpload = false
+                }
+
+                Component.onCompleted:
+                {
+                    var filter = "Certifiacates (" + nodeMasterModule.currentNetwork + ".*.dcert)"
+                    fileDialog.nameFilters = [filter]
                 }
             }
 
@@ -674,9 +679,11 @@ DapRectangleLitAndShaded
         walletModule.startUpdateFee()
         defaultNewCertificateName()
     }
+    
     Component.onDestruction:
     {
         walletModule.stopUpdateFee()
+        nodeMasterModule.clearCertificate();
     }
 
     Connections
