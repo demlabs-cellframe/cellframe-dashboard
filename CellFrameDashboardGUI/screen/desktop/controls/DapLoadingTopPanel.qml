@@ -63,6 +63,10 @@ DapTopPanel
                 duration: 1000
                 loops: Animation.Infinite
                 running: percentLoading < 100
+
+                onStopped: {
+                    loader.rotation = 0;
+                }
             }
         }
 
