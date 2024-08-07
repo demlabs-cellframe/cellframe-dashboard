@@ -163,6 +163,11 @@ DapRectangleLitAndShaded
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
+
+            onClicked:
+            {
+                dapRightPanel.push(loaderMasterNodePanel)
+            }
         }
     }
 

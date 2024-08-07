@@ -287,7 +287,7 @@ ColumnLayout
         Layout.topMargin: 10
         Layout.bottomMargin: 20
 
-        visible: switchTab.checked
+        visible: switchTab.checked && (CURRENT_OS !== "macos")
 
         textButton: nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
 

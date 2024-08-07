@@ -16,20 +16,7 @@ DapPage {
     readonly property string lastActionsMasterNode: path + "/MasterNode/RightPanel/DapLastActionsMasterNode.qml"
     readonly property string baseMasterNodePanel: path + "/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml"
 
-    property var registrationStagesText: [
-        qsTr("Checking public key"),
-        qsTr("Updating configs"),
-        qsTr("Restarting node"),
-        qsTr("Creating order"),
-        qsTr("Adding node data in network and checking added data"),
-        qsTr("Creating order"),
-        qsTr("Checking stake result"),
-        qsTr("Sending stake hash for verify"),
-        qsTr("Checking all data")
-    ]
-
     Component{id: emptyRightPanel; Item{}}
-
 
     dapHeader.initialItem: DapSearchTopPanel{
 
@@ -52,9 +39,13 @@ DapPage {
 
     Component.onCompleted:
     {
-        if(nodeMasterModule.isSandingDataStage)
+        if(nodeMasterModule.isSandingDataStage && nodeMasterModule.currentNetwork === nodeMasterModule.getDataRegistration("network"))
         {
             dapRightPanel.push(createMasterNodeDone)
+        }
+        else if(nodeMasterModule.creationStage > 0 && nodeMasterModule.currentNetwork === nodeMasterModule.getDataRegistration("network"))
+        {
+            dapRightPanel.push(loaderMasterNodePanel)
         }
         else
         {
@@ -78,10 +69,24 @@ DapPage {
 
         function onCreationStageChanged()
         {
-            if(nodeMasterModule.isSandingDataStage)
+            if(nodeMasterModule.isSandingDataStage && nodeMasterModule.currentNetwork === nodeMasterModule.getDataRegistration("network"))
             {
                 dapRightPanel.push(createMasterNodeDone)
             }
+        }
+
+        function onCurrentNetworkChanged()
+        {
+            if(nodeMasterModule.isRegistrationNode && nodeMasterModule.currentNetwork === nodeMasterModule.getDataRegistration("network"))
+            {
+                dapRightPanel.push(loaderMasterNodePanel)
+            }
+            else
+            {
+                dapRightPanel.push(baseMasterNodePanel)
+            }
+
+            nodeMasterModule.clearCertificate();
         }
 
         function onCertMovedSignal(numberMessage)

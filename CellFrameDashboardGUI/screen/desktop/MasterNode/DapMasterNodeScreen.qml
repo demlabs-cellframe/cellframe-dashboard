@@ -10,9 +10,11 @@ import "parts"
 Page
 {
     property alias currentIndex: tabsView.currentIndex
-    property string currentNetwork: ""
+
     property string currentStakeToken: "-"
     property string currentMainToken: "-"
+
+    property bool isStageUpdateNetworks: false
 
     id: dapMasterNodeScreen
 
@@ -63,9 +65,15 @@ Page
                 interactive: false
                 onCurrentIndexChanged:
                 {
-                    currentNetwork = networkTabsModel.get(currentIndex).net
-                    nodeMasterModule.currentNetwork = currentNetwork
-                    dapMasterNodeScreen.state = networkTabsModel.get(currentIndex).isMaster ? "IS_MASTER_SCREEN" : "DEFAULT_SCREEN"
+                    if(!isStageUpdateNetworks)
+                    {
+                        nodeMasterModule.currentNetwork = networkTabsModel.get(currentIndex).net
+                        dapMasterNodeScreen.state = networkTabsModel.get(currentIndex).isMaster ? "IS_MASTER_SCREEN" : "DEFAULT_SCREEN"
+                    }
+                    else
+                    {
+                        isStageUpdateNetworks = false
+                    }
                 }
 
                 delegate:
@@ -198,13 +206,15 @@ Page
     function updateNetworkTabs()
     {
         var arr = JSON.parse(nodeMasterModule.networksList)
+        isStageUpdateNetworks = true;
         networkTabsModel.clear()
         networkTabsModel.append(arr)
 
+        var i=0
+        var indexFound = -1
         if(nodeMasterModule.currentNetwork === "" && networkTabsModel.count)
         {
-            var indexFound = -1
-            for(var i=0; i<networkTabsModel.count; ++i)
+            for(; i<networkTabsModel.count; ++i)
             {
                 if(networkTabsModel.get(i).isMaster)
                 {
@@ -215,6 +225,21 @@ Page
             if(indexFound < 0) indexFound = 0
             tabsView.currentIndex = indexFound
         }
+        else if(networkTabsModel.count)
+        {
+            indexFound = -1
+            for(; i < networkTabsModel.count; ++i)
+            {
+                if(networkTabsModel.get(i).net === nodeMasterModule.currentNetwork)
+                {
+                    indexFound = i
+                    break
+                }
+            }
+            if(indexFound < 0) indexFound = 0
+            tabsView.currentIndex = indexFound
+        }
+
     }
 
     function changeCurrentWallet(wallet)

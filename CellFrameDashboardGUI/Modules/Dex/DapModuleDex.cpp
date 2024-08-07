@@ -159,6 +159,10 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         m_tokensPair.append(std::move(tmpPair));
     }
     m_netListModel->setStringList(std::move(netList));
+    if(m_currentPair.displayText.isEmpty() && !m_tokensPair.isEmpty())
+    {
+        setCurrentTokenPair(m_tokensPair.first().displayText, m_tokensPair.first().network);
+    }
     updateTokenModels();
 
     if(!m_ordersHistoryCash->isEmpty() && isFirstUpdate)
@@ -167,11 +171,6 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     }
 
     emit dexNetListChanged();
-
-    if(m_currentPair.displayText.isEmpty() && !m_tokensPair.isEmpty())
-    {
-        setCurrentTokenPair(m_tokensPair.first().displayText, m_tokensPair.first().network);
-    }
 }
 
 void DapModuleDex::updateTokenModels()

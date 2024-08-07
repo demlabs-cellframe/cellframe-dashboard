@@ -698,6 +698,17 @@ Rectangle {
         return widthStr
     }
 
+    function showInfoNotification(text, icon)
+    {
+        var widthWindow = getWidth(dapMainWindow.infoItem.textComponent.font, text)
+        dapMainWindow.infoItem.showInfo(
+            widthWindow,0,
+            dapMainWindow.width*0.5,
+            8,
+            text,
+            "qrc:/Resources/" + pathTheme + "/icons/other/" + icon)
+    }
+
     Connections
     {
         target: dapServiceController

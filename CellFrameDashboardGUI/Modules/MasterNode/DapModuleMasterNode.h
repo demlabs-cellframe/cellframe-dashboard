@@ -12,21 +12,6 @@
 #include "../DapModulesController.h"
 #include "ConfigWorker/configfile.h"
 
-/// Stages
-///
-/// Creating the certificate for signing blocks
-/// Viewing the certificate hash
-/// Making changes to the Backbone network configuration file. Making changes to the node configuration file
-/// Restarting the node
-/// Publishing your node to the public list
-/// Locking mCELL
-/// Requesting to become a master node
-///
-/// Creating an order for the validator fee
-/// Restarting the node
-/// Sending anonymous diagnostic data to the Cellframe team ??
-
-
 class DapModuleMasterNode : public DapAbstractModule
 {
     enum LaunchStage
@@ -36,7 +21,6 @@ class DapModuleMasterNode : public DapAbstractModule
         RESTARTING_NODE,
         ADDINNG_NODE_DATA,
         SENDING_STAKE,
-        CHECKING_STAKE,
         SEND_FORM,
         ORDER_VALIDATOR
     };
@@ -71,6 +55,7 @@ class DapModuleMasterNode : public DapAbstractModule
     struct MasterNodeInfo
     {
         bool isMaster = false;
+        bool isRegNode = false;
         bool isOfline = false;
         QString publicKey = "";
         QString nodeAddress = "";
@@ -127,6 +112,8 @@ public:
     QString getSignature() const {return m_signature;}
     void setSignature(const QString& signature);
 
+    Q_INVOKABLE QVariant getDataRegistration(const QString& nameData) const;
+
     Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeStarted)
     bool getIsRegistrationNode() const {return !m_startStage.isEmpty();}
 
@@ -140,6 +127,20 @@ public:
 
     Q_INVOKABLE void moveCertificate(const QString& path = "");
     Q_INVOKABLE void moveWallet(const QString& path = "");
+
+    Q_INVOKABLE bool isUploadCertificate();
+    Q_INVOKABLE QList<int> getFullStepsLoader() const;
+    Q_INVOKABLE void stopAndClearRegistration();
+    Q_INVOKABLE void continueRegistrationNode();
+
+    Q_PROPERTY(int currentStage READ getCurrentStage NOTIFY creationStageChanged)
+    Q_INVOKABLE int getCurrentStage();
+
+    Q_PROPERTY(int errorStage READ getErrorStage NOTIFY errorCreation)
+    Q_INVOKABLE int getErrorStage(){return m_errorStage;}
+
+    Q_PROPERTY(int errorMessage READ getErrorMessage NOTIFY errorCreation)
+    Q_INVOKABLE int getErrorMessage(){return m_errorCode;}
 signals:
     void currentNetworkChanged();
     void currentWalletNameChanged();
@@ -150,8 +151,10 @@ signals:
     void validatorDataChanged();
     void certNameChanged();
     void signatureChanged();
+    void errorCreation(int numMessage = -1);
 
     void registrationNodeStarted();
+    void registrationNodeStopped();
     void masterNodeChanged();
 
     void certMovedSignal(const int numMessage);
@@ -227,7 +230,7 @@ private:
 
     QList<QVariantMap> m_startedMasterNodeList;
 
-    QVariantMap m_currantStartMaster;
+    QVariantMap m_currentStartMaster;
     QMap<QString, QVariantMap> m_masterNodes;
 
     QList<QPair<LaunchStage, int>> m_startStage;
@@ -240,6 +243,11 @@ private:
 
     bool m_certMovedKeyRequest = false;
     bool m_walletMovedKeyRequest = false;
+
+    bool m_isNeedStartRegistration = false;
+
+    int m_errorStage = -1;
+    int m_errorCode = -1;
 
     const int TIME_OUT_CHECK_STAKE = 5000;
     const int TIME_OUT_LIST_KEYS = 30000;
@@ -259,10 +267,9 @@ private:
                                                           {LaunchStage::RESTARTING_NODE, 2},
                                                           {LaunchStage::ADDINNG_NODE_DATA, 3},
                                                           {LaunchStage::SENDING_STAKE, 4},
-                                                          {LaunchStage::CHECKING_STAKE, 5},
-                                                          {LaunchStage::SEND_FORM, 6},
-                                                          {LaunchStage::ORDER_VALIDATOR, 7},
-                                                          {LaunchStage::RESTARTING_NODE, 8}};
+                                                          {LaunchStage::SEND_FORM, 5},
+                                                          {LaunchStage::ORDER_VALIDATOR, 6},
+                                                          {LaunchStage::RESTARTING_NODE, 7}};
 
     const QString STAKE_HASH_KEY = "stakeHash";
     const QString QUEUE_HASH_KEY = "queueHash";

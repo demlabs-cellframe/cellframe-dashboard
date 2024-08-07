@@ -48,6 +48,8 @@ QtObject {
     readonly property color lime                          : "#DBFF71"
     readonly property color buttonGray                    : "#666E7D"
 
+    readonly property color buttonLightGray               : "#AABCDE"
+
     //Params
     readonly property real frameRadius                    : 12
     readonly property real popupRadius                    : 16
