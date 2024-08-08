@@ -72,6 +72,23 @@
 #include "handlers/DapCreateStakeOrder.h"
 #include "handlers/DapGetListKeysCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
+#include "handlers/DapNetIdCommand.h"
+#include "handlers/DapTXCondCreateCommand.h"
+#include "handlers/DapGetOnceWalletInfoCommand.h"
+#include "handlers/DapStakeLockHoldCommand.h"
+#include "handlers/DapStakeLockTakeCommand.h"
+#include "handlers/DapCreateJsonTransactionCommand.h"
+#include "handlers/DapMempoolListCommand.h"
+#include "handlers/DapTransactionListCommand.h"
+#include "handlers/DapLedgerTxHashCommand.h"
+#include "handlers/DapNodeDumpCommand.h"
+#include "handlers/DapGetNodeIPCommand.h"
+#include "handlers/DapGetNodeStatus.h"
+#include "handlers/DapGetServiceLimitsCommand.h"
+#include "handlers/DapVoitingCreateCommand.h"
+#include "handlers/DapVoitingVoteCommand.h"
+#include "handlers/DapVoitingListCommand.h"
+#include "handlers/DapVoitingDumpCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -79,31 +96,31 @@
 #include "DapWallet.h"
 #include "handlers/DapAbstractCommand.h"
 
+#include "DapRegularRequestsController.h"
+
+#ifdef Q_OS_WIN
+#include "registry.h"
+#define LOG_FILE    QString("%1/cellframe-node/var/log/cellframe-node.log").arg(regGetUsrPath())
+#define CMD_HISTORY QString("%1/%2/data/cmd_history.txt").arg(regGetUsrPath()).arg(DAP_BRAND)
+#endif
+
+#ifdef Q_OS_MAC
+#define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
+#define CMD_HISTORY QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/data/cmd_history.txt").arg(getenv("USER"))
+#endif
+
+#ifdef Q_OS_ANDROID
+#include "DapRpcTCPServer.h"
+typedef class DapRpcTCPServer DapUiService;
+#else
+#include "DapRpcLocalServer.h"
+typedef class DapRpcLocalServer DapUiService;
+#endif
+
 class DapServiceController : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(DapServiceController)
-    /// Brand сompany.
-    QString m_sBrand {DAP_BRAND};
-    /// Application version.
-    QString m_sVersion {DAP_VERSION};
-
-    QString m_sCurrentNetwork;
-
-    int m_iIndexCurrentNetwork;
-
-    bool m_bReadingChains;
-
-    DapNotifyController *m_DapNotifyController;
-
-    /// Service connection management service.
-    DapServiceClient *m_pDapServiceClient {nullptr};
-    DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
-    /// Command manager.
-    QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
-    /// RPC socket.
-    DapRpcSocket    * m_DAPRpcSocket {nullptr};
-
     /// Standard constructor.
     /// @param apParent Parent.
     explicit DapServiceController(QObject *apParent = nullptr);
@@ -160,10 +177,6 @@ public:
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
     Q_INVOKABLE void tryRemoveTransactions(const QVariant& transactions);
-//    QByteArray s_bufferTokensJson;
-//    QByteArray s_bufferOrdersJson;
-//    QByteArray s_bufferPairJson;
-
 public slots:
     void requestWalletList();
 //    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
@@ -306,7 +319,27 @@ signals:
     void rcvCreateStakeOrder(const QVariant& rcvData);
     void rcvGetListKeysCommand(const QVariant& rcvData);
     void moveWalletCommandReceived(const QVariant& rcvData);
+    void rcvNetIdCommand(const QVariant& rcvData);
+    void rcvTXCondCreateCommand(const QVariant& rcvData);
+    void rcvGetOnceWalletInfoCommand(const QVariant& rcvData);
+    void rcvStakeLockHoldCommand(const QVariant& rcvData);
+    void rcvStakeLockTakeCommand(const QVariant& rcvData);
+    void rcvCreateJsonTransactionCommand(const QVariant& rcvData);
+    void rcvMempoolListCommand(const QVariant& rcvData);
+    void rcvTransactionListCommand(const QVariant& rcvData);
+    void rcvLedgerTxHashCommand(const QVariant& rcvData);
+    void rcvNodeDumpCommand(const QVariant& rcvData);
+    void rcvGetNodeIPCommand(const QVariant& rcvData);
+    void rcvGetNodeStatus(const QVariant& rcvData);
+    void rcvGetServiceLimitsCommand(const QVariant& rcvData);
+    void rcvVoitingCreateCommand(const QVariant& rcvData);
+    void rcvVoitingVoteCommand(const QVariant& rcvData);
+    void rcvVoitingListCommand(const QVariant& rcvData);
+    void rcvVoitingDumpCommand(const QVariant& rcvData);
     
+    void signalStateSocket(QString state, int isFirst, int isError);
+    void signalNetState(QVariantMap netState);
+    void signalChainsLoadProgress(QVariantMap loadProgress);
 private slots:
     /// Register command.
     void registerCommand();
@@ -316,22 +349,45 @@ private slots:
     /// Register a signal handler for notification results.
     void registerEmmitedSignal();
 
+    void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
+    void slotNetState(QVariantMap netState){emit signalNetState(netState);}
+    void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
 private:
     void notifySignalsAttach();
     void notifySignalsDetach();
 
     bool compareJson(QByteArray, QVariant);
 
-private slots:
-    void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
-    void slotNetState(QVariantMap netState){emit signalNetState(netState);}
-    void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
+    void addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService);
 
-signals:
-    void signalStateSocket(QString state, int isFirst, int isError);
-    void signalNetState(QVariantMap netState);
-    void signalChainsLoadProgress(QVariantMap loadProgress);
+private:
+    DapRegularRequestsController *m_reqularRequestsCtrl;
+    DapUiService        *m_pServer {nullptr};
+    /// Brand сompany.
+    QString m_sBrand {DAP_BRAND};
+    /// Application version.
+    QString m_sVersion {DAP_VERSION};
 
+    QString m_sCurrentNetwork;
+
+    int m_iIndexCurrentNetwork;
+
+    bool m_bReadingChains;
+
+    DapNotifyController *m_DapNotifyController;
+
+    /// Service connection management service.
+    DapServiceClient *m_pDapServiceClient {nullptr};
+    DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
+    /// Command manager.
+//    QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
+    QMap<QString, DapRpcService*> m_transceivers;
+    QList<QThread*> m_threadPool;
+    /// RPC socket.
+    DapRpcSocket    * m_DAPRpcSocket {nullptr};
+
+    QString m_nodeCliPath{""};
+    QString m_nodeToolPath{""};
 };
 
 #endif // DAPSERVICECONTROLLER_H

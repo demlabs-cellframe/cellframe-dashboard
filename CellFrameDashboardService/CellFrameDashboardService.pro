@@ -78,13 +78,11 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 SOURCES += \
     $$PWD/DapServiceController.cpp \
     $$PWD/main.cpp \
-    DapNotificationWatcher.cpp \
-    DapRegularRequestsController.cpp
+    DapNotificationWatcher.cpp 
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    DapNotificationWatcher.h \
-    DapRegularRequestsController.h
+    DapNotificationWatcher.h
 
 linux-* {
     BUILD_FLAG = static

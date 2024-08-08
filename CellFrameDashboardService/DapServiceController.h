@@ -27,7 +27,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "DapWebControllerForService.h"
 
 #include "DapNotificationWatcher.h"
-#include "DapRegularRequestsController.h"
+// #include "DapRegularRequestsController.h"
 
 #include "NodePathManager.h"
 
@@ -76,7 +76,7 @@ private:
     DapWebControllerForService *m_web3Controll;
 
     QThread *m_threadRegular;
-    DapRegularRequestsController *m_reqularRequestsCtrl;
+    // DapRegularRequestsController *m_reqularRequestsCtrl;
 
     QList<QThread*> m_threadPool;
     QThread* m_threadNotify;
