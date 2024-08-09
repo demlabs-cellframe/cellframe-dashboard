@@ -126,6 +126,7 @@ class DapServiceController : public QObject
     explicit DapServiceController(QObject *apParent = nullptr);
     
 public:
+    ~DapServiceController();
     /// Get an instance of a class.
     /// @return Instance of a class.
     Q_INVOKABLE static DapServiceController &getInstance();
@@ -382,12 +383,33 @@ private:
     /// Command manager.
 //    QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     QMap<QString, DapRpcService*> m_transceivers;
+    QThread *m_threadRegular;
     QList<QThread*> m_threadPool;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
 
     QString m_nodeCliPath{""};
     QString m_nodeToolPath{""};
+
+    QSet<QString> m_onceThreadList = { "DapCreateTransactionCommand"
+                                      ,"DapXchangeOrderCreate"
+                                      ,"DapVersionController"
+                                      ,"DapWebConnectRequest"
+                                      ,"DapWebBlockList"
+                                      ,"DapRcvNotify"
+                                      ,"DapQuitApplicationCommand"
+                                      ,"DapXchangeOrderPurchase"
+                                      ,"DapXchangeOrderRemove"
+                                      ,"DapTXCondCreateCommand"
+                                      ,"DapStakeLockHoldCommand"
+                                      ,"DapCreateJsonTransactionCommand"
+                                      ,"DapRemoveTransactionsQueueCommand"
+                                      ,"DapCheckTransactionsQueueCommand"
+                                      ,"DapStakeLockTakeCommand"
+                                      ,"DapHistoryServiceInitCommand"
+                                      ,"DapVoitingCreateCommand"
+                                      ,"DapVoitingVoteCommand"
+                                      ,"DapWalletServiceInitCommand"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

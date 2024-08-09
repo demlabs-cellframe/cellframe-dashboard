@@ -75,7 +75,7 @@ private:
     DapNotificationWatcher *m_watcher;
     DapWebControllerForService *m_web3Controll;
 
-    QThread *m_threadRegular;
+    
     // DapRegularRequestsController *m_reqularRequestsCtrl;
 
     QList<QThread*> m_threadPool;

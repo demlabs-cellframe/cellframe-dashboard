@@ -154,12 +154,12 @@ DapServiceController::~DapServiceController()
         delete m_threadNotify;
     }
 
-    if(m_threadRegular)
-    {
-        m_threadRegular->quit();
-        m_threadRegular->wait();
-        delete m_threadRegular;
-    }
+//    if(m_threadRegular)
+//    {
+//        m_threadRegular->quit();
+//        m_threadRegular->wait();
+//        delete m_threadRegular;
+//    }
 }
 
 /// Start service: creating server and socket.
@@ -177,11 +177,7 @@ bool DapServiceController::start()
     connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
     m_threadNotify->start();
 
-    m_threadRegular = new QThread();
-    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
-    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
-    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
-    m_threadRegular->start();
+
 
     m_web3Controll = new DapWebControllerForService(this);
 //    m_versionController = new DapUpdateVersionController(this);
@@ -210,7 +206,7 @@ bool DapServiceController::start()
         connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
         connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
         // Regular request controller
-        m_reqularRequestsCtrl->start();
+//        m_reqularRequestsCtrl->start();
     }
 #endif
     else
@@ -345,21 +341,21 @@ void DapServiceController::initServices()
     for(auto& service: qAsConst(m_servicePool))
     {
         DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);
-        if(serviceCommand->isNeedListNetworks())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, serviceCommand, &DapAbstractCommand::rcvListNetworks);
-        }
+//        if(serviceCommand->isNeedListNetworks())
+//        {
+//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, serviceCommand, &DapAbstractCommand::rcvListNetworks);
+//        }
 
-        if(serviceCommand->isNeedListWallets())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, serviceCommand, &DapAbstractCommand::rcvListWallets);
-        }
+//        if(serviceCommand->isNeedListWallets())
+//        {
+//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, serviceCommand, &DapAbstractCommand::rcvListWallets);
+//        }
 
-        if(serviceCommand->isNeedFee())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeUpdated, serviceCommand, &DapAbstractCommand::rcvFee);
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeClear, serviceCommand, &DapAbstractCommand::rcvFeeClear);
-        }
+//        if(serviceCommand->isNeedFee())
+//        {
+//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeUpdated, serviceCommand, &DapAbstractCommand::rcvFee);
+//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeClear, serviceCommand, &DapAbstractCommand::rcvFeeClear);
+//        }
 
         if(m_onceThreadList.contains(service->getName()))
         {

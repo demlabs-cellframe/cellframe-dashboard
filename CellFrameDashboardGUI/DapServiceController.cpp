@@ -14,7 +14,7 @@ DapServiceController::DapServiceController(QObject *apParent)
     m_nodeCliPath =  NodePathManager::getInstance().nodePaths.nodePath_cli;
     m_nodeToolPath = NodePathManager::getInstance().nodePaths.nodePath_tool;
 
-    m_reqularRequestsCtrl = new DapRegularRequestsController(nodeCliPath, nodeToolPath);
+    m_reqularRequestsCtrl = new DapRegularRequestsController(m_nodeCliPath, m_nodeToolPath);
 
     DapConfigReader configReader;
     m_DapNotifyController = new DapNotifyController();
@@ -23,6 +23,43 @@ DapServiceController::DapServiceController(QObject *apParent)
     m_sVersion = DAP_VERSION;
 
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
+}
+
+DapServiceController::~DapServiceController()
+{
+
+    for(QThread *thread : qAsConst(m_threadPool))
+    {
+        thread->quit();
+        thread->wait();
+        delete thread;
+    }
+
+    //    for(DapRpcService *service : qAsConst(m_servicePool))
+    //        service->deleteLater();
+
+    m_threadPool.clear();
+    //    m_servicePool.clear();
+
+    //    DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+    //    if(controller)
+    //    {
+    //        controller->deleteTransactionController();
+    //    }
+
+    //    if(m_threadNotify)
+    //    {
+    //        m_threadNotify->quit();
+    //        m_threadNotify->wait();
+    //        delete m_threadNotify;
+    //    }
+
+    if(m_threadRegular)
+    {
+        m_threadRegular->quit();
+        m_threadRegular->wait();
+        delete m_threadRegular;
+    }
 }
 
 /// Client controller initialization.
@@ -35,9 +72,16 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     // Socket initialization
     m_DAPRpcSocket = new DapRpcSocket(apDapServiceClient->getClientSocket(), this);
     m_pServer = new DapUiService(this);
-    // Register command.
-    registerCommand();
 
+
+    m_threadRegular = new QThread();
+    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
+    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
+    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
+    m_threadRegular->start();
+
+    registerCommand();
+    m_reqularRequestsCtrl->start();
 
 
     //    m_threadNotify = new QThread();
@@ -81,7 +125,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     //        connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
     //        connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
     //        // Regular request controller
-    //        m_reqularRequestsCtrl->start();
+    //
     //    }
     //#endif
     //    else
@@ -246,6 +290,23 @@ void DapServiceController::notifyService(const QString &asServiceName, const QVa
 void DapServiceController::addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService)
 {
     Q_ASSERT_X(!m_transceivers.contains(name), QString("service with name " + name + " already exist").toStdString().c_str(), 0);
+
+    if(commandService->isNeedListNetworks())
+    {
+        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, commandService, &DapAbstractCommand::rcvListNetworks);
+    }
+
+    if(commandService->isNeedListWallets())
+    {
+        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, commandService, &DapAbstractCommand::rcvListWallets);
+    }
+
+    if(commandService->isNeedFee())
+    {
+        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeUpdated, commandService, &DapAbstractCommand::rcvFee);
+        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeClear, commandService, &DapAbstractCommand::rcvFeeClear);
+    }
+
     connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant reply)
             {
                 for (int idx = 0; idx < metaObject()->methodCount(); ++idx)
