@@ -165,6 +165,7 @@ DapRectangleLitAndShaded
                     anchors.top: parent.top
                     anchors.leftMargin: 30
                     anchors.rightMargin: 30
+                    placeholderText: qsTr("Enter certificate name")
                     height: 30
 
                     validator: RegExpValidator { regExp: /[0-9a-z\_\:\(\)\?\@\.\s*]+/ }
@@ -300,12 +301,17 @@ DapRectangleLitAndShaded
             {
                 id: fileDialog
                 folder: shortcuts.home
-                nameFilters: ["Certifiacates (*.dcert)"]
                 onAccepted:
                 {
                     console.log("File: ", fileUrl)
                     if(nodeMasterModule.tryGetInfoCertificate(fileUrl)) isUpload = true
                     else isUpload = false
+                }
+
+                Component.onCompleted:
+                {
+                    var filter = "Certifiacates (" + nodeMasterModule.currentNetwork + ".*.dcert)"
+                    fileDialog.nameFilters = [filter]
                 }
             }
 
@@ -336,7 +342,7 @@ DapRectangleLitAndShaded
                 Layout.rightMargin: 25
                 height: 40
                 displayText: walletModule.currentWalletName
-                font: mainFont.dapFont.regular14
+                font: mainFont.dapFont.regular16
 
                 model: walletModelList
 
@@ -673,9 +679,11 @@ DapRectangleLitAndShaded
         walletModule.startUpdateFee()
         defaultNewCertificateName()
     }
+    
     Component.onDestruction:
     {
         walletModule.stopUpdateFee()
+        nodeMasterModule.clearCertificate();
     }
 
     Connections

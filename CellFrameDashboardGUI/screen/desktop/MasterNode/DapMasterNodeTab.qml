@@ -86,6 +86,8 @@ DapPage {
             {
                 dapRightPanel.push(baseMasterNodePanel)
             }
+
+            nodeMasterModule.clearCertificate();
         }
 
         function onCertMovedSignal(numberMessage)
