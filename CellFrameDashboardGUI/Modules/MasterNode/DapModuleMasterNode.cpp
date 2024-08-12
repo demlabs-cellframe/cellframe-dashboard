@@ -456,7 +456,7 @@ void DapModuleMasterNode::createStakeOrderForMasterNode(const QString& fee, cons
 {
     Dap::Coin feeCoin(fee);
     QString feeDatoshi = feeCoin.toDatoshiString();
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList() << m_currentNetwork << feeDatoshi << certName << MASTER_NODE_KEY); // master_node - For identification FROM
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList() << m_currentNetwork << feeDatoshi << certName << "from" << MASTER_NODE_KEY); // master_node - For identification FROM
 }
 
 void DapModuleMasterNode::getInfoNode()
