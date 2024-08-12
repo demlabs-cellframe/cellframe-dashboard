@@ -64,6 +64,8 @@ public:
     Q_PROPERTY(QString balanceDEX        READ getBalanceDEX   NOTIFY currantBalanceDEXChanged)
     Q_INVOKABLE QString getBalanceDEX(const QString& tokenName = "") const;
     Q_INVOKABLE void updateBalanceDEX();
+    Q_INVOKABLE void setUserFee(const QString& userFee) { m_userFee = userFee;};
+    Q_INVOKABLE void tryUpdateFee();
 private:
     void initConnect();
     void updateWalletModel(QVariant, bool isSingle);
@@ -109,7 +111,6 @@ private slots:
 
     void startUpdateCurrentWallet();
     void rcvFee(const QVariant &rcvData);
-    void tryUpdateFee();
 private:
 
     WalletHashManager *m_walletHashManager;
@@ -135,6 +136,7 @@ private:
 
     bool m_firstDataLoad = false;
     QString m_currentTokenDEX = "";
+    QString m_userFee = "";
 private:
     const int TIME_FEE_UPDATE = 2000;
     const int TIME_WALLET_UPDATE = 5000;

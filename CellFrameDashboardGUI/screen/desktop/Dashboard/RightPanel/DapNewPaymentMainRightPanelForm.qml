@@ -27,7 +27,7 @@ DapRectangleLitAndShaded
 
     property alias dapChainGroup: chainGroup
 
-
+    property alias dapFeeController: feeController
     property alias dapComboBoxToken: comboboxToken
 
     property alias dapFrameAmountPayment: frameAmountPayment
@@ -43,6 +43,7 @@ DapRectangleLitAndShaded
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
     property alias balance: balance
+    property bool showNetFeePopup: false
 
     color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
@@ -51,6 +52,7 @@ DapRectangleLitAndShaded
 
     Component.onCompleted:
     {
+        walletModule.tryUpdateFee()
         updateWindow()
     }
 
@@ -58,6 +60,8 @@ DapRectangleLitAndShaded
     {
         id: walletMessagePopup
         dapButtonCancel.visible: true
+        fee2Layout.visible: false
+        height: 258
     }
 
     contentData:
@@ -514,6 +518,99 @@ DapRectangleLitAndShaded
             }
         }
 
+        // Validator fee
+        Rectangle
+        {
+            id: frameValidatorFee
+            Layout.topMargin: 20
+            Layout.fillWidth: true
+            color: currTheme.mainBackground
+            height: 30
+            Text
+            {
+                id: textValidatorFee
+                color: currTheme.white
+                text: qsTr("Validator fee")
+                font: mainFont.dapFont.medium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 16
+            }
+        }
+
+        DapFeeComponent
+        {
+            property string medianStr: ""
+
+            id: feeController
+
+            Layout.fillWidth: true
+            Layout.topMargin: 20
+            Layout.leftMargin: 16
+            Layout.rightMargin: 16
+
+            onCurrentValueChanged:
+            {
+                walletModule.setUserFee(currentValue)
+            }
+
+            Component.onCompleted:
+            {
+                walletModule.tryUpdateFee()
+            }
+
+            Component.onDestruction:
+            {
+                walletModule.setUserFee("")
+            }
+
+            function getFeeData()
+            {
+                var resFee = walletModule.getFee(dapComboboxNetwork.displayText)
+                if(resFee.error === 0 && resFee.validator_fee !== "" && resFee.network_fee !== "")
+                {
+                    var new_median = resFee.validator_fee
+                    if(new_median !== feeController.medianStr)
+                    {
+                        if(feeController.medianStr !== "")
+                        {
+                            notifyAboutChange(new_median)
+                        }
+                        else
+                        {
+                            init(generateRanges(new_median))
+                        }
+                        feeController.medianStr = new_median
+                    }
+                    showNetFeePopup = !(resFee.network_fee === "0.0")
+                }
+            }
+
+            function notifyAboutChange(new_median)
+            {
+                var new_ranges = generateRanges(new_median)
+                feeController.rangeValues = new_ranges
+                initStates()
+                dapTextNotEnoughTokensWarning.text =
+                        qsTr("Validator fee was been changed. New median data: %1")
+                .arg(new_median)
+            }
+
+            function generateRanges(median_str)
+            {
+                var median = parseFloat(median_str);
+                    return {
+                        "veryLow": 0,
+                        "low": median/2,
+                        "middle": median,
+                        "high": median * 1.5,
+                        "veryHigh": median * 2
+                    }
+            }
+        }
+
+
         Item{Layout.fillHeight: true}
 
         Text
@@ -589,6 +686,9 @@ DapRectangleLitAndShaded
                 frameRecipientWalletAddress.visible = false
                 textNotEnoughTokensWarning.visible = false
                 buttonSend.visible = false
+                frameValidatorFee.visible = false
+                feeController.visible = false
+
             }
             else
             {
@@ -598,13 +698,31 @@ DapRectangleLitAndShaded
                 frameRecipientWalletAddress.visible = true
                 textNotEnoughTokensWarning.visible = true
                 buttonSend.visible = true
+                frameValidatorFee.visible = true
+                feeController.visible = true
+
             }
             if(comboboxNetwork.displayText !== "")
+            {
                 walletModule.getComission(dapComboboxNetwork.displayText)
+                feeController.valueName = modulesController.getMainTokenName(dapComboboxNetwork.displayText)
+                feeController.medianStr = ""
+                feeController.getFeeData()
+            }
 
             balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                                  + " " + dapComboBoxToken.displayText
 
         }
     }
+
+    Connections
+    {
+        target: walletModule
+        function onFeeInfoUpdated()
+        {
+            feeController.getFeeData()
+        }
+    }
+
 }

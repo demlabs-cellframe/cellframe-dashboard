@@ -253,3 +253,10 @@ void DapModulesController::restoreIndex()
 
     setCurrentWalletIndex(0);
 }
+
+QString DapModulesController::getMainTokenName(const QString& network) const
+{
+    bool check = !network.isEmpty() && m_tokens.contains(network);
+    return check ? m_tokens[network] : "-";
+}
+
