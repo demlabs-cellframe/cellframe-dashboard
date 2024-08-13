@@ -17,8 +17,8 @@ DapCustomComboBox
     property var certList: [
         {name: "Dilithium", sign: "sig_dil",    secondName: "Recommended"},
         {name: "Falcon",    sign: "sig_falcon", secondName: ""},
-        {name: "Bliss",     sign: "sig_bliss",  secondName: "Depricated"},
-        {name: "Picnic",    sign: "sig_picnic", secondName: "Depricated"}
+        {name: "Bliss",     sign: "sig_bliss",  secondName: "Deprecated"},
+        {name: "Picnic",    sign: "sig_picnic", secondName: "Deprecated"}
     ]
     height: 42
     model: sigModel
