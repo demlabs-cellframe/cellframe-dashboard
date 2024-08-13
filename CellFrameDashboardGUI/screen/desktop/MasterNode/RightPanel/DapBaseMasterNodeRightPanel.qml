@@ -37,7 +37,7 @@ Rectangle
             textButton: qsTr("Import an existing wallet")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular14
+            fontButton: mainFont.dapFont.medium14
             onClicked:
             {
                 walletDialog.open()
@@ -63,7 +63,7 @@ Rectangle
             textButton: qsTr("Import certificate")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular14
+            fontButton: mainFont.dapFont.medium14
             onClicked:
             {
                 certDialog.open()
@@ -89,7 +89,7 @@ Rectangle
             textButton: qsTr("Add service")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular14
+            fontButton: mainFont.dapFont.medium14
             visible: false
             onClicked:
             {
@@ -114,7 +114,7 @@ Rectangle
             textButton: qsTr("Last Actions")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular14
+            fontButton: mainFont.dapFont.medium14
             visible: isMasterNode
             onClicked:
             {
@@ -129,7 +129,7 @@ Rectangle
             textButton: qsTr("Orders")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular14
+            fontButton: mainFont.dapFont.medium14
             visible: isMasterNode
             onClicked:
             {
@@ -144,7 +144,7 @@ Rectangle
             textButton: qsTr("Blocks")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular14
+            fontButton: mainFont.dapFont.medium14
             visible: isMasterNode
             onClicked:
             {
@@ -158,7 +158,7 @@ Rectangle
             textButton: qsTr("Config")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular14
+            fontButton: mainFont.dapFont.medium14
             visible: isMasterNode
             onClicked:
             {
