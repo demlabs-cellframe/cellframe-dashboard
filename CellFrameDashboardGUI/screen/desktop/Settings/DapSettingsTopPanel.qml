@@ -217,16 +217,35 @@ Controls.DapTopPanel
                 color: currTheme.gray
 
             }
-            Text {
-                id: vesionNode
+            RowLayout
+            {
                 Layout.alignment: Qt.AlignLeft
-                horizontalAlignment: Text.AlignLeft
+                Text {
+                    horizontalAlignment: Text.AlignLeft
 
-                text: qsTr( "Node version " + settingsModule.nodeVersion)
-                font: mainFont.dapFont.regular13
-                color: currTheme.gray
+                    text: qsTr( "Node version ")
+                    font: mainFont.dapFont.regular13
+                    color: currTheme.gray
+                }
+                Text {
+                    id: vesionNode
+                    text: settingsModule.nodeVersion
+                    font: mainFont.dapFont.regular13
+                    color: vesionNodeArea.containsMouse ? currTheme.orange : currTheme.lime
 
+                    MouseArea{
+                        id: vesionNodeArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked:
+                        {
+                            dapMainWindow.showPopupUpdateNode()
+                        }
+                    }
+                }
             }
+
+
         }
 
         Widgets.DapButton

@@ -41,6 +41,15 @@ QString NodePathManager::getUrlForNodeDownload()
     return m_instMngr->getUrlForDownload();
 }
 
+QString NodePathManager::getNodeUrl(const QString& ver)
+{
+    if(ver.isEmpty())
+    {
+        return getUrlForNodeDownload();
+    }
+    return m_instMngr->getUrl(ver);
+}
+
 void NodePathManager::checkNeedDownload()
 {
     if(m_target == "GUI")

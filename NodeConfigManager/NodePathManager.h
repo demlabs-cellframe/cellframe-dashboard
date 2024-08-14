@@ -58,6 +58,7 @@ public:
     NodeConfigToolController *m_cfgToolCtrl;
 
     QString getNodeConfigPath();
+    QString getNodeUrl(const QString& ver = "");
 private:
     QSharedMemory m_sharedMemory;
     bool m_initMemFlag{false};
