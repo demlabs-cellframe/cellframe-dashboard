@@ -29,6 +29,8 @@ public:
     Q_INVOKABLE QVariant coinsToBalance(QVariant coins);
     Q_INVOKABLE QVariant balanceToCoins(QVariant balance);
 
+    Q_INVOKABLE QString summDouble(const QString &value, const QString &step);
+
     void test();
 
 };
