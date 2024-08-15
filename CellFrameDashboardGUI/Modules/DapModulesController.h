@@ -62,6 +62,8 @@ public:
     Q_PROPERTY (int nodeLoadProgress READ nodeLoadProgress NOTIFY nodeLoadProgressChanged)
     int nodeLoadProgress(){return m_nodeLoadProgress;}
 
+    Q_INVOKABLE bool isFirstLaunch() { return m_lastProgress == 0; }
+
 public slots:
     Q_INVOKABLE void updateListWallets();
     Q_INVOKABLE void updateListNetwork();
@@ -107,6 +109,8 @@ private:
     QMap<QString, int> m_networksLoadProgress;
     QJsonArray nodeLoadProgressJson;
     int m_nodeLoadProgress = 0;
+    // Need to know it was first launch or restore after reboot node
+    int m_lastProgress = 0;
 
     QStringList m_walletList;
     int m_currentWalletIndex{-1};

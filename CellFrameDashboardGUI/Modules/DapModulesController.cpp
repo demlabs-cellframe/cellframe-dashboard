@@ -195,6 +195,7 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
         total += m_networksLoadProgress[net];
     }
     m_nodeLoadProgress = total / m_networksLoadProgress.count();
+    if(m_nodeLoadProgress != 0) m_lastProgress = m_nodeLoadProgress;
     qDebug() << "[DapModulesController] [rcvChainsLoadProgress] current node progress: " << m_nodeLoadProgress;
     emit nodeLoadProgressChanged();
 }
