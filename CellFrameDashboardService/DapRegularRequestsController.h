@@ -45,8 +45,6 @@ private:
 
     QByteArray m_lastRespondNetworks;
     QByteArray m_lastRespondWallets;
-    //   network  data
-    QMap<QString, QByteArray> m_lastRespondFee;
 
     const int TIMER_COUNT = 1000;
     const int FEE_TIMER = 30000;
