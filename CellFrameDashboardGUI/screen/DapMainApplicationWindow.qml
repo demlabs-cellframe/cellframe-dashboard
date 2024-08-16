@@ -858,7 +858,7 @@ Rectangle {
         }
         else if(type === 2)
         {
-            messagePopupUpdateNode.height = 210
+            messagePopupUpdateNode.height = 235
             messagePopupUpdateNode.dapButtonCancel.visible = false
             messagePopupUpdateNode.dapButtonOk.visible = true
             messagePopupUpdateNode.dapButtonOk.fontButton = mainFont.dapFont.regular14
@@ -892,13 +892,14 @@ Rectangle {
 
             messagePopupUpdateNode.dapButtonCancel.visible = true
             messagePopupUpdateNode.dapButtonCancel.fontButton = mainFont.dapFont.regular14
-            messagePopupUpdateNode.dapButtonCancel.textButton = qsTr("Close")
+            messagePopupUpdateNode.dapButtonCancel.textButton = qsTr("Cancel")
 
+            messagePopupUpdateNode.height = 220
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
             var header = "<font color='" + currTheme.сrayola + "'>" + qsTr("Node new version available") + "</font>"
             var curVer = settingsModule.nodeVersion
             var maxVer = settingsModule.getMaxNodeVersion()
-            var text = qsTr("You’re using version ") + curVer + qsTr(". Version ") + "<font color='"  + currTheme.сrayola + "'>" + maxVer + "</font>" + qsTr(" is now available!")
+            var text = qsTr("You’re using version ") + curVer + qsTr(". Version ") + "<font color='"  + currTheme.сrayola + "'><b>" + maxVer + "</b></font>" + qsTr(" is now available!")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
         else if(type === 5) //Download

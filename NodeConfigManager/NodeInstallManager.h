@@ -34,6 +34,7 @@ private:
 
     QUrl m_url;
     QString m_baseUrl;
+    QString m_labelUrlFile;
 
     //#ifdef __x86_64__
     //    QString m_latest{"latest-amd64"};
