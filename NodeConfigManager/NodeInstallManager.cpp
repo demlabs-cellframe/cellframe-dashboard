@@ -62,11 +62,11 @@ QString NodeInstallManager::getUrl(const QString& ver)
     return QString("%1/cellframe-node-%2%3%4").arg(m_baseUrl).arg(ver).arg(m_labelUrlFile).arg(m_suffix);
 }
 
-void NodeInstallManager::checkUpdateNode(QString currentNodeVersion)
+void NodeInstallManager::checkUpdateNode(const QString& url)
 {
     //todo: this func receive install-pack name and fill m_fileName
     QNetworkRequest request;
-    request.setUrl(QUrl(m_url));
+    request.setUrl(QUrl(url));
 
     QNetworkReply *reply = m_networkManager->get(request);
     connect(reply, &QNetworkReply::finished, this, &NodeInstallManager::onGetFileName);
@@ -76,7 +76,8 @@ void NodeInstallManager::onGetFileName()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
-    if (reply->error() == QNetworkReply::NoError){
+    if (reply->error() == QNetworkReply::NoError)
+    {
         QByteArray content = reply->readAll();
         QTextCodec *codec = QTextCodec::codecForName("utf8");
         QString str = codec->toUnicode(content.data());
@@ -86,7 +87,9 @@ void NodeInstallManager::onGetFileName()
         m_fileName = rw.cap(0);
 
         emit singnalReadyUpdateToNode(true);
-    }else{
+    }
+    else
+    {
         qWarning()<<reply->errorString();
         m_fileName = "";
 

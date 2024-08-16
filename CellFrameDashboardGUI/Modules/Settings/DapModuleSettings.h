@@ -88,6 +88,7 @@ private:
     void setNodeStatus(bool isStart);
     void setNodeAutorun(bool isEnable);
 
+    void updateUrlUpdateNode();
 private:
     DapModulesController  *m_modulesCtrl;
     QTimer *m_timerVersionCheck;
@@ -97,6 +98,8 @@ private:
     bool m_isNodeAutoRun = true;
 
     nodeUpdateType m_nodeUpdateType = nodeUpdateType::NONE;
+
+    QString m_urlUpdateNode;
 
     const QString SETTINGS_NODE_ENABLE_KEY = "nodeEnable";
 

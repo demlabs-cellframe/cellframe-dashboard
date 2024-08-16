@@ -7,6 +7,8 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     , m_timerVersionCheck(new QTimer())
     , m_timerTimeoutService(new QTimer())
 {
+    updateUrlUpdateNode();
+
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
         initConnect();
@@ -22,6 +24,18 @@ DapModuleSettings::~DapModuleSettings()
 {
     delete m_timerVersionCheck;
     delete m_timerTimeoutService;
+}
+
+void DapModuleSettings::updateUrlUpdateNode()
+{
+    auto& pathManager = NodePathManager::getInstance();
+    connect(&pathManager, &NodePathManager::checkedUrlSignal, [this](bool isReady)
+            {
+                QString ver = isReady ? QString(MAX_NODE_VERSION) : "";
+                m_urlUpdateNode = NodePathManager::getInstance().getNodeUrl(ver);
+            });
+
+    pathManager.tryCheckUrl(pathManager.getNodeUrl(QString(MAX_NODE_VERSION)));
 }
 
 void DapModuleSettings::initConnect()
@@ -177,7 +191,7 @@ void DapModuleSettings::setNeedDownloadNode()
 
 QString DapModuleSettings::getUrlUpload()
 {
-    return NodePathManager::getInstance().getNodeUrl(QString(MAX_NODE_VERSION));
+    return m_urlUpdateNode;
 }
 
 void DapModuleSettings::checkVersion()

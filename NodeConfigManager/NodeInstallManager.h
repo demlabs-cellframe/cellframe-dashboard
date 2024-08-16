@@ -20,7 +20,7 @@ public:
     explicit NodeInstallManager(bool flag_RK, QObject *parent = nullptr);
     ~NodeInstallManager();
 
-    void checkUpdateNode(QString currentNodeVersion);
+    void checkUpdateNode(const QString &link);
     QString getUrlForDownload();
     QString getUrl(const QString& ver);
 
