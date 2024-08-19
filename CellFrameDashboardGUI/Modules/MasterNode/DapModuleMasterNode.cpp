@@ -527,7 +527,7 @@ void DapModuleMasterNode::moveWallet(const QString& path)
 
 void DapModuleMasterNode::dumpCertificate()
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "3" << m_certName << m_certPath);
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "3" << m_certName << m_certPath << "from" << "master_node");
 }
 
 void DapModuleMasterNode::getListKeys()

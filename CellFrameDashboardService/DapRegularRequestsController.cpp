@@ -162,98 +162,95 @@ void DapRegularRequestsController::updateFeeInfo()
     for(const auto& network: qAsConst(m_networkList))
     {
         auto request = m_cmdList->getJsonResult(m_cmdList->getFeeComand(network), "fee info").result;
-        QByteArray feeByte = QJsonDocument(request.toObject()).toJson();
-        if(!m_lastRespondFee.contains(network) || feeByte != m_lastRespondFee[network])
-        {
-            m_lastRespondFee[network] = feeByte;
-            NetworkSpace::FeeInfoStruct result;
 
-            auto testJsonBlock = [](bool expression, const QString& message) -> bool
+        NetworkSpace::FeeInfoStruct result;
+
+        auto testJsonBlock = [](bool expression, const QString& message) -> bool
+        {
+            if(expression)
             {
-                if(expression)
-                {
-                    qWarning() << QString("[DapRegularRequestsController] [getFee] The output of the node has changed or some kind of error has occurred.(%1)").arg(message);
-                    return false;
-                }
-                return true;
+                qWarning() << QString("[DapRegularRequestsController] [getFee] The output of the node has changed or some kind of error has occurred.(%1)").arg(message);
+                return false;
+            }
+            return true;
+        };
+
+        if(!testJsonBlock(request.isNull(), "the result block was not found"))
+            continue;
+        if(!testJsonBlock(!request.isArray(), "The block is no longer an array"))
+            continue;
+
+        auto mainArray = request.toArray();
+
+        if(!testJsonBlock(mainArray.isEmpty(), "the array is empty"))
+            continue;
+        if(!testJsonBlock(!mainArray[0].toObject().contains("fees"), "the fees block is missing"))
+            continue;
+
+        auto fees = mainArray[0].toObject()["fees"].toObject();
+        if(!testJsonBlock(!fees.contains("network"), "the network block is missing"))
+            continue;
+
+        {
+            auto network = fees["network"].toObject();
+            if(!testJsonBlock(!network.contains("addr"), "the network addr block is missing"))
+                continue;
+            if(!testJsonBlock(!network.contains("balance"), "the network balance block is missing"))
+                continue;
+            if(!testJsonBlock(!network.contains("coins"), "the network coins block is missing"))
+                continue;
+            if(!testJsonBlock(!network.contains("ticker"), "the network ticker block is missing"))
+                continue;
+
+            result.netCoins = network["coins"].toString();
+            result.netDatoshi = network["balance"].toString();
+            result.netTicker = network["ticker"].toString();
+            result.netAddr = network["addr"].toString();
+        }
+
+        if(!testJsonBlock(!fees.contains("validators"), "the network block is missing"))
+            continue;
+
+        {
+            auto validators = fees["validators"].toObject();
+
+            auto getData = [&result, &testJsonBlock, &validators](const QString& blockName)
+            {
+                auto object = validators[blockName].toObject();
+                if(!testJsonBlock(!object.contains("balance"), "the validators balance block is missing"))
+                    return;
+                if(!testJsonBlock(!object.contains("coin"), "the validators coin block is missing"))
+                    return;
+                NetworkSpace::ValidatorItem item;
+                item.coin = object["coin"].toString();
+                item.datoshi = object["balance"].toString();
+                result.validatorFeeList.insert(blockName,item);
             };
 
-            if(!testJsonBlock(request.isNull(), "the result block was not found"))
+            if(!testJsonBlock(!validators.contains("average"), "the validators average block is missing"))
                 continue;
-            if(!testJsonBlock(!request.isArray(), "The block is no longer an array"))
+            getData("average");
+
+            if(!testJsonBlock(!validators.contains("max"), "the validators balance block is missing"))
                 continue;
+            getData("max");
 
-            auto mainArray = request.toArray();
-
-            if(!testJsonBlock(mainArray.isEmpty(), "the array is empty"))
+            if(!testJsonBlock(!validators.contains("median"), "the validators coins block is missing"))
                 continue;
-            if(!testJsonBlock(!mainArray[0].toObject().contains("fees"), "the fees block is missing"))
+            getData("median");
+
+            if(!testJsonBlock(!validators.contains("min"), "the validators ticker block is missing"))
                 continue;
+            getData("min");
 
-            auto fees = mainArray[0].toObject()["fees"].toObject();
-            if(!testJsonBlock(!fees.contains("network"), "the network block is missing"))
+            if(!testJsonBlock(!validators.contains("token"), "the validators addr block is missing"))
                 continue;
-
-            {
-                auto network = fees["network"].toObject();
-                if(!testJsonBlock(!network.contains("addr"), "the network addr block is missing"))
-                    continue;
-                if(!testJsonBlock(!network.contains("balance"), "the network balance block is missing"))
-                    continue;
-                if(!testJsonBlock(!network.contains("coins"), "the network coins block is missing"))
-                    continue;
-                if(!testJsonBlock(!network.contains("ticker"), "the network ticker block is missing"))
-                    continue;
-
-                result.netCoins = network["coins"].toString();
-                result.netDatoshi = network["balance"].toString();
-                result.netTicker = network["ticker"].toString();
-                result.netAddr = network["addr"].toString();
-            }
-
-            if(!testJsonBlock(!fees.contains("validators"), "the network block is missing"))
-                continue;
-
-            {
-                auto validators = fees["validators"].toObject();
-
-                auto getData = [&result, &testJsonBlock, &validators](const QString& blockName)
-                {
-                    auto object = validators[blockName].toObject();
-                    if(!testJsonBlock(!object.contains("balance"), "the validators balance block is missing"))
-                        return;
-                    if(!testJsonBlock(!object.contains("coin"), "the validators coin block is missing"))
-                        return;
-                    NetworkSpace::ValidatorItem item;
-                    item.coin = object["coin"].toString();
-                    item.datoshi = object["balance"].toString();
-                    result.validatorFeeList.insert(blockName,item);
-                };
-
-                if(!testJsonBlock(!validators.contains("average"), "the validators average block is missing"))
-                    continue;
-                getData("average");
-
-                if(!testJsonBlock(!validators.contains("max"), "the validators balance block is missing"))
-                    continue;
-                getData("max");
-
-                if(!testJsonBlock(!validators.contains("median"), "the validators coins block is missing"))
-                    continue;
-                getData("median");
-
-                if(!testJsonBlock(!validators.contains("min"), "the validators ticker block is missing"))
-                    continue;
-                getData("min");
-
-                if(!testJsonBlock(!validators.contains("token"), "the validators addr block is missing"))
-                    continue;
-                result.valTicker = validators["token"].toString();
-            }
-            QPair<QString, NetworkSpace::FeeInfoStruct> pair = {network, result};
-            QVariant resultVariant = QVariant::fromValue(pair);
-
-            emit feeUpdated(resultVariant);
+            result.valTicker = validators["token"].toString();
         }
+        QPair<QString, NetworkSpace::FeeInfoStruct> pair = {network, result};
+        QVariant resultVariant = QVariant::fromValue(pair);
+
+        emit feeUpdated(resultVariant);
     }
+
 }
