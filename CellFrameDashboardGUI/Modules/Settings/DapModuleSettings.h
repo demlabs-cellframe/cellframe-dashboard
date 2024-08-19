@@ -76,6 +76,8 @@ signals:
     void errorNodeRequest(QString);
 
     void needNodeUpdateSignal();
+
+    void nodeUrlUpdated();
 private slots:
     void rcvVersionInfo(const QVariant& result);
     void timeoutVersionInfo();

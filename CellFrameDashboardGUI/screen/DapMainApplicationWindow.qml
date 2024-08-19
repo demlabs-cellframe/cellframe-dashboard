@@ -58,6 +58,8 @@ Rectangle {
 
     property var vpnClientTokenModel: new Array()
 
+    property bool isHasNeedUpdateNode: false
+
     signal showPopupUpdateNode();
 
     MainApplicationLogic{id: logicMainApp}
@@ -821,8 +823,15 @@ Rectangle {
             console.log("onSignalIsNeedInstallNode", isNeed, url)
             if(isNeed)
             {
-                settingsModule.setNeedDownloadNode();
-                openPopupUpdateNode()
+                if(settingsModule.getUrlUpload() === "")
+                {
+                    isHasNeedUpdateNode = true;
+                }
+                else
+                {
+                    settingsModule.setNeedDownloadNode();
+                    openPopupUpdateNode()
+                }
             }
         }
     }
@@ -832,7 +841,24 @@ Rectangle {
         target: settingsModule
         function onNeedNodeUpdateSignal()
         {
-            openPopupUpdateNode()
+            if(settingsModule.getUrlUpload() === "")
+            {
+                isHasNeedUpdateNode = true;
+            }
+            else
+            {
+                openPopupUpdateNode()
+            }
+            
+        }
+
+        function onNodeUrlUpdated()
+        {
+            if(isHasNeedUpdateNode)
+            {
+                openPopupUpdateNode()
+                isHasNeedUpdateNode = false
+            }         
         }
     }
 
