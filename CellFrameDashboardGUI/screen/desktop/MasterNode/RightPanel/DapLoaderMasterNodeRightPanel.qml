@@ -157,7 +157,7 @@ DapRectangleLitAndShaded
                         anchors.rightMargin: 16
                         horizontalAlignment: Text.AlignHCenter
                         color: currTheme.white
-                        font: mainFont.dapFont.regular14
+                        font: mainFont.dapFont.medium14
                         text: loadingStagesText[nodeMasterModule.creationStage]
                     }
                 }
@@ -216,7 +216,7 @@ DapRectangleLitAndShaded
                     implicitWidth: 132
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton: mainFont.dapFont.regular14
+                    fontButton: mainFont.dapFont.medium14
                     selected: false
                     onClicked:
                     {
@@ -235,7 +235,7 @@ DapRectangleLitAndShaded
                     implicitWidth: 132
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton: mainFont.dapFont.regular14
+                    fontButton: mainFont.dapFont.medium14
                     visible: root.state == "ERROR"
                     onClicked:
                     {
@@ -288,7 +288,7 @@ DapRectangleLitAndShaded
                     anchors.rightMargin: 16
                     horizontalAlignment: Text.AlignLeft
                     color: result === 2 ? currTheme.orange : currentStage === index ? currTheme.mainBackground : currTheme.white
-                    font: mainFont.dapFont.regular14
+                    font: mainFont.dapFont.medium14
                     text: name
                 }
 

@@ -57,6 +57,7 @@ public:
     NodeInstallManager *m_instMngr;
     NodeConfigToolController *m_cfgToolCtrl;
 
+    QString getNodeConfigPath();
 private:
     QSharedMemory m_sharedMemory;
     bool m_initMemFlag{false};
@@ -74,10 +75,8 @@ private:
     bool readMem();
     bool writeMem();
 
-
     void checkNodeDir(QString oldPath, QString newPath);
 
-    QString getNodeConfigPath();
     QString getNodeNewBinaryPath();
 
     void fillNodePath();
