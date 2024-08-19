@@ -105,6 +105,14 @@ DapRectangleLitAndShaded
                 anchors.left: parent.left
                 anchors.leftMargin: 16
             }
+
+            DapToolTipInfo
+            {
+                anchors.right: parent.right
+                anchors.rightMargin: 16
+                anchors.verticalCenter: parent.verticalCenter
+                contentText: qsTr("You must select the certificate that you created when you launched the master node.")
+            }
         }
 
         DapCustomComboBox
@@ -112,20 +120,15 @@ DapRectangleLitAndShaded
             id: comboboxCert
             Layout.fillWidth: true
             Layout.topMargin: 20
-            Layout.leftMargin: 36
-            Layout.rightMargin: 36
-            leftMarginDisplayText: 0
-            rightMarginIndicator: 0
-            popupBorderWidth: 1
-            changingRound: true
-            isSingleColor: true
-            isInnerShadow: false
-            isNecessaryToHideCurrentIndex: true
-            displayTextPopupColor: currTheme.white
-            implicitHeight: 24
-            backgroundColorShow: currTheme.secondaryBackground
-            backgroundColorNormal: currTheme.secondaryBackground
+            Layout.leftMargin: 16
+            Layout.rightMargin: 16
+            rightMarginIndicator: 20
+            leftMarginDisplayText: 20
+            leftMarginPopupContain: 20
+            rightMarginPopupContain: 20
+            height: 40
             font: mainFont.dapFont.regular16
+            backgroundColorShow: currTheme.secondaryBackground
             defaultText: qsTr("Certificates")
             mainTextRole: "completeBaseName"
             model: ListModel
@@ -168,14 +171,21 @@ DapRectangleLitAndShaded
         target: dapServiceController
         onCertificateManagerOperationResult:
         {
+            var masterNodeCertName = nodeMasterModule.getMasterNodeCertName()
+            var foundIndex = -1
+            certificatesModel.clear()
             for (var i = 0; i < result.data.length; ++i)
             {
                 var item = result.data[i]
-                var nameCert = item.completeBaseName
-                var networkCurr = nodeMasterModule.currentNetwork
-                if(item.accessKeyType !== 0 && !item.completeBaseName.startsWith(networkCurr))
-                    continue
                 certificatesModel.append(item)
+                if(item["completeBaseName"] === masterNodeCertName)
+                {
+                    foundIndex = i
+                }
+            }
+            if(foundIndex >=0 )
+            {
+                comboboxCert.setCurrentIndex(foundIndex + 1)
             }
         }
     }

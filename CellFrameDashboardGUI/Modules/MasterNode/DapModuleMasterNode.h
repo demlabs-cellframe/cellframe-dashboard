@@ -104,6 +104,8 @@ public:
     Q_INVOKABLE bool tryGetInfoCertificate(const QString& filePath);
     Q_INVOKABLE void clearCertificate();
 
+    Q_INVOKABLE QString getMasterNodeCertName();
+
     Q_PROPERTY(QString certName READ getCertName NOTIFY certNameChanged)
     QString getCertName() const {return m_certName;}
     void setCertName(const QString& name);

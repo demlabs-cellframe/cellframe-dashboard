@@ -1358,3 +1358,9 @@ QVariant DapModuleMasterNode::getDataRegistration(const QString& nameData) const
     }
     return QVariant();
 }
+
+
+QString DapModuleMasterNode::getMasterNodeCertName()
+{
+    return getMasterNodeData(CERT_NAME_KEY);
+}
