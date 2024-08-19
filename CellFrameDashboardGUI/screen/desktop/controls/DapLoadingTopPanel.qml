@@ -87,7 +87,7 @@ DapTopPanel
         Rectangle
         {
             id: progressBar
-            width: backgrndRect.width / 100 * percentLoading
+            width: doneDelay ? backgrndRect.width : backgrndRect.width / 100 * percentLoading
             height: 4
             color: percentLoading < 100 && !doneDelay ? currTheme.orange : currTheme.lime
             anchors.bottom: parent.bottom
