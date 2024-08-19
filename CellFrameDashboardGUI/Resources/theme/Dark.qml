@@ -47,7 +47,7 @@ QtObject {
     readonly property color neon                          : "#79FFFA"
     readonly property color lime                          : "#DBFF71"
     readonly property color buttonGray                    : "#666E7D"
-
+    readonly property color сrayola                       : "#87DCE7"
 
     //Text colors
     readonly property color textColor              : "#ffffff" // OK

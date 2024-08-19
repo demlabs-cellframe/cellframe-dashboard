@@ -406,5 +406,6 @@
         <file>screen/desktop/controls/DapLoadingPanel.qml</file>
         <file>screen/desktop/controls/DapLoadingTopPanel.qml</file>
         <file>Resources/BlackTheme/icons/other/no_icon.svg</file>
+        <file>screen/desktop/controls/DapNodeVersionPopup.qml</file>
     </qresource>
 </RCC>
