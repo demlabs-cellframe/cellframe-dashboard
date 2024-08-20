@@ -61,6 +61,7 @@ Item
             text: nameOfNetwork
             elide: Text.ElideMiddle
             horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
         }
 
         Image
@@ -69,7 +70,7 @@ Item
             width: 8
             height: 8
             anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenter: nameText.verticalCenter
             sourceSize: Qt.size(8,8)
             antialiasing: true
             fillMode: Image.PreserveAspectFit
