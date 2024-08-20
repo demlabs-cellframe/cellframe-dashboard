@@ -452,6 +452,13 @@ void DapModuleMasterNode::createStakeOrder()
                                                            << m_currentStartMaster[CERT_NAME_KEY].toString());
 }
 
+void DapModuleMasterNode::createStakeOrderForMasterNode(const QString& fee, const QString& certName)
+{
+    Dap::Coin feeCoin(fee);
+    QString feeDatoshi = feeCoin.toDatoshiString();
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList() << m_currentNetwork << feeDatoshi << certName << "from" << MASTER_NODE_KEY); // master_node - For identification FROM
+}
+
 void DapModuleMasterNode::getInfoNode()
 {
     if(!m_isNetworkStatusRequest)
@@ -694,22 +701,44 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
 void DapModuleMasterNode::respondCreatedStakeOrder(const QVariant &rcvData)
 {
     QJsonObject replyObj = rcvData.toJsonObject();
+    bool fromMasterNode = replyObj.contains("from") && replyObj["from"].toString() == MASTER_NODE_KEY;
 
     if(!replyObj.contains("success"))
     {
         qWarning() << "[DapModuleMasterNode] [respondCreatedStakeOrder] Problems getting data from the team.";
-        tryStopCreationMasterNode(14, "Problems getting data from the team.");
+        if(fromMasterNode)
+        {
+            emit createdStakeOrder(false);
+        }
+        else
+        {
+            tryStopCreationMasterNode(14, "Problems getting data from the team.");
+        }
         return;
     }
 
     if(replyObj["success"].toBool())
     {
         qInfo() << "-------A commission payment order has been created.-----";
-        stageComplated();
+        if(fromMasterNode)
+        {
+            emit createdStakeOrder(true);
+        }
+        else
+        {
+            stageComplated();
+        }
     }
     else
     {
-        tryStopCreationMasterNode(10, "The commission payment order has not been created.");
+        if(fromMasterNode)
+        {
+            emit createdStakeOrder(false);
+        }
+        else
+        {
+            tryStopCreationMasterNode(10, "The commission payment order has not been created.");
+        }
     }
 }
 
@@ -1328,4 +1357,10 @@ QVariant DapModuleMasterNode::getDataRegistration(const QString& nameData) const
         return m_currentStartMaster[nameData];
     }
     return QVariant();
+}
+
+
+QString DapModuleMasterNode::getMasterNodeCertName()
+{
+    return getMasterNodeData(CERT_NAME_KEY);
 }
