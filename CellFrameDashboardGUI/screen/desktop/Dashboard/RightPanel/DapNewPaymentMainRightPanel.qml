@@ -55,6 +55,12 @@ DapNewPaymentMainRightPanelForm
                 console.warn("An attempt to transfer tokens to your address.")
                 dapTextNotEnoughTokensWarning.text = qsTr("Error. An attempt to transfer tokens to your address.")
             }
+            else if (dapFeeController.currentValue === "")
+            {
+                console.warn("Need value of fee")
+                dapTextNotEnoughTokensWarning.text = qsTr("Need value of fee")
+            }
+
             else if (dapTextInputRecipientWalletAddress.text.length != 104 && dapTextInputRecipientWalletAddress.text != "null")
             {
                 console.log("Wrong address length")
@@ -89,11 +95,18 @@ DapNewPaymentMainRightPanelForm
                     case 0:
                         console.log("Correct tx data")
                         console.log("dapWalletMessagePopup.smartOpen")
-                        walletModule.stopUpdateFee()
-                        dapWalletMessagePopup.network = dapComboboxNetwork.displayText
-                        dapWalletMessagePopup.smartOpen(
-                                    qsTr("Confirming the transaction"),
-                                    qsTr("Attention, the transaction fee will be "))
+                        if(showNetFeePopup)
+                        {
+                            walletModule.stopUpdateFee()
+                            dapWalletMessagePopup.network = dapComboboxNetwork.displayText
+                            dapWalletMessagePopup.smartOpen(
+                                        qsTr("Confirming the transaction"),
+                                        qsTr("Attention, the transaction fee will be "))
+                        }
+                        else
+                        {
+                            dapWalletMessagePopup.signalAccept(true)
+                        }
                         break;
                     case 1:
                         console.warn("Rcv fee error")

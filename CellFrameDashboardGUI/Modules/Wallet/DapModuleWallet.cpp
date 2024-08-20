@@ -1,6 +1,7 @@
 #include "DapModuleWallet.h"
 #include <QStringList>
 #include "../DapTypes/DapCoin.h"
+#include "../DapTypes/DapExpConvert.h"
 
 DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
@@ -685,7 +686,7 @@ QVariantMap DapModuleWallet::getAvailableBalance(QVariantMap data)
     QString balanceDatoshi = balances.value("balanceSendDatoshi").toString();
 
     QVariant commission = mathWorker.sumCoins(fee.netFee["fee_datoshi"],
-                                              fee.validatorFee["median_fee_datoshi"],
+                                              DapExpConvert::coinsToDatoshi(m_userFee),
                                               false);
 
     if(!stringWorker.testAmount(balancePayFee, commission.toString()))
@@ -778,7 +779,7 @@ void DapModuleWallet::sendTx(QVariantMap data)
 {
     MathWorker mathWorker;
     QString net = data.value("network").toString();
-    QString feeDatoshi = m_feeInfo[net].validatorFee["median_fee_datoshi"];
+    QString feeDatoshi = DapExpConvert::coinsToDatoshi(m_userFee);
     QString amount = mathWorker.coinsToBalance(data.value("amount")).toString();
 
     QStringList listData;
@@ -893,7 +894,7 @@ QVariantMap DapModuleWallet::isCreateOrder(const QString& network, const QString
     if(feeInfo.validatorFee.contains("fee_ticker") && feeInfo.validatorFee.contains("median_fee_coins"))
     {
         valFeeTicker = feeInfo.validatorFee["fee_ticker"];
-        valFee = feeInfo.validatorFee["median_fee_coins"];
+        valFee = m_userFee;
     }
 
     if(!valFee.isEmpty() && valFee != "0.0")

@@ -62,6 +62,8 @@ public:
     Q_PROPERTY (int nodeLoadProgress READ nodeLoadProgress NOTIFY nodeLoadProgressChanged)
     int nodeLoadProgress(){return m_nodeLoadProgress;}
 
+    Q_INVOKABLE QString getMainTokenName(const QString& network) const;
+
 public slots:
     Q_INVOKABLE void updateListWallets();
     Q_INVOKABLE void updateListNetwork();
@@ -115,6 +117,14 @@ private:
     ConfigWorker *m_configWorker = nullptr;
 
     bool m_isNodeWorking = false;
+
+    const QMap<QString, QString> m_tokens = {{"Backbone", QString("CELL")},
+                                             {"KelVPN", QString("KEL")},
+                                             {"raiden", QString("tCELL")},
+                                             {"riemann", QString("tKEL")},
+                                             {"mileena", QString("tMIL")},
+                                             {"subzero", QString("tCELL")}};
+
 };
 
 #endif // DAPMODULESCONTROLLER_H
