@@ -191,3 +191,36 @@ QVariant MathWorker::balanceToCoins(QVariant balance)
     uint256_t convert =  dap_uint256_scan_uninteger(balance.toString().toStdString().data());
     return dap_chain_balance_to_coins(convert);
 }
+
+QString MathWorker::summDouble(const QString &value, const QString &step)
+{
+    // convert to double
+    bool ok1, ok2;
+    double valueNumber = value.toDouble(&ok1);
+    double stepNumber = step.toDouble(&ok2);
+    if (ok1 && ok2)
+    {
+        // get precision
+        QStringList strSplit;
+        int precision = 0;
+
+        strSplit = value.split(".");
+        if(strSplit.count() > 1)
+        {
+            precision = strSplit[1].length();
+        }
+        strSplit = step.split(".");
+        if(strSplit.count() > 1)
+        {
+            if(strSplit[1].length() > precision)  precision = strSplit[1].length();
+        }
+
+        // return summ
+        double summ = valueNumber + stepNumber;
+        return QString::number(summ,'f', precision);
+    }
+    else
+    {
+        return QString();
+    }
+}
