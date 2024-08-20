@@ -2,11 +2,14 @@
 
 NodePathManager::NodePathManager( QObject *parent)
     : QObject(parent)
-    , m_sharedMemory(m_keyName)
     , m_instMngr(new NodeInstallManager(true))
     , m_cfgToolCtrl(&NodeConfigToolController::getInstance())
+    , m_sharedMemory(m_keyName)
 {
-
+    connect(m_instMngr, &NodeInstallManager::singnalReadyUpdateToNode, [this] (bool isReady)
+    {
+        emit checkedUrlSignal(isReady);
+    });
 }
 
 NodePathManager &NodePathManager::getInstance()
@@ -39,6 +42,20 @@ void NodePathManager::init(QString target)
 QString NodePathManager::getUrlForNodeDownload()
 {
     return m_instMngr->getUrlForDownload();
+}
+
+QString NodePathManager::getNodeUrl(const QString& ver)
+{
+    if(ver.isEmpty())
+    {
+        return getUrlForNodeDownload();
+    }
+    return m_instMngr->getUrl(ver);
+}
+
+void NodePathManager::tryCheckUrl(const QString& url)
+{
+    m_instMngr->checkUpdateNode(url);
 }
 
 void NodePathManager::checkNeedDownload()

@@ -18,11 +18,10 @@ Item {
 
 
     readonly property var signatureKeyToViewName: ({
-                                               "sig_dil": qsTr("Crystal-Dylithium"),
+                                               "sig_dil": qsTr("Crystal-Dilithium"),
                                                "sig_bliss": qsTr("Bliss"),
                                                "sig_picnic": qsTr("Picnic"),
                                                "sig_falcon": qsTr("Falcon")
-                                               //"sig_tesla": qsTr("Tesla")*/
                                            })
 
 
