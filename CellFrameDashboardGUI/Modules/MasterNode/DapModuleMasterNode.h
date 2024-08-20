@@ -104,6 +104,8 @@ public:
     Q_INVOKABLE bool tryGetInfoCertificate(const QString& filePath);
     Q_INVOKABLE void clearCertificate();
 
+    Q_INVOKABLE QString getMasterNodeCertName();
+
     Q_PROPERTY(QString certName READ getCertName NOTIFY certNameChanged)
     QString getCertName() const {return m_certName;}
     void setCertName(const QString& name);
@@ -128,6 +130,7 @@ public:
     Q_INVOKABLE void moveCertificate(const QString& path = "");
     Q_INVOKABLE void moveWallet(const QString& path = "");
 
+    Q_INVOKABLE void createStakeOrderForMasterNode(const QString& fee, const QString& certName);
     Q_INVOKABLE bool isUploadCertificate();
     Q_INVOKABLE QList<int> getFullStepsLoader() const;
     Q_INVOKABLE void stopAndClearRegistration();
@@ -159,6 +162,8 @@ signals:
 
     void certMovedSignal(const int numMessage);
     void walletMovedSignal(const int numMessage);
+
+    void createdStakeOrder(const bool& result);
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
     void nodeRestart();
@@ -290,4 +295,6 @@ private:
     const QString STAKE_VALUE_KEY = "stakeValue";
     const QString STAKE_TOKEN_KEY = "stakeToken";
     const QString STAKE_FEE_KEY = "stakeFee";
+
+    const QString MASTER_NODE_KEY = "master_node";
 };
