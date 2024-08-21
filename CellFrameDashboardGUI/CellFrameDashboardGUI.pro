@@ -224,5 +224,3 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
 
-LIBS += /home/build_linux_release/build/CellFrameDashboardService/../cellframe-sdk/build_linux_release/dist//lib/dap/crypto/libdap-XKCP-x8664-native.a
-
