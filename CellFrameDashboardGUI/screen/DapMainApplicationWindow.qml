@@ -823,6 +823,7 @@ Rectangle {
             console.log("onSignalIsNeedInstallNode", isNeed, url)
             if(isNeed)
             {
+                settingsModule.nodeUpdateType = 5
                 if(settingsModule.getUrlUpload() === "")
                 {
                     isHasNeedUpdateNode = true;

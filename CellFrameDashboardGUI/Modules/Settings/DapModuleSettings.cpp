@@ -176,11 +176,12 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
     }
 }
 
-void DapModuleSettings::setNodeUpdateType(const nodeUpdateType type)
+void DapModuleSettings::setNodeUpdateType(int type)
 {
-    if(m_nodeUpdateType != type)
+    nodeUpdateType tmpType = static_cast<nodeUpdateType>(type);
+    if(m_nodeUpdateType != tmpType)
     {
-        m_nodeUpdateType = type;
+        m_nodeUpdateType = tmpType;
         emit nodeUpdateTypeChanged();
     }
 }
