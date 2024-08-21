@@ -15,7 +15,7 @@ stages:
   dependencies: []
 
 .publish:
-  extends: .deploy
+  image: demlabs/debian/amd64:qt5
   stage: publish
   allow_failure: true
 
