@@ -61,6 +61,7 @@ public:
 
     Q_PROPERTY (int nodeLoadProgress READ nodeLoadProgress NOTIFY nodeLoadProgressChanged)
     int nodeLoadProgress(){return m_nodeLoadProgress;}
+    void setNodeLoadProgress(int progress);
 
 public slots:
     Q_INVOKABLE void updateListWallets();
@@ -86,6 +87,8 @@ signals:
     void nodeLoadProgressChanged();
 private:
     void updateNetworkListModel();
+
+    void cleareProgressInfo();
 private:
 
     //Modules
