@@ -60,7 +60,7 @@ arm64:debian:
 
 amd64:windows:
     extends: .build
-    image: demlabs/amd64/debian-bullseye:windowsbuilder
+    image: demlabs/windows/amd64:qt5
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script:
       - ./prod_build/build.sh --target windows release
