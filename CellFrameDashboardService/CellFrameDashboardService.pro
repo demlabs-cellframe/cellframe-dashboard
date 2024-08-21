@@ -8,15 +8,10 @@ win32 {
 }
 
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
-#android {
-#    QT += core androidextras
-#    TEMPLATE = lib
-#    CONFIG += dll
-#    TARGET = DashboardService
-#}
 
 INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$SDK_INSTALL_PATH/include/dap/crypto/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP \
                 $$SDK_INSTALL_PATH/include/dap/net/client/ \
                 $$SDK_INSTALL_PATH/include/dap/io/ \
                 $$SDK_INSTALL_PATH/include/dap/net/server/enc_server/ \
@@ -45,6 +40,7 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
@@ -54,16 +50,7 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
 LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
 LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 
-#include (../dap-ui-sdk/crypto/libdap-qt-crypto.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
-#include (../dap-ui-sdk/stream/libdap-qt-stream.pri)
-#include (../dap-ui-sdk/vpn/common/libdap-qt-vpn-common.pri)
-#include (../dap-ui-sdk/vpn/client/libdap-qt-vpn-client.pri)
-#include (../dap-ui-sdk/vpn/client/DapStateMachine/dap-state-machine.pri)
-#include (../dap-ui-sdk/vpn/client/DapCmdHandlers/dap-cmd-handlers.pri)
-
-#include (../cellframe-ui-sdk/stream/ch/chain/net/srv/libdap-qt-stream-ch-chain-net-srv.pri)
-#include (../cellframe-ui-sdk/stream/ch/chain/net/srv/vpn/libdap-qt-stream-ch-chain-net-srv-vpn.pri)
 
 include(../NodeConfigManager/NodeConfigManager.pri)
 
@@ -145,12 +132,6 @@ win32: nsis_build {
     DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32/)
 }
 
-#android {
-#    TEMPLATE = lib
-#    CONFIG += dll
-#    QT += androidextras
-#    TARGET = DashboardService
-#}
 
 linux-* {
     share_target.files = $$PWD/../os/debian/share/
