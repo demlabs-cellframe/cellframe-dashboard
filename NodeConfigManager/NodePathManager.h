@@ -35,6 +35,7 @@ public:
     void checkNeedDownload();
 
     void init(QString target);
+    void fillNodePath();
 
     struct NodePaths{
         QString nodeDirPath = "";
@@ -81,9 +82,6 @@ private:
     void checkNodeDir(QString oldPath, QString newPath);
 
     QString getNodeNewBinaryPath();
-
-    void fillNodePath();
-
 
 signals:
     Q_INVOKABLE void signalIsNeedInstallNode(bool isNeed, QString url);

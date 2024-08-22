@@ -199,7 +199,7 @@ void NodePathManager::fillNodePath()
 
 #elif defined (Q_OS_WIN)
 
-    checkNodeDir("./cellframe-node.exe",
+    checkNodeDir("",
                  getNodeNewBinaryPath());
 
 #elif defined Q_OS_ANDROID
@@ -251,7 +251,7 @@ QString NodePathManager::getNodeNewBinaryPath(){
 
     if(QString::fromWCharArray(path.c_str()).isEmpty())
     {
-        return "./cellframe-node.exe";
+        return "";
     }
     else
     {

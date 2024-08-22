@@ -50,9 +50,6 @@ public:
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
 
-    QString nodeCliPath{""};
-    QString nodeToolPath{""};
-
 private:
     void initServices();
     void initAdditionalParamrtrsService();
@@ -61,6 +58,9 @@ signals:
     void onNewClientConnected();
     void onClientDisconnected();
     void onServiceStarted();
+
+    void nodeCLIPathChanged(const QString& path);
+    void nodeToolPathChanged(const QString& path);
 private slots:
     void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
@@ -68,6 +68,8 @@ private slots:
     void sendConnectRequest(QString site, int index);
     void sendUpdateHistory(const QVariant&);
     void sendUpdateWallets(const QVariant&);
+
+    void tryCheckPathNode();
 private:
     /// Service core.
     DapUiService        *m_pServer {nullptr};
@@ -81,6 +83,13 @@ private:
     QList<QThread*> m_threadPool;
     QThread* m_threadNotify;
     QList<DapRpcService*> m_servicePool;
+
+    QTimer* m_testPathTimer = nullptr;
+
+    QString m_nodeCliPath{""};
+    QString m_nodeToolPath{""};
+
+    const int TIMEOUT_TEST_PUTH = 2000;
 
     QSet<QString> m_onceThreadList = { "DapCreateTransactionCommand"
                                     ,"DapXchangeOrderCreate"
