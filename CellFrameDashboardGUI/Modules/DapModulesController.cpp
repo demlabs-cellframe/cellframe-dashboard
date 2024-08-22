@@ -215,6 +215,7 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
 
     int value = total / (m_networksLoadProgress.count() * countChain);
 
+    qDebug() << "[DapModulesController] -net "<< net << " \tprogress: " << progress << " \tchain: " << chain << " \ttotal: " << total << " \t new value: " << value << " \told value: " << m_nodeLoadProgress;
     if(value > m_nodeLoadProgress)
     {
         setNodeLoadProgress(value);
@@ -223,7 +224,6 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
 
 void DapModulesController::setNodeLoadProgress(int progress)
 {
-    qDebug() << "[DapModulesController] [setNodeLoadProgress] [ProgressInfo] Current node progress: " << progress << " old value: " << m_nodeLoadProgress;
     m_nodeLoadProgress = progress;
     emit nodeLoadProgressChanged();
 }
