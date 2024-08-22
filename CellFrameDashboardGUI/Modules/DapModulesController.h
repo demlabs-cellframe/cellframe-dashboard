@@ -107,7 +107,7 @@ private:
     bool m_firstDataLoad{false}; 
     QStringList m_netList;
 
-    QMap<QString, int> m_networksLoadProgress;
+    QMap<QString, QMap<int, int>> m_networksLoadProgress;
     QJsonArray nodeLoadProgressJson;
     int m_nodeLoadProgress = 0;
 
