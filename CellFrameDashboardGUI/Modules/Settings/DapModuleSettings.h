@@ -9,6 +9,16 @@
 class DapModuleSettings : public DapAbstractModule
 {
     Q_OBJECT
+
+    enum nodeUpdateType
+    {
+        NONE = 0,
+        EQUAL,
+        LESS,
+        MORE,
+        UPDATE,
+        DOWNLOAD
+    };
 public:
     explicit DapModuleSettings(DapModulesController * modulesCtrl);
     ~DapModuleSettings();
@@ -31,10 +41,18 @@ public:
     Q_PROPERTY(bool isNodeAutorun READ isNodeAutorun NOTIFY isNodeAutorunChanged)
     Q_INVOKABLE bool isNodeAutorun(){return m_isNodeStarted;}
 
+    Q_PROPERTY(int nodeUpdateType READ getNodeUpdateType WRITE setNodeUpdateType NOTIFY nodeUpdateTypeChanged)
+    int getNodeUpdateType(){return static_cast<int>(m_nodeUpdateType);}
+    void setNodeUpdateType(int type);
+
     Q_INVOKABLE void checkVersion();
     Q_INVOKABLE void guiVersionRequest();
 
     Q_INVOKABLE void clearNodeData();
+
+    Q_INVOKABLE void setNeedDownloadNode();
+    Q_INVOKABLE QString getMaxNodeVersion() {return QString(MAX_NODE_VERSION);}
+    Q_INVOKABLE QString getUrlUpload();
 public:
     QString m_nodeVersion{""};
     QString m_dashboardVersion{DAP_VERSION};
@@ -52,9 +70,14 @@ signals:
     void clearDataProcessingChanged();
     void isNodeStartedChanged();
     void isNodeAutorunChanged();
+    void nodeUpdateTypeChanged();
 
     void resultNodeRequest(QString);
     void errorNodeRequest(QString);
+
+    void needNodeUpdateSignal();
+
+    void nodeUrlUpdated();
 private slots:
     void rcvVersionInfo(const QVariant& result);
     void timeoutVersionInfo();
@@ -67,6 +90,7 @@ private:
     void setNodeStatus(bool isStart);
     void setNodeAutorun(bool isEnable);
 
+    void updateUrlUpdateNode();
 private:
     DapModulesController  *m_modulesCtrl;
     QTimer *m_timerVersionCheck;
@@ -74,6 +98,10 @@ private:
 
     bool m_isNodeStarted = true;
     bool m_isNodeAutoRun = true;
+
+    nodeUpdateType m_nodeUpdateType = nodeUpdateType::NONE;
+
+    QString m_urlUpdateNode;
 
     const QString SETTINGS_NODE_ENABLE_KEY = "nodeEnable";
 

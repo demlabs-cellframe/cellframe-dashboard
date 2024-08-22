@@ -61,6 +61,7 @@ public:
 
     Q_PROPERTY (int nodeLoadProgress READ nodeLoadProgress NOTIFY nodeLoadProgressChanged)
     int nodeLoadProgress(){return m_nodeLoadProgress;}
+    void setNodeLoadProgress(int progress);
 
     Q_INVOKABLE bool isFirstLaunch() { return m_lastProgress == 0; }
 
@@ -88,6 +89,8 @@ signals:
     void nodeLoadProgressChanged();
 private:
     void updateNetworkListModel();
+
+    void cleareProgressInfo();
 private:
 
     //Modules
@@ -106,7 +109,7 @@ private:
     bool m_firstDataLoad{false}; 
     QStringList m_netList;
 
-    QMap<QString, int> m_networksLoadProgress;
+    QMap<QString, QMap<int, int>> m_networksLoadProgress;
     QJsonArray nodeLoadProgressJson;
     int m_nodeLoadProgress = 0;
     // Need to know it was first launch or restore after reboot node

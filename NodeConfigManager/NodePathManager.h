@@ -58,6 +58,9 @@ public:
     NodeConfigToolController *m_cfgToolCtrl;
 
     QString getNodeConfigPath();
+    QString getNodeUrl(const QString& ver = "");
+
+    void tryCheckUrl(const QString& url);
 private:
     QSharedMemory m_sharedMemory;
     bool m_initMemFlag{false};
@@ -85,6 +88,7 @@ private:
 signals:
     Q_INVOKABLE void signalIsNeedInstallNode(bool isNeed, QString url);
 
+    void checkedUrlSignal(bool check);
 public slots:
     void slotCheckUpdateNode(QString currentNodeVersion);
 //    void slotBreakInstallNode();

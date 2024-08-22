@@ -328,7 +328,7 @@ QString DapModuledApps::pkeyHash(QString &path)
     }
 
     dap_chain_hash_fast_t l_hash_cert_pkey;
-    dap_hash_fast(fileData.constData(), fileData.size(), &l_hash_cert_pkey);
+    //dap_hash_fast(fileData.constData(), fileData.size(), &l_hash_cert_pkey);
     char *l_cert_pkey_hash_str = dap_chain_hash_fast_to_str_new(&l_hash_cert_pkey);
     QString ret = QString::fromLatin1(l_cert_pkey_hash_str);
     DAP_DEL_Z(l_cert_pkey_hash_str)
