@@ -1,4 +1,5 @@
 #include "NodePathManager.h"
+#include <QCoreApplication>
 
 NodePathManager::NodePathManager( QObject *parent)
     : QObject(parent)
@@ -251,7 +252,15 @@ QString NodePathManager::getNodeNewBinaryPath(){
 
     if(QString::fromWCharArray(path.c_str()).isEmpty())
     {
-        return "./cellframe-node.exe";
+        QString nodePath = QCoreApplication::applicationDirPath() + "/cellframe-node.exe";
+        QFileInfo fileNode(nodePath);
+        
+        if(fileNode.exists())
+        {
+            return nodePath;
+        }
+        
+        return "C:/Program Files/cellframe-node";
     }
     else
     {
