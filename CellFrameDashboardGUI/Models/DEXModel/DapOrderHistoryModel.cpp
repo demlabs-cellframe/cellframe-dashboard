@@ -133,6 +133,7 @@ void DapOrderHistoryModel::updateModel(const QList<DEX::Order> &data)
             tmpItem.rateOrigin = item.rateOrigin;
             m_items.append(std::move(tmpItem));
         }
+        qDebug() << "[DapOrderHistoryModel] updateModel. new size: " << m_items.size();
     }
     endResetModel();
 }
