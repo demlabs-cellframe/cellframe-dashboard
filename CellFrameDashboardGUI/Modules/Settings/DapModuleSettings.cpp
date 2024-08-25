@@ -33,6 +33,7 @@ void DapModuleSettings::updateUrlUpdateNode()
             {
                 QString ver = isReady ? QString(MAX_NODE_VERSION) : "";
                 m_urlUpdateNode = NodePathManager::getInstance().getNodeUrl(ver);
+                m_isNodeUrlUpdated = true;
                 emit nodeUrlUpdated();
             });
 

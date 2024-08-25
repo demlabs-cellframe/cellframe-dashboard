@@ -11,6 +11,7 @@ DapMessagePopup {
 
 //    property alias currentVersion: currentVersion
 //    property alias lastVersion: lastVersion
+    property bool isCheckLayout: true
     property alias dapButtonOk: buttonOk
     property alias dapButtonCancel: buttonCancel
 
@@ -83,6 +84,58 @@ DapMessagePopup {
 
         RowLayout
         {
+            id: checkLayout
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 32
+            anchors.rightMargin: 32
+            anchors.leftMargin: 32
+            spacing: 10
+            visible: isCheckLayout && !settingsModule.isNodeUrlUpdated
+
+            Item {
+                Layout.fillWidth: true
+            }
+            Image
+            {
+                id: loadImage
+                mipmap: true
+                source: "qrc:/Resources/" + pathTheme + "/icons/other/loader_orange.svg"
+                width: 24
+                height: 24
+
+                RotationAnimator
+                {
+                    target: loadImage
+                    from: 0
+                    to: 360
+                    duration: 1000
+                    loops: Animation.Infinite
+                    running: true
+
+                    onStopped: {
+                        loadImage.rotation = 0;
+                    }
+                }
+            }
+
+            Text
+            {
+                text: qsTr("Checking the node link.")
+                color: currTheme.white
+                font: mainFont.dapFont.regular14
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+        }
+
+        RowLayout
+        {
             id: buttonLayout
 
             anchors.left: parent.left
@@ -92,6 +145,7 @@ DapMessagePopup {
             anchors.rightMargin: 32
             anchors.leftMargin: 32
             spacing: 10
+            visible: isCheckLayout && settingsModule.isNodeUrlUpdated
 
             DapButton
             {
