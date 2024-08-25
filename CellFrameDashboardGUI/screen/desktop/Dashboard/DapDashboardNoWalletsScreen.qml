@@ -51,6 +51,8 @@ Page
 
                     id: addWalletButton
 
+                    enabled: modulesController.isNodeWorking
+
                     implicitWidth: 184
                     implicitHeight: 36
                     textButton: qsTr("Create wallet")
@@ -74,7 +76,8 @@ Page
                     Text
                     {
                         font: mainFont.dapFont.medium14
-                        color: area.containsMouse ? currTheme.orange
+                        color: !modulesController.isNodeWorking ? currTheme.gray
+                                                  : area.containsMouse ? currTheme.orange
                                                   : currTheme.lime
                         text: qsTr("Import")
 
@@ -82,6 +85,7 @@ Page
                             id: area
                             anchors.fill: parent
                             hoverEnabled: true
+                            enabled: modulesController.isNodeWorking
                             onClicked: navigator.restoreWalletFunc()
                         }
                     }

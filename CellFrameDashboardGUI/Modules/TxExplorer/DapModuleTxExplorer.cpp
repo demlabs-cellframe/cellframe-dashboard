@@ -127,16 +127,16 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
               });
     m_historyModel->updateModel(std::move(resultList));
 
-        setStatusInit(true);
+    setStatusInit(true);
 
     emit updateHistoryModel();
-
 }
 
 void DapModuleTxExplorer::clearHistory()
 {
     m_historyModel->clear();
     setStatusInit(false);
+    m_historyByteArray->clear();
 }
 
 void DapModuleTxExplorer::setWalletName(QString str)
