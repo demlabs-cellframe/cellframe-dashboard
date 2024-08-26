@@ -360,12 +360,11 @@ Rectangle {
             showTab: true,
             page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
 
-            /// NEW MASTER NODE TAB
-    //    append ({ tag: "Master Node",
-    //            name: qsTr("Master Node"),
-    //            bttnIco: "icon_master_node.svg",
-    //            showTab: true,
-    //            page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
+       append ({ tag: "Master Node",
+            name: qsTr("Master Node"),
+            bttnIco: "icon_master_node.svg",
+            showTab: true,
+            page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
 
         append ({ tag: "Settings",
             name: qsTr("Settings"),
