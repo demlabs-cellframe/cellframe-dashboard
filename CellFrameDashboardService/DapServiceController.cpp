@@ -343,21 +343,7 @@ void DapServiceController::initServices()
     for(auto& service: qAsConst(m_servicePool))
     {
         DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);
-        if(serviceCommand->isNeedListNetworks())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, serviceCommand, &DapAbstractCommand::rcvListNetworks);
-        }
-
-        if(serviceCommand->isNeedListWallets())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, serviceCommand, &DapAbstractCommand::rcvListWallets);
-        }
-
-        if(serviceCommand->isNeedFee())
-        {
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeUpdated, serviceCommand, &DapAbstractCommand::rcvFee);
-            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeClear, serviceCommand, &DapAbstractCommand::rcvFeeClear);
-        }
+        serviceCommand->setRegularController(m_reqularRequestsCtrl);
 
         if(m_onceThreadList.contains(service->getName()))
         {
