@@ -4,7 +4,7 @@ NodeInstallManager::NodeInstallManager(bool flag_RK, QObject *parent)
     : QObject(parent)
     , m_networkManager(new QNetworkAccessManager())
 {
-    QString branch = flag_RK ? "release-5.3" : "master";
+    QString branch = "master";
 
     QString procArch = QSysInfo::currentCpuArchitecture();
     QString latest = "latest-"+procArch;
