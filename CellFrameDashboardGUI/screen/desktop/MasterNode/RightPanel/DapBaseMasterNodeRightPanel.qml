@@ -145,7 +145,7 @@ Rectangle
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
-            visible: isMasterNode
+            visible: false//isMasterNode
             onClicked:
             {
             }
@@ -159,7 +159,7 @@ Rectangle
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
-            visible: isMasterNode
+            visible: false//isMasterNode
             onClicked:
             {
             }

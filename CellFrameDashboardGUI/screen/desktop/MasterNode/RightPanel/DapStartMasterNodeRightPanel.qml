@@ -502,11 +502,12 @@ DapRectangleLitAndShaded
                 Image
                 {
                     id: stakeInfoIcon
+                    visible: false
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 15
                     height: 16
-                    width: 16
+                    width: 0 //16
                     mipmap: true
                     source: "qrc:/Resources/BlackTheme/icons/other/ic_infoGray.svg"
                 }
