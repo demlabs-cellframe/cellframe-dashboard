@@ -181,7 +181,17 @@ void NodePathManager::checkNodeDir(QString oldPath, QString newPath)
         if(newfileNode.exists())
             nodePaths.nodeInstallType = NewInstall;
         else
+        {
             nodePaths.nodeInstallType = NoInstall;
+
+            #ifdef Q_OS_WIN
+            QString dir_hard = "C:\\Program Files\\cellframe-node";
+            nodePaths.nodeDirPath     = dir_hard;
+            nodePaths.nodePath        = dir_hard + separator + "cellframe-node" + suffix;
+            nodePaths.nodePath_cli    = dir_hard + separator + "cellframe-node-cli" + suffix;
+            nodePaths.nodePath_tool   = dir_hard + separator + "cellframe-node-tool" + suffix;
+            #endif
+        }
     }
 }
 
