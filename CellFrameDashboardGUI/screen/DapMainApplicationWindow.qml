@@ -121,7 +121,16 @@ Rectangle {
             if(accept)
             {
                 console.log("Try download node. url: ", settingsModule.getUrlUpload())
-                Qt.openUrlExternally(settingsModule.getUrlUpload());
+
+                //TODO: It is necessary to find out the reason for the crash in the absence of a browser. This may have been fixed in QT 6.7.
+                try
+                {
+                    Qt.openUrlExternally(settingsModule.getUrlUpload());
+                }
+                catch(error)
+                {
+                    console.log("ХХХХХ ---- An unforeseen situation has arisen. There are probably problems in the OS with browser settings. ----- ХХХХХ", error)
+                }
             }
         }
     }

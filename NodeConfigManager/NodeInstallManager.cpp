@@ -67,7 +67,7 @@ void NodeInstallManager::checkUpdateNode(const QString& url)
     //todo: this func receive install-pack name and fill m_fileName
     QNetworkRequest request;
     request.setUrl(QUrl(url));
-
+    qDebug() << "[Test url] Try check url. URL: " << url;
     QNetworkReply *reply = m_networkManager->get(request);
     connect(reply, &QNetworkReply::finished, this, &NodeInstallManager::onGetFileName);
 }
@@ -75,9 +75,10 @@ void NodeInstallManager::checkUpdateNode(const QString& url)
 void NodeInstallManager::onGetFileName()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-
+    auto url = reply->url();
     if (reply->error() == QNetworkReply::NoError)
     {
+        qDebug() << "[Test url] Check url, no errors. URL: " << url;
         QByteArray content = reply->readAll();
         QTextCodec *codec = QTextCodec::codecForName("utf8");
         QString str = codec->toUnicode(content.data());
@@ -90,6 +91,7 @@ void NodeInstallManager::onGetFileName()
     }
     else
     {
+        qDebug() << "[Test url] Check url, Have a error. URL: " << url;
         qWarning()<<reply->errorString();
         m_fileName = "";
 
