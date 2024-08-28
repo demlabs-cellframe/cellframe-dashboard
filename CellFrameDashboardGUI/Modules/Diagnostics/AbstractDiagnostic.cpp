@@ -401,13 +401,14 @@ void AbstractDiagnostic::write_data()
 
     QNetworkAccessManager * mgr = new QNetworkAccessManager();
 
-    connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
-    {
-        if(QNetworkReply::NetworkError::NoError !=  r->error())
-        {
-            qWarning() << "data sent " << urls << " " << r->error();
-        }
-    });
+    //TODO: Crash on r ptr
+//    connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
+//    {
+//        if(QNetworkReply::NetworkError::NoError !=  r->error())
+//        {
+//            qWarning() << "data sent " << urls << " " << r->error();
+//        }
+//    });
     connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,  SLOT(deleteLater()));
 
     auto req = QNetworkRequest(url);
