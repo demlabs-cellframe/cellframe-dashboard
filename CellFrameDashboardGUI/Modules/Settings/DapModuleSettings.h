@@ -41,9 +41,12 @@ public:
     Q_PROPERTY(bool isNodeAutorun READ isNodeAutorun NOTIFY isNodeAutorunChanged)
     Q_INVOKABLE bool isNodeAutorun(){return m_isNodeStarted;}
 
-    Q_PROPERTY(int nodeUpdateType READ getNodeUpdateType NOTIFY nodeUpdateTypeChanged)
+    Q_PROPERTY(bool isNodeUrlUpdated READ getNodeUrlUpdated NOTIFY nodeUrlUpdated)
+    Q_INVOKABLE bool getNodeUrlUpdated(){return m_isNodeUrlUpdated;}
+
+    Q_PROPERTY(int nodeUpdateType READ getNodeUpdateType WRITE setNodeUpdateType NOTIFY nodeUpdateTypeChanged)
     int getNodeUpdateType(){return static_cast<int>(m_nodeUpdateType);}
-    void setNodeUpdateType(const nodeUpdateType type);
+    void setNodeUpdateType(int type);
 
     Q_INVOKABLE void checkVersion();
     Q_INVOKABLE void guiVersionRequest();
@@ -98,6 +101,8 @@ private:
 
     bool m_isNodeStarted = true;
     bool m_isNodeAutoRun = true;
+
+    bool m_isNodeUrlUpdated = false;
 
     nodeUpdateType m_nodeUpdateType = nodeUpdateType::NONE;
 

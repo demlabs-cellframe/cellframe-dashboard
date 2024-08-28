@@ -25,7 +25,7 @@ public:
     QString getUrl(const QString& ver);
 
 private slots:
-    void onGetFileName();
+    void onGetFileName(QNetworkReply *reply);
 
 signals:
     void singnalReadyUpdateToNode(bool ready);

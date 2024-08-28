@@ -248,6 +248,7 @@ Item
     Rectangle
     {
         id: secondInfoHeader
+        visible: false
         height: 42
         anchors.left: parent.left
         anchors.right: parent.right
@@ -334,6 +335,7 @@ Item
     ListView
     {
         id: secondInfoBody
+        visible: false
         height: contentHeight
         anchors.top: secondInfoHeader.bottom
         anchors.left: parent.left

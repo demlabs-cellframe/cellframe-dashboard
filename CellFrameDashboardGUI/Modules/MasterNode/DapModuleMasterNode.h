@@ -101,7 +101,7 @@ public:
     Q_PROPERTY(QVariantMap validatorData READ validatorData NOTIFY validatorDataChanged)
     QVariantMap validatorData() const;
 
-    Q_INVOKABLE bool tryGetInfoCertificate(const QString& filePath);
+    Q_INVOKABLE bool tryGetInfoCertificate(const QString& filePath, const QString &type = "private");
     Q_INVOKABLE void clearCertificate();
 
     Q_INVOKABLE QString getMasterNodeCertName();
@@ -201,7 +201,7 @@ private:
     void createCertificate();
     void getInfoCertificate();
     
-    void dumpCertificate();
+    void dumpCertificate(const QString &type);
     void getHashCertificate(const QString& certName);
     void tryStopCreationMasterNode(int code, const QString &message = "");
     void addNode();
@@ -295,6 +295,8 @@ private:
     const QString STAKE_VALUE_KEY = "stakeValue";
     const QString STAKE_TOKEN_KEY = "stakeToken";
     const QString STAKE_FEE_KEY = "stakeFee";
+
+    const QString CERT_LOGIC_KEY = "certLogic";
 
     const QString MASTER_NODE_KEY = "master_node";
 };

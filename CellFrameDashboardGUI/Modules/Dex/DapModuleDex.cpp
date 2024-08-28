@@ -646,6 +646,11 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
         QString walletName = m_modulesCtrl->getCurrentWalletName();
         QString amountOrder = checkValue(amount);
         QString feeOrder = checkValue(fee);
+        if(feeOrder == "0.0")
+        {
+            qWarning() << "[DapModuleDex] The validator's commission is zero. Valur: " << fee;
+            feeOrder = "0.05";
+        }
         QString priceOrder = checkValue(price);
 
         auto& model = m_ordersModel->getListModel();

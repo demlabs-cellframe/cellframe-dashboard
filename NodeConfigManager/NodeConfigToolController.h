@@ -25,6 +25,9 @@ public:
     Q_INVOKABLE bool statusServiceNode(){return m_statusServiceNode;}
     Q_INVOKABLE bool statusProcessNode(){return m_statusProcessNode;}
 
+    /// status on|off|all
+    Q_INVOKABLE QStringList getConfigNetworkList(const QString& status = "on");
+
     bool m_statusServiceNode{false};
     bool m_statusProcessNode{false};
     bool m_statusInitConfTool{false};

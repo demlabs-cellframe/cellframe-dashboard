@@ -23,7 +23,6 @@ public:
 
 signals:
     void updateHistoryModel();
-    void historyMore15Changed(bool flag);
 
 private slots:
     void slotHistoryUpdate();

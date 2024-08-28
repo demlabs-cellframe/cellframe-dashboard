@@ -108,6 +108,7 @@ bool OrdersHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex
 void OrdersHistoryProxyModel::setFilterSide(const QString& type)
 {
     Q_ASSERT_X(m_typeOrderStrToType.contains(type), "setTypeOrderFilter", "There is no such type of orders");
+    qDebug() << "[OrdersHistoryProxyModel] setFilterSide filter: " << type;
     m_typeOrder = m_typeOrderStrToType[type];
     invalidateFilter();
     emit isSellFilterChanged();
@@ -116,6 +117,7 @@ void OrdersHistoryProxyModel::setFilterSide(const QString& type)
 void OrdersHistoryProxyModel::setAffilationOrderFilter(const QString& type)
 {
     Q_ASSERT_X(m_typeAffilationOrderStrToType.contains(type), "setAffilationOrderFilter", "There is no such type of orders");
+    qDebug() << "[OrdersHistoryProxyModel] setAffilationOrderFilter filter: " << type;
     m_affilationOrder = m_typeAffilationOrderStrToType[type];
     invalidateFilter();
 }
@@ -123,12 +125,14 @@ void OrdersHistoryProxyModel::setAffilationOrderFilter(const QString& type)
 void OrdersHistoryProxyModel::setPeriodOrderFilter(const QString& period)
 {
     Q_ASSERT_X(m_periodContainer.contains(period), "setPeriodOrderFilter", "There is no such period of orders");
+    qDebug() << "[OrdersHistoryProxyModel] setPeriodOrderFilter filter: " << period;
     m_period = m_periodContainer[period];
     invalidateFilter();
 }
 
 void OrdersHistoryProxyModel::setNetworkOrderFilter(const QString& network)
 {
+    qDebug() << "[OrdersHistoryProxyModel] setNetworkOrderFilter filter: " << network;
     if(network == "All")
     {
         m_network.clear();
@@ -142,6 +146,7 @@ void OrdersHistoryProxyModel::setNetworkOrderFilter(const QString& network)
 
 void OrdersHistoryProxyModel::setPairAndNetworkOrderFilter(const QString& pair, const QString& network)
 {
+    qDebug() << "[OrdersHistoryProxyModel] setPairAndNetworkOrderFilter filter pair: " << pair << " \tnetwork: " << network;
     if(network == "All")
     {
         m_network.clear();
@@ -174,6 +179,13 @@ void OrdersHistoryProxyModel::setOrderFilter(const QString& type, const QString&
     Q_ASSERT_X(m_periodContainer.contains(period), "setPeriodOrderFilter", "There is no such period of orders");
     m_period = m_periodContainer[period];
 
+    qDebug() << "[OrdersHistoryProxyModel] setOrderFilter filter type: " << type
+             << " \taffilation: " << affilation
+             << " \tstatus: " << status
+             << " \tperiod: " << period
+             << " \tpair: " << pair
+             << " \tnetwork: " << network;
+
     emit isSellFilterChanged();
     //TODO: These parameters are still fixed and we do not touch them with a general change.
 //    if(pair == "All pairs")
@@ -198,12 +210,14 @@ void OrdersHistoryProxyModel::setOrderFilter(const QString& type, const QString&
 
 void OrdersHistoryProxyModel::setIsRegularType(bool isRegular)
 {
+    qDebug() << "[OrdersHistoryProxyModel] setIsRegularType filter: " << isRegular;
     m_isRegular = isRegular;
     invalidateFilter();
 }
 
 void OrdersHistoryProxyModel::setCurrentTokenPair(const QString& tokenSell, const QString& tokenBuy)
 {
+    qDebug() << "[OrdersHistoryProxyModel] setCurrentTokenPair filter tokenSell: " << tokenSell << " \ttokenBuy: " << tokenBuy;
     m_tokenSell = tokenSell;
     m_tokenBuy = tokenBuy;
     invalidateFilter();

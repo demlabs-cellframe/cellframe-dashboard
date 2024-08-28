@@ -157,6 +157,7 @@ DapRectangleLitAndShaded
                 var fee = feeController.currentValue
                 var cert = comboboxCert.displayText
                 nodeMasterModule.createStakeOrderForMasterNode(fee, cert)
+                dapRightPanel.pop()
             }
         }
     }

@@ -78,7 +78,7 @@ DapRectangleLitAndShaded
         {
 //            anchors.fill: parent
             width: scrollView.width
-            spacing: 20
+            spacing: 0
 
             /// Certificate
             Rectangle
@@ -112,6 +112,11 @@ DapRectangleLitAndShaded
                     name: qsTr("Upload certificate")
                     techName: "uploadCertificate"
                 }
+                ListElement
+                {
+                    name: qsTr("Select existing certificate")
+                    techName: "existingCertificate"
+                }
             }
 
             DapCustomComboBox
@@ -120,6 +125,8 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 20
                 Layout.rightMargin: 25
+                Layout.topMargin: 8
+                Layout.bottomMargin: 8
                 height: 40
                 font: mainFont.dapFont.regular16
                 backgroundColorShow: currTheme.secondaryBackground
@@ -139,7 +146,7 @@ DapRectangleLitAndShaded
                 Text
                 {
                     color: currTheme.white
-                    text: qsTr("Create new certificate")
+                    text: certificateLogic === "existingCertificate" ? qsTr("Select existing certificate") : qsTr("Create new certificate")
                     font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
@@ -152,7 +159,7 @@ DapRectangleLitAndShaded
             {
                 id: newCertRect
                 Layout.fillWidth: true
-                height: 90
+                height: 113
                 color: currTheme.secondaryBackground
 
                 visible: certificateLogic === "newCertificate"
@@ -165,6 +172,7 @@ DapRectangleLitAndShaded
                     anchors.top: parent.top
                     anchors.leftMargin: 30
                     anchors.rightMargin: 30
+                    anchors.topMargin: 10
                     placeholderText: qsTr("Enter certificate name")
                     height: 30
 
@@ -173,21 +181,22 @@ DapRectangleLitAndShaded
                     horizontalAlignment: Text.AlignLeft
 
                     bottomLineVisible: true
-                    bottomLineSpacing: 6
+                    bottomLineSpacing: 5
                     bottomLineLeftRightMargins: 7
 
                     selectByMouse: true
                     DapContextMenu{}
                 }
 
-                DapCertificatesComboBox{
+                DapCertificatesComboBox
+                {
                     id: typeCertificateCombobox
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.top: newCertificateName.bottom
+                    anchors.bottom: parent.bottom
                     anchors.leftMargin: 20
                     anchors.rightMargin: 25
-                    anchors.topMargin: 20
+                    anchors.bottomMargin: 10
                     height: 40
                     font: mainFont.dapFont.regular16
                     backgroundColorShow: currTheme.secondaryBackground
@@ -203,9 +212,9 @@ DapRectangleLitAndShaded
             {
                 id: uploadCertRect
                 Layout.fillWidth: true
-                height: 110
+                height: 146
                 color: currTheme.secondaryBackground
-                visible: certificateLogic !== "newCertificate"
+                visible: certificateLogic === "uploadCertificate"
                 RowLayout
                 {
                     id: certLayout
@@ -214,8 +223,8 @@ DapRectangleLitAndShaded
                     anchors.top: parent.top
                     anchors.leftMargin: 36
                     anchors.rightMargin: 36
+                    anchors.topMargin: 20
                     height: 15
-                    anchors.topMargin: 0
 
                     Text
                     {
@@ -247,7 +256,7 @@ DapRectangleLitAndShaded
                     anchors.leftMargin: 36
                     anchors.rightMargin: 36
                     height: 15
-                    anchors.topMargin: 20
+                    anchors.topMargin: 16
 
                     Text
                     {
@@ -277,12 +286,14 @@ DapRectangleLitAndShaded
                     anchors.bottom: parent.bottom
                     anchors.leftMargin: 36
                     anchors.rightMargin: 36
+                    anchors.bottomMargin: 20
                     height: 40
                     pathImage: !isUpload ? "qrc:/Resources/BlackTheme/icons/other/upload_icon.svg" : "qrc:/Resources/BlackTheme/icons/other/detach_icon.svg"
                     buttonText: !isUpload ? qsTr("Upload certificate") : qsTr("Unpin certificate")
 
                     onClicked:
                     {
+                        fileDialog.updateFilter()
                         if(!isUpload)
                         {
                             fileDialog.open()
@@ -310,8 +321,37 @@ DapRectangleLitAndShaded
 
                 Component.onCompleted:
                 {
-                    var filter = "Certifiacates (" + nodeMasterModule.currentNetwork + ".*.dcert)"
+                    updateFilter()
+                }
+
+                function updateFilter()
+                {
+                    var filter = "Certifiacates (" + nodeMasterModule.currentNetwork.toLowerCase() + ".*.dcert)"
                     fileDialog.nameFilters = [filter]
+                }
+            }
+
+            DapCustomComboBox
+            {
+                id: existCertificateCombobox
+                Layout.fillWidth: true
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+                Layout.topMargin: 8
+                Layout.bottomMargin: 8
+                rightMarginIndicator: 20
+                leftMarginDisplayText: 20
+                leftMarginPopupContain: 20
+                rightMarginPopupContain: 20
+                height: 40
+                font: mainFont.dapFont.regular16
+                backgroundColorShow: currTheme.secondaryBackground
+                defaultText: qsTr("Certificates")
+                mainTextRole: "completeBaseName"
+                visible: certificateLogic === "existingCertificate"
+                model: ListModel
+                {
+                    id: certificatesModel
                 }
             }
 
@@ -340,6 +380,8 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 25
                 Layout.rightMargin: 25
+                Layout.topMargin: 8
+                Layout.bottomMargin: 8
                 height: 40
                 displayText: walletModule.currentWalletName
                 font: mainFont.dapFont.regular16
@@ -376,15 +418,17 @@ DapRectangleLitAndShaded
                 }
             }
 
-            DapFeeComponent
+            Item
             {
-                id: feeController
-
                 Layout.fillWidth: true
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
+                height: 122
 
-                valueName: nodeMasterModule.mainTokenName
+                DapFeeComponent
+                {
+                    id: feeController
+                    anchors.centerIn: parent
+                    valueName: nodeMasterModule.mainTokenName
+                }
             }
 
             /// Node IP
@@ -405,25 +449,32 @@ DapRectangleLitAndShaded
                 }
             }
 
-            DapTextField
+            Item
             {
-                id: nodeIpText
                 Layout.fillWidth: true
                 Layout.leftMargin: 30
                 Layout.rightMargin: 35
-                Layout.bottomMargin: 4
-                height: 29
+                height: 69
 
-                validator: RegExpValidator { regExp: /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/ }
-                font: mainFont.dapFont.regular16
-                horizontalAlignment: Text.AlignLeft
+                DapTextField
+                {
+                    id: nodeIpText
+                    width: parent.width
+                    height: 29
+                    anchors.top: parent.top
+                    anchors.topMargin: 16
 
-                bottomLineVisible: true
-                bottomLineSpacing: 6
-                bottomLineLeftRightMargins: 7
-                text: "127.0.0.1"
-                selectByMouse: true
-                DapContextMenu{}
+                    validator: RegExpValidator { regExp: /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/ }
+                    font: mainFont.dapFont.regular16
+                    horizontalAlignment: Text.AlignLeft
+
+                    bottomLineVisible: true
+                    bottomLineSpacing: 3
+                    bottomLineLeftRightMargins: 7
+                    text: "127.0.0.1"
+                    selectByMouse: true
+                    DapContextMenu{}
+                }
             }
 
             /// Node port
@@ -444,25 +495,32 @@ DapRectangleLitAndShaded
                 }
             }
 
-            DapTextField
+            Item
             {
-                id: nodePortText
                 Layout.fillWidth: true
                 Layout.leftMargin: 30
                 Layout.rightMargin: 35
-                Layout.bottomMargin: 4
-                height: 29
+                height: 69
 
-                validator: RegExpValidator { regExp: /^(\d{1,5})$/ }
-                font: mainFont.dapFont.regular16
-                horizontalAlignment: Text.AlignLeft
+                DapTextField
+                {
+                    id: nodePortText
+                    width: parent.width
+                    height: 29
+                    anchors.top: parent.top
+                    anchors.topMargin: 16
 
-                bottomLineVisible: true
-                bottomLineSpacing: 6
-                bottomLineLeftRightMargins: 7
-                text: "8079"
-                selectByMouse: true
-                DapContextMenu{}
+                    validator: RegExpValidator { regExp: /^(\d{1,5})$/ }
+                    font: mainFont.dapFont.regular16
+                    horizontalAlignment: Text.AlignLeft
+
+                    bottomLineVisible: true
+                    bottomLineSpacing: 3
+                    bottomLineLeftRightMargins: 7
+                    text: "8079"
+                    selectByMouse: true
+                    DapContextMenu{}
+                }
             }
 
             /// Stake value
@@ -502,11 +560,12 @@ DapRectangleLitAndShaded
                 Image
                 {
                     id: stakeInfoIcon
+                    visible: false
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 15
                     height: 16
-                    width: 16
+                    width: 0 //16
                     mipmap: true
                     source: "qrc:/Resources/BlackTheme/icons/other/ic_infoGray.svg"
                 }
@@ -517,6 +576,7 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 36
                 Layout.rightMargin: 36
+                Layout.topMargin: 20
                 spacing: 32
                 DapTextField
                 {
@@ -558,6 +618,7 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 35
                 Layout.rightMargin: 35
+                Layout.topMargin: 20
                 visible: false
                 Rectangle
                 {
@@ -602,7 +663,7 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 93
                 Layout.rightMargin: 93
-
+                Layout.topMargin: 40
                 Layout.bottomMargin: 40
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                 horizontalAligmentText: Text.AlignHCenter
@@ -612,10 +673,13 @@ DapRectangleLitAndShaded
 
                 onClicked:
                 {
+                    var certPath = certificateLogic === "existingCertificate" ? certificatesModel.get(existCertificateCombobox.currentIndex)["filePath"] : ""
                     var result = {
+                        "certLogic" : certificateLogic,
+                        "certPath" : certPath,
                         "isUploadCert" : certificateLogic !== "newCertificate",
-                        "certName" : certificateLogic !== "newCertificate" ? certificateName.text : newCertificateName.text,
-                        "sign" : certificateLogic !== "newCertificate" ? signatureName.text : typeCertificateCombobox.selectedSignature,
+                        "certName" : certificateLogic === "newCertificate" ? newCertificateName.text : certificateLogic === "uploadCertificate" ? certificateName.text : existCertificateCombobox.displayText,
+                        "sign" : certificateLogic === "newCertificate" ? typeCertificateCombobox.selectedSignature : certificateLogic === "uploadCertificate" ? signatureName.text : "",
                         "walletName" : walletModule.currentWalletName,
                         "walletAddress" : walletModule.getAddressWallet(nodeMasterModule.currentNetwork, walletModule.currentWalletName),
                         "network" : nodeMasterModule.currentNetwork,
@@ -629,6 +693,13 @@ DapRectangleLitAndShaded
                     }
                     var message = ""
                     var walletBalance = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+
+                    if(certificateLogic === "existingCertificate" && certPath === "")
+                    {
+                        message = qsTr("There is no path to the certificate.")
+                        updateErrorField(message)
+                        return
+                    }
 
                     var diffNeedValue = dexModule.diffNumber(textInputStakeValue.text, "10.0")
                     if (diffNeedValue === 0)
@@ -676,6 +747,7 @@ DapRectangleLitAndShaded
 
     Component.onCompleted:
     {
+        logicMainApp.requestToService("DapCertificateManagerCommands", 1); // 1 - Get List Certificates
         walletModule.startUpdateFee()
         defaultNewCertificateName()
     }
@@ -693,6 +765,28 @@ DapRectangleLitAndShaded
         function onCurrentWalletChanged()
         {
             textBalance.text = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+        }
+    }
+
+    Connections
+    {
+        target: dapServiceController
+        onCertificateManagerOperationResult:
+        {
+            var currentNetwork = nodeMasterModule.currentNetwork + "."
+            certificatesModel.clear()
+            for (var i = 0; i < result.data.length; ++i)
+            {
+                var item = result.data[i]
+                if(item["completeBaseName"].toLowerCase().startsWith(currentNetwork.toLowerCase()))
+                {
+                    certificatesModel.append(item)
+                }
+            }
+            if(result.data.length > 0)
+            {
+                existCertificateCombobox.setCurrentIndex(0)
+            }
         }
     }
 

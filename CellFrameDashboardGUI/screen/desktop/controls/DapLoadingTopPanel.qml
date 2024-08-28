@@ -6,10 +6,11 @@ DapTopPanel
 {
     property int percentLoading: modulesController.nodeLoadProgress
     property bool isNodeWorking: modulesController.isNodeWorking
+    property bool doneDelay: false
 
     id: control
     height: 60
-    visible: !isNodeWorking
+    visible: !isNodeWorking || doneDelay
     anchors.fill: parent
     z: parent.z + 10
 
@@ -52,7 +53,7 @@ DapTopPanel
             smooth: true
             antialiasing: true
             fillMode: Image.PreserveAspectFit
-            source: percentLoading >= 100 ? "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/loader_orange.svg"
+            source: percentLoading >= 100 || doneDelay ? "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/loader_orange.svg"
             z: parent.z + 1
 
             RotationAnimator
@@ -62,7 +63,7 @@ DapTopPanel
                 to: 360
                 duration: 1000
                 loops: Animation.Infinite
-                running: percentLoading < 100
+                running: percentLoading < 100 && !doneDelay
 
                 onStopped: {
                     loader.rotation = 0;
@@ -78,7 +79,7 @@ DapTopPanel
             anchors.leftMargin: 56
             font: mainFont.dapFont.regular14
             color: currTheme.white
-            text: percentLoading >= 100 ? qsTr("The node has loaded") :
+            text: percentLoading >= 100 || doneDelay ? qsTr("The node has loaded") :
                       percentLoading ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
                                                        qsTr("The node is currently being launched. Waiting for node data to be received")
         }
@@ -86,16 +87,16 @@ DapTopPanel
         Rectangle
         {
             id: progressBar
-            width: backgrndRect.width / 100 * percentLoading
+            width: doneDelay ? backgrndRect.width : backgrndRect.width / 100 * percentLoading
             height: 4
-            color: percentLoading < 100 ? currTheme.orange : currTheme.lime
+            color: percentLoading < 100 && !doneDelay ? currTheme.orange : currTheme.lime
             anchors.bottom: parent.bottom
             anchors.left: parent.left
         }
 
         MouseArea
         {
-            enabled: !isNodeWorking
+            enabled: !isNodeWorking || doneDelay
             anchors.fill: parent
             hoverEnabled: true
             onClicked:
@@ -104,5 +105,25 @@ DapTopPanel
             }
             onHoveredChanged: {}
         }
+    }
+
+    Connections
+    {
+        target: modulesController
+        function onNodeWorkingChanged()
+        {
+            if(modulesController.isNodeWorking && !modulesController.isFirstLaunch())
+            {
+                doneDelay = true
+                delayTimer.start()
+            }
+        }
+    }
+
+    Timer
+    {
+        id: delayTimer
+        interval: 3000
+        onTriggered: doneDelay = false
     }
 }

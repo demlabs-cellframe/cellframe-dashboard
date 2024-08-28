@@ -62,14 +62,17 @@ bool SingleApplicationTest(const QString &appName)
 
     if(is_running)
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
-        msgBox.exec();
         return false;
     }
-
     return true;
+}
+
+void showErrorMessage(const QString &appName)
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
+    msgBox.exec();
 }
 
 void createDapLogger()
@@ -184,8 +187,7 @@ int main(int argc, char *argv[])
     int result = RESTART_CODE;
 
 
-    if (!SingleApplicationTest(DAP_BRAND))
-        return 1;
+    bool isSingleApp = SingleApplicationTest(DAP_BRAND);
 
     while (result == RESTART_CODE)
     {
@@ -193,6 +195,13 @@ int main(int argc, char *argv[])
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);
+
+        if(!isSingleApp)
+        {
+            showErrorMessage(DAP_BRAND);
+            return 1;
+        }
+
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
 

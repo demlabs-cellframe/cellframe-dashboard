@@ -33,6 +33,7 @@ void DapModuleSettings::updateUrlUpdateNode()
             {
                 QString ver = isReady ? QString(MAX_NODE_VERSION) : "";
                 m_urlUpdateNode = NodePathManager::getInstance().getNodeUrl(ver);
+                m_isNodeUrlUpdated = true;
                 emit nodeUrlUpdated();
             });
 
@@ -63,7 +64,7 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
     else if(objRes["message"].toString().contains("node"))
     {
         QString ver = objRes["lastVersion"].toString();
-        if(m_nodeVersion == ver)
+        if(ver.isEmpty() || m_nodeVersion == ver)
         {
             return;
         }
@@ -176,11 +177,12 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
     }
 }
 
-void DapModuleSettings::setNodeUpdateType(const nodeUpdateType type)
+void DapModuleSettings::setNodeUpdateType(int type)
 {
-    if(m_nodeUpdateType != type)
+    nodeUpdateType tmpType = static_cast<nodeUpdateType>(type);
+    if(m_nodeUpdateType != tmpType)
     {
-        m_nodeUpdateType = type;
+        m_nodeUpdateType = tmpType;
         emit nodeUpdateTypeChanged();
     }
 }
