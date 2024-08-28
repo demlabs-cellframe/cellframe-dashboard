@@ -15,20 +15,25 @@ class ItemOrderHistoryBridge : public QObject
 protected:
     struct Data;
 
-    Q_PROPERTY (QString date        READ date       NOTIFY dateChanged)
-    Q_PROPERTY (QString unixDate    READ unixDate   NOTIFY unixDateChanged)
-    Q_PROPERTY (QString pair        READ pair       NOTIFY pairChanged)
-    Q_PROPERTY (QString type        READ type       NOTIFY typeChanged)
-    Q_PROPERTY (QString side        READ side       NOTIFY sideChanged)
-    Q_PROPERTY (QString hash        READ hash       NOTIFY hashChanged)
-    Q_PROPERTY (QString price       READ price      NOTIFY priceChanged)
-    Q_PROPERTY (QString filled      READ filled     NOTIFY filledChanged)
-    Q_PROPERTY (QString amount      READ amount     NOTIFY amountChanged)
-    Q_PROPERTY (QString status      READ status     NOTIFY statusChanged)
-    Q_PROPERTY (QString network     READ network    NOTIFY networkChanged)
-    Q_PROPERTY (QString tokenBuy    READ tokenBuy   NOTIFY tokenBuyChanged)
-    Q_PROPERTY (QString tokenSell   READ tokenSell  NOTIFY tokenSellChanged)
-    
+    Q_PROPERTY (QString date            READ date           NOTIFY dateChanged)
+    Q_PROPERTY (QString unixDate        READ unixDate       NOTIFY unixDateChanged)
+    Q_PROPERTY (QString pair            READ pair           NOTIFY pairChanged)
+    Q_PROPERTY (QString type            READ type           NOTIFY typeChanged)
+    Q_PROPERTY (QString side            READ side           NOTIFY sideChanged)
+    Q_PROPERTY (QString hash            READ hash           NOTIFY hashChanged)
+    Q_PROPERTY (QString price           READ price          NOTIFY priceChanged)
+    Q_PROPERTY (QString filled          READ filled         NOTIFY filledChanged)
+    Q_PROPERTY (QString amount          READ amount         NOTIFY amountChanged)
+    Q_PROPERTY (QString status          READ status         NOTIFY statusChanged)
+    Q_PROPERTY (QString network         READ network        NOTIFY networkChanged)
+    Q_PROPERTY (QString tokenBuy        READ tokenBuy       NOTIFY tokenBuyChanged)
+    Q_PROPERTY (QString tokenSell       READ tokenSell      NOTIFY tokenSellChanged)
+    Q_PROPERTY (QString tokenBuyOrigin  READ tokenBuyOrigin NOTIFY tokenBuyOriginChanged)
+    Q_PROPERTY (QString tokenSellOrigin READ tokenSellOrigin NOTIFY tokenSellOriginChanged)
+    Q_PROPERTY (QString adaptiveSide    READ adaptiveSide   NOTIFY adaptiveSideChanged)
+    Q_PROPERTY (QString adaptivePair    READ adaptivePair   NOTIFY adaptivePairChanged)
+    Q_PROPERTY (QString rateOrigin      READ rateOrigin     NOTIFY rateOriginChanged)
+
 protected:
     Data *d;
 
@@ -54,7 +59,11 @@ public:
     Q_INVOKABLE QString network() const;
     Q_INVOKABLE QString tokenBuy() const;
     Q_INVOKABLE QString tokenSell() const;
-    
+    Q_INVOKABLE QString tokenBuyOrigin() const;
+    Q_INVOKABLE QString tokenSellOrigin() const;  
+    Q_INVOKABLE QString adaptiveSide() const;  
+    Q_INVOKABLE QString adaptivePair() const; 
+    Q_INVOKABLE QString rateOrigin() const; 
 signals:
     void dateChanged();
     void unixDateChanged();
@@ -69,7 +78,11 @@ signals:
     void networkChanged();
     void tokenBuyChanged();
     void tokenSellChanged();
-
+    void tokenBuyOriginChanged();
+    void tokenSellOriginChanged();
+    void adaptiveSideChanged();
+    void adaptivePairChanged();
+    void rateOriginChanged();
 public:
     ItemOrderHistoryBridge &operator = (const ItemOrderHistoryBridge &a_src);
     ItemOrderHistoryBridge &operator = (ItemOrderHistoryBridge &&a_src);
@@ -99,7 +112,12 @@ public:
         status,
         network,
         tokenBuy,
-        tokenSell
+        tokenSell,
+        tokenBuyOrigin,
+        tokenSellOrigin,
+        adaptiveSide,
+        adaptivePair,
+        rateOrigin
     };
     Q_ENUM(FieldId)
 
@@ -118,6 +136,11 @@ public:
         QString network = "";
         QString tokenBuy = "";
         QString tokenSell = "";
+        QString tokenBuyOrigin = "";
+        QString tokenSellOrigin = "";
+        QString adaptiveSide = "";
+        QString adaptivePair = "";     
+        QString rateOrigin = "";  
     };
 
     typedef QList<DapOrderHistoryModel::Item>::Iterator Iterator;
@@ -138,7 +161,7 @@ public:
 
 public:
     void updateModel(const QList<DEX::Order> &data);
-    // void updateModel(const DEX::InfoTokenPair &data);
+
     /// find item with the same name and return it's index. otherwise returns -1
     Q_INVOKABLE int indexOf (const DapOrderHistoryModel::Item &a_item) const;
 
@@ -178,6 +201,8 @@ protected:
     DapOrderHistoryModel::Item &_get (int a_index);
     const DapOrderHistoryModel::Item &_get (int a_index) const;
     static QVariant _getValue (const DapOrderHistoryModel::Item &a_item, int a_fieldId);
+
+    void updateAtaptiveSide();
 
 signals:
     void sizeChanged();

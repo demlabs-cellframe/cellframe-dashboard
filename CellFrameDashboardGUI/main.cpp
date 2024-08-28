@@ -22,9 +22,12 @@
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
 
+#include "NodePathManager.h"
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
+
 
 //#ifdef Q_OS_WIN32
 //#include <windows.h>
@@ -59,14 +62,17 @@ bool SingleApplicationTest(const QString &appName)
 
     if(is_running)
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
-        msgBox.exec();
         return false;
     }
-
     return true;
+}
+
+void showErrorMessage(const QString &appName)
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
+    msgBox.exec();
 }
 
 void createDapLogger()
@@ -104,6 +110,7 @@ void createDapLogger()
 #endif
                          }
                      });
+
 #endif
 }
 
@@ -114,12 +121,6 @@ const int MIN_HEIGHT = 720;
 
 const int DEFAULT_WIDTH = 1280;
 const int DEFAULT_HEIGHT = 720;
-
-#ifndef Q_OS_WIN
-const int OS_WIN_FLAG = 0;
-#else
-const int OS_WIN_FLAG = 1;
-#endif
 
 //#ifdef Q_OS_MAC
 //const int USING_NOTIFY = 0;
@@ -186,16 +187,35 @@ int main(int argc, char *argv[])
     int result = RESTART_CODE;
 
 
-    if (!SingleApplicationTest(DAP_BRAND))
-        return 1;
+    bool isSingleApp = SingleApplicationTest(DAP_BRAND);
 
     while (result == RESTART_CODE)
     {
+        NodePathManager::getInstance().init("GUI");
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);
+
+        if(!isSingleApp)
+        {
+            showErrorMessage(DAP_BRAND);
+            return 1;
+        }
+
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
+
+        QString os;
+
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+        os = "linux";
+#elif defined Q_OS_WIN
+        os = "win";
+#elif defined Q_OS_MAC
+        os = "macos";
+#else
+        os = "unknown";
+#endif
 
         QQmlContext * context = app->qmlEngine()->rootContext();
         context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
@@ -203,8 +223,8 @@ int main(int argc, char *argv[])
         context->setContextProperty("MIN_HEIGHT", QVariant::fromValue(MIN_HEIGHT));
         context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
-        context->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
         context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
+        context->setContextProperty("CURRENT_OS", QVariant::fromValue(os));
 
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QObject::connect(app->qmlEngine(), &QQmlApplicationEngine::objectCreated,
@@ -214,6 +234,7 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
+        NodePathManager::getInstance().checkNeedDownload();
         DapLogger::instance()->startUpdateTimer();
         result = app->exec();
         delete app;

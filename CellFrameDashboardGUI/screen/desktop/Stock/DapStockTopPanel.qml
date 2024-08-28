@@ -16,6 +16,10 @@ Controls.DapTopPanel
 
     ListModel{id: stockModelTokens}
 
+    Controls.DapLoadingTopPanel
+    {
+    }
+
     RowLayout
     {
         anchors.left: parent.left

@@ -16,36 +16,6 @@ Item {
         width: 300
         height: 400
 
-        ListModel
-        {
-            id: signatureTypeWallet
-            ListElement
-            {
-                name: "Dilithium"
-                sign: "sig_dil"
-            }
-            ListElement
-            {
-                name: "Falcon"
-                sign: "sig_falcon"
-            }
-            ListElement
-            {
-                name: "Bliss"
-                sign: "sig_bliss"
-            }
-            ListElement
-            {
-                name: "Picnic"
-                sign: "sig_picnic"
-            }
-            ListElement
-            {
-                name: "Tesla"
-                sign: "sig_tesla"
-            }
-        }
-
         ColumnLayout
         {
             anchors.fill: parent
@@ -110,7 +80,7 @@ Item {
                 {
                     logicMainApp.requestToService("DapAddWalletCommand",
                            textInputNameWallet.text,
-                           signatureTypeWallet.get(0).sign)
+                           certListModel.get(0).sign)
 
                     close()
                 }

@@ -8,16 +8,28 @@ DapRightPanelDone {
     headerText: qsTr("Order created\nsuccessfully!")
     messageText: qsTr("Click on «Orders» to view\nthe status of your order")
 
-    doneButton.onClicked: goToRightHome()
+    doneButton.onClicked:
+    {
+        goToRightHome()
+    }
 
     Component.onCompleted:
     {
         console.log(logicStock.resultCreate.success)
-
         if(logicStock.resultCreate.success)
         {
             messageImage = iconOk
-            headerText = qsTr("Order created\nsuccessfully!")
+
+            if(logicStock.resultCreate.toQueue)
+            {
+                headerText = qsTr("Placed to queue")
+                messageText = ""
+            }
+            else
+            {
+                headerText = qsTr("Order created\nsuccessfully!")
+            }
+
         }
         else
         {

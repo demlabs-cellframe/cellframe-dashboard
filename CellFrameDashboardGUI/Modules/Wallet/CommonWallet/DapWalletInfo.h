@@ -14,6 +14,8 @@ namespace CommonWallet
         QString datoshi = QString();
         QString ticker = QString();
         QString network = QString();
+        QString availableDatoshi = QString();
+        QString availableCoins = QString();
     };
 
     struct WalletNetworkInfo

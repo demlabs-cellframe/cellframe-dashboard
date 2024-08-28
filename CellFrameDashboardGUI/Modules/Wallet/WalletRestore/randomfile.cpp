@@ -56,7 +56,11 @@ bool RandomFile::saveDataToFile(const QString &fileName, const QByteArray & data
         }
 
         file.close();
+
+        if(!file.exists())
+            return false;
     }
+    else return false;
 
     return true;
 }

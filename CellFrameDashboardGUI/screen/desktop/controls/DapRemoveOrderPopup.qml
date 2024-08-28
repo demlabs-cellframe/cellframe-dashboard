@@ -7,6 +7,8 @@ Item {
 
     property string hash: ""
     property string network: ""
+    property string side: ""
+    property string amount: ""
 
     property var feeStruct:
     {
@@ -230,8 +232,11 @@ Item {
                 enabled: checkBox.isChecked
                 onClicked:
                 {
+                    var isBuy = side !== "Buy"
+
+                    var resultTokenName = !isBuy ? dexModule.token1 : dexModule.token2
                     console.log("An order with a hash is deleted " + hash + " in the " + network + " network")
-                    dexModule.requestOrderDelete(network, hash, feeStruct.validator_fee)
+                    dexModule.requestOrderDelete(network, hash, feeStruct.validator_fee, resultTokenName, amount)
                     hide()
                     // logicMainApp.requestToService("DapRemoveWalletCommand", nameWallet)
                     //
@@ -280,6 +285,9 @@ Item {
 
         hash = model.hash
         network = model.network
+        side = model.side
+        amount = model.amount
+
         feeStruct = walletModule.getFee(network);
 
         backgroundFrame.opacity = 0.4

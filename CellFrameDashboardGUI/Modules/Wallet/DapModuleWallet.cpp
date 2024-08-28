@@ -42,6 +42,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
 DapModuleWallet::~DapModuleWallet()
 {
     disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
+    disconnect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv,    this, &DapModuleWallet::rcvWalletsInfo);
     disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
     disconnect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
     disconnect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
@@ -64,6 +65,7 @@ void DapModuleWallet::initConnect()
 {
     connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModuleWallet::rcvFee, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletsReceived, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletReceived, this, &DapModuleWallet::rcvWalletInfo, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletRemoved, this, &DapModuleWallet::rcvRemoveWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);
@@ -205,11 +207,7 @@ void DapModuleWallet::setCurrentWallet(int index)
     {
         newWallet = {0, m_walletsInfo.first().walletName};
     }
-
-    if(newWallet.first != m_currentWallet.first)
-    {
-        setNewCurrentWallet(std::move(newWallet));
-    }
+    setNewCurrentWallet(std::move(newWallet));
 }
 
 void DapModuleWallet::setCurrentWallet(const QString& walletName)
@@ -233,11 +231,7 @@ void DapModuleWallet::setCurrentWallet(const QString& walletName)
     {
         newWallet = {0, m_walletsInfo.first().walletName};
     }
-
-    if(newWallet.first != m_currentWallet.first)
-    {
-        setNewCurrentWallet(std::move(newWallet));
-    }
+    setNewCurrentWallet(std::move(newWallet));
 }
 
 int DapModuleWallet::getIndexWallet(const QString& walletName) const
@@ -451,6 +445,7 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
         }
         emit walletsModelChanged();
     }
+
     updateDexTokenModel();
     if(m_walletsInfo.contains(m_currentWallet.second))
     {
@@ -543,7 +538,14 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
                         token.ticker = tokenObject["name"].toString();
                         token.tokenName = tokenObject["name"].toString();
                     }
-
+                    if(tokenObject.contains("availableDatoshi"))
+                    {
+                        token.availableDatoshi = tokenObject["availableDatoshi"].toString();
+                    }
+                    if(tokenObject.contains("availableCoins"))
+                    {
+                        token.availableCoins = tokenObject["availableCoins"].toString();
+                    }                    
                     networkInfo.networkInfo.append(token);
                 }
             }
@@ -635,7 +637,7 @@ QVariantMap DapModuleWallet::getFee(QString network)
         mapResult.insert("error", (int)DAP_RCV_FEE_ERROR);
         mapResult.insert("fee_ticker","UNKNOWN");
         mapResult.insert("network_fee", "0.00");
-        mapResult.insert("validator_fee", "0.00");
+        mapResult.insert("validator_fee", "0.05");
         return mapResult;
     }
     CommonWallet::FeeInfo& fee = m_feeInfo[network];
@@ -799,8 +801,27 @@ void DapModuleWallet::setWalletTokenModel(const QString& network)
     emit tokenModelChanged();
 }
 
-QString DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
+QVariantMap DapModuleWallet::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
 {
+    /// result message
+    /// 0 - OK
+    /// 1 - Error, network not found
+    /// 2 - Error. It is not possible to pay the Internet fee
+    /// 3 - Error. It is not possible to pay the Validate fee
+    /// 4 - Error. It is not possible to pay
+    ///
+
+    auto resultMap = [&](int number, const QString& message = "",  const QString& firstValue = "", const QString& secondValue = "") -> QVariantMap
+    {
+        QVariantMap mapResult;
+        mapResult.insert("code", number);
+        mapResult.insert("firstValue", firstValue);
+        mapResult.insert("secondValue", secondValue);
+        mapResult.insert("message", message);
+
+        return mapResult;
+    };
+
     auto checkValue = [](const QString& str) -> QString
     {
         if(str.isEmpty())
@@ -820,7 +841,7 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
     const auto& infoWallet = m_walletsInfo[m_currentWallet.second];
     if(!infoWallet.walletInfo.contains(network))
     {
-        return tr("Error, network not found");
+        return resultMap(1, tr("Error, network not found"));
     }
     const auto& infoNetwork = infoWallet.walletInfo[network];
 
@@ -861,7 +882,7 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
                 Dap::Coin value = netValue;
                 if(value < net)
                 {
-                    return tr("Error. It is not possible to pay the Internet fee");
+                    return resultMap(2, tr("Error. It is not possible to pay the Internet fee"), value.toCoinsString(), net.toCoinsString());
                 }
             }
         }
@@ -891,9 +912,8 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
                 Dap::Coin value = netValue;
                 if(value < fee)
                 {
-                    return tr("Error. It is not possible to pay the Validate fee");
+                    return resultMap(3, tr("Error. It is not possible to pay the Validate fee"), value.toCoinsString(), fee.toCoinsString());
                 }
-
             }
         }
     }
@@ -905,10 +925,10 @@ QString DapModuleWallet::isCreateOrder(const QString& network, const QString& am
     qDebug() << "value = " << value.toCoinsString() << " result = " << result.toCoinsString();
     if(value < result)
     {
-        return tr("Error. It is not possible to pay");
+        return resultMap(4, tr("Error. It is not possible to pay"), value.toCoinsString(), result.toCoinsString());
     }
 
-    return "OK";
+    return resultMap(0, "OK");
 }
 
 QVariantMap DapModuleWallet::getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker)
@@ -998,4 +1018,42 @@ QString DapModuleWallet::getBalanceDEX(const QString& tokenName) const
 void DapModuleWallet::updateBalanceDEX()
 {
     emit currantBalanceDEXChanged();
+}
+
+QString DapModuleWallet::getTokenBalance(const QString& network, const QString& tokenName, const QString& walletName) const
+{
+    QString name = walletName.isEmpty() ? m_currentWallet.second : walletName;
+    if(!m_walletsInfo.contains(name))
+    {
+        return QString("0.0");
+    }
+    const auto& info = m_walletsInfo[name];
+    if(!info.walletInfo.contains(network))
+    {
+        return QString("0.0");
+    }
+
+    for(const auto& tokenInfo: info.walletInfo[network].networkInfo)
+    {
+        if(tokenInfo.ticker == tokenName)
+        {
+            return tokenInfo.value;
+        }
+    }
+    return QString("0.0");
+}
+
+QString DapModuleWallet::getAddressWallet(const QString &network, const QString& walletName) const
+{
+    QString name = walletName.isEmpty() ? m_currentWallet.second : walletName;
+    if(!m_walletsInfo.contains(name))
+    {
+        return QString();
+    }
+    const auto& info = m_walletsInfo[name];
+    if(!info.walletInfo.contains(network))
+    {
+        return QString();
+    }
+    return info.walletInfo[network].address;
 }

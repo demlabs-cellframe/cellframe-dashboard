@@ -30,10 +30,6 @@ class  DapModuleDex : public DapAbstractModule
         BASE_IS_EMPTY
     };
 
-public slots:
-    void setNetworkFilterText(const QString &network);
-    void setStepChart(const int &index);
-
 public:
     explicit DapModuleDex(DapModulesController *parent = nullptr);
     ~DapModuleDex();
@@ -46,7 +42,7 @@ public:
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
 
-    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee);
+    Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee, const QString &tokenName, const QString &amount);
 
     Q_PROPERTY(QString networkFilter READ getNetworkFilterText WRITE setNetworkFilterText NOTIFY networkFilterChanged)
     Q_INVOKABLE QString getNetworkFilterText() const { return m_networkFilter; }
@@ -74,9 +70,10 @@ public:
     Q_INVOKABLE QString multCoins(const QString& a, const QString& b);
     Q_INVOKABLE QString divCoins(const QString& a, const QString& b);
     Q_INVOKABLE QString minusCoins(const QString& a, const QString& b);
+    Q_INVOKABLE int diffNumber(const QString& a, const QString& b);
 
     Q_INVOKABLE QString tryCreateOrder(bool isSell, const QString& price, const QString& amount, const QString& fee);
-    Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee);
+    Q_INVOKABLE QString tryExecuteOrder(const QString& hash, const QString& amount, const QString& fee, const QString &tokenName);
 
     Q_INVOKABLE DEX::InfoTokenPair getCurrentTokenPair() const { return m_currentPair; }
 
@@ -89,6 +86,9 @@ public:
     Q_INVOKABLE bool isValidValue(const QString& value);
 
     void setStatusProcessing(bool status) override;
+public slots:
+    virtual void setNetworkFilterText(const QString &network);
+    void setStepChart(const int &index);
 
 signals:
     void currentTokenPairChanged();
@@ -99,7 +99,7 @@ signals:
     void dexNetListChanged();
     void networkFilterChanged(const QString& network);
     void stepChartChanged(const int& index);
-private slots:
+protected slots:
     void startInitData();
 
     void respondTokenPairs(const QVariant &rcvData);
@@ -107,7 +107,7 @@ private slots:
     void respondTokenPairsHistory(const QVariant &rcvData);
     void respondOrdersHistory(const QVariant &rcvData);
     void respondTxList(const QVariant &rcvData);
-private:
+protected:
     void onInit();
     bool isCurrentPair();
     void setOrdersHistory(const QByteArray& data);
@@ -115,10 +115,15 @@ private:
     QString roundCoins(const QString& str);
 
     inline PairFoundResultType isPair(const QString& token1, const QString& token2, const QString& network);
-private:
+
+    virtual bool setCurrentTokenPairVariable(const QString& namePair, const QString &network);
+    virtual void workersUpdate();
+    virtual void updateTokenModels();
+protected:
 
     DapModulesController  *m_modulesCtrl = nullptr;
     DapTokenPairModel* m_tokenPairsModel = nullptr;
+
     DapOrderHistoryModel *m_ordersModel = nullptr;
     OrdersHistoryProxyModel *m_proxyModel = nullptr;
     TokenPairsProxyModel *m_tokenPairsProxyModel = nullptr;

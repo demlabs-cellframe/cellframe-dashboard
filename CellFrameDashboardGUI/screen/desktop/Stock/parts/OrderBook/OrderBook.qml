@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+import "../../../controls"
 
 Page
 {
@@ -121,6 +122,12 @@ Page
             accuracyModel.append({"value": tempValue.toFixed(power)})
         else
             accuracyModel.append({"value": tempValue.toString()})
+    }
+
+    DapLoadingPanel
+    {
+        anchors.topMargin: rowHeader.height
+        fillEmptyItems: true
     }
 
     ColumnLayout

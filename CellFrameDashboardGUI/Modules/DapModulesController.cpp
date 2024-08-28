@@ -6,7 +6,7 @@
 
 //***Modules***//
 #include "Wallet/DapModuleWallet.h"
-#include "Dex/DapModuleDex.h"
+#include "Dex/DapModuleDexLightPanel.h"
 #include "TxExplorer/DapModuleTxExplorer.h"
 #include "Certificates/DapModuleCertificates.h"
 #include "Tokens/DapModuleTokens.h"
@@ -16,6 +16,7 @@
 #include "dApps/DapModuledApps.h"
 #include "Diagnostics/DapModuleDiagnostics.h"
 #include "Orders/DapModuleOrders.h"
+#include "MasterNode/DapModuleMasterNode.h"
 
 #include "Models/DapWalletListModel.h"
 
@@ -37,6 +38,7 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     getNetworkList();
     m_timerUpdateData->start(5000);
     connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::signalChainsLoadProgress, this, &DapModulesController::rcvChainsLoadProgress, Qt::QueuedConnection);
 }
 
 DapModulesController::~DapModulesController()
@@ -56,7 +58,7 @@ DapModulesController::~DapModulesController()
 void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
-    addModule("dexModule", new DapModuleDex(this));
+    addModule("dexModule", new DapModuleDexLightPanel(this));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
@@ -66,6 +68,7 @@ void DapModulesController::initModules()
     addModule("dAppsModule", new DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("ordersModule", new DapModuleOrders(this));
+    addModule("nodeMasterModule", new DapModuleMasterNode(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 
@@ -123,8 +126,106 @@ void DapModulesController::rcvNetList(const QVariant &rcvData)
         return;
     }
     m_netList = rcvData.toStringList();
+
+    cleareProgressInfo();
+
     updateNetworkListModel();
     emit netListUpdated();
+    if(m_netList.isEmpty() && m_isNodeWorking)
+    {
+        m_isNodeWorking = false;
+        emit nodeWorkingChanged();
+    }
+    else if(!m_netList.isEmpty() && !m_isNodeWorking)
+    {
+        m_isNodeWorking = true;
+        emit nodeWorkingChanged();
+    }
+}
+
+void DapModulesController::cleareProgressInfo()
+{
+    m_networksLoadProgress.clear();
+    nodeLoadProgressJson = QJsonArray();
+    setNodeLoadProgress(0);
+}
+
+void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
+{
+    if(rcvData.isEmpty())
+    {
+        setNodeLoadProgress(0);
+        return;
+    }
+
+    // write all answers
+    QJsonObject obj;
+    for(const QString &key: rcvData.keys())
+        obj.insert(key, rcvData.value(key).toJsonValue());
+    nodeLoadProgressJson.append(obj);
+
+    // read load progress
+    if(m_netList.count() > 0) return;
+    if(!rcvData.contains("net") || !rcvData.contains("load_progress"))
+    {
+        qDebug() << "​​Missing required values 'net' or 'load_progress'." << rcvData;
+        return;
+    }
+    bool convertOk = true;
+    auto progress = rcvData["load_progress"].toInt(&convertOk);
+    auto chain =  rcvData["chain_id"].toInt();
+    int countChain = 2;
+
+    if(!convertOk)
+    {
+        qDebug() << "Progress value is not an integer." << rcvData;
+        return;
+    }
+    auto net = rcvData["net"].toString();
+    if(m_networksLoadProgress.isEmpty())
+    {
+        auto netList = NodeConfigToolController::getInstance().getConfigNetworkList();
+        for(const auto& net: netList)
+        {
+            m_networksLoadProgress.insert(net, QMap<int,int>());
+        }
+    }
+
+    if(!m_networksLoadProgress.contains(net))
+    {
+        QMap<int,int> tmpMap = {{chain, progress}};
+        m_networksLoadProgress.insert(net, std::move(tmpMap));
+        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] [ProgressInfo] node progress(New network). net: " << net << " progress: " << progress;
+    }
+    else
+    {
+        m_networksLoadProgress[net][chain] = progress;
+        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] [ProgressInfo] node progress. net: " << net << " progress: " << progress;
+    }
+
+    // calc total percent of node loading
+    int total = 0;
+    for(auto netInfo: m_networksLoadProgress)
+    {
+        for(auto& progress: netInfo)
+        {
+            total += progress;
+        }
+    }
+
+    int value = total / (m_networksLoadProgress.count() * countChain);
+
+    qDebug() << "[DapModulesController] -net "<< net << " \tprogress: " << progress << " \tchain: " << chain << " \ttotal: " << total << " \t new value: " << value << " \told value: " << m_nodeLoadProgress;
+    if(value > m_nodeLoadProgress)
+    {
+        setNodeLoadProgress(value);
+    }
+}
+
+void DapModulesController::setNodeLoadProgress(int progress)
+{
+    m_nodeLoadProgress = progress;
+    emit nodeLoadProgressChanged();
 }
 
 void DapModulesController::updateNetworkListModel()

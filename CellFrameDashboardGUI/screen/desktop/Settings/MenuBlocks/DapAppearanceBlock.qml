@@ -200,7 +200,8 @@ ColumnLayout
                 id: resetScale
 
                 focus: false
-
+                enabled: settings.window_scale !== 1
+                
                 Layout.fillWidth: true
 
                 Layout.minimumHeight: 26
@@ -231,6 +232,8 @@ ColumnLayout
 
                 Layout.minimumHeight: 26
                 Layout.maximumHeight: 26
+
+                enabled: scaleSpinbox.realValue !== settings.window_scale
 
                 textButton: qsTr("Apply scale")
 

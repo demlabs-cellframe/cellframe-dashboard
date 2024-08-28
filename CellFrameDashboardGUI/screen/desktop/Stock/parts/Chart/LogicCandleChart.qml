@@ -44,6 +44,7 @@ QtObject
     property real roundedStepPrice: 0
     property real roundedMaxPrice: 0
     property int gridPricePower: 8
+    property int elideMaxLength: 8
 
     readonly property real roundedCoefficient: 1
 
@@ -71,6 +72,9 @@ QtObject
     readonly property int hour: 3600000
     readonly property int minute: 60000
     readonly property int second: 1000
+
+    property int topInfoTextField: 0
+    property int bottomInfoTextField: 0
 
     signal chandleSelected( var timeValue,
         var openValue, var highValue, var lowValue, var closeValue)
@@ -544,7 +548,15 @@ QtObject
                     setSelectedCandleNumber(i)
                     selectedChange = true
                 }
+            }
 
+            if(i === candleChartWorker.firstVisibleCandle)
+            {
+                if (mouseVisible && mouseX < candleX - mouseCandleWidth*0.5)
+                {
+                    setSelectedCandleNumber(candleChartWorker.firstVisibleCandle)
+                    selectedChange = true
+                }
             }
 
             if (selectedCandleNumber === i)
@@ -610,10 +622,17 @@ QtObject
         if (candleChartWorker.maxPrice < maxDrawPrice)
             labelY = chartDrawHeight*0.5 + chartCandleBegin
 
-        drawLineAndLabel(ctx, labelX, labelY, candleChartWorker.maxPrice)
+        var moveYVar
+       if(labelY > topInfoTextField && labelY < bottomInfoTextField)
+       {
+           moveYVar = labelY
+           labelY = bottomInfoTextField + 6
+       }
+
+        drawLineAndLabel(ctx, labelX, labelY, candleChartWorker.maxPrice, moveYVar)
     }
 
-    function drawLineAndLabel(ctx, x, y, text)
+    function drawLineAndLabel(ctx, x, y, text, moveY)
     {
 //        print("drawLineAndLabel", x, y, text)
 
@@ -625,7 +644,16 @@ QtObject
         ctx.lineWidth = 2
         ctx.strokeStyle = labelLineColor
         ctx.beginPath()
-        ctx.moveTo(x, y)
+
+        if(moveY === undefined)
+        {
+            ctx.moveTo(x, y)
+        }
+        else
+        {
+            ctx.moveTo(x, moveY)
+        }
+
         if (toRight)
             ctx.lineTo(x+labelLineLength, y)
         else
@@ -678,6 +706,13 @@ QtObject
         ctx.stroke()
     }
 
+    function elidedText(text) {
+        if (text.length > elideMaxLength) {
+            return text.substring(0, elideMaxLength) + "..."
+        }
+        return text
+    }
+
     function drawHorizontalLineText(ctx, y, text, color, power, border = false)
     {
         ctx.font = "normal "+fontSize+"px "+fontFamilies
@@ -692,7 +727,8 @@ QtObject
         }
 
         ctx.fillStyle = color
-        ctx.fillText(text.toFixed(power), chartWidth + fontIndent, y + fontSize*0.3)
+
+        ctx.fillText(elidedText(text.toFixed(power)), chartWidth + fontIndent, y + fontSize*0.3)
         ctx.stroke()
     }
 

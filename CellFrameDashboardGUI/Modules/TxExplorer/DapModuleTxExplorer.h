@@ -23,7 +23,6 @@ public:
 
 signals:
     void updateHistoryModel();
-    void historyMore15Changed(bool flag);
 
 private slots:
     void slotHistoryUpdate();
@@ -43,7 +42,7 @@ private:
     DapHistoryProxyModel *m_historyProxyModel = nullptr;
     bool isSendReqeust{false};
     QQmlContext *context;
-
+    QByteArray *m_historyByteArray;
     QString m_walletName {""};
 };
 

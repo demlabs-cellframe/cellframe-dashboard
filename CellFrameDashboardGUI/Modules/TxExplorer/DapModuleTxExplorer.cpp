@@ -16,6 +16,7 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     , m_timerHistoryUpdate(new QTimer(this))
     , m_historyModel(new DapHistoryModel)
     , m_historyProxyModel(new DapHistoryProxyModel())
+    , m_historyByteArray(new QByteArray())
 {
     m_historyProxyModel->setSourceModel(m_historyModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
@@ -34,12 +35,16 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
 
 void DapModuleTxExplorer::initConnect()
 {
-    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived,
-            this, &DapModuleTxExplorer::setHistoryModel,
-            Qt::QueuedConnection);
-    connect(m_timerHistoryUpdate, &QTimer::timeout,
-            this, &DapModuleTxExplorer::slotHistoryUpdate,
-            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::historyServiceInitRcv, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
+    connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, [this]()
+    {
+        if(!m_modulesCtrl->isNodeWorking())
+        {
+            this->clearHistory();
+        }
+    });
+    connect(m_timerHistoryUpdate, &QTimer::timeout, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
 
     connect(this, &DapAbstractModule::statusProcessingChanged, [=]
     {
@@ -61,12 +66,17 @@ void DapModuleTxExplorer::initConnect()
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 {
     isSendReqeust = false;
-//    qDebug() << "DapModuleTxExplorer::setHistoryModel"
-//             << "isEqual" << (rcvData.toString() == "isEqual");
+    auto historyByte = rcvData.toByteArray();
+    if(*m_historyByteArray == historyByte)
+    {
+        return;
+    }
+    *m_historyByteArray = historyByte;
+
     if(rcvData.toString() == "isEqual")
         return;
 
-    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonDocument doc = QJsonDocument::fromJson(historyByte);
 
     if (!doc.isObject())
         return;
@@ -124,16 +134,16 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
               });
     m_historyModel->updateModel(std::move(resultList));
 
-        setStatusInit(true);
+    setStatusInit(true);
 
     emit updateHistoryModel();
-
 }
 
 void DapModuleTxExplorer::clearHistory()
 {
     m_historyModel->clear();
     setStatusInit(false);
+    m_historyByteArray->clear();
 }
 
 void DapModuleTxExplorer::setWalletName(QString str)

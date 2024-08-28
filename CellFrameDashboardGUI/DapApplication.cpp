@@ -6,6 +6,8 @@
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
 #include "dapvpnorderscontroller.h"
+#include "NodePathManager.h"
+
 
 #ifdef ANDROID
 #include <QtAndroid>
@@ -98,6 +100,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     s_modulesInit = new DapModulesController(qmlEngine());
     connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
     connect(s_modulesInit, &DapModulesController::netListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
+    s_modulesInit->setConfigWorker(configWorker);
 }
 
 DapApplication::~DapApplication()
@@ -202,4 +205,8 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
     m_engine.rootContext()->setContextProperty("translator", translator);
+    m_engine.rootContext()->setContextProperty("nodePathManager", &NodePathManager::getInstance());
+    m_engine.rootContext()->setContextProperty("nodeConfigToolController", &NodeConfigToolController::getInstance());
+
+
 }

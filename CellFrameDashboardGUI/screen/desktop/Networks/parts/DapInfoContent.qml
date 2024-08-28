@@ -9,7 +9,7 @@ import "../../controls"
 
 Item {
 
-    property alias nameStatus: nameStatus
+    property alias nameStatus: nameAndStatus.indicator
     property alias buttonSync: buttonSync
     property alias buttonNetwork: buttonNetwork
 
@@ -163,16 +163,50 @@ Item {
         ///-------
 
         //body
-        DapRowInfoText
+        Item
         {
+            property bool showProgress: !(networkState === "NET_STATE_OFFLINE" || networkState === "NET_STATE_ONLINE")
+            property string progressText: showProgress ? " " + (logicNet.percentToRatio(syncPercent) * 100).toFixed(0) + "%" : ""
+            property int spinerWidth: showProgress ? stateSpinerIcon.width : 0
+
             Layout.topMargin: 8
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
+            Layout.preferredWidth: stateTextBlock.staticText.implicitWidth + stateTextBlock.dynamicText.implicitWidth + spinerWidth
             Layout.preferredHeight: 15
 
-            staticText.text: qsTr("State: ")
-            dynamicText.text: networkState
-            onTextChangedSign: buttonNetwork.setText()
+            DapRowInfoText
+            {
+                id: stateTextBlock
+                anchors.top: parent.top
+                anchors.left: parent.left
+                height: parent.height
+                staticText.text: qsTr("State: ")
+                dynamicText.text: displayNetworkState + parent.progressText
+                onTextChangedSign: buttonNetwork.setText()
+            }
+
+            Image
+            {
+                id: stateSpinerIcon
+                width: 15
+                height: 15
+                anchors.right: parent.right
+                y: parent.height / 2 - height / 2
+                visible: parent.showProgress
+                antialiasing: true
+                fillMode: Image.PreserveAspectFit
+                sourceSize: Qt.size(15,15)
+                source: "qrc:/Resources/" + pathTheme + "/icons/other/sync_15x15.svg"
+
+                NumberAnimation on rotation
+                {
+                    from: 0
+                    to: -360
+                    duration: 1000
+                    loops: Animation.Infinite
+                    running: true
+                }
+            }
         }
 
         Text {
@@ -198,7 +232,7 @@ Item {
             Layout.preferredHeight: 15
 
             staticText.text: qsTr("Target state: ")
-            dynamicText.text: targetState
+            dynamicText.text: displayTargetState
             onTextChangedSign: buttonNetwork.setText()
         }
 
@@ -240,51 +274,19 @@ Item {
         }
     }
 
-    RowLayout {
-        anchors.horizontalCenter: parent.horizontalCenter
+    Item
+    {
+        width: parent.width
+        height: 42
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 14
 
-        height: 15
-        spacing: 5
-//        width: nameText.implicitWidth + nameStatus.width + spacing
-
-        Text {
-            id: nameText
-            Layout.alignment: Qt.AlignVCenter
-            Layout.fillWidth: true
-            Layout.maximumWidth: item_width/2
-            font: mainFont.dapFont.medium12
-            color: currTheme.white
-            text: name
-            elide: Text.ElideMiddle
-        }
-
-        Item{
-            Layout.preferredHeight: 8
-            Layout.preferredWidth: 8
-
-            Image {
-                id: nameStatus
-                anchors.centerIn: parent
-                sourceSize: Qt.size(8,8)
-//                mipmap: true
-                antialiasing: true
-//                smooth: false
-                fillMode: Image.PreserveAspectFit
-
-                source: networkState === "NET_STATE_ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg" :
-                        networkState !== targetState ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
-                        networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg":
-                                                    "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.svg"
-
-                opacity: networkState !== targetState? animationController.opacity : 1
-            }
+        DapNetworkNameStatusComponent
+        {
+            id: nameAndStatus
+            nameOfNetwork: name
+            stateOfNetwork: networkState
+            stateOfTarget: targetState
+            percentOfSync: syncPercent
         }
     }
 }
-
-
-
-
-

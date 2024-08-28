@@ -30,7 +30,8 @@ QtObject {
 
     property string lastVersion
     property bool hasUpdate
-    property string urlDownload
+    property string urlDownload:""
+    property string urlDownloadNode:""
 
     property int requestsMessageCounter: 0
     property bool isOpenRequests: false
@@ -494,6 +495,12 @@ QtObject {
     function updateDashboard()
     {
         Qt.openUrlExternally(urlDownload);
+//        dapServiceController.requestToService("DapVersionController", "update")
+//        updatingDashboard("The update process has started.")
+    }
+
+    function updateNode()
+    {
 //        dapServiceController.requestToService("DapVersionController", "update")
 //        updatingDashboard("The update process has started.")
     }

@@ -23,6 +23,8 @@ DapPage
     readonly property string newPaymentMain:           path + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
     ///@detalis Path to the right panel of new payment done.
     readonly property string newPaymentDone:           path + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
+    ///@detalis Path to the right panel of new payment done.
+    readonly property string newPaymentAddToQueue:     path + "/Dashboard/RightPanel/DapNewPaymentAddedQueueRightPanel.qml"
 
     id: dashboardTab
 
@@ -99,6 +101,14 @@ DapPage
             txExplorerModule.statusProcessing = true
 
            dapRightPanel.push(newPaymentDone)
+        }
+
+        function toQueueNewPayment()
+        {
+            txExplorerModule.statusProcessing = true
+            modulesController.feeUpdate = false
+
+           dapRightPanel.push(newPaymentAddToQueue)
         }
 
         function popPage() {
@@ -192,6 +202,19 @@ DapPage
         {
             console.log("onWalletsModelChanged")
             updateScreen()
+        }
+    }
+
+    Connections
+    {
+        target: modulesController
+
+        function onNodeWorkingChanged()
+        {
+            if(modulesController.isNodeWorking)
+            {
+                txExplorerModule.clearHistory()
+            }
         }
     }
 

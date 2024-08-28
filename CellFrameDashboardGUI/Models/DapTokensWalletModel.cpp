@@ -20,11 +20,13 @@ struct ItemTokensBridge::Data
 
 static const QHash<QString, DapTokensWalletModel::DapTokensWalletModel::FieldId> s_fieldIdMap = 
     {
-        {"tokenName",       DapTokensWalletModel::FieldId::tokenName},
-        {"value",           DapTokensWalletModel::FieldId::value},
-        {"valueDatoshi",    DapTokensWalletModel::FieldId::valueDatoshi},
-        {"tiker",           DapTokensWalletModel::FieldId::tiker},
-        {"network",         DapTokensWalletModel::FieldId::network}
+        {"tokenName",           DapTokensWalletModel::FieldId::tokenName},
+        {"value",               DapTokensWalletModel::FieldId::value},
+        {"valueDatoshi",        DapTokensWalletModel::FieldId::valueDatoshi},
+        {"tiker",               DapTokensWalletModel::FieldId::tiker},
+        {"network",             DapTokensWalletModel::FieldId::network},
+        {"availableDatoshi",    DapTokensWalletModel::FieldId::availableDatoshi},
+        {"availableCoins",      DapTokensWalletModel::FieldId::availableCoins}        
         };
 
 static DapTokensWalletModel::Item _dummy();
@@ -225,11 +227,13 @@ QVariant DapTokensWalletModel::_getValue (const DapTokensWalletModel::Item &a_it
     {
     case DapTokensWalletModel::FieldId::invalid: break;
 
-    case DapTokensWalletModel::FieldId::tokenName:     return a_item.tokenName;
-    case DapTokensWalletModel::FieldId::value:         return a_item.value;
-    case DapTokensWalletModel::FieldId::valueDatoshi:  return a_item.valueDatoshi;
-    case DapTokensWalletModel::FieldId::tiker:         return a_item.tiker;
-    case DapTokensWalletModel::FieldId::network:       return a_item.network;
+    case DapTokensWalletModel::FieldId::tokenName:          return a_item.tokenName;
+    case DapTokensWalletModel::FieldId::value:              return a_item.value;
+    case DapTokensWalletModel::FieldId::valueDatoshi:       return a_item.valueDatoshi;
+    case DapTokensWalletModel::FieldId::tiker:              return a_item.tiker;
+    case DapTokensWalletModel::FieldId::network:            return a_item.network;
+    case DapTokensWalletModel::FieldId::availableDatoshi:   return a_item.availableDatoshi;
+    case DapTokensWalletModel::FieldId::availableCoins:     return a_item.availableCoins;
     }
 
     return QVariant();
@@ -275,6 +279,8 @@ ItemTokensBridge::ItemTokensBridge (ItemTokensBridge::Data *a_data)
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::valueDatoshiChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::tikerChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::networkChanged); 
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::availableDatoshiChanged); 
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemTokensBridge::availableCoinsChanged); 
 }
 
 ItemTokensBridge::ItemTokensBridge (QObject *a_parent)
@@ -322,6 +328,16 @@ QString ItemTokensBridge::tiker() const
 QString ItemTokensBridge::network() const
 {
     return (d && d->item) ? d->item->network : QString();
+}
+
+QString ItemTokensBridge::availableDatoshi() const
+{
+    return (d && d->item) ? d->item->availableDatoshi : QString();
+}
+
+QString ItemTokensBridge::availableCoins() const
+{
+    return (d && d->item) ? d->item->availableCoins : QString();
 }
 
 ItemTokensBridge &ItemTokensBridge::operator =(const ItemTokensBridge &a_src)

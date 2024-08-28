@@ -166,7 +166,14 @@ DapNewPaymentMainRightPanelForm
         {
             commandResult = aResult
             walletModule.timerUpdateFlag(true);
-            navigator.doneNewPayment()
+            if(aResult.toQueue)
+            {
+                navigator.toQueueNewPayment()
+            }
+            else
+            {
+                navigator.doneNewPayment()
+            }
         }
 
         function onTokenModelChanged()
