@@ -65,16 +65,22 @@ QString NodeInstallManager::getUrl(const QString& ver)
 void NodeInstallManager::checkUpdateNode(const QString& url)
 {
     //todo: this func receive install-pack name and fill m_fileName
-    QNetworkRequest request;
-    request.setUrl(QUrl(url));
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    QNetworkRequest request((QUrl(url)));
+
     qDebug() << "[Test url] Try check url. URL: " << url;
-    QNetworkReply *reply = m_networkManager->get(request);
-    connect(reply, &QNetworkReply::finished, this, &NodeInstallManager::onGetFileName);
+    connect(manager, &QNetworkAccessManager::finished, this, &NodeInstallManager::onGetFileName);
+    manager->get(request);
 }
 
-void NodeInstallManager::onGetFileName()
+void NodeInstallManager::onGetFileName(QNetworkReply *reply)
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    qDebug() << "[NodeInstallManager] [onGetFileName] ";
+    if(!reply)
+    {
+        emit singnalReadyUpdateToNode(false);
+        return;
+    }
     auto url = reply->url();
     if (reply->error() == QNetworkReply::NoError)
     {
