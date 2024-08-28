@@ -862,7 +862,7 @@ Rectangle {
             messagePopupUpdateNode.dapButtonCancel.textButton = qsTr("Close")
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
             messagePopupUpdateNode.height = 210
-            var header = qsTr("Node latest supported version installed")
+            var header = qsTr("Node latest supported version is installed")
             var text = qsTr("You’re using the most up-to-date version of node.")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
@@ -875,7 +875,7 @@ Rectangle {
             messagePopupUpdateNode.dapButtonOk.textButton = qsTr("Update")
 
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
-            var header = "<font color='" + currTheme.red + "'>" + qsTr("Currently node version unsupported") + "</font>"
+            var header = "<font color='" + currTheme.red + "'>" + qsTr("Currently node version is unsupported") + "</font>"
             var text = qsTr("Your current node version ") + settingsModule.nodeVersion + qsTr(" is not compatible. Please update to the latest supported version to continue.")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
@@ -906,7 +906,7 @@ Rectangle {
 
             messagePopupUpdateNode.height = 220
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
-            var header = "<font color='" + currTheme.сrayola + "'>" + qsTr("Node new version available") + "</font>"
+            var header = "<font color='" + currTheme.сrayola + "'>" + qsTr("Node new version is available") + "</font>"
             var curVer = settingsModule.nodeVersion
             var maxVer = settingsModule.getMaxNodeVersion()
             var text = qsTr("You’re using version ") + curVer + qsTr(". Version ") + "<font color='"  + currTheme.сrayola + "'><b>" + maxVer + "</b></font>" + qsTr(" is now available!")
@@ -920,8 +920,8 @@ Rectangle {
             messagePopupUpdateNode.dapButtonOk.textButton = "Download"
 
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
-            var header = "<font color='" + currTheme.red + "'>" + qsTr("Cellframe node missing") + "</font>"
-            var text = qsTr("Your device is missing cellfarme-node. Click \"Download\" to download the latest supported version.")
+            var header = "<font color='" + currTheme.red + "'>" + qsTr("Cellframe node is missing") + "</font>"
+            var text = qsTr("Your device is missing cellframe-node. Click \"Download\" to download the latest supported version.")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
     }
