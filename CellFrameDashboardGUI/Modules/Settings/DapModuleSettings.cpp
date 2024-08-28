@@ -64,7 +64,7 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
     else if(objRes["message"].toString().contains("node"))
     {
         QString ver = objRes["lastVersion"].toString();
-        if(m_nodeVersion == ver)
+        if(ver.isEmpty() || m_nodeVersion == ver)
         {
             return;
         }
