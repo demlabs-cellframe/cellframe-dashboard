@@ -17,6 +17,9 @@ bool NodeConfigToolController::runNode()
     if(m_flagUserStopAutostart)
         return false;
 
+    if(!m_statusInitConfTool)
+        initConfTool();
+
     if(m_statusInitConfTool)
     {
         if(!serviceCommand(Status)["result"].toString().contains("enabled"));
