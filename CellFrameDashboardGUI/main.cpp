@@ -183,28 +183,34 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(DAP_BRAND);
 
     createDapLogger();
-    //std::unique_ptr<DapLogger> logger_ptr = DapLogger::instance();
+    qDebug() << "[TEST] MAIN Test key 1";
     int result = RESTART_CODE;
 
 
     bool isSingleApp = SingleApplicationTest(DAP_BRAND);
-
+    qDebug() << "[TEST] MAIN Test key 2";
     while (result == RESTART_CODE)
     {
+        qDebug() << "[TEST] MAIN Test key 3";
         NodePathManager::getInstance().init("GUI");
+        qDebug() << "[TEST] MAIN Test key 4";
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
+        qDebug() << "[TEST] MAIN Test key 5";
         DapApplication * app = new DapApplication(argc, argv);
-
+        qDebug() << "[TEST] MAIN Test key 6";
         if(!isSingleApp)
         {
+            qDebug() << "[TEST] MAIN Test key 7";
             showErrorMessage(DAP_BRAND);
+            qDebug() << "[TEST] MAIN Test key 8";
             return 1;
         }
-
+        qDebug() << "[TEST] MAIN Test key 9";
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
+        qDebug() << "[TEST] MAIN Test key 10";
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
-
+        qDebug() << "[TEST] MAIN Test key 11";
         QString os;
 
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
@@ -216,7 +222,7 @@ int main(int argc, char *argv[])
 #else
         os = "unknown";
 #endif
-
+        qDebug() << "[TEST] MAIN Test key 12";
         QQmlContext * context = app->qmlEngine()->rootContext();
         context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
         context->setContextProperty("MIN_WIDTH", QVariant::fromValue(MIN_WIDTH));
@@ -225,19 +231,25 @@ int main(int argc, char *argv[])
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
         context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
         context->setContextProperty("CURRENT_OS", QVariant::fromValue(os));
-
+        qDebug() << "[TEST] MAIN Test key 13";
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QObject::connect(app->qmlEngine(), &QQmlApplicationEngine::objectCreated,
             app, [url](QObject *obj, const QUrl &objUrl) {
+                qDebug() << "[TEST] MAIN Test key 14";
                 if (!obj && url == objUrl)
                     QCoreApplication::exit(-1);
             }, Qt::QueuedConnection);
-
+        qDebug() << "[TEST] MAIN Test key 15";
         app->qmlEngine()->load(url);
+        qDebug() << "[TEST] MAIN Test key 16";
         NodePathManager::getInstance().checkNeedDownload();
+        qDebug() << "[TEST] MAIN Test key 17";
         DapLogger::instance()->startUpdateTimer();
+        qDebug() << "[TEST] MAIN Test key 18";
         result = app->exec();
+        qDebug() << "[TEST] MAIN Test key 19";
         delete app;
+        qDebug() << "[TEST] MAIN Test key 20";
     }
 
     DapLogger::deleteLogger();
