@@ -20,44 +20,6 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 #    Resources/Translations/Translation_nl.ts
 
 
-INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
-                $$SDK_INSTALL_PATH/include/dap/crypto/ \
-                $$SDK_INSTALL_PATH/include/dap/net/client/ \
-                $$SDK_INSTALL_PATH/include/dap/io/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/enc_server/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/json_rpc/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/notify_server/ \
-                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/Keccak/FIPS202/ \
-                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/common \
-                $$SDK_INSTALL_PATH/include/dap/crypto/rand/ \
-                $$SDK_INSTALL_PATH/include/dap/net/stream/ch/ \
-                $$SDK_INSTALL_PATH/include/dap/net/stream/stream/ \
-                $$SDK_INSTALL_PATH/include/dap/net/stream/session/ \
-                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/http_client \
-                $$SDK_INSTALL_PATH/include/dap/global_db/ \
-                $$SDK_INSTALL_PATH/include/json-c/ \
-                $$SDK_INSTALL_PATH/include/modules/common/ \
-                $$SDK_INSTALL_PATH/include/modules/net/ \
-                $$SDK_INSTALL_PATH/include/modules/chain/ \
-                $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
-
-
-LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/http_server/libdap_http_server.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
-LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
-LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 
 include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
@@ -71,6 +33,7 @@ include (../dap-ui-sdk/core/libdap-qt.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
+
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
@@ -115,7 +78,6 @@ HEADERS += $$PWD/DapServiceController.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h \
-    $$PWD/DapRegularRequestsController.h \
     $$PWD/DapNotificationWatcher.h
 
 SOURCES += $$PWD/main.cpp \
@@ -135,7 +97,6 @@ SOURCES += $$PWD/main.cpp \
     resizeimageprovider.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp \
-    $$PWD/DapRegularRequestsController.cpp \
     $$PWD/DapNotificationWatcher.cpp
 
 OTHER_FILES += libdap-qt-ui-qml \
@@ -226,26 +187,45 @@ mac {
     INSTALLS += pkginstall
 }
 
-#android {
-#    QT += androidextras
+INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
+                $$SDK_INSTALL_PATH/include/dap/core/win32 \ 
+                $$SDK_INSTALL_PATH/include/dap/crypto/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP \
+                $$SDK_INSTALL_PATH/include/dap/net/client/ \
+                $$SDK_INSTALL_PATH/include/dap/io/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/enc_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/json_rpc/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/notify_server/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/Keccak/FIPS202/ \
+                $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/common \
+                $$SDK_INSTALL_PATH/include/dap/crypto/rand/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/ch/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/stream/ \
+                $$SDK_INSTALL_PATH/include/dap/net/stream/session/ \
+                $$SDK_INSTALL_PATH/include/dap/net/server/http_server/http_client \
+                $$SDK_INSTALL_PATH/include/dap/global_db/ \
+                $$SDK_INSTALL_PATH/include/json-c/ \
+                $$SDK_INSTALL_PATH/include/modules/common/ \
+                $$SDK_INSTALL_PATH/include/modules/net/ \
+                $$SDK_INSTALL_PATH/include/modules/chain/ \
+                $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
 
-#    DISTFILES += \
-#        android/AndroidManifest.xml \
-#        android/build.gradle \
-#        android/gradle/wrapper/gradle-wrapper.jar \
-#        android/gradle/wrapper/gradle-wrapper.properties \
-#        android/gradlew \
-#        android/gradlew.bat \
-#        android/res/values/libs.xml \
-#        qzip/zlib/zlib-1.2.5.zip \
-#        qzip/zlib/zlib125dll.zip \
-#        android/src/com/Cellframe/Dashboard/*.java
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/http_server/libdap_http_server.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
+LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
-#    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-
-#    gui_data_static.path = /
-#    gui_data_static.files = android/*
-#    INSTALLS += gui_data_static
-
-#include($$(OPENSSL_LIB)/openssl.pri)
-#}

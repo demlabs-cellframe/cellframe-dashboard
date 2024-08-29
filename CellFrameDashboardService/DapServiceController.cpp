@@ -78,6 +78,8 @@
 #include "handlers/DapCheckQueueTransactionCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
 
+#include "handlers/DapTransactionsInfoQueueCommand.h"
+
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #ifdef Q_OS_WIN
@@ -331,47 +333,29 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapCheckQueueTransactionCommand      ("DapCheckQueueTransactionCommand"      , nullptr, nodeCliPath));
     m_servicePool.append(new DapMoveWalletCommand                 ("DapMoveWalletCommand"                 , nullptr));
 
-    m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer, nodeCliPath));
-    m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
-    m_servicePool.append(new DapWebBlockList                      ("DapWebBlockList"                      , m_pServer));
-    m_servicePool.append(new DapRcvNotify                         ("DapRcvNotify"                         , m_pServer));
-    m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
-    m_servicePool.append(new DapServiceInitCommand                ("DapHistoryServiceInitCommand"         , m_pServer));
-    m_servicePool.append(new DapServiceInitCommand                ("DapWalletServiceInitCommand"          , m_pServer));
-    for(auto& service: qAsConst(m_servicePool))
-    {
-        DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);
-//        if(serviceCommand->isNeedListNetworks())
+    //New
+    m_servicePool.append(new DapTransactionsInfoQueueCommand      ("DapTransactionsInfoQueueCommand"      , nullptr));
+
+//    for(auto& service: qAsConst(m_servicePool))
+//    {
+//        DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);
+//        serviceCommand->setRegularController(m_reqularRequestsCtrl);
+
+//        if(m_onceThreadList.contains(service->getName()))
 //        {
-//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, serviceCommand, &DapAbstractCommand::rcvListNetworks);
+//            m_pServer->addService(service);
+//            continue;
 //        }
+//        QThread * thread = new QThread(m_pServer);
+//        service->moveToThread(thread);
 
-//        if(serviceCommand->isNeedListWallets())
-//        {
-//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, serviceCommand, &DapAbstractCommand::rcvListWallets);
-//        }
+//        connect(thread, &QThread::finished, m_pServer, &QObject::deleteLater);
+//        connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+//        thread->start();
 
-//        if(serviceCommand->isNeedFee())
-//        {
-//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeUpdated, serviceCommand, &DapAbstractCommand::rcvFee);
-//            connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeClear, serviceCommand, &DapAbstractCommand::rcvFeeClear);
-//        }
-
-        if(m_onceThreadList.contains(service->getName()))
-        {
-            m_pServer->addService(service);
-            continue;
-        }
-        QThread * thread = new QThread(m_pServer);
-        service->moveToThread(thread);
-
-        connect(thread, &QThread::finished, m_pServer, &QObject::deleteLater);
-        connect(thread, &QThread::finished, thread, &QObject::deleteLater);
-        thread->start();
-
-        m_threadPool.append(thread);
-        m_pServer->addService(service);
-    }
+//        m_threadPool.append(thread);
+//        m_pServer->addService(service);
+//    }
 }
 
 void DapServiceController::initAdditionalParamrtrsService()

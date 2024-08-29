@@ -69,15 +69,9 @@ DapServiceController::~DapServiceController()
 
 /// Client controller initialization.
 /// @param apDapServiceClient Network connection controller.
-void DapServiceController::init(DapServiceClient *apDapServiceClient)
+void DapServiceController::init()
 {
-    m_pDapServiceClient = apDapServiceClient;
-    m_pDapServiceClientMessage = new DapServiceClientMessage(nullptr);
-    connect(m_pDapServiceClient,SIGNAL(sendMessageBox(QString)),m_pDapServiceClientMessage, SLOT(messageBox(QString)));
-    // Socket initialization
-    m_DAPRpcSocket = new DapRpcSocket(apDapServiceClient->getClientSocket(), this);
     m_pServer = new DapUiService(this);
-
 
     m_threadRegular = new QThread();
     m_reqularRequestsCtrl->moveToThread(m_threadRegular);
@@ -106,7 +100,6 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
         connect(m_pServer, &DapUiService::onClientConnected, &DapServiceController::onNewClientConnected);
         connect(m_pServer, &DapUiService::onClientDisconnected, &DapServiceController::onNewClientConnected);
-        initServices();
     }
 #else
     //    m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
@@ -114,9 +107,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     //    {
     //        connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
     //        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
-    //        // Register command
-    //        initServices();
-    //        initAdditionalParamrtrsService();
+
     m_web3Controll->setCommandList(&m_transceivers);
     // Send data from notify socket to client
     connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::dapRcvNotify);
@@ -279,22 +270,7 @@ void DapServiceController::notifyService(const QString &asServiceName, const QVa
 void DapServiceController::addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService)
 {
     Q_ASSERT_X(!m_transceivers.contains(name), QString("service with name " + name + " already exist").toStdString().c_str(), 0);
-
-    if(commandService->isNeedListNetworks())
-    {
-        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listNetworksUpdated, commandService, &DapAbstractCommand::rcvListNetworks);
-    }
-
-    if(commandService->isNeedListWallets())
-    {
-        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::listWalletsUpdated, commandService, &DapAbstractCommand::rcvListWallets);
-    }
-
-    if(commandService->isNeedFee())
-    {
-        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeUpdated, commandService, &DapAbstractCommand::rcvFee);
-        connect(m_reqularRequestsCtrl, &DapRegularRequestsController::feeClear, commandService, &DapAbstractCommand::rcvFeeClear);
-    }
+    commandService->setRegularController(m_reqularRequestsCtrl);
 
     connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant reply)
             {
@@ -400,6 +376,7 @@ void DapServiceController::registerCommand()
     addService("DapWebConnectRequest",                      "dapWebConnectRequest",                 new DapWebConnectRequest("DapWebConnectRequest",                                    m_pServer));
     addService("DapHistoryServiceInitCommand",              "historyServiceInitRcv",                new DapServiceInitCommand("DapHistoryServiceInitCommand",                           m_pServer));
     addService("DapWalletServiceInitCommand",               "walletsServiceInitRcv",                new DapServiceInitCommand("DapWalletServiceInitCommand",                            m_pServer));
+    addService("DapTransactionsInfoQueueCommand",           "rcvTransactionsInfoQueueCommand",      new DapTransactionsInfoQueueCommand("DapTransactionsInfoQueueCommand",              nullptr));
 
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
@@ -413,14 +390,19 @@ void DapServiceController::registerCommand()
 
 //        emit signalTokensListReceived(tokensResult);
 
-        if (tokensResult.toString() == "isEqual")
+        QJsonDocument replyDoc = QJsonDocument::fromJson(tokensResult.toByteArray());
+        QJsonObject replyObj = replyDoc.object();
+
+        if(replyObj["result"].isArray())
         {
-            qDebug() << "tokensListReceived isEqual";
-            emit signalTokensListReceived("isEqual");
+            QJsonArray resultArr = replyObj["result"].toArray();
+            QJsonDocument resultDoc(resultArr);
+            emit signalTokensListReceived(tokensResult);
         }
         else
         {
-            emit signalTokensListReceived(tokensResult);
+            qDebug() << "tokensListReceived isEqual";
+            emit signalTokensListReceived("isEqual");
         }
     });
 }

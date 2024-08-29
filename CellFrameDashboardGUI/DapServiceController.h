@@ -20,7 +20,7 @@
 #include "DapWallet.h"
 #include "handlers/DapAbstractCommand.h"
 
-#include "DapRegularRequestsController.h"
+#include "RequestController/DapRegularRequestsController.h"
 #include "DapWebControllerForService.h"
 
 #include "handlers/DapQuitApplicationCommand.h"
@@ -100,6 +100,7 @@
 #include "handlers/stackCommand/DapStakeLockHoldCommandStack.h"
 #include "handlers/stackCommand/DapStakeLockTakeCommandStack.h"
 #include "handlers/stackCommand/DapCreateJsonTransactionCommandStack.h"
+#include "handlers/DapTransactionsInfoQueueCommand.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -161,7 +162,7 @@ public:
 
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
-    void init(DapServiceClient *apDapServiceClient);
+    void init();
     /// Get company brand.
     /// @return Brand сompany.
     QString getBrand() const;
@@ -337,11 +338,11 @@ signals:
     void rcvVoitingVoteCommand(const QVariant& rcvData);
     void rcvVoitingListCommand(const QVariant& rcvData);
     void rcvVoitingDumpCommand(const QVariant& rcvData);
-    
+    void rcvTransactionsInfoQueueCommand(const QVariant& rcvData);
+
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
     void signalChainsLoadProgress(QVariantMap loadProgress);
-
 
     void onServiceStarted();
 private slots:
@@ -381,8 +382,8 @@ private:
     DapNotifyController *m_DapNotifyController;
 
     /// Service connection management service.
-    DapServiceClient *m_pDapServiceClient {nullptr};
-    DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
+//    DapServiceClient *m_pDapServiceClient {nullptr};
+//    DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
     /// Command manager.
 //    QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     QMap<QString, DapRpcService*> m_transceivers;

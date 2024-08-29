@@ -19,7 +19,7 @@
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
 
-    , m_serviceClient(DAP_SERVICE_NAME)
+    // , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
 //    , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
 //    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
@@ -42,7 +42,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     translator->setLanguage(lang);
 
     qDebug()<<QString(DAP_SERVICE_NAME);
-
+    m_serviceController->init();
 #ifdef Q_OS_ANDROID
     QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
                                         "com/Cellframe/Dashboard/DashboardService");
@@ -52,8 +52,8 @@ DapApplication::DapApplication(int &argc, char **argv)
                 serviceIntent.handle().object());
 #endif
 
-    m_serviceController->init(&m_serviceClient);
-    m_serviceClient.init();
+
+    // m_serviceClient.init();
 //    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
 //    m_diagnosticWorker->start();
 

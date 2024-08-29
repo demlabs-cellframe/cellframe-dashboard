@@ -15,6 +15,7 @@ DapPage {
     readonly property string createMasterNodeDone: path + "/MasterNode/RightPanel/DapCreateMasterNodeDone.qml"
     readonly property string lastActionsMasterNode: path + "/MasterNode/RightPanel/DapLastActionsMasterNode.qml"
     readonly property string baseMasterNodePanel: path + "/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml"
+    readonly property string orderCreateMasterNodePanel: path + "/MasterNode/RightPanel/DapCreateOrderMasterNode.qml"
 
     Component{id: emptyRightPanel; Item{}}
 

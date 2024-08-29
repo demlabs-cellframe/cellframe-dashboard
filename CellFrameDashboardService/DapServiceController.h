@@ -27,7 +27,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "DapWebControllerForService.h"
 
 #include "DapNotificationWatcher.h"
-// #include "DapRegularRequestsController.h"
+#include "RequestController/DapRegularRequestsController.h"
 
 #include "NodePathManager.h"
 

@@ -66,7 +66,7 @@ private:
     DapNetworksList m_networks;
     QQmlApplicationEngine m_engine;
 //    DapWallet* m_currentWallet;
-    DapServiceClient m_serviceClient;
+    // DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
 //    DapMath *m_mathBigNumbers;

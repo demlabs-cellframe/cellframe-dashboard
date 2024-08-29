@@ -659,7 +659,7 @@ QVariantMap DapModuleWallet::getFee(QString network)
         mapResult.insert("error", (int)DAP_RCV_FEE_ERROR);
         mapResult.insert("fee_ticker","UNKNOWN");
         mapResult.insert("network_fee", "0.00");
-        mapResult.insert("validator_fee", "0.00");
+        mapResult.insert("validator_fee", "0.05");
         return mapResult;
     }
     CommonWallet::FeeInfo& fee = m_feeInfo[network];

@@ -58,6 +58,8 @@ Rectangle {
 
     property var vpnClientTokenModel: new Array()
 
+    signal showPopupUpdateNode();
+
     MainApplicationLogic{id: logicMainApp}
     Settings
     {
@@ -110,14 +112,26 @@ Rectangle {
             click()
         }
     }
-    DapVersionPopup
+    DapNodeVersionPopup
     {
         id: messagePopupUpdateNode
 
         onSignalAccept:
         {
             if(accept)
-                logicMainApp.updateNode()
+            {
+                console.log("Try download node. url: ", settingsModule.getUrlUpload())
+
+                //TODO: It is necessary to find out the reason for the crash in the absence of a browser. This may have been fixed in QT 6.7.
+                try
+                {
+                    Qt.openUrlExternally(settingsModule.getUrlUpload());
+                }
+                catch(error)
+                {
+                    console.log("ХХХХХ ---- An unforeseen situation has arisen. There are probably problems in the OS with browser settings. ----- ХХХХХ", error)
+                }
+            }
         }
     }
 
@@ -349,12 +363,11 @@ Rectangle {
             showTab: true,
             page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
 
-            /// NEW MASTER NODE TAB
-    //    append ({ tag: "Master Node",
-    //            name: qsTr("Master Node"),
-    //            bttnIco: "icon_master_node.svg",
-    //            showTab: true,
-    //            page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
+       append ({ tag: "Master Node",
+            name: qsTr("Master Node"),
+            bttnIco: "icon_master_node.svg",
+            showTab: true,
+            page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
 
         append ({ tag: "Settings",
             name: qsTr("Settings"),
@@ -754,26 +767,6 @@ Rectangle {
 ////            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
 //        }
 
-//        function onWalletsReceived(walletList)
-//        {
-//            console.log("onWalletsReceived")
-//            logicMainApp.rcvWallets(walletList)
-//        }
-//        function onWalletReceived(wallet)
-//        {
-//            console.log("onWalletReceived")
-//            logicMainApp.rcvWallet(wallet)
-//        }
-
-
-//        function onOrdersReceived(orderList)
-//        {
-//            console.log("onOrdersReceived")
-//            console.log("Orders count:", orderList.length)
-//            logicMainApp.rcvOrders(orderList)
-//            modelOrdersUpdated();
-//        }
-
         function onSignalTokensListReceived(tokensResult)
         {
             console.log("TokensListReceived")
@@ -811,12 +804,100 @@ Rectangle {
             console.log("onSignalIsNeedInstallNode", isNeed, url)
             if(isNeed)
             {
-                logicMainApp.urlDownloadNode = url
-                messagePopupUpdateNode.dapButtonCancel.visible = true
-                messagePopupUpdateNode.dapButtonOk.textButton = "Download"
-                messagePopupUpdateNode.dapButtonCancel.textButton = "Cancel"
-                messagePopupUpdateNode.smartOpenVersion(qsTr("Node download"), "", "", qsTr("Your device is missing cellfarme-node. Click \"Download\" to download the latest version."))
+                settingsModule.nodeUpdateType = 5
+                settingsModule.setNeedDownloadNode();
+                openPopupUpdateNode()
             }
+        }
+    }
+
+    Connections
+    {
+        target: settingsModule
+        function onNeedNodeUpdateSignal()
+        {
+            openPopupUpdateNode()
+            
+        }
+    }
+
+    onShowPopupUpdateNode:
+    {
+        openPopupUpdateNode()
+    }
+
+    function openPopupUpdateNode()
+    {
+        var type = settingsModule.nodeUpdateType
+        if(type === 1)
+        {
+            messagePopupUpdateNode.dapButtonCancel.visible = true
+            messagePopupUpdateNode.dapButtonOk.visible = false
+            messagePopupUpdateNode.dapButtonCancel.fontButton = mainFont.dapFont.regular14
+            messagePopupUpdateNode.dapButtonCancel.textButton = qsTr("Close")
+            messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
+            messagePopupUpdateNode.height = 210
+            var header = qsTr("Node latest supported version is installed")
+            var text = qsTr("You’re using the most up-to-date version of node.")
+            messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
+        }
+        else if(type === 2)
+        {
+            messagePopupUpdateNode.height = 235
+            messagePopupUpdateNode.dapButtonCancel.visible = false
+            messagePopupUpdateNode.dapButtonOk.visible = true
+            messagePopupUpdateNode.dapButtonOk.fontButton = mainFont.dapFont.regular14
+            messagePopupUpdateNode.dapButtonOk.textButton = qsTr("Update")
+
+            messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
+            var header = "<font color='" + currTheme.red + "'>" + qsTr("Currently node version is unsupported") + "</font>"
+            var text = qsTr("Your current node version ") + settingsModule.nodeVersion + qsTr(" is not compatible. Please update to the latest supported version to continue.")
+            messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
+        }
+        else if(type === 3)
+        {
+            messagePopupUpdateNode.dapButtonOk.visible = true
+            messagePopupUpdateNode.dapButtonOk.fontButton = mainFont.dapFont.regular14
+            messagePopupUpdateNode.dapButtonOk.textButton = qsTr("Downgrade")
+
+            messagePopupUpdateNode.dapButtonCancel.visible = true
+            messagePopupUpdateNode.dapButtonCancel.fontButton = mainFont.dapFont.regular14
+            messagePopupUpdateNode.dapButtonCancel.textButton = qsTr("Cancel")
+
+            messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
+            var header = "<font color='" + currTheme.textColorYellow + "'>" + qsTr("Incompatible node version") + "</font>"
+            var text = qsTr("You’re using version ") + settingsModule.nodeVersion + qsTr(", which isn’t tested with this application and may cause issues. Downgrade to a compatible version?")
+            messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
+        }
+        else if(type === 4) // Update
+        {
+            messagePopupUpdateNode.dapButtonOk.visible = true
+            messagePopupUpdateNode.dapButtonOk.fontButton = mainFont.dapFont.regular14
+            messagePopupUpdateNode.dapButtonOk.textButton = qsTr("Update")
+
+            messagePopupUpdateNode.dapButtonCancel.visible = true
+            messagePopupUpdateNode.dapButtonCancel.fontButton = mainFont.dapFont.regular14
+            messagePopupUpdateNode.dapButtonCancel.textButton = qsTr("Cancel")
+
+            messagePopupUpdateNode.height = 220
+            messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
+            var header = "<font color='" + currTheme.сrayola + "'>" + qsTr("Node new version is available") + "</font>"
+            var curVer = settingsModule.nodeVersion
+            var maxVer = settingsModule.getMaxNodeVersion()
+            var text = qsTr("You’re using version ") + curVer + qsTr(". Version ") + "<font color='"  + currTheme.сrayola + "'><b>" + maxVer + "</b></font>" + qsTr(" is now available!")
+            messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
+        }
+        else if(type === 5) //Download
+        {
+            messagePopupUpdateNode.dapButtonCancel.visible = false
+            messagePopupUpdateNode.dapButtonOk.visible = true
+            messagePopupUpdateNode.dapButtonOk.fontButton = mainFont.dapFont.regular14
+            messagePopupUpdateNode.dapButtonOk.textButton = "Download"
+
+            messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
+            var header = "<font color='" + currTheme.red + "'>" + qsTr("Cellframe node is missing") + "</font>"
+            var text = qsTr("Your device is missing cellframe-node. Click \"Download\" to download the latest supported version.")
+            messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
     }
 }
