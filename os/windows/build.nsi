@@ -116,10 +116,10 @@ Section "${APP_NAME}" CORE
 	CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${EXE_NAME}"
 SectionEnd
 
-!Section -startNode
+;Section -startNode
 ;	nsExec::ExecToLog /OEM '"$INSTDIR\${APP_NAME}Service.exe" install'
 ;	nsExec::ExecToLog /OEM 'sc start ${APP_NAME}Service'
-!SectionEnd
+;SectionEnd
 
 Section "Uninstall"
 	SetRegView 64
@@ -128,7 +128,7 @@ Section "Uninstall"
 	Delete "$INSTDIR\${APP_NAME}.exe"
 ;	Delete "$INSTDIR\${APP_NAME}Service.exe"
 	DeleteRegKey HKLM "${UNINSTALL_PATH}"
-;	DeleteRegKey HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers\$INSTDIR\${APP_NAME}Service.exe"
+;	DeleteRegKey HKCU "Software\Microsofhttps://github.com/google/cpu_features/tree/main/srct\Windows NT\CurrentVersion\AppCompatFlags\Layers\$INSTDIR\${APP_NAME}Service.exe"
 	Delete "$INSTDIR\Uninstall.exe"
 	Delete "$DESKTOP\${APP_NAME}.lnk"
 SectionEnd
