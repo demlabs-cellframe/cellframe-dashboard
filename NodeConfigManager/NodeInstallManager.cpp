@@ -89,11 +89,12 @@ void NodeInstallManager::onGetFileName(QNetworkReply *reply)
         QTextCodec *codec = QTextCodec::codecForName("utf8");
         QString str = codec->toUnicode(content.data());
         QRegExp rw("[\\w+\\s+-\\.]+" + m_suffix);
-
+        qDebug() << "[TEST] NodeInstallManager Test key 1";
         rw.indexIn(str);
         m_fileName = rw.cap(0);
-
+        qDebug() << "[TEST] NodeInstallManager Test key 2";
         emit singnalReadyUpdateToNode(true);
+        qDebug() << "[TEST] NodeInstallManager Test key 3";
     }
     else
     {
@@ -103,6 +104,7 @@ void NodeInstallManager::onGetFileName(QNetworkReply *reply)
 
         emit singnalReadyUpdateToNode(false);
     }
-
+    qDebug() << "[TEST] NodeInstallManager Test key 4";
     reply->deleteLater();
+    qDebug() << "[TEST] NodeInstallManager Test key 5";
 }

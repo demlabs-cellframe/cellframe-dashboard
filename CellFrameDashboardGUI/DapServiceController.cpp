@@ -167,9 +167,9 @@ void DapServiceController::notifyService(const QString &asServiceName, const QVa
 {
     qDebug() << "DapServiceController::notifyService" << asServiceName << args;
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
-
+    qDebug() << "DapServiceController::notifyService 2";
     Q_ASSERT(transceiver);
-
+    qDebug() << "DapServiceController::notifyService 3";
     transceiver->notifyToService(args);
 }
 
