@@ -171,7 +171,6 @@ mac {
 
 
     DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/cellframe-uninstaller \
-        $$_PRO_FILE_PWD_/../os/macos/com.demlabs.Cellframe-DashboardService.plist \
 	$$_PRO_FILE_PWD_/../os/macos/com.demlabs.cellframe-node.plist \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall_icon.rsrc
