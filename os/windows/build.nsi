@@ -102,7 +102,7 @@ Section "${APP_NAME}" CORE
 	SetOutPath "$INSTDIR"
 !insertmacro killAll
 	File "opt/cellframe-dashboard/bin/${APP_NAME}.exe"
-	File "opt/cellframe-dashboard/bin/${APP_NAME}Service.exe"
+!	File "opt/cellframe-dashboard/bin/${APP_NAME}Service.exe"
 
 	InitPluginsDir
 	SetOutPath "$PLUGINSDIR"
@@ -116,10 +116,10 @@ Section "${APP_NAME}" CORE
 	CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${EXE_NAME}"
 SectionEnd
 
-Section -startNode
-	nsExec::ExecToLog /OEM '"$INSTDIR\${APP_NAME}Service.exe" install'
-	nsExec::ExecToLog /OEM 'sc start ${APP_NAME}Service'
-SectionEnd
+!Section -startNode
+!	nsExec::ExecToLog /OEM '"$INSTDIR\${APP_NAME}Service.exe" install'
+!	nsExec::ExecToLog /OEM 'sc start ${APP_NAME}Service'
+!SectionEnd
 
 Section "Uninstall"
 	SetRegView 64

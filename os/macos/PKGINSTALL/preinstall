@@ -4,9 +4,9 @@ echo "Installing time!" >> /tmp/debug_vpn.txt
 
 APP_NAME=Cellframe-Dashboard
 
-SERVICE=com.demlabs.Cellframe-DashboardService
+# SERVICE=com.demlabs.Cellframe-DashboardService
 
-launchctl stop $SERVICE
+# launchctl stop $SERVICE
 
 #rm -r /Users/$USER/Applications/Cellframe.app/Contents/Resources/etc/ || true
 
