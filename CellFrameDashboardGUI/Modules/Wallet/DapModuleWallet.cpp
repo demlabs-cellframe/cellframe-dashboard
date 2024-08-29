@@ -86,12 +86,16 @@ void DapModuleWallet::updateListWallets()
 
 void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    QJsonArray walletArray = replyObj["result"].toArray();
 
-    if(doc.array().isEmpty())
+    if(walletArray.isEmpty())
     {
         setCurrentWallet(-1);
     }
+
+    auto doc = QJsonDocument(walletArray);
 
     if(m_walletListTest != doc.toJson())
     {
@@ -342,7 +346,10 @@ void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 
 void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
 {
-    emit sigTxCreate(rcvData);
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    QJsonValue resultValue = replyObj["result"];
+    emit sigTxCreate(resultValue);
 }
 
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
@@ -396,16 +403,20 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
         }
     }
 
-    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+    QJsonDocument replyDoc = QJsonDocument::fromJson(data.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    QJsonValue resultValue = replyObj["result"];
 
-    if(document.isNull() || document.isEmpty())
+//    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+
+    if(resultValue.isNull())
     {
         return;
     }
 
     if(!isSingle)
     {
-        QJsonArray walletArray = document.array();
+        QJsonArray walletArray = resultValue.toArray();
         if(walletArray.isEmpty())
         {
             return;
@@ -430,7 +441,7 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
     }
     else
     {
-        QJsonObject inObject = document.object();
+        QJsonObject inObject = resultValue.toObject();
         CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(inObject));
         if(m_walletsInfo.contains(tmpInfo.walletName))
         {
@@ -585,7 +596,18 @@ void DapModuleWallet::rcvFee(const QVariant &rcvData)
 {
     auto feeDoc = QJsonDocument::fromJson(rcvData.toByteArray());
 
-    QJsonObject feeObject = feeDoc.object();
+    QJsonObject resultObject = feeDoc.object();
+    if(resultObject.contains("error"))
+    {
+        qWarning() << "[DapModuleWallet] No commissions have been received. Mistake: " << resultObject["error"].toString();
+        return;
+    }
+    if(!resultObject.contains("result"))
+    {
+        qWarning() << "[DapModuleWallet] An unexpected problem.";
+        return;
+    }
+    auto feeObject = resultObject["result"].toObject();
     if(feeObject.isEmpty())
     {
         qDebug() << "[DapModuleWallet] The list of networks is empty";

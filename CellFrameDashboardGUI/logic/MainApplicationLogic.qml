@@ -259,12 +259,13 @@ QtObject {
     }
 
     function rcvTokens(tokensList)
-    {
+    {       
         if(tokensList !== "isEqual")
         {
             var jsonDocument = JSON.parse(tokensList)
+            var result = jsonDocument.result
             dapModelTokens.clear()
-            dapModelTokens.append(jsonDocument)
+            dapModelTokens.append(result)
 //            console.log(tokensList)
             modelTokensUpdated()
         }
@@ -404,22 +405,20 @@ QtObject {
             // remove last ';'
             result = result.slice(0,-1);
             blocklist = blocklist.slice(0,-1);
-
-            notifyService("DapWebBlockList", blocklist);
+            // dapServiceController.webConnectRespond(true, indexUser)
         }
 
         return result;
     }
 
-    function rcvWebConnectRequest(rcvData)
+    function rcvWebConnectRequest(site, index)
     {
-        var data = JSON.parse(rcvData)
         console.log("[rcvWebConnectRequest] Received a signal from Web3")
         var isEqual = false
         //filtering equeal sites requests
         for(var i = 0; i < dapMessageBuffer.count; i++)
         {
-            if(dapMessageBuffer.get(i).site === data[0]){
+            if(dapMessageBuffer.get(i).site === site){
                 isEqual = true
                 break;
             }
@@ -428,14 +427,13 @@ QtObject {
         var isContains = false;
         for(var j = 0; j < dapWebSites.count; j++)
         {
-            if(dapWebSites.get(j).site === data[0])
+            if(dapWebSites.get(j).site === site)
             {
                 isContains = true
                 if(!dapWebSites.get(j).enabled)
                 {
-//                    var rcv = [false, data[1]]
-                    notifyService("DapWebConnectRequest",false, data[1])
-                    dapMessageLogBuffer.append({infoText: "The site " + data[0] + " requests permission to work with your wallet",
+                    dapServiceController.webConnectRespond(false, index)
+                    dapMessageLogBuffer.append({infoText: "The site " + site + " requests permission to work with your wallet",
                                                 date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
                                                 reply: "Denied"})
                     return
@@ -444,14 +442,14 @@ QtObject {
         }
 
         if(!isContains)
-            dapWebSites.append({site:data[0],
+            dapWebSites.append({site:site,
                                 enabled: true})
 
         if(!isEqual)
         {
             requestsMessageCounter++
-            dapMessageBuffer.append({indexRequest: data[1],
-                                     site: data[0],
+            dapMessageBuffer.append({indexRequest: index,
+                                     site: site,
                                      date: getDate("yyyy-MM-dd, hh:mm ap")})
 
             if(!isOpenRequests)
@@ -463,7 +461,7 @@ QtObject {
                     webPopup.setDisplayText(isSingle, requestsMessageCounter, -1)
                 }else{
                     isSingle = true
-                    webPopup.setDisplayText(isSingle, data[0], data[1])
+                    webPopup.setDisplayText(isSingle, site, index)
                 }
                 if(!webPopup.isOpen)
                     webPopup.open()
@@ -575,30 +573,5 @@ QtObject {
         }
 
         app.requestToService(service, args);
-    }
-
-    function notifyService()
-    {
-        var service
-        var args = []
-
-        for(var i = 0; i < arguments.length; i++)
-        {
-            if(i == 0)
-                service = arguments[i]
-            else
-            {
-                args.push(arguments[i])
-            }
-        }
-
-        var count  = args.length ? 10 - args.length : 0
-        while(count)
-        {
-            args.push("");
-            count--;
-        }
-
-        app.notifyService(service, args);
     }
 }

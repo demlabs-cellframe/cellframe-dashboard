@@ -237,13 +237,7 @@ Rectangle {
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
     ListModel{id: dapModelXchangeOrders}
-    ListModel{
-        id: dapWebSites
-
-        onCountChanged: {
-            banSettings.webSites = logicMainApp.serializeWebSite()
-        }
-    }
+    ListModel{id: dapWebSites }
 
     ListModel{id: fakeWallet}
 
@@ -713,7 +707,11 @@ Rectangle {
     {
         target: dapServiceController
 
-        function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
+        function onNetworksListReceived(rcvData) {
+            var jsonDocument = JSON.parse(rcvData)
+            var result = jsonDocument.result
+            logicMainApp.rcvNetList(result)
+        }
         function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
 
         function onTransactionRemoved(rcvData)
@@ -782,19 +780,16 @@ Rectangle {
             logicMainApp.rcvTokens(tokensResult)
         }
 
-        function onDapWebConnectRequest(rcvData) { logicMainApp.rcvWebConnectRequest(rcvData)}
+        function onRcvWebConenctRequest(site, index)
+        {
+            logicMainApp.rcvWebConnectRequest(site, index)
+        }
 
         function onSignalXchangeOrderListReceived(rcvData)
         {
             console.log("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)
         }
-
-//         function onSignalXchangeTokenPairReceived()
-//         {
-//             console.log("onSignalXchangeTokenPairReceived")
-// //            logicMainApp.rcvPairsModel(rcvData)
-//         }
     }
     Connections{
         target: dAppsModule

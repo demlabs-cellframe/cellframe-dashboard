@@ -171,7 +171,7 @@ Page {
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked:{
                     console.log("Connection window the Allow button is clicked");
-                    logicMainApp.notifyService("DapWebConnectRequest",true, indexUser)
+                    dapServiceController.webConnectRespond(true, indexUser)
                     eventMessage("Allowed")
                 }
             }
@@ -187,7 +187,7 @@ Page {
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: {
                     console.log("Connection window the Allow button is clicked");
-                    logicMainApp.notifyService("DapWebConnectRequest",false, indexUser)
+                    dapServiceController.webConnectRespond(false, indexUser)
                     eventMessage("Denied")
                 }
             }

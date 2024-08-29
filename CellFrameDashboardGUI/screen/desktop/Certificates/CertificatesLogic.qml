@@ -18,7 +18,10 @@ Item {
     {
         target: dapServiceController
 
-        function onCertificateManagerOperationResult(result) {
+        function onCertificateManagerOperationResult(rcvData) {
+            var jsonDocument = JSON.parse(rcvData)
+            var result = jsonDocument.result
+
             if (!result) {
                 console.error("result is empty")
                 return

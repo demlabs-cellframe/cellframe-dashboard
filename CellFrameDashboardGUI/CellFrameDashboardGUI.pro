@@ -62,6 +62,8 @@ LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
 
+include (../web3_api/web3_api.pri)
+
 include(../NodeConfigManager/NodeConfigManager.pri)
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
@@ -113,7 +115,8 @@ HEADERS += $$PWD/DapServiceController.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h \
-    $$PWD/DapRegularRequestsController.h
+    $$PWD/DapRegularRequestsController.h \
+    $$PWD/DapNotificationWatcher.h
 
 SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
@@ -132,7 +135,8 @@ SOURCES += $$PWD/main.cpp \
     resizeimageprovider.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp \
-    $$PWD/DapRegularRequestsController.cpp
+    $$PWD/DapRegularRequestsController.cpp \
+    $$PWD/DapNotificationWatcher.cpp
 
 OTHER_FILES += libdap-qt-ui-qml \
                libdap-qt-ui-chain-wallet

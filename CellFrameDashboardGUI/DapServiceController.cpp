@@ -34,7 +34,12 @@ DapServiceController::~DapServiceController()
         thread->wait();
         delete thread;
     }
-
+    delete m_web3Controll;
+    DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+    if(controller)
+    {
+        controller->deleteTransactionController();
+    }
     //    for(DapRpcService *service : qAsConst(m_servicePool))
     //        service->deleteLater();
 
@@ -81,33 +86,29 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     m_threadRegular->start();
 
     registerCommand();
+    initAdditionalParamrtrsService();
     m_reqularRequestsCtrl->start();
 
 
-    //    m_threadNotify = new QThread();
-    //    m_watcher = new DapNotificationWatcher();
-    //    m_watcher->moveToThread(m_threadNotify);
+    m_threadNotify = new QThread();
+    m_watcher = new DapNotificationWatcher();
+    m_watcher->moveToThread(m_threadNotify);
 
-    //    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
-    //    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
-    //    m_threadNotify->start();
+    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
+    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
+    m_threadNotify->start();
 
-    //    m_threadRegular = new QThread();
-    //    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
-    //    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
-    //    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
-    //    m_threadRegular->start();
-
-    //    m_web3Controll = new DapWebControllerForService(this);
+    m_web3Controll = new DapWebControllerForService(this);
+    m_web3Controll->rcvFrontendConnectStatus(true);
     ////    m_versionController = new DapUpdateVersionController(this);
-    //#ifdef Q_OS_ANDROID
-    //    if (m_pServer->listen("127.0.0.1", 22150)) {
-    //        qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
-    //        connect(m_pServer, &DapUiService::onClientConnected, &DapServiceController::onNewClientConnected);
-    //        connect(m_pServer, &DapUiService::onClientDisconnected, &DapServiceController::onNewClientConnected);
-    //        initServices();
-    //    }
-    //#else
+#ifdef Q_OS_ANDROID
+    if (m_pServer->listen("127.0.0.1", 22150)) {
+        qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
+        connect(m_pServer, &DapUiService::onClientConnected, &DapServiceController::onNewClientConnected);
+        connect(m_pServer, &DapUiService::onClientDisconnected, &DapServiceController::onNewClientConnected);
+        initServices();
+    }
+#else
     //    m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
     //    if(m_pServer->listen(DAP_BRAND))
     //    {
@@ -116,18 +117,17 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     //        // Register command
     //        initServices();
     //        initAdditionalParamrtrsService();
-    //        m_web3Controll->setCommandList(&m_servicePool);
-    //        // Send data from notify socket to client
-    //        connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
-    //        connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
-    //        // Channel req\rep for web 3 API
-    //        DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
-    //        connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
-    //        connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
+    m_web3Controll->setCommandList(&m_transceivers);
+    // Send data from notify socket to client
+    connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::dapRcvNotify);
+    connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
+    // Channel req\rep for web 3 API
+    connect(this, &DapServiceController::webConnectRespond, m_web3Controll, &DapWebControll::rcvAccept);
+    connect(m_web3Controll, &DapWebControllerForService::signalConnectRequest, this, &DapServiceController::rcvWebConenctRequest);
     //        // Regular request controller
     //
     //    }
-    //#endif
+#endif
     //    else
     //    {
     //        qCritical() << QString("Can't listen on %1").arg(DAP_BRAND);
@@ -135,8 +135,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     //        return false;
     //    }
 
-    //    qInfo() << "Service started";
-    //    emit onServiceStarted();
+    qInfo() << "Service started";
+    emit onServiceStarted();
 }
 
 /// Get company brand.
@@ -259,17 +259,6 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_transceivers[asServiceName]);
     Q_ASSERT(transceiver);
     emit transceiver->toDataSignal(args);
-
-//     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
-// //    qDebug() << "DapServiceController::requestToService, asServiceName:"
-// //             << asServiceName << arg1.toString() << arg2.toString()
-// //             << arg3.toString() << arg4.toString() << arg5.toString()
-// //             << "transceiver:" << transceiver;
-//     Q_ASSERT(transceiver);
-//     disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
-//     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));
-//     transceiver->requestToService(args);
-
 }
 
 /// Notify service.
@@ -318,19 +307,34 @@ void DapServiceController::addService(const QString& name, const QString& signal
                     }
                 }
             });
-    QThread * thread = new QThread(this);
-//    auto service = m_pServer->addService(commandService);
 
-    commandService->moveToThread(thread);
-    thread->start();
-    m_threadPool.append(thread);
+    if(!m_onceThreadList.contains(name))
+    {
+        QThread * thread = new QThread(this);
+
+        commandService->moveToThread(thread);
+        thread->start();
+        m_threadPool.append(thread);
+    }
+    qDebug() << "add command " << name;
     m_transceivers.insert(name, commandService);
-
 }
 
 /// Register command.
 void DapServiceController::registerCommand()
 {
+    addService("DapCreateTransactionCommand",               "transactionCreated",                   new DapCreateTransactionCommandStack("DapCreateTransactionCommand",                 nullptr, m_nodeCliPath));
+    addService("DapSrvStakeDelegateCommand",                "srvStakeDelegateCreated",              new DapSrvStakeDelegateCommandStack("DapSrvStakeDelegateCommand",                   nullptr, m_nodeCliPath));
+    addService("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",               new DapTXCondCreateCommandStack("DapTXCondCreateCommand",                           nullptr, m_nodeCliPath));
+    addService("DapXchangeOrderCreate",                     "rcvXchangeCreate",                     new DapXchangeOrderCreateStack("DapXchangeOrderCreate",                             nullptr, m_nodeCliPath));
+    addService("DapXchangeOrderRemove",                     "rcvXchangeRemove",                     new DapXchangeOrderRemoveStack("DapXchangeOrderRemove",                             nullptr, m_nodeCliPath));
+    addService("DapXchangeOrderPurchase",                   "rcvXchangeOrderPurchase",              new DapXchangeOrderPurchaseStack("DapXchangeOrderPurchase",                         nullptr, m_nodeCliPath));
+    addService("DapStakeLockHoldCommand",                   "rcvStakeLockHoldCommand",              new DapStakeLockHoldCommandStack("DapStakeLockHoldCommand",                         nullptr, m_nodeCliPath));
+    addService("DapStakeLockTakeCommand",                   "rcvStakeLockTakeCommand",              new DapStakeLockTakeCommandStack("DapStakeLockTakeCommand",                         nullptr, m_nodeCliPath));
+    addService("DapCreateJsonTransactionCommand",           "rcvCreateJsonTransactionCommand",      new DapCreateJsonTransactionCommandStack("DapCreateJsonTransactionCommand",         nullptr, m_nodeCliPath));
+    addService("DapVoitingCreateCommand",                   "rcvVoitingCreateCommand",              new DapVoitingCreateCommandStack("DapVoitingCreateCommand",                         nullptr, m_nodeCliPath));
+    addService("DapVoitingVoteCommand",                     "rcvVoitingVoteCommand",                new DapVoitingVoteCommandStack("DapVoitingVoteCommand",                             nullptr, m_nodeCliPath));
+
     addService("DapCertificateManagerCommands",             "certificateManagerOperationResult",    new DapCertificateManagerCommands(DapCertificateCommands::serviceName(),            nullptr, m_nodeCliPath, m_nodeToolPath));
     addService("DapActivateClientCommand",                  "clientActivated",                      new DapActivateClientCommand("DapActivateClientCommand",                            nullptr, m_nodeCliPath));
     addService("DapUpdateLogsCommand",                      "logUpdated",                           new DapUpdateLogsCommand("DapUpdateLogsCommand",                                    nullptr, LOG_FILE));
@@ -346,9 +350,6 @@ void DapServiceController::registerCommand()
     addService("DapGetWalletAddressesCommand",              "walletAddressesReceived",              new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand",                    nullptr, m_nodeCliPath));
     addService("DapGetListWalletsCommand",                  "walletsListReceived",                  new DapGetListWalletsCommand("DapGetListWalletsCommand",                            nullptr, m_nodeCliPath));
     addService("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                 new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand",                    nullptr, m_nodeCliPath));
-    addService("DapCreateTransactionCommand",               "transactionCreated",                   new DapCreateTransactionCommand("DapCreateTransactionCommand",                      nullptr, m_nodeCliPath));
-    addService("DapSrvStakeDelegateCommand",                "srvStakeDelegateCreated",              new DapSrvStakeDelegateCommand("DapSrvStakeDelegateCommand",                        nullptr, m_nodeCliPath));
-    addService("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",               new DapTXCondCreateCommand("DapTXCondCreateCommand",                                nullptr, m_nodeCliPath));
     addService("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",          new DapGetOnceWalletInfoCommand("DapGetOnceWalletInfoCommand",                      nullptr, m_nodeCliPath));
     addService("DapMempoolProcessCommand",                  "mempoolProcessed",                     new DapMempoolProcessCommand("DapMempoolProcessCommand",                            nullptr, m_nodeCliPath));
     addService("DapGetWalletHistoryCommand",                "historyReceived",                      new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand",                        nullptr, m_nodeCliPath));
@@ -367,12 +368,9 @@ void DapServiceController::registerCommand()
     addService("DapGetXchangeTokenPair",                    "rcvXchangeTokenPair",                  new DapGetXchangeTokenPair("DapGetXchangeTokenPair",                                nullptr, m_nodeCliPath));
     addService("DapGetXchangeTokenPriceAverage",            "rcvXchangeTokenPriceAverage",          new DapGetXchangeTokenPriceAverage("DapGetXchangeTokenPriceAverage",                nullptr, m_nodeCliPath));
     addService("DapGetXchangeTokenPriceHistory",            "rcvXchangeTokenPriceHistory",          new DapGetXchangeTokenPriceHistory("DapGetXchangeTokenPriceHistory",                nullptr, m_nodeCliPath));
-    addService("DapGetXchangeTxList",                       "rcvXchangeTxList",                     new DapGetXchangeTxList("DapGetXchangeTxList",                                      nullptr, m_nodeCliPath));
-    addService("DapXchangeOrderCreate",                     "rcvXchangeCreate",                     new DapXchangeOrderCreate("DapXchangeOrderCreate",                                  nullptr, m_nodeCliPath));
-    addService("DapXchangeOrderRemove",                     "rcvXchangeRemove",                     new DapXchangeOrderRemove("DapXchangeOrderRemove",                                  nullptr, m_nodeCliPath));
+    addService("DapGetXchangeTxList",                       "rcvXchangeTxList",                     new DapGetXchangeTxList("DapGetXchangeTxList",                                      nullptr, m_nodeCliPath));     
     addService("DapGetXchangeOrdersList",                   "rcvXchangeOrderList",                  new DapGetXchangeOrdersList("DapGetXchangeOrdersList",                              nullptr, m_nodeCliPath));
-    addService("DapDictionaryCommand",                      "rcvDictionary",                        new DapDictionaryCommand("DapDictionaryCommand",                                    nullptr, m_nodeCliPath));
-    addService("DapXchangeOrderPurchase",                   "rcvXchangeOrderPurchase",              new DapXchangeOrderPurchase("DapXchangeOrderPurchase",                              nullptr, m_nodeCliPath));
+    addService("DapDictionaryCommand",                      "rcvDictionary",                        new DapDictionaryCommand("DapDictionaryCommand",                                    nullptr, m_nodeCliPath));  
     addService("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",         new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand",    nullptr, m_nodeCliPath));
     addService("DapRemoveChainsOrGdbCommand",               "rcvRemoveResult",                      new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand",                      nullptr, m_nodeCliPath));
     addService("DapGetFeeCommand",                          "rcvFee",                               new DapGetFeeCommand("DapGetFeeCommand",                                            nullptr, m_nodeCliPath));
@@ -387,67 +385,26 @@ void DapServiceController::registerCommand()
     addService("DapGetNetworksStateCommand",                "networkStatesListReceived",            new DapGetNetworksStateCommand("DapGetNetworksStateCommand",                        nullptr, m_nodeCliPath));
     addService("DapMoveWalletCommand",                      "moveWalletCommandReceived",            new DapMoveWalletCommand("DapMoveWalletCommand",                                    nullptr));
     addService("DapNetIdCommand",                           "rcvNetIdCommand",                      new DapNetIdCommand("DapNetIdCommand",                                              nullptr, m_nodeCliPath));
-    addService("DapStakeLockHoldCommand",                   "rcvStakeLockHoldCommand",              new DapStakeLockHoldCommand("DapStakeLockHoldCommand",                              nullptr, m_nodeCliPath));
-    addService("DapStakeLockTakeCommand",                   "rcvStakeLockTakeCommand",              new DapStakeLockTakeCommand("DapStakeLockTakeCommand",                              nullptr, m_nodeCliPath));
-    addService("DapCreateJsonTransactionCommand",           "rcvCreateJsonTransactionCommand",      new DapCreateJsonTransactionCommand("DapCreateJsonTransactionCommand",              nullptr, m_nodeCliPath));
     addService("DapMempoolListCommand",                     "rcvMempoolListCommand",                new DapMempoolListCommand("DapMempoolListCommand",                                  nullptr, m_nodeCliPath));
     addService("DapTransactionListCommand",                 "rcvTransactionListCommand",            new DapTransactionListCommand("DapTransactionListCommand",                          nullptr, m_nodeCliPath));
     addService("DapLedgerTxHashCommand",                    "rcvLedgerTxHashCommand",               new DapLedgerTxHashCommand("DapLedgerTxHashCommand",                                nullptr, m_nodeCliPath));
     addService("DapNodeDumpCommand",                        "rcvNodeDumpCommand",                   new DapNodeDumpCommand("DapNodeDumpCommand",                                        nullptr, m_nodeCliPath));
     addService("DapGetNodeIPCommand",                       "rcvGetNodeIPCommand",                  new DapGetNodeIPCommand("DapGetNodeIPCommand",                                      nullptr, m_nodeCliPath));
     addService("DapGetNodeStatus",                          "rcvGetNodeStatus",                     new DapGetNodeStatus("DapGetNodeStatus",                                            nullptr, m_nodeCliPath));
-    addService("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",           new DapGetServiceLimitsCommand("DapGetServiceLimitsCommand",                        nullptr, m_nodeCliPath));
-    addService("DapVoitingCreateCommand",                   "rcvVoitingCreateCommand",              new DapVoitingCreateCommand("DapVoitingCreateCommand",                              nullptr, m_nodeCliPath));
-    addService("DapVoitingVoteCommand",                     "rcvVoitingVoteCommand",                new DapVoitingVoteCommand("DapVoitingVoteCommand",                                  nullptr, m_nodeCliPath));
+    addService("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",           new DapGetServiceLimitsCommand("DapGetServiceLimitsCommand",                        nullptr, m_nodeCliPath));     
     addService("DapVoitingListCommand",                     "rcvVoitingListCommand",                new DapVoitingListCommand("DapVoitingListCommand",                                  nullptr, m_nodeCliPath));
     addService("DapVoitingDumpCommand",                     "rcvVoitingDumpCommand",                new DapVoitingDumpCommand("DapVoitingDumpCommand",                                  nullptr, m_nodeCliPath));
     addService("DapQuitApplicationCommand",                 "",                                     new DapQuitApplicationCommand("DapQuitApplicationCommand",                          m_pServer));
     addService("DapRcvNotify",                              "dapRcvNotify",                         new DapRcvNotify("DapRcvNotify",                                                    m_pServer));
     addService("DapVersionController",                      "versionControllerResult",              new DapVersionController("DapVersionController",                                    m_pServer, m_nodeCliPath));
     addService("DapWebConnectRequest",                      "dapWebConnectRequest",                 new DapWebConnectRequest("DapWebConnectRequest",                                    m_pServer));
-    addService("DapWebBlockList",                           "dapWebBlockList",                      new DapWebBlockList("DapWebBlockList",                                              m_pServer));
     addService("DapHistoryServiceInitCommand",              "historyServiceInitRcv",                new DapServiceInitCommand("DapHistoryServiceInitCommand",                           m_pServer));
     addService("DapWalletServiceInitCommand",               "walletsServiceInitRcv",                new DapServiceInitCommand("DapWalletServiceInitCommand",                            m_pServer));
-
-    connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& rcvData)
-    {
-        QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-        QJsonObject replyObj = replyDoc.object();
-        QJsonArray array = replyObj["result"].toArray();
-
-//        QByteArray  array = QByteArray::fromHex(networksList.toByteArray());
-        QList<DapNetworkStr> tempNetworks;
-
-//        QDataStream in(&array, QIODevice::ReadOnly);
-//        in >> tempNetworks;
-
-        QList<QObject*> networks;
-        auto begin = tempNetworks.begin();
-        auto end = tempNetworks.end();
-        DapNetworkStr * network = nullptr;
-        for(;begin != end; ++begin)
-        {
-            network = new DapNetworkStr(*begin);
-            networks.append(network);
-        }
-
-        emit networksReceived(networks);
-    });
 
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
         m_DapNotifyController->rcvData(rcvData);
     });
-
-    connect(this, &DapServiceController::dapWebConnectRequest, [=] (const QVariant& rcvData)
-    {
-        qDebug()<<"Rcv web request " << rcvData;
-    });
-
-    connect(this, &DapServiceController::dapWebBlockList, [=] (const QVariant& rcvData)
-            {
-                qDebug() << "Rcv blocklist " << rcvData;
-            });
 
     connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
     {
@@ -465,23 +422,7 @@ void DapServiceController::registerCommand()
         {
             emit signalTokensListReceived(tokensResult);
         }
-
-/*        if(s_bufferTokensJson.isEmpty())
-        {
-            s_bufferTokensJson = tokensResult.toByteArray();
-            emit signalTokensListReceived(tokensResult);
-            return ;
-        }else{
-            if(!compareJson(s_bufferTokensJson, tokensResult))
-            {
-                s_bufferTokensJson = tokensResult.toByteArray();
-                emit signalTokensListReceived(tokensResult);
-                return ;
-            }
-            emit signalTokensListReceived("isEqual");
-        }*/
     });
-//    registerEmmitedSignal();
 }
 
 void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
@@ -502,28 +443,6 @@ void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
     this->requestToService("DapRemoveTransactionsQueueCommand", finalVariant);
 }
 
-/// Find the emitted signal.
-/// @param aValue Transmitted parameter.
-void DapServiceController::findEmittedSignal(const QVariant &aValue)
-{
-//    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
-//    //qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
-//    Q_ASSERT(transceiver);
-//    auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it)
-//    {
-//        return it.first->getName() == transceiver->getName() ? true : false;
-//    });
-
-//    for (int idx = 0; idx < metaObject()->methodCount(); ++idx)
-//    {
-//        const QMetaMethod method = metaObject()->method(idx);
-//        if (method.methodType() == QMetaMethod::Signal && method.name() == service->second)
-//        {
-//            metaObject()->method(idx).invoke(this, Q_ARG(QVariant, aValue));
-//        }
-//    }
-}
-
 bool DapServiceController::compareJson(QByteArray buff, QVariant data)
 {
     json_object *obj = json_object_new_string(data.toByteArray());
@@ -541,16 +460,6 @@ bool DapServiceController::compareJson(QByteArray buff, QVariant data)
     return false;
 }
 
-
-/// Register a signal handler for notification results.
-void DapServiceController::registerEmmitedSignal()
-{
-    foreach (auto command, m_transceivers)
-    {
-        connect(command, SIGNAL(clientNotifed(QVariant)), SLOT(findEmittedSignal(QVariant)));
-    }
-}
-
 void DapServiceController::notifySignalsAttach()
 {
     connect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
@@ -565,5 +474,60 @@ void DapServiceController::notifySignalsDetach()
     disconnect(m_DapNotifyController, SIGNAL(chainsLoadProgress(QVariantMap)), this, SLOT(slotChainsLoadProgress(QVariantMap)));
 }
 
+void DapServiceController::initAdditionalParamrtrsService()
+{
+    if(m_transceivers.isEmpty())
+    {
+        qWarning() << "An error occurred while initializing the service";
+    }
+    DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+    if(!controller)
+    {
+        qWarning() << "DapTransactionQueueController have a problem";
+        return;
+    }
 
+    connect(this, &DapServiceController::onServiceStarted, controller, &DapTransactionQueueController::onInit);
 
+    if(m_transceivers.contains("MempoolCheckCommand"))
+    {
+        DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(m_transceivers["MempoolCheckCommand"]);
+        connect(controller, &DapTransactionQueueController::toGetTransactionData, command, &DapAbstractCommand::toDataSignal);
+        connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::transactionDataReceived);
+    }
+    if(m_transceivers.contains("DapGetOnceWalletInfoCommand"))
+    {
+        DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(m_transceivers["DapGetOnceWalletInfoCommand"]);
+        connect(controller, &DapTransactionQueueController::toGetWalletInfo, command, &DapAbstractCommand::toDataSignal);
+        connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::walletInfoReceived);
+    }
+    if(m_transceivers.contains("DapGetWalletsInfoCommand"))
+    {
+        DapGetWalletsInfoCommand* command = dynamic_cast<DapGetWalletsInfoCommand*>(m_transceivers["DapGetWalletsInfoCommand"]);
+        connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletsInfoCommand::queueDataUpdate);
+        connect(command, &DapGetWalletsInfoCommand::queuedUpdated,  this, &DapServiceController::sendUpdateWallets);
+    }
+    if(m_transceivers.contains("DapGetWalletInfoCommand"))
+    {
+        DapGetWalletInfoCommand* command = dynamic_cast<DapGetWalletInfoCommand*>(m_transceivers["DapGetWalletInfoCommand"]);
+        connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletInfoCommand::queueDataUpdate);
+    }
+    if(m_transceivers.contains("DapGetAllWalletHistoryCommand"))
+    {
+        DapGetAllWalletHistoryCommand* command = dynamic_cast<DapGetAllWalletHistoryCommand*>(m_transceivers["DapGetAllWalletHistoryCommand"]);
+        connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetAllWalletHistoryCommand::queueDataUpdate);
+        connect(controller, &DapTransactionQueueController::newTransactionAdded, command, &DapGetAllWalletHistoryCommand::transactionFromQueudAdded);
+        connect(command, &DapGetAllWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
+        connect(command, &DapGetAllWalletHistoryCommand::transactionMoved,  controller, &DapTransactionQueueController::updateInfoTransaction);
+    }
+}
+
+void DapServiceController::sendUpdateHistory(const QVariant& data)
+{
+    emit historyServiceInitRcv(data);
+}
+
+void DapServiceController::sendUpdateWallets(const QVariant& data)
+{
+    emit walletsServiceInitRcv(data);
+}

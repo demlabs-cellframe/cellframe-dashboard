@@ -120,7 +120,9 @@ DapPage
 
     Connections{
         target: dapServiceController
-        function onCertificateManagerOperationResult(result){
+        function onCertificateManagerOperationResult(rcvData){
+            var jsonDocument = JSON.parse(rcvData)
+            var result = jsonDocument.result
             var certList = result.data
 
             for (var i = 0; i < certList.length; ++i) {

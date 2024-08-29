@@ -46,8 +46,10 @@ DapPage
     Connections
     {
         target: dapServiceController
-        function onHistoryExecutedCmdReceived(aHistory)
+        function onHistoryExecutedCmdReceived(rcvData)
         {
+            var jsonDocument = JSON.parse(rcvData)
+            var aHistory = jsonDocument.result
             for(var x=0; x < aHistory.length; ++x)
             {
                 consoleScreen.sendCommand = aHistory[x]

@@ -197,7 +197,7 @@ bool DapServiceController::start()
         // Register command
         initServices();
         initAdditionalParamrtrsService();
-        m_web3Controll->setCommandList(&m_servicePool);
+//        m_web3Controll->setCommandList(m_servicePool);
         // Send data from notify socket to client
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);

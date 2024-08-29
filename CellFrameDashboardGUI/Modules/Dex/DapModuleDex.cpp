@@ -124,12 +124,9 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         return;
     }
 
-    QJsonDocument document = QJsonDocument::fromJson(tmpData);
-    if(document.isObject())
-    {
-        return;
-    }
-    QJsonArray tokenPairsArray = document.array();
+    auto resultObject = QJsonDocument::fromJson(tmpData).object();
+
+    QJsonArray tokenPairsArray = resultObject["result"].toArray();
     if(tokenPairsArray.isEmpty())
     {
         return;
@@ -181,12 +178,9 @@ void DapModuleDex::updateTokenModels()
 void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
 {
     m_isSandXchangeTokenPriceAverage = false;
-    QJsonDocument document = QJsonDocument::fromJson(rcvData.toByteArray());
-    if(!document.isObject())
-    {
-        return;
-    }
-    QJsonObject tokenPairObject = document.object();
+    auto resultObject = QJsonDocument::fromJson(rcvData.toByteArray()).object();
+
+    QJsonObject tokenPairObject = resultObject["result"].toObject();
     if(tokenPairObject.isEmpty())
     {
         return;
@@ -214,12 +208,8 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
 
 void DapModuleDex::respondTokenPairsHistory(const QVariant &rcvData)
 {
-    QJsonDocument document = QJsonDocument::fromJson(rcvData.toByteArray());
-    if(!document.isObject())
-    {
-        return;
-    }
-    QJsonObject tokenHistoryObject = document.object();
+    auto resultObject = QJsonDocument::fromJson(rcvData.toByteArray()).object();
+    QJsonObject tokenHistoryObject = resultObject["result"].toObject();
     if(tokenHistoryObject.isEmpty())
     {
         return;
@@ -252,13 +242,9 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
         m_txListCash = &data;
     }
 
-    QJsonDocument document = QJsonDocument::fromJson(data);
-    if(!document.isObject())
-    {
-        return;
-    }
+    auto resultObject = QJsonDocument::fromJson(data).object();
 
-    QJsonObject object = document.object();
+    QJsonObject object = resultObject["result"].toObject();
     QString walletName = object["walletName"].toString();
     QJsonArray list = object["orderList"].toArray();
     QHash<QString, DEX::TXList> result;

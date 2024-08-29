@@ -68,7 +68,9 @@ DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *modulesCtrl, Da
     s_serviceCtrl->requestToService("DapVersionController", "version node");
     connect(s_serviceCtrl, &DapServiceController::versionControllerResult, [=] (const QVariant& versionResult)
     {
-        QJsonObject obj_result = versionResult.toJsonObject();
+        auto resultObject = QJsonDocument::fromJson(versionResult.toByteArray()).object();
+
+        QJsonObject obj_result = resultObject["result"].toObject();
         if(obj_result["message"] == "Reply node version")
             m_node_version = obj_result["lastVersion"].toString();
     });

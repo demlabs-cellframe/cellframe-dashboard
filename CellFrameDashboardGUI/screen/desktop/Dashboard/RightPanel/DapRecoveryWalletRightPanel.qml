@@ -233,8 +233,10 @@ DapRecoveryWalletRightPanelForm
     Connections
     {
         target: walletModule
-        function onSigWalletCreate(wallet)
+        function onSigWalletCreate(rcvData)
         {
+            var jsonDocument = JSON.parse(rcvData)
+            var wallet = jsonDocument.result
             commandResult.success = wallet.success
             commandResult.message = wallet.message
             walletModule.timerUpdateFlag(true);

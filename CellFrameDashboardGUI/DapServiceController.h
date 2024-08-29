@@ -11,6 +11,18 @@
 #include <QJsonDocument>
 #include "json.h"
 
+#include "DapNotificationWatcher.h"
+#include "TransactionQueue/DapTransactionQueueController.h"
+
+#include "NotifyController/DapNotifyController.h"
+#include "serviceClient/DapServiceClient.h"
+#include "DapServiceClientMessage.h"
+#include "DapWallet.h"
+#include "handlers/DapAbstractCommand.h"
+
+#include "DapRegularRequestsController.h"
+#include "DapWebControllerForService.h"
+
 #include "handlers/DapQuitApplicationCommand.h"
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
@@ -25,9 +37,7 @@
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
-#include "models/DapWalletModel.h"
-#include "handlers/DapCreateTransactionCommand.h"
-#include "handlers/DapSrvStakeDelegateCommand.h"
+//#include "models/DapWalletModel.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapGetAllWalletHistoryCommand.h"
@@ -44,17 +54,13 @@
 #include "handlers/DapGetListTokensCommand.h"
 #include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapWebConnectRequest.h"
-#include "handlers/DapWebBlockList.h"
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
-#include "handlers/DapXchangeOrderCreate.h"
-#include "handlers/DapXchangeOrderRemove.h"
 #include "handlers/DapGetXchangeOrdersList.h"
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
 #include "handlers/DapDictionaryCommand.h"
-#include "handlers/DapXchangeOrderPurchase.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
@@ -73,11 +79,7 @@
 #include "handlers/DapGetListKeysCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
 #include "handlers/DapNetIdCommand.h"
-#include "handlers/DapTXCondCreateCommand.h"
 #include "handlers/DapGetOnceWalletInfoCommand.h"
-#include "handlers/DapStakeLockHoldCommand.h"
-#include "handlers/DapStakeLockTakeCommand.h"
-#include "handlers/DapCreateJsonTransactionCommand.h"
 #include "handlers/DapMempoolListCommand.h"
 #include "handlers/DapTransactionListCommand.h"
 #include "handlers/DapLedgerTxHashCommand.h"
@@ -85,18 +87,19 @@
 #include "handlers/DapGetNodeIPCommand.h"
 #include "handlers/DapGetNodeStatus.h"
 #include "handlers/DapGetServiceLimitsCommand.h"
-#include "handlers/DapVoitingCreateCommand.h"
-#include "handlers/DapVoitingVoteCommand.h"
 #include "handlers/DapVoitingListCommand.h"
 #include "handlers/DapVoitingDumpCommand.h"
-
-#include "NotifyController/DapNotifyController.h"
-#include "serviceClient/DapServiceClient.h"
-#include "DapServiceClientMessage.h"
-#include "DapWallet.h"
-#include "handlers/DapAbstractCommand.h"
-
-#include "DapRegularRequestsController.h"
+#include "handlers/stackCommand/DapXchangeOrderCreateStack.h"
+#include "handlers/stackCommand/DapXchangeOrderRemoveStack.h"
+#include "handlers/stackCommand/DapXchangeOrderPurchaseStack.h"
+#include "handlers/stackCommand/DapVoitingCreateCommandStack.h"
+#include "handlers/stackCommand/DapVoitingVoteCommandStack.h"
+#include "handlers/stackCommand/DapCreateTransactionCommandStack.h"
+#include "handlers/stackCommand/DapSrvStakeDelegateCommandStack.h"
+#include "handlers/stackCommand/DapTXCondCreateCommandStack.h"
+#include "handlers/stackCommand/DapStakeLockHoldCommandStack.h"
+#include "handlers/stackCommand/DapStakeLockTakeCommandStack.h"
+#include "handlers/stackCommand/DapCreateJsonTransactionCommandStack.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -169,9 +172,7 @@ public:
     QString getCurrentNetwork() const;
 
     Q_INVOKABLE void setCurrentNetwork(const QString &sCurrentNetwork);
-
     int getIndexCurrentNetwork() const;
-
     Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
 
     bool getReadingChains() const;
@@ -189,6 +190,9 @@ public slots:
     int getAutoOnlineValue();
 
 signals:
+    void webConnectRespond(bool accept, int index);
+    void rcvWebConenctRequest(QString site, int index);
+
     /// The signal is emitted when the Brand company property changes.
     /// @param asBrand Brand
     void brandChanged(const QString &brand);
@@ -257,13 +261,11 @@ signals:
     /// @param aHistory History of commands executed by cli handler.
     void historyExecutedCmdReceived(const QVariant& aHistory);
 
-     //соблюдаем оригинальную типизацию в сигналах, хотя тут лучше MapVariantList или что-то подобное
     void certificateManagerOperationResult(const QVariant& result);
 
     void ordersListReceived(const QVariant& ordersInfo);
 
     void networkStatesListReceived(const QVariant& networksStateList);
-//    void networksStatesReceived(QList<QObject*> networksStatesList);
 
     void networksReceived(QList<QObject*> networksList);
 
@@ -294,8 +296,6 @@ signals:
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
     void dapWebConnectRequest(const QVariant& rcvData);
-    void dapWebBlockList(const QVariant& rcvData);
-//    void replyClientRequestConnect(QString, int);
 
     void rcvWordBook(const QVariant& rcvData);
 
@@ -341,18 +341,19 @@ signals:
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
     void signalChainsLoadProgress(QVariantMap loadProgress);
+
+
+    void onServiceStarted();
 private slots:
     /// Register command.
     void registerCommand();
-    /// Find the emitted signal.
-    /// @param aValue Transmitted parameter.
-    void findEmittedSignal(const QVariant& aValue);
-    /// Register a signal handler for notification results.
-    void registerEmmitedSignal();
 
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
     void slotNetState(QVariantMap netState){emit signalNetState(netState);}
     void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
+
+    void sendUpdateHistory(const QVariant&);
+    void sendUpdateWallets(const QVariant&);
 private:
     void notifySignalsAttach();
     void notifySignalsDetach();
@@ -360,10 +361,12 @@ private:
     bool compareJson(QByteArray, QVariant);
 
     void addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService);
-
+    void initAdditionalParamrtrsService();
 private:
     DapRegularRequestsController *m_reqularRequestsCtrl;
     DapUiService        *m_pServer {nullptr};
+    DapNotificationWatcher *m_watcher;
+    DapWebControllerForService *m_web3Controll;
     /// Brand сompany.
     QString m_sBrand {DAP_BRAND};
     /// Application version.
@@ -383,7 +386,8 @@ private:
     /// Command manager.
 //    QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     QMap<QString, DapRpcService*> m_transceivers;
-    QThread *m_threadRegular;
+    QThread* m_threadRegular;
+    QThread* m_threadNotify;
     QList<QThread*> m_threadPool;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
@@ -395,7 +399,6 @@ private:
                                       ,"DapXchangeOrderCreate"
                                       ,"DapVersionController"
                                       ,"DapWebConnectRequest"
-                                      ,"DapWebBlockList"
                                       ,"DapRcvNotify"
                                       ,"DapQuitApplicationCommand"
                                       ,"DapXchangeOrderPurchase"

@@ -36,7 +36,9 @@ void DapModuleSettings::initConnect()
 
 void DapModuleSettings::rcvVersionInfo(const QVariant& result)
 {
-    QJsonObject objRes = result.toJsonObject();
+    auto resultObject = QJsonDocument::fromJson(result.toByteArray()).object();
+
+    QJsonObject objRes = resultObject["result"].toObject();
 
 //    qDebug()<<objRes["message"].toString();
 

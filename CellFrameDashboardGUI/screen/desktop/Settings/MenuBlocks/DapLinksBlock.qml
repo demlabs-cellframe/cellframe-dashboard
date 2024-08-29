@@ -134,7 +134,8 @@ ColumnLayout
                         checked: dapWebSites.get(index).enabled
                         onToggled: {
                             dapWebSites.get(index).enabled = checked
-                            banSettings.webSites = logicMainApp.serializeWebSite()
+                            dapServiceController.webConnectRespond(checked, index)
+                            // banSettings.webSites = logicMainApp.serializeWebSite()
                         }
                     }
                 }

@@ -200,13 +200,10 @@ int OrderBookWorker::compareCoins(const QString& val1, const QString& val2)
 
 void OrderBookWorker::setBookModel(const QByteArray &json)
 {
-    QJsonDocument document = QJsonDocument::fromJson(json);
-
-    if (!document.isObject())
-        return;
+    auto resultObject = QJsonDocument::fromJson(json).object();
 
     allOrders.clear();
-    auto object = document.object();
+    auto object = resultObject["result"].toObject();
     if(object.contains(network))
     {
         QJsonArray orders = object[network].toArray();

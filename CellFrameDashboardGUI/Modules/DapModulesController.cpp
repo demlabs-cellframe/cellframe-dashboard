@@ -121,11 +121,20 @@ void DapModulesController::updateListNetwork()
 
 void DapModulesController::rcvNetList(const QVariant &rcvData)
 {
-    if(m_netList == rcvData.toStringList())
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    QJsonArray netArray = replyObj["result"].toArray();
+    QStringList netList;
+    for(const auto& itemValue: netArray)
+    {
+        netList.append(itemValue.toString());
+    }
+
+    if(m_netList == netList)
     {
         return;
     }
-    m_netList = rcvData.toStringList();
+    m_netList = netList;
 
     m_networksLoadProgress.clear();
     nodeLoadProgressJson = QJsonArray();

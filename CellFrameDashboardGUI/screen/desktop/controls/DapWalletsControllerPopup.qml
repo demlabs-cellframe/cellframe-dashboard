@@ -248,13 +248,15 @@ Item{
                 target: dapServiceController
                 function onWalletRemoved(rcvData)
                 {
-                    if(rcvData.success)
+                    var jsonDocument = JSON.parse(rcvData)
+                    var result = jsonDocument.result
+                    if(result.success)
                     {
                         dapMainWindow.infoItem.showInfo(
                                                     175, 0,
                                                     dapMainWindow.width * 0.5,
                                                     8,
-                                                    qsTr("Removed ") + rcvData.message,
+                                                    qsTr("Removed ") + result.message,
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
                     }
                     else
@@ -263,7 +265,7 @@ Item{
                                                     200, 0,
                                                     dapMainWindow.width * 0.5,
                                                     8,
-                                                    qsTr("Removed ") + rcvData.message,
+                                                    qsTr("Removed ") + result.message,
                                                     "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
                     }
                 }

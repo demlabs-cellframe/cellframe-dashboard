@@ -156,16 +156,15 @@ Item {
 
         function onNetworkStatesListReceived(rcvData)
         {
-
             var jsonDocument = JSON.parse(rcvData)
-//            console.log("RCV NET STATES", jsonDocument, rcvData)
+            var result = jsonDocument.result
 
-            if (!logicNet.isNetworkListsEqual(networksModel, jsonDocument)) {
+            if (!logicNet.isNetworkListsEqual(networksModel, result)) {
                 networkList.closePopups()
             }
 
 
-            logicNet.modelUpdate(jsonDocument)
+            logicNet.modelUpdate(result)
             logicNet.updateContentInAllOpenedPopups(networksModel)
         }
     }

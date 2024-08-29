@@ -86,13 +86,13 @@ DapApplication::DapApplication(int &argc, char **argv)
         DapServiceController::getInstance().requestNetworkStatus(network->name());
     });
 
-    connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
-//        qDebug() << "newTargetNetworkStateReceived" << a_state;
-    });
+//     connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
+// //        qDebug() << "newTargetNetworkStateReceived" << a_state;
+//     });
 
-    m_serviceController->requestWalletList();
+//    m_serviceController->requestWalletList();
 //    m_serviceController->requestOrdersList();
-    m_serviceController->requestNetworksList();
+//    m_serviceController->requestNetworksList();
 //    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
 
