@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>CellFrameDashboardGUI.conf</file>
+        <file>CellFrameDashboard.conf</file>
         <file>main.qml</file>
         <file>screen/DapMainApplicationWindow.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>

@@ -79,7 +79,11 @@ void DapServiceController::init()
     connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
     m_threadRegular->start();
 
-    registerCommand();
+    if(m_transceivers.isEmpty())
+    {
+        registerCommand();
+    }
+
     initAdditionalParamrtrsService();
     m_reqularRequestsCtrl->start();
 
