@@ -2,11 +2,11 @@
 osascript -e "do shell script \"/Applications/Cellframe-Dashboard.app/Contents/Resources/uninstall\" with administrator privileges"
 
 APP_NAME=Cellframe-Dashboard
-SERVICE=com.demlabs."$APP_NAME"Service
+# SERVICE=com.demlabs."$APP_NAME"Service
 NODE=com.demlabs.cellframe-node
 
 echo "$HOME/Applications/Cellframe.app"
-sudo -u $USER launchctl stop $SERVICE 
+# sudo -u $USER launchctl stop $SERVICE 
 
 sudo -u $USER launchctl stop $NODE
 

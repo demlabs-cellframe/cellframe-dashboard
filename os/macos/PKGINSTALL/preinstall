@@ -4,11 +4,11 @@ echo "Installing time!" >> /tmp/debug_vpn.txt
 
 APP_NAME=Cellframe-Dashboard
 
-# SERVICE=com.demlabs.Cellframe-DashboardService
+SERVICE=com.demlabs.Cellframe-DashboardService
 
-# launchctl stop $SERVICE
+launchctl stop $SERVICE
 
-#rm -r /Users/$USER/Applications/Cellframe.app/Contents/Resources/etc/ || true
+rm -r /Users/$USER/Applications/Cellframe.app/Contents/Resources/etc/ || true
 
 RET=0
 echo "Installation logs" > /tmp/"$APP_NAME"_Install_Logs.txt
@@ -45,7 +45,7 @@ done <<< "$GuiPIDs"
 echo "unloading the weirdo deps" >> /tmp/debug_dashboard.txt
 
 
-[ -e /Library/LaunchDaemons/com.demlabs."$APP_NAME"Service.plist ] && launchctl unload -w /Users/$USER/Library/LaunchAgents/com.demlabs."$APP_NAME"Service.plist
+# [ -e /Library/LaunchDaemons/com.demlabs."$APP_NAME"Service.plist ] && launchctl unload -w /Users/$USER/Library/LaunchAgents/com.demlabs."$APP_NAME"Service.plist
 
 #udo rm -fr /Applications/${BRAND}.app
 
