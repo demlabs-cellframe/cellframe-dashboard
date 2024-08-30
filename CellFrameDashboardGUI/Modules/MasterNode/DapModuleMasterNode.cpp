@@ -578,12 +578,6 @@ void DapModuleMasterNode::clearCertificate()
 
 void DapModuleMasterNode::tryUpdateNetworkConfig()
 {
-    auto* worker = m_modulesCtrl->getConfigWorker();
-    if(!worker)
-    {
-        tryStopCreationMasterNode(5, "There are node configuration problems.");
-        return;
-    }
     auto& controller = NodeConfigToolController::getInstance();
     controller.setConfigParam("cellframe-node", "mempool", "auto_proc", "true");
     controller.setConfigParam("cellframe-node", "server", "enabled", "true");
