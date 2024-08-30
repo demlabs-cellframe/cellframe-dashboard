@@ -131,6 +131,14 @@ QStringList NodeConfigToolController::getConfigNetworkList(const QString& status
     return netList;
 }
 
+void NodeConfigToolController::setConfigParam(const QString& configName, const QString& block, const QString& param, const QString& value)
+{
+    QString command = QString("-e config %1 %2 %3 ensure %4").arg(configName).arg(block).arg(param).arg(value);
+    QString result = sendRequest(command);
+    qDebug() << "[NodeConfigToolController] [setConfigParam] command: " << command;
+    qDebug() << "[NodeConfigToolController] [setConfigParam] result: " << result;
+}
+
 QJsonObject NodeConfigToolController::serviceCommand(TypeServiceCommands type)
 {
     if(!m_statusInitConfTool)

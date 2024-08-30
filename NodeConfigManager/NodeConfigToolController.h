@@ -54,6 +54,8 @@ public:
     Q_INVOKABLE void getStatusNode();
     Q_INVOKABLE void swithServiceEnabled(bool flag);
 
+    void setConfigParam(const QString& configName, const QString& block, const QString& param, const QString& value);
+
 #ifdef WIN32
     LONG GetDWORDRegKey(HKEY hKey, const std::wstring &strValueName, DWORD &nValue, DWORD nDefaultValue);
     LONG GetBoolRegKey(HKEY hKey, const std::wstring &strValueName, bool &bValue, bool bDefaultValue);

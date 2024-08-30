@@ -29,9 +29,9 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
     connect(m_listKeysTimer, &QTimer::timeout, this, &DapModuleMasterNode::getListKeys);
 
-    loadMasterNodeBase();
-    loadStageList();
-    loadCurrentRegistration();
+//    loadMasterNodeBase();
+//    loadStageList();
+//    loadCurrentRegistration();
 
     if(getIsRegistrationNode())
     {
@@ -584,11 +584,13 @@ void DapModuleMasterNode::tryUpdateNetworkConfig()
         tryStopCreationMasterNode(5, "There are node configuration problems.");
         return;
     }
-    worker->writeConfigValue(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "blocks-sign-cert", m_currentStartMaster[CERT_NAME_KEY].toString());
-    worker->writeConfigValue(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "set_collect_fee", m_currentStartMaster[FEE_KEY].toString());
-    worker->writeConfigValue(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "fee_addr",  m_currentStartMaster[WALLET_ADDR_KEY].toString());
-    worker->writeNodeValue("mempool", "auto_proc", "true");
-    worker->saveAllChanges();
+    auto& controller = NodeConfigToolController::getInstance();
+    controller.setConfigParam("cellframe-node", "mempool", "auto_proc", "true");
+    controller.setConfigParam("cellframe-node", "server", "enabled", "true");
+    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "collecting_level", m_currentStartMaster[STAKE_VALUE_KEY].toString());
+    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "fee_addr", m_currentStartMaster[WALLET_ADDR_KEY].toString());
+    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "blocks-sign-cert", m_currentStartMaster[CERT_NAME_KEY].toString());
+    tryRestartNode();
     stageComplated();
 }
 
