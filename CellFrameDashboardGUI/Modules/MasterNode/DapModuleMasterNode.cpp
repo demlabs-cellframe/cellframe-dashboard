@@ -1019,13 +1019,13 @@ void DapModuleMasterNode::addNetwork(const QString &net)
         info.walletName = paramsNode[WALLET_NAME_KEY].toString();
         info.walletAddr = paramsNode[WALLET_ADDR_KEY].toString();
 
-        info.validator.availabilityOrder = true;
-        info.validator.nodePresence = true;
-        info.validator.nodeWeight = "";
-        info.validator.nodeStatus = "";
-        info.validator.blocksSigned = "";
-        info.validator.totalRewards = paramsNode[FEE_KEY].toString() + " " + paramsNode[FEE_TOKEN_KEY].toString();
-        info.validator.networksBlocks = "";
+//        info.validator.availabilityOrder = true;
+//        info.validator.nodePresence = true;
+//        info.validator.nodeWeight = "";
+//        info.validator.nodeStatus = "";
+//        info.validator.blocksSigned = "";
+//        info.validator.totalRewards = paramsNode[FEE_KEY].toString() + " " + paramsNode[FEE_TOKEN_KEY].toString();
+//        info.validator.networksBlocks = "";
 
     }
     else if(!m_currentStartMaster.isEmpty())
@@ -1222,6 +1222,18 @@ QVariantMap DapModuleMasterNode::masterNodeData() const
     result.insert("walletAddr", info.walletAddr);
 
     return result;
+}
+
+QString DapModuleMasterNode::getMasterNodeDataByNetwork(const QString& network, const QString& key)
+{
+    if(m_masterNodes.contains(network))
+    {
+        if(m_masterNodes[network].contains(key))
+        {
+            return m_masterNodes[network][key].toString();
+        }
+    }
+    return {};
 }
 
 QVariantMap DapModuleMasterNode::validatorData() const

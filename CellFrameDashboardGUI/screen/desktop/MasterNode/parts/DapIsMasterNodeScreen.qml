@@ -145,7 +145,14 @@ Item
                 font: mainFont.dapFont.regular14
                 color: currTheme.white
                 wrapMode: Text.Wrap
-                text: nodeMasterModule.masterNodeData[key]
+                text: {
+                    var text = nodeMasterModule.getMasterNodeDataByNetwork(nodeMasterModule.currentNetwork, key)
+                    if(addKey)
+                    {
+                        text = text + " " + nodeMasterModule.getMasterNodeDataByNetwork(nodeMasterModule.currentNetwork, addKey)
+                    }
+                    return text
+                }
             }
 
             Item
@@ -255,6 +262,7 @@ Item
         anchors.top: baseInfoBody.bottom
         anchors.topMargin: 16
         color: currTheme.mainBackground
+
 
         ListView
         {
@@ -386,7 +394,7 @@ Item
 
         ListElement
         {
-            key: "publicKey"
+            key: "certHash"
             displayKey: qsTr("Public key:")
             copy: true
         }
@@ -404,13 +412,14 @@ Item
         }
         ListElement
         {
-            key: "nodePort"
+            key: "port"
             displayKey: qsTr("Node port:")
             copy: false
         }
         ListElement
         {
-            key: "stakeAmount"
+            key: "stakeValue"
+            addKey: "stakeToken"
             displayKey: qsTr("Stake amount:")
             copy: false
         }
@@ -428,7 +437,7 @@ Item
         }
         ListElement
         {
-            key: "walletAddr"
+            key: "walletAddress"
             displayKey: qsTr("Wallet address:")
             copy: true
         }
@@ -498,7 +507,9 @@ Item
         for(var i=0; i<nodeInfoModel.count;i++)
         {
             var key = nodeInfoModel.get(i).key
-            text += nodeInfoModel.get(i).displayKey + nodeMasterModule.masterNodeData[key] + "\n"
+            var addKey = nodeInfoModel.get(i).addKey
+            text += nodeInfoModel.get(i).displayKey + nodeMasterModule.getMasterNodeDataByNetwork(nodeMasterModule.currentNetwork, key)
+                  + " " + nodeMasterModule.getMasterNodeDataByNetwork(nodeMasterModule.currentNetwork, addKey) + "\n"
         }
         clipboard.setText(text)
     }

@@ -224,6 +224,9 @@ Page
             }
             if(indexFound < 0) indexFound = 0
             tabsView.currentIndex = indexFound
+
+            nodeMasterModule.currentNetwork = networkTabsModel.get(indexFound).net
+            dapMasterNodeScreen.state = networkTabsModel.get(currentIndex).isMaster ? "IS_MASTER_SCREEN" : "DEFAULT_SCREEN"
         }
         else if(networkTabsModel.count)
         {

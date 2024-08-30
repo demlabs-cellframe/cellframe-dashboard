@@ -126,6 +126,7 @@ public:
     bool isMasterNode() const;
 
     Q_INVOKABLE QString getMasterNodeData(const QString& key);
+    Q_INVOKABLE QString getMasterNodeDataByNetwork(const QString& network, const QString& key);
 
     Q_INVOKABLE void moveCertificate(const QString& path = "");
     Q_INVOKABLE void moveWallet(const QString& path = "");
@@ -231,7 +232,7 @@ private:
     QTimer* m_checkStakeTimer = nullptr;
     QTimer* m_listKeysTimer = nullptr;
 
-    QString m_currentNetwork = "raiden";
+    QString m_currentNetwork = "";
 
     QList<QVariantMap> m_startedMasterNodeList;
 
