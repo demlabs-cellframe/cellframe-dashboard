@@ -29,9 +29,9 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
     connect(m_listKeysTimer, &QTimer::timeout, this, &DapModuleMasterNode::getListKeys);
 
-//    loadMasterNodeBase();
-//    loadStageList();
-//    loadCurrentRegistration();
+    loadMasterNodeBase();
+    loadStageList();
+    loadCurrentRegistration();
 
     if(getIsRegistrationNode())
     {
