@@ -886,7 +886,7 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 void DapModuleMasterNode::addedNode(const QVariant &rcvData)
 {
     auto result = rcvData.toString();
-    if(result == "successfully")
+    if(result.contains("successfully"))
     {
         qInfo() << "----The node has been added.-----";
         getInfoNode();
