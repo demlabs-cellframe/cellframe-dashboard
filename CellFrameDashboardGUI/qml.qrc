@@ -408,5 +408,7 @@
         <file>screen/desktop/MasterNode/RightPanel/DapCreateOrderMasterNode.qml</file>
         <file>Resources/BlackTheme/icons/other/no_icon.svg</file>
         <file>screen/desktop/controls/DapNodeVersionPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/add_icon.svg</file>
+        <file>Resources/BlackTheme/icons/other/remove_icon.svg</file>
     </qresource>
 </RCC>
