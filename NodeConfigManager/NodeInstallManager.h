@@ -20,29 +20,29 @@ public:
     explicit NodeInstallManager(bool flag_RK, QObject *parent = nullptr);
     ~NodeInstallManager();
 
-    void checkUpdateNode(QString currentNodeVersion);
+    void checkUpdateNode(const QString &link);
     QString getUrlForDownload();
+    QString getUrl(const QString& ver);
 
+private slots:
+    void onGetFileName(QNetworkReply *reply);
+
+signals:
+    void singnalReadyUpdateToNode(bool ready);
 private:
     QNetworkAccessManager * m_networkManager;
 
     QUrl m_url;
+    QString m_baseUrl;
+    QString m_labelUrlFile;
 
-//#ifdef __x86_64__
-//    QString m_latest{"latest-amd64"};
-//#else
-//    QString m_latest{"latest-arm64"};
-//#endif
+    //#ifdef __x86_64__
+    //    QString m_latest{"latest-amd64"};
+    //#else
+    //    QString m_latest{"latest-arm64"};
+    //#endif
 
     QString m_fileName, m_suffix;
-
-
-private slots:
-    void onGetFileName();
-
-signals:
-    void singnalReadyUpdateToNode(bool ready);
-
 };
 
 #endif // NODEINSTALLMANAGER_H

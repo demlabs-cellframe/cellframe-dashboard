@@ -1,11 +1,9 @@
 TEMPLATE = subdirs
 
 SUBDIRS = cellframe-sdk \
-          CellFrameDashboardGUI \
-          CellFrameDashboardService \
+          CellFrameDashboard \
 
-CellFrameDashboardGUI.depends=cellframe-sdk
-CellFrameDashboardService.depends=cellframe-sdk
+CellFrameDashboard.depends=cellframe-sdk
 
 include(config.pri)
 
