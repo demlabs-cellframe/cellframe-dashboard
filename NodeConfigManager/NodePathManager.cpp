@@ -1,4 +1,5 @@
 #include "NodePathManager.h"
+#include <QCoreApplication>
 
 NodePathManager::NodePathManager( QObject *parent)
     : QObject(parent)
@@ -180,7 +181,17 @@ void NodePathManager::checkNodeDir(QString oldPath, QString newPath)
         if(newfileNode.exists())
             nodePaths.nodeInstallType = NewInstall;
         else
+        {
             nodePaths.nodeInstallType = NoInstall;
+
+            #ifdef Q_OS_WIN
+            QString dir_hard = "C:\\Program Files\\cellframe-node";
+            nodePaths.nodeDirPath     = dir_hard;
+            nodePaths.nodePath        = dir_hard + separator + "cellframe-node" + suffix;
+            nodePaths.nodePath_cli    = dir_hard + separator + "cellframe-node-cli" + suffix;
+            nodePaths.nodePath_tool   = dir_hard + separator + "cellframe-node-tool" + suffix;
+            #endif
+        }
     }
 }
 
@@ -251,7 +262,15 @@ QString NodePathManager::getNodeNewBinaryPath(){
 
     if(QString::fromWCharArray(path.c_str()).isEmpty())
     {
-        return "./cellframe-node.exe";
+        QString nodePath = QCoreApplication::applicationDirPath() + "/cellframe-node.exe";
+        QFileInfo fileNode(nodePath);
+        
+        if(fileNode.exists())
+        {
+            return nodePath;
+        }
+        
+        return "C:/Program Files/cellframe-node";
     }
     else
     {

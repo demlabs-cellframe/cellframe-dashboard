@@ -17,6 +17,9 @@ bool NodeConfigToolController::runNode()
     if(m_flagUserStopAutostart)
         return false;
 
+    if(!m_statusInitConfTool)
+        initConfTool();
+
     if(m_statusInitConfTool)
     {
         if(!serviceCommand(Status)["result"].toString().contains("enabled"));
@@ -102,6 +105,31 @@ QString NodeConfigToolController::getResult(QString find, QStringList list)
     return "";
 }
 
+QStringList NodeConfigToolController::getConfigNetworkList(const QString& status)
+{
+    QStringList netList;
+
+    QString result = sendRequest("-e net_list " + status);
+    auto list = result.split('\n');
+    const QRegularExpression regName = QRegularExpression(R"(name: (\S+))");
+
+    for(auto& str: list)
+    {
+        str = str.trimmed();
+        if(str.isEmpty())continue;
+
+        auto nameMatch = regName.match(str);
+        if(!nameMatch.hasMatch())
+        {
+            qWarning() << "[NodeConfigToolController] Problems getting a list of networks. >> " << result;
+            continue;
+        }
+
+        netList.append(nameMatch.captured(1));
+    }
+
+    return netList;
+}
 
 QJsonObject NodeConfigToolController::serviceCommand(TypeServiceCommands type)
 {

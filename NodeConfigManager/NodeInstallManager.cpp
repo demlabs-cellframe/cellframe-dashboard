@@ -4,7 +4,7 @@ NodeInstallManager::NodeInstallManager(bool flag_RK, QObject *parent)
     : QObject(parent)
     , m_networkManager(new QNetworkAccessManager())
 {
-    QString branch = flag_RK ? "release-5.3" : "master";
+    QString branch = "master";
 
     QString procArch = QSysInfo::currentCpuArchitecture();
     QString latest = "latest-"+procArch;
@@ -65,19 +65,26 @@ QString NodeInstallManager::getUrl(const QString& ver)
 void NodeInstallManager::checkUpdateNode(const QString& url)
 {
     //todo: this func receive install-pack name and fill m_fileName
-    QNetworkRequest request;
-    request.setUrl(QUrl(url));
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    QNetworkRequest request((QUrl(url)));
 
-    QNetworkReply *reply = m_networkManager->get(request);
-    connect(reply, &QNetworkReply::finished, this, &NodeInstallManager::onGetFileName);
+    qDebug() << "[Test url] Try check url. URL: " << url;
+    connect(manager, &QNetworkAccessManager::finished, this, &NodeInstallManager::onGetFileName);
+    manager->get(request);
 }
 
-void NodeInstallManager::onGetFileName()
+void NodeInstallManager::onGetFileName(QNetworkReply *reply)
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-
+    qDebug() << "[NodeInstallManager] [onGetFileName] ";
+    if(!reply)
+    {
+        emit singnalReadyUpdateToNode(false);
+        return;
+    }
+    auto url = reply->url();
     if (reply->error() == QNetworkReply::NoError)
     {
+        qDebug() << "[Test url] Check url, no errors. URL: " << url;
         QByteArray content = reply->readAll();
         QTextCodec *codec = QTextCodec::codecForName("utf8");
         QString str = codec->toUnicode(content.data());
@@ -90,6 +97,7 @@ void NodeInstallManager::onGetFileName()
     }
     else
     {
+        qDebug() << "[Test url] Check url, Have a error. URL: " << url;
         qWarning()<<reply->errorString();
         m_fileName = "";
 
