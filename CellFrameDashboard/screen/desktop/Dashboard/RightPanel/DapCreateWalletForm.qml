@@ -7,6 +7,10 @@ import "../../controls"
 
 DapRectangleLitAndShaded
 {
+    id: root
+
+    property bool multiSigMode: false
+    property alias dapModelMultiSig: modelMultiSig
     property alias dapTextHeader: textHeader
     property alias dapButtonClose: itemButtonClose
     property alias dapTextInputNameWallet: textInputNameWallet
@@ -130,6 +134,76 @@ DapRectangleLitAndShaded
 
                 Rectangle
                 {
+                    color: currTheme.mainBackground
+                    Layout.fillWidth: true
+                    height: 30
+                    Text
+                    {
+                        color: currTheme.white
+                        text: qsTr("Amount of signatures")
+                        font: mainFont.dapFont.medium12
+                        horizontalAlignment: Text.AlignLeft
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 16
+                    }
+
+                    DapToolTipInfo{
+                        anchors.right: parent.right
+                        anchors.rightMargin: 16
+                        anchors.verticalCenter: parent.verticalCenter
+                        contentText: qsTr("Single Signature Wallet: This wallet requires only one signature to approve transactions.\r\nMulti Signature Wallet: This wallet requires multiple signatures to approve transactions.")
+                    }
+                }
+
+                Rectangle
+                {
+                    height: columnChooseAmountSig.implicitHeight
+                    color: "transparent"
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 23
+                    Layout.topMargin: 13
+                    Layout.bottomMargin: 9
+
+                    ColumnLayout
+                    {
+                        id: columnChooseAmountSig
+                        spacing: 10
+                        anchors.fill: parent
+
+                        DapRadioButton
+                        {
+                            Layout.fillWidth: true
+                            nameRadioButton: qsTr("Single signature")
+                            checked: true
+                            indicatorInnerSize: 46
+                            spaceIndicatorText: 3
+                            fontRadioButton: mainFont.dapFont.regular16
+                            implicitHeight: indicatorInnerSize
+                            onClicked:
+                            {
+                                multiSigMode = false
+                            }
+                        }
+
+                        DapRadioButton
+                        {
+                            Layout.fillWidth: true
+                            nameRadioButton: qsTr("Multi signatures")
+                            indicatorInnerSize: 46
+                            spaceIndicatorText: 3
+                            implicitHeight: indicatorInnerSize
+                            fontRadioButton: mainFont.dapFont.regular16
+                            onClicked:
+                            {
+                                multiSigMode = true
+                            }
+                        }
+                    }
+                }
+
+                Rectangle
+                {
                     id: frameChooseSignatureType
                     color: currTheme.mainBackground
                     height: 30
@@ -152,9 +226,10 @@ DapRectangleLitAndShaded
                 {
                     id: frameSignatureType
                     height: 60
-        //            width: 350
                     color: "transparent"
                     Layout.fillWidth: true
+                    visible: !multiSigMode
+
 
                     DapCertificatesComboBox
                     {
@@ -166,6 +241,216 @@ DapRectangleLitAndShaded
                         isRestoreMode: logicWallet.restoreWalletMode
                     }
                 }
+
+                ListModel
+                {
+                    id: modelMultiSig
+                    ListElement
+                    {
+                        name: ""
+                        sign: ""
+                    }
+                    ListElement
+                    {
+                        name: ""
+                        sign: ""
+                    }
+                }
+
+                Repeater
+                {
+                    model: modelMultiSig
+                    delegate:
+                        DapCertificatesComboBox
+                    {
+
+                        Layout.maximumHeight: 42
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 20
+                        Layout.rightMargin: 20
+                        Layout.topMargin: index > 0 ? 2 : 11
+                        isRestoreMode: logicWallet.restoreWalletMode
+                        visible: multiSigMode
+
+                        onSelectedSignatureChanged:
+                        {
+                            modelMultiSig.set(index, {"name": displayText, "sign": filteredModel.get(currentIndex)["sign"]});
+                        }
+
+                        isHighPopup:
+                        {
+                            var fullHeight = root.height
+                            var conteinHeight = delegateHeight * (count)
+                            return fullHeight - y < height + conteinHeight
+                        }
+                    }
+                }
+
+                DapButtonWithImage
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 36
+                    Layout.rightMargin: 36
+                    Layout.topMargin: 11
+                    Layout.minimumHeight: 40
+
+                    pathImage: "qrc:/Resources/BlackTheme/icons/other/remove_icon.svg"
+                    buttonText: qsTr("Remove signature")
+                    visible: multiSigMode && modelMultiSig.count > 2
+
+                    onClicked:
+                    {
+                        modelMultiSig.remove(modelMultiSig.count-1)
+                    }
+                }
+
+                DapButtonWithImage
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 36
+                    Layout.rightMargin: 36
+                    Layout.topMargin: 8
+                    Layout.minimumHeight: 40
+
+                    pathImage: "qrc:/Resources/BlackTheme/icons/other/add_icon.svg"
+                    buttonText: qsTr("Add signature")
+                    visible: multiSigMode && modelMultiSig.count < 4
+
+                    onClicked:
+                    {
+                        modelMultiSig.append({name: ""})
+                    }
+                }
+
+                Rectangle
+                {
+                    property int heightItem: 26
+                    property int marginsItem: 6
+                    property int marginsMainRect: 12
+
+                    id: selectedSigRect
+                    implicitHeight: selectedSigRect.marginsMainRect*2 + 2 + resultTextMultiSig.contentHeight + modelMultiSig.count * (selectedSigRect.heightItem + selectedSigRect.marginsItem)
+                    color: currTheme.mainBackground
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 36
+                    Layout.rightMargin: 36
+                    Layout.topMargin: 20
+                    radius: 4
+                    visible: multiSigMode
+
+                    Text
+                    {
+                        id: resultTextMultiSig
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.topMargin: selectedSigRect.marginsMainRect
+                        anchors.leftMargin: selectedSigRect.marginsMainRect
+                        anchors.rightMargin: selectedSigRect.marginsMainRect
+                        anchors.bottomMargin: 8 - selectedSigRect.marginsItem
+                        color: currTheme.white
+                        text: qsTr("You have selected a multi-signature wallet with the following signature order:")
+                        font: mainFont.dapFont.regular13
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignLeft
+                    }
+
+                    Item
+                    {
+                        id: resultsItem
+                        height: modelMultiSig.count * 32
+                        anchors.top: resultTextMultiSig.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.topMargin: 8
+                        anchors.leftMargin: selectedSigRect.marginsMainRect
+                        anchors.rightMargin: selectedSigRect.marginsMainRect
+                        anchors.bottomMargin: selectedSigRect.marginsMainRect - selectedSigRect.marginsItem
+
+                        Repeater
+                        {
+                            model: modelMultiSig
+                            delegate:
+                                Rectangle
+                            {
+                                height: selectedSigRect.heightItem
+                                width: nameSigText.contentWidth + 6 * 2
+                                color: "transparent"
+                                border.width: 1
+                                border.color: currTheme.input
+                                radius: 2
+                                anchors.top: parent.top
+                                anchors.left: parent.left
+                                anchors.topMargin: index * (selectedSigRect.heightItem + selectedSigRect.marginsItem)
+
+                                Text
+                                {
+                                    id: nameSigText
+                                    color: currTheme.white
+                                    text: (index + 1) + ". " + name
+                                    font: mainFont.dapFont.regular13
+                                    horizontalAlignment: Text.AlignLeft
+                                    anchors.centerIn: parent
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Rectangle
+                {
+                    id: inforMsgRect
+                    implicitHeight: 12 + 12 + 6 + infoHeaderText.contentHeight + infoBodyText.contentHeight
+                    color: "transparent"
+                    radius: 4
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 36
+                    Layout.rightMargin: 36
+                    Layout.topMargin: 4
+                    Layout.bottomMargin: 20
+                    visible: multiSigMode
+
+                    Rectangle
+                    {
+                        anchors.fill: parent
+                        color: currTheme.orange
+                        opacity: 0.12
+                        radius: 4
+                    }
+
+                    Text
+                    {
+                        id: infoHeaderText
+                        width: parent.width - 24
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.topMargin: 12
+                        anchors.leftMargin: 12
+                        anchors.rightMargin: 12
+                        font: mainFont.dapFont.medium14
+                        color: currTheme.orange
+                        text: qsTr("Remember the order")
+                    }
+
+                    Text
+                    {
+                        id: infoBodyText
+                        width: parent.width - 24
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.leftMargin: 12
+                        anchors.rightMargin: 12
+                        anchors.bottomMargin: 12
+                        font: mainFont.dapFont.regular13
+                        color: currTheme.orange
+                        text: qsTr("The order of signatures is crucial. Ensure you remember and record this sequence accurately.")
+                        wrapMode: Text.WordWrap
+                    }
+                }
+
 
                 Rectangle
                 {

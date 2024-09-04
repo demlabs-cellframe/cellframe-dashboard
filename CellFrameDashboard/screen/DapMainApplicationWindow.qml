@@ -11,6 +11,8 @@ import "qrc:/widgets"
 import "desktop/Networks"
 import "qrc:/logic"
 import "desktop/controls"
+import "desktop/Certificates"
+
 
 Rectangle {
     id: dapMainWindow
@@ -55,6 +57,7 @@ Rectangle {
     property alias removeWalletPopup: removeWalletPopup
     property alias removeOrderPopup: removeOrderPopup
     property alias settingsWallet:settingsWallet
+    property alias certificatesModels: certificatesModels
 
     property var vpnClientTokenModel: new Array()
 
@@ -92,6 +95,7 @@ Rectangle {
 
     ListModel {id: networksModel}
     ListModel {id: diagnosticDataModel}
+    CertificatesModels{id: certificatesModels}
 
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}

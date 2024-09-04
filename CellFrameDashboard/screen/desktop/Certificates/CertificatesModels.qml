@@ -16,14 +16,25 @@ Item {
 
     property alias createCertificateOptional: createCertificateOptional
 
+    property var signatureKeyToViewName: ({})
 
-    readonly property var signatureKeyToViewName: ({
-                                               "sig_dil": qsTr("Crystal-Dilithium"),
-                                               "sig_bliss": qsTr("Bliss"),
-                                               "sig_picnic": qsTr("Picnic"),
-                                               "sig_falcon": qsTr("Falcon")
-                                           })
+    readonly property var certList: [
+        {name: "Dilithium", sign: "sig_dil",    secondName: "Recommended"},
+        {name: "Falcon",    sign: "sig_falcon", secondName: ""},
+        {name: "Sphincs+",    sign: "sig_sphincs", secondName: "New"},
+        {name: "Shipovnik",    sign: "sig_shipovnik", secondName: "New"},
+        {name: "Bliss",     sign: "sig_bliss",  secondName: "Deprecated"},
+        {name: "Picnic",    sign: "sig_picnic", secondName: "Deprecated"}
+    ]
 
+    Component.onCompleted:
+    {
+        for(var i = 0; i < certList.length; i++)
+        {
+            var sign = certList[i].sign
+            signatureKeyToViewName[sign] = certList[i].name
+        }
+    }
 
     readonly property var metadataKeyToViewKey: ({
                                              "a0_creation_date": qsTr("Date of creation"),
