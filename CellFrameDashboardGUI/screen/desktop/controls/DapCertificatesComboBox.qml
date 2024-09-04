@@ -2,7 +2,6 @@ import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import "../../../"
 
 DapCustomComboBox
 {
@@ -11,17 +10,13 @@ DapCustomComboBox
     property string selectedSignature: ""
     property bool isRestoreMode: false
     property alias filteredModel: sigModel
+    property int tailFiltered: 2
 
     ListModel {id: sigModel }
 
-    property var certList: [
-        {name: "Dilithium", sign: "sig_dil",    secondName: "Recommended"},
-        {name: "Falcon",    sign: "sig_falcon", secondName: ""},
-        {name: "Bliss",     sign: "sig_bliss",  secondName: "Deprecated"},
-        {name: "Picnic",    sign: "sig_picnic", secondName: "Deprecated"}
-    ]
     height: 42
     model: sigModel
+    maximumPopupHeight: 240
 
     backgroundColorShow: currTheme.secondaryBackground
     font: mainFont.dapFont.regular16
@@ -34,16 +29,17 @@ DapCustomComboBox
 
     Component.onCompleted:
     {
-        for(var i = 0; i < certList.length; ++i)
+        var count = !isRestoreMode ? certificatesModels.certList.length - tailFiltered : certificatesModels.certList.length
+        for(var i = 0; i < count; ++i)
         {
-            if(!isRestoreMode && i>1) break;
             sigModel.append({
-                       "name": certList[i].name,
-                       "sign": certList[i].sign,
-                       "secondname": certList[i].secondName
-                   })
-        }
+                                "name": certificatesModels.certList[i].name,
+                                "sign": certificatesModels.certList[i].sign,
+                                "secondname": certificatesModels.certList[i].secondName
 
+                            })
+        }
         setCurrentIndex(0)
+
     }
 }

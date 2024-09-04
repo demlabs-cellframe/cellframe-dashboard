@@ -26,9 +26,22 @@ DapCreateWalletForm
         }
         else
         {
-            var index = dapComboBoxSignatureTypeWallet.currentIndex === -1 ? 0 : dapComboBoxSignatureTypeWallet.currentIndex
-            var dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(index).sign
             dapWalletNameWarning.text = ""
+
+            var dapSignatureTypeWallet = ""
+            if(multiSigMode)
+            {
+                dapSignatureTypeWallet = "sig_multi_chained"
+                for(var i = 0; i < dapModelMultiSig.count; i++)
+                {
+                    dapSignatureTypeWallet += " " + dapModelMultiSig.get(i)["sign"]
+                }
+            }
+            else
+            {
+                var index = dapComboBoxSignatureTypeWallet.currentIndex === -1 ? 0 : dapComboBoxSignatureTypeWallet.currentIndex
+                dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(index).sign
+            }
 
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
