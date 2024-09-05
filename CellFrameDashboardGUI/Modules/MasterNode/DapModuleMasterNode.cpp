@@ -141,8 +141,9 @@ int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
     }
 
     // TODO: if you need to make a fake dashboard for testing.
-    //createDemoNode();
-    //return 0;
+    // createDemoNode();
+
+    // return 0;
 
     m_errorStage = -1;
     m_errorCode = -1;
@@ -629,7 +630,7 @@ void DapModuleMasterNode::respondMempoolCheck(const QVariant &rcvData)
         source = result["source"].toString();
     }
 
-    if(source == "chain" && code == "DAP_LEDGER_TX_CHECK_OK")
+    if(source == "chain" && (code == "DAP_LEDGER_TX_CHECK_OK" || code.contains("No error")))
     {
         stageComplated();
     }
@@ -886,7 +887,7 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 void DapModuleMasterNode::addedNode(const QVariant &rcvData)
 {
     auto result = rcvData.toString();
-    if(result == "successfully")
+    if(result.contains("successfully"))
     {
         qInfo() << "----The node has been added.-----";
         getInfoNode();

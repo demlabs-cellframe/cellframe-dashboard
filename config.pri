@@ -14,7 +14,7 @@ VER_MIN = $$fromfile(version.mk, VERSION_MINOR)
 VER_PAT = $$fromfile(version.mk, VERSION_PATCH)
 
 DEFINES += MIN_NODE_VERSION=\\\"5.3-277\\\"
-DEFINES += MAX_NODE_VERSION=\\\"5.3-277\\\"
+DEFINES += MAX_NODE_VERSION=\\\"5.3-284\\\"
 
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe
@@ -32,8 +32,8 @@ unix {
     linux-* {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
-		CONFIG(debug, debug|release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_rwd/dist/
-    	CONFIG(release, debug|release) SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_release/dist/
+        CONFIG(release, debug|release) SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_release/dist/
+        CONFIG(debug, debug|release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_rwd/dist/
 
         DEFINES += DAP_OS_LINUX _GNU_SOURCE \
 	    CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\" \
@@ -76,7 +76,7 @@ unix {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
         CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_release/dist/
-		CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_rwd/dist/
+        CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_rwd/dist/
 
         DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
@@ -89,8 +89,8 @@ win32 {
         DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\" \
 	HAVE_STRNDUP
 
-    CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_rwd/dist/
     CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
+    CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_rwd/dist/
 
     QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3

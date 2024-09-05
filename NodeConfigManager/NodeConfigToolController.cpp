@@ -203,6 +203,9 @@ QJsonObject NodeConfigToolController::serviceCommand(TypeServiceCommands type)
 
 QString NodeConfigToolController::sendRequest(QString req)
 {
+    if(!m_statusInitConfTool)
+        initConfTool();
+
     QProcess proc;
     proc.setProgram(m_nodeConfToolPath);
     proc.setArguments(req.split(" "));
