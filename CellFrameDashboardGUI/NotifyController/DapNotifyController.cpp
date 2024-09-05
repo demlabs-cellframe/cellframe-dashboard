@@ -1,7 +1,7 @@
 #include "DapNotifyController.h"
 #include "qjsondocument.h"
 #include "qjsonobject.h"
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {

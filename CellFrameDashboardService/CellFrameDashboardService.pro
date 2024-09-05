@@ -54,8 +54,6 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
 
-include(../NodeConfigManager/NodeConfigManager.pri)
-
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
 include (../web3_api/web3_api.pri)

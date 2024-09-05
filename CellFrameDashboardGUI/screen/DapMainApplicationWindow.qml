@@ -875,7 +875,7 @@ Rectangle {
             messagePopupUpdateNode.dapButtonOk.textButton = qsTr("Update")
 
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
-            var header = "<font color='" + currTheme.red + "'>" + qsTr("Current node version is unsupported) + "</font>"
+            var header = "<font color='" + currTheme.red + "'>" + qsTr("Current node version is unsupported") + "</font>"
             var text = qsTr("Your current node version ") + settingsModule.nodeVersion + qsTr(" is not compatible. Please update to the latest supported version to continue.")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }

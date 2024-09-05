@@ -29,8 +29,6 @@ typedef class DapRpcLocalServer DapUiService;
 #include "DapNotificationWatcher.h"
 #include "RequestController/DapRegularRequestsController.h"
 
-#include "NodePathManager.h"
-
 /**
  * @brief The DapServiceController class
  * Service class which provide handle operations with dashboard.
@@ -49,9 +47,6 @@ public:
     /// Start service: creating server and socket.
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
-
-    QString nodeCliPath{""};
-    QString nodeToolPath{""};
 
 private:
     void initServices();

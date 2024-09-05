@@ -8,23 +8,11 @@ DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
 
 DEFINES += SIMULATOR_DEX
 
-include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
-
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
-#TRANSLATIONS += \
-#    Resources/Translations/Translation_ru.ts \
-#    Resources/Translations/Translation_zh.ts \
-#    Resources/Translations/Translation_cs.ts \
-#    Resources/Translations/Translation_pt.ts \
-#    Resources/Translations/Translation_nl.ts
-
-
-
+include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
-
-include(../NodeConfigManager/NodeConfigManager.pri)
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)

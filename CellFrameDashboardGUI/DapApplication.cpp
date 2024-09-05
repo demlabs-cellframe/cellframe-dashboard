@@ -6,7 +6,7 @@
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
 #include "dapvpnorderscontroller.h"
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 
 #ifdef ANDROID

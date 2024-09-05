@@ -1,5 +1,5 @@
 #include "DapModuleSettings.h"
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     : DapAbstractModule(parent)

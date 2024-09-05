@@ -22,7 +22,7 @@
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
 
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"

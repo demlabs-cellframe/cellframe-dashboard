@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 static QString group = "global.users.statistic";
 
