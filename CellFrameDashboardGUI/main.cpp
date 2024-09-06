@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
 
     while (result == RESTART_CODE)
     {
-        NodePathManager::getInstance().init("GUI");
+        NodePathManager::getInstance().setRole("GUI");
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);

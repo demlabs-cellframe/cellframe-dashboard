@@ -27,7 +27,6 @@ void DapNotifyController::rcvData(QVariant data)
             if(value.toString() != m_connectState)
             {
                 isFirst = true;
-                NodePathManager::getInstance().init("GUI");
                 NodeConfigToolController::getInstance().getStatusNode();
             }
 
