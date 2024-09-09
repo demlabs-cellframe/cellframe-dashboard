@@ -20,9 +20,9 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     , m_manager(new QNetworkAccessManager())
 #endif
 {
-    nodeCli     = NodePathManager::getInstance().nodePaths.nodePath_cli;
-    nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
-    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath;
+    nodeCli     = DapNodePathManager::getInstance().nodePaths.nodePath_cli;
+    nodePath    = DapNodePathManager::getInstance().nodePaths.nodePath;
+    nodeDirPath = DapNodePathManager::getInstance().nodePaths.nodeDirPath;
 
 
     connect(s_timer_write, &QTimer::timeout,

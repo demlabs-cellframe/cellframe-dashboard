@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
 
     while (result == RESTART_CODE)
     {
-        NodePathManager::getInstance().setRole("GUI");
+        DapNodePathManager::getInstance().setRole("GUI");
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
-        NodePathManager::getInstance().checkNeedDownload();
+        DapNodePathManager::getInstance().checkNeedDownload();
         DapLogger::instance()->startUpdateTimer();
         result = app->exec();
         delete app;

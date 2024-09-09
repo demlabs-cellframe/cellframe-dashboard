@@ -184,7 +184,7 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
     auto net = rcvData["net"].toString();
     if(m_networksLoadProgress.isEmpty())
     {
-        auto netList = NodeConfigToolController::getInstance().getConfigNetworkList();
+        auto netList = DapConfigToolController::getInstance().getConfigNetworkList();
         for(const auto& net: netList)
         {
             m_networksLoadProgress.insert(net, QMap<int,int>());
