@@ -347,8 +347,9 @@ Item{
 
             Connections{
                 target: dapServiceController
-                function onRcvActivateOrDeactivateReply(rcvData){
-                    if(rcvData.cmd === "activate")
+                function onRcvActivateOrDeactivateReply(jsonData)
+                {
+                    var rcvData = JSON.parse(jsonData).result
                     {
                         if(rcvData.success){
                             textInputPasswordWallet.bottomLine.color = currTheme.input
@@ -362,7 +363,9 @@ Item{
                                         qsTr("Wallet activated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletUnlocked.svg")
                             hide()
-                        }else{
+                        }
+                        else
+                        {
                             textInputPasswordWallet.bottomLine.color = currTheme.red
                             textError.visible = true
                             activatingSignal(nameWallet, false)
