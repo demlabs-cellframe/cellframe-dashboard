@@ -7,6 +7,8 @@ win32 {
     CONFIG -= console
 }
 
+DEFINES += PROG_TYPE=\\\"SERVICE\\\"
+
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 
 INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \

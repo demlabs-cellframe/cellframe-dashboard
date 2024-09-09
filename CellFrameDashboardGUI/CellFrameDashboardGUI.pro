@@ -8,6 +8,8 @@ DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
 
 DEFINES += SIMULATOR_DEX
 
+DEFINES += PROG_TYPE=\\\"GUI\\\"
+
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)

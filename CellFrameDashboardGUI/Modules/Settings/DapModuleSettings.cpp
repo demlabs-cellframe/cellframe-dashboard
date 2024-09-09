@@ -31,7 +31,8 @@ void DapModuleSettings::updateUrlUpdateNode()
     auto& pathManager = DapNodePathManager::getInstance();
     connect(&pathManager, &DapNodePathManager::checkedUrlSignal, [this](bool isReady)
             {
-                QString ver = isReady ? QString(MAX_NODE_VERSION) : "";
+                QString maxVer = QString(MAX_NODE_VERSION);
+                QString ver = isReady ? maxVer : "";
                 m_urlUpdateNode = DapNodePathManager::getInstance().getNodeUrl(ver);
                 m_isNodeUrlUpdated = true;
                 emit nodeUrlUpdated();
