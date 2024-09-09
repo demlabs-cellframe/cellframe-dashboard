@@ -149,7 +149,7 @@ int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
     m_errorCode = -1;
     m_startStage = PATTERN_STAGE;
     m_masterNodeInfo[m_currentNetwork].isRegNode = true;
-    emit registrationNodeStarted();
+    emit registrationNodeChanged();
     saveCurrentRegistration();
     saveStageList();
 
@@ -1381,7 +1381,7 @@ void DapModuleMasterNode::stopAndClearRegistration()
     m_currentStartMaster.clear();
     clearStageList();
     clearCurrentRegistration();
-    emit registrationNodeStopped();
+    emit registrationNodeChanged();
 }
 
 void DapModuleMasterNode::continueRegistrationNode()

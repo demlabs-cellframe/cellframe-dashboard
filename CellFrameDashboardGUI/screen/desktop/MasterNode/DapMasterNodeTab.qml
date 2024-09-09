@@ -63,7 +63,7 @@ DapPage {
     {
         target: nodeMasterModule
 
-        function onRegistrationNodeStarted()
+        function onRegistrationNodeChanged()
         {
             dapRightPanel.push(loaderMasterNodePanel)
         }

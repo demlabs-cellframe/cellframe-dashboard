@@ -116,7 +116,7 @@ public:
 
     Q_INVOKABLE QVariant getDataRegistration(const QString& nameData) const;
 
-    Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeStarted)
+    Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeChanged)
     bool getIsRegistrationNode() const {return !m_startStage.isEmpty();}
 
     Q_PROPERTY(bool isSandingDataStage READ isSandingDataStage NOTIFY creationStageChanged)
@@ -157,8 +157,7 @@ signals:
     void signatureChanged();
     void errorCreation(int numMessage = -1);
 
-    void registrationNodeStarted();
-    void registrationNodeStopped();
+    void registrationNodeChanged();
     void masterNodeChanged();
 
     void certMovedSignal(const int numMessage);

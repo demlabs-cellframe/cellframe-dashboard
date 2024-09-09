@@ -112,6 +112,7 @@ A mechanism has been developed to track the participation of master nodes in the
         horizontalAligmentText: Text.AlignHCenter
         indentTextRight: 0
         fontButton: mainFont.dapFont.medium14
+        enabled: !nodeMasterModule.isRegistrationNode
         onClicked:
         {
             dapRightPanel.push(startMasterNodePanel)
