@@ -555,6 +555,14 @@ DapRectangleLitAndShaded
                     anchors.left: parent.left
                     anchors.leftMargin: 16
                 }
+
+                DapToolTipInfo
+                {
+                    anchors.right: parent.right
+                    anchors.rightMargin: 16
+                    anchors.verticalCenter: parent.verticalCenter
+                    contentText: qsTr("Depending on the chosen fee, the transaction processing speed can vary")
+                }
             }
 
             DapFeeComponent
