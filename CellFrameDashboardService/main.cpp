@@ -147,7 +147,7 @@ void setPermissionsForStartService(){
 
 int main(int argc, char *argv[]) {
     qputenv("QT_BEARER_POLL_TIMEOUT", QByteArray::number(-1));
-    DapNodePathManager::getInstance().setRole("Service");
+    NodePathManager::getInstance().setRole("Service");
     if (argc == 1) {
         SERVICE_TABLE_ENTRY winService[] = {
             { (LPWSTR)ServiceProcClass::serviceName, (LPSERVICE_MAIN_FUNCTION)ServiceMain },
@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
     // Check for the existence of a running instance of the program
     bool isRunning = DapHelper::getInstance().checkExistenceRunningInstanceApp(systemSemaphore, memmoryApp, memmoryAppBagFix);
 
-    DapNodePathManager::getInstance().setRole("Service");
+    NodePathManager::getInstance().setRole("Service");
 
     if(isRunning)
     {

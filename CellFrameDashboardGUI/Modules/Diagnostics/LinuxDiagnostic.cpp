@@ -3,9 +3,9 @@
 LinuxDiagnostic::LinuxDiagnostic(AbstractDiagnostic *parent)
     : AbstractDiagnostic{parent}
 {
-    nodeCli     = DapNodePathManager::getInstance().nodePaths.nodePath_cli;
-    nodePath    = DapNodePathManager::getInstance().nodePaths.nodePath;
-    nodeDirPath = DapNodePathManager::getInstance().nodePaths.nodeDirPath.remove("/bin");
+    nodeCli     = NodePathManager::getInstance().nodePaths.nodePath_cli;
+    nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
+    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath.remove("/bin");
 
     connect(s_timer_update, &QTimer::timeout,
             this, &LinuxDiagnostic::info_update,

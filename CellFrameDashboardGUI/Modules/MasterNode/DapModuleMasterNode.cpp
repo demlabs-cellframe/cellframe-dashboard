@@ -579,7 +579,7 @@ void DapModuleMasterNode::clearCertificate()
 
 void DapModuleMasterNode::tryUpdateNetworkConfig()
 {
-    auto& controller = DapConfigToolController::getInstance();
+    auto& controller = NodeConfigToolController::getInstance();
     controller.setConfigParam("cellframe-node", "mempool", "auto_proc", "true");
     controller.setConfigParam("cellframe-node", "server", "enabled", "true");
     controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "collecting_level", m_currentStartMaster[STAKE_VALUE_KEY].toString());

@@ -28,11 +28,11 @@ DapModuleSettings::~DapModuleSettings()
 
 void DapModuleSettings::updateUrlUpdateNode()
 {
-    auto& pathManager = DapNodePathManager::getInstance();
-    connect(&pathManager, &DapNodePathManager::checkedUrlSignal, [this](bool isReady)
+    auto& pathManager = NodePathManager::getInstance();
+    connect(&pathManager, &NodePathManager::checkedUrlSignal, [this](bool isReady)
             {
                 QString ver = isReady ? QString(MAX_NODE_VERSION) : "";
-                m_urlUpdateNode = DapNodePathManager::getInstance().getNodeUrl(ver);
+                m_urlUpdateNode = NodePathManager::getInstance().getNodeUrl(ver);
                 m_isNodeUrlUpdated = true;
                 emit nodeUrlUpdated();
             });

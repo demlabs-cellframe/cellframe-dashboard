@@ -4,9 +4,9 @@ WinDiagnostic::WinDiagnostic(AbstractDiagnostic *parent)
     : AbstractDiagnostic{parent}
 {
 
-    nodeCli     = DapNodePathManager::getInstance().nodePaths.nodePath_cli;
-    nodePath    = DapNodePathManager::getInstance().nodePaths.nodePath;
-    nodeDirPath = DapNodePathManager::getInstance().nodePaths.nodeDirPath;
+    nodeCli     = NodePathManager::getInstance().nodePaths.nodePath_cli;
+    nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
+    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath;
 
     connect(s_timer_update, &QTimer::timeout,
             this, &WinDiagnostic::info_update,

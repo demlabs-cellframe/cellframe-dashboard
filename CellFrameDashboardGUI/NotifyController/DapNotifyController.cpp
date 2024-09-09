@@ -27,7 +27,7 @@ void DapNotifyController::rcvData(QVariant data)
             if(value.toString() != m_connectState)
             {
                 isFirst = true;
-                DapConfigToolController::getInstance().getStatusNode();
+                NodeConfigToolController::getInstance().getStatusNode();
             }
 
             emit chainsLoadProgress(QVariantMap());
