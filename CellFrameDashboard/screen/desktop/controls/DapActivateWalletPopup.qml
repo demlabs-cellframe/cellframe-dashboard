@@ -350,6 +350,7 @@ Item{
                 function onRcvActivateOrDeactivateReply(jsonData)
                 {
                     var rcvData = JSON.parse(jsonData).result
+                    if(rcvData.cmd !== "deactivate")
                     {
                         if(rcvData.success){
                             textInputPasswordWallet.bottomLine.color = currTheme.input
