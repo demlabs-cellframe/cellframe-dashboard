@@ -90,6 +90,18 @@ DapPage {
             nodeMasterModule.clearCertificate();
         }
 
+        function onMasterNodeCreated()
+        {
+            if(nodeMasterModule.isRegistrationNode && nodeMasterModule.currentNetwork === nodeMasterModule.getDataRegistration("network"))
+            {
+                dapRightPanel.push(loaderMasterNodePanel)
+            }
+            else
+            {
+                dapRightPanel.push(baseMasterNodePanel)
+            }
+        }
+
         function onCertMovedSignal(numberMessage)
         {
             if(numberMessage === 1)

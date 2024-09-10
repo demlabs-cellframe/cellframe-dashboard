@@ -193,7 +193,16 @@ void DapModuleMasterNode::createMasterNode()
         addNode();
         break;
     case LaunchStage::SENDING_STAKE:
-        stakeDelegate();
+    {
+        if(m_currentStartMaster.contains(QUEUE_HASH_KEY))
+        {
+            tryCheckStakeDelegate();
+        }
+        else
+        {
+            stakeDelegate();
+        }
+    }
         break;
     case LaunchStage::SEND_FORM:
         startWaitingPermission();
@@ -648,11 +657,13 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
     if(replyObj.contains("error"))
     {
         qWarning() << "[DapModuleMasterNode] [respondListKeys] Error message. " << replyObj["error"].toString();
+        m_listKeysTimer->stop();
         tryStopCreationMasterNode(14, "[respondListKeys]" + replyObj["error"].toString());
         return;
     }
     if(replyObj["result"].isNull())
     {
+        m_listKeysTimer->stop();
         tryStopCreationMasterNode(14, "[respondListKeys] The result is empty in the response.");
         return;
     }
@@ -661,12 +672,13 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
     if(!result.contains("keys"))
     {
         qWarning() << "[DapModuleMasterNode] Unexpected problem, key -keys- was not found.";
+        m_listKeysTimer->stop();
         tryStopCreationMasterNode(14, "Other problems.");
         return;
     }
 
     QString curPKey = m_currentStartMaster[CERT_HASH_KEY].toString();
-    QString curNodeAddr = m_currentStartMaster[CERT_HASH_KEY].toString();
+    QString curNodeAddr = m_currentStartMaster[NODE_ADDR_KEY].toString();
     auto keys = result["keys"].toArray();
     for(const auto& itemValue: keys)
     {
@@ -700,6 +712,7 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
         if(pKey == curPKey)
         {
             qInfo() << "-------The node has been added to the list.-----";
+            m_listKeysTimer->stop();
             stageComplated();
             return;
         }
@@ -1198,6 +1211,7 @@ void DapModuleMasterNode::respondCheckStakeDelegate(const QVariant &rcvData)
         }
         else
         {
+            m_checkStakeTimer->stop();
             qInfo() << "We are looking for information about the transaction. By hash: " << m_currentStartMaster[STAKE_HASH_KEY].toString();
             mempoolCheck();
         }
@@ -1298,6 +1312,8 @@ void DapModuleMasterNode::finishRegistration()
 
     clearCurrentRegistration();
     clearStageList();
+    networkListUpdateSlot();
+    qInfo() << "Master Node created!!!!!!!!!!!";
 }
 
 void DapModuleMasterNode::createDemoNode()
@@ -1360,7 +1376,11 @@ QList<int> DapModuleMasterNode::getFullStepsLoader() const
 
 bool DapModuleMasterNode::isUploadCertificate()
 {
-    return m_currentStartMaster[CERT_LOGIC_KEY].toString() == "uploadCertificate";
+    if(m_currentStartMaster.contains(CERT_LOGIC_KEY))
+    {
+        return m_currentStartMaster[CERT_LOGIC_KEY].toString() == "uploadCertificate";
+    }
+    return false;
 }
 
 int DapModuleMasterNode::getCurrentStage()
