@@ -256,7 +256,7 @@ Item
     {
         id: secondInfoHeader
         visible: false
-        height: 42
+        height: 0// 42
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: baseInfoBody.bottom
@@ -344,7 +344,7 @@ Item
     {
         id: secondInfoBody
         visible: false
-        height: contentHeight
+        height: 0//contentHeight
         anchors.top: secondInfoHeader.bottom
         anchors.left: parent.left
         anchors.right: parent.right

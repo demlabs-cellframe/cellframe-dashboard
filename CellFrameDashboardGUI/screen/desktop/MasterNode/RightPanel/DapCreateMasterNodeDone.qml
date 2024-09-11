@@ -109,7 +109,7 @@ DapRectangleLitAndShaded
                         horizontalAlignment: Text.AlignLeft
                         color: currTheme.white
                         font: mainFont.dapFont.regular13
-                        text: nodeMasterModule.getMasterNodeDataByNetwork(nodeMasterModule.currentNetwork, "stakeHash")
+                        text: nodeMasterModule.getDataRegistration("stakeHash")
                         elide: Text.ElideMiddle
                         MouseArea{
                             anchors.fill: parent
@@ -117,7 +117,7 @@ DapRectangleLitAndShaded
                             onExited: hashText.color = currTheme.gray
                             onClicked: {
                                 clipboard.setText(hashText.text)
-                                showInfoNotification(popupText, "check_icon.png")
+                                showInfoNotification(qsTr("Hash copied"), "check_icon.png")
                             }
                         }
                     }

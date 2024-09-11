@@ -29,6 +29,11 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
     connect(m_listKeysTimer, &QTimer::timeout, this, &DapModuleMasterNode::getListKeys);
 
+    // TODO: for cleare nodes
+//    clearMasterNodeBase();
+//    clearCurrentRegistration();
+//    clearStageList();
+
     loadMasterNodeBase();
     loadStageList();
     loadCurrentRegistration();
@@ -997,6 +1002,10 @@ void DapModuleMasterNode::networkListUpdateSlot()
         if(checkList.contains(net))
         {
             checkList[net] = true;
+            if(!m_masterNodeInfo[net].isMaster && m_masterNodes.contains(net))
+            {
+                addNetwork(net);
+            }
         }
         else
         {
@@ -1073,11 +1082,14 @@ void DapModuleMasterNode::tryStopCreationMasterNode(int code, const QString& mes
     /// 17 - I couldn't add a node.
     qDebug() << "[DapModuleMasterNode] The node registration operation was interrupted. " << message;
 
-    m_errorStage = m_startStage.first().second;
-    m_errorCode = code;
-    saveStageList();
+    if(!m_startStage.isEmpty())
+    {
+        m_errorStage = m_startStage.first().second;
+        m_errorCode = code;
+        saveStageList();
 
-    emit errorCreation(code);
+        emit errorCreation(code);
+    }
 }
 
 void DapModuleMasterNode::workNodeChanged()
@@ -1207,6 +1219,7 @@ void DapModuleMasterNode::respondCheckStakeDelegate(const QVariant &rcvData)
         if(!m_currentStartMaster.contains(STAKE_HASH_KEY))
         {
             qDebug() << "It looks like the transaction was rejected.";
+            m_checkStakeTimer->stop();
             tryStopCreationMasterNode(10, "It looks like the transaction was rejected.");
         }
         else
@@ -1313,6 +1326,7 @@ void DapModuleMasterNode::finishRegistration()
     clearCurrentRegistration();
     clearStageList();
     networkListUpdateSlot();
+    emit currentNetworkChanged();
     qInfo() << "Master Node created!!!!!!!!!!!";
 }
 
@@ -1394,6 +1408,7 @@ int DapModuleMasterNode::getCurrentStage()
 
 void DapModuleMasterNode::stopAndClearRegistration()
 {
+    m_checkStakeTimer->stop();
     m_errorStage = -1;
     m_errorCode = -1;
     emit errorCreation();
