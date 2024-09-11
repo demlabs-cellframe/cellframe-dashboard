@@ -436,7 +436,8 @@ DapRectangleLitAndShaded
             {
                 Layout.fillWidth: true
                 color: currTheme.mainBackground
-                height: 30
+                height: 0 //30
+                visible: false
                 Text
                 {
                     color: currTheme.white
@@ -454,8 +455,8 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 30
                 Layout.rightMargin: 35
-                height: 69
-
+                height: 0 //69
+                visible: false
                 DapTextField
                 {
                     id: nodeIpText
@@ -482,7 +483,8 @@ DapRectangleLitAndShaded
             {
                 Layout.fillWidth: true
                 color: currTheme.mainBackground
-                height: 30
+                height: 0 //30
+                visible: false
                 Text
                 {
                     color: currTheme.white
@@ -500,8 +502,8 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 30
                 Layout.rightMargin: 35
-                height: 69
-
+                height: 0 //69
+                visible: false
                 DapTextField
                 {
                     id: nodePortText

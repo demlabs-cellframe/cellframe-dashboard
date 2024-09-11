@@ -14,8 +14,6 @@ Page
     property string currentStakeToken: "-"
     property string currentMainToken: "-"
 
-    property bool isStageUpdateNetworks: false
-
     id: dapMasterNodeScreen
 
     background: Rectangle
@@ -198,7 +196,7 @@ Page
     function updateNetworkTabs()
     {
         var arr = JSON.parse(nodeMasterModule.networksList)
-        isStageUpdateNetworks = true;
+
         networkTabsModel.clear()
         networkTabsModel.append(arr)
 

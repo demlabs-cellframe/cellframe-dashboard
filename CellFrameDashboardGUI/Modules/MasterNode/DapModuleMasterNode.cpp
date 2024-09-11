@@ -45,7 +45,7 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
 
     if(!m_masterNodes.isEmpty())
     {
-        for(const auto& item: m_masterNodes)
+        for(const auto& item: qAsConst(m_masterNodes))
         {
             addNetwork(item[NETWORK_KEY].toString());
         }
@@ -74,7 +74,8 @@ QString DapModuleMasterNode::mainTokenName() const
 QString DapModuleMasterNode::networksList() const
 {
     QJsonArray resultArr;
-    for(auto net: m_masterNodeInfo.keys())
+    auto keys = m_masterNodeInfo.keys();
+    for(const auto &net: qAsConst(keys))
     {
         QJsonObject obj;
         obj["net"] = net;
@@ -233,7 +234,8 @@ void DapModuleMasterNode::saveStageList()
 {
     QVariantList stageList;
     QVariantList indexList;
-    for (const auto &stage : m_startStage) {
+    for (const auto &stage : qAsConst(m_startStage))
+    {
         stageList.append(static_cast<int>(stage.first));
         indexList.append(static_cast<int>(stage.second));
     }
@@ -344,12 +346,12 @@ void DapModuleMasterNode::loadMasterNodeBase()
     settings->beginGroup("masterNodes");
 
     QStringList groups = settings->childGroups();
-    for (const QString& group : groups) {
+    for (const QString& group : qAsConst(groups)) {
         settings->beginGroup(group);
 
         QVariantMap valueMap;
         QStringList keys = settings->allKeys();
-        for (const QString& key : keys) {
+        for (const QString& key : qAsConst(keys)) {
             valueMap.insert(key, settings->value(key));
         }
 
@@ -961,7 +963,7 @@ void DapModuleMasterNode::respondNodeListCommand(const QVariant &rcvData)
 
         auto resultArr = replyObj["result"].toArray();
         auto addr = m_currentStartMaster[NODE_ADDR_KEY].toString();
-        for(const auto& itemValue: resultArr)
+        for(const auto& itemValue: qAsConst(resultArr))
         {
             QJsonObject item = itemValue.toObject();
             if(item.contains("node address") && item["node address"].toString() == addr)
@@ -987,7 +989,7 @@ void DapModuleMasterNode::nodeRestart()
 void DapModuleMasterNode::networkListUpdateSlot()
 {
     QMap<QString, bool> checkList;
-    for(auto key: m_masterNodeInfo.keys())
+    for(const auto &key: m_masterNodeInfo.keys())
     {
         checkList.insert(key, false);
         if(!m_currentStartMaster.isEmpty())
@@ -997,7 +999,7 @@ void DapModuleMasterNode::networkListUpdateSlot()
     }
 
     QStringList netlist = m_modulesCtrl->getNetworkList();
-    for(auto net: netlist)
+    for(const auto &net: netlist)
     {
         if(checkList.contains(net))
         {
@@ -1013,7 +1015,7 @@ void DapModuleMasterNode::networkListUpdateSlot()
         }
     }
 
-    for(auto key: checkList.keys(false))
+    for(const auto &key: checkList.keys(false))
     {
         if(!m_masterNodeInfo[key].isMaster && !m_masterNodeInfo[key].isRegNode) m_masterNodeInfo.remove(key);
     }
