@@ -30,9 +30,9 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(m_listKeysTimer, &QTimer::timeout, this, &DapModuleMasterNode::getListKeys);
 
     // TODO: for cleare nodes
-    clearMasterNodeBase();
-    clearCurrentRegistration();
-    clearStageList();
+    //clearMasterNodeBase();
+    //clearCurrentRegistration();
+    //clearStageList();
 
     loadMasterNodeBase();
     loadStageList();
