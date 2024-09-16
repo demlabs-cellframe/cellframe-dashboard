@@ -108,7 +108,7 @@ win32 {
 mac {
     QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
     QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
-    LIBS += -framework Security -framework Carbon -lobjc 
+    LIBS += -framework Security -framework Carbon -lobjc
     QMAKE_LIBDIR += /usr/local/lib
 
     service_target.files = $${OUT_PWD}/$${TARGET}.app

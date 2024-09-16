@@ -133,7 +133,16 @@ const int USING_NOTIFY = 0;
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {
-    QApplication *temp = new QApplication(argc, argv);
+    int argc2 = argc;
+    char** argv2 = new char*[argc];
+
+    for(int i=0; i<argc; ++i)
+    {
+        argv2[i] = new char[strlen(argv[i])+1];
+        strcpy(argv2[i],argv[i]);
+    }
+
+    QApplication *temp = new QApplication(argc2, argv2);
 
     int maxWidth = DapApplication::primaryScreen()->availableGeometry().width();
     int maxHeight = DapApplication::primaryScreen()->availableGeometry().height();
@@ -164,6 +173,13 @@ QByteArray scaleCalculate(int argc, char *argv[])
     delete temp;
 
     qDebug() << "window_scale" << QString::number(scale, 'f', 1).toDouble();
+
+    for(int i=0; i<argc; ++i)
+    {
+        delete [] argv2[i];
+    }
+
+    delete [] argv2;
 
     return QString::number(scale, 'f', 1).toLocal8Bit();
 }

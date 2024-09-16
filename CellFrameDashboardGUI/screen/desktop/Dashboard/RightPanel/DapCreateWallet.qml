@@ -18,6 +18,12 @@ DapCreateWalletForm
                 qsTr("Wallet password must contain at least 4 characters")
             console.warn("Invalid password")
         }
+        else if(logicWallet.walletType === "Protected" && dapTextInputPassword.text !==  dapTextInputPasswordConfirmWallet.text)
+        {
+            dapWalletNameWarning.text =
+                qsTr("You entered two different passwords. Please try again.")
+            console.warn("Two different passwords")
+        }
         else
         {
             var index = dapComboBoxSignatureTypeWallet.currentIndex === -1 ? 0 : dapComboBoxSignatureTypeWallet.currentIndex
