@@ -116,7 +116,9 @@ Item{
 
             Connections{
                 target: dapServiceController
-                function onRcvActivateOrDeactivateReply(rcvData){
+                function onRcvActivateOrDeactivateReply(jsonData)
+                {
+                    var rcvData = JSON.parse(jsonData).result
                     if(rcvData.cmd !== "activate")
                     {
                         if(rcvData.success){
@@ -128,7 +130,9 @@ Item{
                                         qsTr("Wallet deactivated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
                             hide()
-                        }else{
+                        }
+                        else
+                        {
                             console.log("Error deactivating wallet:", JSON.stringify(rcvData.message))
                             deactivatingSignal(nameWallet, false)
                             dapMainWindow.infoItem.showInfo(
