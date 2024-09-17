@@ -89,8 +89,8 @@ win32 {
         DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\" \
 	HAVE_STRNDUP
 
-    CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
     CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_rwd/dist/
+    CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
 
     QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3
