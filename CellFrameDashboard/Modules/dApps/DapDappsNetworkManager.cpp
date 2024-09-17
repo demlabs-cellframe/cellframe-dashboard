@@ -15,7 +15,7 @@ void DapDappsNetworkManager::downloadFile(QString name)
 {
     QNetworkRequest request;
     request.setUrl(QUrl(m_path + name));
-
+    qDebug() << "[Test_build] [DapDappsNetworkManager] tryRequest";
     m_fileName = name;
     QString path = m_pathPlugins + "/download/" + m_fileName;
     m_file = new QFile(path);

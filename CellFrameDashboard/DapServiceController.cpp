@@ -4,17 +4,17 @@
 #include "DapNetworkStr.h"
 
 #include "dapconfigreader.h"
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
-    m_nodeCliPath =  NodePathManager::getInstance().nodePaths.nodePath_cli;
-    m_nodeToolPath = NodePathManager::getInstance().nodePaths.nodePath_tool;
+    m_nodeCliPath =  DapNodePathManager::getInstance().nodePaths.nodePath_cli;
+    m_nodeToolPath = DapNodePathManager::getInstance().nodePaths.nodePath_tool;
 
-    m_reqularRequestsCtrl = new DapRegularRequestsController(m_nodeCliPath, m_nodeToolPath);
+    m_reqularRequestsCtrl = new DapRegularRequestsController();
 
     DapConfigReader configReader;
     m_DapNotifyController = new DapNotifyController();
@@ -332,7 +332,6 @@ void DapServiceController::registerCommand()
     addService("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                 new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand",                    nullptr, m_nodeCliPath));
     addService("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",          new DapGetOnceWalletInfoCommand("DapGetOnceWalletInfoCommand",                      nullptr, m_nodeCliPath));
     addService("DapMempoolProcessCommand",                  "mempoolProcessed",                     new DapMempoolProcessCommand("DapMempoolProcessCommand",                            nullptr, m_nodeCliPath));
-    addService("DapGetWalletHistoryCommand",                "historyReceived",                      new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand",                        nullptr, m_nodeCliPath));
     addService("DapGetAllWalletHistoryCommand",             "allWalletHistoryReceived",             new DapGetAllWalletHistoryCommand("DapGetAllWalletHistoryCommand",                  nullptr, m_nodeCliPath));
     addService("DapRunCmdCommand",                          "cmdRunned",                            new DapRunCmdCommand("DapRunCmdCommand",                                            nullptr, m_nodeCliPath, m_nodeToolPath));
     addService("DapGetHistoryExecutedCmdCommand",           "historyExecutedCmdReceived",           new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand",              nullptr, CMD_HISTORY));

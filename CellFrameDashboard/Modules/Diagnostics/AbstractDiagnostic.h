@@ -24,7 +24,7 @@
 #include <QNetworkInterface>
 #include <QNetworkAccessManager>
 
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 class AbstractDiagnostic : public QObject
 {

@@ -1,4 +1,4 @@
-import QtQuick 2.4
+ import QtQuick 2.4
 import QtQml 2.12
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
@@ -39,7 +39,7 @@ Item
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 298
-        height: 279
+        height: 324
 
         color: currTheme.popup
         radius: currTheme.popupRadius
@@ -104,7 +104,52 @@ Item
 
                     onTextChanged:
                     {
-                        text.length < 4 ? continueBtn.enabled = false : continueBtn.enabled = true
+                        if(textInputPasswordConfirmWallet.text == textInputPasswordWallet.text)
+                            text.length < 4 ? continueBtn.enabled = false : continueBtn.enabled = true
+                        else
+                            continueBtn.enabled = false
+                    }
+                }
+            }
+            Rectangle
+            {
+                Layout.fillWidth: true
+                Layout.leftMargin: 32
+                Layout.rightMargin: 32
+                Layout.topMargin: 24
+                height: 24
+                color: "transparent"
+
+                DapTextField
+                {
+                    id: textInputPasswordConfirmWallet
+
+                    echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    placeholderText: qsTr("Password (Confirmation)")
+                    font: mainFont.dapFont.regular14
+                    horizontalAlignment: Text.AlignLeft
+                    anchors.fill: parent
+                    anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
+
+                    validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s\-]+/}
+                    bottomLineVisible: true
+                    bottomLineSpacing: 2
+
+                    bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
+                    indicatorVisible: true
+                    indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
+                    indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
+                    indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
+                    indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
+
+                    onTextChanged:
+                    {
+                        if(textInputPasswordConfirmWallet.text == textInputPasswordWallet.text)
+                            text.length < 4 ? continueBtn.enabled = false : continueBtn.enabled = true
+                        else
+                            continueBtn.enabled = false
                     }
                 }
             }

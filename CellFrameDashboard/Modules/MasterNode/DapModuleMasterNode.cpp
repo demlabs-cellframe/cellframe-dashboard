@@ -29,6 +29,11 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     connect(m_checkStakeTimer, &QTimer::timeout, this, &DapModuleMasterNode::checkStake);
     connect(m_listKeysTimer, &QTimer::timeout, this, &DapModuleMasterNode::getListKeys);
 
+    // TODO: for cleare nodes
+//    clearMasterNodeBase();
+//    clearCurrentRegistration();
+//    clearStageList();
+
     loadMasterNodeBase();
     loadStageList();
     loadCurrentRegistration();
@@ -40,7 +45,7 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
 
     if(!m_masterNodes.isEmpty())
     {
-        for(const auto& item: m_masterNodes)
+        for(const auto& item: qAsConst(m_masterNodes))
         {
             addNetwork(item[NETWORK_KEY].toString());
         }
@@ -69,7 +74,8 @@ QString DapModuleMasterNode::mainTokenName() const
 QString DapModuleMasterNode::networksList() const
 {
     QJsonArray resultArr;
-    for(auto net: m_masterNodeInfo.keys())
+    auto keys = m_masterNodeInfo.keys();
+    for(const auto &net: qAsConst(keys))
     {
         QJsonObject obj;
         obj["net"] = net;
@@ -141,14 +147,15 @@ int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
     }
 
     // TODO: if you need to make a fake dashboard for testing.
-    //createDemoNode();
-    //return 0;
+    // createDemoNode();
+
+    // return 0;
 
     m_errorStage = -1;
     m_errorCode = -1;
     m_startStage = PATTERN_STAGE;
     m_masterNodeInfo[m_currentNetwork].isRegNode = true;
-    emit registrationNodeStarted();
+    emit registrationNodeChanged();
     saveCurrentRegistration();
     saveStageList();
 
@@ -192,7 +199,16 @@ void DapModuleMasterNode::createMasterNode()
         addNode();
         break;
     case LaunchStage::SENDING_STAKE:
-        stakeDelegate();
+    {
+        if(m_currentStartMaster.contains(QUEUE_HASH_KEY))
+        {
+            tryCheckStakeDelegate();
+        }
+        else
+        {
+            stakeDelegate();
+        }
+    }
         break;
     case LaunchStage::SEND_FORM:
         startWaitingPermission();
@@ -218,7 +234,8 @@ void DapModuleMasterNode::saveStageList()
 {
     QVariantList stageList;
     QVariantList indexList;
-    for (const auto &stage : m_startStage) {
+    for (const auto &stage : qAsConst(m_startStage))
+    {
         stageList.append(static_cast<int>(stage.first));
         indexList.append(static_cast<int>(stage.second));
     }
@@ -329,12 +346,12 @@ void DapModuleMasterNode::loadMasterNodeBase()
     settings->beginGroup("masterNodes");
 
     QStringList groups = settings->childGroups();
-    for (const QString& group : groups) {
+    for (const QString& group : qAsConst(groups)) {
         settings->beginGroup(group);
 
         QVariantMap valueMap;
         QStringList keys = settings->allKeys();
-        for (const QString& key : keys) {
+        for (const QString& key : qAsConst(keys)) {
             valueMap.insert(key, settings->value(key));
         }
 
@@ -578,17 +595,14 @@ void DapModuleMasterNode::clearCertificate()
 
 void DapModuleMasterNode::tryUpdateNetworkConfig()
 {
-    auto* worker = m_modulesCtrl->getConfigWorker();
-    if(!worker)
-    {
-        tryStopCreationMasterNode(5, "There are node configuration problems.");
-        return;
-    }
-    worker->writeConfigValue(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "blocks-sign-cert", m_currentStartMaster[CERT_NAME_KEY].toString());
-    worker->writeConfigValue(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "set_collect_fee", m_currentStartMaster[FEE_KEY].toString());
-    worker->writeConfigValue(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "fee_addr",  m_currentStartMaster[WALLET_ADDR_KEY].toString());
-    worker->writeNodeValue("mempool", "auto_proc", "true");
-    worker->saveAllChanges();
+    auto& controller = DapConfigToolController::getInstance();
+    controller.setConfigParam("cellframe-node", "mempool", "auto_proc", "true");
+    controller.setConfigParam("cellframe-node", "server", "enabled", "true");
+    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "general", "node-role", "master");
+    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "collecting_level", m_currentStartMaster[STAKE_VALUE_KEY].toString());
+    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "fee_addr", m_currentStartMaster[WALLET_ADDR_KEY].toString());
+    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "blocks-sign-cert", m_currentStartMaster[CERT_NAME_KEY].toString());
+    tryRestartNode();
     stageComplated();
 }
 
@@ -633,7 +647,7 @@ void DapModuleMasterNode::respondMempoolCheck(const QVariant &rcvData)
         source = result["source"].toString();
     }
 
-    if(source == "chain" && code == "DAP_LEDGER_TX_CHECK_OK")
+    if(source == "chain" && (code == "DAP_LEDGER_TX_CHECK_OK" || code.contains("No error")))
     {
         stageComplated();
     }
@@ -651,11 +665,13 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
     if(replyObj.contains("error"))
     {
         qWarning() << "[DapModuleMasterNode] [respondListKeys] Error message. " << replyObj["error"].toString();
+        m_listKeysTimer->stop();
         tryStopCreationMasterNode(14, "[respondListKeys]" + replyObj["error"].toString());
         return;
     }
     if(replyObj["result"].isNull())
     {
+        m_listKeysTimer->stop();
         tryStopCreationMasterNode(14, "[respondListKeys] The result is empty in the response.");
         return;
     }
@@ -664,12 +680,13 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
     if(!result.contains("keys"))
     {
         qWarning() << "[DapModuleMasterNode] Unexpected problem, key -keys- was not found.";
+        m_listKeysTimer->stop();
         tryStopCreationMasterNode(14, "Other problems.");
         return;
     }
 
     QString curPKey = m_currentStartMaster[CERT_HASH_KEY].toString();
-    QString curNodeAddr = m_currentStartMaster[CERT_HASH_KEY].toString();
+    QString curNodeAddr = m_currentStartMaster[NODE_ADDR_KEY].toString();
     auto keys = result["keys"].toArray();
     for(const auto& itemValue: keys)
     {
@@ -703,6 +720,7 @@ void DapModuleMasterNode::respondListKeys(const QVariant &rcvData)
         if(pKey == curPKey)
         {
             qInfo() << "-------The node has been added to the list.-----";
+            m_listKeysTimer->stop();
             stageComplated();
             return;
         }
@@ -892,7 +910,7 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 void DapModuleMasterNode::addedNode(const QVariant &rcvData)
 {
     auto result = rcvData.toString();
-    if(result == "successfully")
+    if(result.contains("successfully"))
     {
         qInfo() << "----The node has been added.-----";
         getInfoNode();
@@ -948,7 +966,7 @@ void DapModuleMasterNode::respondNodeListCommand(const QVariant &rcvData)
 
         auto resultArr = replyObj["result"].toArray();
         auto addr = m_currentStartMaster[NODE_ADDR_KEY].toString();
-        for(const auto& itemValue: resultArr)
+        for(const auto& itemValue: qAsConst(resultArr))
         {
             QJsonObject item = itemValue.toObject();
             if(item.contains("node address") && item["node address"].toString() == addr)
@@ -974,7 +992,7 @@ void DapModuleMasterNode::nodeRestart()
 void DapModuleMasterNode::networkListUpdateSlot()
 {
     QMap<QString, bool> checkList;
-    for(auto key: m_masterNodeInfo.keys())
+    for(const auto &key: m_masterNodeInfo.keys())
     {
         checkList.insert(key, false);
         if(!m_currentStartMaster.isEmpty())
@@ -984,11 +1002,15 @@ void DapModuleMasterNode::networkListUpdateSlot()
     }
 
     QStringList netlist = m_modulesCtrl->getNetworkList();
-    for(auto net: netlist)
+    for(const auto &net: netlist)
     {
         if(checkList.contains(net))
         {
             checkList[net] = true;
+            if(!m_masterNodeInfo[net].isMaster && m_masterNodes.contains(net))
+            {
+                addNetwork(net);
+            }
         }
         else
         {
@@ -996,7 +1018,7 @@ void DapModuleMasterNode::networkListUpdateSlot()
         }
     }
 
-    for(auto key: checkList.keys(false))
+    for(const auto &key: checkList.keys(false))
     {
         if(!m_masterNodeInfo[key].isMaster && !m_masterNodeInfo[key].isRegNode) m_masterNodeInfo.remove(key);
     }
@@ -1021,13 +1043,13 @@ void DapModuleMasterNode::addNetwork(const QString &net)
         info.walletName = paramsNode[WALLET_NAME_KEY].toString();
         info.walletAddr = paramsNode[WALLET_ADDR_KEY].toString();
 
-        info.validator.availabilityOrder = true;
-        info.validator.nodePresence = true;
-        info.validator.nodeWeight = "";
-        info.validator.nodeStatus = "";
-        info.validator.blocksSigned = "";
-        info.validator.totalRewards = paramsNode[FEE_KEY].toString() + " " + paramsNode[FEE_TOKEN_KEY].toString();
-        info.validator.networksBlocks = "";
+//        info.validator.availabilityOrder = true;
+//        info.validator.nodePresence = true;
+//        info.validator.nodeWeight = "";
+//        info.validator.nodeStatus = "";
+//        info.validator.blocksSigned = "";
+//        info.validator.totalRewards = paramsNode[FEE_KEY].toString() + " " + paramsNode[FEE_TOKEN_KEY].toString();
+//        info.validator.networksBlocks = "";
 
     }
     else if(!m_currentStartMaster.isEmpty())
@@ -1065,11 +1087,14 @@ void DapModuleMasterNode::tryStopCreationMasterNode(int code, const QString& mes
     /// 17 - I couldn't add a node.
     qDebug() << "[DapModuleMasterNode] The node registration operation was interrupted. " << message;
 
-    m_errorStage = m_startStage.first().second;
-    m_errorCode = code;
-    saveStageList();
+    if(!m_startStage.isEmpty())
+    {
+        m_errorStage = m_startStage.first().second;
+        m_errorCode = code;
+        saveStageList();
 
-    emit errorCreation(code);
+        emit errorCreation(code);
+    }
 }
 
 void DapModuleMasterNode::workNodeChanged()
@@ -1199,10 +1224,12 @@ void DapModuleMasterNode::respondCheckStakeDelegate(const QVariant &rcvData)
         if(!m_currentStartMaster.contains(STAKE_HASH_KEY))
         {
             qDebug() << "It looks like the transaction was rejected.";
+            m_checkStakeTimer->stop();
             tryStopCreationMasterNode(10, "It looks like the transaction was rejected.");
         }
         else
         {
+            m_checkStakeTimer->stop();
             qInfo() << "We are looking for information about the transaction. By hash: " << m_currentStartMaster[STAKE_HASH_KEY].toString();
             mempoolCheck();
         }
@@ -1224,6 +1251,18 @@ QVariantMap DapModuleMasterNode::masterNodeData() const
     result.insert("walletAddr", info.walletAddr);
 
     return result;
+}
+
+QString DapModuleMasterNode::getMasterNodeDataByNetwork(const QString& network, const QString& key)
+{
+    if(m_masterNodes.contains(network))
+    {
+        if(m_masterNodes[network].contains(key))
+        {
+            return m_masterNodes[network][key].toString();
+        }
+    }
+    return {};
 }
 
 QVariantMap DapModuleMasterNode::validatorData() const
@@ -1291,6 +1330,10 @@ void DapModuleMasterNode::finishRegistration()
 
     clearCurrentRegistration();
     clearStageList();
+    networkListUpdateSlot();
+    emit registrationNodeChanged();
+    emit currentNetworkChanged();
+    qInfo() << "Master Node created!!!!!!!!!!!";
 }
 
 void DapModuleMasterNode::createDemoNode()
@@ -1353,7 +1396,11 @@ QList<int> DapModuleMasterNode::getFullStepsLoader() const
 
 bool DapModuleMasterNode::isUploadCertificate()
 {
-    return m_currentStartMaster[CERT_LOGIC_KEY].toString() == "uploadCertificate";
+    if(m_currentStartMaster.contains(CERT_LOGIC_KEY))
+    {
+        return m_currentStartMaster[CERT_LOGIC_KEY].toString() == "uploadCertificate";
+    }
+    return false;
 }
 
 int DapModuleMasterNode::getCurrentStage()
@@ -1367,6 +1414,7 @@ int DapModuleMasterNode::getCurrentStage()
 
 void DapModuleMasterNode::stopAndClearRegistration()
 {
+    m_checkStakeTimer->stop();
     m_errorStage = -1;
     m_errorCode = -1;
     emit errorCreation();
@@ -1374,7 +1422,7 @@ void DapModuleMasterNode::stopAndClearRegistration()
     m_currentStartMaster.clear();
     clearStageList();
     clearCurrentRegistration();
-    emit registrationNodeStopped();
+    emit registrationNodeChanged();
 }
 
 void DapModuleMasterNode::continueRegistrationNode()

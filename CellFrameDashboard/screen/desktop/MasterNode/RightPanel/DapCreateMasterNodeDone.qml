@@ -1,6 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import qmlclipboard 1.0
+
 import "qrc:/widgets"
 import "../../../"
 import "../../controls"
@@ -14,6 +16,11 @@ DapRectangleLitAndShaded
         "support": "https://t.me/cellframetechsupport",
         "feedback": "https://cellframe.net/feedback-form/",
         "site": "https://cellframe.net/"
+    }
+
+    QMLClipboard
+    {
+        id: clipboard
     }
 
     ListModel { id: ulTextModel }
@@ -77,19 +84,59 @@ DapRectangleLitAndShaded
                     text: qsTr("Master node created successfully!")
                 }
 
-                Text
-                {
-                    id: textA1
+                RowLayout{
+
                     Layout.fillWidth: true
                     Layout.leftMargin: 36
                     Layout.rightMargin: 36
                     Layout.topMargin: 12
+                    spacing: 4
+
+                    Text
+                    {
+                        id: textA1
+                        Layout.alignment: Qt.AlignLeft
+                        horizontalAlignment: Text.AlignLeft
+                        color: currTheme.white
+                        font: mainFont.dapFont.regular13
+                        text: qsTr("Hash:")
+                    }
+
+                    Text
+                    {
+                        id: hashText
+                        Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignLeft
+                        color: currTheme.white
+                        font: mainFont.dapFont.regular13
+                        text: nodeMasterModule.getDataRegistration("stakeHash")
+                        elide: Text.ElideMiddle
+                        MouseArea{
+                            anchors.fill: parent
+                            onEntered: hashText.color = currTheme.neon
+                            onExited: hashText.color = currTheme.gray
+                            onClicked: {
+                                clipboard.setText(hashText.text)
+                                showInfoNotification(qsTr("Hash copied"), "check_icon.png")
+                            }
+                        }
+                    }
+                }
+
+                Text
+                {
+                    id: textA2
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 36
+                    Layout.rightMargin: 36
+                    Layout.topMargin: 8
                     horizontalAlignment: Text.AlignLeft
                     wrapMode: Text.WordWrap
                     color: currTheme.white
                     font: mainFont.dapFont.regular13
-                    text: qsTr("The hash from the transaction made in the previous step must be sent to the Cellframe team. There are multiple ways to request approval of your node:")
+                    text: qsTr("The hash from the transaction must be sent to the Cellframe team. There are multiple ways to request approval of your node:")
                 }
+
 
                 ListView
                 {

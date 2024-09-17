@@ -39,7 +39,6 @@
 #include "handlers/DapGetWalletTokenInfoCommand.h"
 //#include "models/DapWalletModel.h"
 #include "handlers/DapMempoolProcessCommand.h"
-#include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapGetAllWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
@@ -101,6 +100,7 @@
 #include "handlers/stackCommand/DapStakeLockTakeCommandStack.h"
 #include "handlers/stackCommand/DapCreateJsonTransactionCommandStack.h"
 #include "handlers/DapTransactionsInfoQueueCommand.h"
+
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -246,7 +246,6 @@ signals:
 
     void readingChainsChanged(bool bReadingChains);
 
-    void historyReceived(const QVariant& walletHistory);
 
     void allHistoryReceived(const QVariant& walletHistory);
 

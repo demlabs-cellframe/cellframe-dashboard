@@ -116,7 +116,7 @@ public:
 
     Q_INVOKABLE QVariant getDataRegistration(const QString& nameData) const;
 
-    Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeStarted)
+    Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeChanged)
     bool getIsRegistrationNode() const {return !m_startStage.isEmpty();}
 
     Q_PROPERTY(bool isSandingDataStage READ isSandingDataStage NOTIFY creationStageChanged)
@@ -126,6 +126,7 @@ public:
     bool isMasterNode() const;
 
     Q_INVOKABLE QString getMasterNodeData(const QString& key);
+    Q_INVOKABLE QString getMasterNodeDataByNetwork(const QString& network, const QString& key);
 
     Q_INVOKABLE void moveCertificate(const QString& path = "");
     Q_INVOKABLE void moveWallet(const QString& path = "");
@@ -156,8 +157,7 @@ signals:
     void signatureChanged();
     void errorCreation(int numMessage = -1);
 
-    void registrationNodeStarted();
-    void registrationNodeStopped();
+    void registrationNodeChanged();
     void masterNodeChanged();
 
     void certMovedSignal(const int numMessage);
@@ -231,7 +231,7 @@ private:
     QTimer* m_checkStakeTimer = nullptr;
     QTimer* m_listKeysTimer = nullptr;
 
-    QString m_currentNetwork = "raiden";
+    QString m_currentNetwork = "";
 
     QList<QVariantMap> m_startedMasterNodeList;
 

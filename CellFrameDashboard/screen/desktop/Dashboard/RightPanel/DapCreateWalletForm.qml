@@ -15,6 +15,7 @@ DapRectangleLitAndShaded
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: comboBoxSignatureTypeWallet.filteredModel
     property alias dapTextInputPassword: textInputPasswordWallet
+    property alias dapTextInputPasswordConfirmWallet: textInputPasswordConfirmWallet
 
     color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
@@ -78,8 +79,6 @@ DapRectangleLitAndShaded
                 id: column
                 width: Math.max(implicitWidth, scrollView.availableWidth)
                 spacing: 0
-
-
 
                 Rectangle
                 {
@@ -287,14 +286,58 @@ DapRectangleLitAndShaded
 
                         echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
 
-
                         anchors.verticalCenter: parent.verticalCenter
                         placeholderText: qsTr("Password")
                         font: mainFont.dapFont.regular16
                         horizontalAlignment: Text.AlignLeft
                         anchors.fill: parent
                         anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
-                        anchors.topMargin: 20
+                        anchors.topMargin: 14
+                        anchors.bottomMargin: 20
+                        anchors.rightMargin: 24
+
+                        validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
+//                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*\!\$\#]+/ }
+                        bottomLineVisible: true
+                        bottomLineSpacing: 6
+
+                        bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
+                        bottomLine.anchors.rightMargin: -24
+                        indicator.anchors.rightMargin: -24
+
+                        indicatorVisible: true
+                        indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
+                        indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
+                        indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
+                        indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
+
+                        selectByMouse: true
+                        DapContextMenu{isActiveCopy: false}
+                    }
+                }
+
+                Rectangle
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 28
+                    Layout.rightMargin: 28
+                    height: 49
+                    color: "transparent"
+                    visible: frameWalletPassword.visible
+
+                    DapTextField
+                    {
+                        id: textInputPasswordConfirmWallet
+
+                        echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
+
+
+                        anchors.verticalCenter: parent.verticalCenter
+                        placeholderText: qsTr("Password (Confirmation)")
+                        font: mainFont.dapFont.regular16
+                        horizontalAlignment: Text.AlignLeft
+                        anchors.fill: parent
+                        anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
                         anchors.bottomMargin: 20
                         anchors.rightMargin: 24
 
