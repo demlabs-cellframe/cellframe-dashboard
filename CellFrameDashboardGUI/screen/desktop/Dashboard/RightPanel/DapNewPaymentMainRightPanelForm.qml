@@ -453,7 +453,7 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 height: 32
                 visible: comboboxToken.currentText[0] === "m"
-                text: qsTr("Warning! To unstake you need to have the exact amount of mCELL in the wallet you staked")
+                text: qsTr("Warning! To unstake you need to have the exact amount of m-tokens in the wallet you staked")
                 font: mainFont.dapFont.regular12
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap

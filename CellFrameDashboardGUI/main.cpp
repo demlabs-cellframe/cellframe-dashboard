@@ -22,7 +22,7 @@
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
 
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -133,7 +133,16 @@ const int USING_NOTIFY = 0;
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {
-    QApplication *temp = new QApplication(argc, argv);
+    int argc2 = argc;
+    char** argv2 = new char*[argc];
+
+    for(int i=0; i<argc; ++i)
+    {
+        argv2[i] = new char[strlen(argv[i])+1];
+        strcpy(argv2[i],argv[i]);
+    }
+
+    QApplication *temp = new QApplication(argc2, argv2);
 
     int maxWidth = DapApplication::primaryScreen()->availableGeometry().width();
     int maxHeight = DapApplication::primaryScreen()->availableGeometry().height();
@@ -165,6 +174,13 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     qDebug() << "window_scale" << QString::number(scale, 'f', 1).toDouble();
 
+    for(int i=0; i<argc; ++i)
+    {
+        delete [] argv2[i];
+    }
+
+    delete [] argv2;
+
     return QString::number(scale, 'f', 1).toLocal8Bit();
 }
 
@@ -191,7 +207,6 @@ int main(int argc, char *argv[])
 
     while (result == RESTART_CODE)
     {
-        NodePathManager::getInstance().init("GUI");
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);
@@ -234,7 +249,7 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
-        NodePathManager::getInstance().checkNeedDownload();
+        DapNodePathManager::getInstance().checkNeedDownload();
         DapLogger::instance()->startUpdateTimer();
         result = app->exec();
         delete app;

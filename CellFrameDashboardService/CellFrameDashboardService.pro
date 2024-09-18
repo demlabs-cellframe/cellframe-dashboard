@@ -7,6 +7,8 @@ win32 {
     CONFIG -= console
 }
 
+DEFINES += PROG_TYPE=\\\"SERVICE\\\"
+
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 
 INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
@@ -53,8 +55,6 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
-
-include(../NodeConfigManager/NodeConfigManager.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
@@ -108,7 +108,7 @@ win32 {
 mac {
     QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
     QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
-    LIBS += -framework Security -framework Carbon -lobjc 
+    LIBS += -framework Security -framework Carbon -lobjc
     QMAKE_LIBDIR += /usr/local/lib
 
     service_target.files = $${OUT_PWD}/$${TARGET}.app

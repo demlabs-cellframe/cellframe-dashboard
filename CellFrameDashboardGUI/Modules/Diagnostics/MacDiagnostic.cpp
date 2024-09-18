@@ -7,9 +7,9 @@ MacDiagnostic::MacDiagnostic(AbstractDiagnostic *parent)
     : AbstractDiagnostic{parent}
 {
 
-    nodeCli     = NodePathManager::getInstance().nodePaths.nodePath_cli;
-    nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
-    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath;
+    nodeCli     = DapNodePathManager::getInstance().nodePaths.nodePath_cli;
+    nodePath    = DapNodePathManager::getInstance().nodePaths.nodePath;
+    nodeDirPath = DapNodePathManager::getInstance().nodePaths.nodeDirPath;
 
     connect(s_timer_update, &QTimer::timeout,
             this, &MacDiagnostic::info_update,

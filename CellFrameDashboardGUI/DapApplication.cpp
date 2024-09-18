@@ -6,7 +6,7 @@
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
 #include "dapvpnorderscontroller.h"
-#include "NodePathManager.h"
+#include "DapNodePathManager.h"
 
 
 #ifdef ANDROID
@@ -205,8 +205,8 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
     m_engine.rootContext()->setContextProperty("translator", translator);
-    m_engine.rootContext()->setContextProperty("nodePathManager", &NodePathManager::getInstance());
-    m_engine.rootContext()->setContextProperty("nodeConfigToolController", &NodeConfigToolController::getInstance());
+    m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
+    m_engine.rootContext()->setContextProperty("nodeConfigToolController", &DapConfigToolController::getInstance());
 
 
 }

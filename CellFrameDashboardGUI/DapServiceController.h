@@ -29,7 +29,6 @@
 #include "handlers/DapCreateTransactionCommand.h"
 #include "handlers/DapSrvStakeDelegateCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
-#include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapGetAllWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
@@ -227,7 +226,6 @@ signals:
 
     void readingChainsChanged(bool bReadingChains);
 
-    void historyReceived(const QVariant& walletHistory);
 
     void allHistoryReceived(const QVariant& walletHistory);
 
