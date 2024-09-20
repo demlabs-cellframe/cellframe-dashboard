@@ -90,6 +90,9 @@ public:
     Q_PROPERTY(int creationStage READ creationStage NOTIFY creationStageChanged)
     int creationStage() const;
 
+    Q_PROPERTY(QString certNameFromStartMasterNode READ certNameFromStartMasterNode NOTIFY certNameFromStartMasterNodeChanged)
+    QString certNameFromStartMasterNode() const { return m_currentStartMaster.isEmpty() ? QString() : m_currentStartMaster[NETWORK_KEY].toString();}
+
     Q_INVOKABLE int startMasterNode(const QVariantMap& value);
 
     Q_PROPERTY(QString networksList READ networksList NOTIFY networksListChanged)
@@ -147,6 +150,7 @@ public:
     Q_INVOKABLE int getErrorMessage(){return m_errorCode;}
 signals:
     void currentNetworkChanged();
+    void certNameFromStartMasterNodeChanged();
     void currentWalletNameChanged();
     void creationStageChanged();
     void masterNodeCreated();
