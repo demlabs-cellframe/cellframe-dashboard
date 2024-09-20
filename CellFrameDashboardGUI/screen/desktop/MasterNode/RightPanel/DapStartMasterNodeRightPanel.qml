@@ -176,7 +176,7 @@ DapRectangleLitAndShaded
                     placeholderText: qsTr("Enter certificate name")
                     height: 30
 
-                    validator: RegExpValidator { regExp: /[0-9a-z\_\:\(\)\?\@\.\s*]+/ }
+                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\.\-]+/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignLeft
 

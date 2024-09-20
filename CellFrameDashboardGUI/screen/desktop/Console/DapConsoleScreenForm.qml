@@ -47,7 +47,7 @@ Page
             {
                 id: listViewConsoleCommand
                 anchors.fill: parent
-                anchors.bottomMargin: 16 *pt
+                anchors.bottomMargin: 40 *pt
 
                 anchors.leftMargin: 16 *pt
                 anchors.rightMargin: 16 *pt

@@ -969,8 +969,8 @@ Page
             var persentInt = parseInt(percent)
             if(persentInt > 20)
             {
-                var level = isLow ? qsTr("higher") : qsTr("cheap")
-                var costStr = isLow ? qsTr("lower") : qsTr("expensive")
+                var level = isLow ? qsTr("higher") : qsTr("lower")
+                var costStr = isLow ? qsTr("cheap") : qsTr("expensive")
 
                 result = qsTr("Limit price is ")  + percent + "% " + level + qsTr(" than the market. You will be selling your ") + dexModule.token1 + qsTr(" exceedingly ") + costStr
             }            
