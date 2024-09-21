@@ -31,8 +31,7 @@ Item {
                                              "a2_domain": qsTr("Domain"),
                                              "a3_organization": qsTr("Organization"),
                                              "a4_fullname": qsTr("Full name"),
-                                             "a5_email": qsTr("Email"),
-                                             "a6_description": qsTr("Description")
+                                             "a5_email": qsTr("Email")
                                            })
 
 
@@ -68,7 +67,6 @@ Item {
         ListElement { placeHolderText: qsTr("Organization"); key: "a3_organization"; data: ""; inputFieldMask: ""; }
         ListElement { placeHolderText: qsTr("Full name"); key: "a4_fullname"; data: ""; inputFieldMask: ""; }
         ListElement { placeHolderText: qsTr("Email"); key: "a5_email"; data: ""; inputFieldMask: ""; }
-        ListElement { placeHolderText: qsTr("Description"); key: "a6_description"; data: ""; inputFieldMask: ""; }
 
         function dataClear(){
             for (var i = 0; i < count; ++i)
