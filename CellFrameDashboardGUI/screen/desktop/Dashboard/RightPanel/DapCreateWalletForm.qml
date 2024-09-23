@@ -221,6 +221,8 @@ DapRectangleLitAndShaded
                             {
                                 logicWallet.walletType = "Standard"
                                 frameWalletPassword.visible = false
+                                textInputPasswordWallet.text = ""
+                                textInputPasswordConfirmWallet.text = ""
                             }
                         }
 
