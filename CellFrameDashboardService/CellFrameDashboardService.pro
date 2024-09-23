@@ -54,7 +54,7 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
 
-include (../dap-ui-sdk/core/libdap-qt.pri)
+include (../dap-ui-sdk/core/libdap-qt-light.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 

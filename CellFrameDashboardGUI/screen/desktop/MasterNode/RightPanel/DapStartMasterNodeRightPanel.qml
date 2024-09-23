@@ -90,7 +90,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Certificate")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -147,7 +147,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: certificateLogic === "existingCertificate" ? qsTr("Select existing certificate") : qsTr("Create new certificate")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -176,7 +176,7 @@ DapRectangleLitAndShaded
                     placeholderText: qsTr("Enter certificate name")
                     height: 30
 
-                    validator: RegExpValidator { regExp: /[0-9a-z\_\:\(\)\?\@\.\s*]+/ }
+                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\.\-]+/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignLeft
 
@@ -365,7 +365,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Wallet")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -410,7 +410,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Fee value")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -442,7 +442,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Node IP")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -489,7 +489,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Node port")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -536,7 +536,7 @@ DapRectangleLitAndShaded
                     id: stakeValueHeaderText
                     color: currTheme.white
                     text: qsTr("Stake value")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -775,19 +775,19 @@ DapRectangleLitAndShaded
         target: dapServiceController
         onCertificateManagerOperationResult:
         {
-            var currentNetwork = nodeMasterModule.currentNetwork + "."
+            var foundIndex = 0
+            var certNameFromStartMasterNode = nodeMasterModule.certNameFromStartMasterNode
             certificatesModel.clear()
             for (var i = 0; i < result.data.length; ++i)
             {
                 var item = result.data[i]
-                if(item["completeBaseName"].toLowerCase().startsWith(currentNetwork.toLowerCase()))
-                {
-                    certificatesModel.append(item)
-                }
+                if(item.completeBaseName === certNameFromStartMasterNode) foundIndex = i
+
+                certificatesModel.append(item)
             }
             if(result.data.length > 0)
             {
-                existCertificateCombobox.setCurrentIndex(0)
+                existCertificateCombobox.setCurrentIndex(foundIndex)
             }
         }
     }

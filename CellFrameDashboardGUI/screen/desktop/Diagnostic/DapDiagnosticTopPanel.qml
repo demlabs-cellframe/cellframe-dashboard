@@ -28,6 +28,7 @@ Controls.DapTopPanel {
         ListView{
             id: topListView
             Layout.leftMargin: 32
+            Layout.rightMargin: 20
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -63,13 +64,36 @@ Controls.DapTopPanel {
                     Layout.alignment: Qt.AlignVCenter
                 }
                 TextElement{
-                    Layout.minimumWidth: 165
+                    Layout.minimumWidth: 145
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     id: _CPULoad
                     title.text: qsTr("CPU load: ")
                     content.text: system.CPU.load + " %"
                     Layout.alignment: Qt.AlignVCenter
+                }
+
+                DapImageLoader {
+                    id: connectState
+//                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredHeight: 8
+                    Layout.preferredWidth: 8
+                    Layout.topMargin: 4
+
+                    innerWidth: 8
+                    innerHeight: 8
+
+                    source: diagnosticsModule.socketConnectStatus? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.svg":
+                                                                   "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.svg"
+
+                    DapToolTipInfo
+                    {
+                        anchors.fill: parent
+                        indicatorSrcNormal:""
+                        indicatorSrcHover:""
+                        contentText: diagnosticsModule.socketConnectStatus? qsTr("Diagtool is connected. Data sharing is in progress.")
+                                                                          : qsTr("Diagtool is not connected. The data will not be updated.")
+                    }
                 }
             }
         }

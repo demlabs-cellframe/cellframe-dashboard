@@ -190,7 +190,7 @@ DapRectangleLitAndShaded {
                     }
 
 
-                validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\.\s*]+/ }
+                validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\.\-]+/ }
 
             }
             Rectangle //bottom line
@@ -246,7 +246,7 @@ DapRectangleLitAndShaded {
                         Layout.preferredHeight: 29
                         Layout.fillWidth: true
                         placeholderText: model.placeHolderText
-                        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
+                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\.\-]+/ }
 
                         onFocusChanged:
                         {
