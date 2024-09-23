@@ -275,42 +275,36 @@ DapRectangleLitAndShaded
                 {
                     Layout.fillWidth: true
                     Layout.leftMargin: 28
-                    Layout.rightMargin: 28
-                    height: 69
+                    Layout.rightMargin: 36
+                    height: 55
                     color: "transparent"
                     visible: frameWalletPassword.visible
 
                     DapTextField
                     {
                         id: textInputPasswordWallet
-
-                        echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
-
-                        anchors.verticalCenter: parent.verticalCenter
                         placeholderText: qsTr("Password")
+
                         font: mainFont.dapFont.regular16
                         horizontalAlignment: Text.AlignLeft
-                        anchors.fill: parent
-                        anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
-                        anchors.topMargin: 14
-                        anchors.bottomMargin: 20
-                        anchors.rightMargin: 24
-
                         validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
-//                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*\!\$\#]+/ }
+                        echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
+                        passwordChar: "•"
+                        height: 26
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.topMargin: 17
                         bottomLineVisible: true
-                        bottomLineSpacing: 6
-
-                        bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
-                        bottomLine.anchors.rightMargin: -24
-                        indicator.anchors.rightMargin: -24
-
+                        bottomLineSpacing: 5
+                        bottomLine.anchors.leftMargin: 8
+                        bottomLine.anchors.rightMargin: 0
+                        indicatorTopMargin: 2
                         indicatorVisible: true
                         indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
                         indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
                         indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
                         indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
-
                         selectByMouse: true
                         DapContextMenu{isActiveCopy: false}
                     }
@@ -320,42 +314,35 @@ DapRectangleLitAndShaded
                 {
                     Layout.fillWidth: true
                     Layout.leftMargin: 28
-                    Layout.rightMargin: 28
-                    height: 49
+                    Layout.rightMargin: 36
+                    height: 64
                     color: "transparent"
                     visible: frameWalletPassword.visible
 
                     DapTextField
                     {
                         id: textInputPasswordConfirmWallet
-
-                        echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
-
-
-                        anchors.verticalCenter: parent.verticalCenter
                         placeholderText: qsTr("Password (Confirmation)")
                         font: mainFont.dapFont.regular16
                         horizontalAlignment: Text.AlignLeft
-                        anchors.fill: parent
-                        anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
-                        anchors.bottomMargin: 20
-                        anchors.rightMargin: 24
-
                         validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
-//                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*\!\$\#]+/ }
+                        echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
+                        passwordChar: "•"
+                        height: 26
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.topMargin: 11
                         bottomLineVisible: true
-                        bottomLineSpacing: 6
-
-                        bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
-                        bottomLine.anchors.rightMargin: -24
-                        indicator.anchors.rightMargin: -24
-
+                        bottomLineSpacing: 5
+                        bottomLine.anchors.leftMargin: 8
+                        bottomLine.anchors.rightMargin: 0
+                        indicatorTopMargin: 2
                         indicatorVisible: true
                         indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
                         indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
                         indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
                         indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
-
                         selectByMouse: true
                         DapContextMenu{isActiveCopy: false}
                     }
