@@ -782,7 +782,7 @@ DapRectangleLitAndShaded
             {
                 var item = result.data[i]
                 if(item.completeBaseName === certNameFromStartMasterNode) foundIndex = i
-                console.log("KTT", "item", i, JSON.stringify(item), item.completeBaseName)
+
                 certificatesModel.append(item)
             }
             if(result.data.length > 0)
