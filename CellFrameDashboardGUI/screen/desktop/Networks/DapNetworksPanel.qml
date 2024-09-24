@@ -5,7 +5,7 @@ import "qrc:/widgets"
 import "parts"
 import "logic"
 
-Item {
+Rectangle {
 
     property alias dapNetworkList: networkList
 
@@ -19,7 +19,8 @@ Item {
     id: control
     y: parent.height - height
     width: parent.width
-    height: 40
+//    height: 40
+    color: currTheme.mainBackground
 
     Timer {
         id: idNetworkPanelTimer

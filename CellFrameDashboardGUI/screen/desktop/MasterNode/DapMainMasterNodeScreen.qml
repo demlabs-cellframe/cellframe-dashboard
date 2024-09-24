@@ -38,7 +38,7 @@ A mechanism has been developed to track the participation of master nodes in the
 
         ListElement
         {
-            head: qsTr("— Your Backbone wallet balance must have")
+            head: qsTr("— Your wallet balance must have")
             body: ""
         }
     }

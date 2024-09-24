@@ -518,6 +518,7 @@ DapRectangleLitAndShaded
                     logicWallet.walletRecoveryType = "Words"
                     logicWallet.walletType = "Standart"
                     textInputPasswordWallet.text = ""
+                    textInputPasswordConfirmWallet.text = ""
                 }
             }
         }
