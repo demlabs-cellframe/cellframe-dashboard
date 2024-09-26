@@ -13,8 +13,8 @@ VER_MAJ = $$fromfile(version.mk, VERSION_MAJOR)
 VER_MIN = $$fromfile(version.mk, VERSION_MINOR)
 VER_PAT = $$fromfile(version.mk, VERSION_PATCH)
 
-DEFINES += MIN_NODE_VERSION=\\\"5.3-295\\\"
-DEFINES += MAX_NODE_VERSION=\\\"5.3-295\\\"
+DEFINES += MIN_NODE_VERSION=\\\"5.3-299\\\"
+DEFINES += MAX_NODE_VERSION=\\\"5.3-299\\\"
 
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe
@@ -89,8 +89,8 @@ win32 {
         DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\" \
 	HAVE_STRNDUP
 
-    CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
     CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_rwd/dist/
+    CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
 
     QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3

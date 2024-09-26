@@ -20,6 +20,9 @@ DapPage
     Component.onCompleted:
     {
         console.log("Diagnostic tab open")
+        var jsonDocument = JSON.parse(diagnosticsModule.getDiagData())
+        diagnosticDataModel.clear();
+        diagnosticDataModel.append(jsonDocument);
     }
 
     Component.onDestruction:

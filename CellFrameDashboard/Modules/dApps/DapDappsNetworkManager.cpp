@@ -59,7 +59,8 @@ void DapDappsNetworkManager::onDownloadCompleted()
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     QString path = m_pathPlugins + "/download/" + m_fileName;
 
-    if (reply->error() == QNetworkReply::NoError)
+    if (reply->error() == QNetworkReply::NoError ||
+        reply->error() == QNetworkReply::ContentNotFoundError)
     {
         m_file->flush();
         m_file->close();
@@ -201,7 +202,8 @@ void DapDappsNetworkManager::onFilesReceived()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
-    if (reply->error() == QNetworkReply::NoError)
+    if (reply->error() == QNetworkReply::NoError ||
+        reply->error() == QNetworkReply::ContentNotFoundError)
     {
         QByteArray content= reply->readAll();
         QTextCodec *codec = QTextCodec::codecForName("utf8");

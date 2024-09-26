@@ -18,10 +18,8 @@ include($$PWD/Modules/Modules.pri)
 
 include (../web3_api/web3_api.pri)
 
-include(../NodeConfigManager/NodeConfigManager.pri)
-
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
-include (../dap-ui-sdk/core/libdap-qt.pri)
+include (../dap-ui-sdk/core/libdap-qt-light.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
@@ -68,25 +66,15 @@ LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
-
-
-
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
-    HEADERS += $$PWD/Modules/Diagnostics/WinDiagnostic.h
-    SOURCES += $$PWD/Modules/Diagnostics/WinDiagnostic.cpp
 }
 
 mac {
     ICON = Resources/CellframeDashboard.icns
-    HEADERS += $$PWD/Modules/Diagnostics/MacDiagnostic.h
-    SOURCES += $$PWD/Modules/Diagnostics/MacDiagnostic.cpp
 }
 else: !win32 {
     ICON = qrc:/Resources/icon.ico
-
-    HEADERS += $$PWD/Modules/Diagnostics/LinuxDiagnostic.h
-    SOURCES += $$PWD/Modules/Diagnostics/LinuxDiagnostic.cpp
 }
 
 !android {
