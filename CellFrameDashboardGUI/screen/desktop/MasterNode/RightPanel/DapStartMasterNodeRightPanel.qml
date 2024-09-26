@@ -76,8 +76,7 @@ DapRectangleLitAndShaded
         contentData:
             ColumnLayout
         {
-//            anchors.fill: parent
-            width: scrollView.width
+            width: 350
             spacing: 0
 
             /// Certificate
