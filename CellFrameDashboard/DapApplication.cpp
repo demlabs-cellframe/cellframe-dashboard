@@ -8,12 +8,23 @@
 #include "dapvpnorderscontroller.h"
 #include "DapNodePathManager.h"
 
+#ifdef Q_OS_WIN
+#include "registry.h"
+#endif
+
+#ifndef Q_OS_WIN
+
+#include <sys/stat.h>
+const int OS_WIN_FLAG = 0;
 
 #ifdef ANDROID
 #include <QtAndroid>
 #include <QAndroidJniEnvironment>
 #include <QAndroidJniObject>
 #include <QAndroidIntent>
+#endif
+#else
+const int OS_WIN_FLAG = 1;
 #endif
 
 DapApplication::DapApplication(int &argc, char **argv)
@@ -202,6 +213,7 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
     m_engine.rootContext()->setContextProperty("translator", translator);
     m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
+    m_engine.rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
     m_engine.rootContext()->setContextProperty("nodeConfigToolController", &DapConfigToolController::getInstance());
 
 
