@@ -17,7 +17,7 @@
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceClientMessage.h"
-#include "DapWallet.h"
+
 #include "handlers/DapAbstractCommand.h"
 
 #include "RequestController/DapRegularRequestsController.h"

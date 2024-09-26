@@ -156,11 +156,7 @@ void DapApplication::registerQmlTypes()
 
 
     qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
-    qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");
-    qmlRegisterType<DapWalletToken>("Demlabs", 1, 0, "DapWalletToken");
     qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
-    qRegisterMetaType<DapWallet>();
-    qRegisterMetaType<DapWalletToken>();
 
     qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
     qRegisterMetaType<DapVpnOrder>();

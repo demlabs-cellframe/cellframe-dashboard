@@ -7,7 +7,6 @@
 #include "Modules/DapModulesController.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
-#include "DapWalletBalanceModel.h"
 #include "DapVpnOrdersModel.h"
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
