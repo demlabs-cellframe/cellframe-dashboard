@@ -3,6 +3,7 @@ import QtQml 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
+import Qt.labs.settings 1.0
 import "../../controls"
 import "qrc:/widgets"
 
@@ -309,6 +310,72 @@ ColumnLayout
 //                startStopNode.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
 //            }
 //        }
+    }
+
+    Rectangle
+    {
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Skin")
+        }
+    }
+
+    Settings
+    {
+        id: skinSettings
+        property string project_skin: ""
+
+        Component.onCompleted:
+        {
+            if(project_skin == "wallet")
+            {
+                skinSwitcher.setSelected("second")
+            }
+            else
+            {
+                skinSwitcher.setSelected("first")
+            }
+        }
+    }
+
+    DapSelectorSwitch
+    {
+        id: skinSwitcher
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.topMargin: 10
+        Layout.bottomMargin: 20
+        height: 35
+        firstName: qsTr("Dashboard")
+        secondName: qsTr("Wallet")
+        firstColor: currTheme.green
+        secondColor: currTheme.red
+        itemHorisontalBorder: 16
+
+        onToggled:
+        {
+            var walletSkin = secondSelected
+            if (walletSkin)
+            {
+                skinSettings.setValue("project_skin", "wallet")
+                Qt.exit(RESTART_CODE)
+            }
+            else
+            {
+                skinSettings.setValue("project_skin", "dashboard")
+                Qt.exit(RESTART_CODE)
+            }
+        }
     }
 
     Connections

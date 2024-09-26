@@ -28,7 +28,6 @@
 #include "registry.h"
 #endif
 
-
 //#ifdef Q_OS_WIN32
 //#include <windows.h>
 //#endif
@@ -116,11 +115,11 @@ void createDapLogger()
 
 const int RESTART_CODE = 12345;
 
-const int MIN_WIDTH = 1280;
-const int MIN_HEIGHT = 720;
+int MIN_WIDTH = 1280;
+int MIN_HEIGHT = 720;
 
-const int DEFAULT_WIDTH = 1280;
-const int DEFAULT_HEIGHT = 720;
+int DEFAULT_WIDTH = 1280;
+int DEFAULT_HEIGHT = 720;
 
 //#ifdef Q_OS_MAC
 //const int USING_NOTIFY = 0;
@@ -194,6 +193,8 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
     QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 
+
+
     QCoreApplication::setOrganizationName("Cellframe Network");
     QCoreApplication::setOrganizationDomain("cellframe.net");
     QCoreApplication::setApplicationName(DAP_BRAND);
@@ -207,6 +208,22 @@ int main(int argc, char *argv[])
 
     while (result == RESTART_CODE)
     {
+        /// CHANGE SKIN - BEGIN TEMPORARY CODE
+        auto projectSkin = QSettings().value("project_skin", "").toString();
+        if(projectSkin.isEmpty()) QSettings().setValue("project_skin", "dashboard");
+        bool walletSkin = projectSkin == "wallet";
+        if(walletSkin)
+        {
+            qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
+            MIN_WIDTH = 375;
+            MIN_HEIGHT = 812;
+            DEFAULT_WIDTH = 375;
+            DEFAULT_HEIGHT = 812;
+        }
+        /// CHANGE SKIN - END
+
+
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);
@@ -216,6 +233,7 @@ int main(int argc, char *argv[])
             showErrorMessage(DAP_BRAND);
             return 1;
         }
+
 
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
@@ -236,12 +254,19 @@ int main(int argc, char *argv[])
         context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
         context->setContextProperty("MIN_WIDTH", QVariant::fromValue(MIN_WIDTH));
         context->setContextProperty("MIN_HEIGHT", QVariant::fromValue(MIN_HEIGHT));
+        context->setContextProperty("MAX_WIDTH", QVariant::fromValue(MIN_WIDTH));
+        context->setContextProperty("MAX_HEIGHT", QVariant::fromValue(MIN_HEIGHT));
+
         context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
         context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
         context->setContextProperty("CURRENT_OS", QVariant::fromValue(os));
 
-        const QUrl url(QStringLiteral("qrc:/main.qml"));
+        //const QUrl url(QStringLiteral("qrc:/main.qml"));
+        QString pathMainQML = QStringLiteral("qrc:/main.qml");
+        if(walletSkin) pathMainQML = QStringLiteral("qrc:/walletSkin/main.qml");
+        QUrl url(pathMainQML);
+
         QObject::connect(app->qmlEngine(), &QQmlApplicationEngine::objectCreated,
             app, [url](QObject *obj, const QUrl &objUrl) {
                 if (!obj && url == objUrl)
