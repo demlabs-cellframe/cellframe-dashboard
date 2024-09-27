@@ -7,8 +7,8 @@
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QScreen>
-#include <sys/stat.h>
 #include <memory>
+#include "sys/stat.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -16,6 +16,9 @@
 #include <QAndroidIntent>
 #endif
 
+#include "DapLogger.h"
+#include "DapDataLocal.h"
+#include "DapLogHandler.h"
 
 #include "DapApplication.h"
 #include "systemtray.h"
@@ -61,56 +64,14 @@ bool SingleApplicationTest(const QString &appName)
 
     if(is_running)
     {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
+        msgBox.exec();
         return false;
     }
+
     return true;
-}
-
-void showErrorMessage(const QString &appName)
-{
-    QMessageBox msgBox;
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
-    msgBox.exec();
-}
-
-void createDapLogger()
-{
-    DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
-    QString logPath = DapDataLocal::instance()->getLogFilePath();
-
-#if defined(QT_DEBUG) && defined(ANDROID)
-    DapLogHandler *logHandlerGui = new DapLogHandler (logPath, QApplication::instance());
-
-    QObject::connect (logHandlerGui, &DapLogHandler::logChanged, [logHandlerGui]()
-                     {
-                         for (QString &msg : logHandlerGui->request())
-#ifdef ANDROID
-                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "*** Gui ***", "%s\n", qPrintable (msg));
-#else
-                std::cout << ":=== Srv ===" << qPrintable (msg) << "\n";
-#endif
-
-                     });
-#endif
-
-#ifdef QT_DEBUG
-    logPath = DapLogger::currentLogFilePath (DAP_BRAND, "GUI");
-    DapLogHandler *serviceLogHandler = new DapLogHandler (logPath, QApplication::instance());
-
-    QObject::connect (serviceLogHandler, &DapLogHandler::logChanged, [serviceLogHandler]()
-                     {
-                         for (QString &msg : serviceLogHandler->request())
-                         {
-#ifdef ANDROID
-                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "=== Srv ===", "%s\n", qPrintable (msg));
-#else
-                std::cout << "=== Srv ===" << qPrintable (msg) << "\n";
-#endif
-                         }
-                     });
-
-#endif
 }
 
 const int RESTART_CODE = 12345;
@@ -193,19 +154,13 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
     QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 
+    if (!SingleApplicationTest(DAP_BRAND))
+        return 1;
 
+    dap_log_set_external_output (LOGGER_OUTPUT_STDOUT, nullptr);
+    new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
 
-    QCoreApplication::setOrganizationName("Cellframe Network");
-    QCoreApplication::setOrganizationDomain("cellframe.net");
-    QCoreApplication::setApplicationName(DAP_BRAND);
-
-    createDapLogger();
-    //std::unique_ptr<DapLogger> logger_ptr = DapLogger::instance();
     int result = RESTART_CODE;
-
-
-    bool isSingleApp = SingleApplicationTest(DAP_BRAND);
-
     while (result == RESTART_CODE)
     {
         /// CHANGE SKIN - BEGIN TEMPORARY CODE
@@ -223,17 +178,9 @@ int main(int argc, char *argv[])
         }
         /// CHANGE SKIN - END
 
-
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapApplication * app = new DapApplication(argc, argv);
-
-        if(!isSingleApp)
-        {
-            showErrorMessage(DAP_BRAND);
-            return 1;
-        }
-
 
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
@@ -275,12 +222,10 @@ int main(int argc, char *argv[])
 
         app->qmlEngine()->load(url);
         DapNodePathManager::getInstance().checkNeedDownload();
-        DapLogger::instance()->startUpdateTimer();
         result = app->exec();
         delete app;
     }
 
     DapLogger::deleteLogger();
-
     return result;
 }

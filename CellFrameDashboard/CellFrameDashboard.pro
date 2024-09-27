@@ -3,9 +3,6 @@ QT += qml quick widgets svg network
 include (../config.pri)
 TARGET = $${BRAND}
 
-DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
-    DAP_SETTINGS_FILE=\\\"settings.json\\\"
-
 DEFINES += SIMULATOR_DEX
 
 DEFINES += PROG_TYPE=\\\"GUI\\\"

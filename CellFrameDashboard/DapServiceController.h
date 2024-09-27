@@ -9,6 +9,10 @@
 #include <algorithm>
 #include <QDataStream>
 #include <QJsonDocument>
+#include <QThread>
+
+#include "dapconfigreader.h"
+#include "DapNodePathManager.h"
 #include "json.h"
 
 #include "DapNotificationWatcher.h"
@@ -391,9 +395,6 @@ private:
     QList<QThread*> m_threadPool;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
-
-    QString m_nodeCliPath{""};
-    QString m_nodeToolPath{""};
 
     QSet<QString> m_onceThreadList = { "DapCreateTransactionCommand"
                                       ,"DapXchangeOrderCreate"

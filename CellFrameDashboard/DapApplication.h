@@ -2,26 +2,22 @@
 #define DAPAPPLICATION_H
 
 #include <QApplication>
-#include "DapNetworksList.h"
-//#include "DiagnosticWorker/DiagnosticWorker.h"
-#include "Modules/DapModulesController.h"
-#include "QQmlApplicationEngine"
-#include "DapServiceController.h"
-#include "DapVpnOrdersModel.h"
-#include "mobile/QMLClipboard.h"
-#include "mobile/testcontroller.h"
-#include "Autocomplete/CommandHelperController.h"
-//#include "DapMath.h"
-//#include "DiagnosticWorker/models/NodeModel.h"
-
+#include <QQmlContext>
+#include <QQmlApplicationEngine>
+#include <QIcon>
+#include <QClipboard>
 #include <iostream>
-#include "DapLogger.h"
-#include "DapDataLocal.h"
-#include "DapLogHandler.h"
+
+#include "quickcontrols/qrcodequickitem.h"
+#include "dapvpnorderscontroller.h"
+#include "DapNodePathManager.h"
+
+#include "Modules/DapModulesController.h"
+#include "DapServiceController.h"
+#include "mobile/QMLClipboard.h"
+#include "Autocomplete/CommandHelperController.h"
 
 #include "ConfigWorker/configworker.h"
-//#include "Workers/stringworker.h"
-//#include "Workers/dateworker.h"
 
 #include "Translator/qmltranslator.h"
 
@@ -33,47 +29,31 @@ class DapApplication : public QApplication
 {
     Q_OBJECT
 
-//    Q_PROPERTY(DapWallet* currentWallet READ currentWallet WRITE setCurrentWallet NOTIFY currentWalletChanged)
-
 public:
     DapApplication(int &argc, char **argv);
 
     ~DapApplication();
 
-    DapNetworksList *networks();
-
     QQmlApplicationEngine *qmlEngine();
 
     Q_INVOKABLE void setClipboardText(const QString &text);
-//    Q_INVOKABLE DapWallet *currentWallet() const;
     Q_INVOKABLE void startService();
 
     Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
     Q_INVOKABLE void notifyService(QVariant sName, QVariantList sArgs);
 
-    DapVpnOrdersModel* getVpnOrdersModel();
-
     DapModulesController *s_modulesInit;
 
-signals:
-//    void currentWalletChanged(DapWallet* a_currentWallet);
 private:
     void setContextProperties();
     void registerQmlTypes();
 
-    CommandHelperController* m_commandHelper = nullptr; 
-    DapNetworksList m_networks;
-    QQmlApplicationEngine m_engine;
-//    DapWallet* m_currentWallet;
-    // DapServiceClient m_serviceClient;
-    DapServiceController* m_serviceController;
-    DapVpnOrdersModel m_vpnOrders;
-//    DapMath *m_mathBigNumbers;
-//    DiagnosticWorker *m_diagnosticWorker;
+    CommandHelperController* m_commandHelper = nullptr;
 
-//    StockDataWorker *stockDataWorker;
+    QQmlApplicationEngine m_engine;
+    DapServiceController* m_serviceController;
+
     ConfigWorker *configWorker;
-//    StringWorker *stringWorker;
     DateWorker   *dateWorker;
 
     QMLTranslator * translator;
