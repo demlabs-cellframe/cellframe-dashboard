@@ -208,3 +208,29 @@ mac {
     INSTALLS += pkginstall
 }
 
+
+android {
+    QT += androidextras
+
+    include(../android_openssl/openssl.pri)
+    include (../cellframe-ui-sdk/android/libdap-qt-android.pri)
+    
+    LIBS += -L$$_PRO_FILE_PWD_/../os/android/libs/ #-lcellframe-node
+
+    DISTFILES += \
+        ../os/android/AndroidManifest.xml \
+        ../os/android/build.gradle \
+        ../os/android/gradle/wrapper/gradle-wrapper.jar \
+        ../os/android/gradle/wrapper/gradle-wrapper.properties \
+        ../os/android/gradlew \
+        ../os/android/gradlew.bat \
+        ../os/android/res/values/libs.xml \
+        ../os/android/src/com/CellframeWallet/MainActivity.java \
+        ../os/android/src/com/CellframeWallet/Node.java
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../os/android
+
+
+    gui_data_static.path = /
+    gui_data_static.files = ../os/android/*
+    INSTALLS += gui_data_static
+}

@@ -120,6 +120,10 @@
 #ifdef Q_OS_ANDROID
 #include "DapRpcTCPServer.h"
 typedef class DapRpcTCPServer DapUiService;
+
+#define LOG_FILE QString("")
+#define CMD_HISTORY QString("")
+
 #else
 #include "DapRpcLocalServer.h"
 typedef class DapRpcLocalServer DapUiService;
@@ -365,6 +369,10 @@ private:
     bool compareJson(QByteArray, QVariant);
 
     void addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService);
+
+    template <typename ServiceType, typename... TArgs>
+    void addServiceGeneric(const QString& name, const QString& signalName, TArgs... ctr_args);
+    
     void initAdditionalParamrtrsService();
 private:
     DapRegularRequestsController *m_reqularRequestsCtrl;
