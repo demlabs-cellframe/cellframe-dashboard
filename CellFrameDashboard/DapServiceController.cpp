@@ -1,19 +1,10 @@
 #include "DapServiceController.h"
 
-#include <QThread>
-#include "DapNetworkStr.h"
-
-#include "dapconfigreader.h"
-#include "DapNodePathManager.h"
-
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
-    m_nodeCliPath =  DapNodePathManager::getInstance().nodePaths.nodePath_cli;
-    m_nodeToolPath = DapNodePathManager::getInstance().nodePaths.nodePath_tool;
-
     m_reqularRequestsCtrl = new DapRegularRequestsController();
 
     DapConfigReader configReader;
@@ -100,11 +91,12 @@ void DapServiceController::init()
     m_web3Controll->rcvFrontendConnectStatus(true);
     ////    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
+    /*
     if (m_pServer->listen("127.0.0.1", 22150)) {
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
         connect(m_pServer, &DapUiService::onClientConnected, &DapServiceController::onNewClientConnected);
         connect(m_pServer, &DapUiService::onClientDisconnected, &DapServiceController::onNewClientConnected);
-    }
+    }*/
 #else
     //    m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
     //    if(m_pServer->listen(DAP_BRAND))
@@ -300,87 +292,99 @@ void DapServiceController::addService(const QString& name, const QString& signal
     m_transceivers.insert(name, commandService);
 }
 
+
+template <typename ServiceType, typename... TArgs>
+void DapServiceController::addServiceGeneric(const QString& name, const QString& signalName, TArgs... ctr_args)
+{
+    try {
+        addService(name, signalName, new ServiceType(name, ctr_args...));
+    }
+    catch (std::runtime_error e) {
+            qDebug() << "Can't instantinate command " << name << ": "<<e.what();
+    }
+}
+
 /// Register command.
 void DapServiceController::registerCommand()
 {
-    addService("DapCreateTransactionCommand",               "transactionCreated",                   new DapCreateTransactionCommandStack("DapCreateTransactionCommand",                 nullptr, m_nodeCliPath));
-    addService("DapSrvStakeDelegateCommand",                "srvStakeDelegateCreated",              new DapSrvStakeDelegateCommandStack("DapSrvStakeDelegateCommand",                   nullptr, m_nodeCliPath));
-    addService("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",               new DapTXCondCreateCommandStack("DapTXCondCreateCommand",                           nullptr, m_nodeCliPath));
-    addService("DapXchangeOrderCreate",                     "rcvXchangeCreate",                     new DapXchangeOrderCreateStack("DapXchangeOrderCreate",                             nullptr, m_nodeCliPath));
-    addService("DapXchangeOrderRemove",                     "rcvXchangeRemove",                     new DapXchangeOrderRemoveStack("DapXchangeOrderRemove",                             nullptr, m_nodeCliPath));
-    addService("DapXchangeOrderPurchase",                   "rcvXchangeOrderPurchase",              new DapXchangeOrderPurchaseStack("DapXchangeOrderPurchase",                         nullptr, m_nodeCliPath));
-    addService("DapStakeLockHoldCommand",                   "rcvStakeLockHoldCommand",              new DapStakeLockHoldCommandStack("DapStakeLockHoldCommand",                         nullptr, m_nodeCliPath));
-    addService("DapStakeLockTakeCommand",                   "rcvStakeLockTakeCommand",              new DapStakeLockTakeCommandStack("DapStakeLockTakeCommand",                         nullptr, m_nodeCliPath));
-    addService("DapCreateJsonTransactionCommand",           "rcvCreateJsonTransactionCommand",      new DapCreateJsonTransactionCommandStack("DapCreateJsonTransactionCommand",         nullptr, m_nodeCliPath));
-    addService("DapVoitingCreateCommand",                   "rcvVoitingCreateCommand",              new DapVoitingCreateCommandStack("DapVoitingCreateCommand",                         nullptr, m_nodeCliPath));
-    addService("DapVoitingVoteCommand",                     "rcvVoitingVoteCommand",                new DapVoitingVoteCommandStack("DapVoitingVoteCommand",                             nullptr, m_nodeCliPath));
+    addServiceGeneric<DapCreateTransactionCommandStack,     QObject*>("DapCreateTransactionCommand",               "transactionCreated",                    nullptr);
+    addServiceGeneric<DapSrvStakeDelegateCommandStack,      QObject*>("DapSrvStakeDelegateCommand",                "srvStakeDelegateCreated",               nullptr);
+    addServiceGeneric<DapTXCondCreateCommandStack,          QObject*>("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",                nullptr);
+    addServiceGeneric<DapXchangeOrderCreateStack,           QObject*>("DapXchangeOrderCreate",                     "rcvXchangeCreate",                      nullptr);
+    addServiceGeneric<DapXchangeOrderRemoveStack,           QObject*>("DapXchangeOrderRemove",                     "rcvXchangeRemove",                      nullptr);
+    addServiceGeneric<DapXchangeOrderPurchaseStack,         QObject*>("DapXchangeOrderPurchase",                   "rcvXchangeOrderPurchase",               nullptr);
+    addServiceGeneric<DapStakeLockHoldCommandStack,         QObject*>("DapStakeLockHoldCommand",                   "rcvStakeLockHoldCommand",               nullptr);
+    addServiceGeneric<DapStakeLockTakeCommandStack,         QObject*>("DapStakeLockTakeCommand",                   "rcvStakeLockTakeCommand",               nullptr);
+    addServiceGeneric<DapCreateJsonTransactionCommandStack, QObject*>("DapCreateJsonTransactionCommand",           "rcvCreateJsonTransactionCommand",       nullptr);
+    addServiceGeneric<DapVoitingCreateCommandStack,         QObject*>("DapVoitingCreateCommand",                   "rcvVoitingCreateCommand",               nullptr);
+    addServiceGeneric<DapVoitingVoteCommandStack,           QObject*>("DapVoitingVoteCommand",                     "rcvVoitingVoteCommand",                 nullptr);
 
-    addService("DapCertificateManagerCommands",             "certificateManagerOperationResult",    new DapCertificateManagerCommands(DapCertificateCommands::serviceName(),            nullptr, m_nodeCliPath, m_nodeToolPath));
-    addService("DapActivateClientCommand",                  "clientActivated",                      new DapActivateClientCommand("DapActivateClientCommand",                            nullptr, m_nodeCliPath));
-    addService("DapUpdateLogsCommand",                      "logUpdated",                           new DapUpdateLogsCommand("DapUpdateLogsCommand",                                    nullptr, LOG_FILE));
-    addService("DapAddWalletCommand",                       "walletCreated",                        new DapAddWalletCommand("DapAddWalletCommand",                                      nullptr, m_nodeCliPath));
-    addService("DapRemoveWalletCommand",                    "walletRemoved",                        new DapRemoveWalletCommand("DapRemoveWalletCommand",                                nullptr, m_nodeCliPath));
-    addService("DapGetWalletInfoCommand",                   "walletReceived",                       new DapGetWalletInfoCommand("DapGetWalletInfoCommand",                              nullptr, m_nodeCliPath));
-    addService("DapExportLogCommand",                       "exportLogs",                           new DapExportLogCommand("DapExportLogCommand",                                      nullptr));
-    addService("DapGetListNetworksCommand",                 "networksListReceived",                 new DapGetListNetworksCommand("DapGetListNetworksCommand",                          nullptr, m_nodeCliPath));
-    addService("DapGetNetworkStatusCommand",                "networkStatusReceived",                new DapGetNetworkStatusCommand("DapGetNetworkStatusCommand",                        nullptr, m_nodeCliPath));
-    addService("DapNetworkGoToCommand",                     "newTargetNetworkStateReceived",        new DapNetworkGoToCommand("DapNetworkGoToCommand",                                  nullptr, m_nodeCliPath));
-    addService("DapGetListOrdersCommand",                   "ordersListReceived",                   new DapGetListOrdersCommand("DapGetListOrdersCommand",                              nullptr, m_nodeCliPath));
-    addService("DapNetworkSingleSyncCommand",               "",                                     new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand",                      nullptr, m_nodeCliPath));
-    addService("DapGetWalletAddressesCommand",              "walletAddressesReceived",              new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand",                    nullptr, m_nodeCliPath));
-    addService("DapGetListWalletsCommand",                  "walletsListReceived",                  new DapGetListWalletsCommand("DapGetListWalletsCommand",                            nullptr, m_nodeCliPath));
-    addService("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                 new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand",                    nullptr, m_nodeCliPath));
-    addService("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",          new DapGetOnceWalletInfoCommand("DapGetOnceWalletInfoCommand",                      nullptr, m_nodeCliPath));
-    addService("DapMempoolProcessCommand",                  "mempoolProcessed",                     new DapMempoolProcessCommand("DapMempoolProcessCommand",                            nullptr, m_nodeCliPath));
-    addService("DapGetAllWalletHistoryCommand",             "allWalletHistoryReceived",             new DapGetAllWalletHistoryCommand("DapGetAllWalletHistoryCommand",                  nullptr, m_nodeCliPath));
-    addService("DapRunCmdCommand",                          "cmdRunned",                            new DapRunCmdCommand("DapRunCmdCommand",                                            nullptr, m_nodeCliPath, m_nodeToolPath));
-    addService("DapGetHistoryExecutedCmdCommand",           "historyExecutedCmdReceived",           new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand",              nullptr, CMD_HISTORY));
-    addService("DapSaveHistoryExecutedCmdCommand",          "",                                     new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",            nullptr, CMD_HISTORY));
-    addService("DapNodeRestart",                            "nodeRestart",                          new DapNodeRestart("DapNodeRestart",                                                nullptr, m_nodeCliPath));
-    addService("DapNodeConfigController",                   "dapNodeConfigController",              new DapNodeConfigController("DapNodeConfigController",                              nullptr, m_nodeCliPath));
-    addService("DapGetListTokensCommand",                   "tokensListReceived",                   new DapGetListTokensCommand("DapGetListTokensCommand",                              nullptr, m_nodeCliPath));
-    addService("DapTokenEmissionCommand",                   "responseEmissionToken",                new DapTokenEmissionCommand("DapTokenEmissionCommand",                              nullptr, m_nodeCliPath));
-    addService("DapTokenDeclCommand",                       "responseDeclToken",                    new DapTokenDeclCommand("DapTokenDeclCommand",                                      nullptr, m_nodeCliPath));
-    addService("DapGetWalletsInfoCommand",                  "walletsReceived",                      new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand",                            nullptr, m_nodeCliPath));
-    addService("DapCreateVPNOrder",                         "createdVPNOrder",                      new DapCreateVPNOrder("DapCreateVPNOrder",                                          nullptr, m_nodeCliPath));
-    addService("DapCreateStakeOrder",                       "createdStakeOrder",                    new DapCreateStakeOrder("DapCreateStakeOrder",                                      nullptr, m_nodeCliPath));
-    addService("DapGetXchangeTokenPair",                    "rcvXchangeTokenPair",                  new DapGetXchangeTokenPair("DapGetXchangeTokenPair",                                nullptr, m_nodeCliPath));
-    addService("DapGetXchangeTokenPriceAverage",            "rcvXchangeTokenPriceAverage",          new DapGetXchangeTokenPriceAverage("DapGetXchangeTokenPriceAverage",                nullptr, m_nodeCliPath));
-    addService("DapGetXchangeTokenPriceHistory",            "rcvXchangeTokenPriceHistory",          new DapGetXchangeTokenPriceHistory("DapGetXchangeTokenPriceHistory",                nullptr, m_nodeCliPath));
-    addService("DapGetXchangeTxList",                       "rcvXchangeTxList",                     new DapGetXchangeTxList("DapGetXchangeTxList",                                      nullptr, m_nodeCliPath));     
-    addService("DapGetXchangeOrdersList",                   "rcvXchangeOrderList",                  new DapGetXchangeOrdersList("DapGetXchangeOrdersList",                              nullptr, m_nodeCliPath));
-    addService("DapDictionaryCommand",                      "rcvDictionary",                        new DapDictionaryCommand("DapDictionaryCommand",                                    nullptr, m_nodeCliPath));  
-    addService("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",         new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand",    nullptr, m_nodeCliPath));
-    addService("DapRemoveChainsOrGdbCommand",               "rcvRemoveResult",                      new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand",                      nullptr, m_nodeCliPath));
-    addService("DapGetFeeCommand",                          "rcvFee",                               new DapGetFeeCommand("DapGetFeeCommand",                                            nullptr, m_nodeCliPath));
-    addService("DapCreatePassForWallet",                    "passwordCreated",                      new DapCreatePassForWallet("DapCreatePassForWallet",                                nullptr, m_nodeCliPath));
-    addService("DapRemoveTransactionsQueueCommand",         "transactionRemoved",                   new DapRemoveTransactionsQueueCommand("DapRemoveTransactionsQueueCommand",          nullptr, m_nodeCliPath));
-    addService("DapCheckTransactionsQueueCommand",          "transactionInfoReceived",              new DapCheckTransactionsQueueCommand("DapCheckTransactionsQueueCommand",            nullptr, m_nodeCliPath));
-    addService("DapGetListKeysCommand",                     "rcvGetListKeysCommand",                new DapGetListKeysCommand("DapGetListKeysCommand",                                  nullptr, m_nodeCliPath));
-    addService("DapAddNodeCommand",                         "rcvAddNode",                           new DapAddNodeCommand("DapAddNodeCommand",                                          nullptr, m_nodeCliPath));
-    addService("DapCheckQueueTransactionCommand",           "rcvCheckQueueTransaction",             new DapCheckQueueTransactionCommand("DapCheckQueueTransactionCommand",              nullptr, m_nodeCliPath));
-    addService("MempoolCheckCommand",                       "rcvMempoolCheckCommand",               new MempoolCheckCommand("MempoolCheckCommand",                                      nullptr, m_nodeCliPath));
-    addService("DapNodeListCommand",                        "rcvNodeListCommand",                   new DapNodeListCommand("DapNodeListCommand",                                        nullptr, m_nodeCliPath));
-    addService("DapGetNetworksStateCommand",                "networkStatesListReceived",            new DapGetNetworksStateCommand("DapGetNetworksStateCommand",                        nullptr, m_nodeCliPath));
-    addService("DapMoveWalletCommand",                      "moveWalletCommandReceived",            new DapMoveWalletCommand("DapMoveWalletCommand",                                    nullptr));
-    addService("DapNetIdCommand",                           "rcvNetIdCommand",                      new DapNetIdCommand("DapNetIdCommand",                                              nullptr, m_nodeCliPath));
-    addService("DapMempoolListCommand",                     "rcvMempoolListCommand",                new DapMempoolListCommand("DapMempoolListCommand",                                  nullptr, m_nodeCliPath));
-    addService("DapTransactionListCommand",                 "rcvTransactionListCommand",            new DapTransactionListCommand("DapTransactionListCommand",                          nullptr, m_nodeCliPath));
-    addService("DapLedgerTxHashCommand",                    "rcvLedgerTxHashCommand",               new DapLedgerTxHashCommand("DapLedgerTxHashCommand",                                nullptr, m_nodeCliPath));
-    addService("DapNodeDumpCommand",                        "rcvNodeDumpCommand",                   new DapNodeDumpCommand("DapNodeDumpCommand",                                        nullptr, m_nodeCliPath));
-    addService("DapGetNodeIPCommand",                       "rcvGetNodeIPCommand",                  new DapGetNodeIPCommand("DapGetNodeIPCommand",                                      nullptr, m_nodeCliPath));
-    addService("DapGetNodeStatus",                          "rcvGetNodeStatus",                     new DapGetNodeStatus("DapGetNodeStatus",                                            nullptr, m_nodeCliPath));
-    addService("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",           new DapGetServiceLimitsCommand("DapGetServiceLimitsCommand",                        nullptr, m_nodeCliPath));     
-    addService("DapVoitingListCommand",                     "rcvVoitingListCommand",                new DapVoitingListCommand("DapVoitingListCommand",                                  nullptr, m_nodeCliPath));
-    addService("DapVoitingDumpCommand",                     "rcvVoitingDumpCommand",                new DapVoitingDumpCommand("DapVoitingDumpCommand",                                  nullptr, m_nodeCliPath));
-    addService("DapQuitApplicationCommand",                 "",                                     new DapQuitApplicationCommand("DapQuitApplicationCommand",                          m_pServer));
-    addService("DapRcvNotify",                              "dapRcvNotify",                         new DapRcvNotify("DapRcvNotify",                                                    m_pServer));
-    addService("DapVersionController",                      "versionControllerResult",              new DapVersionController("DapVersionController",                                    m_pServer, m_nodeCliPath));
-    addService("DapWebConnectRequest",                      "dapWebConnectRequest",                 new DapWebConnectRequest("DapWebConnectRequest",                                    m_pServer));
-    addService("DapHistoryServiceInitCommand",              "historyServiceInitRcv",                new DapServiceInitCommand("DapHistoryServiceInitCommand",                           m_pServer));
-    addService("DapWalletServiceInitCommand",               "walletsServiceInitRcv",                new DapServiceInitCommand("DapWalletServiceInitCommand",                            m_pServer));
-    addService("DapTransactionsInfoQueueCommand",           "rcvTransactionsInfoQueueCommand",      new DapTransactionsInfoQueueCommand("DapTransactionsInfoQueueCommand",              nullptr));
-
+    addServiceGeneric<DapCertificateManagerCommands,        QObject*>("DapCertificateManagerCommands",             "certificateManagerOperationResult",     nullptr);
+    addServiceGeneric<DapActivateClientCommand,             QObject*>("DapActivateClientCommand",                  "clientActivated",                       nullptr);
+    addServiceGeneric<DapAddWalletCommand,                  QObject*>("DapAddWalletCommand",                       "walletCreated",                         nullptr);
+    addServiceGeneric<DapRemoveWalletCommand,               QObject*>("DapRemoveWalletCommand",                    "walletRemoved",                         nullptr);
+    addServiceGeneric<DapGetWalletInfoCommand,              QObject*>("DapGetWalletInfoCommand",                   "walletReceived",                        nullptr);
+    addServiceGeneric<DapExportLogCommand,                  QObject*>("DapExportLogCommand",                       "exportLogs",                            nullptr);
+    addServiceGeneric<DapGetListNetworksCommand,            QObject*>("DapGetListNetworksCommand",                 "networksListReceived",                  nullptr);
+    addServiceGeneric<DapGetNetworkStatusCommand,           QObject*>("DapGetNetworkStatusCommand",                "networkStatusReceived",                 nullptr);
+    addServiceGeneric<DapNetworkGoToCommand,                QObject*>("DapNetworkGoToCommand",                     "newTargetNetworkStateReceived",         nullptr);
+    addServiceGeneric<DapGetListOrdersCommand,              QObject*>("DapGetListOrdersCommand",                   "ordersListReceived",                    nullptr);
+    addServiceGeneric<DapNetworkSingleSyncCommand,          QObject*>("DapNetworkSingleSyncCommand",               "",                                      nullptr);
+    addServiceGeneric<DapGetWalletAddressesCommand,         QObject*>("DapGetWalletAddressesCommand",              "walletAddressesReceived",               nullptr);
+    addServiceGeneric<DapGetListWalletsCommand,             QObject*>("DapGetListWalletsCommand",                  "walletsListReceived",                   nullptr);
+    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
+    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
+    addServiceGeneric<DapMempoolProcessCommand,             QObject*>("DapMempoolProcessCommand",                  "mempoolProcessed",                      nullptr);
+    addServiceGeneric<DapGetAllWalletHistoryCommand,        QObject*>("DapGetAllWalletHistoryCommand",             "allWalletHistoryReceived",              nullptr);
+    addServiceGeneric<DapRunCmdCommand,                     QObject*>("DapRunCmdCommand",                          "cmdRunned",                             nullptr);
+    addServiceGeneric<DapNodeRestart,                       QObject*>("DapNodeRestart",                            "nodeRestart",                           nullptr);
+    addServiceGeneric<DapNodeConfigController,              QObject*>("DapNodeConfigController",                   "dapNodeConfigController",               nullptr);
+    addServiceGeneric<DapGetListTokensCommand,              QObject*>("DapGetListTokensCommand",                   "tokensListReceived",                    nullptr);
+    addServiceGeneric<DapTokenEmissionCommand,              QObject*>("DapTokenEmissionCommand",                   "responseEmissionToken",                 nullptr);
+    addServiceGeneric<DapTokenDeclCommand,                  QObject*>("DapTokenDeclCommand",                       "responseDeclToken",                     nullptr);
+    addServiceGeneric<DapGetWalletsInfoCommand,             QObject*>("DapGetWalletsInfoCommand",                  "walletsReceived",                       nullptr);
+    addServiceGeneric<DapCreateVPNOrder,                    QObject*>("DapCreateVPNOrder",                         "createdVPNOrder",                       nullptr);
+    addServiceGeneric<DapCreateStakeOrder,                  QObject*>("DapCreateStakeOrder",                       "createdStakeOrder",                     nullptr);
+    addServiceGeneric<DapGetXchangeTokenPair,               QObject*>("DapGetXchangeTokenPair",                    "rcvXchangeTokenPair",                   nullptr);
+    addServiceGeneric<DapGetXchangeTokenPriceAverage,       QObject*>("DapGetXchangeTokenPriceAverage",            "rcvXchangeTokenPriceAverage",           nullptr);
+    addServiceGeneric<DapGetXchangeTokenPriceHistory,       QObject*>("DapGetXchangeTokenPriceHistory",            "rcvXchangeTokenPriceHistory",           nullptr);
+    addServiceGeneric<DapGetXchangeTxList,                  QObject*>("DapGetXchangeTxList",                       "rcvXchangeTxList",                      nullptr);
+    addServiceGeneric<DapGetXchangeOrdersList,              QObject*>("DapGetXchangeOrdersList",                   "rcvXchangeOrderList",                   nullptr);
+    addServiceGeneric<DapDictionaryCommand,                 QObject*>("DapDictionaryCommand",                      "rcvDictionary",                         nullptr);
+    addServiceGeneric<DapWalletActivateOrDeactivateCommand, QObject*>("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",          nullptr);
+    addServiceGeneric<DapRemoveChainsOrGdbCommand,          QObject*>("DapRemoveChainsOrGdbCommand",               "rcvRemoveResult",                       nullptr);
+    addServiceGeneric<DapGetFeeCommand,                     QObject*>("DapGetFeeCommand",                          "rcvFee",                                nullptr);
+    addServiceGeneric<DapCreatePassForWallet,               QObject*>("DapCreatePassForWallet",                    "passwordCreated",                       nullptr);
+    addServiceGeneric<DapRemoveTransactionsQueueCommand,    QObject*>("DapRemoveTransactionsQueueCommand",         "transactionRemoved",                    nullptr);
+    addServiceGeneric<DapCheckTransactionsQueueCommand,     QObject*>("DapCheckTransactionsQueueCommand",          "transactionInfoReceived",               nullptr);
+    addServiceGeneric<DapGetListKeysCommand,                QObject*>("DapGetListKeysCommand",                     "rcvGetListKeysCommand",                 nullptr);
+    addServiceGeneric<DapAddNodeCommand,                    QObject*>("DapAddNodeCommand",                         "rcvAddNode",                            nullptr);
+    addServiceGeneric<DapCheckQueueTransactionCommand,      QObject*>("DapCheckQueueTransactionCommand",           "rcvCheckQueueTransaction",              nullptr);
+    addServiceGeneric<MempoolCheckCommand,                  QObject*>("MempoolCheckCommand",                       "rcvMempoolCheckCommand",                nullptr);
+    addServiceGeneric<DapNodeListCommand,                   QObject*>("DapNodeListCommand",                        "rcvNodeListCommand",                    nullptr);
+    addServiceGeneric<DapGetNetworksStateCommand,           QObject*>("DapGetNetworksStateCommand",                "networkStatesListReceived",             nullptr);
+    addServiceGeneric<DapMoveWalletCommand,                 QObject*>("DapMoveWalletCommand",                      "moveWalletCommandReceived",             nullptr);
+    addServiceGeneric<DapNetIdCommand,                      QObject*>("DapNetIdCommand",                           "rcvNetIdCommand",                       nullptr);
+    addServiceGeneric<DapMempoolListCommand,                QObject*>("DapMempoolListCommand",                     "rcvMempoolListCommand",                 nullptr);
+    addServiceGeneric<DapTransactionListCommand,            QObject*>("DapTransactionListCommand",                 "rcvTransactionListCommand",             nullptr);
+    addServiceGeneric<DapLedgerTxHashCommand,               QObject*>("DapLedgerTxHashCommand",                    "rcvLedgerTxHashCommand",                nullptr);
+    addServiceGeneric<DapNodeDumpCommand,                   QObject*>("DapNodeDumpCommand",                        "rcvNodeDumpCommand",                    nullptr);
+    addServiceGeneric<DapGetNodeIPCommand,                  QObject*>("DapGetNodeIPCommand",                       "rcvGetNodeIPCommand",                   nullptr);
+    addServiceGeneric<DapGetNodeStatus,                     QObject*>("DapGetNodeStatus",                          "rcvGetNodeStatus",                      nullptr);
+    addServiceGeneric<DapGetServiceLimitsCommand,           QObject*>("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",            nullptr);
+    addServiceGeneric<DapVoitingListCommand,                QObject*>("DapVoitingListCommand",                     "rcvVoitingListCommand",                 nullptr);
+    addServiceGeneric<DapVoitingDumpCommand,                QObject*>("DapVoitingDumpCommand",                     "rcvVoitingDumpCommand",                 nullptr);
+    addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      m_pServer);
+    addServiceGeneric<DapRcvNotify,                         QObject*>("DapRcvNotify",                              "dapRcvNotify",                          m_pServer);
+    addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               m_pServer);
+    addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  m_pServer);
+    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapHistoryServiceInitCommand",                        "historyServiceInitRcv",       m_pServer);
+    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapWalletServiceInitCommand",                         "walletsServiceInitRcv",       m_pServer);
+    addServiceGeneric<DapTransactionsInfoQueueCommand,      QObject*>("DapTransactionsInfoQueueCommand",           "rcvTransactionsInfoQueueCommand",       nullptr);
+    addServiceGeneric<DapUpdateLogsCommand, QObject *, QString>    ("DapUpdateLogsCommand",                      "logUpdated",                            nullptr, LOG_FILE);
+    addServiceGeneric<DapGetHistoryExecutedCmdCommand, QObject *, QString>  ("DapGetHistoryExecutedCmdCommand",           "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
+    addServiceGeneric<DapSaveHistoryExecutedCmdCommand, QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",          "",                             nullptr, CMD_HISTORY);
+    
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
         m_DapNotifyController->rcvData(rcvData);

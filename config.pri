@@ -81,6 +81,15 @@ unix {
         DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
     }
+
+    android {
+        VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
+        
+        DEFINES += DAP_VERSION=\\\"$$VERSION\\\" DAP_OS_ANDROID DAP_OS_LINUX
+
+        CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_android_debug/$$QT_ARCH/dist/
+        CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_android_release/$$QT_ARCH/dist/
+    }
 }
 
 win32 {

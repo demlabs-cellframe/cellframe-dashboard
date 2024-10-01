@@ -1,21 +1,14 @@
 #include "DapApplication.h"
-#include <QQmlContext>
-#include <DapLogMessage.h>
-#include <QIcon>
-#include <QClipboard>
-#include "quickcontrols/qrcodequickitem.h"
-#include "DapVpnOrdersModel.h"
-#include "dapvpnorderscontroller.h"
-#include "DapNodePathManager.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
+const int OS_WIN_FLAG = 1;
 #endif
 
 #ifndef Q_OS_WIN
-
 #include <sys/stat.h>
 const int OS_WIN_FLAG = 0;
+#endif
 
 #ifdef ANDROID
 #include <QtAndroid>
@@ -23,19 +16,11 @@ const int OS_WIN_FLAG = 0;
 #include <QAndroidJniObject>
 #include <QAndroidIntent>
 #endif
-#else
-const int OS_WIN_FLAG = 1;
-#endif
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
-
-    // , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
-//    , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
-//    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , configWorker(new ConfigWorker(this))
-//    , stringWorker(new StringWorker(this))
     , dateWorker(new DateWorker(this))
     , translator(new QMLTranslator(&m_engine, this))
 {
@@ -44,15 +29,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
 
-
-
-    QString lang = QSettings().value("currentLanguageName", "en").toString();
-    qDebug() << "DapApplication"
-             << "currentLanguageName" << lang;
-
-    translator->setLanguage(lang);
-
-    qDebug()<<QString(DAP_SERVICE_NAME);
     m_serviceController->init();
 #ifdef Q_OS_ANDROID
     QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
@@ -63,73 +39,28 @@ DapApplication::DapApplication(int &argc, char **argv)
                 serviceIntent.handle().object());
 #endif
 
+    QString lang = QSettings().value("currentLanguageName", "en").toString();
+    qDebug() << "DapApplication" << "currentLanguageName" << lang;
+    translator->setLanguage(lang);
 
-    // m_serviceClient.init();
-//    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
-//    m_diagnosticWorker->start();
-
-//    connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
-//            stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
-//    connect(m_serviceController, &DapServiceController::signalXchangeOrderListReceived,
-//            stockDataWorker, &StockDataWorker::signalXchangeOrderListReceived);
-//    connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
-//            stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
-
-//    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
-//            m_historyWorker, &HistoryWorker::setHistoryModel,
-//            Qt::QueuedConnection);  
     m_commandHelper = new CommandHelperController();
-
-//    m_mathBigNumbers = new DapMath();
+    s_modulesInit = new DapModulesController(qmlEngine());
+    connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
+    connect(s_modulesInit, &DapModulesController::netListUpdated,     m_commandHelper, &CommandHelperController::tryDataUpdate);
+    s_modulesInit->setConfigWorker(configWorker);
 
     this->registerQmlTypes();
     this->setContextProperties();
-
-    qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
-
-    connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
-    connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-//        qDebug() << "networkStatusReceived" << a_stateMap;
-        networks()->setNetworkProperties(a_stateMap.toMap());
-    });
-
-    connect(this->networks(), &DapNetworksList::networkAdded, [](DapNetwork* network){
-        DapServiceController::getInstance().requestNetworkStatus(network->name());
-    });
-
-//     connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
-// //        qDebug() << "newTargetNetworkStateReceived" << a_state;
-//     });
-
-//    m_serviceController->requestWalletList();
-//    m_serviceController->requestOrdersList();
-//    m_serviceController->requestNetworksList();
-//    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
-//    m_serviceController->requestToService("DapGetXchangeOrdersList");
-
-
-    s_modulesInit = new DapModulesController(qmlEngine());
-    connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
-    connect(s_modulesInit, &DapModulesController::netListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
-    s_modulesInit->setConfigWorker(configWorker);
 }
 
 DapApplication::~DapApplication()
 {
-//    delete stockDataWorker;
     delete configWorker;
     delete m_commandHelper;
-//    delete m_diagnosticWorker;
-//    delete stringWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
     m_serviceController->disconnectAll();
-}
-
-DapNetworksList *DapApplication::networks()
-{
-    return &m_networks;
 }
 
 QQmlApplicationEngine *DapApplication::qmlEngine()
@@ -140,11 +71,6 @@ QQmlApplicationEngine *DapApplication::qmlEngine()
 void DapApplication::setClipboardText(const QString &text)
 {
     clipboard()->setText(text);
-}
-
-DapVpnOrdersModel *DapApplication::getVpnOrdersModel()
-{
-    return &m_vpnOrders;
 }
 
 void DapApplication::registerQmlTypes()
@@ -166,21 +92,12 @@ void DapApplication::registerQmlTypes()
             });
 
 
-    qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
     qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
-
-    qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
-    qRegisterMetaType<DapVpnOrder>();
 
     qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
     qmlRegisterType<DapVPNOrdersController>("VPNOrdersController", 1,0, "VPNOrdersController");
 
 }
-
-/*DapWallet *DapApplication::currentWallet() const
-{
-    return m_currentWallet;
-}*/
 
 void DapApplication::startService()
 {
@@ -199,15 +116,11 @@ void DapApplication::notifyService(QVariant sName, QVariantList sArgs)
     m_serviceController->notifyService(sName.toString(), sArgs);
 }
 
-
 void DapApplication::setContextProperties()
 {
     m_engine.rootContext()->setContextProperty("app", this);
     m_engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     m_engine.rootContext()->setContextProperty("pt", 1);
-
-//    m_engine.rootContext()->setContextProperty("networks", this->networks());
-//    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);

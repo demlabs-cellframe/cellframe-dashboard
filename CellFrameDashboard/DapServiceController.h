@@ -9,6 +9,10 @@
 #include <algorithm>
 #include <QDataStream>
 #include <QJsonDocument>
+#include <QThread>
+
+#include "dapconfigreader.h"
+#include "DapNodePathManager.h"
 #include "json.h"
 
 #include "DapNotificationWatcher.h"
@@ -116,6 +120,10 @@
 #ifdef Q_OS_ANDROID
 #include "DapRpcTCPServer.h"
 typedef class DapRpcTCPServer DapUiService;
+
+#define LOG_FILE QString("")
+#define CMD_HISTORY QString("")
+
 #else
 #include "DapRpcLocalServer.h"
 typedef class DapRpcLocalServer DapUiService;
@@ -361,6 +369,10 @@ private:
     bool compareJson(QByteArray, QVariant);
 
     void addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService);
+
+    template <typename ServiceType, typename... TArgs>
+    void addServiceGeneric(const QString& name, const QString& signalName, TArgs... ctr_args);
+    
     void initAdditionalParamrtrsService();
 private:
     DapRegularRequestsController *m_reqularRequestsCtrl;
@@ -391,9 +403,6 @@ private:
     QList<QThread*> m_threadPool;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
-
-    QString m_nodeCliPath{""};
-    QString m_nodeToolPath{""};
 
     QSet<QString> m_onceThreadList = { "DapCreateTransactionCommand"
                                       ,"DapXchangeOrderCreate"
