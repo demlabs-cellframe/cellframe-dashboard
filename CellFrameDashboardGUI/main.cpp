@@ -77,7 +77,8 @@ void showErrorMessage(const QString &appName)
 
 void createDapLogger()
 {
-    DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
+    dap_log_set_external_output (LOGGER_OUTPUT_STDOUT, nullptr);
+    new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
     QString logPath = DapDataLocal::instance()->getLogFilePath();
 
 #if defined(QT_DEBUG) && defined(ANDROID)
