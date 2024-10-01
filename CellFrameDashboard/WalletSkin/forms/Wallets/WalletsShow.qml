@@ -35,12 +35,13 @@ Page {
 
     Component.onCompleted:
     {
+        console.log("KTT", "WalletsShow.qml onCompleted BEGIN")
         updateTokens()
         updateHistory()
         isHistoryRequest = historyModule.isRequest
         isHasDataWallet = walletModule.isModel()
         setHeightTokenList()
-                    
+        console.log("KTT", "WalletsShow.qml onCompleted END")
     }
 
     ListView
@@ -530,29 +531,39 @@ Page {
         target: walletModule
         function onTokenModelChanged()
         {
+            console.log("KTT", "WalletsShow.qml onTokenModelChanged BEGIN")
             updateTokens()
+            console.log("KTT", "WalletsShow.qml onTokenModelChanged END")
         }
 
         function onWalletsModelChanged()
         {
+            console.log("KTT", "WalletsShow.qml onWalletsModelChanged BEGIN")
             updateTokens()
+            console.log("KTT", "WalletsShow.qml onWalletsModelChanged END")
         }
 
         function onCurrentWalletChanged()
         {
+            console.log("KTT", "WalletsShow.qml onCurrentWalletChanged BEGIN")
             isHasDataWallet = false
             isHistoryRequest = false
             updateHistory()
+            console.log("KTT", "WalletsShow.qml onCurrentWalletChanged END")
         }
 
         function onCurrentNetworkChanged(networkName)
         {
+            console.log("KTT", "WalletsShow.qml onCurrentNetworkChanged BEGIN")
             isHasDataWallet = false
+            console.log("KTT", "WalletsShow.qml onCurrentNetworkChanged END")
         }
 
         function onСurrentDataChange()
         {
+            console.log("KTT", "WalletsShow.qml onСurrentDataChange BEGIN")
             isHasDataWallet = true
+            console.log("KTT", "WalletsShow.qml onСurrentDataChange END")
         }        
     }
 
@@ -561,8 +572,10 @@ Page {
         target: historyModule
         function onHistoryModelChanged()
         {
+            console.log("KTT", "WalletsShow.qml onHistoryModelChanged BEGIN")
             isHistoryRequest = true
             updateSize("history")
+            console.log("KTT", "WalletsShow.qml onHistoryModelChanged END")
         }
     }
 
@@ -571,18 +584,22 @@ Page {
         target: modelHistory
         function onCountChanged()
         {
+            console.log("KTT", "WalletsShow.qml onCountChanged BEGIN")
             updateHistory()
+            console.log("KTT", "WalletsShow.qml onCountChanged END")
         }
     }
 
     function setHeightTokenList()
     {
+        console.log("KTT", "WalletsShow.qml setHeightTokenList BEGIN")
         var countTokenModel = walletTokensModel.count
         var visibleListHeight = (tokenView.heightDelegate * countTokenModel) + (tokenView.spacing * (countTokenModel - 1))
         if(visibleListHeight < 0)
         {
             visibleListHeight = 0
         }
+        console.log("KTT", "WalletsShow.qml setHeightTokenList END")
     }
 
     Connections
@@ -590,9 +607,11 @@ Page {
         target: walletTokensModel
         function onSizeChanged()
         {
+            console.log("KTT", "WalletsShow.qml walletTokensModel BEGIN")
             isHasDataWallet = true
             
             setHeightTokenList()
+            console.log("KTT", "WalletsShow.qml onSizeChanged END")
         }
     }
 }

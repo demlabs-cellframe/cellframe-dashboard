@@ -36,14 +36,24 @@ private:
     void initConnect();
 
 private:
-    DapModulesController  *m_modulesCtrl;
-    QTimer *m_timerHistoryUpdate;
-    DapHistoryModel *m_historyModel = nullptr;
-    DapHistoryProxyModel *m_historyProxyModel = nullptr;
-    bool isSendReqeust{false};
+
+
+
+
+
     QQmlContext *context;
     QByteArray *m_historyByteArray;
     QString m_walletName {""};
+
+protected:
+    QTimer *m_timerHistoryUpdate;
+    DapHistoryProxyModel *m_historyProxyModel = nullptr;
+    DapModulesController  *m_modulesCtrl;
+    DapHistoryModel *m_historyModel = nullptr;
+
+    bool isSendReqeust{false};
+
 };
+
 
 #endif // DAPMODULETXEXPLORER_H

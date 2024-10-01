@@ -5,7 +5,7 @@
 #include <QSettings>
 
 //***Modules***//
-#include "Wallet/DapModuleWallet.h"
+#include "Wallet/DapModuleWalletAddition.h"
 #include "Dex/DapModuleDexLightPanel.h"
 #include "TxExplorer/DapModuleTxExplorer.h"
 #include "Certificates/DapModuleCertificates.h"
@@ -57,7 +57,7 @@ DapModulesController::~DapModulesController()
 
 void DapModulesController::initModules()
 {
-    addModule("walletModule", new DapModuleWallet(this));
+    addModule("walletModule", new DapModuleWalletAddition(this));
     addModule("dexModule", new DapModuleDexLightPanel(this));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
