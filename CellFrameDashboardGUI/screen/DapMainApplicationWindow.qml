@@ -289,6 +289,9 @@ Rectangle {
         ListElement { tag: "Logs"
             name: qsTr("Logs")
             show: true }
+        ListElement { tag: "Master Node"
+            name: qsTr("Master Node")
+            show: true }
         ListElement { tag: "dApps"
             name: qsTr("dApps")
             show: true }
@@ -620,20 +623,40 @@ Rectangle {
     DapNetworksPanel
     {
         id: networksPanel
-        height: 40
+        height: 42
     }
 
+
+    DropShadow {
+        anchors.fill: networksPanel
+        source: networksPanel
+        horizontalOffset: currTheme.hOffset
+        verticalOffset: -7
+        radius: 8
+        color: currTheme.shadowColor
+        smooth: true
+        opacity: 0.7
+        samples: 10
+        cached: true
+    }
+
+
     Rectangle {
+        id: whiteTopBorderNetPanel
         anchors.left: networksPanel.left
         anchors.right: networksPanel.right
         anchors.bottom: networksPanel.top
+        anchors.topMargin: -2
         height: 2
+//        color: currTheme.reflection
 
         gradient: Gradient {
             GradientStop { position: 0.0; color: currTheme.mainBackground }
             GradientStop { position: 1.0; color: currTheme.reflectionLight }
         }
     }
+
+
 
     Component.onCompleted:
     {
@@ -670,8 +693,6 @@ Rectangle {
 //        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
 
-
-
         dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
@@ -679,9 +700,6 @@ Rectangle {
 
 //        for(var i = 0; i < 50; i++)
 //            dapServiceController.requestToService("DapWebConnectRequest", "1")
-
-
-
     }
 
     Connections

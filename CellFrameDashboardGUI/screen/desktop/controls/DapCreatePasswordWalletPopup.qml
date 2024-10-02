@@ -292,6 +292,7 @@ Item
         visible = true
         nameWallet = name_wallet
         textInputPasswordWallet.text = ""
+        textInputPasswordConfirmWallet.text = ""
         backgroundFrame.opacity = 0.4
         farmeActivate.opacity = 1
     }
