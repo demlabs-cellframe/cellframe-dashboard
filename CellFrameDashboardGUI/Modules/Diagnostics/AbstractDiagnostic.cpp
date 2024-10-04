@@ -142,7 +142,10 @@ void AbstractDiagnostic::reconnectFunc()
 
 void AbstractDiagnostic::slotReadyRead()
 {
+    qDebug() << "[slotReadyRead] ready read diagostic data";
     QByteArray rcvData = m_socket->readAll();
+
+    qDebug() << "[slotReadyRead] data size = " << rcvData.size();
 
     QJsonParseError error;
     QJsonDocument diagData = QJsonDocument::fromJson(rcvData, &error);
