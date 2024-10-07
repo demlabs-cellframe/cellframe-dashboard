@@ -14,7 +14,7 @@ void DapNotifyController::rcvData(QVariant data)
     QJsonDocument doc = QJsonDocument::fromJson(data.toString().toUtf8());
     QVariantMap map = doc.object().toVariantMap();
     
-//    qDebug() << "[DapNotifyController] [rcvData] A request was received from web3 :" << doc;
+    qDebug() << "[DapNotifyController] [rcvData] rcvData:" << doc;
     
     if(map.contains("connect_state"))
     {
