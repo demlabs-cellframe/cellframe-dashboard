@@ -79,10 +79,10 @@ DapTopPanel
             anchors.leftMargin: 56
             font: mainFont.dapFont.regular14
             color: currTheme.white
-            text: percentLoading >= 100 || doneDelay ? qsTr("The node has loaded") :
-                                      percentLoading ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
-                   nodePathManager.nodeInstalled === 2 ? qsTr("The node is currently being launched. Receving data from the node"):
-                                                       qsTr("Node is not install")
+            text: percentLoading >= 100 || doneDelay  ? qsTr("The node has loaded") :
+                                      percentLoading  ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
+                   cellframeNodeWrapper.nodeInstalled ? qsTr("The node is currently being launched. Receving data from the node"):
+                                                        qsTr("Node is not installed")
 
         }
 

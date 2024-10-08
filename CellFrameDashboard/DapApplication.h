@@ -16,8 +16,10 @@
 #include "mobile/QMLClipboard.h"
 #include "Autocomplete/CommandHelperController.h"
 
-
 #include "Translator/qmltranslator.h"
+
+#include "CellframeNodeQmlWrapper.h"
+#include "DapNodePathManager.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -50,6 +52,7 @@ private:
 
     QQmlApplicationEngine m_engine;
     DapServiceController* m_serviceController;
+    CellframeNodeQmlWrapper* m_nodeWrapper;
 
     DateWorker   *dateWorker;
 

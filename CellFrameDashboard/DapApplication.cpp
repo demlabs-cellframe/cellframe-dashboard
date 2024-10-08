@@ -1,5 +1,4 @@
 #include "DapApplication.h"
-#include "DapNodePathManager.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -18,10 +17,6 @@ const int OS_WIN_FLAG = 0;
 #include <QAndroidIntent>
 #endif
 
-#include "CellframeNode.h"
-
-
-
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceController(&DapServiceController::getInstance())
@@ -32,6 +27,12 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
+
+    m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
+//    qDebug()<<m_nodeWrapper->nodeInstalled();
+//    qDebug()<<m_nodeWrapper->nodeServiceLoaded();
+//    qDebug()<<m_nodeWrapper->nodeRunning();
+//    qDebug()<<m_nodeWrapper->nodeVersion();
 
     m_serviceController->init();
 #ifdef Q_OS_ANDROID
@@ -128,7 +129,4 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("translator", translator);
     m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
     m_engine.rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
-    m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
-
-
 }
