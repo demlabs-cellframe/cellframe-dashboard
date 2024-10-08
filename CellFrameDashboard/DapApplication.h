@@ -10,14 +10,12 @@
 
 #include "quickcontrols/qrcodequickitem.h"
 #include "dapvpnorderscontroller.h"
-#include "DapNodePathManager.h"
 
 #include "Modules/DapModulesController.h"
 #include "DapServiceController.h"
 #include "mobile/QMLClipboard.h"
 #include "Autocomplete/CommandHelperController.h"
 
-#include "ConfigWorker/configworker.h"
 
 #include "Translator/qmltranslator.h"
 
@@ -53,7 +51,6 @@ private:
     QQmlApplicationEngine m_engine;
     DapServiceController* m_serviceController;
 
-    ConfigWorker *configWorker;
     DateWorker   *dateWorker;
 
     QMLTranslator * translator;

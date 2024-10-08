@@ -81,7 +81,7 @@ DapTopPanel
             color: currTheme.white
             text: percentLoading >= 100 || doneDelay ? qsTr("The node has loaded") :
                                       percentLoading ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
-                   nodePathManager.installNode === 2 ? qsTr("The node is currently being launched. Receving data from the node"):
+                   nodePathManager.nodeInstalled === 2 ? qsTr("The node is currently being launched. Receving data from the node"):
                                                        qsTr("Node is not install")
 
         }

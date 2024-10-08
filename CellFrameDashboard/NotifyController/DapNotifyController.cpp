@@ -1,7 +1,6 @@
 #include "DapNotifyController.h"
 #include "qjsondocument.h"
 #include "qjsonobject.h"
-#include "DapNodePathManager.h"
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
@@ -27,7 +26,6 @@ void DapNotifyController::rcvData(QVariant data)
             if(value.toString() != m_connectState)
             {
                 isFirst = true;
-                DapConfigToolController::getInstance().getStatusNode();
             }
 
             emit chainsLoadProgress(QVariantMap());

@@ -10,7 +10,6 @@
 #include "DapServiceController.h"
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
-#include "ConfigWorker/configfile.h"
 
 class DapModuleMasterNode : public DapAbstractModule
 {

@@ -1,4 +1,5 @@
 #include "DapApplication.h"
+#include "DapNodePathManager.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -17,10 +18,13 @@ const int OS_WIN_FLAG = 0;
 #include <QAndroidIntent>
 #endif
 
+#include "CellframeNode.h"
+
+
+
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceController(&DapServiceController::getInstance())
-    , configWorker(new ConfigWorker(this))
     , dateWorker(new DateWorker(this))
     , translator(new QMLTranslator(&m_engine, this))
 {
@@ -47,7 +51,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     s_modulesInit = new DapModulesController(qmlEngine());
     connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
     connect(s_modulesInit, &DapModulesController::netListUpdated,     m_commandHelper, &CommandHelperController::tryDataUpdate);
-    s_modulesInit->setConfigWorker(configWorker);
 
     this->registerQmlTypes();
     this->setContextProperties();
@@ -55,7 +58,6 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 DapApplication::~DapApplication()
 {
-    delete configWorker;
     delete m_commandHelper;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
@@ -123,11 +125,10 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("pt", 1);
 
     m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
-    m_engine.rootContext()->setContextProperty("configWorker", configWorker);
     m_engine.rootContext()->setContextProperty("translator", translator);
     m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
     m_engine.rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
-    m_engine.rootContext()->setContextProperty("nodeConfigToolController", &DapConfigToolController::getInstance());
+    m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
 
 
 }

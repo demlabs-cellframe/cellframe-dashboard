@@ -19,6 +19,7 @@ include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt-light.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+include (../cellframe-ui-sdk/cellframenode/libdap-qt-cellframe-node.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
@@ -83,8 +84,6 @@ else: !win32 {
 
 HEADERS += $$PWD/DapServiceController.h \
     Autocomplete/CommandHelperController.h \
-    ConfigWorker/configfile.h \
-    ConfigWorker/configworker.h \
     DapApplication.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
@@ -104,8 +103,6 @@ HEADERS += $$PWD/DapServiceController.h \
 SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     Autocomplete/CommandHelperController.cpp \
-    ConfigWorker/configfile.cpp \
-    ConfigWorker/configworker.cpp \
     DapApplication.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \

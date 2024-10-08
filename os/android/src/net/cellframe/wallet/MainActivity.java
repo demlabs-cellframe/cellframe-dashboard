@@ -25,14 +25,8 @@ public class MainActivity extends QtActivity
     private String TAG = "CellframeWallet";
     private boolean doesNodeInstalled = false;
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState)
+    private void startServiceAndTryBind()
     {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG,"MainActivity created.");
-
-        Log.d(TAG,"Starting Node Service");
-
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.cellframe.node", "com.cellframe.node.NodeService"));
         if (startForegroundService(intent) != null) {
@@ -51,6 +45,16 @@ public class MainActivity extends QtActivity
     }
 
     @Override
+    public void onCreate(final Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG,"MainActivity created.");
+
+        Log.d(TAG,"Starting Node Service");
+        startServiceAndTryBind();
+    }
+
+    @Override
     protected void onDestroy()
     {
         super.onDestroy();
@@ -59,6 +63,39 @@ public class MainActivity extends QtActivity
     public String getExtFilesDir()
     {
         return getExternalFilesDir(null).getPath();
+    }
+
+    public boolean isNodeServicePresent() {
+        if (!doesNodeInstalled) { //check, probably somthing changes since activity started
+           startServiceAndTryBind();
+        }
+        return doesNodeInstalled;
+    }
+    
+    public boolean isNodeServiceReady() throws RemoteException{ 
+        return doesNodeInstalled && nodeService != null;
+    }
+
+    public boolean isNodeServiceRunning() throws RemoteException { 
+        if (isNodeServiceReady()) return nodeService.isNodeRunning();
+        return false;
+    }
+
+
+
+    public boolean startNode() throws RemoteException { 
+        if  (isNodeServiceReady()) return nodeService.startNode();
+        return false;
+    }
+
+    public boolean stopNode() throws RemoteException { 
+        if (isNodeServiceReady()) return nodeService.stopNode();
+        return false;
+    }
+
+    public String nodeConfig(String req) throws RemoteException { 
+        if (isNodeServiceReady()) return nodeService.config(req);
+        return false;
     }
 
     private void bindToService() {

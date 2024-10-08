@@ -12,7 +12,6 @@
 #include <QThread>
 
 #include "dapconfigreader.h"
-#include "DapNodePathManager.h"
 #include "json.h"
 
 #include "DapNotificationWatcher.h"

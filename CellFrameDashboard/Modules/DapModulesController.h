@@ -13,7 +13,6 @@
 #include "../DapServiceController.h"
 #include "Models/DapStringListModel.h"
 #include "qsettings.h"
-#include "../ConfigWorker/configworker.h"
 
 class DapModulesController : public QObject
 {
@@ -23,8 +22,6 @@ public:
     ~DapModulesController();
 
     DapServiceController* getServiceController() const {return s_serviceCtrl;}
-    void setConfigWorker(ConfigWorker* worker) {m_configWorker = worker;}
-    ConfigWorker* getConfigWorker() {return m_configWorker;}
 
     QSettings* getSettings() {return s_settings;}
     void tryStartModules() { emit initDone(); }
@@ -119,7 +116,6 @@ private:
     int m_currentWalletIndex{-1};
     QString m_currentWalletName{""};
 
-    ConfigWorker *m_configWorker = nullptr;
 
     bool m_isNodeWorking = false;
 };

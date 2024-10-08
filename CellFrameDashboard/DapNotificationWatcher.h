@@ -14,7 +14,6 @@
 
 #include "dap_config.h"
 #include "dapconfigreader.h"
-#include "DapNodePathManager.h"
 
 class DapNotificationWatcher : public QObject
 {
