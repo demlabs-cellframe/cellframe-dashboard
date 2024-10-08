@@ -142,6 +142,8 @@ void AbstractDiagnostic::reconnectFunc()
 
 void AbstractDiagnostic::slotReadyRead()
 {
+    if(!m_connectStatus) return;
+
     qDebug() << "[slotReadyRead] ready read diagostic data";
     QByteArray rcvData = m_socket->readAll();
 
@@ -195,7 +197,7 @@ void AbstractDiagnostic::slotReadyRead()
 
         s_full_info.setObject(obj);
 
-        data_updated(diagData);
+        emit data_updated(diagData);
     }
     return;
 }
@@ -239,15 +241,14 @@ QString AbstractDiagnostic::get_memory_string(size_t num)
 
 void AbstractDiagnostic::changeDataSending(bool flagSendData)
 {
-    if(m_socket->state() != QAbstractSocket::ConnectedState)
-        return;
+    if(!m_connectStatus) return;
 
     QJsonObject obj;
     obj.insert("send_data_flag", flagSendData);
     quint64 bytes = m_socket->write(QJsonDocument(obj).toJson());
     m_socket->flush();
 
-    qDebug()<<"";
+    qDebug()<<"[changeDataSending] bytes written: " << bytes;
 }
 
 void AbstractDiagnostic::update_full_data()
@@ -267,7 +268,7 @@ const QJsonDocument AbstractDiagnostic::get_list_keys(QJsonArray& listNoMacInfo)
 
     auto isContains = [this](const QString& mac) -> bool
     {
-        for(const auto &item: s_selected_nodes_list)
+        for(const auto &item: qAsConst(s_selected_nodes_list))
         {
             if(item.toObject()["mac"].toString() == mac)
             {
@@ -306,7 +307,7 @@ const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
 
     QJsonObject list = m_jsonData->object();
     QJsonArray nodesArray;
-    for(const QJsonValue mac : s_selected_nodes_list)
+    for(const QJsonValue &mac : qAsConst(s_selected_nodes_list))
     {
         if(list.contains(mac["mac"].toString()))
         {
