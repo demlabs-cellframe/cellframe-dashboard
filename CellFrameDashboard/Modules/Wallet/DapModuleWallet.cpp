@@ -5,15 +5,15 @@
 DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_walletHashManager(new WalletHashManager())
-    , m_modulesCtrl(parent)
     , m_timerUpdateListWallets(new QTimer())
     , m_timerUpdateWallet(new QTimer())
     , m_timerFeeUpdateWallet(new QTimer())
-    , m_walletModel(new DapListWalletsModel())
-    , m_infoWallet (new DapInfoWalletModel())
-    , m_tokenModel(new DapTokensWalletModel())
     , m_DEXTokenModel(new DapTokensWalletModel())
     , m_tokenFilterModelDEX(new TokenProxyModel())
+    , m_modulesCtrl(parent)
+    , m_tokenModel(new DapTokensWalletModel())
+    , m_walletModel(new DapListWalletsModel())
+    , m_infoWallet (new DapInfoWalletModel())
 {
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelList", m_walletModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelInfo", m_infoWallet);

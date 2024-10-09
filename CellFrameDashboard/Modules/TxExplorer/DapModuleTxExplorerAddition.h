@@ -10,31 +10,30 @@ class DapModuleTxExplorerAddition : public DapModuleTxExplorer
 {
     Q_OBJECT
 
-
+    Q_PROPERTY(bool isLastActions     READ isLastActions   WRITE setLastActions)
 public:
     explicit DapModuleTxExplorerAddition(DapModulesController * modulesCtrl);
-    //~DapModuleTxExplorerAddition();
 
-    // Q_PROPERTY(bool isRequest     READ isRequest      WRITE isRequestChanged)
-    // bool isRequest(){return m_isRequest;}
-    // void setIsRequest(bool isRequest);
+    Q_PROPERTY(bool isRequest     READ isRequest      WRITE isRequestChanged)
+    bool isRequest(){return m_isRequest;}
+    void setIsRequest(bool isRequest);
 
-    // Q_INVOKABLE void typeScreenChange(const QString &screen);
+    Q_INVOKABLE bool isLastActions() const { return m_isLastActions; }
 
 private:
-    // bool m_isRequest = false;
+     bool m_isRequest = false;
 
 signals:
-    // void historyModelChanged();
-    // void isRequestChanged(bool isRequest);
-
-private slots:
-
+    void historyModelChanged();
+    void isRequestChanged(bool isRequest);
 
 public slots:
+    void setHistoryModel(const QVariant &rcvData);
+    void setWalletName(QString str);
+    void setLastActions(bool flag);
 
 private:
-
+    bool m_isLastActions {true};
 
 };
 

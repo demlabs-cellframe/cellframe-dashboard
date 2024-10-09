@@ -349,14 +349,13 @@ Page
             isHistoryRequest = true
             countTransaction = modelHistory.getCount()
             noTransactionsText.visible = !countTransaction
-            
         }
     }
 
     Connections
     {
-        target: historyModule
-        function onHistoryModelChanged()
+        target: txExplorerModule
+        function onUpdateHistoryModel()
         {
             isHistoryRequest = true
             updateSize("history")

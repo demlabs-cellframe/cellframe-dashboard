@@ -7,7 +7,7 @@
 //***Modules***//
 #include "Wallet/DapModuleWalletAddition.h"
 #include "Dex/DapModuleDexLightPanel.h"
-#include "TxExplorer/DapModuleTxExplorer.h"
+#include "TxExplorer/DapModuleTxExplorerAddition.h"
 #include "Certificates/DapModuleCertificates.h"
 #include "Tokens/DapModuleTokens.h"
 #include "Console/DapModuleConsole.h"
@@ -29,6 +29,9 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     , s_settings(new QSettings(this))
     , m_netListModel(new DapStringListModel)
 {
+    auto projectSkin = s_settings->value("project_skin", "").toString();
+    if(projectSkin == "wallet") m_skinWallet = true;
+
     initWorkers();
     initModules();
     m_netListModel->setStringList({"All"});
@@ -57,9 +60,9 @@ DapModulesController::~DapModulesController()
 
 void DapModulesController::initModules()
 {
-    addModule("walletModule", new DapModuleWalletAddition(this));
+    addModule("walletModule", m_skinWallet ? new DapModuleWalletAddition(this) : new DapModuleWallet(this));
     addModule("dexModule", new DapModuleDexLightPanel(this));
-    addModule("txExplorerModule", new DapModuleTxExplorer(this));
+    addModule("txExplorerModule", m_skinWallet ? new DapModuleTxExplorerAddition(this) : new DapModuleTxExplorer(this));
     addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
     addModule("consoleModule", new DapModuleConsole(this));
@@ -290,4 +293,11 @@ void DapModulesController::restoreIndex()
     }
 
     setCurrentWalletIndex(0);
+}
+
+void DapModulesController::setCurrentNetwork(const QString& name)
+{
+    m_currentNetworkName = name;
+    this->getSettings()->setValue("networkName", name);
+    emit currentNetworkChanged(name);
 }

@@ -112,22 +112,23 @@ Page {
 
     Component.onCompleted:
     {
-        console.log("KTT", "DapWalletsPage.qml onCompleted BEGIN")
-        historyModule.typeScreenChange("wallet")
+        walletModule.statusProcessing = true
+        txExplorerModule.statusProcessing = true
 
-
+        modelHistory.setNetworkFilter(modulesController.getCurrentNetwork()) // Need change to currentNetwork
+        modelHistory.setFilterString()
+        modelHistory.setCurrentStatus("All statuses")
+        modelHistory.setLastActions(false)
 
         dapServiceController.requestToService("DapGetWalletsInfoCommand", "true")
         logicWallet.updateWalletModel()
         isRcvWallets = tokenModel.count
-        console.log("KTT", "DapWalletsPage.qml onCompleted END")
     }
 
     Component.onDestruction:
     {
-        console.log("KTT", "DapWalletsPage.qml onCompleted BEGIN")
-        historyModule.typeScreenChange("")
-        console.log("KTT", "DapWalletsPage.qml onCompleted END")
+        walletModule.statusProcessing = false
+        txExplorerModule.statusProcessing = false
     }
 
     Connections
@@ -135,16 +136,12 @@ Page {
         target: walletModule
         function onCurrentWalletChanged()
         {
-            console.log("KTT", "DapWalletsPage.qml onCurrentWalletChanged BEGIN")
             logicWallet.updateWalletModel()
-            console.log("KTT", "DapWalletsPage.qml onCurrentWalletChanged END")
         }
 
         function onWalletsModelChanged()
         {
-            console.log("KTT", "DapWalletsPage.qml onWalletsModelChanged BEGIN")
             logicWallet.updateWalletModel()
-            console.log("KTT", "DapWalletsPage.qml onWalletsModelChanged END")
         }
     }
 }

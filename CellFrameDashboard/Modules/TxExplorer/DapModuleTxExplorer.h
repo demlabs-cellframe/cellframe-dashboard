@@ -28,22 +28,16 @@ private slots:
     void slotHistoryUpdate();
 
 public slots:
-    void setHistoryModel(const QVariant &rcvData);
+    virtual void setHistoryModel(const QVariant &rcvData);
 
-    void setWalletName(QString str);
+    virtual void setWalletName(QString str);
 
 private:
     void initConnect();
 
 private:
-
-
-
-
-
     QQmlContext *context;
     QByteArray *m_historyByteArray;
-    QString m_walletName {""};
 
 protected:
     QTimer *m_timerHistoryUpdate;
@@ -52,6 +46,7 @@ protected:
     DapHistoryModel *m_historyModel = nullptr;
 
     bool isSendReqeust{false};
+    QString m_walletName {""};
 
 };
 

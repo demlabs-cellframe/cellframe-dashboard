@@ -147,6 +147,10 @@ ApplicationWindow
              }
         }
     }*/
+
+    // UNHIDE LATER
+    // At now work only for Wallet
+    /*
     Connections
     {
         target: fullScreen
@@ -188,6 +192,7 @@ ApplicationWindow
             }
         }
     }
+    */
 
     InputPanel
     {

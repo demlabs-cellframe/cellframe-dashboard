@@ -12,10 +12,9 @@
 
 DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     : DapAbstractModule(parent)
-
+    , m_historyByteArray(new QByteArray())
     , m_timerHistoryUpdate(new QTimer(this))
     , m_historyProxyModel(new DapHistoryProxyModel())
-    , m_historyByteArray(new QByteArray())
     , m_modulesCtrl(parent)
     , m_historyModel(new DapHistoryModel)
 {
