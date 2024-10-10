@@ -112,19 +112,6 @@ void DapNotificationWatcher::slotReconnect()
 
     ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
     ((QTcpSocket*)m_socket)->waitForConnected(5000);
-
-#ifdef Q_OS_WIN
-
-    if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
-       m_socketState != QAbstractSocket::SocketState::ConnectingState)
-    {
-        if(DapConfigToolController::getInstance().runNode())
-            qInfo()<<"Succes restart node";
-        else
-            qWarning()<<"Error restart node";
-    }
-
-#endif
 }
 
 void DapNotificationWatcher::socketConnected()
