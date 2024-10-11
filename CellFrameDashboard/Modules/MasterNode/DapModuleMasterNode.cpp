@@ -597,7 +597,7 @@ void DapModuleMasterNode::clearCertificate()
 
 void setNodeConfigParam(std::shared_ptr <cellframe_node::ICellframeNode> node, QString cfg, QString grp,  QString param, QString value)
 {
-    node->configCommand(QString("config %1 %2 %3 ensure %4").arg(cfg, grp, param, value).toStdString());
+    node->configCommand(QString("-e config %1 %2 %3 ensure %4").arg(cfg, grp, param, value).toStdString());
 }
 
 void DapModuleMasterNode::tryUpdateNetworkConfig()
