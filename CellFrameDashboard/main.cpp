@@ -154,6 +154,11 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
     QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 
+    // Temp 'copy-past' for change skin
+    QCoreApplication::setOrganizationName("Cellframe Network");
+    QCoreApplication::setOrganizationDomain("cellframe.net");
+    QCoreApplication::setApplicationName(DAP_BRAND);
+
     if (!SingleApplicationTest(DAP_BRAND))
         return 1;
 
@@ -165,6 +170,7 @@ int main(int argc, char *argv[])
     {
         /// CHANGE SKIN - BEGIN TEMPORARY CODE
         auto projectSkin = QSettings().value("project_skin", "").toString();
+
         if(projectSkin.isEmpty()) QSettings().setValue("project_skin", "dashboard");
         bool walletSkin = projectSkin == "wallet";
         if(walletSkin)

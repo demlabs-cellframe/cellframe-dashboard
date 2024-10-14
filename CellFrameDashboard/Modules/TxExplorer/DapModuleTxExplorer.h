@@ -28,22 +28,27 @@ private slots:
     void slotHistoryUpdate();
 
 public slots:
-    void setHistoryModel(const QVariant &rcvData);
+    virtual void setHistoryModel(const QVariant &rcvData);
 
-    void setWalletName(QString str);
+    virtual void setWalletName(QString str);
 
 private:
     void initConnect();
 
 private:
-    DapModulesController  *m_modulesCtrl;
-    QTimer *m_timerHistoryUpdate;
-    DapHistoryModel *m_historyModel = nullptr;
-    DapHistoryProxyModel *m_historyProxyModel = nullptr;
-    bool isSendReqeust{false};
     QQmlContext *context;
     QByteArray *m_historyByteArray;
+
+protected:
+    QTimer *m_timerHistoryUpdate;
+    DapHistoryProxyModel *m_historyProxyModel = nullptr;
+    DapModulesController  *m_modulesCtrl;
+    DapHistoryModel *m_historyModel = nullptr;
+
+    bool isSendReqeust{false};
     QString m_walletName {""};
+
 };
+
 
 #endif // DAPMODULETXEXPLORER_H
