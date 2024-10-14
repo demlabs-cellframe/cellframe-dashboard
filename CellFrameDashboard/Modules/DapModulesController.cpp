@@ -10,6 +10,7 @@
 #include "TxExplorer/DapModuleTxExplorerAddition.h"
 #include "Certificates/DapModuleCertificates.h"
 #include "Tokens/DapModuleTokens.h"
+#include "DapModuleNetworks.h"
 #include "Console/DapModuleConsole.h"
 #include "Logs/DapModuleLogs.h"
 #include "Settings/DapModuleSettings.h"
@@ -40,6 +41,7 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
 
     getNetworkList();
     m_timerUpdateData->start(5000);
+
     connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::signalChainsLoadProgress, this, &DapModulesController::rcvChainsLoadProgress, Qt::QueuedConnection);
 }
@@ -72,9 +74,11 @@ void DapModulesController::initModules()
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("ordersModule", new DapModuleOrders(this));
     addModule("nodeMasterModule", new DapModuleMasterNode(this));
+    addModule("networksModule", new DapModuleNetworks(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 
+    s_appEngine->rootContext()->setContextProperty("networkListModel", m_netListModel);
     s_appEngine->rootContext()->setContextProperty("modulesController", this);
 }
 

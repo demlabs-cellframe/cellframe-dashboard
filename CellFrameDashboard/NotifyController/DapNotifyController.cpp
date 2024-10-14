@@ -15,7 +15,6 @@ void DapNotifyController::rcvData(QVariant data)
     QVariantMap map = data.toMap();
     
 //    qDebug() << "[DapNotifyController] [rcvData] A request was received from web3 :" << doc;
-    
     if(map.contains("connect_state"))
     {
         QVariant value = map["connect_state"];
@@ -51,6 +50,7 @@ void DapNotifyController::rcvData(QVariant data)
         }
         else if(value.toString() == "NetStates")
         {
+            qDebug() << "KTT" << "emit netStates";
             emit netStates(map);
         }
         else if(value.toString() == "chain_init")

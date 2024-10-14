@@ -3,6 +3,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import "qrc:/resources/QML"
 import "qrc:/widgets"
+import "../../../screen/desktop/Networks/logic/" as DashboardLogic
 
 Drawer {
     id: drawer
@@ -13,7 +14,7 @@ Drawer {
                       color: "#A017171A"
                   }
 
-    LogicNetwork{
+    DashboardLogic.LogicNetworks{
         id: logicNet
     }
 
@@ -92,34 +93,42 @@ Drawer {
             Layout.fillWidth: true
             clip: true
             spacing: 20
-            model: networkListModel
+            //model: networkListModel
+            model: networksModel
             delegate: DapNetworkDelegate{}
         }
     }
     Component.onCompleted:  {
+        console.log("KTT", "onCompleted networksModel", networksModel.count)
         console.log("Network menu complate")
         dapServiceController.requestToService("DapGetListNetworksCommand")
      }
 
-    // Connections
-    // {
-    //     target: dapServiceController
-    //     function onRcvNotifyNetworkData(netState)
-    //     {
-    //         logicNet.notifyModelUpdate(netState)
-    //     }
+    Connections
+    {
+        target: dapServiceController
+        function onSignalNetState(netState)
+        {
+            console.log("KTT", "onSignalNetState onSignalNetState BEGIN")
+            logicNet.notifyModelUpdate(netState)
+            console.log("KTT", "onSignalNetState onSignalNetState END")
+        }
 
-    //     function onNetworkStatesListReceived(networksStateList)
-    //     {
-    //         var jsonDocument = JSON.parse(networksStateList)
+        function onNetworkStatesListReceived(networksStateList)
+        {
 
-    //         if(!jsonDocument)
-    //         {
-    //             networksModel.clear()
-    //             return
-    //         }
-    //         logicNet.modelUpdate(jsonDocument)
-    //         logicNet.updateContentInAllOpenedPopups(networksModel)
-    //     }
-    // }
+            console.log("KTT", "onNetworkStatesListReceived networksStateList BEGIN")
+            var jsonDocument = JSON.parse(networksStateList)
+            console.log("KTT", "onNetworkStatesListReceived jsonDocument:", JSON.stringify(jsonDocument))
+
+            if(!jsonDocument)
+            {
+                networksModel.clear()
+                return
+            }
+            logicNet.modelUpdate(jsonDocument.result)
+            logicNet.updateContentInAllOpenedPopups(networksModel)
+            console.log("KTT", "onNetworkStatesListReceived END")
+        }
+    }
 }

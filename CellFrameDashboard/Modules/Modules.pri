@@ -1,4 +1,5 @@
 HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
+    $$PWD/DapModuleNetworks.h \
     $$PWD/DapModulesController.h \
     $$PWD/Dex/DapModuleDexLightPanel.h \
     $$PWD/Dex/DapRegularTokenType.h \
@@ -37,6 +38,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/MasterNode/DapModuleMasterNode.h 
 
  SOURCES += $$PWD/TxExplorer/DapModuleTxExplorer.cpp \
+    $$PWD/DapModuleNetworks.cpp \
     $$PWD/Dex/DapModuleDexLightPanel.cpp \
     $$PWD/Dex/DapRegularTokenType.cpp \
     $$PWD/Dex/StockDataWorker/CreateCandleChart.cpp \

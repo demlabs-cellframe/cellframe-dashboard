@@ -18,6 +18,7 @@ QtObject {
 
     function notifyModelUpdate(data)
     {
+        console.log("KTT", "notifyModelUpdate", JSON.stringify(data))
         if(networksModel.count)
         {
             for(var i = 0; i < networksModel.count; i++)

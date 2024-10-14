@@ -20,9 +20,9 @@ struct ItemTokensListBridge::Data
 static const QHash<QString, DapTokensModel::DapTokensModel::FieldId> s_fieldIdMap =
 {
     {"rate",        DapTokensModel::FieldId::rate},
-    {"token",      DapTokensModel::FieldId::token},
+    {"token",       DapTokensModel::FieldId::token},
     {"displayText", DapTokensModel::FieldId::displayText},
-    {"type", DapTokensModel::FieldId::type}
+    {"type",        DapTokensModel::FieldId::type}
 };
 
 DapTokensModel::DapTokensModel (QObject *a_parent)

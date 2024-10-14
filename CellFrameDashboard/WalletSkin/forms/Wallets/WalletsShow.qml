@@ -35,11 +35,21 @@ Page {
 
     Component.onCompleted:
     {
+        console.log("KTT", "onCompleted", "walletModule.currentNetworkName:", walletModule.currentNetworkName)
+
         updateTokens()
         updateHistory()
         isHistoryRequest = txExplorerModule.isRequest
         isHasDataWallet = walletModule.isModel()
         setHeightTokenList()
+
+        //walletModule.currentNetworkName = networkName
+        //networkMenu.currentIndex = index
+        // showLastActions.isShow = false
+        // showAllTokens.isShow = false
+        // tokenView.forceLayout()
+        // lastActionsView.forceLayout()
+        // flickablePlace.contentY = 0
     }
 
     ListView
@@ -529,16 +539,19 @@ Page {
         target: walletModule
         function onTokenModelChanged()
         {
+            console.log("KTT", "onTokenModelChanged", "BEGIN")
             updateTokens()
         }
 
         function onWalletsModelChanged()
         {
+            console.log("KTT", "onWalletsModelChanged", "BEGIN")
             updateTokens()
         }
 
         function onCurrentWalletChanged()
         {
+            console.log("KTT", "onCurrentWalletChanged", "BEGIN")
             isHasDataWallet = false
             isHistoryRequest = false
             updateHistory()
@@ -546,11 +559,13 @@ Page {
 
         function onCurrentNetworkChanged(networkName)
         {
+            console.log("KTT", "onCurrentNetworkChanged", "BEGIN")
             isHasDataWallet = false
         }
 
         function onСurrentDataChange()
         {
+            console.log("KTT", "onСurrentDataChange", "BEGIN")
             isHasDataWallet = true
         }        
     }
@@ -576,12 +591,15 @@ Page {
 
     function setHeightTokenList()
     {
+        console.log("KTT", "setHeightTokenList()", "BEGIN")
         var countTokenModel = walletTokensModel.count
+        console.log("KTT", "countTokenModel:", countTokenModel)
         var visibleListHeight = (tokenView.heightDelegate * countTokenModel) + (tokenView.spacing * (countTokenModel - 1))
         if(visibleListHeight < 0)
         {
             visibleListHeight = 0
         }
+        console.log("KTT", "setHeightTokenList()", "END")
     }
 
     Connections
@@ -589,9 +607,11 @@ Page {
         target: walletTokensModel
         function onSizeChanged()
         {
+            console.log("KTT", "walletTokensModel", "onSizeChanged()", "BEGIN")
             isHasDataWallet = true
             
             setHeightTokenList()
+            console.log("KTT", "walletTokensModel", "onSizeChanged()", "END")
         }
     }
 }

@@ -407,7 +407,7 @@ ColumnLayout
 
                     property bool isInit: false
 
-                    model: networkListModel
+                    model: networksModel
                     mainTextRole: "networkName"
 
                     anchors.fill: parent

@@ -4,9 +4,8 @@ DapModuleWalletAddition::DapModuleWalletAddition(DapModulesController *parent)
     : DapModuleWallet(parent)
 {
     m_currentNetworkName = m_modulesCtrl->getSettings()->value("networkName", "").toString();
-    m_modulesCtrl->setCurrentNetwork(m_currentNetworkName);
+    setCurrentNetworkName(m_currentNetworkName);
     connect(m_modulesCtrl, &DapModulesController::currentNetworkChanged, this, &DapModuleWalletAddition::setCurrentNetworkName, Qt::QueuedConnection);
-
 }
 
 DapModuleWalletAddition::~DapModuleWalletAddition()

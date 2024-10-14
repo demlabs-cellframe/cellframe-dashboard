@@ -49,6 +49,7 @@ Page {
     ListModel {id: dapModelPlugins}
     ListModel {id: modelAppsTabStates}
 
+    ListModel {id: networksModel}
 
     MainApplicationLogic{id: logicMainApp}
 
