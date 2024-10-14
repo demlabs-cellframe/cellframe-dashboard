@@ -120,6 +120,9 @@ TextField {
         }
     }
 
+    // UNHIDE LATER
+    // At now work only for Wallet
+    /*
     Connections
     {
         target: app
@@ -137,6 +140,7 @@ TextField {
             }
         }
     }
+    */
 
     DapContextMenu
     {

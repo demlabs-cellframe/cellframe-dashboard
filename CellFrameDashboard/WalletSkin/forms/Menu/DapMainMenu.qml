@@ -51,7 +51,7 @@ Item {
 
     Component.onCompleted:
     {
-        modulesController.setNewTypeScreen(mainButtonsModel.indexOf(0).systemName)
+        //modulesController.setNewTypeScreen(mainButtonsModel.indexOf(0).systemName)
     }
 
     Rectangle {
@@ -158,7 +158,6 @@ Item {
                             pushedPage = index;
                             stackView.setInitialItem(modelData.url)
                             stackView.isDappLoad = false
-                            modulesController.setNewTypeScreen(modelData.systemName)
                         }
                     }
                 }
@@ -201,7 +200,6 @@ Item {
         target: dapMainWindow
         function onOpenHistory() {
             pushedPage = 1
-            modulesController.setNewTypeScreen(mainButtonsModel[1].systemName)
             stackView.setInitialItem(mainButtonsModel[1].url)
             stackView.isDappLoad = false
         }

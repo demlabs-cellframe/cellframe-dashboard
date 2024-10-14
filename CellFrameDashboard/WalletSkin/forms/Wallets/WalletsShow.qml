@@ -37,10 +37,9 @@ Page {
     {
         updateTokens()
         updateHistory()
-        isHistoryRequest = historyModule.isRequest
+        isHistoryRequest = txExplorerModule.isRequest
         isHasDataWallet = walletModule.isModel()
         setHeightTokenList()
-                    
     }
 
     ListView
@@ -558,8 +557,8 @@ Page {
 
     Connections
     {
-        target: historyModule
-        function onHistoryModelChanged()
+        target: txExplorerModule
+        function onUpdateHistoryModel()
         {
             isHistoryRequest = true
             updateSize("history")

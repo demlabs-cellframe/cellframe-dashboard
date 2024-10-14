@@ -112,9 +112,23 @@ Page {
 
     Component.onCompleted:
     {
+        walletModule.statusProcessing = true
+        txExplorerModule.statusProcessing = true
+
+        modelHistory.setNetworkFilter(modulesController.getCurrentNetwork()) // Need change to currentNetwork
+        modelHistory.setFilterString()
+        modelHistory.setCurrentStatus("All statuses")
+        modelHistory.setLastActions(false)
+
         dapServiceController.requestToService("DapGetWalletsInfoCommand", "true")
         logicWallet.updateWalletModel()
         isRcvWallets = tokenModel.count
+    }
+
+    Component.onDestruction:
+    {
+        walletModule.statusProcessing = false
+        txExplorerModule.statusProcessing = false
     }
 
     Connections

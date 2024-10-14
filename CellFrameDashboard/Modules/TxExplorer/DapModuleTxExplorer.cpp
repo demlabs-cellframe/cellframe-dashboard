@@ -12,11 +12,11 @@
 
 DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
-    , m_timerHistoryUpdate(new QTimer(this))
-    , m_historyModel(new DapHistoryModel)
-    , m_historyProxyModel(new DapHistoryProxyModel())
     , m_historyByteArray(new QByteArray())
+    , m_timerHistoryUpdate(new QTimer(this))
+    , m_historyProxyModel(new DapHistoryProxyModel())
+    , m_modulesCtrl(parent)
+    , m_historyModel(new DapHistoryModel)
 {
     m_historyProxyModel->setSourceModel(m_historyModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
@@ -160,7 +160,6 @@ void DapModuleTxExplorer::setWalletName(QString str)
         setStatusInit(false);
     }
 }
-
 
 void DapModuleTxExplorer::slotHistoryUpdate()
 {
