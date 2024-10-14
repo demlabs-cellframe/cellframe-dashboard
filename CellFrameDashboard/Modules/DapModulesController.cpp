@@ -78,7 +78,7 @@ void DapModulesController::initModules()
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 
-    s_appEngine->rootContext()->setContextProperty("networkListModel", m_netListModel);
+    //s_appEngine->rootContext()->setContextProperty("networkListModel", m_netListModel);
     s_appEngine->rootContext()->setContextProperty("modulesController", this);
 }
 

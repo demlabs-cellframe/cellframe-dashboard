@@ -42,14 +42,6 @@ Page {
         isHistoryRequest = txExplorerModule.isRequest
         isHasDataWallet = walletModule.isModel()
         setHeightTokenList()
-
-        //walletModule.currentNetworkName = networkName
-        //networkMenu.currentIndex = index
-        // showLastActions.isShow = false
-        // showAllTokens.isShow = false
-        // tokenView.forceLayout()
-        // lastActionsView.forceLayout()
-        // flickablePlace.contentY = 0
     }
 
     ListView
