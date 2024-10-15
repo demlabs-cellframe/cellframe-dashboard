@@ -43,13 +43,6 @@ DapServiceController::~DapServiceController()
     //        controller->deleteTransactionController();
     //    }
 
-    //    if(m_threadNotify)
-    //    {
-    //        m_threadNotify->quit();
-    //        m_threadNotify->wait();
-    //        delete m_threadNotify;
-    //    }
-
     if(m_threadRegular)
     {
         m_threadRegular->quit();
