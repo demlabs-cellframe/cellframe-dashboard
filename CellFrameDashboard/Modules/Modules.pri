@@ -26,6 +26,8 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Diagnostics/DapModuleDiagnostics.h \
     $$PWD/Orders/DapModuleOrders.h \
     $$PWD/Tokens/DapModuleTokens.h \
+    $$PWD/TxExplorer/DapModuleTxExplorerAddition.h \
+    $$PWD/Wallet/DapModuleWalletAddition.h \
     $$PWD/dApps/DapDappsNetworkManager.h \
     $$PWD/dApps/DapModuledApps.h \
     $$PWD/Wallet/WalletRestore/wallethashmanager.h \
@@ -57,6 +59,8 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Orders/DapModuleOrders.cpp \
     $$PWD/Diagnostics/AbstractDiagnostic.cpp \
     $$PWD/Tokens/DapModuleTokens.cpp \
+    $$PWD/TxExplorer/DapModuleTxExplorerAddition.cpp \
+    $$PWD/Wallet/DapModuleWalletAddition.cpp \
     $$PWD/dApps/DapDappsHelpFunctions.cpp \
     $$PWD/dApps/DapDappsNetworkManager.cpp \
     $$PWD/dApps/DapModuledApps.cpp \

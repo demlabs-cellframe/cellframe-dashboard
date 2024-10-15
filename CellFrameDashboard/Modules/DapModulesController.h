@@ -62,6 +62,9 @@ public:
 
     Q_INVOKABLE bool isFirstLaunch() { return m_lastProgress == 0; }
 
+    Q_INVOKABLE QString getCurrentNetwork() const {return m_currentNetworkName;}
+    void setCurrentNetwork(const QString& name);
+
 public slots:
     Q_INVOKABLE void updateListWallets();
     Q_INVOKABLE void updateListNetwork();
@@ -84,6 +87,8 @@ signals:
 
     void nodeWorkingChanged();
     void nodeLoadProgressChanged();
+
+    void currentNetworkChanged(const QString& name);
 private:
     void updateNetworkListModel();
 
@@ -115,9 +120,12 @@ private:
     QStringList m_walletList;
     int m_currentWalletIndex{-1};
     QString m_currentWalletName{""};
+    QString m_currentNetworkName = "";
 
 
     bool m_isNodeWorking = false;
+
+    bool m_skinWallet = false;
 };
 
 #endif // DAPMODULESCONTROLLER_H
