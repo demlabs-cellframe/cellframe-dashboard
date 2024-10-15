@@ -1,51 +1,47 @@
 #include "DapNotifyController.h"
-#include "qjsondocument.h"
-#include "qjsonobject.h"
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
+
+    m_node_notify = std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel>(cellframe_node::getCellframeNodeInterface("local")->openNotificationChannel());
+
+    m_node_notify->addNotifyDataCallback([this](const std::string &data)
+                                         {
+                                             rcvData(QJsonDocument::fromJson(data.c_str()).toVariant());
+                                         });
 
 }
 
 void DapNotifyController::rcvData(QVariant data)
 {
+    if(!data.isValid())
+        return;
 
-//    QJsonDocument doc = QJsonDocument::fromJson(data.toString().toUtf8());
     QVariantMap map = data.toMap();
-    
-//    qDebug() << "[DapNotifyController] [rcvData] A request was received from web3 :" << doc;
-    
-    if(map.contains("connect_state"))
+
+    if(m_node_notify->status() == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
     {
-        QVariant value = map["connect_state"];
-        if(value.toString() != QAbstractSocket::SocketState::ConnectedState &&
-            value.toString() != QAbstractSocket::SocketState::ConnectingState)
-
+        bool isFirst = false;
+        if(m_node_notify->status() != m_connectState)
         {
-            bool isFirst = false;
-            if(value.toString() != m_connectState)
-            {
-                isFirst = true;
-            }
-
-            emit chainsLoadProgress(QVariantMap());
-            m_connectState = value.toInt();
-            emit socketState(m_connectState, true, isFirst);
-
+            m_connectState = m_node_notify->status();
+            isFirst = true;
         }
-        else
-        {
-            m_connectState = value.toString();
-            emit socketState(m_connectState, false, false);
-        }
+        emit chainsLoadProgress(QVariantMap());
+        emit socketState(m_connectState, isFirst);
     }
+    else
+    {
+        m_connectState = m_node_notify->status();
+        emit socketState(m_connectState, false);
+    }
+
     if(map.contains("class"))
     {
         QVariant value = map["class"];
-//      TODO: notify net update disabled
         if(value.toString() == "Wallet")
         {
-            //qDebug()<<"";
+
         }
         else if(value.toString() == "NetStates")
         {

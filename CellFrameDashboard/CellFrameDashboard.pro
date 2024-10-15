@@ -98,7 +98,6 @@ HEADERS += $$PWD/DapServiceController.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h \
-    $$PWD/DapNotificationWatcher.h
 
 SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
@@ -115,7 +114,6 @@ SOURCES += $$PWD/main.cpp \
     resizeimageprovider.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp \
-    $$PWD/DapNotificationWatcher.cpp
 
 OTHER_FILES += libdap-qt-ui-qml \
                libdap-qt-ui-chain-wallet

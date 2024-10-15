@@ -78,15 +78,6 @@ void DapServiceController::init()
     initAdditionalParamrtrsService();
     m_reqularRequestsCtrl->start();
 
-
-    m_threadNotify = new QThread();
-    m_watcher = new DapNotificationWatcher();
-    m_watcher->moveToThread(m_threadNotify);
-
-    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
-    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
-    m_threadNotify->start();
-
     m_web3Controll = new DapWebControllerForService(this);
     m_web3Controll->rcvFrontendConnectStatus(true);
     ////    m_versionController = new DapUpdateVersionController(this);
@@ -105,9 +96,6 @@ void DapServiceController::init()
     //        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
 
     m_web3Controll->setCommandList(&m_transceivers);
-    // Send data from notify socket to client
-    connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::dapRcvNotify);
-    connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
     // Channel req\rep for web 3 API
     connect(this, &DapServiceController::webConnectRespond, m_web3Controll, &DapWebControll::rcvAccept);
     connect(m_web3Controll, &DapWebControllerForService::signalConnectRequest, this, &DapServiceController::rcvWebConenctRequest);
@@ -375,7 +363,6 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapVoitingListCommand,                QObject*>("DapVoitingListCommand",                     "rcvVoitingListCommand",                 nullptr);
     addServiceGeneric<DapVoitingDumpCommand,                QObject*>("DapVoitingDumpCommand",                     "rcvVoitingDumpCommand",                 nullptr);
     addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      m_pServer);
-    addServiceGeneric<DapRcvNotify,                         QObject*>("DapRcvNotify",                              "dapRcvNotify",                          m_pServer);
     addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               m_pServer);
     addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  m_pServer);
     addServiceGeneric<DapServiceInitCommand,                QObject*>("DapHistoryServiceInitCommand",                        "historyServiceInitRcv",       m_pServer);
@@ -385,11 +372,6 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapGetHistoryExecutedCmdCommand, QObject *, QString>  ("DapGetHistoryExecutedCmdCommand",           "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
     addServiceGeneric<DapSaveHistoryExecutedCmdCommand, QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",          "",                             nullptr, CMD_HISTORY);
     
-    connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
-    {
-        m_DapNotifyController->rcvData(rcvData);
-    });
-
     connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
     {
         if(!tokensResult.isValid())
@@ -451,16 +433,20 @@ bool DapServiceController::compareJson(QByteArray buff, QVariant data)
 
 void DapServiceController::notifySignalsAttach()
 {
-    connect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
-    connect(m_DapNotifyController, SIGNAL(netStates(QVariantMap)), this, SLOT(slotNetState(QVariantMap)));
-    connect(m_DapNotifyController, SIGNAL(chainsLoadProgress(QVariantMap)), this, SLOT(slotChainsLoadProgress(QVariantMap)));
-}
+    connect(m_DapNotifyController, &DapNotifyController::socketState, this, [=] (const bool &status, const bool &isFirstSignal)
+    {
+        emit signalStateSocket(status, isFirstSignal);
+    });
 
-void DapServiceController::notifySignalsDetach()
-{
-    disconnect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
-    disconnect(m_DapNotifyController, SIGNAL(netStates(QVariantMap)), this, SLOT(slotNetState(QVariantMap)));
-    disconnect(m_DapNotifyController, SIGNAL(chainsLoadProgress(QVariantMap)), this, SLOT(slotChainsLoadProgress(QVariantMap)));
+    connect(m_DapNotifyController, &DapNotifyController::netStates, this, [=] (const QVariantMap &netStates)
+    {
+        emit signalNetState(netStates);
+    });
+
+    connect(m_DapNotifyController, &DapNotifyController::chainsLoadProgress, this, [=] (const QVariantMap &progress)
+    {
+        emit signalChainsLoadProgress(progress);
+    });
 }
 
 void DapServiceController::initAdditionalParamrtrsService()
