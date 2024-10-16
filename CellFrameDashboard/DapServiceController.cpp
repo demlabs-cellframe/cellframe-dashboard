@@ -5,6 +5,15 @@
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
+
+//    QString cmd = "tx_history -net Backbone -w Elizaveta";
+
+//    QJsonDocument jsonDoc = QJsonDocument::fromJson(cellframe_node::getCellframeNodeInterface("local")
+//                                                        ->nodeCommand(cmd.toStdString(),
+//                                                                      true).c_str());
+
+
+//    return;
     m_reqularRequestsCtrl = new DapRegularRequestsController();
 
     DapConfigReader configReader;

@@ -725,7 +725,9 @@ Rectangle {
             var result = jsonDocument.result
             logicMainApp.rcvNetList(result)
         }
-        function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
+        function onSignalStateSocket(state, status, isFirst) {
+            logicMainApp.rcvStateNotify(status, isFirst)
+        }
 
         function onTransactionRemoved(rcvData)
         {

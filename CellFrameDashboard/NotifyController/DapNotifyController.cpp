@@ -10,6 +10,28 @@ DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
                                              rcvData(QJsonDocument::fromJson(data.c_str()).toVariant());
                                          });
 
+    m_node_notify->addNotifyStatusCallback([this](const cellframe_node::notify::CellframeNotificationChannel::E_NOTIFY_STATUS &status)
+                                         {
+                                            if(status == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
+                                            {
+                                                bool isFirst = false;
+                                                if(status != m_connectState)
+                                                {
+                                                    m_connectState = status;
+                                                    isFirst = true;
+                                                    emit chainsLoadProgress(QVariantMap());
+                                                }
+                                                emit socketState(m_connectState, isFirst);
+                                            }
+                                            else
+                                            {
+                                                m_connectState = status;
+                                                emit socketState(m_connectState, false);
+                                            }
+                                         });
+
+    m_connectState = m_node_notify->status(); //for init
+    emit socketState(m_connectState, true);
 }
 
 void DapNotifyController::rcvData(QVariant data)
@@ -18,23 +40,6 @@ void DapNotifyController::rcvData(QVariant data)
         return;
 
     QVariantMap map = data.toMap();
-
-    if(m_node_notify->status() == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
-    {
-        bool isFirst = false;
-        if(m_node_notify->status() != m_connectState)
-        {
-            m_connectState = m_node_notify->status();
-            isFirst = true;
-        }
-        emit chainsLoadProgress(QVariantMap());
-        emit socketState(m_connectState, isFirst);
-    }
-    else
-    {
-        m_connectState = m_node_notify->status();
-        emit socketState(m_connectState, false);
-    }
 
     if(map.contains("class"))
     {

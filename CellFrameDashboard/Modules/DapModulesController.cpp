@@ -221,7 +221,7 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
 
     // calc total percent of node loading
     int total = 0;
-    for(auto netInfo: m_networksLoadProgress)
+    for(const auto &netInfo: qAsConst(m_networksLoadProgress))
     {
         for(auto& progress: netInfo)
         {
