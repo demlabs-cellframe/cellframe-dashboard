@@ -12,6 +12,7 @@
 #include "DapAbstractModule.h"
 #include "../DapServiceController.h"
 #include "Models/DapStringListModel.h"
+#include "Models/DapNetworkList.h"
 #include "qsettings.h"
 #include "../ConfigWorker/configworker.h"
 
@@ -76,9 +77,12 @@ private slots:
 
     void rcvNetList(const QVariant &rcvData);
     void rcvChainsLoadProgress(const QVariantMap &rcvData);
+    void updateNetworkStates(const QVariant &rcvData) { emit networkStatesUpdated(rcvData); };
 
 signals:
     void initDone();
+
+    void networkStatesUpdated(const QVariant &rcvData);
 
     void walletsListUpdated();
     void netListUpdated();
@@ -130,6 +134,8 @@ private:
     bool m_isNodeWorking = false;
 
     bool m_skinWallet = false;
+
+    DapNetworkList *m_networkList = nullptr;
 };
 
 #endif // DAPMODULESCONTROLLER_H
