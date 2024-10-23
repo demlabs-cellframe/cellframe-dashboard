@@ -138,7 +138,6 @@ Item{
                 Layout.rightMargin: 24
                 height: 70
                 color: "transparent"
-                visible: frameWalletPassword.visible
 
                 DapTextField
                 {

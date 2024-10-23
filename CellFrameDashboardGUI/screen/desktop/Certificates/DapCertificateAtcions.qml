@@ -52,10 +52,10 @@ CertificatesActionsButtonList
         logics.exportPublicCertificateToFile(models.certificates.selectedIndex)
     }
 
-    exportPublicCertificateToMempoolButton.onClicked:
-    {
-        logics.exportPublicCertificateToMempool(models.certificates.selectedIndex)
-    }
+//    exportPublicCertificateToMempoolButton.onClicked:
+//    {
+//        logics.exportPublicCertificateToMempool(models.certificates.selectedIndex)
+//    }
 
     deleteCertificateButton.onClicked:
     {

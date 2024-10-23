@@ -15,7 +15,7 @@ Item {
     property alias createCertificateButton: createCertificateButton
     property alias importCertificateButton: importCertificateButton
     property alias exportPublicCertificateToFileButton: exportPublicCertificateToFileButton
-    property alias exportPublicCertificateToMempoolButton: exportPublicCertificateToMempoolButton
+//    property alias exportPublicCertificateToMempoolButton: exportPublicCertificateToMempoolButton
     property alias addSignatureToCertificateButton: addSignatureToCertificateButton
     property alias deleteCertificateButton: deleteCertificateButton
 
@@ -175,24 +175,24 @@ Item {
             }
 
 
-            DapButton {
-                id: exportPublicCertificateToMempoolButton
-                textButton: qsTr("Export certificate to mempool") // qsTr("Export public certificate to mempool")
-                Layout.preferredHeight: 36
+//            DapButton {
+//                id: exportPublicCertificateToMempoolButton
+//                textButton: qsTr("Export certificate to mempool") // qsTr("Export public certificate to mempool")
+//                Layout.preferredHeight: 36
 
-                enabled: root.certificateSelected && modulesController.isNodeWorking
-                Layout.alignment: Qt.AlignHCenter
-                implicitHeight: 36
-                implicitWidth: 318
+//                enabled: root.certificateSelected && modulesController.isNodeWorking
+//                Layout.alignment: Qt.AlignHCenter
+//                implicitHeight: 36
+//                implicitWidth: 318
 
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                fontButton: mainFont.dapFont.medium14
+//                horizontalAligmentText: Text.AlignHCenter
+//                indentTextRight: 0
+//                fontButton: mainFont.dapFont.medium14
 
-                DapCustomToolTip{
-                    contentText: qsTr("Export certificate to mempool")
-                }
-            }
+//                DapCustomToolTip{
+//                    contentText: qsTr("Export certificate to mempool")
+//                }
+//            }
 
 
             DapButton {
