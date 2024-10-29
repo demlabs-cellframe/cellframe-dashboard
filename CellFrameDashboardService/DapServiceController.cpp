@@ -104,6 +104,13 @@
 DapServiceController::DapServiceController(QObject *parent)
     : QObject(parent)
 {
+    // auto service = new DapGetAllWalletHistoryCommand        ("DapGetAllWalletHistoryCommand"        , nullptr );
+
+    // QStringList lst{"wallet", "false", "false"};
+    // service->respondToClient(QVariant(lst));
+
+    // return;
+
     m_reqularRequestsCtrl = new DapRegularRequestsController();
 
     connect(this, &DapServiceController::onNewClientConnected, [=] {

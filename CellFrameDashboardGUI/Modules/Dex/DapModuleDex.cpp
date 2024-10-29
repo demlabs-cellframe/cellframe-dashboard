@@ -73,7 +73,7 @@ void DapModuleDex::onInit()
         connect(service, &DapServiceController::rcvXchangeOrderList, this, &DapModuleDex::respondOrdersHistory, Qt::QueuedConnection);
         connect(service, &DapServiceController::rcvXchangeTxList, this, &DapModuleDex::respondTxList, Qt::QueuedConnection);
     }
-    connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
+    // connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
     connect(m_allTakenPairsUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTokenPairs);
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, [this](){requestTXList();});
     connect(m_curentTokenPairUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestCurrentTokenPairs);
