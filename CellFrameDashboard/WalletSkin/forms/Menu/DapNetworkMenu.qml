@@ -98,7 +98,7 @@ Drawer {
     }
     Component.onCompleted:  {
         console.log("Network menu complate")
-        dapServiceController.requestToService("DapGetListNetworksCommand")
+        logicMainApp.requestToService("DapGetListNetworksCommand")
      }
 
     // Connections

@@ -17,6 +17,7 @@
 #include "Diagnostics/DapModuleDiagnostics.h"
 #include "Orders/DapModuleOrders.h"
 #include "MasterNode/DapModuleMasterNode.h"
+#include "Networks/DapModuleNetworks.h"
 
 #include "Models/DapWalletListModel.h"
 
@@ -42,6 +43,9 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     m_timerUpdateData->start(5000);
     connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::signalChainsLoadProgress, this, &DapModulesController::rcvChainsLoadProgress, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::networkStatesListReceived, this, &DapModulesController::updateNetworkStates, Qt::QueuedConnection);
+
+    s_serviceCtrl->requestToService("DapGetNetworksStateCommand", "");
 }
 
 DapModulesController::~DapModulesController()
@@ -72,6 +76,7 @@ void DapModulesController::initModules()
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("ordersModule", new DapModuleOrders(this));
     addModule("nodeMasterModule", new DapModuleMasterNode(this));
+    addModule("networksModule", new DapModuleNetworks(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 

@@ -15,6 +15,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Console/consoleitem.h \
     $$PWD/DapAbstractModule.h \
     $$PWD/Certificates/DapModuleCertificates.h \
+    $$PWD/Networks/DapModuleNetworks.h \
     $$PWD/Settings/DapModuleSettings.h \
     $$PWD/Dex/DapModuleDex.h \
     $$PWD/Dex/StockDataWorker/OrderBookWorker.h \
@@ -48,6 +49,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Logs/DapLogsReader.cpp \
     $$PWD/Console/DapModuleConsole.cpp \
     $$PWD/Certificates/DapModuleCertificates.cpp \
+    $$PWD/Networks/DapModuleNetworks.cpp \
     $$PWD/Settings/DapModuleSettings.cpp \
     $$PWD/Dex/DapModuleDex.cpp \
     $$PWD/Dex/StockDataWorker/StockDataWorker.cpp \
