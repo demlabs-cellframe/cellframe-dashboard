@@ -32,7 +32,7 @@ public:
     QString getName();
 
 protected:
-    DapServiceController *s_serviceCtrl;
+    DapServiceController *s_serviceCtrl = nullptr;
 
 signals:
     void initDone(const QString &name, bool status);

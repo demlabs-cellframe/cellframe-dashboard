@@ -1,6 +1,7 @@
 
 HEADERS += \
     $$PWD/DapInfoWalletModel.h \
+    $$PWD/DapNetworkList.h \
     $$PWD/DapWalletListModel.h \
     $$PWD/DapOrdersModel.h \
     $$PWD/DapHistoryModel.h \
@@ -23,6 +24,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/DapInfoWalletModel.cpp \
+    $$PWD/DapNetworkList.cpp \
     $$PWD/DapWalletListModel.cpp \
     $$PWD/DapOrdersModel.cpp \
     $$PWD/DapHistoryModel.cpp \
