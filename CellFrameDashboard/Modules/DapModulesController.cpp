@@ -60,7 +60,6 @@ DapModulesController::~DapModulesController()
 
     delete m_timerUpdateData;
     delete s_settings;
-    delete m_networkList;
 }
 
 void DapModulesController::initModules()

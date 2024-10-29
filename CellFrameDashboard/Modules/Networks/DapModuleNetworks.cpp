@@ -12,6 +12,6 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
 
 DapModuleNetworks::~DapModuleNetworks()
 {
-    disconnect(m_modulesCtrl, &DapModulesController::networkStatesUpdated, m_networkList, &DapNetworkList::updateNetworksInfo);
+    disconnect();
     delete m_networkList;
 }

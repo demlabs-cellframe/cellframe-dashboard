@@ -134,8 +134,6 @@ private:
     bool m_isNodeWorking = false;
 
     bool m_skinWallet = false;
-
-    DapNetworkList *m_networkList = nullptr;
 };
 
 #endif // DAPMODULESCONTROLLER_H
