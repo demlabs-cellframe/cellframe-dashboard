@@ -113,14 +113,28 @@ DapServiceController::DapServiceController(QObject *parent)
 
     m_reqularRequestsCtrl = new DapRegularRequestsController();
 
-    connect(this, &DapServiceController::onNewClientConnected, [=] {
+    m_threadRegular = new QThread();
+    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
+    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
+    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
+    m_threadRegular->start();
+
+    m_threadNotify = new QThread();
+    m_watcher = new DapNotificationWatcher();
+    m_watcher->moveToThread(m_threadNotify);
+    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
+    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
+    m_threadNotify->start();
+
+    connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_reqularRequestsCtrl, &DapRegularRequestsController::notifyWatcherRespond);
+    connect(this, &DapServiceController::onNewClientConnected, [this] {
         qDebug() << "Frontend connected";
         if(m_watcher->m_statusInitWatcher)
             m_watcher->frontendConnected();
         m_web3Controll->rcvFrontendConnectStatus(true);
     });
 
-    connect(this, &DapServiceController::onClientDisconnected, [=] {
+    connect(this, &DapServiceController::onClientDisconnected, [this] {
         qDebug() << "Frontend disconnected";
         m_web3Controll->rcvFrontendConnectStatus(false);
     });
@@ -171,20 +185,6 @@ bool DapServiceController::start()
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
 
-    m_threadNotify = new QThread();
-    m_watcher = new DapNotificationWatcher();
-    m_watcher->moveToThread(m_threadNotify);
-
-    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
-    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
-    m_threadNotify->start();
-
-    m_threadRegular = new QThread();
-    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
-    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
-    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
-    m_threadRegular->start();
-
     m_web3Controll = new DapWebControllerForService(this);
 //    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
@@ -205,6 +205,7 @@ bool DapServiceController::start()
         initAdditionalParamrtrsService();
         m_web3Controll->setCommandList(&m_servicePool);
         // Send data from notify socket to client
+
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
         connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
         // Channel req\rep for web 3 API
