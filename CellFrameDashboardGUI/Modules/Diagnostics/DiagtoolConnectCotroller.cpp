@@ -10,7 +10,7 @@ DiagtoolConnectCotroller::DiagtoolConnectCotroller(QObject *parent)
     qDebug() << "Tcp diagtool config: 127.0.0.1:"  << s_listenPort;
 
     m_socket = new QTcpSocket();
-    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred),
             this, &DiagtoolConnectCotroller::slotError);
 
     connect(m_socket, &QTcpSocket::stateChanged,
