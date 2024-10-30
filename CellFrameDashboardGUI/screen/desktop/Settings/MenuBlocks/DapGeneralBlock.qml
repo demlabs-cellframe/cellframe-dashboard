@@ -300,15 +300,6 @@ ColumnLayout
             else
                 nodeConfigToolController.startNode()
         }
-
-//        Connections
-//        {
-//            target: nodeConfigToolController
-//            function onStatusProcessNodeChanged()
-//            {
-//                startStopNode.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
-//            }
-//        }
     }
 
     Connections

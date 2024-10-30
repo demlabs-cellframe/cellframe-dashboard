@@ -32,7 +32,7 @@ Item {
             if (result.status !== DapCertificateCommands.statusOK) {
                 console.error("execute command %1, message %2"
                               .arg(DapCertificateCommands.commandToString(result.command)).arg(result.errorMessage))
-                messagePopup.smartOpen("Certificate", result.errorMessage)
+                messagePopup.smartOpen("Error", result.errorMessage)
             }
 
 
@@ -96,7 +96,7 @@ Item {
                     if (result.status === DapCertificateCommands.statusOK) {
                         models.certificates.clearSelected()
                         models.certificates.prependFromObject(result.data)
-                        showResultPopup(true, qsTr("Certificate explorted"), 210)
+                        showResultPopup(true, qsTr("Certificate exported"), 210)
                     }
                     else
                     {

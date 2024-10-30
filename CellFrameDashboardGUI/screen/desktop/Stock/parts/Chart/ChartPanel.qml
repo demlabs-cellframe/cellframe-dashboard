@@ -497,7 +497,7 @@ Item
 
             DapLoadingPanel
             {
-                spinerEnabled: true
+                spinerEnabled: nodeConfigToolController.statusProcessNode
             }
         }
     }
