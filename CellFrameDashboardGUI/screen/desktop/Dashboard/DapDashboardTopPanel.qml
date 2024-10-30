@@ -113,7 +113,7 @@ Controls.DapTopPanel
         {
             Layout.leftMargin: 29
 
-            textButton: qsTr("Import wallet")
+            textButton: qsTr("Restore wallet")
 
             implicitHeight: 36
             implicitWidth: 164
@@ -123,7 +123,7 @@ Controls.DapTopPanel
             onClicked: navigator.restoreWalletFunc()
 
             Widgets.DapCustomToolTip{
-                contentText: qsTr("Import wallet")
+                contentText: qsTr("Restore wallet")
             }
 
         }
