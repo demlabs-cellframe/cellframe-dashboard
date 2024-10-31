@@ -22,7 +22,7 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelHistory", m_historyProxyModel);
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         initConnect();
         updateHistory(true);
@@ -46,7 +46,7 @@ void DapModuleTxExplorer::initConnect()
     });
     connect(m_timerHistoryUpdate, &QTimer::timeout, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
 
-    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    connect(this, &DapAbstractModule::statusProcessingChanged, [this]
     {
 //            qDebug()<<"m_statusProcessing" << m_statusProcessing;
         if(m_statusProcessing)
