@@ -14,7 +14,7 @@ VER_MIN = $$fromfile(version.mk, VERSION_MINOR)
 VER_PAT = $$fromfile(version.mk, VERSION_PATCH)
 
 DEFINES += MIN_NODE_VERSION=\\\"5.3-299\\\"
-DEFINES += MAX_NODE_VERSION=\\\"5.3-314\\\"
+DEFINES += MAX_NODE_VERSION=\\\"5.3-316\\\"
 
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe
