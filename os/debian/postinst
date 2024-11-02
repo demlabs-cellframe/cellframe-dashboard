@@ -21,7 +21,7 @@ case "$1" in
 	fi
     
     cp -f /opt/cellframe-dashboard/share/CellFrameDashboard.desktop /usr/share/applications/CellFrameDashboard.desktop
-	cp -f /opt/cellframe-dashboard/share/CellframeDashboard.png	/usr/share/pixmaps/CCellframeDashboard.png
+	cp -f /opt/cellframe-dashboard/share/CellframeDashboard.png	/usr/share/pixmaps/CellframeDashboard.png
     update-menus
 
 #    echo "For start CellFrame Dashboard Service - run 'systemctl start cellframe-dashboard'"
