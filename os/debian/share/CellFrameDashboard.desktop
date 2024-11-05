@@ -1,3 +1,4 @@
+[Desktop Entry]
 Name=CellFrame Dashboard
 Exec=/opt/cellframe-dashboard/bin/Cellframe-Dashboard
 Icon=/opt/cellframe-dashboard/share/CellframeDashboard.png
