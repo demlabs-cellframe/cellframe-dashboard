@@ -51,8 +51,8 @@ private slots:
     void rcv_diag_data(QJsonDocument diagData);
 
 protected:
-    const QString NETWORK_ADDR_GET_VIEW = "https://engine-minkowski.kelvpn.com/diag?method=view";
-    const QString NETWORK_ADDR_GET_KEYS = "https://engine-minkowski.kelvpn.com/diag?method=keys";
+    const QString NETWORK_ADDR_GET_VIEW = "https://telemetry.cellframe.net/diag?method=view";
+    const QString NETWORK_ADDR_GET_KEYS = "https://telemetry.cellframe.net/diag?method=keys";
 
     QJsonDocument* m_jsonListNode;
     QJsonDocument* m_jsonData;
