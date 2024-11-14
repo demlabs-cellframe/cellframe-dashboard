@@ -6,6 +6,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Dex/StockDataWorker/MainInfoChart.h \
     $$PWD/Dex/StockDataWorker/CreateCandleChart.h \
     $$PWD/Dex/StockDataWorker/CreatingSheduleController.h \
+    $$PWD/Diagnostics/DiagtoolConnectCotroller.h \
     $$PWD/Logs/DapModuleLogs.h \
     $$PWD/Logs/DapLogsReader.h \
     $$PWD/Logs/logmodel.h \
@@ -40,6 +41,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Dex/StockDataWorker/CreateCandleChart.cpp \
     $$PWD/Dex/StockDataWorker/MainInfoChart.cpp \
     $$PWD/Dex/StockDataWorker/CreatingSheduleController.cpp \
+    $$PWD/Diagnostics/DiagtoolConnectCotroller.cpp \
     $$PWD/Logs/logreader.cpp \
     $$PWD/Logs/DapModuleLogs.cpp \
     $$PWD/Logs/logmodel.cpp \

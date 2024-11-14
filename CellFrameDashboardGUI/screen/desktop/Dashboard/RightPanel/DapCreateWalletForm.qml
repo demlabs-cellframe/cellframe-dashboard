@@ -51,7 +51,7 @@ DapRectangleLitAndShaded
             Text
             {
                 id: textHeader
-                text: logicWallet.restoreWalletMode ? qsTr("Import wallet") : qsTr("Create new wallet")
+                text: logicWallet.restoreWalletMode ? qsTr("Restore wallet") : qsTr("Create new wallet")
                 verticalAlignment: Qt.AlignLeft
                 anchors.left: itemButtonClose.right
                 anchors.verticalCenter: parent.verticalCenter

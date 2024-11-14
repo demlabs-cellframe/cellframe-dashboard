@@ -13,7 +13,8 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     {
         initConnect();
         s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");
-        checkVersion();
+        s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version node");
+        // checkVersion();
         setStatusInit(true);
     });
 
@@ -47,7 +48,7 @@ void DapModuleSettings::initConnect()
     connect(s_serviceCtrl, &DapServiceController::rcvRemoveResult, this, &DapModuleSettings::resultCrearData);
 
 
-    connect(m_timerVersionCheck, &QTimer::timeout, this, &DapModuleSettings::checkVersion);
+    // connect(m_timerVersionCheck, &QTimer::timeout, this, &DapModuleSettings::checkVersion);
     connect(m_timerTimeoutService, &QTimer::timeout, this, &DapModuleSettings::timeoutVersionInfo);
 
 }

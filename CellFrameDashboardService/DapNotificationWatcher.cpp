@@ -57,7 +57,7 @@ bool DapNotificationWatcher::initWatcher()
         if (!m_listenPath.isEmpty())
         {
             m_socket = new QLocalSocket(this);
-            connect((QLocalSocket*)m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error),
+            connect((QLocalSocket*)m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::errorOccurred),
                     this, &DapNotificationWatcher::slotError);
 
             connect((QLocalSocket*)m_socket, &QLocalSocket::connected,
@@ -75,7 +75,7 @@ bool DapNotificationWatcher::initWatcher()
         else
         {
             m_socket = new QTcpSocket(this);
-            connect((QTcpSocket*)m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+            connect((QTcpSocket*)m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred),
                     this, &DapNotificationWatcher::slotError);
 
             connect((QTcpSocket*)m_socket, &QTcpSocket::connected,

@@ -34,7 +34,7 @@ void DapModuleDexLightPanel::updateRegularModels()
     QString sellTokenName = m_currentPair.token1;
     QString network = m_currentPair.network;
     QMap<QString, QString> tmpDataSell, tmpDataBuy;
-    for(const auto& item: m_tokensPair)
+    for(const auto& item: qAsConst(m_tokensPair))
     {
         if(item.network != network) continue;
 
