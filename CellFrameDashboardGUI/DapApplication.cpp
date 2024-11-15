@@ -74,25 +74,25 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->registerQmlTypes();
     this->setContextProperties();
 
-    qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
+//    qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
 
-    connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
-    connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-//        qDebug() << "networkStatusReceived" << a_stateMap;
-        networks()->setNetworkProperties(a_stateMap.toMap());
-    });
+//    connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
+//    connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
+////        qDebug() << "networkStatusReceived" << a_stateMap;
+//        networks()->setNetworkProperties(a_stateMap.toMap());
+//    });
 
-    connect(this->networks(), &DapNetworksList::networkAdded, [](DapNetwork* network){
-        DapServiceController::getInstance().requestNetworkStatus(network->name());
-    });
+//    connect(this->networks(), &DapNetworksList::networkAdded, [](DapNetwork* network){
+//        DapServiceController::getInstance().requestNetworkStatus(network->name());
+//    });
 
-    connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
-//        qDebug() << "newTargetNetworkStateReceived" << a_state;
-    });
+//    connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
+////        qDebug() << "newTargetNetworkStateReceived" << a_state;
+//    });
 
-    m_serviceController->requestWalletList();
+//    m_serviceController->requestWalletList();
 //    m_serviceController->requestOrdersList();
-    m_serviceController->requestNetworksList();
+//    m_serviceController->requestNetworksList();
 //    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
 
@@ -191,7 +191,6 @@ void DapApplication::notifyService(QVariant sName, QVariantList sArgs)
 {
     m_serviceController->notifyService(sName.toString(), sArgs);
 }
-
 
 void DapApplication::setContextProperties()
 {

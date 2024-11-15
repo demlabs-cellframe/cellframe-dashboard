@@ -20,6 +20,8 @@
 
 #include "Models/DapWalletListModel.h"
 
+#include "DapNodePathManager.h"
+
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
 
 DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent)
@@ -48,8 +50,8 @@ DapModulesController::~DapModulesController()
         delete it.value();
 
     QMap<QString, QObject*>::iterator it_w = m_listWorkers.begin();
-    for(;it_w != m_listWorkers.end(); ++it)
-        delete it.value();
+    for(;it_w != m_listWorkers.end(); ++it_w)
+        delete it_w.value();
 
     delete m_timerUpdateData;
     delete s_settings;

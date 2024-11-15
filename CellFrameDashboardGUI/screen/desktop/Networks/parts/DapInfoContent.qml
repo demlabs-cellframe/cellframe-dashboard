@@ -141,9 +141,9 @@ Item {
                     console.log("onClicked on/off network")
                     buttonNetwork.updateFakeButton(true)
                     if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
-                        logicMainApp.requestToService("DapNetworkGoToCommand", name, true)
+                        logicMainApp.requestToService("DapNetworkGoToCommand", name, "online")
                     else
-                        logicMainApp.requestToService("DapNetworkGoToCommand", name, false)
+                        logicMainApp.requestToService("DapNetworkGoToCommand", name, "offline")
 
                     if(!USING_NOTIFY || !logicMainApp.stateNotify)
                         logicMainApp.requestToService("DapGetNetworksStateCommand")
