@@ -8,55 +8,88 @@ DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 
 }
 
-void DapNotifyController::rcvData(QVariant data)
+void DapNotifyController::init()
 {
+    m_watcher = new DapNotificationWatcher();
 
-    QJsonDocument doc = QJsonDocument::fromJson(data.toString().toUtf8());
-    QVariantMap map = doc.object().toVariantMap();
-    
-//    qDebug() << "[DapNotifyController] [rcvData] A request was received from web3 :" << doc;
-    
-    if(map.contains("connect_state"))
-    {
-        QVariant value = map["connect_state"];
-        if(value.toString() != QAbstractSocket::SocketState::ConnectedState &&
-            value.toString() != QAbstractSocket::SocketState::ConnectingState)
-
-        {
-            bool isFirst = false;
-            if(value.toString() != m_connectState)
+    connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapNotifyController::rcvData);
+    connect(m_watcher, &DapNotificationWatcher::changeConnectState, this, [this](QString status)
             {
-                isFirst = true;
-                DapConfigToolController::getInstance().getStatusNode();
-            }
+                stateProcessing(status);
+            });
 
+    m_watcher->run();
+}
+
+void DapNotifyController::stateProcessing(QString status)
+{
+    if(status != m_connectState)
+    {
+        m_connectState = status;
+
+        if(status != QAbstractSocket::SocketState::ConnectedState)
+        {
             emit chainsLoadProgress(QVariantMap());
-            m_connectState = value.toInt();
-            emit socketState(m_connectState, true, isFirst);
-
+            m_isConnected = false;
+            emit socketState(m_connectState, true, true);
         }
         else
         {
-            m_connectState = value.toString();
+            m_isConnected = true;
             emit socketState(m_connectState, false, false);
         }
+        emit isConnectedChanged();
     }
-    if(map.contains("class"))
+}
+
+void DapNotifyController::rcvData(QVariant data)
+{
+    if(!data.isValid())
+        return;
+
+    QJsonObject resObj = QJsonDocument::fromVariant(data).object();
+
+    if(resObj.contains("class"))
     {
-        QVariant value = map["class"];
-//      TODO: notify net update disabled
-        if(value.toString() == "Wallet")
+        QString className = resObj["class"].toString();
+        //----old----//
+        if(className == "Wallet")
         {
-            //qDebug()<<"";
         }
-        else if(value.toString() == "NetStates")
+        else if(className == "NetStates")
         {
-            emit netStates(map);
+            emit netStates(resObj.toVariantMap());
         }
-        else if(value.toString() == "chain_init")
+        else if(className == "chain_init")
         {
-            qDebug() << "[DapNotifyController] chain init - " << map;
-            emit chainsLoadProgress(map);
+            qDebug() << "[DapNotifyController] chain init - " << resObj.toVariantMap();
+            emit chainsLoadProgress(resObj.toVariantMap());
         }
+        //----new----//
+        else if(className ==  "NetList")
+        {
+            qDebug()<<className;
+        }
+        else if(className ==  "NetsInfo")
+        {
+            qDebug()<<className;
+        }
+        else if(className ==  "WalletList")
+        {
+            qDebug()<<className;
+        }
+        else if(className ==  "WalletsInfo")
+        {
+            qDebug()<<className;
+        }
+        else if(className ==  "NetInfo")
+        {
+            qDebug()<<className;
+        }
+        else if(className ==  "WalletInfo")
+        {
+            qDebug()<<className;
+        }else
+            qDebug()<<"Unknown class: " << className;
     }
 }

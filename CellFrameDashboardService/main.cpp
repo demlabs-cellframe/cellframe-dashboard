@@ -20,7 +20,6 @@
 #include "dapconfigreader.h"
 #include <sys/stat.h>
 
-#include <DapNotificationWatcher.h>
 void processArgs();
 
 void createDapLogger()

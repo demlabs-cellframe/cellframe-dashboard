@@ -71,31 +71,26 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 //    m_mathBigNumbers = new DapMath();
 
+//    m_threadNotify = new QThread();
+    m_DapNotifyController = new DapNotifyController();
+//    m_DapNotifyController->moveToThread(m_threadNotify);
+//    connect(m_threadNotify, &QThread::finished, m_DapNotifyController, &QObject::deleteLater);
+//    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
+//    m_threadNotify->start();
+
+    notifySignalsAttach();
+    m_DapNotifyController->init();
+
     this->registerQmlTypes();
     this->setContextProperties();
 
-    qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
+//    qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
 
-    connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
-    connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-//        qDebug() << "networkStatusReceived" << a_stateMap;
-        networks()->setNetworkProperties(a_stateMap.toMap());
-    });
-
-    connect(this->networks(), &DapNetworksList::networkAdded, [](DapNetwork* network){
-        DapServiceController::getInstance().requestNetworkStatus(network->name());
-    });
-
-    connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
-//        qDebug() << "newTargetNetworkStateReceived" << a_state;
-    });
-
-    m_serviceController->requestWalletList();
+//    m_serviceController->requestWalletList();
 //    m_serviceController->requestOrdersList();
-    m_serviceController->requestNetworksList();
+//    m_serviceController->requestNetworksList();
 //    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
-
 
     s_modulesInit = new DapModulesController(qmlEngine());
     connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
@@ -105,6 +100,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 DapApplication::~DapApplication()
 {
+    notifySignalsDetach();
 //    delete stockDataWorker;
     delete configWorker;
     delete m_commandHelper;
@@ -114,6 +110,27 @@ DapApplication::~DapApplication()
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
     m_serviceController->disconnectAll();
+}
+
+void DapApplication::notifySignalsAttach()
+{
+    connect(m_DapNotifyController, &DapNotifyController::socketState,          this, &DapApplication::notifySocketStateChanged);
+    connect(m_DapNotifyController, &DapNotifyController::socketState,          m_serviceController, &DapServiceController::slotStateSocket);
+    connect(m_DapNotifyController, &DapNotifyController::netStates,            m_serviceController, &DapServiceController::slotNetState);
+    connect(m_DapNotifyController, &DapNotifyController::chainsLoadProgress,   m_serviceController, &DapServiceController::slotChainsLoadProgress);
+}
+
+void DapApplication::notifySignalsDetach()
+{
+    disconnect(m_DapNotifyController, &DapNotifyController::socketState,        this, &DapApplication::notifySocketStateChanged);
+    disconnect(m_DapNotifyController, &DapNotifyController::socketState,        m_serviceController, &DapServiceController::slotStateSocket);
+    disconnect(m_DapNotifyController, &DapNotifyController::netStates,          m_serviceController, &DapServiceController::slotNetState);
+    disconnect(m_DapNotifyController, &DapNotifyController::chainsLoadProgress, m_serviceController, &DapServiceController::slotChainsLoadProgress);
+}
+
+void DapApplication::notifySocketStateChanged(QString state)
+{
+    notifyService("DapRcvNotify", QVariantList()<<state);
 }
 
 DapNetworksList *DapApplication::networks()
@@ -207,6 +224,5 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("translator", translator);
     m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
     m_engine.rootContext()->setContextProperty("nodeConfigToolController", &DapConfigToolController::getInstance());
-
-
+    m_engine.rootContext()->setContextProperty("dapNotifyController", m_DapNotifyController);
 }

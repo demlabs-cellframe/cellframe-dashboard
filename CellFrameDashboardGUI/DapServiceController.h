@@ -71,12 +71,11 @@
 #include "handlers/DapCreateStakeOrder.h"
 #include "handlers/DapGetListKeysCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
+#include "handlers/DapAbstractCommand.h"
 
-#include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceClientMessage.h"
 #include "DapWallet.h"
-#include "handlers/DapAbstractCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -92,8 +91,6 @@ class DapServiceController : public QObject
     int m_iIndexCurrentNetwork;
 
     bool m_bReadingChains;
-
-    DapNotifyController *m_DapNotifyController;
 
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
@@ -274,8 +271,7 @@ signals:
     
     void rcvFee(const QVariant& rcvData);
 
-
-    void dapRcvNotify(const QVariant& rcvData);
+//    void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
     void dapWebConnectRequest(const QVariant& rcvData);
     void dapWebBlockList(const QVariant& rcvData);
@@ -313,14 +309,10 @@ private slots:
     void findEmittedSignal(const QVariant& aValue);
     /// Register a signal handler for notification results.
     void registerEmmitedSignal();
-
 private:
-    void notifySignalsAttach();
-    void notifySignalsDetach();
-
     bool compareJson(QByteArray, QVariant);
 
-private slots:
+public slots:
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
     void slotNetState(QVariantMap netState){emit signalNetState(netState);}
     void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}

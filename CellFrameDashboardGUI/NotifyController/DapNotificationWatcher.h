@@ -23,9 +23,12 @@ public:
     DapNotificationWatcher(QObject *parent = 0);
     ~DapNotificationWatcher();
 
+    void run();
     bool initWatcher();
     bool m_statusInitWatcher{false};
     const QString& getSocketState() const {return m_socketState;}
+
+    bool m_guiConnected{false};
 public slots:
     void slotError();
     void socketConnected();
@@ -36,8 +39,6 @@ public slots:
 
     void tcpSocketStateChanged(QAbstractSocket::SocketState socketState);
     void socketStateChanged(QLocalSocket::LocalSocketState socketState);
-
-    void frontendConnected();
 
     void isStartNodeChanged(bool isStart);
 

@@ -87,6 +87,7 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
+    NotifyController/DapNotificationWatcher.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
     Workers/mathworker.h \
@@ -107,6 +108,7 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
+    NotifyController/DapNotificationWatcher.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \
     Workers/mathworker.cpp \
