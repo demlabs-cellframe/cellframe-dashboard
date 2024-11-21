@@ -132,11 +132,13 @@ DapServiceController::DapServiceController(QObject *parent)
         if(m_watcher->m_statusInitWatcher)
             m_watcher->frontendConnected();
         m_web3Controll->rcvFrontendConnectStatus(true);
+        activityGUIProcessing(true);
     });
 
     connect(this, &DapServiceController::onClientDisconnected, [this] {
         qDebug() << "Frontend disconnected";
         m_web3Controll->rcvFrontendConnectStatus(false);
+        activityGUIProcessing(false);
     });
 }
 
@@ -177,6 +179,17 @@ DapServiceController::~DapServiceController()
         delete m_threadRegular;
     }
 }
+
+void DapServiceController::activityGUIProcessing(bool isRun)
+{
+    QString on_off = isRun ? "online" : "offline";
+    for(const auto &net: qAsConst(m_reqularRequestsCtrl->getNetworkList()))
+    {
+        DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapNetworkGoToCommand"));
+        transceiver->respondToClient(QStringList()<<net<<on_off);
+    }
+}
+
 
 /// Start service: creating server and socket.
 /// @return Returns true if the service starts successfully, otherwise false.
