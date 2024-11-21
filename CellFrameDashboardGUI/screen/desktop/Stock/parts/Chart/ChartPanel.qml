@@ -263,7 +263,7 @@ Item
             Item
             {
                 id: rateArea
-                width: 240
+                width: dexModule.isReadyDataPair ? 240 : 500
                 height: 30
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
@@ -288,7 +288,8 @@ Item
                     textFont: mainFont.dapFont.regular24
                     textColor: currTheme.green
                     textElement.elide: Text.ElideRight
-                    fullText: dexModule.currentRate
+                    fullText: dexModule.isReadyDataPair ? dexModule.currentRate
+                                                        : "Preparing data..."
                 }
             }
 
@@ -299,6 +300,7 @@ Item
                 height: 33
                 anchors.left: rateArea.right
                 anchors.leftMargin: 37
+                visible: dexModule.isReadyDataPair
 
                 Text
                 {
@@ -329,6 +331,7 @@ Item
                 height: 33
                 anchors.left: hightArea.right
                 anchors.leftMargin: 40
+                visible: dexModule.isReadyDataPair
 
                 Text
                 {
@@ -497,6 +500,7 @@ Item
 
             DapLoadingPanel
             {
+                visible: !dexModule.isReadyDataPair
                 spinerEnabled: nodeConfigToolController.statusProcessNode
             }
         }

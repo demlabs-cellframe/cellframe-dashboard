@@ -170,6 +170,9 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         setOrdersHistory(*m_ordersHistoryCash);
     }
 
+    if(isFirstUpdate)
+        DapModuleDex::setNetworkFilterText(netList.first());
+
     emit dexNetListChanged();
 }
 
@@ -208,6 +211,8 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
         QString time = tokenPairObject["time"].toString();
 
         m_stockDataWorker->getCandleChartWorker()->respondCurrentTokenPairs({{time, m_currentPair.rate}});
+        m_currentPair.isDataReady = true;
+        emit isReadyDataPairChanged();
         emit currentTokenPairInfoChanged();
     }
 }
@@ -377,7 +382,7 @@ DapModuleDex::PairFoundResultType DapModuleDex::isPair(const QString& token1, co
         return DapModuleDex::PairFoundResultType::BASE_IS_EMPTY;
     }
 
-    for(const auto& pair: m_tokensPair)
+    for(const auto& pair: qAsConst(m_tokensPair))
     {
         if(pair.network != network)
         {
@@ -760,6 +765,10 @@ void DapModuleDex::setStepChart(const int &index)
 
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
+    m_currentPair.reset();
+    emit isReadyDataPairChanged();
+    emit currentTokenPairInfoChanged();
+
     if(!setCurrentTokenPairVariable(namePair, network)) return;
 
     workersUpdate();
