@@ -19,8 +19,8 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     , m_historyModel(new DapHistoryModel)
 {
     m_historyProxyModel->setSourceModel(m_historyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelHistory", m_historyProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelHistory", m_historyProxyModel);
 
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {

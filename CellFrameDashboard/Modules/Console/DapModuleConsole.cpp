@@ -11,7 +11,7 @@ DapModuleConsole::DapModuleConsole(DapModulesController *parent)
     m_currentMode = (ConsoleMode)QSettings().value("ConsoleMode", 0).toInt();
     connect(s_serviceCtrl, &DapServiceController::cmdRunned, this, &DapModuleConsole::getAnswer);
 
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelConsoleCommand", model);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelConsoleCommand", model);
 }
 
 void DapModuleConsole::runCommand(const QString &command)
@@ -38,13 +38,13 @@ void DapModuleConsole::getAnswer(const QVariant &answer)
     model << QVariant::fromValue(
                  ConsoleInfo(list.at(0).toString(), list.at(1).toString()));
 
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelConsoleCommand", model);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelConsoleCommand", model);
 }
 
 void DapModuleConsole::clearModel()
 {
     model.clear();
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelConsoleCommand", model);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelConsoleCommand", model);
 
 }
 

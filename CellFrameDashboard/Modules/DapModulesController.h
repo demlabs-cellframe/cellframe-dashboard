@@ -47,7 +47,7 @@ public:
     QObject* getWorker(const QString &key);
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
-    QQmlApplicationEngine *s_appEngine;
+
 
     DapServiceController *s_serviceCtrl;   
 
@@ -101,7 +101,7 @@ private:
 
     void cleareProgressInfo();
 private:
-
+    QQmlApplicationEngine *s_appEngine;
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
     QMap<QString, QObject*> m_listWorkers;

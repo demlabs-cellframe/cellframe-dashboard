@@ -5,7 +5,7 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     , m_modulesCtrl(parent)
     , m_networkList(new DapNetworkList())
 {
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("networkListModel", m_networkList);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("networkListModel", m_networkList);
     connect(m_modulesCtrl, &DapModulesController::networkStatesUpdated, m_networkList, &DapNetworkList::updateNetworksInfo);
 }
 

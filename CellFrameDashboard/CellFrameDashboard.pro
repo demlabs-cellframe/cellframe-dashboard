@@ -126,6 +126,7 @@ OTHER_FILES += libdap-qt-ui-qml \
                libdap-qt-ui-chain-wallet
 
 RESOURCES += $$PWD/qml.qrc
+RESOURCES += $$PWD/WalletSkin/wallet.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
 # Default rules for deployment.

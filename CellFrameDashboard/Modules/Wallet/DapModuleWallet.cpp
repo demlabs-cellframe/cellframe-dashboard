@@ -28,10 +28,10 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived, Qt::QueuedConnection);
     m_timerUpdateListWallets->start(TIME_LIST_WALLET_UPDATE);
     
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
-        m_walletHashManager->setContext(m_modulesCtrl->s_appEngine->rootContext());
-        m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
+        m_walletHashManager->setContext(m_modulesCtrl->getAppEngine()->rootContext());
+        m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
 
         initConnect();
         m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
