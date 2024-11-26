@@ -21,7 +21,7 @@ Item {
         function onCertificateManagerOperationResult(rcvData) {
             var jsonDocument = JSON.parse(rcvData)
             var result = jsonDocument.result
-
+            
             if (!result) {
                 console.error("result is empty")
                 return
@@ -35,7 +35,7 @@ Item {
             if (result.status !== DapCertificateCommands.statusOK) {
                 console.error("execute command %1, message %2"
                               .arg(DapCertificateCommands.commandToString(result.command)).arg(result.errorMessage))
-                messagePopup.smartOpen("Certificate", result.errorMessage)
+                messagePopup.smartOpen("Error", result.errorMessage)
             }
 
 
@@ -99,8 +99,14 @@ Item {
                     if (result.status === DapCertificateCommands.statusOK) {
                         models.certificates.clearSelected()
                         models.certificates.prependFromObject(result.data)
-//                        messagePopup.smartOpen("Certificate", "Public certificate created, file path:\n%1".arg(result.data.filePath))
+                        showResultPopup(true, qsTr("Certificate exported"), 210)
                     }
+                    else
+                    {
+                        showResultPopup(false, qsTr("Error export certificate"), 210)
+                    }
+
+
 
                     break;
                 case DapCertificateCommands.ExportPublicCertificateToMempool:
@@ -124,8 +130,15 @@ Item {
 //                        messagePopup.smartOpen("Certificate", qsTr("Certificate deleted\n%1").arg(result.data.deletedFilePath))
                         models.certificates.removeByProperty("filePath", result.data.deletedFilePath)
                         models.certificates.clearSelected()
+                        showResultPopup(true, qsTr("Certificate deleted"), 210)
+
                         return
                     }
+                    else
+                    {
+                        showResultPopup(false, qsTr("Error delete certificate"), 210)
+                    }
+
                     break;
 
                     //пока что неиспользуемый сценарий
@@ -224,6 +237,28 @@ Item {
 
         else
             console.error("not valid index", index)         //
+    }
+
+    function showResultPopup(status, text, width)
+    {
+        if(status)
+        {
+            dapMainWindow.infoItem.showInfo(
+                        width,0,
+                        dapMainWindow.width*0.5,
+                        8,
+                        text,
+                        "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+        }
+        else
+        {
+            dapMainWindow.infoItem.showInfo(
+                        width,0,
+                        dapMainWindow.width*0.5,
+                        8,
+                        text,
+                        "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+        }
     }
 
 

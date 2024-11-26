@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=CellFrame Dashboard
+Exec=/opt/cellframe-dashboard/bin/Cellframe-Dashboard
+Icon=/opt/cellframe-dashboard/share/CellframeDashboard.png
+Terminal=false
+Type=Application
+StartupWMClass=Cellframe-Dashboard
+Encoding=UTF-8
+Categories=Network;Application;
+Name[en_US]=CellFrame Dashboard

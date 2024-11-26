@@ -1,26 +1,30 @@
 #include "AbstractDiagnostic.h"
 
-static uint16_t s_listenPort = 8040;
-
-
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     :QObject(parent)
     , m_jsonListNode(new QJsonDocument())
     , m_jsonData(new QJsonDocument())
     , m_manager(new QNetworkAccessManager())
 {
-    connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
+    m_diagConnectCtrl = new DiagtoolConnectCotroller();
+    initJsonTmpl();
 
     s_elapsed_timer = new QElapsedTimer();
     s_elapsed_timer->start();
 
-    initJsonTmpl();
-    initConnections();
+    connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
+
+    connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalDataRcv, this, &AbstractDiagnostic::rcv_diag_data);
+    connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalSocketChangeStatus, [this](bool status)
+    {
+        emit diagtool_socket_change_status(status);
+    });
 }
 
 AbstractDiagnostic::~AbstractDiagnostic()
 {
     m_manager->deleteLater();
+    m_diagConnectCtrl->deleteLater();
     if(m_jsonListNode) delete m_jsonListNode;
     if(m_jsonData) delete m_jsonData;
 }
@@ -62,141 +66,53 @@ void AbstractDiagnostic::initJsonTmpl()
     s_full_info.setObject(full_info);
 }
 
-void AbstractDiagnostic::initConnections()
+void AbstractDiagnostic::rcv_diag_data(QJsonDocument diagData)
 {
-    m_reconnectTimerDiagtool = new QTimer(this);
+    QJsonObject obj = diagData.object();
 
-    qDebug() << "Tcp diagtool config: 127.0.0.1:"  << s_listenPort;
-    connect(m_reconnectTimerDiagtool, SIGNAL(timeout()), this, SLOT(slotReconnect()));
+    QJsonObject system = diagData["system"].toObject();
+    QJsonObject sys_mem = system["memory"].toObject();
+    QJsonObject proc = diagData["process"].toObject();
 
-    m_socket = new QTcpSocket(this);
-    connect(m_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
-            this, &AbstractDiagnostic::slotError);
-
-    connect(m_socket, &QTcpSocket::connected,
-            this, &AbstractDiagnostic::slotConnected);
-
-    connect(m_socket, &QTcpSocket::disconnected,
-            this, &AbstractDiagnostic::slotDisconnected);
-
-    connect(m_socket, &QTcpSocket::stateChanged,
-            this, &AbstractDiagnostic::slotStateChanged);
-
-    connect(m_socket, &QTcpSocket::readyRead,
-            this, &AbstractDiagnostic::slotReadyRead);
-
-    m_socket->connectToHost(QHostAddress("127.0.0.1"), s_listenPort);
-    m_socket->waitForConnected();
-}
-
-void AbstractDiagnostic::slotError()
-{
-    qWarning() << "Diagtool socket error" << m_socket->errorString();
-    reconnectFunc();
-}
-
-void AbstractDiagnostic::slotReconnect()
-{
-    qInfo()<<"AbstractDiagnostic::slotReconnect()" << "127.0.0.1" << s_listenPort << "Is connected: " << m_connectStatus;
-
-    m_socket->connectToHost(QHostAddress("127.0.0.1"), s_listenPort);
-    m_socket->waitForConnected(5000);
-}
-
-void AbstractDiagnostic::slotConnected()
-{
-    qInfo() << "Diagtool socket connected";
-    m_reconnectTimerDiagtool->stop();
-    m_socket->waitForReadyRead(4000);
-}
-
-void AbstractDiagnostic::slotDisconnected()
-{
-    qWarning() << "Diagtool socket disconnected";
-    reconnectFunc();
-}
-
-void AbstractDiagnostic::slotStateChanged(QTcpSocket::SocketState socketState)
-{
-    qDebug() << "Diagtool socket state changed" << socketState;
-
-    if(socketState != QTcpSocket::SocketState::ConnectedState)
-        m_connectStatus = false;
-    else
-        m_connectStatus = true;
-
-    signalSocketChangeStatus(m_connectStatus);
-}
-
-void AbstractDiagnostic::reconnectFunc()
-{
-    m_reconnectTimerDiagtool->stop();
-
-    if(m_socket->state() != QTcpSocket::SocketState::ConnectedState &&
-       m_socket->state() != QTcpSocket::SocketState::ConnectingState)
+    auto getString = [](const QJsonValue& value) -> QString
     {
-        m_reconnectTimerDiagtool->start(10000);
-        qWarning()<< "Diagtool socket reconnecting...";
-    }
-}
-
-void AbstractDiagnostic::slotReadyRead()
-{
-    QByteArray rcvData = m_socket->readAll();
-
-    QJsonParseError error;
-    QJsonDocument diagData = QJsonDocument::fromJson(rcvData, &error);
-
-    if (error.error == QJsonParseError::NoError) {
-
-        QJsonObject obj = diagData.object();
-
-        QJsonObject system = diagData["system"].toObject();
-        QJsonObject sys_mem = system["memory"].toObject();
-        QJsonObject proc = diagData["process"].toObject();
-
-        auto getString = [](const QJsonValue& value) -> QString
+        QString resultStr = value.toString();
+        if(resultStr.isEmpty())
         {
-            QString resultStr = value.toString();
-            if(resultStr.isEmpty())
+            int totalInt = value.toInt();
+            if(totalInt > 0)
             {
-                int totalInt = value.toInt();
-                if(totalInt > 0)
-                {
-                    resultStr = QString::number(totalInt);
-                }
+                resultStr = QString::number(totalInt);
             }
-            return resultStr;
-        };
+        }
+        return resultStr;
+    };
 
-        QString total = getString(sys_mem["total"]);
-        sys_mem.insert("total", get_memory_string(total.toUInt()));
-        QString free = getString(sys_mem["free"]);
-        sys_mem.insert("free", get_memory_string(free.toUInt()));
+    QString total = getString(sys_mem["total"]);
+    sys_mem.insert("total", get_memory_string(total.toUInt()));
+    QString free = getString(sys_mem["free"]);
+    sys_mem.insert("free", get_memory_string(free.toUInt()));
 
-        proc.insert("memory_use_value", get_memory_string(proc["memory_use_value"].toString().toUInt()));
-        proc.insert("log_size", get_memory_string(proc["log_size"].toString().toUInt()));
-        proc.insert("DB_size", get_memory_string(proc["DB_size"].toString().toUInt()));
-        proc.insert("chain_size", get_memory_string(proc["chain_size"].toString().toUInt()));
+    proc.insert("memory_use_value", get_memory_string(proc["memory_use_value"].toString().toUInt()));
+    proc.insert("log_size", get_memory_string(proc["log_size"].toString().toUInt()));
+    proc.insert("DB_size", get_memory_string(proc["DB_size"].toString().toUInt()));
+    proc.insert("chain_size", get_memory_string(proc["chain_size"].toString().toUInt()));
 
-        system.insert("memory",sys_mem);
+    system.insert("memory",sys_mem);
 
-        //insert uptime dashboard into system info
-        s_uptime = get_uptime_string(s_elapsed_timer->elapsed()/1000);
-        system.insert("uptime_dashboard", s_uptime);
+    //insert uptime dashboard into system info
+    s_uptime = get_uptime_string(s_elapsed_timer->elapsed()/1000);
+    system.insert("uptime_dashboard", s_uptime);
 
-        obj.insert("system",system);
-        obj.insert("process",proc);
+    obj.insert("system",system);
+    obj.insert("process",proc);
 
-        diagData.setObject(obj);
+    diagData.setObject(obj);
 
-        s_full_info.setObject(obj);
+    s_full_info.setObject(obj);
 
-        data_updated(diagData);
-    }
-    return;
+    emit data_updated(diagData);
 }
-
 
 QString AbstractDiagnostic::get_uptime_string(long sec)
 {
@@ -236,15 +152,13 @@ QString AbstractDiagnostic::get_memory_string(size_t num)
 
 void AbstractDiagnostic::changeDataSending(bool flagSendData)
 {
-    if(m_socket->state() != QAbstractSocket::ConnectedState)
-        return;
+    if(!m_diagConnectCtrl->getConncetState()) return;
 
     QJsonObject obj;
     obj.insert("send_data_flag", flagSendData);
-    quint64 bytes = m_socket->write(QJsonDocument(obj).toJson());
-    m_socket->flush();
+    quint64 bytes = m_diagConnectCtrl->writeSocket(QJsonDocument(obj).toJson());
 
-    qDebug()<<"";
+    qDebug()<<"[changeDataSending] bytes written: " << bytes;
 }
 
 void AbstractDiagnostic::update_full_data()
@@ -264,7 +178,7 @@ const QJsonDocument AbstractDiagnostic::get_list_keys(QJsonArray& listNoMacInfo)
 
     auto isContains = [this](const QString& mac) -> bool
     {
-        for(const auto &item: s_selected_nodes_list)
+        for(const auto &item: qAsConst(s_selected_nodes_list))
         {
             if(item.toObject()["mac"].toString() == mac)
             {
@@ -303,7 +217,7 @@ const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
 
     QJsonObject list = m_jsonData->object();
     QJsonArray nodesArray;
-    for(const QJsonValue mac : s_selected_nodes_list)
+    for(const QJsonValue &mac : qAsConst(s_selected_nodes_list))
     {
         if(list.contains(mac["mac"].toString()))
         {

@@ -2,25 +2,9 @@
 #define ABSTRACTDIAGNOSTIC_H
 
 #include <QObject>
-#include <QDebug>
-#include <QTimer>
-#include <QTime>
-#include <QElapsedTimer>
 #include <QtMath>
 
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
-
-#include <QUrl>
-#include <QTcpSocket>
-#include <QHostAddress>
-#include <QNetworkInterface>
-#include <QNetworkAccessManager>
-#include <QHttpPart>
-#include <QHttpMultiPart>
-#include <QNetworkReply>
+#include "DiagtoolConnectCotroller.h"
 
 class AbstractDiagnostic : public QObject
 {
@@ -45,10 +29,15 @@ public:
     bool check_contains(QJsonArray array, QString item, QString flag);
     void changeDataSending(bool flagSendData);
 
+    bool getConnectDiagStatus(){return m_diagConnectCtrl->getConncetState();}
+    void update_full_data();
+
 private:
     QJsonObject get_diagnostic_data_item(const QJsonDocument& jsonDoc);
     QElapsedTimer *s_elapsed_timer;
     QString s_uptime{"00:00:00"};
+
+    DiagtoolConnectCotroller *m_diagConnectCtrl;
 
 public:
     QJsonArray s_selected_nodes_list;
@@ -56,47 +45,23 @@ public:
     QJsonDocument s_full_info;
 
 
-public slots:
+private slots:
     void on_reply_finished(QNetworkReply *reply);
-    void update_full_data(/*Callback hendler = nullptr*/);
+
+    void rcv_diag_data(QJsonDocument diagData);
 
 protected:
-    const QString NETWORK_ADDR_GET_VIEW = "https://engine-minkowski.kelvpn.com/diag?method=view";
-    const QString NETWORK_ADDR_GET_KEYS = "https://engine-minkowski.kelvpn.com/diag?method=keys";
+    const QString NETWORK_ADDR_GET_VIEW = "https://telemetry.cellframe.net/diag?method=view";
+    const QString NETWORK_ADDR_GET_KEYS = "https://telemetry.cellframe.net/diag?method=keys";
 
     QJsonDocument* m_jsonListNode;
     QJsonDocument* m_jsonData;
 
     QNetworkAccessManager* m_manager = nullptr;
 
-/// ---------------------------------------------------------------
-///        Diagtool connect
-/// ---------------------------------------------------------------
-
-private:
-    void initConnections();
-private slots:
-    void slotError();
-    void slotConnected();
-    void slotReconnect();
-    void slotDisconnected();
-    void slotReadyRead();
-    void slotStateChanged(QTcpSocket::SocketState socketState);
-
-    void reconnectFunc();
-
-private:
-    QTcpSocket *m_socket;
-
-public:
-    QTimer *m_reconnectTimerDiagtool;
-    bool m_connectStatus{false};
-
 signals:
-    void signalSocketChangeStatus(bool status);
     void data_updated(QJsonDocument);
-
-/// ---------------------------------------------------------------
+    void diagtool_socket_change_status(bool status);
 };
 
 #endif // ABSTRACTDIAGNOSTIC_H

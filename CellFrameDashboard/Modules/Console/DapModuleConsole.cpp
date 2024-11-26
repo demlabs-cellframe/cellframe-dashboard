@@ -29,6 +29,7 @@ void DapModuleConsole::runCommand(const QString &command)
 
 void DapModuleConsole::getAnswer(const QVariant &answer)
 {
+    qDebug()<<"DapModuleConsole::getAnswer " << answer;
     QVariantList list = answer.toList();
 
     if (list.size() < 2)

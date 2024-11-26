@@ -1,4 +1,4 @@
-CONFIG += c++11
+CONFIG += c++17
 QMAKE_CFLAGS += -std=gnu11
 QMAKE_CFLAGS_DEBUG += -DDAP_DEBUG
 QMAKE_CXXFLAGS_DEBUG += -DDAP_DEBUG
@@ -14,7 +14,7 @@ VER_MIN = $$fromfile(version.mk, VERSION_MINOR)
 VER_PAT = $$fromfile(version.mk, VERSION_PATCH)
 
 DEFINES += MIN_NODE_VERSION=\\\"5.3-299\\\"
-DEFINES += MAX_NODE_VERSION=\\\"5.3-304\\\"
+DEFINES += MAX_NODE_VERSION=\\\"5.3-316\\\"
 
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe
@@ -100,6 +100,7 @@ win32 {
 
     CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_rwd/dist/
     CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_windows_release/dist/
+
 
     QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3

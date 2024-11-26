@@ -104,7 +104,6 @@ void DapTokensWalletModel::updateAllToken(const QList<CommonWallet::WalletTokens
         m_items.append(DapTokensWalletModel::Item(item));
     }
     endResetModel();
-    emit sizeChanged();
 }
 
 void DapTokensWalletModel::addToken(const CommonWallet::WalletTokensInfo& token)
@@ -114,7 +113,6 @@ void DapTokensWalletModel::addToken(const CommonWallet::WalletTokensInfo& token)
     beginInsertRows (QModelIndex(), index, index);
     m_items.append(DapTokensWalletModel::Item(token));
     endInsertRows();
-    emit sizeChanged();
 }
 
 void DapTokensWalletModel::setDataFromOtherModel(const QList<DapTokensWalletModel::Item>& items)

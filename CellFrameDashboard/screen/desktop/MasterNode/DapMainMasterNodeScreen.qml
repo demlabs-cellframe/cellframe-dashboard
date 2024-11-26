@@ -38,7 +38,7 @@ A mechanism has been developed to track the participation of master nodes in the
 
         ListElement
         {
-            head: qsTr("— Your Backbone wallet balance must have")
+            head: qsTr("— Your wallet balance must have")
             body: ""
         }
     }
@@ -119,6 +119,13 @@ A mechanism has been developed to track the participation of master nodes in the
 
     function updateText()
     {
+        var currentNetwork = nodeMasterModule.currentNetwork
+
+        if(currentNetwork === "KelVPN")
+            variableText = qsTr("At least 100000 $%1 ready for staking or at least 100 %2 (received for prior stakes in total of at least 100000 $%1)")
+        else
+            variableText = qsTr("At least 10000 $%1 ready for staking or at least 10 %2 (received for prior stakes in total of at least 10000 $%1)")
+
         textBlocks.get(textBlocks.count-1).body = variableText.arg(currentMainToken).arg(currentStakeToken)
     }
 }

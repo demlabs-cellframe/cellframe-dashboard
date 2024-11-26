@@ -835,6 +835,7 @@ Page
                     wrapMode: Text.WordWrap
                     lineHeight: 16
                     lineHeightMode: Text.FixedHeight
+                    elide: Text.ElideRight
                 }
 
                 DapLoadingPanel

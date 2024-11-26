@@ -775,9 +775,7 @@ void DapModuleMasterNode::respondCreatedStakeOrder(const QVariant &rcvData)
 
 void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 {
-    auto resultObject = QJsonDocument::fromJson(rcvData.toByteArray()).object();
-
-    QJsonObject replyObj = resultObject["result"].toObject();
+    QJsonObject replyObj = rcvData.toJsonObject();
 
     if(!replyObj.contains("command"))
     {
