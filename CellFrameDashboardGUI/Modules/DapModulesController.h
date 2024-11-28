@@ -56,12 +56,13 @@ public:
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
     QString currentWalletName(){return m_currentWalletName;}
 
-    Q_PROPERTY (bool isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
+    Q_PROPERTY (bool isNodeWorking READ isNodeWorking WRITE setIsNodeWorking NOTIFY nodeWorkingChanged)
     bool isNodeWorking(){return m_isNodeWorking;}
+    Q_INVOKABLE void setIsNodeWorking(bool);
 
     Q_PROPERTY (int nodeLoadProgress READ nodeLoadProgress NOTIFY nodeLoadProgressChanged)
     int nodeLoadProgress(){return m_nodeLoadProgress;}
-    void setNodeLoadProgress(int progress);
+    Q_INVOKABLE void setNodeLoadProgress(int progress);
 
     Q_INVOKABLE bool isFirstLaunch() { return m_lastProgress == 0; }
 

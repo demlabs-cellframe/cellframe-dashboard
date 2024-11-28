@@ -37,6 +37,19 @@ namespace DEX
         QString token2 = "";
         QString displayText = "";
         double rate_double = 0.0f;
+        bool isDataReady = false;
+
+        void reset()
+        {
+            change = "";
+//            network = ""; //if clear -> reset net combo box
+            rate = "";
+            token1 = "";
+            token2 = "";
+            displayText = "";
+            rate_double = 0.0f;
+            isDataReady = false;
+        }
     };
 
     struct Order
