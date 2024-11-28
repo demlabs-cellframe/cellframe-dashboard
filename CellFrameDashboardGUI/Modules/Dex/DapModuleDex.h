@@ -56,6 +56,9 @@ public:
     Q_PROPERTY(QString currentRate READ getCurrentRate NOTIFY currentTokenPairInfoChanged)
     Q_INVOKABLE QString getCurrentRate() const { return m_currentPair.rate; }
 
+    Q_PROPERTY(bool isReadyDataPair READ getIsReadyDataPair NOTIFY isReadyDataPairChanged)
+    Q_INVOKABLE bool getIsReadyDataPair() const { return m_currentPair.isDataReady; }
+
     Q_PROPERTY(QString token1 READ getToken1 NOTIFY currentTokenPairChanged)
     Q_INVOKABLE QString getToken1() const { return m_currentPair.token1; }
 
@@ -93,6 +96,7 @@ public slots:
 signals:
     void currentTokenPairChanged();
     void currentTokenPairInfoChanged();
+    void isReadyDataPairChanged();
     void orderHistoryChanged();
     void txListChanged();
 
@@ -143,6 +147,7 @@ protected:
 
     QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
+
 
     QString m_networkFilter = "";
     QString m_currentNetwork = "";
