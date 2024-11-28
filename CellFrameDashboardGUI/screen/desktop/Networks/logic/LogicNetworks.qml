@@ -74,6 +74,40 @@ QtObject {
         }
     }
 
+    function loadProcessing(networksStatesList)
+    {
+        var netsCount = networksStatesList.length;
+        var totalProgressLoading = 0.0;
+
+        for (var i = 0; i < netsCount; ++i)
+        {
+            if(networksStatesList[i].displayNetworkState === "" ||
+               networksStatesList[i].displayNetworkState ===  "Error.")
+                continue;
+
+            if(networksStatesList[i].displayNetworkState === "LOADING")
+            {
+                totalProgressLoading += parseFloat(networksStatesList[i].syncPercent)
+            }
+            else
+            {
+                totalProgressLoading += 100.0
+            }
+        }
+
+        var calc = totalProgressLoading / netsCount;
+
+        if(calc !== 100.0)
+        {
+            modulesController.setIsNodeWorking(false)
+            modulesController.setNodeLoadProgress(calc)
+        }
+        else
+        {
+            modulesController.setIsNodeWorking(true)
+        }
+    }
+
     function updateContentForExistingModel(curModel, newData)
     {
         if (isNetworkListsEqual(curModel, newData)) {
