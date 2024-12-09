@@ -30,6 +30,10 @@ void DapNotifyController::rcvData(QVariant data)
                 DapConfigToolController::getInstance().getStatusNode();
             }
 
+            if(!DapConfigToolController::getInstance().statusProcessNode())
+                DapConfigToolController::getInstance().getStatusNode();
+
+
             emit chainsLoadProgress(QVariantMap());
             m_connectState = value.toInt();
             emit socketState(m_connectState, true, isFirst);

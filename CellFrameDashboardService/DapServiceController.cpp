@@ -393,9 +393,9 @@ void DapServiceController::initAdditionalParamrtrsService()
     {
         if(service->getName() == "MempoolCheckCommand")
         {
-            DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(service);
-            connect(controller, &DapTransactionQueueController::toGetTransactionData, command, &DapAbstractCommand::toDataSignal);
-            connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::transactionDataReceived);
+            MempoolCheckCommand* command = dynamic_cast<MempoolCheckCommand*>(service);
+            connect(controller, &DapTransactionQueueController::toGetTransactionData, command, &MempoolCheckCommand::toDataSignal);
+            connect(command, &MempoolCheckCommand::dataGetedSignal, controller, &DapTransactionQueueController::transactionDataReceived);
         }
         if(service->getName() == "DapGetOnceWalletInfoCommand")
         {
