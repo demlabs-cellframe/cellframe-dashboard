@@ -125,13 +125,14 @@ DapRectangleLitAndShaded
                         {
                             id: statusText
                             text: tx_status === "ACCEPTED" || tx_status === "PROCESSING" ? status : "Declined"
-                            color: text === "Sent" ?      currTheme.orange :
-                                   text === "Pending" ?   currTheme.darkYellow :
-                                   text === "Error" ||
-                                   text === "Declined" ?  currTheme.red :
+                            color: text === "Sent"      ? currTheme.orange :
+                                   text === "Pending"   ? currTheme.darkYellow :
+                                   text === "Error"     ||
+                                   text === "Declined"  ? currTheme.red :
                                    text === "Received"  ? currTheme.lightGreen :
                                    text === "Queued"    ? currTheme.textColorLightBlue :
                                    text === "Exchange"  ? currTheme.coral :
+                                   text === "Vote"      ? currTheme.сrayola :
                                    text === "Unknown"   ? currTheme.mainButtonColorNormal0 :
                                                           currTheme.white
 
