@@ -71,6 +71,9 @@
 #include "handlers/DapCreateStakeOrder.h"
 #include "handlers/DapGetListKeysCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
+#include "handlers/DapSrvStakeRemove.h"
+#include "handlers/DapSrvStakeInvalidate.h"
+#include "handlers/DapNodeDel.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -304,6 +307,10 @@ signals:
     void rcvCreateStakeOrder(const QVariant& rcvData);
     void rcvGetListKeysCommand(const QVariant& rcvData);
     void moveWalletCommandReceived(const QVariant& rcvData);
+
+    void rxvSrvStakeRemove(const QVariant& rcvData);
+    void rcvSrvStakeInvalidate(const QVariant& rcvData);
+    void rcvNodeDel(const QVariant& rcvData);
     
 private slots:
     /// Register command.

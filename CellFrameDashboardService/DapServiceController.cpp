@@ -76,6 +76,9 @@
 #include "handlers/DapVoitingDumpCommand.h"
 #include "handlers/DapCheckQueueTransactionCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
+#include "handlers/DapSrvStakeRemove.h"
+#include "handlers/stackCommand/DapSrvStakeInvalidateStack.h"
+#include "handlers/DapNodeDel.h"
 
 #include "handlers/DapTransactionsInfoQueueCommand.h"
 
@@ -355,7 +358,9 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapServiceInitCommand                ("DapWalletServiceInitCommand"          , m_pServer));
     m_servicePool.append(new DapCheckQueueTransactionCommand      ("DapCheckQueueTransactionCommand"      , nullptr));
     m_servicePool.append(new DapMoveWalletCommand                 ("DapMoveWalletCommand"                 , nullptr));
-
+    m_servicePool.append(new DapSrvStakeRemove                    ("DapSrvStakeRemove"                    , nullptr));
+    m_servicePool.append(new DapSrvStakeInvalidateStack           ("DapSrvStakeInvalidate"                , nullptr));
+    m_servicePool.append(new DapNodeDel                           ("DapNodeDel"                           , nullptr));
     //New
     m_servicePool.append(new DapTransactionsInfoQueueCommand      ("DapTransactionsInfoQueueCommand"      , nullptr));
 

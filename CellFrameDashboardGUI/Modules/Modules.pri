@@ -16,6 +16,13 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Console/consoleitem.h \
     $$PWD/DapAbstractModule.h \
     $$PWD/Certificates/DapModuleCertificates.h \
+    $$PWD/MasterNode/DapMasterNodeKeys.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapAbstractMasterNodeCommand.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapNodeDelStage.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapSrvStakeInvalidateStage.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.h \
     $$PWD/Settings/DapModuleSettings.h \
     $$PWD/Dex/DapModuleDex.h \
     $$PWD/Dex/StockDataWorker/OrderBookWorker.h \
@@ -48,6 +55,13 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Logs/DapLogsReader.cpp \
     $$PWD/Console/DapModuleConsole.cpp \
     $$PWD/Certificates/DapModuleCertificates.cpp \
+    $$PWD/MasterNode/DapMasterNodeKeys.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapAbstractMasterNodeCommand.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapNodeDelStage.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapSrvStakeInvalidateStage.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.cpp \
     $$PWD/Settings/DapModuleSettings.cpp \
     $$PWD/Dex/DapModuleDex.cpp \
     $$PWD/Dex/StockDataWorker/StockDataWorker.cpp \

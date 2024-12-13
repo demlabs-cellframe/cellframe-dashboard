@@ -96,7 +96,8 @@ private:
                                     ,"DapHistoryServiceInitCommand"
                                     ,"DapVoitingCreateCommand"
                                     ,"DapVoitingVoteCommand"
-                                    ,"DapWalletServiceInitCommand"};
+                                    ,"DapWalletServiceInitCommand"
+                                    ,"DapSrvStakeInvalidate"};
 };
 
 #endif // DAPSERVICECONTROLLER_H
