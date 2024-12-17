@@ -1182,30 +1182,45 @@ void DapModuleMasterNode::cencelRegistration()
 
         m_currentStartMaster.insert(MasterNode::MASTER_NODE_TO_CENCEL_KEY, true);
         emit isStartRegistrationChanged();
+        QList<QPair<LaunchStage, int>> newStages;
 
-        m_startStage.clear();
         int count = 0;
         if(m_currentStartMaster.contains(MasterNode::ORDER_HASH_KEY))
         {
-            m_startStage.append({LaunchStage::ORDER_REMOVE, count});
+            newStages.append({LaunchStage::ORDER_REMOVE, count});
             count++;
         }
         if(m_currentStartMaster.contains(MasterNode::NODE_ADDED_KEY))
         {
-            m_startStage.append({LaunchStage::NODE_REMOVE, count});
+            newStages.append({LaunchStage::NODE_REMOVE, count});
             count++;
         }
+
+        auto stageIterator = std::find_if(m_startStage.begin(), m_startStage.end(), [](const QPair<LaunchStage, int>& value){
+            return LaunchStage::UPDATE_CONFIG == value.first;
+        });
+        if(stageIterator == m_startStage.end())
         {
-            m_startStage.append({LaunchStage::BACK_CONFIG, count});
+            newStages.append({LaunchStage::BACK_CONFIG, count});
             count++;
         }
         if(m_currentStartMaster.contains(MasterNode::STAKE_HASH_KEY))
         {
-            m_startStage.append({LaunchStage::BACK_STAKE, count});
+            newStages.append({LaunchStage::BACK_STAKE, count});
             count++;
         }
-        m_startStage.append({LaunchStage::RESTARTING_NODE, count});
+        if(!newStages.isEmpty())
+        {
+            newStages.append({LaunchStage::RESTARTING_NODE, count});
+        }
+        else
+        {
+            cenceledRegistration();
+            return;
+        }
 
+        m_startStage.clear();
+        m_startStage = newStages;
         setFullStageList(m_startStage);
         saveFullStagesList();
 
