@@ -145,10 +145,9 @@ void DapModuleWallet::restoreIndex()
 void DapModuleWallet::updateWalletInfo(const QJsonDocument& document)
 {
     QJsonArray walletArray = document.array();
+    QStringList tmpWallets;
 
-    QStringList currentList;
-
-    for(const QJsonValue value: walletArray)
+    for(const QJsonValue &value: walletArray)
     {
         QJsonObject tmpObject = value.toObject();
         if(tmpObject.contains("name") && tmpObject.contains("status"))
@@ -162,32 +161,22 @@ void DapModuleWallet::updateWalletInfo(const QJsonDocument& document)
                 }
                 else
                 {
-                    if(!walletName.isEmpty())
-                    {
-                        CommonWallet::WalletInfo tmpWallet;
-                        tmpWallet.walletName = walletName;
-                        tmpWallet.status = tmpObject["status"].toString();
-                        m_walletsInfo.insert(walletName, std::move(tmpWallet));
-                    }
+                    CommonWallet::WalletInfo tmpWallet;
+                    tmpWallet.walletName = walletName;
+                    tmpWallet.status = tmpObject["status"].toString();
+                    m_walletsInfo.insert(walletName, std::move(tmpWallet));
                 }
-                currentList.append(walletName);
             }
+            tmpWallets.append(walletName);
         }
     }
 
-    QStringList tmpList = m_walletsInfo.keys();
-    QStringList diffList;
-    for(const QString& str: tmpList)
+    for(const QString &name: m_walletsInfo.keys())
     {
-        if(!currentList.contains(str))
+        if(!tmpWallets.contains(name))
         {
-            diffList.append(str);
+            m_walletsInfo.remove(name);
         }
-    }
-
-    for(const QString& str: diffList)
-    {
-        m_walletsInfo.remove(str);
     }
 }
 
@@ -272,6 +261,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     }
     else
     {
+        qDebug()<<"[DapModuleWallet::setNewCurrentWallet] m_infoWallet->set empty model";
         m_infoWallet->updateModel({});
     }
     
