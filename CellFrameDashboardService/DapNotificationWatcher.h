@@ -49,6 +49,8 @@ private:
     void reconnectFunc();
     void sendNotifyState(QVariant);
     QByteArrayList jsonListFromData(QByteArray data);
+
+    bool checkConfig();
 private:
     QIODevice *m_socket;
     QString m_listenPath;
