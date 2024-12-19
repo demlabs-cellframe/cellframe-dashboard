@@ -52,6 +52,7 @@ private:
     void initServices();
     void initAdditionalParamrtrsService();
     void activityGUIProcessing(bool isRun);
+    void initNotifyWatcher();
 signals:
     /// The signal is emitted in case of successful connection of a new client.
     void onNewClientConnected();

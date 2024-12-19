@@ -119,14 +119,19 @@ DapServiceController::DapServiceController(QObject *parent)
     connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
     m_threadRegular->start();
 
-    m_threadNotify = new QThread();
-    m_watcher = new DapNotificationWatcher();
-    m_watcher->moveToThread(m_threadNotify);
-    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
-    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
-    m_threadNotify->start();
+    initNotifyWatcher();
 
-    connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_reqularRequestsCtrl, &DapRegularRequestsController::notifyWatcherRespond);
+    connect(&DapNodePathManager::getInstance(), &DapNodePathManager::reinitDoneSignal, this, [=] (){
+
+        if(m_threadNotify)
+        {
+            m_threadNotify->quit();
+            m_threadNotify->wait();
+        }
+
+        initNotifyWatcher();
+    });
+
     connect(this, &DapServiceController::onNewClientConnected, [this] {
         qDebug() << "Frontend connected";
         if(m_watcher->m_statusInitWatcher)
@@ -178,6 +183,19 @@ DapServiceController::~DapServiceController()
         m_threadRegular->wait();
         delete m_threadRegular;
     }
+}
+
+void DapServiceController::initNotifyWatcher()
+{
+    m_threadNotify = new QThread();
+    m_watcher = new DapNotificationWatcher();
+    m_watcher->moveToThread(m_threadNotify);
+    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
+    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
+    m_threadNotify->start();
+
+    connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_reqularRequestsCtrl, &DapRegularRequestsController::notifyWatcherRespond);
+
 }
 
 void DapServiceController::activityGUIProcessing(bool isRun)

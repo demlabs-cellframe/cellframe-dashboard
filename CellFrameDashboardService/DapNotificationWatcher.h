@@ -49,6 +49,7 @@ private:
     void reconnectFunc();
     void sendNotifyState(QVariant);
     QByteArrayList jsonListFromData(QByteArray data);
+
 private:
     QIODevice *m_socket;
     QString m_listenPath;
@@ -59,6 +60,8 @@ private:
 
     bool m_isStartNode = true;
     QString m_socketState{""};
+
+    bool isFirstConnect{true};
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H
