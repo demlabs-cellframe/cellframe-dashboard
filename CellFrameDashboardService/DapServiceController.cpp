@@ -183,9 +183,15 @@ DapServiceController::~DapServiceController()
 void DapServiceController::activityGUIProcessing(bool isRun)
 {
     QString on_off = isRun ? "online" : "offline";
-    for(const auto &net: qAsConst(m_reqularRequestsCtrl->getNetworkList()))
+    auto service = m_pServer->findService("DapNetworkGoToCommand");
+    if(!service)
     {
-        DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapNetworkGoToCommand"));
+        return;
+    }
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(service);
+    QStringList netList = m_reqularRequestsCtrl->getNetworkList();
+    for(const QString &net: qAsConst(netList))
+    {     
         transceiver->respondToClient(QStringList()<<net<<on_off);
     }
 }
