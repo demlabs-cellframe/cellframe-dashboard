@@ -202,11 +202,8 @@ QString DapModuleSettings::getUrlUpload()
 void DapModuleSettings::checkVersion()
 {
     m_timerVersionCheck->stop();
-    if(m_nodeVersion.simplified().isEmpty())
-    {
-        s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version node");
-        m_timerVersionCheck->start(10000);
-    }
+    s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version node");
+    m_timerVersionCheck->start(10000);
 }
 
 void DapModuleSettings::guiVersionRequest()
