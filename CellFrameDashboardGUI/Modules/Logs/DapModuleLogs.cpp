@@ -306,24 +306,6 @@ QString DapModuleLog::getBrandLogPath()
         qWarning() << "Fatal Error: Can't obtain username";
         return QString();
     }
-
-    QDir dirOld(QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/").arg(l_username));
-    QDir dirNew("/Applications/CellframeNode.app/Contents/Resources/var/log/");
-    QDir dirNewNew("/Library/Application\ Support/CellframeNode/var/log/");
-
-
-    if(dirNewNew.exists())
-    {
-        return dirNewNew.absolutePath();
-    }
-    else if(dirNew.exists())
-    {
-        return dirNew.absolutePath();
-    }
-    else
-    {
-        return dirOld.absolutePath();
-    }
     return QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO);
 #elif defined (Q_OS_WIN)
     return QString("%1/%2/log").arg(regWGetUsrPath()).arg(DAP_BRAND);
