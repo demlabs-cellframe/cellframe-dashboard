@@ -181,6 +181,12 @@ void DapNotificationWatcher::socketReadyRead()
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)
 {
     qDebug() << "Notify socket state changed" << socketState;
+
+    if(m_socketState != socketState && socketState == QAbstractSocket::ConnectedState)
+    {
+        DapNodePathManager::getInstance().reinit();
+    }
+
     m_socketState = socketState;
     changeConnectState(m_socketState);
 }
