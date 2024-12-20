@@ -60,7 +60,7 @@ DapRectangleLitAndShaded
         qsTr("Couldn't copy the file."),
         qsTr("Other problems."),
         qsTr("The list of nodes has not been received."),
-        qsTr("Your node was not found in the list."),
+        qsTr("Node is not on the list yet. Please check its status in 15 seconds."),
         qsTr("I couldn't add a node."),
         qsTr("There was a problem with the return of tokens."),
         qsTr("No stake invalidate hash found in the mempool.")
@@ -187,6 +187,13 @@ DapRectangleLitAndShaded
                 {
                     id: cancelButton
                     textButton: nodeMasterModule.isStartRegistration ? qsTr("Cancel") : qsTr("Ignore")
+                    enabled: {
+                        if(nodeMasterModule.creationStage === 4 && root.state === "ERROR")
+                        {
+                            return true;
+                        }
+                        return nodeMasterModule.creationStage !== 4
+                    }
                     anchors.left: parent.left
                     anchors.top: parent.top
                     implicitHeight: 36
