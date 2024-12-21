@@ -773,19 +773,19 @@ DapRectangleLitAndShaded
     Connections
     {
         target: dapServiceController
-        onCertificateManagerOperationResult:
+        function onCertificateManagerOperationResult(rcvData)
         {
             var foundIndex = 0
             var certNameFromStartMasterNode = nodeMasterModule.certNameFromStartMasterNode
             certificatesModel.clear()
-            for (var i = 0; i < result.data.length; ++i)
+            for (var i = 0; i < rcvData.data.length; ++i)
             {
-                var item = result.data[i]
+                var item = rcvData.data[i]
                 if(item.completeBaseName === certNameFromStartMasterNode) foundIndex = i
 
                 certificatesModel.append(item)
             }
-            if(result.data.length > 0)
+            if(rcvData.data.length > 0)
             {
                 existCertificateCombobox.setCurrentIndex(foundIndex)
             }

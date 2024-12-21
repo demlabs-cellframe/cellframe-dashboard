@@ -152,7 +152,7 @@ QString DapModuleLog::getLogPath(LogType type)
     default:
         break;
     }
-
+    qDebug()<<"[DapModuleLog::getLogPath] " << path;
     return path;
 }
 
@@ -270,11 +270,20 @@ QString DapModuleLog::getNodeLogPath()
     }
     QDir dirOld(QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log").arg(l_username));
     QDir dirNew("/Applications/CellframeNode.app/Contents/Resources/var/log");
+    QDir dirNewNew("/Library/Application\ Support/CellframeNode/var/log/");
 
-    if(dirNew.exists())
+    if(dirNewNew.exists())
+    {
+        return dirNewNew.absolutePath();
+    }
+    else if(dirNew.exists())
+    {
         return dirNew.absolutePath();
+    }
     else
+    {
         return dirOld.absolutePath();
+    }
 
 #elif defined (Q_OS_WIN)
     return QString("%1/cellframe-node/var/log").arg(regWGetUsrPath());

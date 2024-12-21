@@ -115,11 +115,13 @@ DapServiceController::DapServiceController(QObject *parent)
     connect(this, &DapServiceController::onNewClientConnected, [this] {
         qDebug() << "Frontend connected";
         m_web3Controll->rcvFrontendConnectStatus(true);
+        activityGUIProcessing(true);
     });
 
     connect(this, &DapServiceController::onClientDisconnected, [this] {
         qDebug() << "Frontend disconnected";
         m_web3Controll->rcvFrontendConnectStatus(false);
+        activityGUIProcessing(false);
     });
 }
 
@@ -153,6 +155,23 @@ DapServiceController::~DapServiceController()
         delete m_threadRegular;
     }
 }
+
+void DapServiceController::activityGUIProcessing(bool isRun)
+{
+    QString on_off = isRun ? "online" : "offline";
+    auto service = m_pServer->findService("DapNetworkGoToCommand");
+    if(!service)
+    {
+        return;
+    }
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(service);
+    QStringList netList = m_reqularRequestsCtrl->getNetworkList();
+    for(const QString &net: qAsConst(netList))
+    {     
+        transceiver->respondToClient(QStringList()<<net<<on_off);
+    }
+}
+
 
 /// Start service: creating server and socket.
 /// @return Returns true if the service starts successfully, otherwise false.
@@ -354,9 +373,9 @@ void DapServiceController::initAdditionalParamrtrsService()
     {
         if(service->getName() == "MempoolCheckCommand")
         {
-            DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(service);
-            connect(controller, &DapTransactionQueueController::toGetTransactionData, command, &DapAbstractCommand::toDataSignal);
-            connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::transactionDataReceived);
+            MempoolCheckCommand* command = dynamic_cast<MempoolCheckCommand*>(service);
+            connect(controller, &DapTransactionQueueController::toGetTransactionData, command, &MempoolCheckCommand::toDataSignal);
+            connect(command, &MempoolCheckCommand::dataGetedSignal, controller, &DapTransactionQueueController::transactionDataReceived);
         }
         if(service->getName() == "DapGetOnceWalletInfoCommand")
         {

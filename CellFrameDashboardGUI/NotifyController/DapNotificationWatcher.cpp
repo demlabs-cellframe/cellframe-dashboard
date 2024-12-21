@@ -16,12 +16,6 @@ DapNotificationWatcher::DapNotificationWatcher(QObject *parent)
 
 }
 
-DapNotificationWatcher::~DapNotificationWatcher()
-{
-    delete m_initTimer;
-    delete m_reconnectTimer;
-}
-
 void DapNotificationWatcher::run()
 {
     m_initTimer = new QTimer(this);
@@ -40,11 +34,18 @@ void DapNotificationWatcher::run()
     }
 }
 
-bool DapNotificationWatcher::initWatcher()
+DapNotificationWatcher::~DapNotificationWatcher()
+{
+    delete m_initTimer;
+    delete m_reconnectTimer;
+}
+
+bool DapNotificationWatcher::checkConfig()
 {
     DapConfigReader configReader;
+    bool configStatus = configReader.getConfigStatus();
 
-    if(configReader.getConfigStatus())
+    if(configStatus)
     {
         m_listenPath = configReader.getItemString("notify_server", "listen_path", "");
         m_listenAddr = configReader.getItemString("notify_server", "listen_address", "");
@@ -55,8 +56,22 @@ bool DapNotificationWatcher::initWatcher()
             m_listenPort = QString(m_listenAddr.split(":")[1]).toUInt();
             m_listenAddr = m_listenAddr.split(":")[0];
         }
+    }
 
-        qDebug() << "Tcp config: " << m_listenAddr << m_listenPort;
+    qDebug()<<"----------------- Notify connect data -----------------"
+            <<"Config status: " +  configStatus
+            <<"Config path: "   +  configReader.getConfigPath()
+            <<"Listen addr: "   +  m_listenAddr
+            <<"Listen port: "   +  QString::number(m_listenPort)
+            <<"Listen path: "   +  m_listenPath;
+
+    return configStatus;
+}
+
+bool DapNotificationWatcher::initWatcher()
+{
+    if(checkConfig())
+    {
         connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(slotReconnect()));
 
         if (!m_listenPath.isEmpty())
@@ -113,6 +128,7 @@ void DapNotificationWatcher::slotError()
 void DapNotificationWatcher::slotReconnect()
 {
     qInfo()<<"DapNotificationWatcher::slotReconnect()" << m_listenAddr << m_listenPort << "Socket state" << m_socketState;
+    checkConfig();
 
     ((QTcpSocket*)m_socket)->connectToHost(m_listenAddr, m_listenPort);
     ((QTcpSocket*)m_socket)->waitForConnected(5000);

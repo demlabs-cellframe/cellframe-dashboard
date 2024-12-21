@@ -85,7 +85,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setContextProperties();
 
 //    qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
-
 //    m_serviceController->requestWalletList();
 //    m_serviceController->requestOrdersList();
 //    m_serviceController->requestNetworksList();
@@ -208,7 +207,6 @@ void DapApplication::notifyService(QVariant sName, QVariantList sArgs)
 {
     m_serviceController->notifyService(sName.toString(), sArgs);
 }
-
 
 void DapApplication::setContextProperties()
 {

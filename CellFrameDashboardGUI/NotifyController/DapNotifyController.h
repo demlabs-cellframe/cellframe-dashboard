@@ -33,9 +33,20 @@ public:
     QString getSocketState(){return m_connectState;}
 
 private:
+    QJsonDocument parseData(QString className, const QJsonObject obj, QString key, bool isArray);
+
+private:
     QString m_connectState;
     DapNotificationWatcher *m_watcher;
     QThread * m_threadNotify;
+
+signals:
+    void sigNotifyRcvNetList(QJsonDocument);
+    void sigNotifyRcvNetsInfo(QJsonDocument);
+    void sigNotifyRcvWalletList(QJsonDocument);
+    void sigNotifyRcvWalletsInfo(QJsonDocument);
+    void sigNotifyRcvNetInfo(QJsonDocument);
+    void sigNotifyRcvWalletInfo(QJsonDocument);
 };
 
 #endif // DAPNOTIFYCONTROLLER_H

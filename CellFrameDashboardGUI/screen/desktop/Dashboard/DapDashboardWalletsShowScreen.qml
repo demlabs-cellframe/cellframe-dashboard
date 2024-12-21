@@ -114,7 +114,7 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
             clip: true
             visible: walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
-            model:walletModelInfo
+            model: walletModelInfo
 
             delegate: delegateTokenView
         }

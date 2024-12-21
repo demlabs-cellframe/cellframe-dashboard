@@ -68,28 +68,74 @@ void DapNotifyController::rcvData(QVariant data)
         //----new----//
         else if(className ==  "NetList")
         {
-            qDebug()<<className;
+            QJsonDocument result = parseData(className, resObj, "networks", true);
+
+            if(!result.isEmpty())
+                emit sigNotifyRcvNetList(result);
         }
         else if(className ==  "NetsInfo")
         {
-            qDebug()<<className;
+            QJsonDocument result = parseData(className, resObj, "networks", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvNetsInfo(result);
         }
         else if(className ==  "WalletList")
         {
-            qDebug()<<className;
+            QJsonDocument result = parseData(className, resObj, "wallets", true);
+            if(!result.isEmpty())
+                emit sigNotifyRcvWalletList(result);
         }
         else if(className ==  "WalletsInfo")
         {
-            qDebug()<<className;
+            QJsonDocument result = parseData(className, resObj, "wallets", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvWalletsInfo(result);
         }
         else if(className ==  "NetInfo")
         {
-            qDebug()<<className;
+            QJsonDocument result = parseData(className, resObj, "", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvNetInfo(result);
         }
         else if(className ==  "WalletInfo")
         {
-            qDebug()<<className;
-        }else
+            QJsonDocument result = parseData(className, resObj, "", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvWalletInfo(result);
+        }
+        else
             qDebug()<<"Unknown class: " << className;
     }
+}
+
+QJsonDocument DapNotifyController::parseData(QString className, const QJsonObject obj, QString key, bool isArray)
+{
+    qDebug()<<className;
+
+    QJsonDocument result;
+
+    if(key.isEmpty())
+    {
+        result.setObject(obj);
+        return result;
+    }
+
+    if((isArray && !obj[key].isArray()) || (!isArray && !obj[key].isObject()))
+    {
+        qDebug()<<"[DapNotifyController::parseData] " << className << " is not " << (isArray ? "array" : "object");
+        return QJsonDocument();
+    }
+
+    if(isArray)
+    {
+        QJsonArray array = obj[key].toArray();
+        result.setArray(array);
+    }
+    else
+    {
+        QJsonObject object = obj[key].toObject();
+        result.setObject(object);
+    }
+
+    return result;
 }

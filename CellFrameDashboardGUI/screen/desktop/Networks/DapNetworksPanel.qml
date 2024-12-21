@@ -164,8 +164,7 @@ Rectangle {
             if (!logicNet.isNetworkListsEqual(networksModel, jsonDocument)) {
                 networkList.closePopups()
             }
-
-
+            logicNet.loadProcessing(jsonDocument)
             logicNet.modelUpdate(jsonDocument)
             logicNet.updateContentInAllOpenedPopups(networksModel)
         }
