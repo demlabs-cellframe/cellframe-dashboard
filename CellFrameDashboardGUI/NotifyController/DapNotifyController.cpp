@@ -29,7 +29,6 @@ void DapNotifyController::stateProcessing(QString status)
 
         if(status != QAbstractSocket::SocketState::ConnectedState)
         {
-            emit chainsLoadProgress(QVariantMap());
             m_isConnected = false;
             emit socketState(m_connectState, true, true);
         }
@@ -59,11 +58,6 @@ void DapNotifyController::rcvData(QVariant data)
         else if(className == "NetStates")
         {
             emit netStates(resObj.toVariantMap());
-        }
-        else if(className == "chain_init")
-        {
-            qDebug() << "[DapNotifyController] chain init - " << resObj.toVariantMap();
-            emit chainsLoadProgress(resObj.toVariantMap());
         }
         //----new----//
         else if(className ==  "NetList")

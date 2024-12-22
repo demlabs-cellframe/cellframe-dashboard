@@ -315,12 +315,10 @@ private:
 public slots:
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
     void slotNetState(QVariantMap netState){emit signalNetState(netState);}
-    void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
 
 signals:
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
-    void signalChainsLoadProgress(QVariantMap loadProgress);
 
 };
 

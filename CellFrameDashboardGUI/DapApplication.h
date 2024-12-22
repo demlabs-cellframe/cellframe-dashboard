@@ -17,9 +17,6 @@
 //#include "DiagnosticWorker/models/NodeModel.h"
 
 #include <iostream>
-#include "DapLogger.h"
-#include "DapDataLocal.h"
-#include "DapLogHandler.h"
 
 #include "ConfigWorker/configworker.h"
 //#include "Workers/stringworker.h"

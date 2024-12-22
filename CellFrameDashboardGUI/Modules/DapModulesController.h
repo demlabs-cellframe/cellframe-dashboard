@@ -15,6 +15,8 @@
 #include "qsettings.h"
 #include "../ConfigWorker/configworker.h"
 
+#include "../NotifyController/DapNotifyController.h"
+
 class DapModulesController : public QObject
 {
     Q_OBJECT
@@ -47,7 +49,6 @@ public:
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
     QQmlApplicationEngine *s_appEngine;
-
     DapServiceController *s_serviceCtrl;   
 
     Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
@@ -66,14 +67,23 @@ public:
 
     Q_INVOKABLE bool isFirstLaunch() { return m_lastProgress == 0; }
 
+    void setNotifyCtrl(DapNotifyController * notifyController);
+    DapNotifyController* getNotifyCtrl(){return m_notifyCtrl;}
+
 public slots:
     Q_INVOKABLE void updateListWallets();
-    Q_INVOKABLE void updateListNetwork();
+//    Q_INVOKABLE void updateListNetwork();
+
+    void slotRcvNotifyWalletList(QJsonDocument doc);
+    void slotRcvNotifyWalletInfo(QJsonDocument doc);
+    void slotRcvNotifyWalletsInfo(QJsonDocument doc);
+
+    void slotRcvNotifyNetList(QJsonDocument doc);
+    void slotRcvNotifyNetInfo(QJsonDocument doc);
+    void slotRcvNotifyNetsInfo(QJsonDocument doc);
 
 private slots:
-
     void rcvNetList(const QVariant &rcvData);
-    void rcvChainsLoadProgress(const QVariantMap &rcvData);
 
 signals:
     void initDone();
@@ -88,11 +98,16 @@ signals:
 
     void nodeWorkingChanged();
     void nodeLoadProgressChanged();
+
+    void sigNotifyControllerIsInit();
 private:
     void updateNetworkListModel();
 
     void cleareProgressInfo();
 private:
+
+    //Other
+    DapNotifyController * m_notifyCtrl;
 
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
