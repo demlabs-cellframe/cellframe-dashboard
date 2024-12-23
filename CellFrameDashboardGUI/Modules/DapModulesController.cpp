@@ -36,10 +36,8 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     initModules();
     m_netListModel->setStringList({"All"});
     s_appEngine->rootContext()->setContextProperty("netListModelGlobal", m_netListModel);
-//    m_timerUpdateData = new QTimer(this);
 
-    getNetworkList();
-//    m_timerUpdateData->start(5000);
+//    getNetworkList();
 //    connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
 }
 
@@ -53,7 +51,6 @@ DapModulesController::~DapModulesController()
     for(;it_w != m_listWorkers.end(); ++it_w)
         delete it_w.value();
 
-//    delete m_timerUpdateData;
     delete s_settings;
 }
 
@@ -164,7 +161,10 @@ void DapModulesController::setIsNodeWorking(bool isWorking)
         return;
 
     if(isWorking)
+    {
         cleareProgressInfo();
+        qInfo()<<"[NODE LOADED]";
+    }
     m_isNodeWorking = isWorking;
 
     emit nodeWorkingChanged();
@@ -172,6 +172,9 @@ void DapModulesController::setIsNodeWorking(bool isWorking)
 
 void DapModulesController::setNodeLoadProgress(int progress)
 {
+    if(m_nodeLoadProgress != progress && !m_isNodeWorking)
+        qInfo()<<"[NODE LOADING PERCENT] - " << m_nodeLoadProgress << " %";
+
     m_nodeLoadProgress = progress;
     emit nodeLoadProgressChanged();
 }

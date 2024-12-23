@@ -5,7 +5,6 @@ QtObject {
     property var  currentWalletIndex: -1
     property var  prevIndex: -1
     property var  activePlugin: ""
-    property var currentNetwork: -1
 
     property string nodeVersion:""
 
@@ -18,7 +17,6 @@ QtObject {
     property string menuTabStates: ""
 
     property string currentWalletName: ""
-    property string currentNetworkName: ""
 
     property int currentLanguageIndex: 0
     property string currentLanguageName: "en"
@@ -190,60 +188,6 @@ QtObject {
             }
             if(modelMenuTab.count)
                 pluginsTabChanged(true,false,"")
-        }
-    }
-
-
-    function rcvNetList(networksList)
-    {
-//        console.log("net list rcv", networksList, dapNetworkModel.count, networksList.length)
-        if (!networksList.length)
-            console.error("networksList is empty")
-        else
-        {
-            var nameIndex = -1
-
-            for (var i = 0; i < networksList.length; ++i)
-            {
-//                dapNetworkModel.append({ "name" : networksList[i]})
-                if (networksList[i] === currentNetworkName)
-                    nameIndex = i
-            }
-
-            if (nameIndex >= 0)
-                currentNetwork = nameIndex
-
-            if (networksModel.count !== networksList.length || !stateNotify)
-            {
-                logicMainApp.requestToService("DapGetNetworksStateCommand")
-            }
-
-            if (dapNetworkModel.count !== networksList.length)
-            {
-                console.log("rcvNetList", "currentNetworkName", currentNetworkName)
-
-                console.info("dapNetworkModel.count", dapNetworkModel.count,
-                             "networksList.length", networksList.length)
-
-                if (currentNetwork === -1)
-                {
-                    dapServiceController.setCurrentNetwork(networksList[0]);
-                    dapServiceController.setIndexCurrentNetwork(0);
-                    currentNetwork = dapServiceController.IndexCurrentNetwork
-                }
-                else
-                {
-                    dapServiceController.setCurrentNetwork(networksList[currentNetwork]);
-                    dapServiceController.setIndexCurrentNetwork(currentNetwork);
-                }
-
-                dapNetworkModel.clear()
-                for (var i = 0; i < networksList.length; ++i)
-                    dapNetworkModel.append({ "name" : networksList[i]})
-
-//                console.info("Current network:", dapServiceController.CurrentNetwork)
-            }
-
         }
     }
 

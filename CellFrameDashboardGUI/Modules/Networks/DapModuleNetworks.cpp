@@ -20,9 +20,13 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
 {
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("networkModel", m_networkModel);
 
-    connect(m_modulesCtrl, &DapModulesController::sigNotifyControllerIsInit, [=] ()
+    connect(this, &DapModuleNetworks::sigNetLoadProgress, m_modulesCtrl, &DapModulesController::setNodeLoadProgress);
+    connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
+
+    connect(m_modulesCtrl, &DapModulesController::sigNotifyControllerIsInit, [this] ()
     {
         m_notifyCtrl = m_modulesCtrl->getNotifyCtrl();
+        connect(m_notifyCtrl, &DapNotifyController::isConnectedChanged,   this, &DapModuleNetworks::slotNotifyIsConnected);
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetList,  this, &DapModuleNetworks::slotRcvNotifyNetList);
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapModuleNetworks::slotRcvNotifyNetInfo);
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapModuleNetworks::slotRcvNotifyNetsInfo);
@@ -39,19 +43,19 @@ DapModuleNetworks::~DapModuleNetworks()
     delete m_networkModel;
 }
 
-void DapModuleNetworks::goSync()
+void DapModuleNetworks::goSync(QString net)
 {
-
+    s_serviceCtrl->requestToService("DapNetworkSingleSyncCommand",QStringList()<<net);
 }
 
-void DapModuleNetworks::goOnline()
+void DapModuleNetworks::goOnline(QString net)
 {
-
+    s_serviceCtrl->requestToService("DapNetworkGoToCommand",QStringList()<<net<<"online");
 }
 
-void DapModuleNetworks::goOffline()
+void DapModuleNetworks::goOffline(QString net)
 {
-
+    s_serviceCtrl->requestToService("DapNetworkGoToCommand",QStringList()<<net<<"offline");
 }
 
 void DapModuleNetworks::slotRcvNotifyNetList(QJsonDocument doc)
@@ -61,12 +65,13 @@ void DapModuleNetworks::slotRcvNotifyNetList(QJsonDocument doc)
     auto getDifference = [] (const QStringList list1, const QStringList list2) -> QStringList
     {
         QStringList difference;
-        for (const QString &item : list1) {
-            if (!list2.contains(item)) {
+        for (const QString &item : list1)
+        {
+            if (!list2.contains(item))
+            {
                 difference.append(item);
             }
         }
-
         return difference;
     };
 
@@ -79,16 +84,13 @@ void DapModuleNetworks::slotRcvNotifyNetList(QJsonDocument doc)
 
         //If model contains item  - remove him.
         //Because there is no such element in the received list of networks.
-        for(const QString &net : qAsConst(s_netList))
+        for(const QString &net : qAsConst(diff))
         {
+            m_netsLoadProgress.remove(net);
             int idx = getIndexItemModel(net);
-            if(idx)
+            if(idx >= 0)
             {
                 m_networkModel->remove(idx);
-            }
-            else
-            {
-                //TODO: Append empty network item until the data comes in ?
             }
         }
     }
@@ -111,7 +113,8 @@ void DapModuleNetworks::slotRcvNotifyNetInfo(QJsonDocument doc)
     netLoadItm.state    = networkItem.displayNetworkState;
     netLoadItm.percent  = networkItem.syncPercent;
 
-    emit sigUpdateItemNetLoad(netLoadItm);
+    m_netsLoadProgress.insert(netLoadItm.name,netLoadItm);
+    emit sigUpdateItemNetLoad();
 }
 
 void DapModuleNetworks::slotRcvNotifyNetsInfo(QJsonDocument doc)
@@ -145,7 +148,9 @@ void DapModuleNetworks::slotRcvNotifyNetsInfo(QJsonDocument doc)
 
 
     for(const auto &item : netsLoadList)
-        emit sigUpdateItemNetLoad(item);
+        m_netsLoadProgress.insert(item.name,item);
+
+    emit sigUpdateItemNetLoad();
 }
 
 DapNetworkModel::Item DapModuleNetworks::itemModelGenerate(QString netName, QJsonObject itemModel)
@@ -165,8 +170,8 @@ DapNetworkModel::Item DapModuleNetworks::itemModelGenerate(QString netName, QJso
     else
     {
         QJsonObject links = itemModel["links"].toObject();
-        networkItem.activeLinksCount = links["active"].toString();
-        networkItem.linksCount       = links["required"].toString();
+        networkItem.activeLinksCount = links["active"].toVariant().toString();
+        networkItem.linksCount       = links["required"].toVariant().toString();
     }
 
 
@@ -183,7 +188,7 @@ void DapModuleNetworks::updateItemModel(DapNetworkModel::Item itmModel)
 {
     int idx = getIndexItemModel(itmModel.networkName);
 
-    if(idx)
+    if(idx >= 0)
     {
         m_networkModel->set(idx, itmModel);
     }
@@ -200,21 +205,33 @@ void DapModuleNetworks::updateFullModel(QJsonDocument docModel)
 
 int DapModuleNetworks::getIndexItemModel(QString netName)
 {
-    for(auto itr = m_networkModel->size()-1; itr != 0; itr--)
+    if(m_networkModel->size() > 0)
     {
-        if(m_networkModel->at(itr).networkName == netName)
+        for(auto itr = m_networkModel->size()-1; itr != -1; itr--)
         {
-            return itr;
+            if(m_networkModel->at(itr).networkName == netName)
+            {
+                return itr;
+            }
         }
+    }
+    else
+    {
+        qDebug()<<"Model is empty";
+        return -1;
     }
     qDebug()<<"Could'n find item: " << netName << " in model";
     return -1;
 }
 
-void DapModuleNetworks::slotUpdateItemNetLoad(NetLoadProgress netItm)
+void DapModuleNetworks::clearAll()
 {
-    m_netsLoadProgress.insert(netItm.name,netItm);
+    m_networkModel->clear();
+    m_netsLoadProgress.clear();
+}
 
+void DapModuleNetworks::slotUpdateItemNetLoad()
+{
     int netsCount = m_netsLoadProgress.count();
     double totalProgressLoading = 0.0f;
 
@@ -244,20 +261,28 @@ void DapModuleNetworks::slotUpdateItemNetLoad(NetLoadProgress netItm)
     }
 
     double calc = totalProgressLoading / netsCount;
-    m_totalProgressNetsLoad = QString::number(calc, 'f',0);
+    m_totalProgressNetsLoad = (int)calc;
+
+    emit sigNetLoadProgress(m_totalProgressNetsLoad);
 
     if(calc != 100.0)
     {
-        emit sinNetsLoading(false);
-        emit sigNetLoadProgress(m_totalProgressNetsLoad);
+        emit sigNetsLoading(false);
     }
     else
     {
-        emit sinNetsLoading(true);
-        emit sigNetLoadProgress(m_totalProgressNetsLoad);
+        emit sigNetsLoading(true);
     }
+}
 
-    qDebug()<<m_totalProgressNetsLoad;
+void DapModuleNetworks::slotNotifyIsConnected(bool isConnected)
+{
+    if(!isConnected)
+    {
+        clearAll();
+        emit sigNetsLoading(false);
+        emit sigNetLoadProgress(0);
+    }
 }
 
 QString DapModuleNetworks::convertState(QString state)
@@ -280,10 +305,9 @@ QString DapModuleNetworks::convertState(QString state)
 
 QString DapModuleNetworks::convertProgress(QJsonObject obj)
 {
-    auto getChainPercent = [](const QJsonObject& obj, const QString& chain) -> double
+    auto getChainPercent = [](const QJsonObject& chainObj, QString chainName) -> double
     {
         double chainPercent = 0.0;
-        QJsonObject chainObj = obj[chain].toObject();
         if(chainObj.contains("status"))
         {
             QString status = chainObj["status"].toString();
@@ -310,28 +334,31 @@ QString DapModuleNetworks::convertProgress(QJsonObject obj)
                 }
                 else
                 {
-                    qDebug() << "No have key 'percent' in the chain:" << chain;
+                    qDebug() << "No have key 'percent' in the chain:" << chainName;
                 }
             }
         }
         else
         {
-            qDebug() << "No have key of chain with name:" << chain;
+            qDebug() << "No have key of chain with name:" << chainName;
         }
         return chainPercent;
     };
 
     double summPercent = 0.0;
 
-    if(obj.contains("main") && obj.contains("zerochain"))
+    QStringList chains = obj.keys();
+
+    if(chains.count())
     {
-        double mainPercent = getChainPercent(obj, "main");
-        double zeroPercent = getChainPercent(obj, "zerochain");
-        summPercent = mainPercent * 0.45 + zeroPercent * 0.45;
+        for(const auto &chain : chains)
+        {
+            summPercent += (getChainPercent(obj[chain].toObject(), chain) * 0.45);
+        }
     }
     else
     {
-        qDebug() << "No have keys with name of chains";
+        qDebug() << "No chains";
     }
 
     return QString::number(static_cast<int>(std::round(summPercent)));

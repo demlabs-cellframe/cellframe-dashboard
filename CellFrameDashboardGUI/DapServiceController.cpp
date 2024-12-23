@@ -47,30 +47,6 @@ QString DapServiceController::getVersion() const
     return m_sVersion;
 }
 
-QString DapServiceController::getCurrentNetwork() const
-{
-    return m_sCurrentNetwork;
-}
-
-void DapServiceController::setCurrentNetwork(const QString &sCurrentNetwork)
-{
-    m_sCurrentNetwork = sCurrentNetwork;
-
-    emit currentNetworkChanged(m_sCurrentNetwork);
-}
-
-int DapServiceController::getIndexCurrentNetwork() const
-{
-    return m_iIndexCurrentNetwork;
-}
-
-void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
-{
-    m_iIndexCurrentNetwork = iIndexCurrentNetwork;
-
-    emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
-}
-
 bool DapServiceController::getReadingChains() const
 {
     return m_bReadingChains;

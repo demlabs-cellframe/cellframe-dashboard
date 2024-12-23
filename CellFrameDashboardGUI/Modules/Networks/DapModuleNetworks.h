@@ -15,14 +15,15 @@ class DapModuleNetworks : public DapAbstractModule
 {
     Q_OBJECT
 
+    struct NetLoadProgress{
+        QString name{""};
+        QString state{""};
+        QString percent{""};
+    };
+
 public:
     explicit DapModuleNetworks(DapModulesController *parent);
     ~DapModuleNetworks();
-
-public:
-    Q_INVOKABLE void goSync();
-    Q_INVOKABLE void goOnline();
-    Q_INVOKABLE void goOffline();
 
 private:
     QString convertState(QString state);
@@ -33,31 +34,35 @@ private:
     void updateFullModel(QJsonDocument docModel);
     int getIndexItemModel(QString netName);
 
-private:
-    DapModulesController  *m_modulesCtrl = nullptr;
-    DapNetworkModel *m_networkModel = nullptr;
-    DapNotifyController *m_notifyCtrl = nullptr;
-    QStringList s_netList = QStringList();
-
-    struct NetLoadProgress{
-        QString name{""};
-        QString state{""};
-        QString percent{""};
-    };
-    QMap<QString, NetLoadProgress> m_netsLoadProgress;
-    QString m_totalProgressNetsLoad;
+    void clearAll();
 
 private slots:
     void slotRcvNotifyNetList(QJsonDocument doc);
     void slotRcvNotifyNetInfo(QJsonDocument doc);
     void slotRcvNotifyNetsInfo(QJsonDocument doc);
 
-    void slotUpdateItemNetLoad(NetLoadProgress netItm);
+    void slotUpdateItemNetLoad();
+
+    void slotNotifyIsConnected(bool isConnected);
+
+public:
+    Q_INVOKABLE void goSync(QString net);
+    Q_INVOKABLE void goOnline(QString net);
+    Q_INVOKABLE void goOffline(QString net);
 
 signals:
-    void sinNetsLoading(bool isLoading);
-    void sigNetLoadProgress(QString progress);
-    void sigUpdateItemNetLoad(NetLoadProgress netItm);
+    void sigNetsLoading(bool isLoading);
+    void sigNetLoadProgress(int progress);
+    void sigUpdateItemNetLoad();
+
+private:
+    DapModulesController  *m_modulesCtrl = nullptr;
+    DapNetworkModel *m_networkModel = nullptr;
+    DapNotifyController *m_notifyCtrl = nullptr;
+    QStringList s_netList = QStringList();
+
+    QMap<QString, NetLoadProgress> m_netsLoadProgress;
+    int m_totalProgressNetsLoad;
 };
 
 

@@ -66,7 +66,6 @@ Rectangle {
         id: settingsWallet
         property alias menuTabStates: logicMainApp.menuTabStates
         property string currentWalletName: logicMainApp.currentWalletName
-        property string currentNetworkName: logicMainApp.currentNetworkName
         property int currentLanguageIndex: logicMainApp.currentLanguageIndex
         property string currentLanguageName: logicMainApp.currentLanguageName
         //property string currentWalletIndex: logicMainApp.currentWalletIndex
@@ -77,12 +76,10 @@ Rectangle {
 //                        modelLanguages.get(currentLanguageIndex).tag)
 
             console.log("Settings", "currentWalletName", currentWalletName)
-            console.log("Settings", "currentNetworkName", currentNetworkName)
             console.log("Settings", "currentLanguageIndex", currentLanguageIndex)
             console.log("Settings", "currentLanguageName", currentLanguageName)
 
             logicMainApp.currentWalletName = currentWalletName
-            logicMainApp.currentNetworkName = currentNetworkName
             logicMainApp.currentLanguageIndex = currentLanguageIndex
 //            logicMainApp.currentWalletIndex = currentWalletIndex
 
@@ -90,16 +87,11 @@ Rectangle {
     }
     Timer {id: timer}
 
-    ListModel {id: networksModel}
     ListModel {id: diagnosticDataModel}
 
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
-//    DapMessagePopup{
-//        property int index
-//        id: messageWebConnect
-//        onSignalAccept: webControl.rcvAccept(accept, index)
-//    }
+
     DapVersionPopup
     {
         id: messagePopupVersion
@@ -744,7 +736,6 @@ Rectangle {
     {
         target: dapServiceController
 
-        function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
         function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
 
         function onTransactionRemoved(rcvData)
@@ -765,47 +756,6 @@ Rectangle {
                 result,
                 "qrc:/Resources/" + pathTheme + "/icons/other/" + icon)
         }
-
-//        function onVersionControllerResult(versionResult)
-//        {
-//            if(versionResult.hasUpdate && versionResult.message === "Reply version")
-//                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult)
-//            else if(versionResult.message === "Reply node version")
-//            {
-//                if(logicMainApp.nodeVersion === "" || logicMainApp.nodeVersion !== versionResult.lastVersion)
-//                logicMainApp.nodeVersion = versionResult.lastVersion
-//            }
-//            else
-//                console.log(versionResult.message)
-////            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
-////                logicMainApp.rcvReplyVersion()
-////            else if(versionResult.message !== "Reply version")
-////                logicMainApp.updatingDashboard()
-
-
-
-////            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
-//        }
-
-//        function onWalletsReceived(walletList)
-//        {
-//            console.log("onWalletsReceived")
-//            logicMainApp.rcvWallets(walletList)
-//        }
-//        function onWalletReceived(wallet)
-//        {
-//            console.log("onWalletReceived")
-//            logicMainApp.rcvWallet(wallet)
-//        }
-
-
-//        function onOrdersReceived(orderList)
-//        {
-//            console.log("onOrdersReceived")
-//            console.log("Orders count:", orderList.length)
-//            logicMainApp.rcvOrders(orderList)
-//            modelOrdersUpdated();
-//        }
 
         function onSignalTokensListReceived(tokensResult)
         {

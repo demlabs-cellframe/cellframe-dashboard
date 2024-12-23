@@ -86,10 +86,6 @@ class DapServiceController : public QObject
     /// Application version.
     QString m_sVersion {DAP_VERSION};
 
-    QString m_sCurrentNetwork;
-
-    int m_iIndexCurrentNetwork;
-
     bool m_bReadingChains;
 
     /// Service connection management service.
@@ -128,10 +124,6 @@ public:
     /// Application version.
     Q_PROPERTY(QString Version MEMBER m_sVersion READ getVersion NOTIFY versionChanged)
 
-    Q_PROPERTY(QString CurrentNetwork MEMBER m_sCurrentNetwork READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
-
-    Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
-
     Q_PROPERTY(bool ReadingChains MEMBER m_bReadingChains READ getReadingChains WRITE setReadingChains NOTIFY readingChainsChanged)
 
     /// Client controller initialization.
@@ -143,14 +135,6 @@ public:
     /// Get app version.
     /// @return Application version.
     QString getVersion() const;
-
-    QString getCurrentNetwork() const;
-
-    Q_INVOKABLE void setCurrentNetwork(const QString &sCurrentNetwork);
-
-    int getIndexCurrentNetwork() const;
-
-    Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
 
     bool getReadingChains() const;
 
@@ -177,8 +161,6 @@ signals:
     /// The signal is emitted when the Application version property changes.
     /// @param version Version
     void versionChanged(const QString &version);
-
-    void currentNetworkChanged(const QString &asCurrentNetwork);
 
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();
@@ -218,8 +200,6 @@ signals:
     void walletTokensReceived(const QVariant& walletTokens);
 
     void walletsListReceived(const QVariant& walletsList);
-
-    void indexCurrentNetworkChanged(int iIndexCurrentNetwork);
 
     void readingChainsChanged(bool bReadingChains);
 

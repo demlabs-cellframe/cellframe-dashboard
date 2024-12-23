@@ -123,10 +123,7 @@ Item {
                 isSynch: true
                 onClicked:
                 {
-                    logicMainApp.requestToService("DapNetworkSingleSyncCommand", name)
-
-                    if(!USING_NOTIFY || !logicMainApp.stateNotify)
-                        logicMainApp.requestToService("DapGetNetworksStateCommand")
+                    networksModule.goSync(networkName)
                 }
             }
 
@@ -141,12 +138,9 @@ Item {
                     console.log("onClicked on/off network")
                     buttonNetwork.updateFakeButton(true)
                     if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
-                        logicMainApp.requestToService("DapNetworkGoToCommand", name, "online")
+                        networksModule.goOnline(networkName)
                     else
-                        logicMainApp.requestToService("DapNetworkGoToCommand", name, "offline")
-
-                    if(!USING_NOTIFY || !logicMainApp.stateNotify)
-                        logicMainApp.requestToService("DapGetNetworksStateCommand")
+                        networksModule.goOffline(networkName)
                 }
 
                 function setText()
@@ -253,7 +247,7 @@ Item {
             Layout.preferredHeight: 15
 
             staticText.text: qsTr("Address: ")
-            dynamicText.text: nodeAddress + " "
+            dynamicText.text: address + " "
 
             DapCopyButton
             {
@@ -264,7 +258,7 @@ Item {
 
                 onCopyClicked:
                 {
-                    clipboard.setText(nodeAddress)
+                    clipboard.setText(address)
 
                 }
             }
@@ -283,7 +277,7 @@ Item {
         DapNetworkNameStatusComponent
         {
             id: nameAndStatus
-            nameOfNetwork: name
+            nameOfNetwork: networkName
             stateOfNetwork: networkState
             stateOfTarget: targetState
             percentOfSync: syncPercent

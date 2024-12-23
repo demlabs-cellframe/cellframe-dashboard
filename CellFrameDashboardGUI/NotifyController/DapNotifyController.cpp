@@ -37,7 +37,7 @@ void DapNotifyController::stateProcessing(QString status)
             m_isConnected = true;
             emit socketState(m_connectState, false, false);
         }
-        emit isConnectedChanged();
+        emit isConnectedChanged(m_isConnected);
     }
 }
 

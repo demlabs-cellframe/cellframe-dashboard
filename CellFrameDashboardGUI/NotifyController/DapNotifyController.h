@@ -23,7 +23,7 @@ signals:
     void socketState(QString state, int isFirst, int isError);
     void netStates(QVariantMap netState);
 
-    void isConnectedChanged();
+    void isConnectedChanged(bool isConnected);
 
 public:
     void init();
