@@ -27,7 +27,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
         connect(m_notifyCtrl, &DapNotifyController::isConnectedChanged,   this, &DapModuleWallet::slotNotifyIsConnected);
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvWalletList,  this, &DapModuleWallet::slotRcvNotifyWalletList);
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvWalletInfo,  this, &DapModuleWallet::slotRcvNotifyWalletInfo);
-        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvWalletsInfo, this, &DapModuleWallet::slotRcvNotifyWalletssInfo);
+        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvWalletsInfo, this, &DapModuleWallet::slotRcvNotifyWalletsInfo);
 
     });
 
@@ -51,15 +51,16 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
 
 DapModuleWallet::~DapModuleWallet()
 {
-    disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
-    disconnect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv,    this, &DapModuleWallet::rcvWalletsInfo);
-    /*old*/disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
+    disconnect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived);
+//    disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
+//    disconnect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv,    this, &DapModuleWallet::rcvWalletsInfo);
+//    /*old*/disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
     disconnect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
     disconnect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
     disconnect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
     disconnect(s_serviceCtrl, &DapServiceController::walletRemoved,            this, &DapModuleWallet::rcvRemoveWallet);
 
-    disconnect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
+//    disconnect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
 
 //    delete m_timerUpdateListWallets;
     delete m_timerUpdateWallet;
@@ -74,30 +75,36 @@ DapModuleWallet::~DapModuleWallet()
 void DapModuleWallet::initConnect()
 {
     connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModuleWallet::rcvFee, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::walletsReceived, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
-    /*old*/connect(s_serviceCtrl, &DapServiceController::walletReceived, this, &DapModuleWallet::rcvWalletInfo, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived, Qt::QueuedConnection);
+//    connect(s_serviceCtrl, &DapServiceController::walletsReceived, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
+//    connect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
+//    /*old*/connect(s_serviceCtrl, &DapServiceController::walletReceived, this, &DapModuleWallet::rcvWalletInfo, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletRemoved, this, &DapModuleWallet::rcvRemoveWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletCreated, this, &DapModuleWallet::rcvCreateWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory, Qt::QueuedConnection);
 
     connect(m_timerFeeUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::tryUpdateFee, Qt::QueuedConnection);
-    /*old*/connect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet, Qt::QueuedConnection);
+//    /*old*/connect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet, Qt::QueuedConnection);
 
-    getWalletsInfo(QStringList()<<"true");
+//    getWalletsInfo(QStringList()<<"true");
 }
 
 
-//void DapModuleWallet::updateListWallets()
-//{
+void DapModuleWallet::updateListWallets()
+{
 //    m_modulesCtrl->updateListWallets();
-//}
+    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
+}
 
 void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
+    walletListProcessing(rcvData);
+}
 
+void DapModuleWallet::walletListProcessing(const QVariant &rcvData, bool isNotify)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
     if(doc.array().isEmpty())
     {
         setCurrentWallet(-1);
@@ -106,7 +113,7 @@ void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
     if(m_walletListTest != doc.toJson())
     {
         m_walletListTest = doc.toJson();
-        updateWalletInfo(doc);
+        updateWalletInfo(doc, isNotify);
 
         m_walletModel->updateWallets(m_walletsInfo);
 
@@ -152,7 +159,7 @@ void DapModuleWallet::restoreIndex()
     setCurrentWallet(0);
 }
 
-void DapModuleWallet::updateWalletInfo(const QJsonDocument& document)
+void DapModuleWallet::updateWalletInfo(const QJsonDocument& document, bool isNotify)
 {
     QJsonArray walletArray = document.array();
     QStringList tmpWallets;
@@ -160,12 +167,19 @@ void DapModuleWallet::updateWalletInfo(const QJsonDocument& document)
     for(const QJsonValue &value: walletArray)
     {
         QJsonObject tmpObject = value.toObject();
+        if(tmpObject.isEmpty())
+            continue;
 
-        CommonWallet::WalletInfo tmpWallet = processingWalletListItem(tmpObject);
+        CommonWallet::WalletInfo tmpWallet = processingWalletListItem(tmpObject, isNotify);
 
         if(!tmpWallet.walletName.isEmpty()  && tmpObject.contains("status"))
         {
-            m_walletsInfo.insert(tmpWallet.walletName, std::move(tmpWallet));
+            if(m_walletsInfo.contains(tmpWallet.walletName))
+            {
+                m_walletsInfo[tmpWallet.walletName].status = tmpWallet.status;
+            }
+            else
+                m_walletsInfo.insert(tmpWallet.walletName, std::move(tmpWallet));
         }
         tmpWallets.append(tmpWallet.walletName);
     }
@@ -237,7 +251,7 @@ int DapModuleWallet::getIndexWallet(const QString& walletName) const
     return index;
 }
 
-CommonWallet::WalletInfo DapModuleWallet::processingWalletListItem(QJsonObject walletObject)
+CommonWallet::WalletInfo DapModuleWallet::processingWalletListItem(QJsonObject walletObject, bool isNotify)
 {
     CommonWallet::WalletInfo tmpWallet;
 
@@ -251,13 +265,17 @@ CommonWallet::WalletInfo DapModuleWallet::processingWalletListItem(QJsonObject w
         return tmpWallet;
     }
     QString tmpName = walletObject[nameKey].toString();
-    auto tmpList = tmpName.split(".");
-    if(tmpList.size() != 2 || tmpList[1] != "dwallet")
+    QString walletName = tmpName;
+    if(isNotify)
     {
-        qWarning() << "Error while parsing file extension.";
-        return tmpWallet;
+        auto tmpList = tmpName.split(".");
+        if(tmpList.size() != 2 || tmpList[1] != "dwallet")
+        {
+            qWarning() << "Error while parsing file extension.";
+            return tmpWallet;
+        }
+        walletName = tmpList[0];
     }
-    QString walletName = tmpList[0];
     if(!walletObject.contains("status"))
     {
         qWarning() << "The " << walletName << " is not contains status";
@@ -275,10 +293,6 @@ CommonWallet::WalletInfo DapModuleWallet::processingWalletListItem(QJsonObject w
     else if(status == "unprotected")
     {
         status = "";
-    }
-    else
-    {
-        status = status;
     }
 
     tmpWallet.walletName = walletName;
@@ -347,14 +361,14 @@ void DapModuleWallet::requestWalletTokenInfo(QStringList args)
 
 void DapModuleWallet::createWallet(QStringList args)
 {
-    /*old*/m_timerUpdateWallet->stop();
-    /*old*/s_serviceCtrl->requestToService("DapAddWalletCommand", args);
+//    /*old*/m_timerUpdateWallet->stop();
+    s_serviceCtrl->requestToService("DapAddWalletCommand", args);
 }
 
 void DapModuleWallet::removeWallet(QStringList args)
 {
-    /*old*/m_timerUpdateWallet->stop();
-    /*old*/s_serviceCtrl->requestToService("DapRemoveWalletCommand", args);
+//    /*old*/m_timerUpdateWallet->stop();
+    s_serviceCtrl->requestToService("DapRemoveWalletCommand", args);
 }
 
 void DapModuleWallet::createPassword(QStringList args)
@@ -384,16 +398,21 @@ void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
 
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
 {
-    /*old*/m_modulesCtrl->updateListWallets();
-    /*old*/m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
-    /*old*/emit sigWalletCreate(rcvData);
+//    /*old*/m_modulesCtrl->updateListWallets();
+//    /*old*/m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
+    emit sigWalletCreate(rcvData);
 }
 
 void DapModuleWallet::rcvRemoveWallet(const QVariant &rcvData)
 {
-    /*old*/m_modulesCtrl->getWalletList();
-    /*old*/m_timerUpdateWallet->start(5000);
-    /*old*/emit sigWalletRemove(rcvData);
+//    /*old*/m_modulesCtrl->getWalletList();
+//    /*old*/m_timerUpdateWallet->start(5000);
+    emit sigWalletRemove(rcvData);
+
+    QTimer::singleShot(2000, [this](){
+        updateListWallets();
+        getWalletsInfo(QStringList()<<"true");
+    });
 }
 
 void DapModuleWallet::rcvHistory(const QVariant &rcvData)
@@ -406,7 +425,7 @@ void DapModuleWallet::slotUpdateWallet()
     requestWalletInfo("false");
 }
 
-void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
+void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle, bool isNotify)
 {
     QByteArray byteArrayData = data.toByteArray();
 
@@ -450,8 +469,8 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
 
         for(const QJsonValue& walletValue: walletArray)
         {
-            CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(walletValue.toObject()));
-            if(m_walletsInfo.contains(tmpInfo.walletName))
+            CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(walletValue.toObject()), isNotify);
+            if(m_walletsInfo.contains(tmpInfo.walletName) && !m_walletsInfo[tmpInfo.walletName].walletInfo.isEmpty())
             {
                 m_walletsInfo[tmpInfo.walletName] = std::move(tmpInfo);
             }
@@ -468,8 +487,8 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
     else
     {
         QJsonObject inObject = document.object();
-        CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(inObject));
-        if(m_walletsInfo.contains(tmpInfo.walletName))
+        CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(inObject), isNotify);
+        if(m_walletsInfo.contains(tmpInfo.walletName) && !m_walletsInfo[tmpInfo.walletName].walletInfo.isEmpty())
         {
             m_walletsInfo[tmpInfo.walletName] = std::move(tmpInfo);
         }
@@ -511,6 +530,43 @@ void DapModuleWallet::updateDexTokenModel()
 
 CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& walletObject, bool isNotify)
 {
+//    QJsonDocument testDoc;
+//    testDoc.setObject(walletObject);
+//    qDebug()<<"[creatInfoObject]" << testDoc.toJson();
+    auto tokenParse = [](QJsonObject tokenObject) -> CommonWallet::WalletTokensInfo
+    {
+        CommonWallet::WalletTokensInfo token;
+
+        if(tokenObject.contains("coins"))
+        {
+            token.value = tokenObject["coins"].toString();
+        }
+        if(tokenObject.contains("datoshi"))
+        {
+            token.datoshi = tokenObject["datoshi"].toString();
+        }
+
+        QString nameKey = tokenObject.contains("ticker") ? "ticker" :
+                          tokenObject.contains("name")   ? "name" :
+                                                            "";
+
+        if(tokenObject.contains(nameKey))
+        {
+            token.ticker = tokenObject[nameKey].toString();
+            token.tokenName = tokenObject[nameKey].toString();
+        }
+        if(tokenObject.contains("availableDatoshi"))
+        {
+            token.availableDatoshi = tokenObject["availableDatoshi"].toString();
+        }
+        if(tokenObject.contains("availableCoins"))
+        {
+            token.availableCoins = tokenObject["availableCoins"].toString();
+        }
+
+        return token;
+    };
+
     CommonWallet::WalletInfo wallet;
 
     if(walletObject.contains("name"))
@@ -525,7 +581,27 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
 
     if(walletObject.contains("status"))
     {
-        wallet.status = walletObject["status"].toString();
+        if(isNotify) //todo
+        {
+            QString status = walletObject["status"].toString();
+            if(status == "protected-inactive")
+            {
+                status = "non-Active";
+            }
+            else if(status == "protected-active")
+            {
+                status = "Active";
+            }
+            else if(status == "unprotected")
+            {
+                status = "";
+            }
+            wallet.status = status;
+        }
+        else
+        {
+            wallet.status = walletObject["status"].toString();
+        }
     }
     wallet.isLoad = true;
     if(walletObject.contains("networks"))
@@ -535,7 +611,7 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
             QJsonObject networksObj = walletObject["networks"].toObject();
             QStringList keys = networksObj.keys();
 
-            for(auto key : keys)
+            for(const auto &key : keys)
             {
                 CommonWallet::WalletNetworkInfo networkInfo;
                 QString netName = key;
@@ -561,102 +637,56 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
                     continue;
                 }
 
-                if(networkObject.contains("balance"))
+                if(networkObject.contains("tokens"))
                 {
-                    for(const QJsonValue& tokenValue: networkObject["balance"].toArray())
+                    for(const QJsonValue& tokenValue: networkObject["tokens"].toArray())
                     {
-                        QJsonObject tokenObject = tokenValue.toObject();
-                        CommonWallet::WalletTokensInfo token;
+                        CommonWallet::WalletTokensInfo token = tokenParse(tokenValue.toObject());
                         token.network = networkInfo.network;
-                        if(tokenObject.contains("coin"))
-                        {
-                            token.value = tokenObject["coin"].toString();
-                        }
-                        if(tokenObject.contains("datoshi"))
-                        {
-                            token.datoshi = tokenObject["datoshi"].toString();
-                        }
-                        if(tokenObject.contains("ticker"))
-                        {
-                            token.ticker = tokenObject["name"].toString();
-                            token.tokenName = tokenObject["name"].toString();
-                        }
-                        if(tokenObject.contains("availableDatoshi"))
-                        {
-                            token.availableDatoshi = tokenObject["availableDatoshi"].toString();
-                        }
-                        if(tokenObject.contains("availableCoins"))
-                        {
-                            token.availableCoins = tokenObject["availableCoins"].toString();
-                        }
                         networkInfo.networkInfo.append(token);
                     }
                 }
+                wallet.walletInfo.insert(networkInfo.network, networkInfo);
             }
         }
         else
         {
-
-        }
-
-        for(const QJsonValue& networkValue: walletObject["networks"].toArray())
-        {
-            QJsonObject networkObject = networkValue.toObject();
-            CommonWallet::WalletNetworkInfo networkInfo;
-
-            if(networkObject.contains("address"))
+            for(const QJsonValue& networkValue: walletObject["networks"].toArray())
             {
-                networkInfo.address = networkObject["address"].toString();
-            }
-            else
-            {
-                qWarning() << "The wallet address is missing on the network or the input data has changed";
-                continue;
-            }
+                QJsonObject networkObject = networkValue.toObject();
+                CommonWallet::WalletNetworkInfo networkInfo;
 
-            if(networkObject.contains("name"))
-            {
-                networkInfo.network = networkObject["name"].toString();
-            }
-            else
-            {
-                qWarning() << "The network name is missing or the input data has changed";
-                continue;
-            }
-
-            if(networkObject.contains("tokens"))
-            {
-                for(const QJsonValue& tokenValue: networkObject["tokens"].toArray())
+                if(networkObject.contains("address"))
                 {
-                    QJsonObject tokenObject = tokenValue.toObject();
-                    CommonWallet::WalletTokensInfo token;
-                    token.network = networkInfo.network;
-                    if(tokenObject.contains("coins"))
-                    {
-                        token.value = tokenObject["coins"].toString();
-                    }
-                    if(tokenObject.contains("datoshi"))
-                    {
-                        token.datoshi = tokenObject["datoshi"].toString();
-                    }
-                    if(tokenObject.contains("name"))
-                    {
-                        token.ticker = tokenObject["name"].toString();
-                        token.tokenName = tokenObject["name"].toString();
-                    }
-                    if(tokenObject.contains("availableDatoshi"))
-                    {
-                        token.availableDatoshi = tokenObject["availableDatoshi"].toString();
-                    }
-                    if(tokenObject.contains("availableCoins"))
-                    {
-                        token.availableCoins = tokenObject["availableCoins"].toString();
-                    }                    
-                    networkInfo.networkInfo.append(token);
+                    networkInfo.address = networkObject["address"].toString();
                 }
-            }
+                else
+                {
+                    qWarning() << "The wallet address is missing on the network or the input data has changed";
+                    continue;
+                }
 
-            wallet.walletInfo.insert(networkInfo.network, networkInfo);
+                if(networkObject.contains("name"))
+                {
+                    networkInfo.network = networkObject["name"].toString();
+                }
+                else
+                {
+                    qWarning() << "The network name is missing or the input data has changed";
+                    continue;
+                }
+
+                if(networkObject.contains("tokens"))
+                {
+                    for(const QJsonValue& tokenValue: networkObject["tokens"].toArray())
+                    {
+                        CommonWallet::WalletTokensInfo token = tokenParse(tokenValue.toObject());
+                        token.network = networkInfo.network;
+                        networkInfo.networkInfo.append(token);
+                    }
+                }
+                wallet.walletInfo.insert(networkInfo.network, networkInfo);
+            }
         }
     }
     return wallet;
@@ -684,31 +714,38 @@ void DapModuleWallet::tryUpdateFee()
 
 void DapModuleWallet::slotRcvNotifyWalletList(QJsonDocument doc)
 {
-    walletsListReceived(doc.toJson());
+    walletListProcessing(doc.toJson(), true);
 }
 
 void DapModuleWallet::slotRcvNotifyWalletInfo(QJsonDocument doc)
 {
-
     QJsonObject obj = doc.object();
     QString walletName = obj["wallet"].toObject().keys().first();
-
 
     QJsonObject tmpObj = obj["wallet"].toObject()[walletName].toObject();
     tmpObj.insert("name", walletName);
 
-
-
-
     doc.setObject(tmpObj);
 
-
-//    rcvWalletInfo(doc.toJson());
+    updateWalletModel(doc.toJson(), true, true);
 }
 
-void DapModuleWallet::slotRcvNotifyWalletssInfo(QJsonDocument doc)
+void DapModuleWallet::slotRcvNotifyWalletsInfo(QJsonDocument doc)
 {
+    QJsonObject obj = doc.object();
+    QStringList walletKeys = obj.keys();
 
+    QJsonArray arr;
+
+    for(const auto &key : walletKeys)
+    {
+        QJsonObject wallet = obj[key].toObject();
+        wallet.insert("name", key);
+        arr.append(wallet);
+    }
+
+    doc.setArray(arr);
+    updateWalletModel(doc.toJson(), false, true);
 }
 
 void DapModuleWallet::slotNotifyIsConnected(bool isConnected)

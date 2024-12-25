@@ -159,7 +159,7 @@ DapNetworkModel::Item DapModuleNetworks::itemModelGenerate(QString netName, QJso
 
     networkItem.networkName  = netName;
     networkItem.address      = itemModel["current_addr"].toString();
-    networkItem.errorMessage = "";
+    networkItem.errorMessage = itemModel["errorMessage"].toString();
     networkItem.syncPercent  = convertProgress(itemModel["processed"].toObject());
 
     if(!itemModel.contains("links"))

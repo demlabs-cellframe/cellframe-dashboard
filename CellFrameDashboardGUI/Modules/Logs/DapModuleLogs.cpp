@@ -152,7 +152,7 @@ QString DapModuleLog::getLogPath(LogType type)
     default:
         break;
     }
-    qDebug()<<"[DapModuleLog::getLogPath] " << path;
+//    qDebug()<<"[DapModuleLog::getLogPath] " << path;
     return path;
 }
 
@@ -165,7 +165,7 @@ QString DapModuleLog::getLogFileName(QString folder, LogType type)
 
     QFileInfoList folderitems(currentFolder.entryInfoList());
 
-    QString prefixFileName = type == LogType::NodeLog    ? "cellframe-node"
+    QString prefixFileName = type == LogType::NodeLog      ? "cellframe-node"
                              : type == LogType::ServiceLog ? "Cellframe-DashboardService"
                                                            : "Cellframe-DashboardGUI";
 

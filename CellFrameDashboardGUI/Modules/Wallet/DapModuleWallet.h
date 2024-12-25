@@ -66,14 +66,15 @@ public:
     Q_INVOKABLE void updateBalanceDEX();
 private:
     void initConnect();
-    void updateWalletModel(QVariant, bool isSingle);
+    void updateWalletModel(QVariant, bool isSingle, bool isNotify = false);
     void setNewCurrentWallet(const QPair<int, QString> newWallet);
-    void updateWalletInfo(const QJsonDocument &document);
+    void updateWalletInfo(const QJsonDocument &document, bool isNotify = false);
     void restoreIndex();
     void updateDexTokenModel();
     int getIndexWallet(const QString& walletName) const;
+    void walletListProcessing(const QVariant &data, bool isNotify = false);
 
-    CommonWallet::WalletInfo processingWalletListItem(QJsonObject wallet);
+    CommonWallet::WalletInfo processingWalletListItem(QJsonObject wallet, bool isNotify = false);
 
     CommonWallet::WalletInfo creatInfoObject(const QJsonObject& walletObject, bool isNotify = false);
     QVariantMap getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker);
@@ -106,7 +107,7 @@ private slots:
     void createTx(QStringList args);
     void requestWalletTokenInfo(QStringList args);
 
-//    void updateListWallets();
+    void updateListWallets();
     void walletsListReceived(const QVariant &rcvData);
 
     void startUpdateCurrentWallet();
@@ -115,7 +116,7 @@ private slots:
 
     void slotRcvNotifyWalletList(QJsonDocument doc);
     void slotRcvNotifyWalletInfo(QJsonDocument doc);
-    void slotRcvNotifyWalletssInfo(QJsonDocument doc);
+    void slotRcvNotifyWalletsInfo(QJsonDocument doc);
 
     void slotNotifyIsConnected(bool isConnected);
 private:
