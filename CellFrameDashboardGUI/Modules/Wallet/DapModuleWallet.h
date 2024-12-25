@@ -101,6 +101,7 @@ private slots:
     void rcvCreateWallet(const QVariant &rcvData);
     void rcvRemoveWallet(const QVariant &rcvData);
     void rcvHistory(const QVariant &rcvData);
+    void rcvQueueInfo(const QVariant &rcvData);
 
     void slotUpdateWallet();
     void createTx(QStringList args);
@@ -118,6 +119,9 @@ private slots:
     void slotRcvNotifyWalletssInfo(QJsonDocument doc);
 
     void slotNotifyIsConnected(bool isConnected);
+private:
+    void requestQueueInfo();
+    void updateQueueWallets(const QVariant &rcvData);
 private:
 
     WalletHashManager *m_walletHashManager;
@@ -141,6 +145,7 @@ private:
     QByteArray m_walletListTest;
     QByteArray m_walletsInfoTest;
     QByteArray m_walletInfoTest;
+    QVariant m_queueWalletInfoCash;
 
     bool m_firstDataLoad = false;
     QString m_currentTokenDEX = "";

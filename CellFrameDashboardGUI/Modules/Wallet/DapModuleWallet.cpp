@@ -46,6 +46,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
         initConnect();
         m_timerUpdateWallet->start(TIME_WALLET_UPDATE);
         tryUpdateFee();
+        requestQueueInfo();
     });
 }
 
@@ -81,6 +82,7 @@ void DapModuleWallet::initConnect()
     connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletCreated, this, &DapModuleWallet::rcvCreateWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::queueWalletInfoReceived, this, &DapModuleWallet::rcvQueueInfo, Qt::QueuedConnection);
 
     connect(m_timerFeeUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::tryUpdateFee, Qt::QueuedConnection);
     /*old*/connect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet, Qt::QueuedConnection);
@@ -278,11 +280,12 @@ CommonWallet::WalletInfo DapModuleWallet::processingWalletListItem(QJsonObject w
     }
     else
     {
-        status = status;
+        // status = status;
     }
 
     tmpWallet.walletName = walletName;
     tmpWallet.status = status;
+    return tmpWallet;
 }
 
 void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
@@ -362,6 +365,11 @@ void DapModuleWallet::createPassword(QStringList args)
     s_serviceCtrl->requestToService("DapCreatePassForWallet", args);
 }
 
+void DapModuleWallet::requestQueueInfo()
+{
+    s_serviceCtrl->requestToService("DapQueueWalletInfoCommand", QStringList());
+}
+
 void DapModuleWallet::getTxHistory(QStringList args)
 {
     s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", args);
@@ -399,6 +407,67 @@ void DapModuleWallet::rcvRemoveWallet(const QVariant &rcvData)
 void DapModuleWallet::rcvHistory(const QVariant &rcvData)
 {
     emit sigHistory(rcvData);
+}
+
+void DapModuleWallet::updateQueueWallets(const QVariant &rcvData)
+{
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+
+    for(auto& walletInfo: m_walletsInfo)
+    {
+        for(auto& networkInfo: walletInfo.walletInfo)
+        {
+            for(auto& tokenInfo: networkInfo.networkInfo)
+            {
+                tokenInfo.availableCoins.clear();
+                tokenInfo.availableDatoshi.clear();
+            }
+        }
+    }
+
+    for(const QString& network: replyObj.keys())
+    {
+        QJsonObject networkObject = replyObj.value(network).toObject();
+        for(const QString& wallet: networkObject.keys())
+        {
+            if(m_walletsInfo.contains(wallet) && m_walletsInfo.value(wallet).walletInfo.contains(network))
+            {
+                QJsonObject tokensObject = networkObject.value(wallet).toObject();
+                for(auto& tokenInfo: m_walletsInfo[wallet].walletInfo[network].networkInfo)
+                {
+                    if(!tokensObject.contains(tokenInfo.tokenName))
+                    {
+                        continue;
+                    }
+
+                    Dap::Coin value = tokenInfo.value;
+                    Dap::Coin queueValue = tokensObject.value(tokenInfo.tokenName).toString();
+                    if(queueValue > value)
+                    {
+                        qWarning() << "[DapModuleWallet] [rcvQueueInfo] There are more queues than there are on the balance sheet.";
+                        tokenInfo.availableCoins = "0.0";
+                        tokenInfo.availableDatoshi = "0";
+                        continue;
+                    }
+                    value = value - queueValue;
+                    tokenInfo.availableCoins = value.toCoinsString();
+                    tokenInfo.availableDatoshi = value.toDatoshiString();
+                }
+            }
+        }
+    }
+    emit walletsModelChanged();
+}
+
+void DapModuleWallet::rcvQueueInfo(const QVariant &rcvData)
+{
+    m_queueWalletInfoCash = rcvData;
+    updateQueueWallets(rcvData);
+    if(m_walletsInfo.contains(m_currentWallet.second))
+    {
+        m_infoWallet->updateModel(m_walletsInfo[m_currentWallet.second].walletInfo);
+    }
 }
 
 void DapModuleWallet::slotUpdateWallet()
@@ -482,7 +551,7 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
         }
         emit walletsModelChanged();
     }
-
+    updateQueueWallets(m_queueWalletInfoCash);
     updateDexTokenModel();
     if(m_walletsInfo.contains(m_currentWallet.second))
     {

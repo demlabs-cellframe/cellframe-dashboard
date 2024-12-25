@@ -72,6 +72,7 @@
 #include "handlers/DapGetListKeysCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
 #include "handlers/DapAbstractCommand.h"
+#include "handlers/DapQueueWalletInfoCommand.h"
 
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceClientMessage.h"
@@ -280,7 +281,7 @@ signals:
     void rcvCreateStakeOrder(const QVariant& rcvData);
     void rcvGetListKeysCommand(const QVariant& rcvData);
     void moveWalletCommandReceived(const QVariant& rcvData);
-    
+    void queueWalletInfoReceived(const QVariant& rcvData);
 private slots:
     /// Register command.
     void registerCommand();
