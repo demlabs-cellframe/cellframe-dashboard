@@ -76,6 +76,7 @@
 #include "handlers/DapVoitingDumpCommand.h"
 #include "handlers/DapCheckQueueTransactionCommand.h"
 #include "handlers/DapMoveWalletCommand.h"
+#include "handlers/DapQueueWalletInfoCommand.h"
 
 #include "handlers/DapTransactionsInfoQueueCommand.h"
 
@@ -167,7 +168,7 @@ void DapServiceController::activityGUIProcessing(bool isRun)
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(service);
     QStringList netList = m_reqularRequestsCtrl->getNetworkList();
     for(const QString &net: qAsConst(netList))
-    {     
+    {
         transceiver->respondToClient(QStringList()<<net<<on_off);
     }
 }
@@ -191,7 +192,7 @@ bool DapServiceController::start()
     }
 #else
     m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
-    if(m_pServer->listen(DAP_BRAND)) 
+    if(m_pServer->listen(DAP_BRAND))
     {
         connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
         connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
@@ -332,6 +333,7 @@ void DapServiceController::initServices()
 
     //New
     m_servicePool.append(new DapTransactionsInfoQueueCommand      ("DapTransactionsInfoQueueCommand"      , nullptr));
+    m_servicePool.append(new DapQueueWalletInfoCommand            ("DapQueueWalletInfoCommand"            , m_pServer));
 
     for(auto& service: qAsConst(m_servicePool))
     {
@@ -383,16 +385,11 @@ void DapServiceController::initAdditionalParamrtrsService()
             connect(controller, &DapTransactionQueueController::toGetWalletInfo, command, &DapAbstractCommand::toDataSignal);
             connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::walletInfoReceived);
         }
-        if(service->getName() == "DapGetWalletsInfoCommand")
+        if(service->getName() == "DapQueueWalletInfoCommand")
         {
-            DapGetWalletsInfoCommand* command = dynamic_cast<DapGetWalletsInfoCommand*>(service);
-            connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletsInfoCommand::queueDataUpdate);
-            connect(command, &DapGetWalletsInfoCommand::queuedUpdated,  this, &DapServiceController::sendUpdateWallets);
-        }
-        if(service->getName() == "DapGetWalletInfoCommand")
-        {
-            DapGetWalletInfoCommand* command = dynamic_cast<DapGetWalletInfoCommand*>(service);
-            connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletInfoCommand::queueDataUpdate);
+            DapQueueWalletInfoCommand* command = dynamic_cast<DapQueueWalletInfoCommand*>(service);
+            connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapQueueWalletInfoCommand::queueDataUpdate);
+            connect(command, &DapQueueWalletInfoCommand::queuedUpdated,  this, &DapServiceController::sendUpdateWallets);
         }
         if(service->getName() == "DapGetAllWalletHistoryCommand")
         {
@@ -413,6 +410,6 @@ void DapServiceController::sendUpdateHistory(const QVariant& data)
 
 void DapServiceController::sendUpdateWallets(const QVariant& data)
 {
-    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWalletServiceInitCommand"));
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapQueueWalletInfoCommand"));
     transceiver->notifyToClient(data);
 }

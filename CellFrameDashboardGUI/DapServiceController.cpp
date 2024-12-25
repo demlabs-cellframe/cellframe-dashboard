@@ -267,6 +267,7 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeListCommand("DapNodeListCommand", m_DAPRpcSocket))), QString("rcvNodeListCommand")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_DAPRpcSocket))), QString("networkStatesListReceived")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapMoveWalletCommand("DapMoveWalletCommand", m_DAPRpcSocket))), QString("moveWalletCommandReceived")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapQueueWalletInfoCommand("DapQueueWalletInfoCommand", m_DAPRpcSocket))), QString("queueWalletInfoReceived")));
 
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {
@@ -304,8 +305,6 @@ void DapServiceController::registerCommand()
         if(!tokensResult.isValid())
             return ;
 
-//        emit signalTokensListReceived(tokensResult);
-
         if (tokensResult.toString() == "isEqual")
         {
             qDebug() << "tokensListReceived isEqual";
@@ -316,20 +315,6 @@ void DapServiceController::registerCommand()
             emit signalTokensListReceived(tokensResult);
         }
 
-/*        if(s_bufferTokensJson.isEmpty())
-        {
-            s_bufferTokensJson = tokensResult.toByteArray();
-            emit signalTokensListReceived(tokensResult);
-            return ;
-        }else{
-            if(!compareJson(s_bufferTokensJson, tokensResult))
-            {
-                s_bufferTokensJson = tokensResult.toByteArray();
-                emit signalTokensListReceived(tokensResult);
-                return ;
-            }
-            emit signalTokensListReceived("isEqual");
-        }*/
     });
     registerEmmitedSignal();
 }
