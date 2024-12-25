@@ -57,7 +57,7 @@ public:
 
     Q_INVOKABLE QVariantMap isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
 
-    Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);};
+    Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);}
     Q_INVOKABLE void stopUpdateFee() {m_timerFeeUpdateWallet->stop();}
 
     Q_INVOKABLE void setCurrentTokenDEX(const QString& token);
@@ -73,7 +73,9 @@ private:
     void updateDexTokenModel();
     int getIndexWallet(const QString& walletName) const;
 
-    CommonWallet::WalletInfo creatInfoObject(const QJsonObject& walletObject);
+    CommonWallet::WalletInfo processingWalletListItem(QJsonObject wallet);
+
+    CommonWallet::WalletInfo creatInfoObject(const QJsonObject& walletObject, bool isNotify = false);
     QVariantMap getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker);
 signals:
     void sigWalletInfo(const QVariant& result);
@@ -104,18 +106,24 @@ private slots:
     void createTx(QStringList args);
     void requestWalletTokenInfo(QStringList args);
 
-    void updateListWallets();
+//    void updateListWallets();
     void walletsListReceived(const QVariant &rcvData);
 
     void startUpdateCurrentWallet();
     void rcvFee(const QVariant &rcvData);
     void tryUpdateFee();
+
+    void slotRcvNotifyWalletList(QJsonDocument doc);
+    void slotRcvNotifyWalletInfo(QJsonDocument doc);
+    void slotRcvNotifyWalletssInfo(QJsonDocument doc);
+
+    void slotNotifyIsConnected(bool isConnected);
 private:
 
     WalletHashManager *m_walletHashManager;
 
     DapModulesController* m_modulesCtrl;
-    QTimer *m_timerUpdateListWallets;
+//    QTimer *m_timerUpdateListWallets;
     QTimer *m_timerUpdateWallet;
     QTimer *m_timerFeeUpdateWallet;
 
@@ -127,6 +135,7 @@ private:
     DapTokensWalletModel* m_tokenModel = nullptr;
     DapTokensWalletModel* m_DEXTokenModel = nullptr;
     TokenProxyModel* m_tokenFilterModelDEX = nullptr;
+    DapNotifyController *m_notifyCtrl = nullptr;
 
     QPair<int,QString> m_currentWallet = {-1, ""};
     QByteArray m_walletListTest;

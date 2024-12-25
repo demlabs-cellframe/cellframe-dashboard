@@ -27,10 +27,11 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
         initConnect();
         updateHistory(true);
     });
-    connect(m_modulesCtrl, &DapModulesController::currentWalletNameChanged, [this] ()
-            {
-                this->setWalletName(m_modulesCtrl->getCurrentWalletName());
-            });
+
+    connect(m_modulesCtrl, &DapModulesController::currentWalletUpdated, [this] ()
+    {
+        this->setWalletName(m_modulesCtrl->getCurrentWalletName());
+    });
 }
 
 void DapModuleTxExplorer::initConnect()
@@ -169,7 +170,7 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
-    QString currantWalletName = m_modulesCtrl->currentWalletName();
+    QString currantWalletName = m_modulesCtrl->getCurrentWalletName();
 
     if((currantWalletName.isEmpty() && (m_modulesCtrl->getCurrentWalletIndex() < 0)) || isSendReqeust)
         return ;

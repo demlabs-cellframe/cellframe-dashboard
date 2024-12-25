@@ -187,7 +187,6 @@ DapPage
                 navigator.popPage()
             }
             updateScreen()
-            txExplorerModule.setWalletName(walletModule.getCurrentWalletName())
             txExplorerModule.clearHistory()
             txExplorerModule.updateHistory(true)
         }

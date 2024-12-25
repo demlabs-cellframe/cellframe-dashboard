@@ -39,7 +39,6 @@ public:
 
     void initModules();
     void initWorkers();
-    void restoreIndex();
 
     void addModule(const QString &key, DapAbstractModule *p_module);
     DapAbstractModule* getModule(const QString &key);
@@ -49,13 +48,7 @@ public:
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
     QQmlApplicationEngine *s_appEngine;
-    DapServiceController *s_serviceCtrl;   
-
-    Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
-    int currentWalletIndex(){return m_currentWalletIndex;}
-    void setCurrentWalletIndex(int newIndex);
-    Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
-    QString currentWalletName(){return m_currentWalletName;}
+    DapServiceController *s_serviceCtrl;
 
     Q_PROPERTY (bool isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
     bool isNodeWorking(){return m_isNodeWorking;}
@@ -72,26 +65,25 @@ public slots:
     Q_INVOKABLE void updateListWallets();
     void setNodeLoadProgress(int progress);
     void setIsNodeWorking(bool);
-//    Q_INVOKABLE void updateListNetwork();
 
     void slotRcvNotifyWalletList(QJsonDocument doc);
     void slotRcvNotifyWalletInfo(QJsonDocument doc);
     void slotRcvNotifyWalletsInfo(QJsonDocument doc);
 
     void slotRcvNotifyNetList(QJsonDocument doc);
-    void slotRcvNotifyNetInfo(QJsonDocument doc);
-    void slotRcvNotifyNetsInfo(QJsonDocument doc);
 
 private slots:
     void rcvNetList(const QVariant &rcvData);
+    void rcvWalletList(const QVariant &rcvData);
 
 signals:
     void initDone();
 
     void walletsListUpdated();
     void netListUpdated();
-    void currentWalletIndexChanged();
-    void currentWalletNameChanged();
+
+    void currentWalletUpdated();
+
     void sigFeeRcv(const QVariant &rcvData);
 
     void feeUpdateChanged();

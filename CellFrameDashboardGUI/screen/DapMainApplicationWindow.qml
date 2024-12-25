@@ -68,7 +68,6 @@ Rectangle {
         property string currentWalletName: logicMainApp.currentWalletName
         property int currentLanguageIndex: logicMainApp.currentLanguageIndex
         property string currentLanguageName: logicMainApp.currentLanguageName
-        //property string currentWalletIndex: logicMainApp.currentWalletIndex
 
         Component.onCompleted:
         {
@@ -81,7 +80,6 @@ Rectangle {
 
             logicMainApp.currentWalletName = currentWalletName
             logicMainApp.currentLanguageIndex = currentLanguageIndex
-//            logicMainApp.currentWalletIndex = currentWalletIndex
 
         }
     }
