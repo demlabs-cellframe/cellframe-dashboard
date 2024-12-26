@@ -101,7 +101,13 @@ void DapModuleWallet::updateListWallets()
 
 void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
 {
-    walletListProcessing(rcvData);
+    QJsonDocument document = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject listObject = document.object();
+    if(listObject.contains("result"))
+    {
+        QJsonArray resultArray = listObject.value("result").toArray();
+        walletListProcessing(QJsonDocument(resultArray).toJson());
+    }
 }
 
 void DapModuleWallet::walletListProcessing(const QVariant &rcvData, bool isNotify)
@@ -416,11 +422,7 @@ void DapModuleWallet::rcvRemoveWallet(const QVariant &rcvData)
 //    /*old*/m_modulesCtrl->getWalletList();
 //    /*old*/m_timerUpdateWallet->start(5000);
     emit sigWalletRemove(rcvData);
-
-    QTimer::singleShot(2000, [this](){
-        updateListWallets();
-        getWalletsInfo(QStringList()<<"true");
-    });
+    updateListWallets();
 }
 
 void DapModuleWallet::rcvHistory(const QVariant &rcvData)

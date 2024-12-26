@@ -62,6 +62,8 @@ private slots:
     void sendConnectRequest(QString site, int index);
     void sendUpdateHistory(const QVariant&);
     void sendUpdateWallets(const QVariant&);
+
+    void waletListChangedSlot(const QMap<QString,QString>& list);
 private:
     /// Service core.
     DapUiService        *m_pServer {nullptr};

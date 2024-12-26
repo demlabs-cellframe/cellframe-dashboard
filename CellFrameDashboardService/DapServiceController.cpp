@@ -106,6 +106,7 @@ DapServiceController::DapServiceController(QObject *parent)
     : QObject(parent)
 {
     m_reqularRequestsCtrl = new DapRegularRequestsController();
+    connect(m_reqularRequestsCtrl, &DapRegularRequestsController::walletListChanged, this, &DapServiceController::waletListChangedSlot);
 
     m_threadRegular = new QThread();
     m_reqularRequestsCtrl->moveToThread(m_threadRegular);
@@ -271,7 +272,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapNetIdCommand                      ("DapNetIdCommand"                      , nullptr ));
     m_servicePool.append(new DapNetworkSingleSyncCommand          ("DapNetworkSingleSyncCommand"          , nullptr ));
     m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , nullptr ));
-    m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , nullptr ));
+    m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , m_pServer ));
     m_servicePool.append(new DapCreateTransactionCommandStack     ("DapCreateTransactionCommand"          , nullptr ));
     m_servicePool.append(new DapSrvStakeDelegateCommandStack      ("DapSrvStakeDelegateCommand"           , nullptr ));
     m_servicePool.append(new DapTXCondCreateCommandStack          ("DapTXCondCreateCommand"               , nullptr ));
@@ -412,4 +413,10 @@ void DapServiceController::sendUpdateWallets(const QVariant& data)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapQueueWalletInfoCommand"));
     transceiver->notifyToClient(data);
+}
+
+void DapServiceController::waletListChangedSlot(const QMap<QString,QString>& list)
+{
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetListWalletsCommand"));
+    transceiver->notifyToClient(QVariant::fromValue(list));
 }
