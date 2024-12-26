@@ -64,6 +64,8 @@ public:
     Q_PROPERTY(QString balanceDEX        READ getBalanceDEX   NOTIFY currantBalanceDEXChanged)
     Q_INVOKABLE QString getBalanceDEX(const QString& tokenName = "") const;
     Q_INVOKABLE void updateBalanceDEX();
+
+    Q_INVOKABLE void refreshAllWalletData();
 private:
     void initConnect();
     void updateWalletModel(QVariant, bool isSingle, bool isNotify = false);
@@ -128,7 +130,7 @@ private:
     WalletHashManager *m_walletHashManager;
 
     DapModulesController* m_modulesCtrl;
-//    QTimer *m_timerUpdateListWallets;
+    QTimer *m_timerUpdateListWallets;
     QTimer *m_timerUpdateWallet;
     QTimer *m_timerFeeUpdateWallet;
 
@@ -149,6 +151,7 @@ private:
     QVariant m_queueWalletInfoCash;
 
     bool m_firstDataLoad = false;
+    bool m_flagRefresh = false;
     QString m_currentTokenDEX = "";
 private:
     const int TIME_FEE_UPDATE = 2000;

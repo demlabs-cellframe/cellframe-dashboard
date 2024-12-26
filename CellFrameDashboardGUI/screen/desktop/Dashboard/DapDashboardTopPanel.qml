@@ -71,6 +71,8 @@ Controls.DapTopPanel
             visible: isModel
             Image{
                 anchors.centerIn: parent
+                sourceSize.height: 20
+                sourceSize.width: 20
                 source:
                 {
                     if(statusProtected === "")
@@ -78,7 +80,7 @@ Controls.DapTopPanel
                         return "qrc:/Resources/BlackTheme/icons/other/icon_activate_pass.svg"
                     }
                     return statusProtected === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
-                                                                                         : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
+                                                            : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
                 }
                 mipmap: true
             }
@@ -105,6 +107,36 @@ Controls.DapTopPanel
                     {
                         walletDeactivatePopup.show(walletModelList.get(walletModule.currentWalletIndex).walletName)
                     }
+                }
+            }
+        }
+
+        Rectangle{
+            id: buttonRefresh
+            Layout.leftMargin: 16
+            width: 32
+            height: 32
+            radius: 4
+            color: areaRefresh.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
+
+            visible: isModel
+            Image{
+                anchors.centerIn: parent
+                source: "qrc:/Resources/BlackTheme/icons/other/icon_reload.svg"
+                mipmap: true
+            }
+
+            Widgets.DapCustomToolTip{
+                contentText: logicWallet.walletStatus === "" ? qsTr("Create password for this wallet") : (logicWallet.walletStatus === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet"))
+            }
+
+            MouseArea{
+                id: areaRefresh
+                hoverEnabled: true
+                anchors.fill: parent
+
+                onClicked: {
+                    walletModule.refreshAllWalletData()
                 }
             }
         }

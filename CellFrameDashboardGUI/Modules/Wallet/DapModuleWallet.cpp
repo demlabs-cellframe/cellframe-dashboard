@@ -77,7 +77,7 @@ void DapModuleWallet::initConnect()
 {
     connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModuleWallet::rcvFee, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived, Qt::QueuedConnection);
-//    connect(s_serviceCtrl, &DapServiceController::walletsReceived, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletsReceived, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
 //    connect(s_serviceCtrl, &DapServiceController::walletsServiceInitRcv, this, &DapModuleWallet::rcvWalletsInfo, Qt::QueuedConnection);
 //    /*old*/connect(s_serviceCtrl, &DapServiceController::walletReceived, this, &DapModuleWallet::rcvWalletInfo, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletRemoved, this, &DapModuleWallet::rcvRemoveWallet, Qt::QueuedConnection);
@@ -96,7 +96,7 @@ void DapModuleWallet::initConnect()
 void DapModuleWallet::updateListWallets()
 {
 //    m_modulesCtrl->updateListWallets();
-    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
+//    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
 }
 
 void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
@@ -112,7 +112,7 @@ void DapModuleWallet::walletListProcessing(const QVariant &rcvData, bool isNotif
         setCurrentWallet(-1);
     }
 
-    if(m_walletListTest != doc.toJson())
+//    if(m_walletListTest != doc.toJson())
     {
         m_walletListTest = doc.toJson();
         updateWalletInfo(doc, isNotify);
@@ -192,6 +192,12 @@ void DapModuleWallet::updateWalletInfo(const QJsonDocument& document, bool isNot
         {
             m_walletsInfo.remove(name);
         }
+    }
+
+    if(m_flagRefresh)
+    {
+        m_flagRefresh = false;
+        getWalletsInfo(QStringList()<<"true");
     }
 }
 
@@ -415,12 +421,9 @@ void DapModuleWallet::rcvRemoveWallet(const QVariant &rcvData)
 {
 //    /*old*/m_modulesCtrl->getWalletList();
 //    /*old*/m_timerUpdateWallet->start(5000);
+    s_serviceCtrl->requestToService("DapGetListWalletsCommand","update");
     emit sigWalletRemove(rcvData);
 
-    QTimer::singleShot(2000, [this](){
-        updateListWallets();
-        getWalletsInfo(QStringList()<<"true");
-    });
 }
 
 void DapModuleWallet::rcvHistory(const QVariant &rcvData)
@@ -498,28 +501,44 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle, bool isNot
 {
     QByteArray byteArrayData = data.toByteArray();
 
-    if(isSingle)
+//    if(isSingle)
+//    {
+//        if(m_walletInfoTest != byteArrayData)
+//        {
+//            m_walletInfoTest = byteArrayData;
+//        }
+//        else
+//        {
+//            return;
+//        }
+//    }
+//    else
+//    {
+//        if(m_walletsInfoTest != byteArrayData)
+//        {
+//            m_walletsInfoTest = byteArrayData;
+//        }
+//        else
+//        {
+//            return;
+//        }
+//    }
+
+    auto updWalletsInfo = [this](QJsonObject obj, bool isNotify) -> void
     {
-        if(m_walletInfoTest != byteArrayData)
+        CommonWallet::WalletInfo tmpInfo = creatInfoObject(obj, isNotify);
+        if(m_walletsInfo.contains(tmpInfo.walletName) && !m_walletsInfo[tmpInfo.walletName].walletInfo.isEmpty())
         {
-            m_walletInfoTest = byteArrayData;
+            m_walletsInfo[tmpInfo.walletName] = std::move(tmpInfo);
         }
         else
         {
-            return;
+            if(!tmpInfo.walletName.isEmpty() && !tmpInfo.walletInfo.isEmpty())
+            {
+                m_walletsInfo.insert(tmpInfo.walletName, std::move(tmpInfo));
+            }
         }
-    }
-    else
-    {
-        if(m_walletsInfoTest != byteArrayData)
-        {
-            m_walletsInfoTest = byteArrayData;
-        }
-        else
-        {
-            return;
-        }
-    }
+    };
 
     QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
 
@@ -538,38 +557,15 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle, bool isNot
 
         for(const QJsonValue& walletValue: walletArray)
         {
-            CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(walletValue.toObject()), isNotify);
-            if(m_walletsInfo.contains(tmpInfo.walletName) && !m_walletsInfo[tmpInfo.walletName].walletInfo.isEmpty())
-            {
-                m_walletsInfo[tmpInfo.walletName] = std::move(tmpInfo);
-            }
-            else
-            {
-                if(!tmpInfo.walletName.isEmpty())
-                {
-                    m_walletsInfo.insert(tmpInfo.walletName, std::move(tmpInfo));
-                }
-            }
+            updWalletsInfo(std::move(walletValue.toObject()), isNotify);
         }
-        emit walletsModelChanged();
     }
     else
     {
         QJsonObject inObject = document.object();
-        CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(inObject), isNotify);
-        if(m_walletsInfo.contains(tmpInfo.walletName) && !m_walletsInfo[tmpInfo.walletName].walletInfo.isEmpty())
-        {
-            m_walletsInfo[tmpInfo.walletName] = std::move(tmpInfo);
-        }
-        else
-        {
-            if(!tmpInfo.walletName.isEmpty())
-            {
-                m_walletsInfo.insert(tmpInfo.walletName, std::move(tmpInfo));
-            }
-        }
-        emit walletsModelChanged();
+        updWalletsInfo(std::move(inObject), isNotify);
     }
+
     updateQueueWallets(m_queueWalletInfoCash);
     updateDexTokenModel();
     if(m_walletsInfo.contains(m_currentWallet.second))
@@ -587,7 +583,7 @@ void DapModuleWallet::updateDexTokenModel()
     QList<CommonWallet::WalletTokensInfo> tokenInfoConteiner;
     if(m_walletsInfo.contains(m_currentWallet.second))
     {
-        for(const auto& networkItem: m_walletsInfo[m_currentWallet.second].walletInfo)
+        for(const auto& networkItem: qAsConst(m_walletsInfo[m_currentWallet.second].walletInfo))
         {
             tokenInfoConteiner.append(networkItem.networkInfo);
         }        
@@ -1264,6 +1260,12 @@ QString DapModuleWallet::getBalanceDEX(const QString& tokenName) const
 void DapModuleWallet::updateBalanceDEX()
 {
     emit currantBalanceDEXChanged();
+}
+
+void DapModuleWallet::refreshAllWalletData()
+{
+    m_flagRefresh = true;
+    s_serviceCtrl->requestToService("DapGetListWalletsCommand","update");
 }
 
 QString DapModuleWallet::getTokenBalance(const QString& network, const QString& tokenName, const QString& walletName) const
