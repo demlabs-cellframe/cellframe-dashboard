@@ -606,10 +606,21 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
     {
         CommonWallet::WalletTokensInfo token;
 
+        QString coinName;
         if(tokenObject.contains("coins"))
         {
-            token.value = tokenObject["coins"].toString();
+            coinName = "coins";
         }
+        else if(tokenObject.contains("coin"))
+        {
+            coinName = "coin";
+        }
+        if(!coinName.isEmpty())
+        {
+            token.value = tokenObject[coinName].toString();
+        }
+
+
         if(tokenObject.contains("datoshi"))
         {
             token.datoshi = tokenObject["datoshi"].toString();
@@ -624,15 +635,6 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
             token.ticker = tokenObject[nameKey].toString();
             token.tokenName = tokenObject[nameKey].toString();
         }
-        if(tokenObject.contains("availableDatoshi"))
-        {
-            token.availableDatoshi = tokenObject["availableDatoshi"].toString();
-        }
-        if(tokenObject.contains("availableCoins"))
-        {
-            token.availableCoins = tokenObject["availableCoins"].toString();
-        }
-
         return token;
     };
 
@@ -680,10 +682,9 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
             QJsonObject networksObj = walletObject["networks"].toObject();
             QStringList keys = networksObj.keys();
 
-            for(const auto &key : keys)
+            for(const auto &netName : keys)
             {
                 CommonWallet::WalletNetworkInfo networkInfo;
-                QString netName = key;
                 QJsonObject networkObject = networksObj[netName].toObject();
 
                 if(!netName.isEmpty())
@@ -706,15 +707,22 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
                     continue;
                 }
 
+                QJsonArray tokenList;
                 if(networkObject.contains("tokens"))
                 {
-                    for(const QJsonValue& tokenValue: networkObject["tokens"].toArray())
-                    {
-                        CommonWallet::WalletTokensInfo token = tokenParse(tokenValue.toObject());
-                        token.network = networkInfo.network;
-                        networkInfo.networkInfo.append(token);
-                    }
+                    tokenList = networkObject["tokens"].toArray();
                 }
+                else if(networkObject.contains("balance"))
+                {
+                    tokenList = networkObject["balance"].toArray();
+                }
+                for(const QJsonValue& tokenValue: tokenList)
+                {
+                    CommonWallet::WalletTokensInfo token = tokenParse(tokenValue.toObject());
+                    token.network = networkInfo.network;
+                    networkInfo.networkInfo.append(token);
+                }
+
                 wallet.walletInfo.insert(networkInfo.network, networkInfo);
             }
         }
