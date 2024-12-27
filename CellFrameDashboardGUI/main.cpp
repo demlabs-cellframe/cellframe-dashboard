@@ -21,6 +21,8 @@
 #include "systemtray.h"
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
+#include "DapLogger.h"
+#include "DapLogHandler.h"
 
 #include "DapNodePathManager.h"
 

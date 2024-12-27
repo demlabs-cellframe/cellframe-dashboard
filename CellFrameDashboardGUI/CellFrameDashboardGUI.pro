@@ -16,8 +16,8 @@ include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
 
+include (../dap-ui-sdk/core/libdap-qt-helpers.pri)
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
-include (../dap-ui-sdk/core/libdap-qt-light.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
@@ -87,6 +87,7 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
+    NotifyController/DapNotificationWatcher.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
     Workers/mathworker.h \
@@ -107,6 +108,7 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
+    NotifyController/DapNotificationWatcher.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \
     Workers/mathworker.cpp \

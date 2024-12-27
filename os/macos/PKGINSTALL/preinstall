@@ -67,6 +67,9 @@ while read -r app; do
 done <<< "$dockApps"
 osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
 osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
+
+killall Cellframe-DashboardService Cellframe-Dashboard
+
 exit 0
 
 echo "cleanup done" >> /tmp/debug_dashboard.txt

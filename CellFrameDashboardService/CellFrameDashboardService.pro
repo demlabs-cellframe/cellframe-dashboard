@@ -54,7 +54,7 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
 
-include (../dap-ui-sdk/core/libdap-qt-light.pri)
+include (../dap-ui-sdk/core/libdap-qt-helpers.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
@@ -67,11 +67,9 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 SOURCES += \
     $$PWD/DapServiceController.cpp \
     $$PWD/main.cpp \
-    DapNotificationWatcher.cpp 
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    DapNotificationWatcher.h 
 
 linux-* {
     BUILD_FLAG = static

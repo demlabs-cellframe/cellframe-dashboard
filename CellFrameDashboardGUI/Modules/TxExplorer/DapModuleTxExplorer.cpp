@@ -90,8 +90,6 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         return;
     }
 
-    m_historyModel->clear();
-
     QJsonArray historyArray = doc["history"].toArray();
 
     QList<DapHistoryModel::Item> resultList;
@@ -132,6 +130,8 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
               {
                   return a.date_to_secs > b.date_to_secs;
               });
+
+    m_historyModel->clear();
     m_historyModel->updateModel(std::move(resultList));
 
     setStatusInit(true);

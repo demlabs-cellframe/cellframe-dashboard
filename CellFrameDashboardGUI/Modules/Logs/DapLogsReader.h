@@ -23,7 +23,7 @@ private:
 
 //functions
 public:
-    QStringList getLogList(){return m_logList;};
+    QStringList getLogList(){return m_logList;}
     void setLogType(QString path);
 
 private:

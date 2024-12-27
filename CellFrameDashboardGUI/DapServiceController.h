@@ -74,12 +74,11 @@
 #include "handlers/DapSrvStakeRemove.h"
 #include "handlers/DapSrvStakeInvalidate.h"
 #include "handlers/DapNodeDel.h"
+#include "handlers/DapAbstractCommand.h"
 
-#include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceClientMessage.h"
 #include "DapWallet.h"
-#include "handlers/DapAbstractCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -90,13 +89,7 @@ class DapServiceController : public QObject
     /// Application version.
     QString m_sVersion {DAP_VERSION};
 
-    QString m_sCurrentNetwork;
-
-    int m_iIndexCurrentNetwork;
-
     bool m_bReadingChains;
-
-    DapNotifyController *m_DapNotifyController;
 
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
@@ -134,10 +127,6 @@ public:
     /// Application version.
     Q_PROPERTY(QString Version MEMBER m_sVersion READ getVersion NOTIFY versionChanged)
 
-    Q_PROPERTY(QString CurrentNetwork MEMBER m_sCurrentNetwork READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
-
-    Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
-
     Q_PROPERTY(bool ReadingChains MEMBER m_bReadingChains READ getReadingChains WRITE setReadingChains NOTIFY readingChainsChanged)
 
     /// Client controller initialization.
@@ -149,14 +138,6 @@ public:
     /// Get app version.
     /// @return Application version.
     QString getVersion() const;
-
-    QString getCurrentNetwork() const;
-
-    Q_INVOKABLE void setCurrentNetwork(const QString &sCurrentNetwork);
-
-    int getIndexCurrentNetwork() const;
-
-    Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
 
     bool getReadingChains() const;
 
@@ -183,8 +164,6 @@ signals:
     /// The signal is emitted when the Application version property changes.
     /// @param version Version
     void versionChanged(const QString &version);
-
-    void currentNetworkChanged(const QString &asCurrentNetwork);
 
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();
@@ -224,8 +203,6 @@ signals:
     void walletTokensReceived(const QVariant& walletTokens);
 
     void walletsListReceived(const QVariant& walletsList);
-
-    void indexCurrentNetworkChanged(int iIndexCurrentNetwork);
 
     void readingChainsChanged(bool bReadingChains);
 
@@ -277,8 +254,7 @@ signals:
     
     void rcvFee(const QVariant& rcvData);
 
-
-    void dapRcvNotify(const QVariant& rcvData);
+//    void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
     void dapWebConnectRequest(const QVariant& rcvData);
     void dapWebBlockList(const QVariant& rcvData);
@@ -320,22 +296,16 @@ private slots:
     void findEmittedSignal(const QVariant& aValue);
     /// Register a signal handler for notification results.
     void registerEmmitedSignal();
-
 private:
-    void notifySignalsAttach();
-    void notifySignalsDetach();
-
     bool compareJson(QByteArray, QVariant);
 
-private slots:
+public slots:
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
     void slotNetState(QVariantMap netState){emit signalNetState(netState);}
-    void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
 
 signals:
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
-    void signalChainsLoadProgress(QVariantMap loadProgress);
 
 };
 

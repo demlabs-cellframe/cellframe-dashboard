@@ -107,13 +107,6 @@
 DapServiceController::DapServiceController(QObject *parent)
     : QObject(parent)
 {
-    // auto service = new DapGetAllWalletHistoryCommand        ("DapGetAllWalletHistoryCommand"        , nullptr );
-
-    // QStringList lst{"wallet", "false", "false"};
-    // service->respondToClient(QVariant(lst));
-
-    // return;
-
     m_reqularRequestsCtrl = new DapRegularRequestsController();
 
     m_threadRegular = new QThread();
@@ -122,18 +115,8 @@ DapServiceController::DapServiceController(QObject *parent)
     connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
     m_threadRegular->start();
 
-    m_threadNotify = new QThread();
-    m_watcher = new DapNotificationWatcher();
-    m_watcher->moveToThread(m_threadNotify);
-    connect(m_threadNotify, &QThread::finished, m_watcher, &QObject::deleteLater);
-    connect(m_threadNotify, &QThread::finished, m_threadNotify, &QObject::deleteLater);
-    m_threadNotify->start();
-
-    connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_reqularRequestsCtrl, &DapRegularRequestsController::notifyWatcherRespond);
     connect(this, &DapServiceController::onNewClientConnected, [this] {
         qDebug() << "Frontend connected";
-        if(m_watcher->m_statusInitWatcher)
-            m_watcher->frontendConnected();
         m_web3Controll->rcvFrontendConnectStatus(true);
         activityGUIProcessing(true);
     });
@@ -166,13 +149,6 @@ DapServiceController::~DapServiceController()
     if(controller)
     {
         controller->deleteTransactionController();
-    }
-
-    if(m_threadNotify)
-    {
-        m_threadNotify->quit();
-        m_threadNotify->wait();
-        delete m_threadNotify;
     }
 
     if(m_threadRegular)
@@ -222,18 +198,22 @@ bool DapServiceController::start()
     {
         connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
         connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
+
         // Register command
         initServices();
         initAdditionalParamrtrsService();
         m_web3Controll->setCommandList(&m_servicePool);
-        // Send data from notify socket to client
 
-        connect(m_watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
-        connect(m_watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
+        // Rcv data node notify connect from client
+        DapAbstractCommand * transceiverNotify = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapRcvNotify"));
+        connect(transceiverNotify, &DapAbstractCommand::clientResponded, m_web3Controll, &DapWebControllerForService::rcvNodeStatus);
+        connect(transceiverNotify, &DapAbstractCommand::clientResponded, m_reqularRequestsCtrl, &DapRegularRequestsController::notifyWatcherRespond);
+
         // Channel req\rep for web 3 API
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
         connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
+
         // Regular request controller
         m_reqularRequestsCtrl->start();
     }
@@ -248,12 +228,6 @@ bool DapServiceController::start()
     qInfo() << "Service started";
     emit onServiceStarted();
     return true;
-}
-
-void DapServiceController::sendNotifyDataToGui(QVariant data)
-{
-    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapRcvNotify"));
-    transceiver->notifyToClient(data);
 }
 
 void DapServiceController::sendConnectRequest(QString site, int index)
