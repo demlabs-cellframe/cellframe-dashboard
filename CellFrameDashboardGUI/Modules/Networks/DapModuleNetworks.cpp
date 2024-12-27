@@ -12,7 +12,6 @@ static const QMap<QString, QString> s_stateStrings = {
     { "UNDEFINED", "ERROR"}
 };
 
-
 DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     :DapAbstractModule(parent)
     , m_modulesCtrl(parent)
@@ -30,7 +29,6 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetList,  this, &DapModuleNetworks::slotRcvNotifyNetList);
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapModuleNetworks::slotRcvNotifyNetInfo);
         connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapModuleNetworks::slotRcvNotifyNetsInfo);
-
 
         connect(this, &DapModuleNetworks::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
     });
@@ -123,7 +121,6 @@ void DapModuleNetworks::slotRcvNotifyNetsInfo(QJsonDocument doc)
     QStringList keys = obj.keys();
     QList<NetLoadProgress> netsLoadList;
 
-
     for(const QString &key : keys)
     {
         QJsonObject netObject = obj[key].toObject();
@@ -159,7 +156,7 @@ DapNetworkModel::Item DapModuleNetworks::itemModelGenerate(QString netName, QJso
 
     networkItem.networkName  = netName;
     networkItem.address      = itemModel["current_addr"].toString();
-    networkItem.errorMessage = "";
+    networkItem.errorMessage = itemModel["errorMessage"].toString();
     networkItem.syncPercent  = convertProgress(itemModel["processed"].toObject());
 
     if(!itemModel.contains("links"))
@@ -329,6 +326,7 @@ QString DapModuleNetworks::convertProgress(QJsonObject obj)
                     chainPercent = percntStr.toDouble(&ok);
                     if(!ok)
                     {
+                        chainPercent = 0.0;
                         qDebug() << "Value of 'percent' is not a number:" << percntStr;
                     }
                 }
