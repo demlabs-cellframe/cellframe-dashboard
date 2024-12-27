@@ -243,6 +243,7 @@ private:
     QPair<QString, QString> parsePath(const QString& filePath, bool isCert = true);
 
     QString getStageString(LaunchStage stage) const;
+    QString launchStageString(LaunchStage value);
 private:
     DapModulesController  *m_modulesCtrl;
     DapStakeDelegate* m_stakeDelegate = nullptr;

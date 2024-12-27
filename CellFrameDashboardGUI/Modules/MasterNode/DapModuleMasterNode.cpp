@@ -184,7 +184,10 @@ void DapModuleMasterNode::createMasterNode()
         return;
     }
 
-    switch(m_startStage.first().first)
+    auto stage = m_startStage.first().first;
+    qInfo() << "[Master node] Start stage: " << launchStageString(stage);
+
+    switch(stage)
     {
     case LaunchStage::CHECK_PUBLIC_KEY:
     {
@@ -355,9 +358,6 @@ void DapModuleMasterNode::loadStageList()
     m_errorCode = m_modulesCtrl->getSettings()->value("errorMessageMasterNode").value<int>();
 
     QList<QPair<LaunchStage, int>> resultList;
-    qDebug() << m_modulesCtrl->getSettings()->allKeys();
-    qDebug() << m_modulesCtrl->getSettings()->value("startStageNode").value<QList<int>>();
-    qDebug() << m_modulesCtrl->getSettings()->value("startIndexNode").value<QList<int>>();
     QVariantList stageList = m_modulesCtrl->getSettings()->value("startStageNode").toList();//value<QList<int>>();
     QVariantList indexList = m_modulesCtrl->getSettings()->value("startIndexNode").toList();// value<QList<int>>();
     if(stageList.size() != indexList.size())
@@ -367,6 +367,12 @@ void DapModuleMasterNode::loadStageList()
     for (int i = 0; i < stageList.size(); i++)
     {
         resultList.append({static_cast<LaunchStage>(stageList[i].toInt()), indexList[i].toInt()});
+    }
+
+    qDebug() << "[Master node] [loadStageList] stage size: " << resultList.size();
+    if(resultList.size())
+    {
+        qDebug() << "[Master node] [loadStageList] first stage " << launchStageString(resultList.first().first);
     }
 
     m_startStage = resultList;
@@ -436,6 +442,10 @@ void DapModuleMasterNode::loadMasterNodeBase()
     settings->endGroup();
 
     m_masterNodes = std::move(nodes);
+    if(!m_masterNodes.isEmpty())
+    {
+        qDebug() << "[Master node] load master node. There are configured master nodes. Networks: " << m_masterNodes.keys();
+    }
 }
 
 void DapModuleMasterNode::clearMasterNodeBase()
@@ -1261,7 +1271,6 @@ QVariant DapModuleMasterNode::getDataRegistration(const QString& nameData) const
     return QVariant();
 }
 
-
 QString DapModuleMasterNode::getMasterNodeCertName()
 {
     return getMasterNodeData(MasterNode::CERT_NAME_KEY);
@@ -1277,4 +1286,12 @@ QString DapModuleMasterNode::getStageString(LaunchStage stage) const
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<DapModuleMasterNode::LaunchStage>();
     return metaEnum.valueToKey(stage);
+}
+
+QString DapModuleMasterNode::launchStageString(LaunchStage value)
+{
+    const QMetaObject &metaObject = DapModuleMasterNode::staticMetaObject;
+    int index = metaObject.indexOfEnumerator("LaunchStage");
+    QMetaEnum metaEnum = metaObject.enumerator(index);
+    return metaEnum.valueToKey(value);
 }
