@@ -143,7 +143,7 @@ DapHistoryModel *DapHistoryModel::global()
 bool DapHistoryModel::updateModel(const QList<Item>& historyList)
 {
   m_items->clear();
-  beginResetModel ();
+  beginResetModel();
   m_items->append(historyList);
   endResetModel();
   return true;

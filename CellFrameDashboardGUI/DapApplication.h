@@ -12,13 +12,11 @@
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
 #include "Autocomplete/CommandHelperController.h"
+#include "NotifyController/DapNotifyController.h"
 //#include "DapMath.h"
 //#include "DiagnosticWorker/models/NodeModel.h"
 
 #include <iostream>
-#include "DapLogger.h"
-#include "DapDataLocal.h"
-#include "DapLogHandler.h"
 
 #include "ConfigWorker/configworker.h"
 //#include "Workers/stringworker.h"
@@ -62,12 +60,17 @@ private:
     void setContextProperties();
     void registerQmlTypes();
 
+    void notifySignalsAttach();
+    void notifySignalsDetach();
+    void notifySocketStateChanged(QString state);
+
     CommandHelperController* m_commandHelper = nullptr; 
     DapNetworksList m_networks;
     QQmlApplicationEngine m_engine;
 //    DapWallet* m_currentWallet;
     DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
+    DapNotifyController *m_DapNotifyController;
     DapVpnOrdersModel m_vpnOrders;
 //    DapMath *m_mathBigNumbers;
 //    DiagnosticWorker *m_diagnosticWorker;
@@ -78,6 +81,8 @@ private:
     DateWorker   *dateWorker;
 
     QMLTranslator * translator;
+
+    QThread *m_threadNotify;
 };
 
 #endif // DAPAPPLICATION_H

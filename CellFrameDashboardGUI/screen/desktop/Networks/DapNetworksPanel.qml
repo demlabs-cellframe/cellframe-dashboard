@@ -22,16 +22,6 @@ Rectangle {
 //    height: 40
     color: currTheme.mainBackground
 
-    Timer {
-        id: idNetworkPanelTimer
-        interval: /*logicMainApp.autoUpdateInterval*/5000; running: true; repeat: true
-        onTriggered: {
-            if(!USING_NOTIFY)
-                logicMainApp.requestToService("DapGetNetworksStateCommand")
-            logicMainApp.requestToService("DapGetListNetworksCommand")
-        }
-    }
-
     RowLayout
     {
         anchors.fill: parent
@@ -78,7 +68,7 @@ Rectangle {
             signal closePopups()
             property bool isRight:true
             id: networkList
-            model: networksModel
+            model: networkModel
             highlightMoveDuration : 200
 
             orientation: ListView.Horizontal
@@ -134,41 +124,10 @@ Rectangle {
 
     }
 
-
-
     onWidthChanged:
     {
         control.visible_count = logicNet.getCountVisiblePopups()
         networkList.currentIndex = cur_index
         networkList.closePopups()
     }
-
-    Component.onCompleted: logicMainApp.requestToService("DapGetListNetworksCommand")
-
-    Connections
-    {
-        target: dapServiceController
-
-        function onSignalNetState(netState)
-        {
-            if(USING_NOTIFY)
-                logicNet.notifyModelUpdate(netState)
-        }
-
-        function onNetworkStatesListReceived(rcvData)
-        {
-
-            var jsonDocument = JSON.parse(rcvData)
-//            console.log("RCV NET STATES", jsonDocument, rcvData)
-
-            if (!logicNet.isNetworkListsEqual(networksModel, jsonDocument)) {
-                networkList.closePopups()
-            }
-            logicNet.loadProcessing(jsonDocument)
-            logicNet.modelUpdate(jsonDocument)
-            logicNet.updateContentInAllOpenedPopups(networksModel)
-        }
-    }
-
-
 }
