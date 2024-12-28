@@ -54,57 +54,27 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
-//    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
-//    m_diagnosticWorker->start();
 
-//    connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
-//            stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
-//    connect(m_serviceController, &DapServiceController::signalXchangeOrderListReceived,
-//            stockDataWorker, &StockDataWorker::signalXchangeOrderListReceived);
-//    connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
-//            stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
-
-//    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
-//            m_historyWorker, &HistoryWorker::setHistoryModel,
-//            Qt::QueuedConnection);  
     m_commandHelper = new CommandHelperController();
-
-//    m_mathBigNumbers = new DapMath();
-
-    this->registerQmlTypes();
-    this->setContextProperties();
-
-//    qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
-
-//    connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
-//    connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-////        qDebug() << "networkStatusReceived" << a_stateMap;
-//        networks()->setNetworkProperties(a_stateMap.toMap());
-//    });
-
-//    connect(this->networks(), &DapNetworksList::networkAdded, [](DapNetwork* network){
-//        DapServiceController::getInstance().requestNetworkStatus(network->name());
-//    });
-
-//    connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
-////        qDebug() << "newTargetNetworkStateReceived" << a_state;
-//    });
-
-//    m_serviceController->requestWalletList();
-//    m_serviceController->requestOrdersList();
-//    m_serviceController->requestNetworksList();
-//    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
-//    m_serviceController->requestToService("DapGetXchangeOrdersList");
-
 
     s_modulesInit = new DapModulesController(qmlEngine());
     connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
     connect(s_modulesInit, &DapModulesController::netListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
     s_modulesInit->setConfigWorker(configWorker);
+
+    m_DapNotifyController = new DapNotifyController();
+
+    notifySignalsAttach();
+    s_modulesInit->setNotifyCtrl(m_DapNotifyController);
+    m_DapNotifyController->init();
+
+    this->registerQmlTypes();
+    this->setContextProperties();
 }
 
 DapApplication::~DapApplication()
 {
+    notifySignalsDetach();
 //    delete stockDataWorker;
     delete configWorker;
     delete m_commandHelper;
@@ -114,6 +84,25 @@ DapApplication::~DapApplication()
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
     m_serviceController->disconnectAll();
+}
+
+void DapApplication::notifySignalsAttach()
+{
+    connect(m_DapNotifyController, &DapNotifyController::socketState,          this, &DapApplication::notifySocketStateChanged);
+    connect(m_DapNotifyController, &DapNotifyController::socketState,          m_serviceController, &DapServiceController::slotStateSocket);
+    connect(m_DapNotifyController, &DapNotifyController::netStates,            m_serviceController, &DapServiceController::slotNetState);
+}
+
+void DapApplication::notifySignalsDetach()
+{
+    disconnect(m_DapNotifyController, &DapNotifyController::socketState,        this, &DapApplication::notifySocketStateChanged);
+    disconnect(m_DapNotifyController, &DapNotifyController::socketState,        m_serviceController, &DapServiceController::slotStateSocket);
+    disconnect(m_DapNotifyController, &DapNotifyController::netStates,          m_serviceController, &DapServiceController::slotNetState);
+}
+
+void DapApplication::notifySocketStateChanged(QString state)
+{
+    notifyService("DapRcvNotify", QVariantList()<<state);
 }
 
 DapNetworksList *DapApplication::networks()
@@ -206,6 +195,5 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("translator", translator);
     m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
     m_engine.rootContext()->setContextProperty("nodeConfigToolController", &DapConfigToolController::getInstance());
-
-
+    m_engine.rootContext()->setContextProperty("dapNotifyController", m_DapNotifyController);
 }

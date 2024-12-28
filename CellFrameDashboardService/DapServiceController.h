@@ -26,7 +26,6 @@ typedef class DapRpcLocalServer DapUiService;
 
 #include "DapWebControllerForService.h"
 
-#include "DapNotificationWatcher.h"
 #include "RequestController/DapRegularRequestsController.h"
 
 /**
@@ -58,7 +57,6 @@ signals:
     void onClientDisconnected();
     void onServiceStarted();
 private slots:
-    void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
     void rcvBlockListFromClient(QVariant);
     void sendConnectRequest(QString site, int index);
@@ -68,14 +66,12 @@ private:
     /// Service core.
     DapUiService        *m_pServer {nullptr};
 
-    DapNotificationWatcher *m_watcher;
     DapWebControllerForService *m_web3Controll;
 
     QThread *m_threadRegular;
     DapRegularRequestsController *m_reqularRequestsCtrl;
 
     QList<QThread*> m_threadPool;
-    QThread* m_threadNotify;
     QList<DapRpcService*> m_servicePool;
 
     QSet<QString> m_onceThreadList = { "DapCreateTransactionCommand"
@@ -96,7 +92,8 @@ private:
                                     ,"DapHistoryServiceInitCommand"
                                     ,"DapVoitingCreateCommand"
                                     ,"DapVoitingVoteCommand"
-                                    ,"DapWalletServiceInitCommand"};
+                                    ,"DapWalletServiceInitCommand"
+                                    ,"DapSrvStakeInvalidate"};
 };
 
 #endif // DAPSERVICECONTROLLER_H

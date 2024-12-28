@@ -11,9 +11,6 @@ DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
     DapConfigReader configReader;
-    m_DapNotifyController = new DapNotifyController();
-    notifySignalsAttach();
-
     m_sVersion = DAP_VERSION;
 
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
@@ -30,6 +27,10 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     m_DAPRpcSocket = new DapRpcSocket(apDapServiceClient->getClientSocket(), this);
     // Register command.
     registerCommand();
+
+
+
+//    notifySocketStateChanged(m_DapNotifyController->getSocketState());
 }
 
 /// Get company brand.
@@ -44,30 +45,6 @@ QString DapServiceController::getBrand() const
 QString DapServiceController::getVersion() const
 {
     return m_sVersion;
-}
-
-QString DapServiceController::getCurrentNetwork() const
-{
-    return m_sCurrentNetwork;
-}
-
-void DapServiceController::setCurrentNetwork(const QString &sCurrentNetwork)
-{
-    m_sCurrentNetwork = sCurrentNetwork;
-
-    emit currentNetworkChanged(m_sCurrentNetwork);
-}
-
-int DapServiceController::getIndexCurrentNetwork() const
-{
-    return m_iIndexCurrentNetwork;
-}
-
-void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
-{
-    m_iIndexCurrentNetwork = iIndexCurrentNetwork;
-
-    emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
 }
 
 bool DapServiceController::getReadingChains() const
@@ -279,6 +256,10 @@ void DapServiceController::registerCommand()
     // The command creates a password for the wallet
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreatePassForWallet("DapCreatePassForWallet", m_DAPRpcSocket))), QString("passwordCreated")));
     
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSrvStakeRemove("DapSrvStakeRemove", m_DAPRpcSocket))), QString("rxvSrvStakeRemove")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSrvStakeInvalidate("DapSrvStakeInvalidate", m_DAPRpcSocket))), QString("rcvSrvStakeInvalidate")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeDel("DapNodeDel", m_DAPRpcSocket))), QString("rcvNodeDel")));
+
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveTransactionsQueueCommand("DapRemoveTransactionsQueueCommand", m_DAPRpcSocket))), QString("transactionRemoved")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCheckTransactionsQueueCommand("DapCheckTransactionsQueueCommand", m_DAPRpcSocket))), QString("transactionInfoReceived")));
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapServiceInitCommand("DapHistoryServiceInitCommand", m_DAPRpcSocket))), QString("historyServiceInitRcv")));
@@ -310,11 +291,6 @@ void DapServiceController::registerCommand()
         }
 
         emit networksReceived(networks);
-    });
-
-    connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
-    {
-        m_DapNotifyController->rcvData(rcvData);
     });
 
     connect(this, &DapServiceController::dapWebConnectRequest, [=] (const QVariant& rcvData)
@@ -428,20 +404,3 @@ void DapServiceController::registerEmmitedSignal()
         connect(command.first, SIGNAL(clientNotifed(QVariant)), SLOT(findEmittedSignal(QVariant)));
     } 
 }
-
-void DapServiceController::notifySignalsAttach()
-{
-    connect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
-    connect(m_DapNotifyController, SIGNAL(netStates(QVariantMap)), this, SLOT(slotNetState(QVariantMap)));
-    connect(m_DapNotifyController, SIGNAL(chainsLoadProgress(QVariantMap)), this, SLOT(slotChainsLoadProgress(QVariantMap)));
-}
-
-void DapServiceController::notifySignalsDetach()
-{
-    disconnect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
-    disconnect(m_DapNotifyController, SIGNAL(netStates(QVariantMap)), this, SLOT(slotNetState(QVariantMap)));
-    disconnect(m_DapNotifyController, SIGNAL(chainsLoadProgress(QVariantMap)), this, SLOT(slotChainsLoadProgress(QVariantMap)));
-}
-
-
-

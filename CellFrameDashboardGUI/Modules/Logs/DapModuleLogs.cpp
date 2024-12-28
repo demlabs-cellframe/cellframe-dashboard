@@ -152,7 +152,7 @@ QString DapModuleLog::getLogPath(LogType type)
     default:
         break;
     }
-    qDebug()<<"[DapModuleLog::getLogPath] " << path;
+//    qDebug()<<"[DapModuleLog::getLogPath] " << path;
     return path;
 }
 

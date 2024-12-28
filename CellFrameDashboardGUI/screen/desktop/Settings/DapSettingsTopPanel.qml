@@ -146,8 +146,8 @@ Controls.DapTopPanel
                     innerWidth: 8
                     innerHeight: 8
 
-                    source: logicMainApp.stateNotify? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
-                                                      "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                    source: dapNotifyController.isConnected? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
+                                                             "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
                 }
             }
 
