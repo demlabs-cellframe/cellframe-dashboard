@@ -98,13 +98,15 @@ void DapNotifyController::rcvData(QVariant data)
                 emit sigNotifyRcvWalletInfo(result);
         }
         else
-            qDebug()<<"Unknown class: " << className;
+        {
+//            qDebug()<<"Unknown class: " << className;
+        }
     }
 }
 
 QJsonDocument DapNotifyController::parseData(QString className, const QJsonObject obj, QString key, bool isArray)
 {
-    qDebug()<<className;
+//    qDebug()<<className;
 
     QJsonDocument result;
 
