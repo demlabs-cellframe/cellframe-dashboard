@@ -112,7 +112,7 @@ void DapServiceController::init()
     //        return false;
     //    }
 
-    qInfo() << "Service started";
+    qInfo() << "ServiceController started";
     emit onServiceStarted();
 }
 
@@ -364,17 +364,23 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapGetServiceLimitsCommand,           QObject*>("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",            nullptr);
     addServiceGeneric<DapVoitingListCommand,                QObject*>("DapVoitingListCommand",                     "rcvVoitingListCommand",                 nullptr);
     addServiceGeneric<DapVoitingDumpCommand,                QObject*>("DapVoitingDumpCommand",                     "rcvVoitingDumpCommand",                 nullptr);
+    addServiceGeneric<DapSrvStakeInvalidate,                QObject*>("DapSrvStakeInvalidate",                     "rcvSrvStakeInvalidate",                 nullptr);
+    addServiceGeneric<DapNodeDel,                           QObject*>("DapNodeDel",                                "rcvNodeDel",                            nullptr);
+    addServiceGeneric<DapSrvStakeRemove,                    QObject*>("DapSrvStakeRemove",                         "rcvSrvStakeRemove",                     nullptr);
+
+
     addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      m_pServer);
     addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               m_pServer);
     addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  m_pServer);
-    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapHistoryServiceInitCommand",                        "historyServiceInitRcv",       m_pServer);
-    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapWalletServiceInitCommand",                         "walletsServiceInitRcv",       m_pServer);
+    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapHistoryServiceInitCommand",              "historyServiceInitRcv",                 m_pServer);
+    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapWalletServiceInitCommand",               "walletsServiceInitRcv",                 m_pServer);
+    addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       m_pServer);
     addServiceGeneric<DapTransactionsInfoQueueCommand,      QObject*>("DapTransactionsInfoQueueCommand",           "rcvTransactionsInfoQueueCommand",       nullptr);
-    addServiceGeneric<DapUpdateLogsCommand, QObject *, QString>    ("DapUpdateLogsCommand",                      "logUpdated",                            nullptr, LOG_FILE);
-    addServiceGeneric<DapGetHistoryExecutedCmdCommand, QObject *, QString>  ("DapGetHistoryExecutedCmdCommand",           "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
-    addServiceGeneric<DapSaveHistoryExecutedCmdCommand, QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",          "",                             nullptr, CMD_HISTORY);
+    addServiceGeneric<DapUpdateLogsCommand,                 QObject *, QString> ("DapUpdateLogsCommand",                    "logUpdated",                   nullptr, LOG_FILE);
+    addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
+    addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, CMD_HISTORY);
     
-    connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
+    connect(this, &DapServiceController::tokensListReceived, [this] (const QVariant& tokensResult)
     {
         if(!tokensResult.isValid())
             return ;
@@ -435,19 +441,14 @@ bool DapServiceController::compareJson(QByteArray buff, QVariant data)
 
 void DapServiceController::notifySignalsAttach()
 {
-    connect(m_DapNotifyController, &DapNotifyController::socketState, this, [=] (const bool &status, const bool &isFirstSignal)
+    connect(m_DapNotifyController, &DapNotifyController::notifySocketStateChanged, this, [this] (const bool &status)
     {
-        emit signalStateSocket(status, isFirstSignal);
+        emit signalStateSocket(status);
     });
 
-    connect(m_DapNotifyController, &DapNotifyController::netStates, this, [=] (const QVariantMap &netStates)
+    connect(m_DapNotifyController, &DapNotifyController::netStates, this, [this] (const QVariantMap &netStates)
     {
         emit signalNetState(netStates);
-    });
-
-    connect(m_DapNotifyController, &DapNotifyController::chainsLoadProgress, this, [=] (const QVariantMap &progress)
-    {
-        emit signalChainsLoadProgress(progress);
     });
 }
 

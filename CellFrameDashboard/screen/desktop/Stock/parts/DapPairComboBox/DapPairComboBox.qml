@@ -63,20 +63,20 @@ ComboBox {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                Text
-                {
-                    anchors.left: parent.left
-                    anchors.leftMargin: 148
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: rate
-                    color: menuDelegate.highlighted ?
-                               currTheme.mainBackground :
-                               currTheme.white
-                    font: mainFont.dapFont.regular13
-                    elide: Text.ElideRight
-                    verticalAlignment: Text.AlignVCenter
-                }
+//                Text
+//                {
+//                    anchors.left: parent.left
+//                    anchors.leftMargin: 148
+//                    anchors.right: parent.right
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    text: rate
+//                    color: menuDelegate.highlighted ?
+//                               currTheme.mainBackground :
+//                               currTheme.white
+//                    font: mainFont.dapFont.regular13
+//                    elide: Text.ElideRight
+//                    verticalAlignment: Text.AlignVCenter
+//                }
 
                 Rectangle{
                     anchors.left: parent.left
@@ -244,14 +244,14 @@ ComboBox {
                                 color: currTheme.white
 
                             }
-                            Text{
-                                anchors.left: parent.left
-                                anchors.leftMargin: 132
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Price")
-                                font: mainFont.dapFont.medium12
-                                color: currTheme.white
-                            }
+//                            Text{
+//                                anchors.left: parent.left
+//                                anchors.leftMargin: 132
+//                                anchors.verticalCenter: parent.verticalCenter
+//                                text: qsTr("Price")
+//                                font: mainFont.dapFont.medium12
+//                                color: currTheme.white
+//                            }
                         }
                     }
                 }

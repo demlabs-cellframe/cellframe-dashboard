@@ -59,6 +59,9 @@ $EXEC_PREFIX/create_configs.sh /Applications/Cellframe-Dashboard.app/
 
 #  sudo -u $USER launchctl start $SERVICE
 
+mkdir /var/log/cellframe-dashboard/ || true
+chmod -R a+rw /var/log/cellframe-dashboard/
+
 sudo rm $EXEC_PREFIX/*.sh
 sudo rm /Applications/$APP_NAME.plist
 sudo rm /Applications/Cellframe.app

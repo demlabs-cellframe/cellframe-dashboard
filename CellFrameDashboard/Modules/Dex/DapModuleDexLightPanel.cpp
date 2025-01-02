@@ -161,7 +161,7 @@ void DapModuleDexLightPanel::setTypePanel(const QString& type)
 
     if(!isRegularTypePanel())
     {
-        for(const auto& item: m_tokensPair)
+        for(const auto& item: qAsConst(m_tokensPair))
         {
             if(item.network == m_currentPair.network)
             {

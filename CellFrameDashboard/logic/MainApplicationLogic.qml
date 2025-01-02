@@ -365,27 +365,25 @@ QtObject {
 //        }
 //    }
 
-    function rcvStateNotify(status, isFirst)
+    function rcvStateNotify(status)
     {
         messagePopup.dapButtonCancel.visible = false
         messagePopup.dapButtonOk.textButton = "Ok"
 
-        if(!status)
+        if(stateNotify !== status)
         {
-            if(isFirst)
-                messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
-            console.warn("ERROR NOTIFY SOCKET")
-            stateNotify = false
-        }
-        else
-        {
-            messagePopup.close()
-            if(isFirst)
-                console.info("CONNECT TO NOTIFY SOCKET")
+            stateNotify = status
 
-            if(!stateNotify) //TODO with notify
-                logicMainApp.requestToService("DapGetNetworksStateCommand")
-            stateNotify = true
+            if(!status)
+            {
+                messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
+                console.warn("ERROR NOTIFY SOCKET")
+            }
+            else
+            {
+                messagePopup.close()
+                console.info("CONNECT TO NOTIFY SOCKET")
+            }
         }
     }
 

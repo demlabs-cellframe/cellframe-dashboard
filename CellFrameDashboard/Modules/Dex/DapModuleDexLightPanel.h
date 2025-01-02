@@ -70,7 +70,8 @@ private:
 
     QString m_typeListToken = "sell";
 
-    QString m_typePanel = "regular";
+//    QString m_typePanel = "regular";
+    QString m_typePanel = "advanced";
 
     QString m_orderType = "Limit";
     QString m_sellValueField = "1.0";

@@ -178,7 +178,7 @@ mac {
     QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
     QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
     LIBS += -framework Security -framework Carbon -lobjc
-    QMAKE_MACOSX_DEPLOYMENT_TARGET=10.15
+#    QMAKE_MACOSX_DEPLOYMENT_TARGET=10.15
     QMAKE_INFO_PLIST = $$_PRO_FILE_PWD_/../os/macos/Info.plist
     QMAKE_PROVISIONING_PROFILE=1677e600-eb71-4cab-a38f-13b4aa7bd976
     QMAKE_DEVELOPMENT_TEAM=5W95PVWDQ3
@@ -190,8 +190,6 @@ mac {
 
 
     DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/cellframe-uninstaller \
-        $$_PRO_FILE_PWD_/../os/macos/com.demlabs.Cellframe-DashboardService.plist \
-	$$_PRO_FILE_PWD_/../os/macos/com.demlabs.cellframe-node.plist \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall_icon.rsrc
     DASHBOARD_RESOURCES.path = Contents/Resources
@@ -205,4 +203,3 @@ mac {
     pkginstall.path = /
     INSTALLS += pkginstall
 }
-

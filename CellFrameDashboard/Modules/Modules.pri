@@ -36,6 +36,13 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Wallet/WalletRestore/randomwords.h \
     $$PWD/Wallet/WalletRestore/randomfile.h \
     $$PWD/Wallet/DapModuleWallet.h \
+    $$PWD/MasterNode/DapMasterNodeKeys.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapAbstractMasterNodeCommand.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapNodeDelStage.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapSrvStakeInvalidateStage.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.h \
     $$PWD/MasterNode/DapModuleMasterNode.h 
 
  SOURCES += $$PWD/TxExplorer/DapModuleTxExplorer.cpp \
@@ -73,4 +80,11 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Wallet/WalletRestore/randomwords.cpp \
     $$PWD/Wallet/WalletRestore/randomfile.cpp \
     $$PWD/Wallet/DapModuleWallet.cpp \
+    $$PWD/MasterNode/DapMasterNodeKeys.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapAbstractMasterNodeCommand.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapNodeDelStage.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapSrvStakeInvalidateStage.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.cpp \
     $$PWD/MasterNode/DapModuleMasterNode.cpp 

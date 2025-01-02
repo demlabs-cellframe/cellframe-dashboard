@@ -5,15 +5,15 @@
 DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_walletHashManager(new WalletHashManager())
+    , m_modulesCtrl(parent)
     , m_timerUpdateListWallets(new QTimer())
     , m_timerUpdateWallet(new QTimer())
     , m_timerFeeUpdateWallet(new QTimer())
-    , m_DEXTokenModel(new DapTokensWalletModel())
-    , m_tokenFilterModelDEX(new TokenProxyModel())
-    , m_modulesCtrl(parent)
-    , m_tokenModel(new DapTokensWalletModel())
     , m_walletModel(new DapListWalletsModel())
     , m_infoWallet (new DapInfoWalletModel())
+    , m_tokenModel(new DapTokensWalletModel())
+    , m_DEXTokenModel(new DapTokensWalletModel())
+    , m_tokenFilterModelDEX(new TokenProxyModel())
 {
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelList", m_walletModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletModelInfo", m_infoWallet);
@@ -28,7 +28,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived, Qt::QueuedConnection);
     m_timerUpdateListWallets->start(TIME_LIST_WALLET_UPDATE);
     
-    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
         m_walletHashManager->setContext(m_modulesCtrl->getAppEngine()->rootContext());
         m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
@@ -86,16 +86,12 @@ void DapModuleWallet::updateListWallets()
 
 void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
 {
-    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-    QJsonObject replyObj = replyDoc.object();
-    QJsonArray walletArray = replyObj["result"].toArray();
+    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
 
-    if(walletArray.isEmpty())
+    if(doc.array().isEmpty())
     {
         setCurrentWallet(-1);
     }
-
-    auto doc = QJsonDocument(walletArray);
 
     if(m_walletListTest != doc.toJson())
     {
@@ -149,10 +145,9 @@ void DapModuleWallet::restoreIndex()
 void DapModuleWallet::updateWalletInfo(const QJsonDocument& document)
 {
     QJsonArray walletArray = document.array();
+    QStringList tmpWallets;
 
-    QStringList currentList;
-
-    for(const QJsonValue value: walletArray)
+    for(const QJsonValue &value: walletArray)
     {
         QJsonObject tmpObject = value.toObject();
         if(tmpObject.contains("name") && tmpObject.contains("status"))
@@ -166,32 +161,22 @@ void DapModuleWallet::updateWalletInfo(const QJsonDocument& document)
                 }
                 else
                 {
-                    if(!walletName.isEmpty())
-                    {
-                        CommonWallet::WalletInfo tmpWallet;
-                        tmpWallet.walletName = walletName;
-                        tmpWallet.status = tmpObject["status"].toString();
-                        m_walletsInfo.insert(walletName, std::move(tmpWallet));
-                    }
+                    CommonWallet::WalletInfo tmpWallet;
+                    tmpWallet.walletName = walletName;
+                    tmpWallet.status = tmpObject["status"].toString();
+                    m_walletsInfo.insert(walletName, std::move(tmpWallet));
                 }
-                currentList.append(walletName);
             }
+            tmpWallets.append(walletName);
         }
     }
 
-    QStringList tmpList = m_walletsInfo.keys();
-    QStringList diffList;
-    for(const QString& str: tmpList)
+    for(const QString &name: m_walletsInfo.keys())
     {
-        if(!currentList.contains(str))
+        if(!tmpWallets.contains(name))
         {
-            diffList.append(str);
+            m_walletsInfo.remove(name);
         }
-    }
-
-    for(const QString& str: diffList)
-    {
-        m_walletsInfo.remove(str);
     }
 }
 
@@ -276,6 +261,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     }
     else
     {
+        qDebug()<<"[DapModuleWallet::setNewCurrentWallet] m_infoWallet->set empty model";
         m_infoWallet->updateModel({});
     }
     
@@ -346,10 +332,7 @@ void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 
 void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
 {
-    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-    QJsonObject replyObj = replyDoc.object();
-    QJsonValue resultValue = replyObj["result"];
-    emit sigTxCreate(resultValue);
+    emit sigTxCreate(rcvData);
 }
 
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
@@ -403,20 +386,16 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
         }
     }
 
-    QJsonDocument replyDoc = QJsonDocument::fromJson(data.toByteArray());
-    QJsonObject replyObj = replyDoc.object();
-    QJsonValue resultValue = replyObj["result"];
+    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
 
-//    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
-
-    if(resultValue.isNull())
+    if(document.isNull() || document.isEmpty())
     {
         return;
     }
 
     if(!isSingle)
     {
-        QJsonArray walletArray = resultValue.toArray();
+        QJsonArray walletArray = document.array();
         if(walletArray.isEmpty())
         {
             return;
@@ -441,7 +420,7 @@ void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
     }
     else
     {
-        QJsonObject inObject = resultValue.toObject();
+        QJsonObject inObject = document.object();
         CommonWallet::WalletInfo tmpInfo = creatInfoObject(std::move(inObject));
         if(m_walletsInfo.contains(tmpInfo.walletName))
         {
@@ -596,18 +575,7 @@ void DapModuleWallet::rcvFee(const QVariant &rcvData)
 {
     auto feeDoc = QJsonDocument::fromJson(rcvData.toByteArray());
 
-    QJsonObject resultObject = feeDoc.object();
-    if(resultObject.contains("error"))
-    {
-        qWarning() << "[DapModuleWallet] No commissions have been received. Mistake: " << resultObject["error"].toString();
-        return;
-    }
-    if(!resultObject.contains("result"))
-    {
-        qWarning() << "[DapModuleWallet] An unexpected problem.";
-        return;
-    }
-    auto feeObject = resultObject["result"].toObject();
+    QJsonObject feeObject = feeDoc.object();
     if(feeObject.isEmpty())
     {
         qDebug() << "[DapModuleWallet] The list of networks is empty";
