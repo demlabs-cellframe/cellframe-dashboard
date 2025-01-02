@@ -10,16 +10,16 @@
 
 #include "quickcontrols/qrcodequickitem.h"
 #include "dapvpnorderscontroller.h"
-#include "DapNodePathManager.h"
 
 #include "Modules/DapModulesController.h"
 #include "DapServiceController.h"
 #include "mobile/QMLClipboard.h"
 #include "Autocomplete/CommandHelperController.h"
 
-#include "ConfigWorker/configworker.h"
-
 #include "Translator/qmltranslator.h"
+
+#include "CellframeNodeQmlWrapper.h"
+#include "DapNodePathManager.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -52,8 +52,8 @@ private:
 
     QQmlApplicationEngine m_engine;
     DapServiceController* m_serviceController;
+    CellframeNodeQmlWrapper* m_nodeWrapper;
 
-    ConfigWorker *configWorker;
     DateWorker   *dateWorker;
 
     QMLTranslator * translator;

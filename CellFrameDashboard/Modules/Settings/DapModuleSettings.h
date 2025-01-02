@@ -24,13 +24,13 @@ public:
     ~DapModuleSettings();
 
     Q_PROPERTY(QString nodeVersion READ nodeVersion NOTIFY nodeVersionChanged)
-    Q_INVOKABLE QString nodeVersion(){return m_nodeVersion;};
+    Q_INVOKABLE QString nodeVersion(){return m_nodeVersion;}
 
     Q_PROPERTY(QString dashboardVersion READ dashboardVersion NOTIFY dashboardVersionChanged)
-    Q_INVOKABLE QString dashboardVersion(){return m_dashboardVersion;};
+    Q_INVOKABLE QString dashboardVersion(){return m_dashboardVersion;}
 
     Q_PROPERTY(bool guiRequest READ guiRequest NOTIFY guiRequestChanged)
-    Q_INVOKABLE bool guiRequest(){return m_guiVersionRequest;};
+    Q_INVOKABLE bool guiRequest(){return m_guiVersionRequest;}
 
     Q_PROPERTY(bool clearDataProcessing READ clearDataProcessing NOTIFY clearDataProcessingChanged)
     Q_INVOKABLE bool clearDataProcessing(){return m_isNodeAutoRun;}

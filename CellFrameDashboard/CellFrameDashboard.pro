@@ -21,6 +21,7 @@ include (../dap-ui-sdk/core/libdap-qt-light.pri)
 include (../web3_api/web3_api.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+include (../cellframe-ui-sdk/cellframenode/libdap-qt-cellframe-node.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
@@ -85,8 +86,6 @@ else: !win32 {
 
 HEADERS += $$PWD/DapServiceController.h \
     Autocomplete/CommandHelperController.h \
-    ConfigWorker/configfile.h \
-    ConfigWorker/configworker.h \
     DapApplication.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
@@ -101,13 +100,10 @@ HEADERS += $$PWD/DapServiceController.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h \
-    DapNotificationWatcher.h
 
 SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     Autocomplete/CommandHelperController.cpp \
-    ConfigWorker/configfile.cpp \
-    ConfigWorker/configworker.cpp \
     DapApplication.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \
@@ -120,7 +116,6 @@ SOURCES += $$PWD/main.cpp \
     resizeimageprovider.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp \
-    DapNotificationWatcher.cpp
 
 OTHER_FILES += libdap-qt-ui-qml \
                libdap-qt-ui-chain-wallet
@@ -183,7 +178,7 @@ mac {
     QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
     QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
     LIBS += -framework Security -framework Carbon -lobjc
-        
+    QMAKE_MACOSX_DEPLOYMENT_TARGET=10.15
     QMAKE_INFO_PLIST = $$_PRO_FILE_PWD_/../os/macos/Info.plist
     QMAKE_PROVISIONING_PROFILE=1677e600-eb71-4cab-a38f-13b4aa7bd976
     QMAKE_DEVELOPMENT_TEAM=5W95PVWDQ3

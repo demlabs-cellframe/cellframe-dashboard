@@ -12,10 +12,8 @@
 #include <QThread>
 
 #include "dapconfigreader.h"
-#include "DapNodePathManager.h"
 #include "json.h"
 
-#include "DapNotificationWatcher.h"
 #include "TransactionQueue/DapTransactionQueueController.h"
 
 #include "NotifyController/DapNotifyController.h"
@@ -347,7 +345,7 @@ signals:
     void rcvVoitingDumpCommand(const QVariant& rcvData);
     void rcvTransactionsInfoQueueCommand(const QVariant& rcvData);
 
-    void signalStateSocket(QString state, int isFirst, int isError);
+    void signalStateSocket(bool state, bool isFirst);
     void signalNetState(QVariantMap netState);
     void signalChainsLoadProgress(QVariantMap loadProgress);
 
@@ -356,9 +354,6 @@ private slots:
     /// Register command.
     void registerCommand();
 
-    void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
-    void slotNetState(QVariantMap netState){emit signalNetState(netState);}
-    void slotChainsLoadProgress(QVariantMap loadProgress){emit signalChainsLoadProgress(loadProgress);}
 
     void sendUpdateHistory(const QVariant&);
     void sendUpdateWallets(const QVariant&);
@@ -377,7 +372,6 @@ private:
 private:
     DapRegularRequestsController *m_reqularRequestsCtrl;
     DapUiService        *m_pServer {nullptr};
-    DapNotificationWatcher *m_watcher;
     DapWebControllerForService *m_web3Controll;
     /// Brand сompany.
     QString m_sBrand {DAP_BRAND};

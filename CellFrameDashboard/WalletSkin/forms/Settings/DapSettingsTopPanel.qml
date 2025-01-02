@@ -132,7 +132,7 @@ Controls.DapTopPanel
                 Layout.alignment: Qt.AlignLeft
                 horizontalAlignment: Text.AlignLeft
 
-                text: qsTr( "Node version ") + logicMainApp.nodeVersion
+                text: qsTr( "Node version ") + cellframeNodeWrapper.nodeVersion
                 font: mainFont.dapFont.regular13
                 color: currTheme.gray
 

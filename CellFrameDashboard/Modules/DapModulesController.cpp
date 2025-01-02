@@ -20,6 +20,7 @@
 #include "Networks/DapModuleNetworks.h"
 
 #include "Models/DapWalletListModel.h"
+#include "CellframeNode.h"
 
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
 
@@ -201,10 +202,13 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
     auto net = rcvData["net"].toString();
     if(m_networksLoadProgress.isEmpty())
     {
-        auto netList = DapConfigToolController::getInstance().getConfigNetworkList();
-        for(const auto& net: netList)
+        auto netList = cellframe_node::getCellframeNodeInterface("local")->networks();
+        std::vector <cellframe_node::CellframeNodeNetwork>  enabledNets;
+        std::copy_if (netList.begin(), netList.end(), std::back_inserter(enabledNets), [](cellframe_node::CellframeNodeNetwork net){return net.enabled;} );
+
+        for(const auto& net: enabledNets)
         {
-            m_networksLoadProgress.insert(net, QMap<int,int>());
+            m_networksLoadProgress.insert(QString::fromStdString(net.name), QMap<int,int>());
         }
     }
 
@@ -222,7 +226,7 @@ void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
 
     // calc total percent of node loading
     int total = 0;
-    for(auto netInfo: m_networksLoadProgress)
+    for(const auto &netInfo: qAsConst(m_networksLoadProgress))
     {
         for(auto& progress: netInfo)
         {

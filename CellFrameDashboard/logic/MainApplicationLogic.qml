@@ -365,12 +365,12 @@ QtObject {
 //        }
 //    }
 
-    function rcvStateNotify(isError, isFirst)
+    function rcvStateNotify(status, isFirst)
     {
         messagePopup.dapButtonCancel.visible = false
         messagePopup.dapButtonOk.textButton = "Ok"
 
-        if(isError)
+        if(!status)
         {
             if(isFirst)
                 messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))

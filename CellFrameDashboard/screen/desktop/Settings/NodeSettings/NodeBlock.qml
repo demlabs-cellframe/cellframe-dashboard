@@ -29,9 +29,9 @@ DapRectangleLitAndShaded
     {
         console.log("NodeBlock.onCompleted")
 
-        configWorker.resetAllChanges()
+        //configWorker.resetAllChanges()
 
-        var netList = configWorker.getNetworkList()
+        //var netList = configWorker.getNetworkList()
 
         for(var i = 0; i < netList.length; ++i)
             networkModel.append(
@@ -84,7 +84,7 @@ DapRectangleLitAndShaded
             console.log("warningPopup", "onSave")
             edited = false
 
-            configWorker.saveAllChanges()
+            //configWorker.saveAllChanges()
             logicMainApp.requestToService("DapNodeRestart");
 
             navigator.popPage()
@@ -94,7 +94,7 @@ DapRectangleLitAndShaded
             console.log("warningPopup", "onReset")
             edited = false
 
-            configWorker.resetAllChanges()
+            //configWorker.resetAllChanges()
 
             mainPage.updateAll()
         }
@@ -121,7 +121,7 @@ DapRectangleLitAndShaded
             onClosePage:
             {
                 console.log("NodeBlock", "onClosePage")
-                configWorker.resetAllChanges()
+                //configWorker.resetAllChanges()
             }
         }
 
@@ -165,7 +165,7 @@ DapRectangleLitAndShaded
 
                 SettingsCheckBoxItem
                 {
-                    mainTextMessage: qsTr("Debug mode logs")
+                    mainTextMessage: qsTr("Debug mode or logs")
                     checked: true
                     node: true
                     groupName: "general"
@@ -255,7 +255,7 @@ DapRectangleLitAndShaded
 
                     Component.onCompleted:
                     {
-                        updateAvailable = configWorker.checkUpdate(true, "")
+                        //updateAvailable = configWorker.checkUpdate(true, "")
 
                         console.log("ResetUpdateButtons", "checkUpdate",
                                     updateAvailable)
@@ -269,7 +269,7 @@ DapRectangleLitAndShaded
 
                     onUpdateClicked:
                     {
-                        configWorker.updateFile(true, "")
+                        //configWorker.updateFile(true, "")
 
                         updateAvailable = false
                         mainPage.updateAll()
@@ -392,7 +392,7 @@ DapRectangleLitAndShaded
 
                 Component.onCompleted:
                 {
-                    updateAvailable = configWorker.checkUpdate(false, network)
+                    ///updateAvailable = configWorker.checkUpdate(false, network)
 
                     console.log("ResetUpdateButtons", "checkUpdate", network,
                                 updateAvailable)

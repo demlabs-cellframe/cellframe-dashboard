@@ -1,53 +1,52 @@
 #include "DapNotifyController.h"
-#include "qjsondocument.h"
-#include "qjsonobject.h"
-#include "DapNodePathManager.h"
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
 
+    m_node_notify = std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel>(cellframe_node::getCellframeNodeInterface("local")->openNotificationChannel());
+
+    m_node_notify->addNotifyDataCallback([this](const std::string &data)
+                                         {
+                                             rcvData(QJsonDocument::fromJson(data.c_str()).toVariant());
+                                         });
+
+    m_node_notify->addNotifyStatusCallback([this](const cellframe_node::notify::CellframeNotificationChannel::E_NOTIFY_STATUS &status)
+                                         {
+                                            if(status == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
+                                            {
+                                                bool isFirst = false;
+                                                if(status != m_connectState)
+                                                {
+                                                    m_connectState = status;
+                                                    isFirst = true;
+                                                    emit chainsLoadProgress(QVariantMap());
+                                                }
+                                                emit socketState(m_connectState, isFirst);
+                                            }
+                                            else
+                                            {
+                                                m_connectState = status;
+                                                emit socketState(m_connectState, false);
+                                            }
+                                         });
+
+    m_connectState = m_node_notify->status(); //for init
+    emit socketState(m_connectState, true);
 }
 
 void DapNotifyController::rcvData(QVariant data)
 {
+    if(!data.isValid())
+        return;
 
-    QJsonDocument doc = QJsonDocument::fromJson(data.toString().toUtf8());
-    QVariantMap map = doc.object().toVariantMap();
-    
-//    qDebug() << "[DapNotifyController] [rcvData] A request was received from web3 :" << doc;
-    
-    if(map.contains("connect_state"))
-    {
-        QVariant value = map["connect_state"];
-        if(value.toString() != QAbstractSocket::SocketState::ConnectedState &&
-            value.toString() != QAbstractSocket::SocketState::ConnectingState)
+    QVariantMap map = data.toMap();
 
-        {
-            bool isFirst = false;
-            if(value.toString() != m_connectState)
-            {
-                isFirst = true;
-                DapConfigToolController::getInstance().getStatusNode();
-            }
-
-            emit chainsLoadProgress(QVariantMap());
-            m_connectState = value.toInt();
-            emit socketState(m_connectState, true, isFirst);
-
-        }
-        else
-        {
-            m_connectState = value.toString();
-            emit socketState(m_connectState, false, false);
-        }
-    }
     if(map.contains("class"))
     {
         QVariant value = map["class"];
-//      TODO: notify net update disabled
         if(value.toString() == "Wallet")
         {
-            //qDebug()<<"";
+
         }
         else if(value.toString() == "NetStates")
         {

@@ -2,6 +2,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "../DapTypes/DapCoin.h"
+#include "CellframeNode.h"
+
 
 Q_DECLARE_METATYPE(QList<int>)
 
@@ -593,15 +595,21 @@ void DapModuleMasterNode::clearCertificate()
     setSignature("-");
 }
 
+void setNodeConfigParam(std::shared_ptr <cellframe_node::ICellframeNode> node, QString cfg, QString grp,  QString param, QString value)
+{
+    node->configCommand(QString("-e config %1 %2 %3 ensure %4").arg(cfg, grp, param, value).toStdString());
+}
+
 void DapModuleMasterNode::tryUpdateNetworkConfig()
 {
-    auto& controller = DapConfigToolController::getInstance();
-    controller.setConfigParam("cellframe-node", "mempool", "auto_proc", "true");
-    controller.setConfigParam("cellframe-node", "server", "enabled", "true");
-    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "general", "node-role", "master");
-    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "collecting_level", m_currentStartMaster[STAKE_VALUE_KEY].toString());
-    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "fee_addr", m_currentStartMaster[WALLET_ADDR_KEY].toString());
-    controller.setConfigParam(m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "blocks-sign-cert", m_currentStartMaster[CERT_NAME_KEY].toString());
+    auto node = cellframe_node::getCellframeNodeInterface("local");
+
+    setNodeConfigParam(node, "cellframe-node", "mempool", "auto_proc", "true");
+    setNodeConfigParam(node, "cellframe-node", "server", "enabled", "true");
+    setNodeConfigParam(node, m_currentStartMaster[NETWORK_KEY].toString(), "general", "node-role", "master");
+    setNodeConfigParam(node, m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "collecting_level", m_currentStartMaster[STAKE_VALUE_KEY].toString());
+    setNodeConfigParam(node, m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "fee_addr", m_currentStartMaster[WALLET_ADDR_KEY].toString());
+    setNodeConfigParam(node, m_currentStartMaster[NETWORK_KEY].toString(), "esbocs", "blocks-sign-cert", m_currentStartMaster[CERT_NAME_KEY].toString());
     tryRestartNode();
     stageComplated();
 }

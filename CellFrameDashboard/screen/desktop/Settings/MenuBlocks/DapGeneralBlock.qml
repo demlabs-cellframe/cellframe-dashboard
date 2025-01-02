@@ -239,23 +239,23 @@ ColumnLayout
                 borderColor: currTheme.reflectionLight
                 shadowColor: currTheme.shadowColor
 
-                checked: nodeConfigToolController.statusServiceNode
+                checked: cellframeNodeWrapper.nodeServiceLoaded
 
                 function toggle() {
-                    if(nodeConfigToolController.statusServiceNode)
-                        nodeConfigToolController.swithServiceEnabled(false)
+                    if(cellframeNodeWrapper.nodeServiceLoaded)
+                        cellframeNodeWrapper.disableNodeService()
                     else
-                        nodeConfigToolController.swithServiceEnabled(true)
+                        cellframeNodeWrapper.enableNodeService()
                 }
 
                 Connections
                 {
-                    target: nodeConfigToolController
-                    function onStatusServiceNodeChanged()
+                    target: cellframeNodeWrapper
+                    function onSignalServiceLoadedChange()
                     {
-                        if(switchTab.checked !== nodeConfigToolController.statusServiceNode)
+                        if(switchTab.checked !== cellframeNodeWrapper.nodeServiceLoaded)
                         {
-                            switchTab.checked = nodeConfigToolController.statusServiceNode
+                            switchTab.checked = cellframeNodeWrapper.nodeServiceLoaded
 
                             if (switchTab.state == "on" && !switchTab.checked)
                             {
@@ -290,26 +290,17 @@ ColumnLayout
 
         visible: switchTab.checked && (CURRENT_OS !== "macos")
 
-        textButton: nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
+        textButton: cellframeNodeWrapper.nodeRunning ? qsTr("Stop Node") : qsTr("Start Node")
 
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
         onClicked: {
-            if(nodeConfigToolController.statusProcessNode)
-                nodeConfigToolController.stopNode()
+            if(cellframeNodeWrapper.nodeRunning)
+                cellframeNodeWrapper.stopNode()
             else
-                nodeConfigToolController.startNode()
+                cellframeNodeWrapper.startNode()
         }
-
-//        Connections
-//        {
-//            target: nodeConfigToolController
-//            function onStatusProcessNodeChanged()
-//            {
-//                startStopNode.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
-//            }
-//        }
     }
 
     Rectangle
