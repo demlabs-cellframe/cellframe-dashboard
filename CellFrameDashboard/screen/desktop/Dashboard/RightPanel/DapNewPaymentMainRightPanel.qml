@@ -93,7 +93,7 @@ DapNewPaymentMainRightPanelForm
                         dapWalletMessagePopup.network = dapComboboxNetwork.displayText
                         dapWalletMessagePopup.smartOpen(
                                     qsTr("Confirming the transaction"),
-                                    qsTr("Attention, the transaction fee will be "))
+                                    qsTr("Attention, the transaction fee will be held "))
                         break;
                     case 1:
                         console.warn("Rcv fee error")

@@ -12,6 +12,7 @@
 #include "DapAbstractModule.h"
 #include "../DapServiceController.h"
 #include "Models/DapStringListModel.h"
+#include "Models/DapNetworkList.h"
 #include "qsettings.h"
 
 class DapModulesController : public QObject
@@ -43,7 +44,7 @@ public:
     QObject* getWorker(const QString &key);
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
-    QQmlApplicationEngine *s_appEngine;
+
 
     DapServiceController *s_serviceCtrl;   
 
@@ -73,9 +74,12 @@ private slots:
 
     void rcvNetList(const QVariant &rcvData);
     void rcvChainsLoadProgress(const QVariantMap &rcvData);
+    void updateNetworkStates(const QVariant &rcvData) { emit networkStatesUpdated(rcvData); };
 
 signals:
     void initDone();
+
+    void networkStatesUpdated(const QVariant &rcvData);
 
     void walletsListUpdated();
     void netListUpdated();
@@ -94,7 +98,7 @@ private:
 
     void cleareProgressInfo();
 private:
-
+    QQmlApplicationEngine *s_appEngine;
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
     QMap<QString, QObject*> m_listWorkers;

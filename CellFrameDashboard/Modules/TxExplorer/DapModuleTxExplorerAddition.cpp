@@ -11,7 +11,7 @@
 DapModuleTxExplorerAddition::DapModuleTxExplorerAddition(DapModulesController *parent)
     : DapModuleTxExplorer(parent)
 {
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("fullModelHistory", m_historyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("fullModelHistory", m_historyModel);
 }
 
 void DapModuleTxExplorerAddition::setWalletName(QString str)

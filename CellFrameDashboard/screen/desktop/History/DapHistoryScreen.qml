@@ -65,7 +65,7 @@ Page
                 ColumnLayout{
                     anchors.fill: parent
                     spacing: 16
-                    visible: !txExplorerModule.statusInit
+                    visible: !txExplorerModule.statusInit && nodeConfigToolController.statusProcessNode
 
                     Item{Layout.fillHeight: true}
 

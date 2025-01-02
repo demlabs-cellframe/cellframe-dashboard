@@ -251,7 +251,13 @@ Rectangle {
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
     ListModel{id: dapModelXchangeOrders}
-    ListModel{id: dapWebSites }
+    ListModel{
+        id: dapWebSites
+
+        onCountChanged: {
+            banSettings.webSites = logicMainApp.serializeWebSite()
+        }
+    }
 
     ListModel{id: fakeWallet}
 
@@ -282,6 +288,9 @@ Rectangle {
             show: true }
         ListElement { tag: "Logs"
             name: qsTr("Logs")
+            show: true }
+        ListElement { tag: "Master Node"
+            name: qsTr("Master Node")
             show: true }
         ListElement { tag: "dApps"
             name: qsTr("dApps")
@@ -614,20 +623,40 @@ Rectangle {
     DapNetworksPanel
     {
         id: networksPanel
-        height: 40
+        height: 42
     }
 
+
+    DropShadow {
+        anchors.fill: networksPanel
+        source: networksPanel
+        horizontalOffset: currTheme.hOffset
+        verticalOffset: -7
+        radius: 8
+        color: currTheme.shadowColor
+        smooth: true
+        opacity: 0.7
+        samples: 10
+        cached: true
+    }
+
+
     Rectangle {
+        id: whiteTopBorderNetPanel
         anchors.left: networksPanel.left
         anchors.right: networksPanel.right
         anchors.bottom: networksPanel.top
+        anchors.topMargin: -2
         height: 2
+//        color: currTheme.reflection
 
         gradient: Gradient {
             GradientStop { position: 0.0; color: currTheme.mainBackground }
             GradientStop { position: 1.0; color: currTheme.reflectionLight }
         }
     }
+
+
 
     Component.onCompleted:
     {
@@ -664,8 +693,6 @@ Rectangle {
 //        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
 
-
-
         dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
@@ -673,9 +700,6 @@ Rectangle {
 
 //        for(var i = 0; i < 50; i++)
 //            dapServiceController.requestToService("DapWebConnectRequest", "1")
-
-
-
     }
 
     Connections
@@ -725,9 +749,7 @@ Rectangle {
             var result = jsonDocument.result
             logicMainApp.rcvNetList(result)
         }
-        function onSignalStateSocket(state, status, isFirst) {
-            logicMainApp.rcvStateNotify(status, isFirst)
-        }
+        function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
 
         function onTransactionRemoved(rcvData)
         {
@@ -767,6 +789,26 @@ Rectangle {
 
 
 ////            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
+//        }
+
+//        function onWalletsReceived(walletList)
+//        {
+//            console.log("onWalletsReceived")
+//            logicMainApp.rcvWallets(walletList)
+//        }
+//        function onWalletReceived(wallet)
+//        {
+//            console.log("onWalletReceived")
+//            logicMainApp.rcvWallet(wallet)
+//        }
+
+
+//        function onOrdersReceived(orderList)
+//        {
+//            console.log("onOrdersReceived")
+//            console.log("Orders count:", orderList.length)
+//            logicMainApp.rcvOrders(orderList)
+//            modelOrdersUpdated();
 //        }
 
         function onSignalTokensListReceived(tokensResult)
@@ -853,7 +895,7 @@ Rectangle {
 
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
             var header = "<font color='" + currTheme.red + "'>" + qsTr("Current node version is unsupported") + "</font>"
-            var text = qsTr("Your current node version ") + cellframeNodeWrapper.nodeVersion + qsTr(" is not compatible. Please update to the latest supported version to continue.")
+            var text = qsTr("Your current node version ") + settingsModule.nodeVersion + qsTr(" is not compatible. Please update to the latest supported version to continue.")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
         else if(type === 3)

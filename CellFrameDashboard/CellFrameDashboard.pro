@@ -3,6 +3,9 @@ QT += qml quick widgets svg network
 include (../config.pri)
 TARGET = $${BRAND}
 
+DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
+    DAP_SETTINGS_FILE=\\\"settings.json\\\"
+
 DEFINES += SIMULATOR_DEX
 
 DEFINES += PROG_TYPE=\\\"GUI\\\"
@@ -13,10 +16,9 @@ include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 include (Models/Models.pri)
 include($$PWD/Modules/Modules.pri)
 
-include (../web3_api/web3_api.pri)
-
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt-light.pri)
+include (../web3_api/web3_api.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/cellframenode/libdap-qt-cellframe-node.pri)
@@ -118,8 +120,8 @@ SOURCES += $$PWD/main.cpp \
 OTHER_FILES += libdap-qt-ui-qml \
                libdap-qt-ui-chain-wallet
 
-RESOURCES += $$PWD/qml.qrc \
-    WalletSkin/wallet.qrc
+RESOURCES += $$PWD/qml.qrc
+RESOURCES += $$PWD/WalletSkin/wallet.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
 # Default rules for deployment.
@@ -188,6 +190,7 @@ mac {
 
 
     DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/cellframe-uninstaller \
+        $$_PRO_FILE_PWD_/../os/macos/com.demlabs.Cellframe-DashboardService.plist \
 	$$_PRO_FILE_PWD_/../os/macos/com.demlabs.cellframe-node.plist \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall_icon.rsrc
@@ -203,29 +206,3 @@ mac {
     INSTALLS += pkginstall
 }
 
-
-android {
-    QT += androidextras
-
-    include(../android_openssl/openssl.pri)
-    include (../cellframe-ui-sdk/android/libdap-qt-android.pri)
-    
-    LIBS += -L$$_PRO_FILE_PWD_/../os/android/libs/ #-lcellframe-node
-
-    DISTFILES += \
-        ../os/android/AndroidManifest.xml \
-        ../os/android/build.gradle \
-        ../os/android/gradle/wrapper/gradle-wrapper.jar \
-        ../os/android/gradle/wrapper/gradle-wrapper.properties \
-        ../os/android/gradlew \
-        ../os/android/gradlew.bat \
-        ../os/android/res/values/libs.xml \
-        ../os/android/src/com/CellframeWallet/MainActivity.java \
-        ../os/android/src/com/CellframeWallet/Node.java
-    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../os/android
-
-
-    gui_data_static.path = /
-    gui_data_static.files = ../os/android/*
-    INSTALLS += gui_data_static
-}

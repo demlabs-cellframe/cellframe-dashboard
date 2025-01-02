@@ -9,8 +9,8 @@ DapModuleDexLightPanel::DapModuleDexLightPanel(DapModulesController *parent)
     , m_regTokenPairsModel(new DapTokenPairModel())
 {
     m_tokenProxyModel->setSourceModel(m_tokensModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokensList", m_tokenProxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPairRegular", m_regTokenPairsModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelTokensList", m_tokenProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelTokenPairRegular", m_regTokenPairsModel);
     m_proxyModel->setIsRegularType(isRegularTypePanel());
 }
 
@@ -34,7 +34,7 @@ void DapModuleDexLightPanel::updateRegularModels()
     QString sellTokenName = m_currentPair.token1;
     QString network = m_currentPair.network;
     QMap<QString, QString> tmpDataSell, tmpDataBuy;
-    for(const auto& item: m_tokensPair)
+    for(const auto& item: qAsConst(m_tokensPair))
     {
         if(item.network != network) continue;
 

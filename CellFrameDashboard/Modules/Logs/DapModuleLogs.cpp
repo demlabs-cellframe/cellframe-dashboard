@@ -25,7 +25,7 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
 //    , serviceLog(getBrandLogPath(), "Cellframe-DashboardService", true)
 //    , currentLog(&nodeLog)
 {
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("logModel", s_logModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("logModel", s_logModel);
 
     connect(m_logReader, &DapLogsReader::sigLogUpdated, [=] {
         updateModel();

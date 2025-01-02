@@ -15,6 +15,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Console/consoleitem.h \
     $$PWD/DapAbstractModule.h \
     $$PWD/Certificates/DapModuleCertificates.h \
+    $$PWD/Networks/DapModuleNetworks.h \
     $$PWD/Settings/DapModuleSettings.h \
     $$PWD/Dex/DapModuleDex.h \
     $$PWD/Dex/StockDataWorker/OrderBookWorker.h \
@@ -24,6 +25,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Dex/StockDataWorker/TokenPairInfo.h \
     $$PWD/Diagnostics/AbstractDiagnostic.h \
     $$PWD/Diagnostics/DapModuleDiagnostics.h \
+    $$PWD/Diagnostics/DiagtoolConnectCotroller.h \
     $$PWD/Orders/DapModuleOrders.h \
     $$PWD/Tokens/DapModuleTokens.h \
     $$PWD/TxExplorer/DapModuleTxExplorerAddition.h \
@@ -48,6 +50,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Logs/DapLogsReader.cpp \
     $$PWD/Console/DapModuleConsole.cpp \
     $$PWD/Certificates/DapModuleCertificates.cpp \
+    $$PWD/Networks/DapModuleNetworks.cpp \
     $$PWD/Settings/DapModuleSettings.cpp \
     $$PWD/Dex/DapModuleDex.cpp \
     $$PWD/Dex/StockDataWorker/StockDataWorker.cpp \
@@ -56,6 +59,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Dex/StockDataWorker/TokenPairsWorker.cpp \
     $$PWD/DapModulesController.cpp \
     $$PWD/Diagnostics/DapModuleDiagnostics.cpp \
+    $$PWD/Diagnostics/DiagtoolConnectCotroller.cpp \
     $$PWD/Orders/DapModuleOrders.cpp \
     $$PWD/Diagnostics/AbstractDiagnostic.cpp \
     $$PWD/Tokens/DapModuleTokens.cpp \

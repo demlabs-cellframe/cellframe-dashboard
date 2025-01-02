@@ -53,7 +53,8 @@ DapTopPanel
             smooth: true
             antialiasing: true
             fillMode: Image.PreserveAspectFit
-            source: percentLoading >= 100 || doneDelay ? "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/loader_orange.svg"
+            source: !nodeConfigToolController.statusProcessNode ? "qrc:/Resources/" + pathTheme + "/icons/other/disabled-node_icon.svg" :
+                             percentLoading >= 100 || doneDelay ? "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/loader_orange.svg"
             z: parent.z + 1
 
             RotationAnimator
@@ -63,7 +64,7 @@ DapTopPanel
                 to: 360
                 duration: 1000
                 loops: Animation.Infinite
-                running: percentLoading < 100 && !doneDelay
+                running: percentLoading < 100 && !doneDelay && nodeConfigToolController.statusProcessNode
 
                 onStopped: {
                     loader.rotation = 0;
@@ -79,10 +80,11 @@ DapTopPanel
             anchors.leftMargin: 56
             font: mainFont.dapFont.regular14
             color: currTheme.white
-            text: percentLoading >= 100 || doneDelay  ? qsTr("The node has loaded") :
-                                      percentLoading  ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
-                   cellframeNodeWrapper.nodeInstalled ? qsTr("The node is currently being launched. Receving data from the node"):
-                                                        qsTr("Node is not installed")
+            text: !nodeConfigToolController.statusProcessNode ? qsTr("The node services are disabled. They can be enabled in the Settings tab.") :
+                           percentLoading >= 100 || doneDelay ? qsTr("The node has loaded") :
+                                               percentLoading ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
+                            nodePathManager.installNode === 2 ? qsTr("The node is currently being launched. Receving data from the node"):
+                                                                qsTr("Node is not installed")
 
         }
 

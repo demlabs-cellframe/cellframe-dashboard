@@ -16,7 +16,8 @@ CertificatesActionsButtonList
     bothAccessTypeCertificateSelected: models.accessKeyType.bothTypeCertificateSelected
     certificateAccessTypeRepeater.model: models.accessKeyType
 
-    onSelectedAccessKeyType: {
+    onSelectedAccessKeyType:
+    {
         //index
         models.accessKeyType.setSelectedIndex(index)
         dapCertScreen.dapScreen.infoTitleTextVisible = false
@@ -41,19 +42,24 @@ CertificatesActionsButtonList
         }
     }
 
-    createCertificateButton.onClicked: {
+    createCertificateButton.onClicked:
+    {
         certificateNavigator.openCreateCertificateItem()
     }
 
-    exportPublicCertificateToFileButton.onClicked: {
+    exportPublicCertificateToFileButton.onClicked:
+    {
         logics.exportPublicCertificateToFile(models.certificates.selectedIndex)
     }
 
-    exportPublicCertificateToMempoolButton.onClicked: {
-        logics.exportPublicCertificateToMempool(models.certificates.selectedIndex)
-    }
+//    exportPublicCertificateToMempoolButton.onClicked:
+//    {
+//        logics.exportPublicCertificateToMempool(models.certificates.selectedIndex)
+//    }
 
-    deleteCertificateButton.onClicked: {
+    deleteCertificateButton.onClicked:
+    {
+        certScreen.dapScreen.infoTitleTextVisibleClick = false
         logics.deleteCertificate(models.certificates.selectedIndex)
     }
 }

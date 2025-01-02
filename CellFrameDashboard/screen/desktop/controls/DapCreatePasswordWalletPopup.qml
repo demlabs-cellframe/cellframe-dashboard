@@ -76,7 +76,6 @@ Item
                 Layout.rightMargin: 32
                 height: 32
                 color: "transparent"
-                visible: frameWalletPassword.visible
 
                 DapTextField
                 {
@@ -123,7 +122,6 @@ Item
                 Layout.rightMargin: 32
                 height: 60
                 color: "transparent"
-                visible: frameWalletPassword.visible
 
                 DapTextField
                 {
@@ -287,11 +285,17 @@ Item
 
     function show(name_wallet)
     {
+        if(textInputPasswordConfirmWallet.indicator.isActive)
+            textInputPasswordConfirmWallet.indicator.programClick()
+        if(textInputPasswordWallet.indicator.isActive)
+            textInputPasswordWallet.indicator.programClick()
+
         continueBtn.enabled = false
         textInputPasswordWallet.bottomLine.color = currTheme.input
         visible = true
         nameWallet = name_wallet
         textInputPasswordWallet.text = ""
+        textInputPasswordConfirmWallet.text = ""
         backgroundFrame.opacity = 0.4
         farmeActivate.opacity = 1
     }

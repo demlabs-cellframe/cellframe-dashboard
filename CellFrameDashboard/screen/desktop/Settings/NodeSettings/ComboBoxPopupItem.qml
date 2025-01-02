@@ -139,8 +139,13 @@ Root — special predefined root nodes, usually produces zerochain and acts like
 
                 console.log("ComboBoxPopupItem", groupName, valueName, value)
 
-                //TODO: SAVE DATA 
-                
+                if (node)
+                    configWorker.writeNodeValue(
+                        groupName, valueName, value)
+                else
+                    configWorker.writeConfigValue(networkName,
+                        groupName, valueName, value)
+
                 root.dapRightPanel.pop()
 
                 mainItem.confirm()

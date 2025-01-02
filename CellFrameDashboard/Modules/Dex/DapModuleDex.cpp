@@ -13,7 +13,7 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
     , m_tokenPairsProxyModel(new TokenPairsProxyModel())
     , m_netListModel(new DapStringListModel())
     , m_rightPairListModel(new DapStringListModel())
-    , m_stockDataWorker(new StockDataWorker(m_modulesCtrl->s_appEngine->rootContext(), this))
+    , m_stockDataWorker(new StockDataWorker(m_modulesCtrl->getAppEngine()->rootContext(), this))
     , m_allTakenPairsUpdateTimer(new QTimer())
     , m_curentTokenPairUpdateTimer(new QTimer())
     , m_ordersHistoryUpdateTimer(new QTimer())
@@ -22,12 +22,12 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
     , m_txListCash(new QByteArray())
 {
     m_tokenPairsProxyModel->setSourceModel(m_tokenPairsModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModelNonFilter", m_ordersModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("ordersModelNonFilter", m_ordersModel);
     m_proxyModel->setSourceModel(m_ordersModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModel", m_proxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("dexNetModel", m_netListModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("dexRightPairModel", m_rightPairListModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("ordersModel", m_proxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("dexNetModel", m_netListModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("dexRightPairModel", m_rightPairListModel);
 
     m_proxyModel->setIsHashCallback([this](const QString& hash) -> bool
     {
@@ -73,7 +73,7 @@ void DapModuleDex::onInit()
         connect(service, &DapServiceController::rcvXchangeOrderList, this, &DapModuleDex::respondOrdersHistory, Qt::QueuedConnection);
         connect(service, &DapServiceController::rcvXchangeTxList, this, &DapModuleDex::respondTxList, Qt::QueuedConnection);
     }
-    connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
+    // connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
     connect(m_allTakenPairsUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTokenPairs);
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, [this](){requestTXList();});
     connect(m_curentTokenPairUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestCurrentTokenPairs);

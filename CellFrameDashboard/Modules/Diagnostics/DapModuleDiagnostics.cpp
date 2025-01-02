@@ -19,7 +19,7 @@ DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *modulesCtrl, Da
     m_diagnostic->moveToThread(s_thread);
     s_thread->start();
 
-    connect(m_diagnostic, &AbstractDiagnostic::signalSocketChangeStatus,
+    connect(m_diagnostic, &AbstractDiagnostic::diagtool_socket_change_status,
             this, &DapModuleDiagnostics::slot_connect_status_changed,
             Qt::QueuedConnection);
 
@@ -31,7 +31,7 @@ DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *modulesCtrl, Da
     slot_update_node_list();
 
     m_diagnostic->changeDataSending(s_flagSendData);
-    s_socketConnectStatus = m_diagnostic->m_connectStatus;
+    s_socketConnectStatus = m_diagnostic->getConnectDiagStatus();
     emit socketConnectStatusChanged();
 }
 
