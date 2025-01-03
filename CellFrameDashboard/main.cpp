@@ -24,6 +24,8 @@
 #include "systemtray.h"
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
+#include "DapLogger.h"
+#include "DapLogHandler.h"
 
 #include "DapNodePathManager.h"
 
@@ -72,6 +74,54 @@ bool SingleApplicationTest(const QString &appName)
     }
 
     return true;
+}
+
+void showErrorMessage(const QString &appName)
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
+    msgBox.exec();
+}
+
+void createDapLogger()
+{
+    dap_log_set_external_output (LOGGER_OUTPUT_STDOUT, nullptr);
+    DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
+    QString logPath = dapLogger->getPathToFile();
+
+#if defined(QT_DEBUG) && defined(ANDROID)
+    DapLogHandler *logHandlerGui = new DapLogHandler (logPath, QApplication::instance());
+
+    QObject::connect (logHandlerGui, &DapLogHandler::logChanged, [logHandlerGui]()
+                     {
+                         for (QString &msg : logHandlerGui->request())
+#ifdef ANDROID
+                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "*** Gui ***", "%s\n", qPrintable (msg));
+#else
+                std::cout << ":=== Srv ===" << qPrintable (msg) << "\n";
+#endif
+
+                     });
+#endif
+
+#ifdef QT_DEBUG
+    logPath = DapLogger::currentLogFilePath (DAP_BRAND, "GUI");
+    DapLogHandler *serviceLogHandler = new DapLogHandler (logPath, QApplication::instance());
+
+    QObject::connect (serviceLogHandler, &DapLogHandler::logChanged, [serviceLogHandler]()
+                     {
+                         for (QString &msg : serviceLogHandler->request())
+                         {
+#ifdef ANDROID
+                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "=== Srv ===", "%s\n", qPrintable (msg));
+#else
+                std::cout << "=== Srv ===" << qPrintable (msg) << "\n";
+#endif
+                         }
+                     });
+
+#endif
 }
 
 const int RESTART_CODE = 12345;
@@ -173,6 +223,7 @@ int main(int argc, char *argv[])
 
         if(projectSkin.isEmpty()) QSettings().setValue("project_skin", "dashboard");
         bool walletSkin = projectSkin == "wallet";
+        walletSkin = false; // TODO: BLOCKED WALLET SKIN
         if(walletSkin)
         {
             qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));

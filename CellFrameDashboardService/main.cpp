@@ -20,13 +20,12 @@
 #include "dapconfigreader.h"
 #include <sys/stat.h>
 
-#include <DapNotificationWatcher.h>
 void processArgs();
 
 void createDapLogger()
 {
     DapLogger *dapLogger = new DapLogger (QCoreApplication::instance(), "Service", 10,  TypeLogCleaning::FULL_FILE_SIZE);
-    QString logPath = DapDataLocal::instance()->getLogFilePath();
+    QString logPath = dapLogger->getPathToFile();
 
 #if defined(QT_DEBUG) && defined(ANDROID)
     DapLogHandler *logHandlerGui = new DapLogHandler (logPath, QCoreApplication::instance());

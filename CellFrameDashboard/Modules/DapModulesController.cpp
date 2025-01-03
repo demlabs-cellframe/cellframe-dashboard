@@ -20,6 +20,7 @@
 #include "Networks/DapModuleNetworks.h"
 
 #include "Models/DapWalletListModel.h"
+
 #include "CellframeNode.h"
 
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
@@ -38,15 +39,6 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     initModules();
     m_netListModel->setStringList({"All"});
     s_appEngine->rootContext()->setContextProperty("netListModelGlobal", m_netListModel);
-    m_timerUpdateData = new QTimer(this);
-
-    getNetworkList();
-    m_timerUpdateData->start(5000);
-    connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::signalChainsLoadProgress, this, &DapModulesController::rcvChainsLoadProgress, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::networkStatesListReceived, this, &DapModulesController::updateNetworkStates, Qt::QueuedConnection);
-
-    s_serviceCtrl->requestToService("DapGetNetworksStateCommand", "");
 }
 
 DapModulesController::~DapModulesController()
@@ -59,7 +51,6 @@ DapModulesController::~DapModulesController()
     for(;it_w != m_listWorkers.end(); ++it)
         delete it.value();
 
-    delete m_timerUpdateData;
     delete s_settings;
 }
 
@@ -130,121 +121,74 @@ void DapModulesController::updateListNetwork()
 
 void DapModulesController::rcvNetList(const QVariant &rcvData)
 {
-    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-    QJsonObject replyObj = replyDoc.object();
-    QJsonArray netArray = replyObj["result"].toArray();
-    QStringList netList;
-    for(const auto& itemValue: netArray)
-    {
-        netList.append(itemValue.toString());
-    }
 
-    if(m_netList == netList)
+    if(m_netList == rcvData.toStringList())
     {
         return;
     }
-    m_netList = netList;
-
-    cleareProgressInfo();
+    m_netList = rcvData.toStringList();
 
     updateNetworkListModel();
     emit netListUpdated();
-    if(m_netList.isEmpty() && m_isNodeWorking)
-    {
-        m_isNodeWorking = false;
-        emit nodeWorkingChanged();
-    }
-    else if(!m_netList.isEmpty() && !m_isNodeWorking)
-    {
-        m_isNodeWorking = true;
-        emit nodeWorkingChanged();
-    }
+
+//    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+//    QJsonObject replyObj = replyDoc.object();
+//    QJsonArray netArray = replyObj["result"].toArray();
+//    QStringList netList;
+//    for(const auto& itemValue: netArray)
+//    {
+//        netList.append(itemValue.toString());
+//    }
+
+//    if(m_netList == netList)
+//    {
+//        return;
+//    }
+//    m_netList = netList;
+
+//    cleareProgressInfo();
+
+//    updateNetworkListModel();
+//    emit netListUpdated();
+//    if(m_netList.isEmpty() && m_isNodeWorking)
+//    {
+//        m_isNodeWorking = false;
+//        emit nodeWorkingChanged();
+//    }
+//    else if(!m_netList.isEmpty() && !m_isNodeWorking)
+//    {
+//        m_isNodeWorking = true;
+//        emit nodeWorkingChanged();
+//    }
 }
 
-void DapModulesController::cleareProgressInfo()
+void DapModulesController::clearProgressInfo()
 {
     m_networksLoadProgress.clear();
     nodeLoadProgressJson = QJsonArray();
     setNodeLoadProgress(0);
 }
 
-void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
+void DapModulesController::setIsNodeWorking(bool isWorking)
 {
-    if(rcvData.isEmpty())
-    {
-        setNodeLoadProgress(0);
+    if(m_isNodeWorking == isWorking)
         return;
-    }
 
-    // write all answers
-    QJsonObject obj;
-    for(const QString &key: rcvData.keys())
-        obj.insert(key, rcvData.value(key).toJsonValue());
-    nodeLoadProgressJson.append(obj);
-
-    // read load progress
-    if(m_netList.count() > 0) return;
-    if(!rcvData.contains("net") || !rcvData.contains("load_progress"))
+    if(isWorking)
     {
-        qDebug() << "​​Missing required values 'net' or 'load_progress'." << rcvData;
-        return;
+        clearProgressInfo();
+        qInfo()<<"[NODE LOADED]";
     }
-    bool convertOk = true;
-    auto progress = rcvData["load_progress"].toInt(&convertOk);
-    auto chain =  rcvData["chain_id"].toInt();
-    int countChain = 2;
+    m_isNodeWorking = isWorking;
 
-    if(!convertOk)
-    {
-        qDebug() << "Progress value is not an integer." << rcvData;
-        return;
-    }
-    auto net = rcvData["net"].toString();
-    if(m_networksLoadProgress.isEmpty())
-    {
-        auto netList = cellframe_node::getCellframeNodeInterface("local")->networks();
-        std::vector <cellframe_node::CellframeNodeNetwork>  enabledNets;
-        std::copy_if (netList.begin(), netList.end(), std::back_inserter(enabledNets), [](cellframe_node::CellframeNodeNetwork net){return net.enabled;} );
-
-        for(const auto& net: enabledNets)
-        {
-            m_networksLoadProgress.insert(QString::fromStdString(net.name), QMap<int,int>());
-        }
-    }
-
-    if(!m_networksLoadProgress.contains(net))
-    {
-        QMap<int,int> tmpMap = {{chain, progress}};
-        m_networksLoadProgress.insert(net, std::move(tmpMap));
-        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] [ProgressInfo] node progress(New network). net: " << net << " progress: " << progress;
-    }
-    else
-    {
-        m_networksLoadProgress[net][chain] = progress;
-        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] [ProgressInfo] node progress. net: " << net << " progress: " << progress;
-    }
-
-    // calc total percent of node loading
-    int total = 0;
-    for(const auto &netInfo: qAsConst(m_networksLoadProgress))
-    {
-        for(auto& progress: netInfo)
-        {
-            total += progress;
-        }
-    }
-
-    int value = total / (m_networksLoadProgress.count() * countChain);
-
-    qDebug() << "[DapModulesController] -net "<< net << " \tprogress: " << progress << " \tchain: " << chain << " \ttotal: " << total << " \t new value: " << value << " \told value: " << m_nodeLoadProgress;
-    if(value > m_nodeLoadProgress)
-    {
-        setNodeLoadProgress(value);
-    }
+    emit nodeWorkingChanged();
 }
 
 void DapModulesController::setNodeLoadProgress(int progress)
 {
+    if(m_nodeLoadProgress != progress && !m_isNodeWorking)
+        qInfo()<<"[NODE LOADING PERCENT] - " << m_nodeLoadProgress << " %";
+
     m_nodeLoadProgress = progress;
     emit nodeLoadProgressChanged();
 }
@@ -309,4 +253,47 @@ void DapModulesController::setCurrentNetwork(const QString& name)
     m_currentNetworkName = name;
     this->getSettings()->setValue("networkName", name);
     emit currentNetworkChanged(name);
+}
+
+///----NOTIFY DATA----///
+
+void DapModulesController::setNotifyCtrl(DapNotifyController *notifyController)
+{
+    m_notifyCtrl = notifyController;
+
+    emit sigNotifyControllerIsInit();
+    connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetList, this, &DapModulesController::slotRcvNotifyNetList);
+}
+
+//Wallets
+void DapModulesController::slotRcvNotifyWalletList(QJsonDocument doc)
+{
+
+}
+
+void DapModulesController::slotRcvNotifyWalletInfo(QJsonDocument doc)
+{
+
+}
+
+void DapModulesController::slotRcvNotifyWalletsInfo(QJsonDocument doc)
+{
+
+}
+
+//Nets
+void DapModulesController::slotRcvNotifyNetList(QJsonDocument doc)
+{
+    QJsonArray arr = doc.array();
+    rcvNetList(arr.toVariantList());
+}
+
+void DapModulesController::slotRcvNotifyNetInfo(QJsonDocument doc)
+{
+
+}
+
+void DapModulesController::slotRcvNotifyNetsInfo(QJsonDocument doc)
+{
+
 }

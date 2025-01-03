@@ -2,7 +2,10 @@
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
+}
 
+void DapNotifyController::init()
+{
     m_node_notify = std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel>(cellframe_node::getCellframeNodeInterface("local")->openNotificationChannel());
 
     m_node_notify->addNotifyDataCallback([this](const std::string &data)
@@ -11,27 +14,26 @@ DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
                                          });
 
     m_node_notify->addNotifyStatusCallback([this](const cellframe_node::notify::CellframeNotificationChannel::E_NOTIFY_STATUS &status)
-                                         {
-                                            if(status == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
-                                            {
-                                                bool isFirst = false;
-                                                if(status != m_connectState)
-                                                {
-                                                    m_connectState = status;
-                                                    isFirst = true;
-                                                    emit chainsLoadProgress(QVariantMap());
-                                                }
-                                                emit socketState(m_connectState, isFirst);
-                                            }
-                                            else
-                                            {
-                                                m_connectState = status;
-                                                emit socketState(m_connectState, false);
-                                            }
-                                         });
+                                           {
+                                               if(status != m_connectState)
+                                               {
+                                                   m_connectState = status;
+
+                                                   if(status == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
+                                                   {
+                                                       m_isConnected = true;
+                                                       emit notifySocketStateChanged(m_isConnected);
+                                                   }
+                                                   else
+                                                   {
+                                                       m_isConnected = false;
+                                                       emit notifySocketStateChanged(m_isConnected);
+                                                   }
+                                               }
+                                           });
 
     m_connectState = m_node_notify->status(); //for init
-    emit socketState(m_connectState, true);
+    emit notifySocketStateChanged(m_connectState);
 }
 
 void DapNotifyController::rcvData(QVariant data)
@@ -39,23 +41,93 @@ void DapNotifyController::rcvData(QVariant data)
     if(!data.isValid())
         return;
 
-    QVariantMap map = data.toMap();
+    QJsonObject resObj = QJsonDocument::fromVariant(data).object();
 
-    if(map.contains("class"))
+    if(resObj.contains("class"))
     {
-        QVariant value = map["class"];
-        if(value.toString() == "Wallet")
+        QString className = resObj["class"].toString();
+        //----old----//
+        if(className == "Wallet")
         {
+        }
+        else if(className == "NetStates")
+        {
+            emit netStates(resObj.toVariantMap());
+        }
+        //----new----//
+        else if(className ==  "NetList")
+        {
+            QJsonDocument result = parseData(className, resObj, "networks", true);
 
+            if(!result.isEmpty())
+                emit sigNotifyRcvNetList(result);
         }
-        else if(value.toString() == "NetStates")
+        else if(className ==  "NetsInfo")
         {
-            emit netStates(map);
+            QJsonDocument result = parseData(className, resObj, "networks", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvNetsInfo(result);
         }
-        else if(value.toString() == "chain_init")
+        else if(className ==  "WalletList")
         {
-            qDebug() << "[DapNotifyController] chain init - " << map;
-            emit chainsLoadProgress(map);
+            QJsonDocument result = parseData(className, resObj, "wallets", true);
+            if(!result.isEmpty())
+                emit sigNotifyRcvWalletList(result);
+        }
+        else if(className ==  "WalletsInfo")
+        {
+            QJsonDocument result = parseData(className, resObj, "wallets", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvWalletsInfo(result);
+        }
+        else if(className ==  "NetInfo")
+        {
+            QJsonDocument result = parseData(className, resObj, "", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvNetInfo(result);
+        }
+        else if(className ==  "WalletInfo")
+        {
+            QJsonDocument result = parseData(className, resObj, "", false);
+            if(!result.isEmpty())
+                emit sigNotifyRcvWalletInfo(result);
+        }
+        else
+        {
+            //            qDebug()<<"Unknown class: " << className;
         }
     }
 }
+
+QJsonDocument DapNotifyController::parseData(QString className, const QJsonObject obj, QString key, bool isArray)
+{
+    //    qDebug()<<className;
+
+    QJsonDocument result;
+
+    if(key.isEmpty())
+    {
+        result.setObject(obj);
+        return result;
+    }
+
+    if((isArray && !obj[key].isArray()) || (!isArray && !obj[key].isObject()))
+    {
+        qDebug()<<"[DapNotifyController::parseData] " << className << " is not " << (isArray ? "array" : "object");
+        return QJsonDocument();
+    }
+
+    if(isArray)
+    {
+        QJsonArray array = obj[key].toArray();
+        result.setArray(array);
+    }
+    else
+    {
+        QJsonObject object = obj[key].toObject();
+        result.setObject(object);
+    }
+
+    return result;
+}
+

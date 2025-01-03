@@ -12,17 +12,17 @@
 
 DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_historyByteArray(new QByteArray())
-    , m_timerHistoryUpdate(new QTimer(this))
-    , m_historyProxyModel(new DapHistoryProxyModel())
     , m_modulesCtrl(parent)
+    , m_timerHistoryUpdate(new QTimer(this))
     , m_historyModel(new DapHistoryModel)
+    , m_historyProxyModel(new DapHistoryProxyModel())
+    , m_historyByteArray(new QByteArray())
 {
     m_historyProxyModel->setSourceModel(m_historyModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelHistory", m_historyProxyModel);
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         initConnect();
         updateHistory(true);
@@ -90,8 +90,6 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         return;
     }
 
-    m_historyModel->clear();
-
     QJsonArray historyArray = doc["history"].toArray();
 
     QList<DapHistoryModel::Item> resultList;
@@ -132,6 +130,8 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
               {
                   return a.date_to_secs > b.date_to_secs;
               });
+
+    m_historyModel->clear();
     m_historyModel->updateModel(std::move(resultList));
 
     setStatusInit(true);

@@ -10,9 +10,9 @@ Component
     Item
     {
         id:controlDelegate
-        width: networksModel.count >= visible_count ?
+        width: networkModel.count >= visible_count ?
                    networkList.width / visible_count :
-                   networkList.width / networksModel.count
+                   networkList.width / networkModel.count
         height: 40
 
         Rectangle
@@ -31,7 +31,7 @@ Component
 
             DapNetworkNameStatusComponent
             {
-                nameOfNetwork: name
+                nameOfNetwork: networkName
                 stateOfNetwork: networkState
                 stateOfTarget: targetState
                 percentOfSync: syncPercent

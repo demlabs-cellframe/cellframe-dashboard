@@ -13,7 +13,7 @@ public:
     explicit DapAbstractModule(QObject *parent = nullptr);
 
     Q_PROPERTY(bool statusInit READ statusInit NOTIFY statusInitChanged)
-    Q_INVOKABLE bool statusInit(){return m_statusInit;};
+    Q_INVOKABLE bool statusInit(){return m_statusInit;}
 
     bool m_statusProcessing{false};
     bool m_statusInit{false};

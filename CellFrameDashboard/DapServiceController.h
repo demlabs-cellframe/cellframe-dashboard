@@ -16,7 +16,7 @@
 
 #include "TransactionQueue/DapTransactionQueueController.h"
 
-#include "NotifyController/DapNotifyController.h"
+
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceClientMessage.h"
 
@@ -68,7 +68,6 @@
 #include "handlers/DapGetFeeCommand.h"
 #include "handlers/DapCreatePassForWallet.h"
 #include "handlers/DapCreateVPNOrder.h"
-#include "handlers/DapCreateStakeOrder.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
 #include "handlers/DapCheckTransactionsQueueCommand.h"
 #include "handlers/DapServiceInitCommand.h"
@@ -102,6 +101,10 @@
 #include "handlers/stackCommand/DapStakeLockTakeCommandStack.h"
 #include "handlers/stackCommand/DapCreateJsonTransactionCommandStack.h"
 #include "handlers/DapTransactionsInfoQueueCommand.h"
+#include "handlers/DapSrvStakeInvalidate.h"
+#include "handlers/DapNodeDel.h"
+#include "handlers/DapSrvStakeRemove.h"
+#include "handlers/DapWebBlockList.h"
 
 
 #ifdef Q_OS_WIN
@@ -345,9 +348,14 @@ signals:
     void rcvVoitingDumpCommand(const QVariant& rcvData);
     void rcvTransactionsInfoQueueCommand(const QVariant& rcvData);
 
-    void signalStateSocket(bool state, bool isFirst);
+    void signalStateSocket(bool status);
     void signalNetState(QVariantMap netState);
     void signalChainsLoadProgress(QVariantMap loadProgress);
+
+    void rcvNodeDel(const QVariant& rcvData);
+    void rcvSrvStakeInvalidate(const QVariant& rcvData);
+    void rcvSrvStakeRemove(const QVariant& rcvData);
+    void rcvWebBlockList(const QVariant& rcvData);
 
     void onServiceStarted();
 private slots:
@@ -358,8 +366,8 @@ private slots:
     void sendUpdateHistory(const QVariant&);
     void sendUpdateWallets(const QVariant&);
 private:
-    void notifySignalsAttach();
-    void notifySignalsDetach();
+//    void notifySignalsAttach();
+//    void notifySignalsDetach();
 
     bool compareJson(QByteArray, QVariant);
 
@@ -384,7 +392,7 @@ private:
 
     bool m_bReadingChains;
 
-    DapNotifyController *m_DapNotifyController;
+//    DapNotifyController *m_DapNotifyController;
 
     /// Service connection management service.
 //    DapServiceClient *m_pDapServiceClient {nullptr};

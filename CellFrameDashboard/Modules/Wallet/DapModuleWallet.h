@@ -57,7 +57,7 @@ public:
 
     Q_INVOKABLE QVariantMap isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
 
-    Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);};
+    Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);}
     Q_INVOKABLE void stopUpdateFee() {m_timerFeeUpdateWallet->stop();}
 
     Q_INVOKABLE void setCurrentTokenDEX(const QString& token);

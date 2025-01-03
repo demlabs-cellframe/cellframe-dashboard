@@ -20,6 +20,7 @@
 
 #include "CellframeNodeQmlWrapper.h"
 #include "DapNodePathManager.h"
+#include "NotifyController/DapNotifyController.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -53,6 +54,7 @@ private:
     QQmlApplicationEngine m_engine;
     DapServiceController* m_serviceController;
     CellframeNodeQmlWrapper* m_nodeWrapper;
+    DapNotifyController * s_dapNotifyController;
 
     DateWorker   *dateWorker;
 

@@ -1025,6 +1025,12 @@ Page
 
             updateErrorField(false, getWarning())
         }
+        function onIsReadyDataPairChanged()
+        {
+            currantRate = dexModule.currentRate
+            rateRectagleTextUpdate()
+            miniRateFieldUpdate()
+        }
     }
 }
 
