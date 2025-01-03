@@ -223,6 +223,7 @@ int main(int argc, char *argv[])
 
         if(projectSkin.isEmpty()) QSettings().setValue("project_skin", "dashboard");
         bool walletSkin = projectSkin == "wallet";
+        walletSkin = false; // TODO: BLOCKED WALLET SKIN
         if(walletSkin)
         {
             qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));

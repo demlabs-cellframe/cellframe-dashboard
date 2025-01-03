@@ -53,6 +53,10 @@ DapApplication::DapApplication(int &argc, char **argv)
     connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
     connect(s_modulesInit, &DapModulesController::netListUpdated,     m_commandHelper, &CommandHelperController::tryDataUpdate);
 
+    s_dapNotifyController = new DapNotifyController();
+    s_modulesInit->setNotifyCtrl(s_dapNotifyController);
+    s_dapNotifyController->init();
+
     this->registerQmlTypes();
     this->setContextProperties();
 }

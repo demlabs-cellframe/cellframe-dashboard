@@ -20,6 +20,8 @@ class DapNotifyController : public QObject
 public:
     explicit DapNotifyController(QObject *parent = nullptr);
 
+    void init();
+
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY isConnectedChanged)
     bool isConnected(){return m_isConnected;}
 

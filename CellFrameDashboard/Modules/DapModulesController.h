@@ -14,6 +14,7 @@
 #include "Models/DapStringListModel.h"
 #include "Models/DapNetworkList.h"
 #include "qsettings.h"
+#include "NotifyController/DapNotifyController.h"
 
 class DapModulesController : public QObject
 {

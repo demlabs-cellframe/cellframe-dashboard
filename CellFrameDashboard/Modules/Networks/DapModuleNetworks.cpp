@@ -23,15 +23,15 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
 
     connect(m_modulesCtrl, &DapModulesController::sigNotifyControllerIsInit, [this] ()
-            {
-                m_notifyCtrl = m_modulesCtrl->getNotifyCtrl();
-                connect(m_notifyCtrl, &DapNotifyController::isConnectedChanged,   this, &DapModuleNetworks::slotNotifyIsConnected);
-                connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetList,  this, &DapModuleNetworks::slotRcvNotifyNetList);
-                connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapModuleNetworks::slotRcvNotifyNetInfo);
-                connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapModuleNetworks::slotRcvNotifyNetsInfo);
+    {
+        m_notifyCtrl = m_modulesCtrl->getNotifyCtrl();
+        connect(m_notifyCtrl, &DapNotifyController::isConnectedChanged,   this, &DapModuleNetworks::slotNotifyIsConnected);
+        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetList,  this, &DapModuleNetworks::slotRcvNotifyNetList);
+        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapModuleNetworks::slotRcvNotifyNetInfo);
+        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapModuleNetworks::slotRcvNotifyNetsInfo);
 
-                connect(this, &DapModuleNetworks::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
-            });
+        connect(this, &DapModuleNetworks::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
+    });
 }
 
 

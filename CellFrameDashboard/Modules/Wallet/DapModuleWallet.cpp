@@ -86,7 +86,11 @@ void DapModuleWallet::updateListWallets()
 
 void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
 {
-    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonDocument docRcvData = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonArray arr = docRcvData.object()["result"].toArray();
+
+    QJsonDocument doc;
+    doc.setArray(arr);
 
     if(doc.array().isEmpty())
     {
@@ -361,7 +365,25 @@ void DapModuleWallet::slotUpdateWallet()
 
 void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
 {
-    QByteArray byteArrayData = data.toByteArray();
+    QByteArray byteArrayData;
+
+    //
+    QJsonDocument replyDoc = QJsonDocument::fromJson(data.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+
+    if(replyObj["result"].isObject())
+    {
+        QJsonObject resultObj = replyObj["result"].toObject();
+        QJsonDocument resultDoc(resultObj);
+        byteArrayData = resultDoc.toJson();
+    }
+    else
+    {
+        QString resultStr = replyObj["result"].toString();
+        byteArrayData = resultStr.toByteArray();
+    }
+    //
+
 
     if(isSingle)
     {

@@ -17,8 +17,8 @@ DapServiceController::DapServiceController(QObject *apParent)
     m_reqularRequestsCtrl = new DapRegularRequestsController();
 
     DapConfigReader configReader;
-    m_DapNotifyController = new DapNotifyController();
-    notifySignalsAttach();
+//    m_DapNotifyController = new DapNotifyController();
+//    notifySignalsAttach();
 
     m_sVersion = DAP_VERSION;
 
@@ -439,18 +439,18 @@ bool DapServiceController::compareJson(QByteArray buff, QVariant data)
     return false;
 }
 
-void DapServiceController::notifySignalsAttach()
-{
-    connect(m_DapNotifyController, &DapNotifyController::notifySocketStateChanged, this, [this] (const bool &status)
-    {
-        emit signalStateSocket(status);
-    });
+//void DapServiceController::notifySignalsAttach()
+//{
+//    connect(m_DapNotifyController, &DapNotifyController::notifySocketStateChanged, this, [this] (const bool &status)
+//    {
+//        emit signalStateSocket(status);
+//    });
 
-    connect(m_DapNotifyController, &DapNotifyController::netStates, this, [this] (const QVariantMap &netStates)
-    {
-        emit signalNetState(netStates);
-    });
-}
+//    connect(m_DapNotifyController, &DapNotifyController::netStates, this, [this] (const QVariantMap &netStates)
+//    {
+//        emit signalNetState(netStates);
+//    });
+//}
 
 void DapServiceController::initAdditionalParamrtrsService()
 {
