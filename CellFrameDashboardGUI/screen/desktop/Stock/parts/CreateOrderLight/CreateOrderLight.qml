@@ -592,6 +592,7 @@ Page
                             }
 
                             currantRate = tmpValue
+                            updateBuyField()
                         }
                     }
                     Rectangle
@@ -1036,12 +1037,6 @@ Page
             updateBuyField()
 
             updateErrorField(false, getWarning())
-        }
-        function onIsReadyDataPairChanged()
-        {
-            currantRate = dexModule.currentRate
-            rateRectagleTextUpdate()
-            miniRateFieldUpdate()
         }
     }
 }
