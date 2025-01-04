@@ -15,6 +15,8 @@ ComboBox {
 
     property string defaultText: qsTr("Undefined")
 
+    signal pairClicked()
+
     spacing: 0
 
     onCountChanged:
@@ -92,13 +94,8 @@ ComboBox {
                     hoverEnabled: true
                     onClicked:
                     {
-                        dexModule.setCurrentTokenPair(displayText, network)
-
-                        dexTokenModel.setNewPairFilter(token1, token2, network)
-                        walletModule.updateBalanceDEX()
-                        control.popup.close()
+                        pairClicked()
                     }
-
                 }
             }
 

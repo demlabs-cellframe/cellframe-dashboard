@@ -225,7 +225,7 @@ void DapModuleDexLightPanel::setNetworkFilterText(const QString &network)
         {
             return;
         }
-        for(const auto& item: m_tokensPair)
+        for(const auto& item: qAsConst(m_tokensPair))
         {
             if(item.network == network)
             {

@@ -333,14 +333,26 @@ Page
 
                     onClicked:
                     {
-                        sellText.setText(buyText.text)
-                        currantRate = dexModule.invertValue(currantRate)
-                        dexModule.swapTokens();
+                        swapPair()
                     }
 
                     onContainsMouseChanged:
                     {
                         animArrowIcon.rotation = containsMouse ? -180 : 0
+                    }
+
+                    Connections{
+                        target: stockHome
+                        function onRegularPairSwap(){
+                            arrowMouseArea.swapPair()
+                        }
+                    }
+
+                    function swapPair()
+                    {
+                        sellText.setText(buyText.text)
+                        currantRate = dexModule.invertValue(currantRate)
+                        dexModule.swapTokens();
                     }
                 }
             }
