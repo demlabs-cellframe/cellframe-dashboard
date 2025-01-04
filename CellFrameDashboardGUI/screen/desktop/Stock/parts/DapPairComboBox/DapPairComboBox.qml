@@ -15,7 +15,7 @@ ComboBox {
 
     property string defaultText: qsTr("Undefined")
 
-    signal pairClicked()
+    signal pairClicked(var displayText, var token1, var token2, var network)
 
     spacing: 0
 
@@ -94,7 +94,7 @@ ComboBox {
                     hoverEnabled: true
                     onClicked:
                     {
-                        pairClicked()
+                        pairClicked(displayText, token1, token2, network)
                     }
                 }
             }
