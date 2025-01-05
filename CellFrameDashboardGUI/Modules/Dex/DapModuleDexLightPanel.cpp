@@ -124,6 +124,7 @@ void DapModuleDexLightPanel::setCurrentTokenSell(const QString& token)
     else
     {
         m_currentPair.token1 = token;
+        setCurrentRateFromModel();
     }
     workersUpdate();
     emit currentTokenPairChanged();
@@ -144,6 +145,7 @@ void DapModuleDexLightPanel::setCurrentTokenBuy(const QString& token)
     else
     {
         m_currentPair.token2 = token;
+        setCurrentRateFromModel();
     }
     workersUpdate();
     emit currentTokenPairChanged();

@@ -212,6 +212,7 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
 
         m_stockDataWorker->getCandleChartWorker()->respondCurrentTokenPairs({{time, m_currentPair.rate}});
         m_currentPair.isDataReady = true;
+        currentRateFirstTimeSlot();
         emit isReadyDataPairChanged();
         emit currentTokenPairInfoChanged();
     }
@@ -929,4 +930,36 @@ void DapModuleDex::requestOrderDelete(const QString& network, const QString& has
     Dap::Coin feeInt = fee;
     QString feeDatoshi = feeInt.toDatoshiString();
     m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", QStringList() << network << hash << m_modulesCtrl->getCurrentWalletName() << feeDatoshi << tokenName << amount);
+}
+
+void DapModuleDex::currentRateFirstTimeSlot()
+{
+    for(auto& item: m_tokensPair)
+    {
+        if(item.token1 != m_currentPair.token1 || item.token2 != m_currentPair.token2)
+        {
+            continue;
+        }
+
+        if(item.rate == "-")
+        {
+            emit currentRateFirstTime();
+        }
+        item.rate = m_currentPair.rate;
+        item.rate_double = m_currentPair.rate_double;
+        return;
+    }
+}
+
+void DapModuleDex::setCurrentRateFromModel()
+{
+    for(auto& item: m_tokensPair)
+    {
+        if(item.token1 != m_currentPair.token1 || item.token2 != m_currentPair.token2)
+        {
+            continue;
+        }
+        m_currentPair.rate = item.rate;
+        m_currentPair.rate_double = item.rate_double;
+    }
 }

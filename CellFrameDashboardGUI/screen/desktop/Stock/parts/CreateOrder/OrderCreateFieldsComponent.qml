@@ -563,4 +563,14 @@ ColumnLayout {
     {
         return inputString.replace(/[0.]/g, '');
     }
+
+    Connections
+    {
+        target: dexModule
+
+        function onCurrentRateFirstTime()
+        {
+            updateTokensField()
+        }
+    }
 }

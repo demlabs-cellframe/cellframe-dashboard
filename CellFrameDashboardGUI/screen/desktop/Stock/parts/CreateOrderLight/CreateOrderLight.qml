@@ -76,7 +76,8 @@ Page
                 dexModule.orderType = ordersRateType.get(currentIndex).techName
 
                 ordersModule.currentTab = currentIndex
-                dexModule.currentRate(dexModule.invertValue(dexModule.currentRate))
+                setCurrentRate(dexModule.currentRate)
+                updateBuyField()
                 rateRectagleTextUpdate()
             }
 
@@ -1046,6 +1047,14 @@ Page
             updateBuyField()
 
             updateErrorField(false, getWarning())
+        }
+
+        function onCurrentRateFirstTime()
+        {
+            setCurrentRate(dexModule.currentRate)
+            rateRectagleTextUpdate()
+            miniRateFieldUpdate()
+            updateBuyField()
         }
     }
 }
