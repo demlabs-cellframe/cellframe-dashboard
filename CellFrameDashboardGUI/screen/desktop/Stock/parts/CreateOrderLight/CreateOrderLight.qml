@@ -76,8 +76,7 @@ Page
                 dexModule.orderType = ordersRateType.get(currentIndex).techName
 
                 ordersModule.currentTab = currentIndex
-
-                currantRate = dexModule.currentRate
+                dexModule.currentRate(dexModule.invertValue(dexModule.currentRate))
                 rateRectagleTextUpdate()
             }
 
@@ -292,7 +291,7 @@ Page
                         }
                     }
 
-                    Component.onCompleted: 
+                    Component.onCompleted:
                     {
                         sellText.text = dexModule.sellValueField
                     }
@@ -350,8 +349,8 @@ Page
 
                     function swapPair()
                     {
+                        setCurrentRate(dexModule.invertValue(currantRate))
                         sellText.setText(buyText.text)
-                        currantRate = dexModule.invertValue(currantRate)
                         dexModule.swapTokens();
                     }
                 }
@@ -471,7 +470,7 @@ Page
 
                         onEdited:
                         {
-                            currantRate = dexModule.divCoins(buyText.text, sellText.text)
+                            setCurrentRate(dexModule.divCoins(buyText.text, sellText.text))
                             rateRectagleTextUpdate()
                         }
                     }
@@ -527,7 +526,7 @@ Page
                             hoverEnabled: true
                             onClicked:
                             {
-                                currantRate = dexModule.currentRate
+                                setCurrentRate(dexModule.currentRate)
                                 priceText.setText(dexModule.currentRate)
                                 isInvert = false
                                 rateRectagleTextUpdate()
@@ -591,7 +590,7 @@ Page
                                 tmpValue = tmpValue = substrings[0] + ".0"
                             }
 
-                            currantRate = tmpValue
+                            setCurrentRate(tmpValue)
                             updateBuyField()
                         }
                     }
@@ -639,7 +638,7 @@ Page
                     }
                 }
                 Component.onCompleted: {
-                    currantRate = dexModule.currentRate
+                    setCurrentRate(dexModule.currentRate)
                     priceText.setText(dexModule.currentRate)
                     isInvert = false
                     rateRectagleTextUpdate()
@@ -876,7 +875,7 @@ Page
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
             enabled: modulesController.isNodeWorking
-            onClicked: 
+            onClicked:
             {
                 var resultAmount = sellText.text
                 var resultTokenName = dexModule.token1
@@ -932,12 +931,12 @@ Page
     function miniRateFieldUpdate()
     {
         miniRateText.text = "1 " + dexModule.token1 + " = "
-        miniRateText2.fullText = currantRate + " " + dexModule.token2
-    }    
+        miniRateText2.fullText = toActualRate(currantRate) + " " + dexModule.token2
+    }
 
     function updateBuyField()
     {
-        buyText.setText(dexModule.multCoins(sellText.text, currantRate))
+        buyText.setText(dexModule.divCoins(sellText.text, currantRate))
     }
 
     function findIndexByTechName(techName)
@@ -987,7 +986,7 @@ Page
                 var costStr = isLow ? qsTr("expensive") : qsTr("cheap")
 
                 result = qsTr("Limit price is ")  + percent + "% " + level + qsTr(" than the market. You will be selling your ") + dexModule.token1 + qsTr(" exceedingly ") + costStr
-            }            
+            }
         }
 
         if(dexModule.token1.substring(0,1)==="m")
@@ -1016,6 +1015,16 @@ Page
         return false;
     }
 
+    function toActualRate(rate)
+    {
+        return isInvert ? rate : dexModule.invertValue(rate)
+    }
+
+    function setCurrentRate(rate)
+    {
+        currantRate = rate
+    }
+
     Connections
     {
         target: dexModule
@@ -1024,7 +1033,7 @@ Page
         {
             if(!dexModule.isSwapTokens)
             {
-                currantRate = dexModule.currentRate
+                setCurrentRate(dexModule.currentRate)
                 priceText.setText(dexModule.currentRate)
             }
             else
