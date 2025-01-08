@@ -156,14 +156,16 @@ bool DapNetworkModel::updateNetworksInfo(const QVariant& networksStateList)
     return true;
 }
 
-int DapNetworkModel::add (const DapNetworkModel::Item &a_item)
+int DapNetworkModel::add (const NetworkInfo& a_item)
 {
     int index = m_items->size();
 
     beginInsertRows (QModelIndex(), index, index);
 
     {
-        m_items->append (a_item);
+        DapNetworkModel::Item item;
+        item = a_item;
+        m_items->append(item);
         emit sigSizeChanged (index + 1);
     }
 
@@ -273,20 +275,21 @@ const DapNetworkModel::Item &DapNetworkModel::_get(int a_index) const
     return const_cast<DapNetworkModel*>(this)->_get (a_index);
 }
 
-void DapNetworkModel::set (int a_index, const DapNetworkModel::Item &a_item)
+void DapNetworkModel::set(int a_index, const NetworkInfo& a_item)
 {
-    if (a_index < 0 || a_index >= m_items->size())
+    if(a_index < 0 || a_index >= m_items->size())
         return;
-    _get (a_index) = a_item;
+
+    _get(a_index) = a_item;
     emit sigItemChanged (a_index);
     emit dataChanged (index (a_index, 0), index (a_index, 0));
 }
 
-void DapNetworkModel::set (int a_index, DapNetworkModel::Item &&a_item)
+void DapNetworkModel::set(int a_index, NetworkInfo &&a_item)
 {
-    if (a_index < 0 || a_index >= m_items->size())
+    if(a_index < 0 || a_index >= m_items->size())
         return;
-    _get (a_index) = std::move (a_item);
+    _get(a_index) = std::move(a_item);
     emit sigItemChanged (a_index);
     emit dataChanged (index (a_index, 0), index (a_index, 0));
 }
@@ -636,6 +639,39 @@ QVariant ItemNetworkModelBridge::operator[] (const QString &a_valueName)
 
     return QVariant();
 }
+
+DapNetworkModel::Item &DapNetworkModel::Item::operator=(const NetworkInfo &other)
+{
+    this->networkName = other.networkName;
+    this->networkState = other.networkState;
+    this->targetState = other.targetState;
+    this->address = other.address;
+    this->activeLinksCount = other.activeLinksCount;
+    this->linksCount = other.linksCount;
+    this->syncPercent = other.syncPercent;
+    this->errorMessage = other.errorMessage;
+    this->displayNetworkState = other.displayNetworkState;
+    this->displayTargetState = other.displayTargetState;
+    return *this;
+}
+ItemNetworkModelBridge::ItemNetworkModelBridge (const NetworkInfo& a_item)
+{
+    operator = (a_item);
+}
+// ItemNetworkModelBridge &ItemNetworkModelBridge::operator = (const NetworkInfo &&other)
+// {
+//     d->item->networkName = other.networkName;
+//     d->item->networkState = other.networkState;
+//     d->item->targetState = other.targetState;
+//     d->item->address = other.address;
+//     d->item->activeLinksCount = other.activeLinksCount;
+//     d->item->linksCount = other.linksCount;
+//     d->item->syncPercent = other.syncPercent;
+//     d->item->errorMessage = other.errorMessage;
+//     d->item->displayNetworkState = other.displayNetworkState;
+//     d->item->displayTargetState = other.displayTargetState;
+//     return *this;
+// }
 
 ItemNetworkModelBridge &ItemNetworkModelBridge::operator =(const ItemNetworkModelBridge &a_src)
 {

@@ -14,6 +14,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
 include (Models/Models.pri)
+include (DataManager/DataManager.pri)
 include($$PWD/Modules/Modules.pri)
 
 include (../dap-ui-sdk/core/libdap-qt-helpers.pri)
