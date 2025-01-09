@@ -12,7 +12,7 @@ DapModuleOrders::DapModuleOrders(DapModulesController *parent)
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelOrders", s_ordersModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelOrdersProxy", &m_ordersProxyModel);
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         initConnect();
     });
@@ -104,7 +104,7 @@ void DapModuleOrders::initConnect()
             this, &DapModuleOrders::slotUpdateOrders,
             Qt::QueuedConnection);
 
-    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    connect(this, &DapAbstractModule::statusProcessingChanged, [this]
     {
         qDebug()<<"m_statusProcessing" << m_statusProcessing;
         if(m_statusProcessing)

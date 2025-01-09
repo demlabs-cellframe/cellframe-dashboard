@@ -46,7 +46,7 @@ void DapModuleTxExplorer::initConnect()
     });
     connect(m_timerHistoryUpdate, &QTimer::timeout, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
 
-    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    connect(this, &DapAbstractModule::statusProcessingChanged, [this]
     {
 //            qDebug()<<"m_statusProcessing" << m_statusProcessing;
         if(m_statusProcessing)

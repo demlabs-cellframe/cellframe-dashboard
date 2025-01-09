@@ -7,6 +7,34 @@ DapAbstractModule::DapAbstractModule(QObject *parent)
 
 }
 
+QByteArray DapAbstractModule::convertJsonResult(const QByteArray &data)
+{
+    QByteArray resultByteArray;
+
+    QJsonDocument replyDoc = QJsonDocument::fromJson(data);
+    QJsonObject replyObj = replyDoc.object();
+
+    if(replyObj["result"].isObject())
+    {
+        QJsonObject resultObj = replyObj["result"].toObject();
+        QJsonDocument result(resultObj);
+        resultByteArray = result.toJson();
+    }
+    else if(replyObj["result"].isArray())
+    {
+        QJsonArray resultArr = replyObj["result"].toArray();
+        QJsonDocument result(resultArr);
+        resultByteArray = result.toJson();
+    }
+    else
+    {
+        QString resultStr = replyObj["result"].toString();
+        resultByteArray = resultStr.toUtf8();
+    }
+
+    return resultByteArray;
+}
+
 bool DapAbstractModule::statusProcessing()
 {
     return m_statusProcessing;

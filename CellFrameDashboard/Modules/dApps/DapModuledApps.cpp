@@ -7,7 +7,7 @@ DapModuledApps::DapModuledApps(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
 {
-//    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+//    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
 //    {
         setStatusInit(true);
         init();

@@ -27,11 +27,11 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
 {
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("logModel", s_logModel);
 
-    connect(m_logReader, &DapLogsReader::sigLogUpdated, [=] {
+    connect(m_logReader, &DapLogsReader::sigLogUpdated, [this] {
         updateModel();
     });
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         m_configLog.first = LogType::NodeLog;
         m_configLog.second = getLogFileName(getNodeLogPath(), m_configLog.first);
@@ -41,7 +41,7 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
         m_timerCheckLogFile->start(TIMEOUT_CHECK_FILE);
     });
 
-    connect(s_serviceCtrl, &DapServiceController::exportLogs, [=] (const QVariant& rcvData)
+    connect(s_serviceCtrl, &DapServiceController::exportLogs, [this] (const QVariant& rcvData)
     {
         emit logsExported(rcvData.toBool());
     });
