@@ -17,6 +17,7 @@ public:
 
 signals:
     void networkListChanged();
+    void isConnectedChanged(bool isConnected);
 private:
     DapNetworksManager *m_networksManager = nullptr;
 };

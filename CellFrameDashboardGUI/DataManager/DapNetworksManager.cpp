@@ -1,6 +1,8 @@
 #include "DapNetworksManager.h"
 #include <cmath>
 #include "Modules/DapModulesController.h"
+#include <QSet>
+#include <QStringList>
 
 DapNetworksManager::DapNetworksManager(DapModulesController* moduleController)
     : DapAbstractDataManager(moduleController)
@@ -34,29 +36,34 @@ void DapNetworksManager::slotNotifyIsConnected(bool isConnected)
 void DapNetworksManager::slotRcvNotifyNetList(QJsonDocument doc)
 {
     QStringList list = doc.toVariant().toStringList();
+    updateNetworkList(list);
+}
 
+void DapNetworksManager::updateNetworkList(const QStringList& list)
+{
     auto getDifference = [] (const QStringList list1, const QStringList list2) -> QStringList
     {
-        QStringList difference;
-        for (const QString &item : list1)
-        {
-            if (!list2.contains(item))
-            {
-                difference.append(item);
-            }
-        }
-        return difference;
+        QSet<QString> setList1(list1.begin(), list1.end());
+        QSet<QString> setList2(list2.begin(), list2.end());
+        return setList1.subtract(setList2).toList();
     };
 
-    if(m_netList != list)
+    auto isEqual = [] (const QStringList list1, const QStringList list2) -> bool
     {
-        qDebug()<<"Change net list";
+        QSet<QString> setList1(list1.begin(), list1.end());
+        QSet<QString> setList2(list2.begin(), list2.end());
+        return setList1 == setList2;
+    };
 
+    if(!isEqual(m_netList, list))
+    {
         QStringList diffForDelete = getDifference(m_netList, list);
         // TODO: If new networks need to be identified.
         // QStringList diffForNew = getDifference(list, m_netList);
 
         m_netList = list;
+        qDebug()<<"[DapNetworksManager] Change net list: " << m_netList;
+
         if(!diffForDelete.isEmpty())
         {
             for(const QString &net : qAsConst(diffForDelete))
@@ -67,10 +74,7 @@ void DapNetworksManager::slotRcvNotifyNetList(QJsonDocument doc)
         }
         emit networkListChanged();
     }
-    else
-    {
-        qDebug()<<"[DapNetworksManager] Net lists is equal";
-    }
+
 }
 
 void DapNetworksManager::slotRcvNotifyNetInfo(QJsonDocument doc)
@@ -94,6 +98,8 @@ void DapNetworksManager::slotRcvNotifyNetsInfo(QJsonDocument doc)
 {
     QJsonObject obj = doc.object();
     QStringList keys = obj.keys();
+    updateNetworkList(keys);
+
     QList<NetworkLoadProgress> netsLoadList;
 
     for(const QString &key : keys)

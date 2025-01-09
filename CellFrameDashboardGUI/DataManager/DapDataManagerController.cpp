@@ -6,6 +6,7 @@ DapDataManagerController::DapDataManagerController(DapModulesController* moduleC
 {
     qRegisterMetaType<NetworkInfo>();
     connect(m_networksManager, &DapNetworksManager::networkListChanged, this, &DapDataManagerController::networkListChanged);
+    connect(m_networksManager, &DapNetworksManager::isConnectedChanged, this, &DapDataManagerController::isConnectedChanged);
 }
 
 QStringList DapDataManagerController::getNetworkList() const
@@ -14,5 +15,6 @@ QStringList DapDataManagerController::getNetworkList() const
     {
         return m_networksManager->getNetworkList();
     }
+    qDebug()<<"[DapDataManagerController] The network manager was not found.";
     return QStringList();
 }

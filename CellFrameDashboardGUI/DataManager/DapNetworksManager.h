@@ -36,6 +36,7 @@ private:
 
     QString convertState(QString state);
     QString convertProgress(QJsonObject obj);
+    void updateNetworkList(const QStringList& list);
 private:
     DapNotifyController *m_notifyController = nullptr;
     QStringList m_netList = QStringList();
