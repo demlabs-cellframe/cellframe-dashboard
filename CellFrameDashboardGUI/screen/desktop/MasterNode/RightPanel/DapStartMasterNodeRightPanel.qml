@@ -556,7 +556,7 @@ DapRectangleLitAndShaded
                     label: qsTr("Balance:")
                     textColor: currTheme.white
                     textFont: mainFont.dapFont.regular11
-                    text: walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+                    text: walletModule.getTokenBalance(nodeMasterModule.stakeTokenName)
                 }
 
                 Image

@@ -1005,6 +1005,20 @@ QString DapModuleWallet::getBalanceDEX(const QString& tokenName) const
     return tokenName.isEmpty() ? "" : "0.0";
 }
 
+Q_INVOKABLE QString DapModuleWallet::getTokenBalance(const QString& tokenName) const
+{
+    auto& data = m_DEXTokenModel->getData();
+    for(auto& item: data)
+    {
+        if((tokenName.isEmpty() && m_currentTokenDEX == item.tokenName)
+            || (!tokenName.isEmpty() && tokenName == item.tokenName))
+        {
+            return item.value;
+        }
+    }
+    return tokenName.isEmpty() ? "" : "0.0";
+}
+
 void DapModuleWallet::updateBalanceDEX()
 {
     emit currantBalanceDEXChanged();

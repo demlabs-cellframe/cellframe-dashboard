@@ -63,6 +63,7 @@ public:
     Q_INVOKABLE void setCurrentTokenDEX(const QString& token);
     Q_PROPERTY(QString balanceDEX        READ getBalanceDEX   NOTIFY currantBalanceDEXChanged)
     Q_INVOKABLE QString getBalanceDEX(const QString& tokenName = "") const;
+    Q_INVOKABLE QString getTokenBalance(const QString& tokenName = "") const;
     Q_INVOKABLE void updateBalanceDEX();
 private:
     void initConnect();
