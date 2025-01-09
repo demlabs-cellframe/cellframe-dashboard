@@ -79,7 +79,7 @@ void DapModuleDex::onInit()
     connect(m_curentTokenPairUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestCurrentTokenPairs);
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestHistoryOrders);
     connect(this, &DapModuleDex::txListChanged, m_proxyModel, &OrdersHistoryProxyModel::tryUpdateFilter);
-    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    connect(this, &DapAbstractModule::statusProcessingChanged, [this]
     {
         if(m_statusProcessing)
         {
@@ -114,19 +114,17 @@ void DapModuleDex::startInitData()
 void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
 {
     m_isSandDapGetXchangeTokenPair = false;
-    auto tmpData = rcvData.toByteArray();
-    if(*m_tokenPairsCash != tmpData)
+    QByteArray rcvResult = convertJsonResult(rcvData.toByteArray());
+    if(*m_tokenPairsCash != rcvResult)
     {
-        *m_tokenPairsCash = tmpData;
+        *m_tokenPairsCash = rcvResult;
     }
     else
     {
         return;
     }
 
-    auto resultObject = QJsonDocument::fromJson(tmpData).object();
-
-    QJsonArray tokenPairsArray = resultObject["result"].toArray();
+    QJsonArray tokenPairsArray = QJsonDocument::fromJson(rcvResult).array();
     if(tokenPairsArray.isEmpty())
     {
         return;

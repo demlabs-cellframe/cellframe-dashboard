@@ -28,7 +28,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::walletsListReceived, Qt::QueuedConnection);
     m_timerUpdateListWallets->start(TIME_LIST_WALLET_UPDATE);
     
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         m_walletHashManager->setContext(m_modulesCtrl->getAppEngine()->rootContext());
         m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
@@ -336,7 +336,11 @@ void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 
 void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
 {
-    emit sigTxCreate(rcvData);
+    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject replyObj = replyDoc.object();
+    QJsonObject resultObj = replyObj["result"].toObject();
+
+    emit sigTxCreate(resultObj);
 }
 
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
@@ -365,24 +369,7 @@ void DapModuleWallet::slotUpdateWallet()
 
 void DapModuleWallet::updateWalletModel(QVariant data, bool isSingle)
 {
-    QByteArray byteArrayData;
-
-    //
-    QJsonDocument replyDoc = QJsonDocument::fromJson(data.toByteArray());
-    QJsonObject replyObj = replyDoc.object();
-
-    if(replyObj["result"].isObject())
-    {
-        QJsonObject resultObj = replyObj["result"].toObject();
-        QJsonDocument resultDoc(resultObj);
-        byteArrayData = resultDoc.toJson();
-    }
-    else
-    {
-        QString resultStr = replyObj["result"].toString();
-        byteArrayData = resultStr.toByteArray();
-    }
-    //
+    QByteArray byteArrayData = convertJsonResult(data.toByteArray());
 
 
     if(isSingle)
@@ -595,7 +582,9 @@ void DapModuleWallet::getComission(QString network)
 
 void DapModuleWallet::rcvFee(const QVariant &rcvData)
 {
-    auto feeDoc = QJsonDocument::fromJson(rcvData.toByteArray());
+    QByteArray byteArrayData = convertJsonResult(rcvData.toByteArray());
+
+    auto feeDoc = QJsonDocument::fromJson(byteArrayData);
 
     QJsonObject feeObject = feeDoc.object();
     if(feeObject.isEmpty())

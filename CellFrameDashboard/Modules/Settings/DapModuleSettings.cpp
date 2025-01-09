@@ -9,7 +9,7 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
 {
     updateUrlUpdateNode();
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         initConnect();
         s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");

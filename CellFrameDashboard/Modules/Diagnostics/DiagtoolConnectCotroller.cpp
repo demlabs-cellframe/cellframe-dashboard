@@ -44,7 +44,7 @@ void DiagtoolConnectCotroller::slotStateChanged(QAbstractSocket::SocketState soc
     {
         qWarning() << "Diagtool socket disconnected";
 
-        QTimer::singleShot(5000, [=](){
+        QTimer::singleShot(5000, [this](){
             qDebug() << "=== Diagtool try reconnect "<<"127.0.0.1:"<<s_listenPort;
             m_socket->connectToHost(QHostAddress("127.0.0.1"), s_listenPort);
         });

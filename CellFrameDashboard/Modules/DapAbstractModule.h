@@ -14,23 +14,18 @@ public:
 
     Q_PROPERTY(bool statusInit READ statusInit NOTIFY statusInitChanged)
     Q_INVOKABLE bool statusInit(){return m_statusInit;}
-
-    bool m_statusProcessing{false};
-    bool m_statusInit{false};
-    QString m_name;
-
-public:
     void setStatusInit(bool status);
 
     Q_PROPERTY (bool statusProcessing READ statusProcessing WRITE setStatusProcessing NOTIFY statusProcessingChanged)
     bool statusProcessing();
     virtual void setStatusProcessing(bool status);
 
-
     //QML
     void setName(QString name);
     QString getName();
 
+
+    QByteArray convertJsonResult(const QByteArray &data);
 protected:
     DapServiceController *s_serviceCtrl = nullptr;
 
@@ -38,6 +33,11 @@ signals:
     void initDone(const QString &name, bool status);
     void statusInitChanged();
     void statusProcessingChanged();
+
+public:
+    bool m_statusProcessing{false};
+    bool m_statusInit{false};
+    QString m_name;
 };
 
 #endif // DAPABSTRACTMODULE_H
