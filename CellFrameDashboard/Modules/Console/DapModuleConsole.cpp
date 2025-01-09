@@ -22,9 +22,6 @@ void DapModuleConsole::runCommand(const QString &command)
     args.append((int)m_currentMode);
 
     s_serviceCtrl->requestToService("DapRunCmdCommand", args);
-
-    if(!command.contains("-password"))
-        s_serviceCtrl->notifyService("DapSaveHistoryExecutedCmdCommand", args);
 }
 
 void DapModuleConsole::getAnswer(const QVariant &answer)

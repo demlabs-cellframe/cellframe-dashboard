@@ -41,7 +41,6 @@ public:
     Q_INVOKABLE void startService();
 
     Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
-    Q_INVOKABLE void notifyService(QVariant sName, QVariantList sArgs);
 
     DapModulesController *s_modulesInit;
 

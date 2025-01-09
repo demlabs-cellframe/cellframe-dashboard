@@ -3,54 +3,18 @@
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
-    : QObject(apParent)
+    : QThread(apParent)
 {
-
-//    QString cmd = "tx_history -net Backbone -w Elizaveta";
-
-//    QJsonDocument jsonDoc = QJsonDocument::fromJson(cellframe_node::getCellframeNodeInterface("local")
-//                                                        ->nodeCommand(cmd.toStdString(),
-//                                                                      true).c_str());
-
-
-//    return;
-    m_reqularRequestsCtrl = new DapRegularRequestsController();
-
-    DapConfigReader configReader;
-//    m_DapNotifyController = new DapNotifyController();
-//    notifySignalsAttach();
-
-    m_sVersion = DAP_VERSION;
-
-    m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
 }
 
 DapServiceController::~DapServiceController()
 {
-
-    for(QThread *thread : qAsConst(m_threadPool))
-    {
-        thread->quit();
-        thread->wait();
-        delete thread;
-    }
     delete m_web3Controll;
     DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
     if(controller)
     {
         controller->deleteTransactionController();
     }
-    //    for(DapRpcService *service : qAsConst(m_servicePool))
-    //        service->deleteLater();
-
-    m_threadPool.clear();
-    //    m_servicePool.clear();
-
-    //    DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
-    //    if(controller)
-    //    {
-    //        controller->deleteTransactionController();
-    //    }
 
     if(m_threadRegular)
     {
@@ -58,12 +22,19 @@ DapServiceController::~DapServiceController()
         m_threadRegular->wait();
         delete m_threadRegular;
     }
+
+    quit();
+    wait();
 }
 
-/// Client controller initialization.
-/// @param apDapServiceClient Network connection controller.
-void DapServiceController::init()
+void DapServiceController::run()
 {
+    m_reqularRequestsCtrl = new DapRegularRequestsController();
+
+    DapConfigReader configReader;
+
+    m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
+
     m_pServer = new DapUiService(this);
 
     m_threadRegular = new QThread();
@@ -82,134 +53,22 @@ void DapServiceController::init()
 
     m_web3Controll = new DapWebControllerForService(this);
     m_web3Controll->rcvFrontendConnectStatus(true);
-    ////    m_versionController = new DapUpdateVersionController(this);
-#ifdef Q_OS_ANDROID
-    /*
-    if (m_pServer->listen("127.0.0.1", 22150)) {
-        qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
-        connect(m_pServer, &DapUiService::onClientConnected, &DapServiceController::onNewClientConnected);
-        connect(m_pServer, &DapUiService::onClientDisconnected, &DapServiceController::onNewClientConnected);
-    }*/
-#else
-    //    m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
-    //    if(m_pServer->listen(DAP_BRAND))
-    //    {
-    //        connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
-    //        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
-
     m_web3Controll->setCommandList(&m_transceivers);
     // Channel req\rep for web 3 API
     connect(this, &DapServiceController::webConnectRespond, m_web3Controll, &DapWebControll::rcvAccept);
     connect(m_web3Controll, &DapWebControllerForService::signalConnectRequest, this, &DapServiceController::rcvWebConenctRequest);
-    //        // Regular request controller
-    //
-    //    }
-#endif
-    //    else
-    //    {
-    //        qCritical() << QString("Can't listen on %1").arg(DAP_BRAND);
-    //        qCritical() << m_pServer->errorString();
-    //        return false;
-    //    }
 
     qInfo() << "ServiceController started";
     emit onServiceStarted();
-}
 
-/// Get company brand.
-/// @return Brand сompany.
-QString DapServiceController::getBrand() const
-{
-    return m_sBrand;
-}
-
-/// Get app version.
-/// @return Application version.
-QString DapServiceController::getVersion() const
-{
-    return m_sVersion;
-}
-
-QString DapServiceController::getCurrentNetwork() const
-{
-    return m_sCurrentNetwork;
-}
-
-void DapServiceController::setCurrentNetwork(const QString &sCurrentNetwork)
-{
-    m_sCurrentNetwork = sCurrentNetwork;
-
-    emit currentNetworkChanged(m_sCurrentNetwork);
-}
-
-int DapServiceController::getIndexCurrentNetwork() const
-{
-    return m_iIndexCurrentNetwork;
-}
-
-void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
-{
-    m_iIndexCurrentNetwork = iIndexCurrentNetwork;
-
-    emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
-}
-
-bool DapServiceController::getReadingChains() const
-{
-    return m_bReadingChains;
+    exec();
 }
 
 void DapServiceController::setReadingChains(bool bReadingChains)
 {
     m_bReadingChains = bReadingChains;
-
     emit readingChainsChanged(bReadingChains);
 }
-
-void DapServiceController::requestWalletList()
-{
-    this->requestToService("DapGetWalletsInfoCommand", QStringList() << "true");
-}
-
-/*void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
-{
-    this->requestToService("DapGetWalletInfoCommand", a_walletName, a_networks);
-}*/
-
-void DapServiceController::requestNetworkStatus(QString a_networkName)
-{
-    this->requestToService("DapGetNetworkStatusCommand", QStringList() << a_networkName);
-}
-
-void DapServiceController::changeNetworkStateToOffline(QString a_networkName)
-{
-    this->requestToService("DapGetNetworkStatusCommand", QStringList() << a_networkName << "offline");
-}
-
-void DapServiceController::changeNetworkStateToOnline(QString a_networkName)
-{
-    this->requestToService("DapNetworkGoToCommand", QStringList() << a_networkName << "online");
-}
-
-void DapServiceController::requestOrdersList()
-{
-    this->requestToService("DapGetListOrdersCommand");
-}
-
-void DapServiceController::requestNetworksList()
-{
-    this->requestToService("DapGetListNetworksCommand");
-}
-
-int DapServiceController::getAutoOnlineValue()
-{
-    DapConfigReader reader;
-    bool res = reader.getItemBool("general", "auto_online", false);
-    if (res)
-        return 2;
-    else return 0;
-}
-
 
 /// Get an instance of a class.
 /// @return Instance of a class.
@@ -231,54 +90,46 @@ void DapServiceController::disconnectAll()
 /// @param arg1...arg10 Parametrs.
 void DapServiceController::requestToService(const QString &asServiceName, const QVariant &args)
 {
-    Q_ASSERT_X(m_transceivers.contains(asServiceName), QString("Command " + asServiceName + " was not found").toStdString().c_str(), 0);
+    if(!m_transceivers.contains(asServiceName))
+    {
+        qWarning()<<QString("Command " + asServiceName + " was not found");
+        return;
+    }
+    QtConcurrent::run([this, asServiceName, args]{
+        DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_transceivers[asServiceName]);
+        if(!transceiver)
+        {
+            qWarning()<<QString("Transceiver " + asServiceName + " was not found");
+            return;
+        }
+        emit transceiver->toDataSignal(args);
+    });
 
-    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_transceivers[asServiceName]);
-    Q_ASSERT(transceiver);
-    emit transceiver->toDataSignal(args);
-}
-
-/// Notify service.
-/// @details In this case, only a notification is sent to the service, the answer should not be expected.
-/// @param asServiceName Service name.
-/// @param arg1...arg10 Parametrs.
-void DapServiceController::notifyService(const QString &asServiceName, const QVariant &args)
-{
-    qDebug() << "DapServiceController::notifyService" << asServiceName << args;
-//    Q_ASSERT_X(m_transceivers.contains(asServiceName), QString("Command " + asServiceName + " was not found").toStdString().c_str(), 0);
-//    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_transceivers[asServiceName]);
-
-//    Q_ASSERT(transceiver);
-
-//    transceiver->notifyToService(args);
 }
 
 void DapServiceController::addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService)
 {
-    Q_ASSERT_X(!m_transceivers.contains(name), QString("service with name " + name + " already exist").toStdString().c_str(), 0);
+    if(m_transceivers.contains(name))
+    {
+        qWarning()<<QString("service with name " + name + " already exist");
+        return;
+    }
+
     commandService->setRegularController(m_reqularRequestsCtrl);
 
     connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant reply)
-            {
-                for (int idx = 0; idx < metaObject()->methodCount(); ++idx)
-                {
-                    const QMetaMethod method = metaObject()->method(idx);
-                    if (method.methodType() == QMetaMethod::Signal && method.name() == signalName)
-                    {
-                        metaObject()->method(idx).invoke(this, Q_ARG(QVariant, reply));
-                    }
-                }
-            });
-
-    if(!m_onceThreadList.contains(name))
     {
-        QThread * thread = new QThread(this);
+        for (int idx = 0; idx < metaObject()->methodCount(); ++idx)
+        {
+            const QMetaMethod method = metaObject()->method(idx);
+            if (method.methodType() == QMetaMethod::Signal && method.name() == signalName)
+            {
+                metaObject()->method(idx).invoke(this, Q_ARG(QVariant, reply));
+            }
+        }
+    });
 
-        commandService->moveToThread(thread);
-        thread->start();
-        m_threadPool.append(thread);
-    }
-    qDebug() << "add command " << name;
+    qDebug() << "Init handler class: " << name;
     m_transceivers.insert(name, commandService);
 }
 
@@ -297,77 +148,100 @@ void DapServiceController::addServiceGeneric(const QString& name, const QString&
 /// Register command.
 void DapServiceController::registerCommand()
 {
-    addServiceGeneric<DapCreateTransactionCommandStack,     QObject*>("DapCreateTransactionCommand",               "transactionCreated",                    nullptr);
-    addServiceGeneric<DapSrvStakeDelegateCommandStack,      QObject*>("DapSrvStakeDelegateCommand",                "srvStakeDelegateCreated",               nullptr);
-    addServiceGeneric<DapTXCondCreateCommandStack,          QObject*>("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",                nullptr);
-    addServiceGeneric<DapXchangeOrderCreateStack,           QObject*>("DapXchangeOrderCreate",                     "rcvXchangeCreate",                      nullptr);
-    addServiceGeneric<DapXchangeOrderRemoveStack,           QObject*>("DapXchangeOrderRemove",                     "rcvXchangeRemove",                      nullptr);
-    addServiceGeneric<DapXchangeOrderPurchaseStack,         QObject*>("DapXchangeOrderPurchase",                   "rcvXchangeOrderPurchase",               nullptr);
-    addServiceGeneric<DapStakeLockHoldCommandStack,         QObject*>("DapStakeLockHoldCommand",                   "rcvStakeLockHoldCommand",               nullptr);
-    addServiceGeneric<DapStakeLockTakeCommandStack,         QObject*>("DapStakeLockTakeCommand",                   "rcvStakeLockTakeCommand",               nullptr);
-    addServiceGeneric<DapCreateJsonTransactionCommandStack, QObject*>("DapCreateJsonTransactionCommand",           "rcvCreateJsonTransactionCommand",       nullptr);
-    addServiceGeneric<DapVoitingCreateCommandStack,         QObject*>("DapVoitingCreateCommand",                   "rcvVoitingCreateCommand",               nullptr);
-    addServiceGeneric<DapVoitingVoteCommandStack,           QObject*>("DapVoitingVoteCommand",                     "rcvVoitingVoteCommand",                 nullptr);
-
-    addServiceGeneric<DapCertificateManagerCommands,        QObject*>("DapCertificateManagerCommands",             "certificateManagerOperationResult",     nullptr);
-    addServiceGeneric<DapActivateClientCommand,             QObject*>("DapActivateClientCommand",                  "clientActivated",                       nullptr);
+    /*Wallet*/
     addServiceGeneric<DapAddWalletCommand,                  QObject*>("DapAddWalletCommand",                       "walletCreated",                         nullptr);
     addServiceGeneric<DapRemoveWalletCommand,               QObject*>("DapRemoveWalletCommand",                    "walletRemoved",                         nullptr);
     addServiceGeneric<DapGetWalletInfoCommand,              QObject*>("DapGetWalletInfoCommand",                   "walletReceived",                        nullptr);
-    addServiceGeneric<DapExportLogCommand,                  QObject*>("DapExportLogCommand",                       "exportLogs",                            nullptr);
-    addServiceGeneric<DapGetListNetworksCommand,            QObject*>("DapGetListNetworksCommand",                 "networksListReceived",                  nullptr);
-    addServiceGeneric<DapGetNetworkStatusCommand,           QObject*>("DapGetNetworkStatusCommand",                "networkStatusReceived",                 nullptr);
-    addServiceGeneric<DapNetworkGoToCommand,                QObject*>("DapNetworkGoToCommand",                     "newTargetNetworkStateReceived",         nullptr);
-    addServiceGeneric<DapGetListOrdersCommand,              QObject*>("DapGetListOrdersCommand",                   "ordersListReceived",                    nullptr);
-    addServiceGeneric<DapNetworkSingleSyncCommand,          QObject*>("DapNetworkSingleSyncCommand",               "",                                      nullptr);
-    addServiceGeneric<DapGetWalletAddressesCommand,         QObject*>("DapGetWalletAddressesCommand",              "walletAddressesReceived",               nullptr);
-    addServiceGeneric<DapGetListWalletsCommand,             QObject*>("DapGetListWalletsCommand",                  "walletsListReceived",                   nullptr);
-    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
-    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
-    addServiceGeneric<DapMempoolProcessCommand,             QObject*>("DapMempoolProcessCommand",                  "mempoolProcessed",                      nullptr);
-    addServiceGeneric<DapGetAllWalletHistoryCommand,        QObject*>("DapGetAllWalletHistoryCommand",             "allWalletHistoryReceived",              nullptr);
-    addServiceGeneric<DapRunCmdCommand,                     QObject*>("DapRunCmdCommand",                          "cmdRunned",                             nullptr);
-    addServiceGeneric<DapNodeRestart,                       QObject*>("DapNodeRestart",                            "nodeRestart",                           nullptr);
-    addServiceGeneric<DapNodeConfigController,              QObject*>("DapNodeConfigController",                   "dapNodeConfigController",               nullptr);
-    addServiceGeneric<DapGetListTokensCommand,              QObject*>("DapGetListTokensCommand",                   "tokensListReceived",                    nullptr);
-    addServiceGeneric<DapTokenEmissionCommand,              QObject*>("DapTokenEmissionCommand",                   "responseEmissionToken",                 nullptr);
-    addServiceGeneric<DapTokenDeclCommand,                  QObject*>("DapTokenDeclCommand",                       "responseDeclToken",                     nullptr);
     addServiceGeneric<DapGetWalletsInfoCommand,             QObject*>("DapGetWalletsInfoCommand",                  "walletsReceived",                       nullptr);
-    addServiceGeneric<DapCreateVPNOrder,                    QObject*>("DapCreateVPNOrder",                         "createdVPNOrder",                       nullptr);
-    addServiceGeneric<DapCreateStakeOrder,                  QObject*>("DapCreateStakeOrder",                       "createdStakeOrder",                     nullptr);
+    addServiceGeneric<DapGetListWalletsCommand,             QObject*>("DapGetListWalletsCommand",                  "walletsListReceived",                   nullptr);
+    addServiceGeneric<DapMoveWalletCommand,                 QObject*>("DapMoveWalletCommand",                      "moveWalletCommandReceived",             nullptr);
+    addServiceGeneric<DapCreatePassForWallet,               QObject*>("DapCreatePassForWallet",                    "passwordCreated",                       nullptr);
+    addServiceGeneric<DapWalletActivateOrDeactivateCommand, QObject*>("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",          nullptr);
+//    addServiceGeneric<DapGetWalletAddressesCommand,         QObject*>("DapGetWalletAddressesCommand",              "walletAddressesReceived",               nullptr);
+//    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
+//    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
+
+    /*Xchange*/
+    addServiceGeneric<DapGetXchangeTxList,                  QObject*>("DapGetXchangeTxList",                       "rcvXchangeTxList",                      nullptr);
+    addServiceGeneric<DapXchangeOrderCreateStack,           QObject*>("DapXchangeOrderCreate",                     "rcvXchangeCreate",                      nullptr);
+    addServiceGeneric<DapXchangeOrderRemoveStack,           QObject*>("DapXchangeOrderRemove",                     "rcvXchangeRemove",                      nullptr);
+    addServiceGeneric<DapXchangeOrderPurchaseStack,         QObject*>("DapXchangeOrderPurchase",                   "rcvXchangeOrderPurchase",               nullptr);
     addServiceGeneric<DapGetXchangeTokenPair,               QObject*>("DapGetXchangeTokenPair",                    "rcvXchangeTokenPair",                   nullptr);
     addServiceGeneric<DapGetXchangeTokenPriceAverage,       QObject*>("DapGetXchangeTokenPriceAverage",            "rcvXchangeTokenPriceAverage",           nullptr);
     addServiceGeneric<DapGetXchangeTokenPriceHistory,       QObject*>("DapGetXchangeTokenPriceHistory",            "rcvXchangeTokenPriceHistory",           nullptr);
-    addServiceGeneric<DapGetXchangeTxList,                  QObject*>("DapGetXchangeTxList",                       "rcvXchangeTxList",                      nullptr);
     addServiceGeneric<DapGetXchangeOrdersList,              QObject*>("DapGetXchangeOrdersList",                   "rcvXchangeOrderList",                   nullptr);
-    addServiceGeneric<DapDictionaryCommand,                 QObject*>("DapDictionaryCommand",                      "rcvDictionary",                         nullptr);
-    addServiceGeneric<DapWalletActivateOrDeactivateCommand, QObject*>("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",          nullptr);
-    addServiceGeneric<DapRemoveChainsOrGdbCommand,          QObject*>("DapRemoveChainsOrGdbCommand",               "rcvRemoveResult",                       nullptr);
-    addServiceGeneric<DapGetFeeCommand,                     QObject*>("DapGetFeeCommand",                          "rcvFee",                                nullptr);
-    addServiceGeneric<DapCreatePassForWallet,               QObject*>("DapCreatePassForWallet",                    "passwordCreated",                       nullptr);
+
+    /*Voting*/
+    addServiceGeneric<DapVoitingCreateCommandStack,         QObject*>("DapVoitingCreateCommand",                   "rcvVoitingCreateCommand",               nullptr);
+    addServiceGeneric<DapVoitingVoteCommandStack,           QObject*>("DapVoitingVoteCommand",                     "rcvVoitingVoteCommand",                 nullptr);
+    addServiceGeneric<DapVoitingListCommand,                QObject*>("DapVoitingListCommand",                     "rcvVoitingListCommand",                 nullptr);
+    addServiceGeneric<DapVoitingDumpCommand,                QObject*>("DapVoitingDumpCommand",                     "rcvVoitingDumpCommand",                 nullptr);
+
+    /*Stake*/
+    addServiceGeneric<DapSrvStakeInvalidate,                QObject*>("DapSrvStakeInvalidate",                     "rcvSrvStakeInvalidate",                 nullptr);
+    addServiceGeneric<DapSrvStakeRemove,                    QObject*>("DapSrvStakeRemove",                         "rcvSrvStakeRemove",                     nullptr);
+    addServiceGeneric<DapSrvStakeDelegateCommandStack,      QObject*>("DapSrvStakeDelegateCommand",                "srvStakeDelegateCreated",               nullptr);
+    addServiceGeneric<DapStakeLockHoldCommandStack,         QObject*>("DapStakeLockHoldCommand",                   "rcvStakeLockHoldCommand",               nullptr);
+    addServiceGeneric<DapStakeLockTakeCommandStack,         QObject*>("DapStakeLockTakeCommand",                   "rcvStakeLockTakeCommand",               nullptr);
+    addServiceGeneric<DapCreateStakeOrder,                  QObject*>("DapCreateStakeOrder",                       "createdStakeOrder",                     nullptr);
+
+    /*Network*/
+    addServiceGeneric<DapGetListNetworksCommand,            QObject*>("DapGetListNetworksCommand",                 "networksListReceived",                  nullptr);
+    addServiceGeneric<DapGetNetworkStatusCommand,           QObject*>("DapGetNetworkStatusCommand",                "networkStatusReceived",                 nullptr);
+    addServiceGeneric<DapNetworkGoToCommand,                QObject*>("DapNetworkGoToCommand",                     "newTargetNetworkStateReceived",         nullptr);
+    addServiceGeneric<DapNetIdCommand,                      QObject*>("DapNetIdCommand",                           "rcvNetIdCommand",                       nullptr);
+    addServiceGeneric<DapNetworkSingleSyncCommand,          QObject*>("DapNetworkSingleSyncCommand",               "",                                      nullptr);
+    addServiceGeneric<DapGetNetworksStateCommand,           QObject*>("DapGetNetworksStateCommand",                "networkStatesListReceived",             nullptr);
+
+    /*Transaction*/
+    addServiceGeneric<DapCreateJsonTransactionCommandStack, QObject*>("DapCreateJsonTransactionCommand",           "rcvCreateJsonTransactionCommand",       nullptr);
+    addServiceGeneric<DapTransactionListCommand,            QObject*>("DapTransactionListCommand",                 "rcvTransactionListCommand",             nullptr);
+    addServiceGeneric<DapTransactionsInfoQueueCommand,      QObject*>("DapTransactionsInfoQueueCommand",           "rcvTransactionsInfoQueueCommand",       nullptr);
+    addServiceGeneric<DapCheckQueueTransactionCommand,      QObject*>("DapCheckQueueTransactionCommand",           "rcvCheckQueueTransaction",              nullptr);
     addServiceGeneric<DapRemoveTransactionsQueueCommand,    QObject*>("DapRemoveTransactionsQueueCommand",         "transactionRemoved",                    nullptr);
     addServiceGeneric<DapCheckTransactionsQueueCommand,     QObject*>("DapCheckTransactionsQueueCommand",          "transactionInfoReceived",               nullptr);
-    addServiceGeneric<DapGetListKeysCommand,                QObject*>("DapGetListKeysCommand",                     "rcvGetListKeysCommand",                 nullptr);
+    addServiceGeneric<DapCreateTransactionCommandStack,     QObject*>("DapCreateTransactionCommand",               "transactionCreated",                    nullptr);
+    addServiceGeneric<DapTXCondCreateCommandStack,          QObject*>("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",                nullptr);
+    addServiceGeneric<DapGetFeeCommand,                     QObject*>("DapGetFeeCommand",                          "rcvFee",                                nullptr);
+
+    /*Node*/
+    addServiceGeneric<DapNodeRestart,                       QObject*>("DapNodeRestart",                            "nodeRestart",                           nullptr);
     addServiceGeneric<DapAddNodeCommand,                    QObject*>("DapAddNodeCommand",                         "rcvAddNode",                            nullptr);
-    addServiceGeneric<DapCheckQueueTransactionCommand,      QObject*>("DapCheckQueueTransactionCommand",           "rcvCheckQueueTransaction",              nullptr);
-    addServiceGeneric<MempoolCheckCommand,                  QObject*>("MempoolCheckCommand",                       "rcvMempoolCheckCommand",                nullptr);
     addServiceGeneric<DapNodeListCommand,                   QObject*>("DapNodeListCommand",                        "rcvNodeListCommand",                    nullptr);
-    addServiceGeneric<DapGetNetworksStateCommand,           QObject*>("DapGetNetworksStateCommand",                "networkStatesListReceived",             nullptr);
-    addServiceGeneric<DapMoveWalletCommand,                 QObject*>("DapMoveWalletCommand",                      "moveWalletCommandReceived",             nullptr);
-    addServiceGeneric<DapNetIdCommand,                      QObject*>("DapNetIdCommand",                           "rcvNetIdCommand",                       nullptr);
-    addServiceGeneric<DapMempoolListCommand,                QObject*>("DapMempoolListCommand",                     "rcvMempoolListCommand",                 nullptr);
-    addServiceGeneric<DapTransactionListCommand,            QObject*>("DapTransactionListCommand",                 "rcvTransactionListCommand",             nullptr);
-    addServiceGeneric<DapLedgerTxHashCommand,               QObject*>("DapLedgerTxHashCommand",                    "rcvLedgerTxHashCommand",                nullptr);
     addServiceGeneric<DapNodeDumpCommand,                   QObject*>("DapNodeDumpCommand",                        "rcvNodeDumpCommand",                    nullptr);
     addServiceGeneric<DapGetNodeIPCommand,                  QObject*>("DapGetNodeIPCommand",                       "rcvGetNodeIPCommand",                   nullptr);
     addServiceGeneric<DapGetNodeStatus,                     QObject*>("DapGetNodeStatus",                          "rcvGetNodeStatus",                      nullptr);
-    addServiceGeneric<DapGetServiceLimitsCommand,           QObject*>("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",            nullptr);
-    addServiceGeneric<DapVoitingListCommand,                QObject*>("DapVoitingListCommand",                     "rcvVoitingListCommand",                 nullptr);
-    addServiceGeneric<DapVoitingDumpCommand,                QObject*>("DapVoitingDumpCommand",                     "rcvVoitingDumpCommand",                 nullptr);
-    addServiceGeneric<DapSrvStakeInvalidate,                QObject*>("DapSrvStakeInvalidate",                     "rcvSrvStakeInvalidate",                 nullptr);
     addServiceGeneric<DapNodeDel,                           QObject*>("DapNodeDel",                                "rcvNodeDel",                            nullptr);
-    addServiceGeneric<DapSrvStakeRemove,                    QObject*>("DapSrvStakeRemove",                         "rcvSrvStakeRemove",                     nullptr);
+    addServiceGeneric<DapNodeConfigController,              QObject*>("DapNodeConfigController",                   "dapNodeConfigController",               nullptr);
 
+    /*Mempool*/
+    addServiceGeneric<MempoolCheckCommand,                  QObject*>("MempoolCheckCommand",                       "rcvMempoolCheckCommand",                nullptr);
+    addServiceGeneric<DapMempoolListCommand,                QObject*>("DapMempoolListCommand",                     "rcvMempoolListCommand",                 nullptr);
+    //    addServiceGeneric<DapMempoolProcessCommand,             QObject*>("DapMempoolProcessCommand",                  "mempoolProcessed",                      nullptr);
+
+    /*Token*/
+    addServiceGeneric<DapGetListTokensCommand,              QObject*>("DapGetListTokensCommand",                   "tokensListReceived",                    nullptr);
+    addServiceGeneric<DapTokenEmissionCommand,              QObject*>("DapTokenEmissionCommand",                   "responseEmissionToken",                 nullptr);
+    addServiceGeneric<DapTokenDeclCommand,                  QObject*>("DapTokenDeclCommand",                       "responseDeclToken",                     nullptr);
+
+    /*Order*/
+    addServiceGeneric<DapGetListOrdersCommand,              QObject*>("DapGetListOrdersCommand",                   "ordersListReceived",                    nullptr);
+    addServiceGeneric<DapCreateVPNOrder,                    QObject*>("DapCreateVPNOrder",                         "createdVPNOrder",                       nullptr);
+
+    /*Certificate*/
+    addServiceGeneric<DapCertificateManagerCommands,        QObject*>("DapCertificateManagerCommands",             "certificateManagerOperationResult",     nullptr);
+
+    /*History*/
+    addServiceGeneric<DapGetAllWalletHistoryCommand,        QObject*>("DapGetAllWalletHistoryCommand",             "allWalletHistoryReceived",              nullptr);
+
+    /*Other*/
+    addServiceGeneric<DapExportLogCommand,                  QObject*>("DapExportLogCommand",                       "exportLogs",                            nullptr);
+    addServiceGeneric<DapRunCmdCommand,                     QObject*>("DapRunCmdCommand",                          "cmdRunned",                             nullptr);
+    addServiceGeneric<DapDictionaryCommand,                 QObject*>("DapDictionaryCommand",                      "rcvDictionary",                         nullptr);
+    addServiceGeneric<DapRemoveChainsOrGdbCommand,          QObject*>("DapRemoveChainsOrGdbCommand",               "rcvRemoveResult",                       nullptr);
+    addServiceGeneric<DapGetListKeysCommand,                QObject*>("DapGetListKeysCommand",                     "rcvGetListKeysCommand",                 nullptr);
+    addServiceGeneric<DapLedgerTxHashCommand,               QObject*>("DapLedgerTxHashCommand",                    "rcvLedgerTxHashCommand",                nullptr);
+    addServiceGeneric<DapGetServiceLimitsCommand,           QObject*>("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",            nullptr);
 
     addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      m_pServer);
     addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               m_pServer);
@@ -375,7 +249,6 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapServiceInitCommand,                QObject*>("DapHistoryServiceInitCommand",              "historyServiceInitRcv",                 m_pServer);
     addServiceGeneric<DapServiceInitCommand,                QObject*>("DapWalletServiceInitCommand",               "walletsServiceInitRcv",                 m_pServer);
     addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       m_pServer);
-    addServiceGeneric<DapTransactionsInfoQueueCommand,      QObject*>("DapTransactionsInfoQueueCommand",           "rcvTransactionsInfoQueueCommand",       nullptr);
     addServiceGeneric<DapUpdateLogsCommand,                 QObject *, QString> ("DapUpdateLogsCommand",                    "logUpdated",                   nullptr, LOG_FILE);
     addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
     addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, CMD_HISTORY);
@@ -421,36 +294,6 @@ void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
     QVariant finalVariant = QVariant::fromValue(variantList);
     this->requestToService("DapRemoveTransactionsQueueCommand", finalVariant);
 }
-
-bool DapServiceController::compareJson(QByteArray buff, QVariant data)
-{
-    json_object *obj = json_object_new_string(data.toByteArray());
-    json_object *obj2 = json_object_new_string(buff);
-
-    if(json_object_equal(obj, obj2))
-    {
-        json_object_put(obj);
-        json_object_put(obj2);
-        return true;
-    }
-    json_object_put(obj);
-    json_object_put(obj2);
-
-    return false;
-}
-
-//void DapServiceController::notifySignalsAttach()
-//{
-//    connect(m_DapNotifyController, &DapNotifyController::notifySocketStateChanged, this, [this] (const bool &status)
-//    {
-//        emit signalStateSocket(status);
-//    });
-
-//    connect(m_DapNotifyController, &DapNotifyController::netStates, this, [this] (const QVariantMap &netStates)
-//    {
-//        emit signalNetState(netStates);
-//    });
-//}
 
 void DapServiceController::initAdditionalParamrtrsService()
 {

@@ -34,7 +34,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 //    qDebug()<<m_nodeWrapper->nodeRunning();
 //    qDebug()<<m_nodeWrapper->nodeVersion();
 
-    m_serviceController->init();
+    m_serviceController->start();
 #ifdef Q_OS_ANDROID
     QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
                                         "com/Cellframe/Dashboard/DashboardService");
@@ -117,10 +117,6 @@ void DapApplication::startService()
 void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
 {
     m_serviceController->requestToService(sName.toString(), sArgs);
-}
-void DapApplication::notifyService(QVariant sName, QVariantList sArgs)
-{
-    m_serviceController->notifyService(sName.toString(), sArgs);
 }
 
 void DapApplication::setContextProperties()
