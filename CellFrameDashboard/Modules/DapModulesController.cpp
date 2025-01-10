@@ -18,10 +18,9 @@
 #include "Orders/DapModuleOrders.h"
 #include "MasterNode/DapModuleMasterNode.h"
 #include "Networks/DapModuleNetworks.h"
+#include "DapDataManagerController.h"
 
 #include "Models/DapWalletListModel.h"
-
-#include "CellframeNode.h"
 
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
 
@@ -29,16 +28,12 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     : QObject(parent)
     , s_appEngine(appEngine)
     , s_serviceCtrl(&DapServiceController::getInstance())
+    , m_managerController(new DapDataManagerController(this))
     , s_settings(new QSettings(this))
-    , m_netListModel(new DapStringListModel)
 {
-    auto projectSkin = s_settings->value("project_skin", "").toString();
-    if(projectSkin == "wallet") m_skinWallet = true;
-
     initWorkers();
     initModules();
-    m_netListModel->setStringList({"All"});
-    s_appEngine->rootContext()->setContextProperty("netListModelGlobal", m_netListModel);
+    s_appEngine->rootContext()->setContextProperty("managerController", m_managerController);
 }
 
 DapModulesController::~DapModulesController()
@@ -48,8 +43,8 @@ DapModulesController::~DapModulesController()
         delete it.value();
 
     QMap<QString, QObject*>::iterator it_w = m_listWorkers.begin();
-    for(;it_w != m_listWorkers.end(); ++it)
-        delete it.value();
+    for(;it_w != m_listWorkers.end(); ++it_w)
+        delete it_w.value();
 
     delete s_settings;
 }
@@ -114,55 +109,7 @@ void DapModulesController::updateListWallets()
     s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
 }
 
-void DapModulesController::updateListNetwork()
-{
-    s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
-}
-
-void DapModulesController::rcvNetList(const QVariant &rcvData)
-{
-
-    if(m_netList == rcvData.toStringList())
-    {
-        return;
-    }
-    m_netList = rcvData.toStringList();
-
-    updateNetworkListModel();
-    emit netListUpdated();
-
-//    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-//    QJsonObject replyObj = replyDoc.object();
-//    QJsonArray netArray = replyObj["result"].toArray();
-//    QStringList netList;
-//    for(const auto& itemValue: netArray)
-//    {
-//        netList.append(itemValue.toString());
-//    }
-
-//    if(m_netList == netList)
-//    {
-//        return;
-//    }
-//    m_netList = netList;
-
-//    cleareProgressInfo();
-
-//    updateNetworkListModel();
-//    emit netListUpdated();
-//    if(m_netList.isEmpty() && m_isNodeWorking)
-//    {
-//        m_isNodeWorking = false;
-//        emit nodeWorkingChanged();
-//    }
-//    else if(!m_netList.isEmpty() && !m_isNodeWorking)
-//    {
-//        m_isNodeWorking = true;
-//        emit nodeWorkingChanged();
-//    }
-}
-
-void DapModulesController::clearProgressInfo()
+void DapModulesController::cleareProgressInfo()
 {
     m_networksLoadProgress.clear();
     nodeLoadProgressJson = QJsonArray();
@@ -176,7 +123,7 @@ void DapModulesController::setIsNodeWorking(bool isWorking)
 
     if(isWorking)
     {
-        clearProgressInfo();
+        cleareProgressInfo();
         qInfo()<<"[NODE LOADED]";
     }
     m_isNodeWorking = isWorking;
@@ -191,13 +138,6 @@ void DapModulesController::setNodeLoadProgress(int progress)
 
     m_nodeLoadProgress = progress;
     emit nodeLoadProgressChanged();
-}
-
-void DapModulesController::updateNetworkListModel()
-{
-    QStringList list = {"All"};
-    list.append(m_netList);
-    m_netListModel->setStringList(std::move(list));
 }
 
 void DapModulesController::setCurrentWalletIndex(int newIndex)
@@ -262,7 +202,6 @@ void DapModulesController::setNotifyCtrl(DapNotifyController *notifyController)
     m_notifyCtrl = notifyController;
 
     emit sigNotifyControllerIsInit();
-    connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetList, this, &DapModulesController::slotRcvNotifyNetList);
 }
 
 //Wallets
@@ -277,23 +216,6 @@ void DapModulesController::slotRcvNotifyWalletInfo(QJsonDocument doc)
 }
 
 void DapModulesController::slotRcvNotifyWalletsInfo(QJsonDocument doc)
-{
-
-}
-
-//Nets
-void DapModulesController::slotRcvNotifyNetList(QJsonDocument doc)
-{
-    QJsonArray arr = doc.array();
-    rcvNetList(arr.toVariantList());
-}
-
-void DapModulesController::slotRcvNotifyNetInfo(QJsonDocument doc)
-{
-
-}
-
-void DapModulesController::slotRcvNotifyNetsInfo(QJsonDocument doc)
 {
 
 }

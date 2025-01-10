@@ -11,7 +11,6 @@
 #include "DapServiceController.h"
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
-#include "ConfigWorker/configfile.h"
 #include "MasterNodeCommand/DapSrvStakeInvalidateStage.h"
 #include "MasterNodeCommand/DapStakeDelegate.h"
 #include "MasterNodeCommand/DapWaitingPermission.h"

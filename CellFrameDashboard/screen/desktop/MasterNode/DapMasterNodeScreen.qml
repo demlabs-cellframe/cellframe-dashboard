@@ -212,12 +212,9 @@ Page
                     break
                 }
             }
-            if(indexFound < 0) indexFound = 0
-            tabsView.currentIndex = indexFound
         }
         else if(networkTabsModel.count)
         {
-            indexFound = -1
             for(; i < networkTabsModel.count; ++i)
             {
                 if(networkTabsModel.get(i).net === nodeMasterModule.currentNetwork)
@@ -226,10 +223,16 @@ Page
                     break
                 }
             }
+        }
+        if(networkTabsModel.count)
+        {
             if(indexFound <= 0) indexFound = 0
             tabsView.currentIndex = indexFound
         }
-
+        else
+        {
+            console.log("[MasterNodeScreen] Network mpdel is empty")
+        }
     }
 
     function changeCurrentWallet(wallet)
@@ -245,6 +248,7 @@ Page
     {
         var currentIndex = tabsView.currentIndex
         nodeMasterModule.currentNetwork = networkTabsModel.get(currentIndex).net
+        console.log("[MasterNodeScreen] new current network: ", nodeMasterModule.currentNetwork, ", index: ", currentIndex)
         var state = networkTabsModel.get(currentIndex).isMaster ? "IS_MASTER_SCREEN" : "DEFAULT_SCREEN"
         if(dapMasterNodeScreen.state !== state)
         {

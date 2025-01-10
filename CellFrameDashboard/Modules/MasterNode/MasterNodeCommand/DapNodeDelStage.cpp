@@ -1,4 +1,5 @@
 #include "DapNodeDelStage.h"
+#include "../DapMasterNodeKeys.h"
 
 DapNodeDelStage::DapNodeDelStage(DapServiceController *serviceController)
     :DapAbstractMasterNodeCommand(serviceController)

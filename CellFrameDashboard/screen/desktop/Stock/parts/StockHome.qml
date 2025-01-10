@@ -10,9 +10,13 @@ import "CreateOrder"
 
 Item
 {
+    property alias stockHome: stockHome
+
+    id: stockHome
     signal goToRightHome()
     signal goToDoneCreate()
     signal goToTokensList()
+    signal regularPairSwap()
 
     property string panelPath: ""
     property string tokensListPath: "CreateOrderLight/TokensListRightPanel.qml"

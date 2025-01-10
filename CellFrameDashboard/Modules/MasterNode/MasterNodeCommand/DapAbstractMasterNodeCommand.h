@@ -1,8 +1,9 @@
 #pragma once
 
 #include <QObject>
+#include <functional>
 #include "DapServiceController.h"
-#include "../DapMasterNodeKeys.h"
+
 class DapAbstractMasterNodeCommand : public QObject
 {
 public:

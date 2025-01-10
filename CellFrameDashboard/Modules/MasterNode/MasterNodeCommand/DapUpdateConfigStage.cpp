@@ -1,5 +1,6 @@
 #include "DapUpdateConfigStage.h"
 #include "CellframeNode.h"
+#include "../DapMasterNodeKeys.h"
 
 DapUpdateConfigStage::DapUpdateConfigStage(DapServiceController *serviceController)
 :DapAbstractMasterNodeCommand(serviceController)

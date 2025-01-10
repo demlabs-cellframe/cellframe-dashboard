@@ -2,6 +2,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "../DapTypes/DapCoin.h"
+#include "DapDataManagerController.h"
+#include "CellframeNode.h"
 
 Q_DECLARE_METATYPE(QList<int>)
 
@@ -29,9 +31,9 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     setStageCallback(m_updateConfig);
     setStageCallback(m_nodeDelStage);
 
-    connect(s_serviceCtrl, &DapServiceController::certificateManagerOperationResult, this, &DapModuleMasterNode::respondCreateCertificate);
-    connect(m_modulesCtrl, &DapModulesController::netListUpdated, this, &DapModuleMasterNode::networkListUpdateSlot);
+    connect(m_modulesCtrl->getManagerController(), &DapDataManagerController::networkListChanged, this, &DapModuleMasterNode::networkListUpdateSlot);
 
+    connect(s_serviceCtrl, &DapServiceController::certificateManagerOperationResult, this, &DapModuleMasterNode::respondCreateCertificate);
     connect(s_serviceCtrl, &DapServiceController::rcvAddNode, this, &DapModuleMasterNode::addedNode);
     connect(s_serviceCtrl, &DapServiceController::networkStatusReceived, this, &DapModuleMasterNode::respondNetworkStatus);
     connect(s_serviceCtrl, &DapServiceController::rcvNodeListCommand, this, &DapModuleMasterNode::respondNodeListCommand);
@@ -118,11 +120,6 @@ int DapModuleMasterNode::startMasterNode(const QVariantMap& value)
     /// 2 - The certificate name is not specified correctly
     /// 3 - The certificate name is not appropriate.
     /// 4 -
-
-    if(!m_currentStartMaster.isEmpty())
-    {
-        return 1;
-    }
 
     QString certName = value[MasterNode::CERT_NAME_KEY].toString();
 
@@ -854,7 +851,7 @@ void DapModuleMasterNode::networkListUpdateSlot()
         }
     }
 
-    QStringList netlist = m_modulesCtrl->getNetworkList();
+    QStringList netlist = m_modulesCtrl->getManagerController()->getNetworkList();
     for(const auto &net: netlist)
     {
         if(checkList.contains(net))

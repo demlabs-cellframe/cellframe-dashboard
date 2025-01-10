@@ -1,5 +1,6 @@
 #include "DapStakeDelegate.h"
 #include "../DapTypes/DapCoin.h"
+#include "../DapMasterNodeKeys.h"
 
 DapStakeDelegate::DapStakeDelegate(DapServiceController *serviceController)
     :DapAbstractMasterNodeCommand(serviceController)

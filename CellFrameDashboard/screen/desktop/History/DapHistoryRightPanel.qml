@@ -265,7 +265,7 @@ Item
             backgroundColorShow: currTheme.secondaryBackground
             backgroundColorNormal: currTheme.secondaryBackground
             background.radius: 4
-            model: netListModelGlobal
+            model: netListModel
 
             font: mainFont.dapFont.regular16
 
