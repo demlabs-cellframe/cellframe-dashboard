@@ -1,39 +1,27 @@
 #include "DapModuleNetworks.h"
-
-static const QMap<QString, QString> s_stateStrings = {
-    { "NET_STATE_OFFLINE", "OFFLINE"},
-    { "NET_STATE_ONLINE", "ONLINE"},
-    { "NET_STATE_LINKS_PREPARE", "LINKS PREPARE"},
-    { "NET_STATE_LINKS_ESTABLISHED", "LINKS ESTABLISHED"},
-    { "NET_STATE_LINKS_CONNECTING", "LINKS CONNECTING"},
-    { "NET_STATE_SYNC_CHAINS", "SYNC CHAINS"},
-    { "NET_STATE_SYNC_GDB", "SYNC GDB"},
-    { "NET_STATE_ADDR_REQUEST", "ADDR REQUEST"},
-    { "UNDEFINED", "ERROR"}
-};
+#include "DapDataManagerController.h"
+#include "DapNetworksManager.h"
 
 DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     :DapAbstractModule(parent)
     , m_modulesCtrl(parent)
     , m_networkModel(new DapNetworkModel())
+    , m_netListModel(new DapStringListModel)
 {
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("networkModel", m_networkModel);
+    m_netListModel->setStringList({"All"});
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("netListModel", m_netListModel);
 
     connect(this, &DapModuleNetworks::sigNetLoadProgress, m_modulesCtrl, &DapModulesController::setNodeLoadProgress);
     connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
 
-    connect(m_modulesCtrl, &DapModulesController::sigNotifyControllerIsInit, [this] ()
-    {
-        m_notifyCtrl = m_modulesCtrl->getNotifyCtrl();
-        connect(m_notifyCtrl, &DapNotifyController::isConnectedChanged,   this, &DapModuleNetworks::slotNotifyIsConnected);
-        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetList,  this, &DapModuleNetworks::slotRcvNotifyNetList);
-        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapModuleNetworks::slotRcvNotifyNetInfo);
-        connect(m_notifyCtrl, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapModuleNetworks::slotRcvNotifyNetsInfo);
-
-        connect(this, &DapModuleNetworks::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
-    });
+    auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
+    connect(networkManager, &DapNetworksManager::deleteNetworksSignal, this, &DapModuleNetworks::deleteNetworksSlot);
+    connect(networkManager, &DapNetworksManager::updateNetworkInfoSignal, this, &DapModuleNetworks::updateModelInfo);
+    connect(networkManager, &DapNetworksManager::isConnectedChanged, this, &DapModuleNetworks::slotNotifyIsConnected);
+    connect(networkManager, &DapNetworksManager::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
+    connect(networkManager, &DapNetworksManager::networkListChanged, this, &DapModuleNetworks::networkListChangedSlot);
 }
-
 
 DapModuleNetworks::~DapModuleNetworks()
 {
@@ -56,148 +44,51 @@ void DapModuleNetworks::goOffline(QString net)
     s_serviceCtrl->requestToService("DapNetworkGoToCommand",QStringList()<<net<<"offline");
 }
 
-void DapModuleNetworks::slotRcvNotifyNetList(QJsonDocument doc)
+void DapModuleNetworks::networkListChangedSlot()
 {
-    QStringList list = doc.toVariant().toStringList();
+    QStringList list = {"All"};
+    list.append(m_modulesCtrl->getManagerController()->getNetworkList());
+    m_netListModel->setStringList(std::move(list));
+}
 
-    auto getDifference = [] (const QStringList list1, const QStringList list2) -> QStringList
+void DapModuleNetworks::deleteNetworksSlot(const QStringList& list)
+{
+    //If model contains item  - remove him.
+    //Because there is no such element in the received list of networks.
+    for(const QString &net : qAsConst(list))
     {
-        QStringList difference;
-        for (const QString &item : list1)
+        int idx = getIndexItemModel(net);
+        if(idx >= 0)
         {
-            if (!list2.contains(item))
-            {
-                difference.append(item);
-            }
+            m_networkModel->remove(idx);
         }
-        return difference;
-    };
+    }
+}
 
-    QStringList diff = getDifference(s_netList, list);
-
-    if(s_netList.count() != list.count() || diff.count())
+void DapModuleNetworks::updateModelInfo(const NetworkInfo& info)
+{
+    if(m_networkModel->isEmpty())
     {
-        qDebug()<<"Change net list";
-        s_netList = list;
-
-        //If model contains item  - remove him.
-        //Because there is no such element in the received list of networks.
-        for(const QString &net : qAsConst(diff))
-        {
-            m_netsLoadProgress.remove(net);
-            int idx = getIndexItemModel(net);
-            if(idx >= 0)
-            {
-                m_networkModel->remove(idx);
-            }
-        }
+        m_networkModel->add(info);
     }
     else
     {
-        qDebug()<<"Net lists is equal";
+        updateItemModel(info);
     }
 }
 
-void DapModuleNetworks::slotRcvNotifyNetInfo(QJsonDocument doc)
+void DapModuleNetworks::updateItemModel(const NetworkInfo& info)
 {
-    QJsonObject netObj = doc.object();
-    QString netName = netObj["net"].toString();
-    DapNetworkModel::Item networkItem = itemModelGenerate(netName, netObj);
-
-    updateItemModel(networkItem);
-
-    NetLoadProgress netLoadItm;
-    netLoadItm.name     = networkItem.networkName;
-    netLoadItm.state    = networkItem.displayNetworkState;
-    netLoadItm.percent  = networkItem.syncPercent;
-
-    m_netsLoadProgress.insert(netLoadItm.name,netLoadItm);
-    emit sigUpdateItemNetLoad();
-}
-
-void DapModuleNetworks::slotRcvNotifyNetsInfo(QJsonDocument doc)
-{
-    QJsonObject obj = doc.object();
-    QStringList keys = obj.keys();
-    QList<NetLoadProgress> netsLoadList;
-
-    for(const QString &key : keys)
-    {
-        QJsonObject netObject = obj[key].toObject();
-
-        DapNetworkModel::Item networkItem = itemModelGenerate(key, netObject);
-
-        NetLoadProgress netLoadItm;
-        netLoadItm.name     = networkItem.networkName;
-        netLoadItm.state    = networkItem.displayNetworkState;
-        netLoadItm.percent  = networkItem.syncPercent;
-        netsLoadList.append(netLoadItm);
-
-        if(m_networkModel->isEmpty())
-        {
-            m_networkModel->add(networkItem);
-        }
-        else
-        {
-            updateItemModel(networkItem);
-        }
-    }
-
-
-    for(const auto &item : netsLoadList)
-        m_netsLoadProgress.insert(item.name,item);
-
-    emit sigUpdateItemNetLoad();
-}
-
-DapNetworkModel::Item DapModuleNetworks::itemModelGenerate(QString netName, QJsonObject itemModel)
-{
-    DapNetworkModel::Item networkItem;
-
-    networkItem.networkName  = netName;
-    networkItem.address      = itemModel["current_addr"].toString();
-    networkItem.errorMessage = itemModel["errorMessage"].toString();
-    networkItem.syncPercent  = convertProgress(itemModel["processed"].toObject());
-
-    if(!itemModel.contains("links"))
-    {
-        networkItem.activeLinksCount = "0";
-        networkItem.linksCount       = "0";
-    }
-    else
-    {
-        QJsonObject links = itemModel["links"].toObject();
-        networkItem.activeLinksCount = links["active"].toVariant().toString();
-        networkItem.linksCount       = links["required"].toVariant().toString();
-    }
-
-
-    QJsonObject states = itemModel["states"].toObject();
-    networkItem.networkState        = states["current"].toString();
-    networkItem.targetState         = states["target"].toString();
-    networkItem.displayNetworkState = convertState(states["current"].toString());
-    networkItem.displayTargetState  = convertState(states["target"].toString());
-
-    return networkItem;
-}
-
-void DapModuleNetworks::updateItemModel(DapNetworkModel::Item itmModel)
-{
-    int idx = getIndexItemModel(itmModel.networkName);
+    int idx = getIndexItemModel(info.networkName);
 
     if(idx >= 0)
     {
-        m_networkModel->set(idx, itmModel);
+        m_networkModel->set(idx, info);
     }
     else
     {
-        m_networkModel->add(itmModel);
+        m_networkModel->add(info);
     }
-}
-
-void DapModuleNetworks::updateFullModel(QJsonDocument docModel)
-{
-    //TODO: ...
 }
 
 int DapModuleNetworks::getIndexItemModel(QString netName)
@@ -224,17 +115,18 @@ int DapModuleNetworks::getIndexItemModel(QString netName)
 void DapModuleNetworks::clearAll()
 {
     m_networkModel->clear();
-    m_netsLoadProgress.clear();
+    // m_netsLoadProgress.clear();
 }
 
 void DapModuleNetworks::slotUpdateItemNetLoad()
 {
-    int netsCount = m_netsLoadProgress.count();
+    auto& netLoadProgress = m_modulesCtrl->getManagerController()->getNetworkManager()->getNetworkLoadProgress();
+    int netsCount = netLoadProgress.count();
     double totalProgressLoading = 0.0f;
 
-    for (const auto &key : m_netsLoadProgress.keys())
+    for (const auto &key : netLoadProgress.keys())
     {
-        const NetLoadProgress &netLoadItm = m_netsLoadProgress.value(key);
+        const NetworkLoadProgress &netLoadItm = netLoadProgress.value(key);
 
         if(netLoadItm.state == "" || netLoadItm.state == "Error.")
             continue;
@@ -258,9 +150,8 @@ void DapModuleNetworks::slotUpdateItemNetLoad()
     }
 
     double calc = totalProgressLoading / netsCount;
-    m_totalProgressNetsLoad = (int)calc;
 
-    emit sigNetLoadProgress(m_totalProgressNetsLoad);
+    emit sigNetLoadProgress((int)calc);
 
     if(calc != 100.0)
     {
@@ -280,24 +171,6 @@ void DapModuleNetworks::slotNotifyIsConnected(bool isConnected)
         emit sigNetsLoading(false);
         emit sigNetLoadProgress(0);
     }
-}
-
-QString DapModuleNetworks::convertState(QString state)
-{
-    if(s_stateStrings.contains(state))
-    {
-        return s_stateStrings[state];
-    }
-
-    auto substr = QString("NET_STATE_");
-    if(state.contains(substr))
-    {
-        QString result = state;
-        result.remove(substr);
-        return result;
-    }
-
-    return state;
 }
 
 QString DapModuleNetworks::convertProgress(QJsonObject obj)

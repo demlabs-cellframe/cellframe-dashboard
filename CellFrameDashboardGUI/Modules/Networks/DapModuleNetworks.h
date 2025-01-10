@@ -10,42 +10,16 @@
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
 #include "Models/DapNetworkModel.h"
+#include "DapNetworksTypes.h"
 
 class DapModuleNetworks : public DapAbstractModule
 {
     Q_OBJECT
 
-    struct NetLoadProgress{
-        QString name{""};
-        QString state{""};
-        QString percent{""};
-    };
-
 public:
     explicit DapModuleNetworks(DapModulesController *parent);
     ~DapModuleNetworks();
 
-private:
-    QString convertState(QString state);
-    QString convertProgress(QJsonObject obj);
-
-    DapNetworkModel::Item itemModelGenerate(QString netName, QJsonObject itemModel);
-    void updateItemModel(DapNetworkModel::Item itmModel);
-    void updateFullModel(QJsonDocument docModel);
-    int getIndexItemModel(QString netName);
-
-    void clearAll();
-
-private slots:
-    void slotRcvNotifyNetList(QJsonDocument doc);
-    void slotRcvNotifyNetInfo(QJsonDocument doc);
-    void slotRcvNotifyNetsInfo(QJsonDocument doc);
-
-    void slotUpdateItemNetLoad();
-
-    void slotNotifyIsConnected(bool isConnected);
-
-public:
     Q_INVOKABLE void goSync(QString net);
     Q_INVOKABLE void goOnline(QString net);
     Q_INVOKABLE void goOffline(QString net);
@@ -55,15 +29,26 @@ signals:
     void sigNetLoadProgress(int progress);
     void sigUpdateItemNetLoad();
 
+private slots:
+    void deleteNetworksSlot(const QStringList& list);
+    void updateModelInfo(const NetworkInfo& info);
+    void networkListChangedSlot();
+    void slotUpdateItemNetLoad();
+
+    void slotNotifyIsConnected(bool isConnected);
+
+private:
+    QString convertProgress(QJsonObject obj);
+
+    void updateItemModel(const NetworkInfo& info);
+    int getIndexItemModel(QString netName);
+
+    void clearAll();
+
 private:
     DapModulesController  *m_modulesCtrl = nullptr;
     DapNetworkModel *m_networkModel = nullptr;
-    DapNotifyController *m_notifyCtrl = nullptr;
-    QStringList s_netList = QStringList();
-
-    QMap<QString, NetLoadProgress> m_netsLoadProgress;
-    int m_totalProgressNetsLoad;
+    DapStringListModel* m_netListModel = nullptr;
 };
-
 
 #endif // DAPMODULENETWORKS_H

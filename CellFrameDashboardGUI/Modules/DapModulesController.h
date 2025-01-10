@@ -10,12 +10,15 @@
 #include "Workers/mathworker.h"
 
 #include "DapAbstractModule.h"
+
 #include "../DapServiceController.h"
 #include "Models/DapStringListModel.h"
 #include "qsettings.h"
 #include "../ConfigWorker/configworker.h"
 
 #include "../NotifyController/DapNotifyController.h"
+
+class DapDataManagerController;
 
 class DapModulesController : public QObject
 {
@@ -30,7 +33,6 @@ public:
 
     QSettings* getSettings() {return s_settings;}
     void tryStartModules() { emit initDone(); }
-    const QStringList& getNetworkList() const {return m_netList;}
     void setCurrentWallet(const QPair<int,QString>& dataWallet);
     void setWalletList(const QStringList& walletList);
     const QStringList& getWalletList() const { return m_walletList; }
@@ -68,22 +70,15 @@ public:
     void setNotifyCtrl(DapNotifyController * notifyController);
     DapNotifyController* getNotifyCtrl(){return m_notifyCtrl;}
 
+    DapDataManagerController* getManagerController() const {return m_managerController; }
 public slots:
     Q_INVOKABLE void updateListWallets();
     void setNodeLoadProgress(int progress);
     void setIsNodeWorking(bool);
-//    Q_INVOKABLE void updateListNetwork();
 
     void slotRcvNotifyWalletList(QJsonDocument doc);
     void slotRcvNotifyWalletInfo(QJsonDocument doc);
     void slotRcvNotifyWalletsInfo(QJsonDocument doc);
-
-    void slotRcvNotifyNetList(QJsonDocument doc);
-    void slotRcvNotifyNetInfo(QJsonDocument doc);
-    void slotRcvNotifyNetsInfo(QJsonDocument doc);
-
-private slots:
-    void rcvNetList(const QVariant &rcvData);
 
 signals:
     void initDone();
@@ -101,13 +96,12 @@ signals:
 
     void sigNotifyControllerIsInit();
 private:
-    void updateNetworkListModel();
-
     void cleareProgressInfo();
 private:
 
     //Other
     DapNotifyController * m_notifyCtrl;
+    DapDataManagerController* m_managerController = nullptr;
 
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
@@ -120,10 +114,8 @@ private:
 
     QTimer *m_timerUpdateData;
     QSettings *s_settings;
-    DapStringListModel* m_netListModel = nullptr;
 
     bool m_firstDataLoad{false}; 
-    QStringList m_netList;
 
     QMap<QString, QMap<int, int>> m_networksLoadProgress;
     QJsonArray nodeLoadProgressJson;

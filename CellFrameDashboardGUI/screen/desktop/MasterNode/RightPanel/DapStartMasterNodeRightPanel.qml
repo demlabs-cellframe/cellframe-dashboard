@@ -556,7 +556,7 @@ DapRectangleLitAndShaded
                     label: qsTr("Balance:")
                     textColor: currTheme.white
                     textFont: mainFont.dapFont.regular11
-                    text: walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+                    text: walletModule.getTokenBalance(nodeMasterModule.currentNetwork, nodeMasterModule.stakeTokenName, walletModule.currentWalletName)
                 }
 
                 Image
@@ -694,7 +694,7 @@ DapRectangleLitAndShaded
                         "stakeFee": walletModule.getFee(nodeMasterModule.currentNetwork).validator_fee
                     }
                     var message = ""
-                    var walletBalance = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+                    var walletBalance = walletModule.getTokenBalance(nodeMasterModule.currentNetwork, nodeMasterModule.stakeTokenName, walletModule.currentWalletName)
 
                     if(certificateLogic === "existingCertificate" && certPath === "")
                     {
@@ -766,7 +766,7 @@ DapRectangleLitAndShaded
 
         function onCurrentWalletChanged()
         {
-            textBalance.text = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+            textBalance.text = walletModule.getTokenBalance(nodeMasterModule.currentNetwork, nodeMasterModule.stakeTokenName, walletModule.currentWalletName)
         }
     }
 
