@@ -12,6 +12,7 @@
 #include <QJsonArray>
 
 #include "CellframeNode.h"
+#include "node_globals/NodeGlobals.h"
 
 
 class DapNotifyController : public QObject

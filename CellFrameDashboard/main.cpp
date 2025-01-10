@@ -28,6 +28,7 @@
 #include "DapLogHandler.h"
 
 #include "DapNodePathManager.h"
+#include "node_globals/NodeGlobals.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -132,14 +133,9 @@ int MIN_HEIGHT = 720;
 int DEFAULT_WIDTH = 1280;
 int DEFAULT_HEIGHT = 720;
 
-//#ifdef Q_OS_MAC
-//const int USING_NOTIFY = 0;
-//#else
-//const int USING_NOTIFY = 1;
-//#endif
-
-
 const int USING_NOTIFY = 0;
+
+int NODE_MODE = (int)getNodeMode();
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {
@@ -223,7 +219,7 @@ int main(int argc, char *argv[])
 
         if(projectSkin.isEmpty()) QSettings().setValue("project_skin", "dashboard");
         bool walletSkin = projectSkin == "wallet";
-        walletSkin = false; // TODO: BLOCKED WALLET SKIN
+/*---*/ walletSkin = false; // TODO: BLOCKED WALLET SKIN
         if(walletSkin)
         {
             qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
@@ -265,6 +261,7 @@ int main(int argc, char *argv[])
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
         context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
         context->setContextProperty("CURRENT_OS", QVariant::fromValue(os));
+        context->setContextProperty("NODE_MODE", QVariant::fromValue(NODE_MODE));
 
         //const QUrl url(QStringLiteral("qrc:/main.qml"));
         QString pathMainQML = QStringLiteral("qrc:/main.qml");

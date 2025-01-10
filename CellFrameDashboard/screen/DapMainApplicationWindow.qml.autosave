@@ -321,7 +321,6 @@ Rectangle {
 
             if(NODE_MODE === 0)
             {
-
                 append ({ tag: "Certificates",
                     name: qsTr("Certificates"),
                     bttnIco: "icon_certificates.svg",
