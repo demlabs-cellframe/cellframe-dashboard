@@ -1,5 +1,6 @@
 #include "DapSrvStakeInvalidateStage.h"
 #include "../DapTypes/DapCoin.h"
+#include "../DapMasterNodeKeys.h"
 
 DapSrvStakeInvalidateStage::DapSrvStakeInvalidateStage(DapServiceController *serviceController)
     :DapAbstractMasterNodeCommand(serviceController)

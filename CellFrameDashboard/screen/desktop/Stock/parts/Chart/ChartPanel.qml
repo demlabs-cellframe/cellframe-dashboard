@@ -220,6 +220,22 @@ Item
                     walletModule.updateBalanceDEX()
                 }
 
+                onPairClicked:
+                {
+                    if(dexModule.typePanel === "regular")
+                    {
+                        regularPairSwap()
+                    }
+                    else
+                    {
+                        dexModule.setCurrentTokenPair(displayText, network)
+                        dexTokenModel.setNewPairFilter(token1, token2, network)
+                        walletModule.updateBalanceDEX()
+                    }
+
+                    pairBox.popup.close()
+                }
+
                 DapLoadingPanel
                 {
                     radiusEnabled: true

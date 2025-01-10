@@ -2,6 +2,7 @@
 #define DAPNETWORKMODEL_H
 
 #include <QAbstractTableModel>
+#include "DapNetworksTypes.h"
 
 class DapNetworkModel;
 
@@ -11,18 +12,9 @@ class ItemNetworkModelBridge : public QObject
 
     friend class DapNetworkModel;
 
-    /****************************************//**
-   * @name DEFS
-   *******************************************/
-    /// @{
 protected:
     struct Data;
-    /// @}
 
-    /****************************************//**
-   * @name PROPERTIES
-   *******************************************/
-    /// @{
     Q_PROPERTY (QString networkName          READ networkName          WRITE setNetworkName)
     Q_PROPERTY (QString networkState         READ networkState         WRITE setNetworkState)
     Q_PROPERTY (QString targetState          READ targetState          WRITE setTargetState )
@@ -33,33 +25,19 @@ protected:
     Q_PROPERTY (QString errorMessage         READ errorMessage         WRITE setErrorMessage)
     Q_PROPERTY (QString displayNetworkState  READ displayNetworkState  WRITE setDisplayNetworkState)
     Q_PROPERTY (QString displayTargetState   READ displayTargetState   WRITE setDisplayTargetState)
-    /// @}
 
-    /****************************************//**
-   * @name VARS
-   *******************************************/
-    /// @{
 protected:
     Data *d;
-    /// @}
 
-    /****************************************//**
-   * @name CONSTRUCT/DESTRUCT
-   *******************************************/
-    /// @{
 protected:
     ItemNetworkModelBridge (Data *a_data);
 public:
     ItemNetworkModelBridge (QObject *a_parent = nullptr);
     ItemNetworkModelBridge (const ItemNetworkModelBridge &a_src);
     ItemNetworkModelBridge (ItemNetworkModelBridge &&a_src);
+    ItemNetworkModelBridge (const NetworkInfo& a_item);
     ~ItemNetworkModelBridge();
-    /// @}
 
-    /****************************************//**
-   * @name METHODS
-   *******************************************/
-    /// @{
 public:
 
     Q_INVOKABLE QString networkName() const;
@@ -95,26 +73,16 @@ public:
 protected:
     bool _beginSetValue();
     void _endSetValue();
-    /// @}
 
-    /****************************************//**
-   * @name SIGNALS
-   *******************************************/
-    /// @{
 signals:
     void nameChanged();
     void statusProtectChanged();
-    /// @}
 
-    /****************************************//**
-   * @name OPERATORS
-   *******************************************/
-    /// @{
 public:
     QVariant operator [] (const QString &a_valueName);
     ItemNetworkModelBridge &operator = (const ItemNetworkModelBridge &a_src);
     ItemNetworkModelBridge &operator = (ItemNetworkModelBridge &&a_src);
-    /// @}
+
 };
 Q_DECLARE_METATYPE (ItemNetworkModelBridge);
 
@@ -122,18 +90,9 @@ class DapNetworkModel : public QAbstractTableModel
 {
     Q_OBJECT
 
-    /****************************************//**
-   * @name PROPERTIES
-   *******************************************/
-    /// @{
     Q_PROPERTY (int size READ size NOTIFY sizeChanged)
     Q_PROPERTY (int count READ size NOTIFY sizeChanged)
-    /// @}
 
-    /****************************************//**
-   * @name DEFS
-   *******************************************/
-    /// @{
 public:
     // item fields
     enum class FieldId
@@ -165,55 +124,35 @@ public:
         QString errorMessage = "";
         QString displayNetworkState = "";
         QString displayTargetState = "";
+
+
+        Item &operator = (const NetworkInfo &other);
     };
 
     typedef QList<DapNetworkModel::Item>::Iterator Iterator;
     typedef QList<DapNetworkModel::Item>::ConstIterator ConstIterator;
-    /// @}
 
-    /****************************************//**
-   * @name VARS
-   *******************************************/
-    /// @{
 protected:
     QList<DapNetworkModel::Item> *m_items;
-    /// @}
 
-    /****************************************//**
-   * @name CONSTRUCT/DESTRUCT
-   *******************************************/
-    /// @{
 public:
     explicit DapNetworkModel (QObject *a_parent = nullptr);
     explicit DapNetworkModel (const DapNetworkModel &a_src);
     explicit DapNetworkModel (DapNetworkModel &&a_src);
     ~DapNetworkModel();
-    /// @}
 
-    /****************************************//**
-   * @name OVERRIDE
-   *******************************************/
-    /// @{
 public:
     int rowCount (const QModelIndex &parent = QModelIndex()) const override;
     int columnCount (const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data (const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
-    /// @}
 
-    /****************************************//**
-   * @name METHODS
-   *******************************************/
-    /// @{
 public:
-    /// get global singleton instance
-    // Q_INVOKABLE static DapNetworkModel *global();
-
     Q_INVOKABLE bool updateNetworksInfo(const QVariant& networksStateList);
 
     /// add new item to the end
-    Q_INVOKABLE int add (const DapNetworkModel::Item &a_item);
+    Q_INVOKABLE int add (const NetworkInfo &a_item);
     /// add new item in the middle of the list
     Q_INVOKABLE void insert(int a_index, const DapNetworkModel::Item &a_item);
     /// remove one item
@@ -236,9 +175,9 @@ public:
     /// get item by index
     Q_INVOKABLE const QVariant get (int a_index) const;
     /// replace item by index
-    Q_INVOKABLE void set (int a_index, const DapNetworkModel::Item &a_item);
+    Q_INVOKABLE void set (int a_index, const NetworkInfo &info);
     /// emplace item by index
-    Q_INVOKABLE void set (int a_index, DapNetworkModel::Item &&a_item);
+    Q_INVOKABLE void set (int a_index, NetworkInfo &&a_item);
 
     Q_INVOKABLE int fieldId (const QString &a_fieldName) const;
 
@@ -254,33 +193,19 @@ protected:
     const DapNetworkModel::Item &_get (int a_index) const;
     static QVariant _getValue (const DapNetworkModel::Item &a_item, int a_fieldId);
     static void _setValue (DapNetworkModel::Item &a_item, int a_fieldId, const QVariant &a_value);
-    /// @}
 
-    /****************************************//**
-   * @name SIGNALS
-   *******************************************/
-    /// @{
 signals:
     void sizeChanged(); ///< used to notify. not same as sigSizeChanged
     void sigSizeChanged (int a_newSize);
     void sigItemAdded (int a_itemIndex);
     void sigItemRemoved (int a_itemIndex);
     void sigItemChanged (int a_itemIndex);
-    /// @}
 
-    /****************************************//**
-   * @name OPERATORS
-   *******************************************/
-    /// @{
 public:
     Q_INVOKABLE QVariant operator [](int a_index);
     Q_INVOKABLE const QVariant operator[] (int a_index) const;
     Q_INVOKABLE DapNetworkModel &operator= (const DapNetworkModel &a_src);
     Q_INVOKABLE DapNetworkModel &operator= (DapNetworkModel &&a_src);
-    /// @}
 };
-
-/*-----------------------------------------*/
-
 
 #endif // DAPNETWORKMODEL_H

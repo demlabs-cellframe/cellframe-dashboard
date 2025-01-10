@@ -1,4 +1,5 @@
 #include "DapWaitingPermission.h"
+#include "../DapMasterNodeKeys.h"
 
 DapWaitingPermission::DapWaitingPermission(DapServiceController *serviceController)
     :DapAbstractMasterNodeCommand(serviceController)

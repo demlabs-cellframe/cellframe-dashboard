@@ -103,6 +103,8 @@ signals:
     void dexNetListChanged();
     void networkFilterChanged(const QString& network);
     void stepChartChanged(const int& index);
+
+    void currentRateFirstTime();
 protected slots:
     void startInitData();
 
@@ -111,6 +113,8 @@ protected slots:
     void respondTokenPairsHistory(const QVariant &rcvData);
     void respondOrdersHistory(const QVariant &rcvData);
     void respondTxList(const QVariant &rcvData);
+
+    void currentRateFirstTimeSlot();
 protected:
     void onInit();
     bool isCurrentPair();
@@ -123,6 +127,8 @@ protected:
     virtual bool setCurrentTokenPairVariable(const QString& namePair, const QString &network);
     virtual void workersUpdate();
     virtual void updateTokenModels();
+
+    void setCurrentRateFromModel();
 protected:
 
     DapModulesController  *m_modulesCtrl = nullptr;

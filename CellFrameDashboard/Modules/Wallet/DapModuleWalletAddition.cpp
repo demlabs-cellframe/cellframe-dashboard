@@ -11,7 +11,7 @@ DapModuleWalletAddition::DapModuleWalletAddition(DapModulesController *parent)
 
 DapModuleWalletAddition::~DapModuleWalletAddition()
 {
-    disconnect(m_modulesCtrl, &DapModulesController::currentNetworkChanged, this, &DapModuleWalletAddition::setCurrentNetworkName);
+    disconnect();
 }
 
 void DapModuleWalletAddition::setCurrentNetworkName(const QString& name)

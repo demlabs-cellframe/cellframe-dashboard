@@ -12,9 +12,12 @@
 #include "DapAbstractModule.h"
 #include "../DapServiceController.h"
 #include "Models/DapStringListModel.h"
-#include "Models/DapNetworkList.h"
 #include "qsettings.h"
-#include "NotifyController/DapNotifyController.h"
+#include "../ConfigWorker/configworker.h"
+
+#include "../NotifyController/DapNotifyController.h"
+
+class DapDataManagerController;
 
 class DapModulesController : public QObject
 {
@@ -24,10 +27,11 @@ public:
     ~DapModulesController();
 
     DapServiceController* getServiceController() const {return s_serviceCtrl;}
+    void setConfigWorker(ConfigWorker* worker) {m_configWorker = worker;}
+    ConfigWorker* getConfigWorker() {return m_configWorker;}
 
     QSettings* getSettings() {return s_settings;}
     void tryStartModules() { emit initDone(); }
-    const QStringList& getNetworkList() const {return m_netList;}
     void setCurrentWallet(const QPair<int,QString>& dataWallet);
     void setWalletList(const QStringList& walletList);
     const QStringList& getWalletList() const { return m_walletList; }
@@ -47,7 +51,7 @@ public:
 
 
 
-    DapServiceController *s_serviceCtrl;
+    DapServiceController *s_serviceCtrl;   
 
     Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
     int currentWalletIndex(){return m_currentWalletIndex;}
@@ -66,26 +70,18 @@ public:
     void setNotifyCtrl(DapNotifyController * notifyController);
     DapNotifyController* getNotifyCtrl(){return m_notifyCtrl;}
 
+    DapDataManagerController* getManagerController() const {return m_managerController; }
+    
     Q_INVOKABLE QString getCurrentNetwork() const {return m_currentNetworkName;}
     void setCurrentNetwork(const QString& name);
-
 public slots:
     Q_INVOKABLE void updateListWallets();
-    Q_INVOKABLE void updateListNetwork();
     void setNodeLoadProgress(int progress);
     void setIsNodeWorking(bool);
 
     void slotRcvNotifyWalletList(QJsonDocument doc);
     void slotRcvNotifyWalletInfo(QJsonDocument doc);
     void slotRcvNotifyWalletsInfo(QJsonDocument doc);
-
-    void slotRcvNotifyNetList(QJsonDocument doc);
-    void slotRcvNotifyNetInfo(QJsonDocument doc);
-    void slotRcvNotifyNetsInfo(QJsonDocument doc);
-
-private slots:
-
-    void rcvNetList(const QVariant &rcvData);
 
 signals:
     void initDone();
@@ -104,13 +100,12 @@ signals:
 
     void sigNotifyControllerIsInit();
 private:
-    void updateNetworkListModel();
-
-    void clearProgressInfo();
+    void cleareProgressInfo();
 private:
 
     //Other
     DapNotifyController * m_notifyCtrl;
+    DapDataManagerController* m_managerController = nullptr;
 
     QQmlApplicationEngine *s_appEngine;
     //Modules
@@ -122,11 +117,10 @@ private:
     StringWorker * m_stringWorker;
     MathWorker * m_mathWorker;
 
+    QTimer *m_timerUpdateData;
     QSettings *s_settings;
-    DapStringListModel* m_netListModel = nullptr;
 
     bool m_firstDataLoad{false}; 
-    QStringList m_netList;
 
     QMap<QString, QMap<int, int>> m_networksLoadProgress;
     QJsonArray nodeLoadProgressJson;
@@ -139,6 +133,7 @@ private:
     QString m_currentWalletName{""};
     QString m_currentNetworkName = "";
 
+    ConfigWorker *m_configWorker = nullptr;
 
     bool m_isNodeWorking = false;
 
