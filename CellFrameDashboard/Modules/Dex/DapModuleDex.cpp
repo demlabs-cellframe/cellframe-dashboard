@@ -139,12 +139,21 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     {
         DEX::InfoTokenPair tmpPair;
         QJsonObject pairObject = value.toObject();
+
         tmpPair.token1  = pairObject["token1"].toString();
         tmpPair.token2  = pairObject["token2"].toString();
         tmpPair.rate    = pairObject["rate"].toString();
         tmpPair.network = pairObject["network"].toString();
         tmpPair.change  = pairObject["change"].toString();
         tmpPair.displayText = tmpPair.token1 + "/" + tmpPair.token2;
+
+        if(tmpPair.token1 == "BUSD"     ||
+           tmpPair.token2 == "BUSD"     ||
+           tmpPair.token1.contains("m") ||
+           tmpPair.token2.contains("m"))
+        {
+            continue;
+        }
 
         if(!netList.contains(tmpPair.network))
         {
