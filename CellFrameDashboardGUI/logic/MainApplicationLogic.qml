@@ -209,6 +209,20 @@ QtObject {
             var jsonDocument = JSON.parse(tokensList)
             dapModelTokens.clear()
             dapModelTokens.append(jsonDocument)
+
+            for(var i = 0; i < dapModelTokens.count; i++)
+            {
+                for(var j = 0; j < dapModelTokens.get(i).tokens.count; j++)
+                {
+                    var itm = dapModelTokens.get(i).tokens.get(j).name
+                    if(itm === "BUSD")
+                    {
+                        dapModelTokens.get(i).tokens.remove(j)
+                        break;
+                    }
+                }
+            }
+
 //            console.log(tokensList)
             modelTokensUpdated()
         }
