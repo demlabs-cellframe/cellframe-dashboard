@@ -358,7 +358,6 @@ Rectangle {
                     showTab: true,
                     page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
 
-
                 append ({ tag: "dApps",
                     name: qsTr("dApps"),
                     bttnIco: "icon_daaps.svg",
