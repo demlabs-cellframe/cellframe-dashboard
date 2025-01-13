@@ -167,7 +167,6 @@ Controls.DapTopPanel
             onClicked:
             {
                 sendRequest = true
-                logicMainApp.requestToService("DapVersionController", "version")
             }
         }
 

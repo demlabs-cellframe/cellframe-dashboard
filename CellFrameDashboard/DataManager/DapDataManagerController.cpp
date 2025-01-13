@@ -1,12 +1,25 @@
 #include "DapDataManagerController.h"
+#include "node_globals/NodeGlobals.h"
+#include "DapNetworksManager.h"
+#include "DapNetworksManagerRemote.h"
 
 DapDataManagerController::DapDataManagerController(DapModulesController* moduleController)
     : QObject()
-    , m_networksManager(new DapNetworksManager(moduleController))
+    //, m_networksManager(new DapNetworksManagerBase(moduleController))
 {
     qRegisterMetaType<NetworkInfo>();
-    connect(m_networksManager, &DapNetworksManager::networkListChanged, this, &DapDataManagerController::networkListChanged);
-    connect(m_networksManager, &DapNetworksManager::isConnectedChanged, this, &DapDataManagerController::isConnectedChanged);
+
+    if(getNodeMode()==LOCAL)
+    {
+        m_networksManager = new DapNetworksManager(moduleController);
+    }
+    else
+    {
+        m_networksManager = new DapNetworksManagerRemote(moduleController);
+    }
+
+    connect(m_networksManager, &DapNetworksManagerBase::networkListChanged, this, &DapDataManagerController::networkListChanged);
+    connect(m_networksManager, &DapNetworksManagerBase::isConnectedChanged, this, &DapDataManagerController::isConnectedChanged);
 }
 
 QStringList DapDataManagerController::getNetworkList() const

@@ -656,46 +656,10 @@ Rectangle {
 
     Component.onCompleted:
     {
-//        console.log("Component.onCompleted", "modelLanguages", modelLanguages)
-
-//        translator.setLanguage("ru")
-//        dapServiceController.requestToService("DapGetNetworksStateCommand")
-//        logicMainApp.requestToService("DapVersionController", "version")
-
-//        var timeTo = 10
-//        var timeFrom = 20
-//        var addr = "abcd"
-//        var net = "private"
-
-//        candleChartWorker.resetPriceData(0.0,"0.0", true)
-//        orderBookWorker.resetBookModel()
-//        //-------//OrdersHistory
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
-//        //-------//CreateOrder
-//        var tokenSell = "sell"
-//        var tokenBuy = "buy"
-//        var wallet = "tokenWallet"
-//        var coins = 100000
-//        var rate = 1
-//        dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
-        //------//GetOrdersList
-//        dapServiceController.requestToService("DapGetXchangeOrdersList")
-
-        //-------//TokenPair
-//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
-//        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
-
         dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
-
-//        for(var i = 0; i < 50; i++)
-//            dapServiceController.requestToService("DapWebConnectRequest", "1")
     }
 
     Connections

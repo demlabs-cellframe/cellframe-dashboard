@@ -5,7 +5,7 @@
 #include <QStringList>
 
 DapNetworksManager::DapNetworksManager(DapModulesController* moduleController)
-    : DapAbstractDataManager(moduleController)
+    : DapNetworksManagerBase(moduleController)
 {
     connect(m_modulesController, &DapModulesController::sigNotifyControllerIsInit, this, &DapNetworksManager::initNotifyConnet);
 }

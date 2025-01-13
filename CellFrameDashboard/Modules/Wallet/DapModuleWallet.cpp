@@ -1,6 +1,7 @@
 #include "DapModuleWallet.h"
 #include <QStringList>
 #include "../DapTypes/DapCoin.h"
+#include "CommandKeys.h"
 
 DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
@@ -87,7 +88,7 @@ void DapModuleWallet::updateListWallets()
 void DapModuleWallet::walletsListReceived(const QVariant &rcvData)
 {
     QJsonDocument docRcvData = QJsonDocument::fromJson(rcvData.toByteArray());
-    QJsonArray arr = docRcvData.object()["result"].toArray();
+    QJsonArray arr = docRcvData.object()[Dap::CommandParamKeys::RESULT_KEY].toArray();
 
     QJsonDocument doc;
     doc.setArray(arr);

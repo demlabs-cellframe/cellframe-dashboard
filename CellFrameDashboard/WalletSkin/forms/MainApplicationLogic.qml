@@ -445,8 +445,6 @@ QtObject {
     function updateDashboard()
     {
         Qt.openUrlExternally(urlDownload);
-//        dapServiceController.requestToService("DapVersionController", "update")
-//        updatingDashboard("The update process has started.")
     }
 
     function updatingDashboard(message)
