@@ -196,7 +196,7 @@ mac {
     DASHBOARD_CLEANUP_RESOURCES.path = Contents/Resources/cleunup/
         
     QMAKE_BUNDLE_DATA += DASHBOARD_RESOURCES DASHBOARD_CLEANUP_RESOURCES
-
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
     pkginstall.files = $$_PRO_FILE_PWD_/../os/macos/PKGINSTALL/
     pkginstall.path = /
     INSTALLS += pkginstall
