@@ -312,7 +312,7 @@ Rectangle {
 //            showTab: true,
 //            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "DEX",
-            name: qsTr("DEX Beta"),
+            name: qsTr("DEX"),
             bttnIco: "icon_exchange.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
