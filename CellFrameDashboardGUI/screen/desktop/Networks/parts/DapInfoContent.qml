@@ -118,12 +118,15 @@ Item {
             DapInfoButton {
                 id: buttonSync
                 enabled: false
+                isFakeStateButton: false
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 isSynch: true
                 onClicked:
                 {
+                    buttonSync.updateFakeButton(true)
                     networksModule.goSync(networkName)
+                    logicNet.delay(800, function(){buttonSync.updateFakeButton(false)})
                 }
             }
 
@@ -146,7 +149,8 @@ Item {
                 function setText()
                 {
                     console.log("setText()")
-                    buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
+                    logicNet.delay(300, function(){buttonNetwork.updateFakeButton(false)})
+//                    buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
                     if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
                         buttonNetwork.textBut = qsTr("On network")
                     else

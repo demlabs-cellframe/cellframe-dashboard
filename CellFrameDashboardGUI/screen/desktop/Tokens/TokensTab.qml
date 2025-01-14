@@ -63,24 +63,24 @@ DapPage
     }
 
     dapHeader.initialItem: DapSearchTopPanel{
-        DapButton
-            {
-                id: newTokenButton
-                textButton: qsTr("New Token")
-                anchors.right: parent.right
-                anchors.rightMargin: 24
-                anchors.verticalCenter: parent.verticalCenter
-                implicitHeight: 36
-                implicitWidth: 164
-                fontButton: mainFont.dapFont.medium14
-                horizontalAligmentText: Text.AlignHCenter
+//        DapButton
+//            {
+//                id: newTokenButton
+//                textButton: qsTr("New Token")
+//                anchors.right: parent.right
+//                anchors.rightMargin: 24
+//                anchors.verticalCenter: parent.verticalCenter
+//                implicitHeight: 36
+//                implicitWidth: 164
+//                fontButton: mainFont.dapFont.medium14
+//                horizontalAligmentText: Text.AlignHCenter
 
-                onClicked: navigator.createToken()
+//                onClicked: navigator.createToken()
 
-                DapCustomToolTip{
-                    contentText: qsTr("New Token")
-                }
-            }
+//                DapCustomToolTip{
+//                    contentText: qsTr("New Token")
+//                }
+//            }
         isVisibleSearch: false
 
 //        onFindHandler: logicTokens.filterResults(text)
