@@ -931,7 +931,7 @@ Page
 
     function miniRateFieldUpdate()
     {
-        miniRateText.text = "1 " + dexModule.token1 + " = "
+        miniRateText.text = "1.0 " + dexModule.token1 + " = "
         miniRateText2.fullText = toActualRate(currantRate) + " " + dexModule.token2
     }
 
