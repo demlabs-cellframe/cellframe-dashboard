@@ -3,11 +3,6 @@ QT += qml quick widgets svg network
 include (../config.pri)
 TARGET = $${BRAND}
 
-DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
-    DAP_SETTINGS_FILE=\\\"settings.json\\\"
-
-DEFINES += SIMULATOR_DEX
-
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)
@@ -36,6 +31,7 @@ INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/Keccak/FIPS202/ \
                 $$SDK_INSTALL_PATH/include/dap/crypto/XKCP/lib/high/common \
                 $$SDK_INSTALL_PATH/include/dap/crypto/rand/ \
+                $$SDK_INSTALL_PATH/include/dap/net/link_manager/ \
                 $$SDK_INSTALL_PATH/include/dap/net/stream/ch/ \
                 $$SDK_INSTALL_PATH/include/dap/net/stream/stream/ \
                 $$SDK_INSTALL_PATH/include/dap/net/stream/session/ \
@@ -48,6 +44,8 @@ INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
 
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/global_db/libdap_global_db.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/link_manager/libdap_link_manager.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a

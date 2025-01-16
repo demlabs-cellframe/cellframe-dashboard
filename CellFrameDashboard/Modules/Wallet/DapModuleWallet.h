@@ -103,7 +103,7 @@ private slots:
     void rcvHistory(const QVariant &rcvData);
 
     void slotUpdateWallet();
-    void createTx(QStringList args);
+    void createTx(QVariant args);
     void requestWalletTokenInfo(QStringList args);
 
     void updateListWallets();

@@ -203,6 +203,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapCreateTransactionCommandStack,     QObject*>("DapCreateTransactionCommand",               "transactionCreated",                    nullptr);
     addServiceGeneric<DapTXCondCreateCommandStack,          QObject*>("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",                nullptr);
     addServiceGeneric<DapGetFeeCommand,                     QObject*>("DapGetFeeCommand",                          "rcvFee",                                nullptr);
+    addServiceGeneric<DapCreateTxCommand,                   QObject*>("DapCreateTxCommand",                        "rcvTxCreated",                          nullptr);
 
     /*Node*/
     addServiceGeneric<DapNodeRestart,                       QObject*>("DapNodeRestart",                            "nodeRestart",                           nullptr);
