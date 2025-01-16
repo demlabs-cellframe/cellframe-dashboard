@@ -635,6 +635,16 @@ void DapModuleWallet::rcvFee(const QVariant &rcvData)
         m_feeInfo.insert(networkName, std::move(tmpFeeInfo));
     }
     emit feeInfoUpdated();
+
+//TODO: for test
+//    QVariantMap testData;
+//    testData.insert("network",          "Backbone");
+//    testData.insert("amount",           "1.0");
+//    testData.insert("send_ticker",      "CELL");
+//    testData.insert("wallet_from",      "myWallet");
+//    testData.insert("wallet_from_addr", "Rj7J7MiX2bWy8sNyXKzkzfA45trMW5g1vMF2PfmJA6vM5dSJ97T9yip3dbniDx8SqJ7gNW2e1CPQmXGxdHx1a2rnTVeRyd21oNjKDMit");
+//    testData.insert("wallet_to",        "Rj7J7MiX2bWy8sNyY55eNdUgNwp5AEERxW5N8mVKybe7RzxcvtYyA5duV6tC33DunPSatKe6YDhRPF32VzDsQWVrCbtGgiBUDAbpmhJM");
+//    sendTx(testData);
 }
 
 QVariantMap DapModuleWallet::getFee(QString network)
