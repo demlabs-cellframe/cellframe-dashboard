@@ -38,6 +38,7 @@ INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$SDK_INSTALL_PATH/include/dap/net/server/http_server/http_client \
                 $$SDK_INSTALL_PATH/include/dap/global_db/ \
                 $$SDK_INSTALL_PATH/include/json-c/ \
+                $$SDK_INSTALL_PATH/include/modules/wallet/ \
                 $$SDK_INSTALL_PATH/include/modules/common/ \
                 $$SDK_INSTALL_PATH/include/modules/net/ \
                 $$SDK_INSTALL_PATH/include/modules/chain/ \
@@ -52,7 +53,9 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/http_server/libdap_http_server.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/wallet/libdap_chain_wallet.a
 LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
@@ -61,6 +64,7 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
 LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
 win32 {
