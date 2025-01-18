@@ -15,10 +15,10 @@ QtObject {
 
     function historyUpdate()
     {
-//        console.log(modulesController.currentWalletName, txExplorerModule.walletName)
+//        console.log(walletController.currentWalletName, txExplorerModule.walletName)
 
-        // if (walletModule.currentWalletIndex >=0 && modulesController.currentWalletName !== txExplorerModule.walletName)
-        //     txExplorerModule.setWalletName(modulesController.currentWalletName)
+        // if (walletModule.currentWalletIndex >=0 && walletController.currentWalletName !== txExplorerModule.walletName)
+        //     txExplorerModule.setWalletName(walletController.currentWalletName)
         // txExplorerModule.updateHistory(true)
     }
 }

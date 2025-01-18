@@ -4,7 +4,6 @@ DapNewPaymentMainRightPanelForm
 {
     Component.onCompleted:
     {
-        walletModule.timerUpdateFlag(false);
         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
@@ -12,7 +11,6 @@ DapNewPaymentMainRightPanelForm
             dapChainGroup.visible = false
 
         dapTextNotEnoughTokensWarning.text = ""
-        walletModule.startUpdateFee()
         balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                          + " " + dapComboBoxToken.displayText
 
@@ -27,7 +25,6 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         txExplorerModule.statusProcessing = true
-        walletModule.timerUpdateFlag(true);
         pop()
     }
 
@@ -89,7 +86,6 @@ DapNewPaymentMainRightPanelForm
                     case 0:
                         console.log("Correct tx data")
                         console.log("dapWalletMessagePopup.smartOpen")
-                        walletModule.stopUpdateFee()
                         dapWalletMessagePopup.network = dapComboboxNetwork.displayText
                         dapWalletMessagePopup.smartOpen(
                                     qsTr("Confirming the transaction"),
@@ -128,12 +124,6 @@ DapNewPaymentMainRightPanelForm
         }
     }
 
-    Component.onDestruction:
-    {
-        console.log("The right panel for transferring funds was closed")
-        walletModule.stopUpdateFee()
-    }
-
     dapWalletMessagePopup.onSignalAccept:
     {
         console.log("dapWalletMessagePopup.onSignalAccept", accept)
@@ -153,10 +143,6 @@ DapNewPaymentMainRightPanelForm
             console.info(dataTx)
             walletModule.sendTx(dataTx)
         }
-        else
-        {
-            walletModule.startUpdateFee()
-        }
     }
 
     Connections
@@ -165,7 +151,6 @@ DapNewPaymentMainRightPanelForm
         function onSigTxCreate(aResult)
         {
             commandResult = aResult
-            walletModule.timerUpdateFlag(true);
             if(aResult.toQueue)
             {
                 navigator.toQueueNewPayment()

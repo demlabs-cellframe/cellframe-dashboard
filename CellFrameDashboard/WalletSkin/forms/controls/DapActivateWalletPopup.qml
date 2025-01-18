@@ -271,7 +271,7 @@ DapBottomScreen{
             enabled: textInputPasswordWallet.text.length
             onClicked:
             {
-                logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet, "activate", textInputPasswordWallet.text, ttl)
+                walletModule.activateOrDeactivateWallet(nameWallet, "activate", textInputPasswordWallet.text, ttl)
             }
         }
     }

@@ -1,6 +1,6 @@
 #include "DapModuleTxExplorer.h"
 #include <QQmlContext>
-
+#include "DapDataManagerController.h"
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -29,7 +29,7 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     });
     connect(m_modulesCtrl, &DapModulesController::currentWalletNameChanged, [this] ()
             {
-                this->setWalletName(m_modulesCtrl->getCurrentWalletName());
+                this->setWalletName(m_modulesCtrl->getManagerController()->getCurrentWallet().second);
             });
 }
 
@@ -168,13 +168,13 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
-    QString currantWalletName = m_modulesCtrl->currentWalletName();
+    QString currantWalletName = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
 
-    if((currantWalletName.isEmpty() && (m_modulesCtrl->getCurrentWalletIndex() < 0)) || isSendReqeust)
+    if((currantWalletName.isEmpty() && (m_modulesCtrl->getManagerController()->getCurrentWallet().first < 0)) || isSendReqeust)
         return ;
 
     m_timerHistoryUpdate->stop();
-    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->getCurrentWalletName() << flag << false);
+    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<< currantWalletName << flag << false);
     m_timerHistoryUpdate->start(10000);
     isSendReqeust = true;
 }

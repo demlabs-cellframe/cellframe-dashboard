@@ -57,7 +57,6 @@ QtObject {
     function updateAllWallets()
     {
         dapModelWallets.clear()
-        // logicMainApp.requestToService("DapGetWalletsInfoCommand", "");
     }
 
     function updateCurrentWallet()

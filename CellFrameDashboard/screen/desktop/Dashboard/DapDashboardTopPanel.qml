@@ -167,7 +167,7 @@ Controls.DapTopPanel
             horizontalAligmentText: Text.AlignHCenter
 
             onClicked: {
-                walletInfo.name = modulesController.currentWalletName
+                walletInfo.name = walletController.currentWalletName
                 dapRightPanel.pop()
                 navigator.newPayment()
             }

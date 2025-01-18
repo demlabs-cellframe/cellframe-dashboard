@@ -17,6 +17,9 @@
 #include "Models/DEXModel/TokenPairsProxyModel.h"
 #include "Models/DapStringListModel.h"
 #include "StockDataWorker/StockDataWorker.h"
+#include "DapWalletsManagerBase.h"
+#include "Models/DapTokensWalletModel.h"
+#include "Models/TokenProxyModel.h"
 
 class  DapModuleDex : public DapAbstractModule
 {
@@ -88,6 +91,13 @@ public:
 
     Q_INVOKABLE bool isValidValue(const QString& value);
 
+    Q_PROPERTY(QString balance        READ getBalance   NOTIFY currantBalanceChanged)
+    Q_INVOKABLE QString getBalance(const QString& tokenName = "") const;
+    Q_INVOKABLE void updateBalance();
+    Q_INVOKABLE void setCurrentToken(const QString& token);
+
+    Q_INVOKABLE QVariantMap isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
+
     void setStatusProcessing(bool status) override;
 public slots:
     virtual void setNetworkFilterText(const QString &network);
@@ -105,6 +115,7 @@ signals:
     void stepChartChanged(const int& index);
 
     void currentRateFirstTime();
+    void currantBalanceChanged();
 protected slots:
     void startInitData();
 
@@ -115,6 +126,9 @@ protected slots:
     void respondTxList(const QVariant &rcvData);
 
     void currentRateFirstTimeSlot();
+
+    void currentWalletChangedSlot();
+    void walletInfoChangedSlot(const QString &walletName, const QString &networkName);
 protected:
     void onInit();
     bool isCurrentPair();
@@ -129,6 +143,11 @@ protected:
     virtual void updateTokenModels();
 
     void setCurrentRateFromModel();
+
+    const QPair<int,QString>& getCurrentWallet() const;
+    DapWalletsManagerBase* getWalletManager() const;
+
+    void updateDexTokenModel();
 protected:
 
     DapModulesController  *m_modulesCtrl = nullptr;
@@ -140,6 +159,8 @@ protected:
     DapStringListModel* m_netListModel = nullptr;
     DapStringListModel* m_rightPairListModel = nullptr;
     StockDataWorker *m_stockDataWorker = nullptr;
+    DapTokensWalletModel* m_DEXTokenModel = nullptr;
+    TokenProxyModel* m_tokenFilterModelDEX = nullptr;
 
     QTimer* m_allTakenPairsUpdateTimer = nullptr;
     QTimer* m_curentTokenPairUpdateTimer = nullptr;
@@ -154,9 +175,9 @@ protected:
     QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
 
-
     QString m_networkFilter = "";
     QString m_currentNetwork = "";
+    QString m_currentTokenDEX = "";
 
     QString m_currantPriceForCreate = "";
 

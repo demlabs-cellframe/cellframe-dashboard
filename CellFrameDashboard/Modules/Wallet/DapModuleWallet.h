@@ -13,6 +13,8 @@
 #include "../../Models/DapListWalletsModel.h"
 #include "../../Models/DapInfoWalletModel.h"
 
+class DapWalletsManagerBase;
+
 class DapModuleWallet : public DapAbstractModule
 {
     Q_OBJECT
@@ -30,22 +32,16 @@ public:
     explicit DapModuleWallet(DapModulesController *parent);
     ~DapModuleWallet();
 
-//    QJsonDocument m_walletsModel;
     Q_PROPERTY(int currentWalletIndex           READ getCurrentIndex        NOTIFY currentWalletChanged)
     Q_PROPERTY(QString currentWalletName        READ getCurrentWalletName   NOTIFY currentWalletChanged)
 
-    Q_INVOKABLE void timerUpdateFlag(bool flag);
-    Q_INVOKABLE void getWalletsInfo(QStringList args);
-    Q_INVOKABLE void requestWalletInfo(const QString &key);
     Q_INVOKABLE void createWallet(QStringList args);
     Q_INVOKABLE void removeWallet(QStringList args);
-    Q_INVOKABLE void getTxHistory(QStringList args);
     Q_INVOKABLE void createPassword(QStringList args);
     Q_INVOKABLE virtual void setCurrentWallet(int index);
     Q_INVOKABLE virtual void setCurrentWallet(const QString& walletName);
-    Q_INVOKABLE int getCurrentIndex() const {return m_currentWallet.first;}
-    Q_INVOKABLE QString getCurrentWalletName() const {return m_currentWallet.second;}
-    Q_INVOKABLE void getComission(QString network);
+    Q_INVOKABLE int getCurrentIndex() const;
+    Q_INVOKABLE QString getCurrentWalletName() const;
     Q_INVOKABLE QVariantMap getFee(QString net);
     Q_INVOKABLE QVariantMap getAvailableBalance(QVariantMap);
     Q_INVOKABLE QVariant calculatePrecentAmount(QVariantMap);
@@ -54,27 +50,19 @@ public:
     Q_INVOKABLE void setWalletTokenModel(const QString& network);
     Q_INVOKABLE QString getTokenBalance(const QString &network, const QString& tokenName, const QString& walletName = "") const;
     Q_INVOKABLE QString getAddressWallet(const QString &network, const QString& walletName = "") const;
-
-    Q_INVOKABLE QVariantMap isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
-
-    Q_INVOKABLE void startUpdateFee() {m_timerFeeUpdateWallet->start(TIME_FEE_UPDATE);}
-    Q_INVOKABLE void stopUpdateFee() {m_timerFeeUpdateWallet->stop();}
-
-    Q_INVOKABLE void setCurrentTokenDEX(const QString& token);
-    Q_PROPERTY(QString balanceDEX        READ getBalanceDEX   NOTIFY currantBalanceDEXChanged)
-    Q_INVOKABLE QString getBalanceDEX(const QString& tokenName = "") const;
-    Q_INVOKABLE void updateBalanceDEX();
+    Q_INVOKABLE void updateWalletList();
+    Q_INVOKABLE void updateWalletInfo();
+    Q_INVOKABLE void activateOrDeactivateWallet(const QString& walletName,
+                                                const QString& target, const QString& pass = "", const QString& ttl = "");
 private:
     void initConnect();
     QVariantMap getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker);
-    void updateWalletInfo(const QJsonDocument &document);
 
+    const QMap<QString, CommonWallet::WalletInfo>& getWalletsInfo() const;
 protected:
     virtual void setNewCurrentWallet(const QPair<int, QString> newWallet);
-    virtual void updateWalletModel(QVariant, bool isSingle);
     virtual CommonWallet::WalletInfo creatInfoObject(const QJsonObject& walletObject);
     void restoreIndex();
-    void updateDexTokenModel();
     int getIndexWallet(const QString& walletName) const;
 
 signals:
@@ -90,59 +78,37 @@ signals:
     void listWalletFirstChenged();
     void currentWalletChanged();
 
-    void currantBalanceDEXChanged();
-    void feeInfoUpdated();
-
     void tokenModelChanged();
+protected slots:
+    virtual void rcvCreateTx(const QVariant &rcvData);
 private slots:
-    void rcvWalletsInfo(const QVariant &rcvData);
-    void rcvWalletInfo(const QVariant &rcvData);
 
     void rcvCreateWallet(const QVariant &rcvData);
     void rcvRemoveWallet(const QVariant &rcvData);
     void rcvHistory(const QVariant &rcvData);
 
-    void slotUpdateWallet();
     void createTx(QStringList args);
     void requestWalletTokenInfo(QStringList args);
 
-    void updateListWallets();
-
-    void tryUpdateFee();
-
-protected slots:
-    virtual void walletsListReceived(const QVariant &rcvData);
-    virtual void rcvCreateTx(const QVariant &rcvData);
-    virtual void rcvFee(const QVariant &rcvData);
-    void startUpdateCurrentWallet();
+    void walletListChangedSlot();
+    void walletInfoChangedSlot(const QString &walletName, const QString &networkName);
 private:
-
-    WalletHashManager *m_walletHashManager;
-    QTimer *m_timerUpdateListWallets;
-    QTimer *m_timerUpdateWallet;
-    QTimer *m_timerFeeUpdateWallet;
-    DapTokensWalletModel* m_DEXTokenModel = nullptr;
-    TokenProxyModel* m_tokenFilterModelDEX = nullptr;
-    QString m_currentTokenDEX = "";
+    const QPair<int,QString>& getCurrentWallet() const;
+    void setCurrentWallet(const QPair<int,QString>& wallet);
+    DapWalletsManagerBase* getWalletManager() const;
 
 protected:
     DapModulesController* m_modulesCtrl;
     DapTokensWalletModel* m_tokenModel = nullptr;
     QByteArray m_walletListTest;
-    bool m_firstDataLoad = false;
+
     DapListWalletsModel* m_walletModel = nullptr;
-    QMap<QString, CommonWallet::WalletInfo> m_walletsInfo;
-    QPair<int,QString> m_currentWallet = {-1, ""};
     DapInfoWalletModel* m_infoWallet = nullptr;
     QByteArray m_walletInfoTest;
-    QMap<QString, CommonWallet::FeeInfo> m_feeInfo;
     QByteArray m_walletsInfoTest;
 
-
 private:
-    const int TIME_FEE_UPDATE = 2000;
-    const int TIME_WALLET_UPDATE = 5000;
-    const int TIME_LIST_WALLET_UPDATE = 3000;
+    WalletHashManager *m_walletHashManager;
 };
 
 #endif // DAPMODULEWALLET_H

@@ -120,7 +120,6 @@ Page {
         modelHistory.setCurrentStatus("All statuses")
         modelHistory.setLastActions(false)
 
-        dapServiceController.requestToService("DapGetWalletsInfoCommand", "true")
         logicWallet.updateWalletModel()
         isRcvWallets = tokenModel.count
     }

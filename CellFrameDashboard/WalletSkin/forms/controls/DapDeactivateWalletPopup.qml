@@ -64,7 +64,7 @@ DapBottomScreen{
             fontButton: mainFont.dapFont.medium14
             onClicked:
             {
-                logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate")
+                walletModule.activateOrDeactivateWallet(nameWallet,"deactivate")
             }
         }
     }

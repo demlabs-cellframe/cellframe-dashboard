@@ -8,10 +8,11 @@ DapNetworksManagerRemote::DapNetworksManagerRemote(DapModulesController *moduleC
     : DapNetworksManagerBase(moduleController)
 {
     connect(m_modulesController->getServiceController(), &DapServiceController::networksListReceived, this, &DapNetworksManagerRemote::networkListRespond);
-    connect(m_modulesController, &DapModulesController::initDone, this, [this] ()
-            {
-                requestNetworkList();
-            });
+}
+
+void DapNetworksManagerRemote::initManager()
+{
+    requestNetworkList();
 }
 
 void DapNetworksManagerRemote::requestNetworkList()

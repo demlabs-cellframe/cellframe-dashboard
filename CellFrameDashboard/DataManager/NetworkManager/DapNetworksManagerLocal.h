@@ -4,12 +4,12 @@
 #include "DapNetworksManagerBase.h"
 #include "../NotifyController/DapNotifyController.h"
 
-class DapNetworksManager : public DapNetworksManagerBase
+class DapNetworksManagerLocal : public DapNetworksManagerBase
 {
     Q_OBJECT
 public:
-    DapNetworksManager(DapModulesController* moduleController);
-    ~DapNetworksManager();
+    DapNetworksManagerLocal(DapModulesController* moduleController);
+    ~DapNetworksManagerLocal();
 
 private slots:
     void slotNotifyIsConnected(bool isConnected);

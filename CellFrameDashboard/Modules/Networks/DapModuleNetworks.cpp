@@ -1,6 +1,6 @@
 #include "DapModuleNetworks.h"
 #include "DapDataManagerController.h"
-#include "DapNetworksManager.h"
+#include "DapNetworksManagerLocal.h"
 
 DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     :DapAbstractModule(parent)
@@ -16,11 +16,11 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
 
     auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
-    connect(networkManager, &DapNetworksManager::deleteNetworksSignal, this, &DapModuleNetworks::deleteNetworksSlot);
-    connect(networkManager, &DapNetworksManager::updateNetworkInfoSignal, this, &DapModuleNetworks::updateModelInfo);
-    connect(networkManager, &DapNetworksManager::isConnectedChanged, this, &DapModuleNetworks::slotNotifyIsConnected);
-    connect(networkManager, &DapNetworksManager::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
-    connect(networkManager, &DapNetworksManager::networkListChanged, this, &DapModuleNetworks::networkListChangedSlot);
+    connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal, this, &DapModuleNetworks::deleteNetworksSlot);
+    connect(networkManager, &DapNetworksManagerLocal::updateNetworkInfoSignal, this, &DapModuleNetworks::updateModelInfo);
+    connect(networkManager, &DapNetworksManagerLocal::isConnectedChanged, this, &DapModuleNetworks::slotNotifyIsConnected);
+    connect(networkManager, &DapNetworksManagerLocal::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
+    connect(networkManager, &DapNetworksManagerLocal::networkListChanged, this, &DapModuleNetworks::networkListChangedSlot);
 }
 
 DapModuleNetworks::~DapModuleNetworks()

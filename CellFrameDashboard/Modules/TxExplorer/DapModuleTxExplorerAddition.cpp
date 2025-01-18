@@ -1,6 +1,6 @@
 #include "DapModuleTxExplorerAddition.h"
 #include <QQmlContext>
-
+#include "DapDataManagerController.h"
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -37,7 +37,7 @@ void DapModuleTxExplorerAddition::setHistoryModel(const QVariant &rcvData)
     if (!doc.isObject())
         return;
 
-    if (doc["walletName"].toString() != m_modulesCtrl->getCurrentWalletName())
+    if (doc["walletName"].toString() != m_modulesCtrl->getManagerController()->getCurrentWallet().second)
     {
         qWarning() << "ERROR"
                    << "walletName" << doc["walletName"].toString() << m_walletName

@@ -2,8 +2,6 @@ import QtQuick 2.4
 
 DapCreateWalletForm
 {
-    Component.onCompleted: walletModule.timerUpdateFlag(false);
-
     dapButtonNext.onClicked:
     {
         if (dapTextInputNameWallet.text === "")
@@ -47,7 +45,6 @@ DapCreateWalletForm
         txExplorerModule.statusProcessing = true
 
         dapWalletNameWarning.text = ""
-        walletModule.timerUpdateFlag(true);
         navigator.popPage()
     }
 }

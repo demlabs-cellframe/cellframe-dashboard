@@ -211,13 +211,13 @@ Item
 
                 onCurrentIndexChanged:
                 {
-                    walletModule.updateBalanceDEX()
+                    dexModule.updateBalance()
                 }
 
                 Component.onCompleted:
                 {
                     dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
-                    walletModule.updateBalanceDEX()
+                    dexModule.updateBalance()
                 }
 
                 onPairClicked:
@@ -230,7 +230,7 @@ Item
                     {
                         dexModule.setCurrentTokenPair(displayText, network)
                         dexTokenModel.setNewPairFilter(token1, token2, network)
-                        walletModule.updateBalanceDEX()
+                        dexModule.updateBalance()
                     }
 
                     pairBox.popup.close()
