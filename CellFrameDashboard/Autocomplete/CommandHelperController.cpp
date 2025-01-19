@@ -69,10 +69,10 @@ void CommandHelperController::loadData()
     s_serviceCtrl->requestToService("DapDictionaryCommand", "getData");
 }
 
-void CommandHelperController::tryDataUpdate()
-{
-    s_serviceCtrl->requestToService("DapDictionaryCommand", "updateData");
-}
+// void CommandHelperController::tryDataUpdate()
+// {
+//     s_serviceCtrl->requestToService("DapDictionaryCommand", "updateData");
+// }
 
 CommandHelperController::~CommandHelperController()
 {

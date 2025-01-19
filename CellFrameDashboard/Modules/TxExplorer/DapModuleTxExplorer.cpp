@@ -27,7 +27,7 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
         initConnect();
         updateHistory(true);
     });
-    connect(m_modulesCtrl, &DapModulesController::currentWalletNameChanged, [this] ()
+    connect(m_modulesCtrl->getManagerController()->getWalletManager(), &DapWalletsManagerBase::currentWalletChanged, this, [this] ()
             {
                 this->setWalletName(m_modulesCtrl->getManagerController()->getCurrentWallet().second);
             });

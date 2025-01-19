@@ -12,13 +12,4 @@ QtObject {
         detailsModel.clear()
         detailsModel.append(model)
     }
-
-    function historyUpdate()
-    {
-//        console.log(walletController.currentWalletName, txExplorerModule.walletName)
-
-        // if (walletModule.currentWalletIndex >=0 && walletController.currentWalletName !== txExplorerModule.walletName)
-        //     txExplorerModule.setWalletName(walletController.currentWalletName)
-        // txExplorerModule.updateHistory(true)
-    }
 }

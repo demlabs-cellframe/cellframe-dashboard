@@ -71,14 +71,7 @@ public slots:
 signals:
     void initDone();
 
-    void walletsListUpdated();
-    void netListUpdated();
-    void currentWalletIndexChanged();
-    void currentWalletNameChanged();
     void currentNetworkChanged(QString netName);
-    void sigFeeRcv(const QVariant &rcvData);
-
-    void feeUpdateChanged();
 
     void nodeWorkingChanged();
     void nodeLoadProgressChanged();
