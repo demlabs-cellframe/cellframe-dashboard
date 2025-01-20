@@ -16,6 +16,11 @@ DapWalletsManagerLocal::DapWalletsManagerLocal(DapModulesController *moduleContr
     connect(m_timerUpdateWallet, &QTimer::timeout, this, &DapWalletsManagerLocal::updateInfoWallets, Qt::QueuedConnection);
 }
 
+void DapWalletsManagerLocal::updateWalletList()
+{
+    updateListWallets();
+}
+
 void DapWalletsManagerLocal::initManager()
 {
     updateListWallets();
@@ -184,13 +189,14 @@ void DapWalletsManagerLocal::updateInfoWallets()
     }
     auto walletList = m_walletsInfo.keys();
 
-    auto getNexWalletIndex = [this, &walletList](int index) -> int
+    auto getNextWalletIndex = [this, &walletList](int index) -> int
     {
-        for(; index < walletList.size();)
+        for(; index < walletList.size()-1;)
         {
             QString wallet = walletList.value(index);
             if(m_walletsInfo.value(wallet).status != "non-Active")
             {
+                m_walletsInfo[wallet].isLoad = true;
                 break;
             }
             index++;
@@ -201,8 +207,7 @@ void DapWalletsManagerLocal::updateInfoWallets()
         !walletList.contains(m_lastRequestInfoWalletName)) ||
         (m_lastRequestInfoNetworkName.isEmpty() || m_lastRequestInfoWalletName.isEmpty()))
     {
-        int index = getNexWalletIndex(0);
-        m_lastRequestInfoNetworkName = netList[index];
+        m_lastRequestInfoNetworkName = netList[0];
         m_lastRequestInfoWalletName = m_walletsInfo.firstKey();
     }
     else
@@ -220,7 +225,7 @@ void DapWalletsManagerLocal::updateInfoWallets()
             }
             else
             {
-                int index = getNexWalletIndex(walletIndex + 1);
+                int index = getNextWalletIndex(walletIndex + 1);
                 m_lastRequestInfoWalletName = walletList[index];
                 m_lastRequestInfoNetworkName = netList[0];
             }

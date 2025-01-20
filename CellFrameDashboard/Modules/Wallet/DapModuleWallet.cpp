@@ -52,11 +52,17 @@ void DapModuleWallet::initConnect()
 
 void DapModuleWallet::walletListChangedSlot()
 {
-    auto* walletsManager = getWalletManager();
-    m_walletModel->updateWallets(walletsManager->getWalletsInfo());
-    int index = getIndexWallet(getCurrentWallet().second);
     auto& walletsInfo = getWalletsInfo();
-    if(walletsInfo.isEmpty())
+    m_walletModel->updateWallets(walletsInfo);
+    int index = getIndexWallet(getCurrentWallet().second);
+    if(!m_isFirstUpdate)
+    {
+        QString walletSaved = getSavedWallet();
+        int indexSave = getIndexWallet(walletSaved);
+        setCurrentWallet(indexSave);
+        m_isFirstUpdate = true;
+    }
+    else if(walletsInfo.isEmpty())
     {
         setCurrentWallet(-1);
     }
@@ -103,17 +109,10 @@ void DapModuleWallet::updateWalletInfo()
     getWalletManager()->updateWalletInfo();
 }
 
-void DapModuleWallet::restoreIndex()
+QString DapModuleWallet::getSavedWallet()
 {
-    QString prevName = m_modulesCtrl->getSettings()->value("walletName", "").toString();
-
-    if(!prevName.isEmpty())
-    {
-        setCurrentWallet(prevName);
-        return;
-    }
-
-    setCurrentWallet(0);
+    QString walletName = m_modulesCtrl->getSettings()->value("walletName", "").toString();
+    return walletName;
 }
 
 void DapModuleWallet::setCurrentWallet(int index)

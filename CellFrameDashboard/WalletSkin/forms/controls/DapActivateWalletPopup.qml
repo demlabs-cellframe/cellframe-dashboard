@@ -272,6 +272,7 @@ DapBottomScreen{
             onClicked:
             {
                 walletModule.activateOrDeactivateWallet(nameWallet, "activate", textInputPasswordWallet.text, ttl)
+                walletModule.updateWalletList()
             }
         }
     }

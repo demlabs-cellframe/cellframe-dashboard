@@ -42,7 +42,7 @@
 #include "handlers/DapGetWalletTokenInfoCommand.h"
 //#include "models/DapWalletModel.h"
 #include "handlers/DapMempoolProcessCommand.h"
-#include "handlers/DapGetAllWalletHistoryCommand.h"
+#include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"

@@ -184,12 +184,12 @@ void DapWalletsManagerRemote::updateInfoWallets()
     }
     auto walletList = m_walletsInfo.keys();
 
-    auto getNexWalletIndex = [this, &walletList](int index) -> int
+    auto getNextWalletIndex = [this, &walletList](int index) -> int
     {
         for(; index < walletList.size();)
         {
             QString wallet = walletList.value(index);
-            if(m_walletsInfo.value(wallet).status != "non-Active")
+            if(m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
             {
                 break;
             }
@@ -201,8 +201,7 @@ void DapWalletsManagerRemote::updateInfoWallets()
          !walletList.contains(m_lastRequestInfoWalletName)) ||
         (m_lastRequestInfoNetworkName.isEmpty() || m_lastRequestInfoWalletName.isEmpty()))
     {
-        int index = getNexWalletIndex(0);
-        m_lastRequestInfoNetworkName = netList[index];
+        m_lastRequestInfoNetworkName = netList[0];
         m_lastRequestInfoWalletName = m_walletsInfo.firstKey();
     }
     else
@@ -220,7 +219,7 @@ void DapWalletsManagerRemote::updateInfoWallets()
             }
             else
             {
-                int index = getNexWalletIndex(walletIndex + 1);
+                int index = getNextWalletIndex(walletIndex + 1);
                 m_lastRequestInfoWalletName = walletList[index];
                 m_lastRequestInfoNetworkName = netList[0];
             }

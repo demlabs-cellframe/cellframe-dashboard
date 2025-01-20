@@ -8,6 +8,8 @@ class DapWalletsManagerLocal : public DapWalletsManagerBase
     Q_OBJECT
 public:
     DapWalletsManagerLocal(DapModulesController *moduleController);
+
+    void updateWalletList() override;
 protected:
     void initManager() override;
 private slots:

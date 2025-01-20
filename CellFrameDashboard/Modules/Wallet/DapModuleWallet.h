@@ -62,7 +62,7 @@ private:
 protected:
     virtual void setNewCurrentWallet(const QPair<int, QString> newWallet);
     virtual CommonWallet::WalletInfo creatInfoObject(const QJsonObject& walletObject);
-    void restoreIndex();
+    QString getSavedWallet();
     int getIndexWallet(const QString& walletName) const;
 
 signals:
@@ -109,6 +109,7 @@ protected:
 
 private:
     WalletHashManager *m_walletHashManager;
+    bool m_isFirstUpdate = false;
 };
 
 #endif // DAPMODULEWALLET_H

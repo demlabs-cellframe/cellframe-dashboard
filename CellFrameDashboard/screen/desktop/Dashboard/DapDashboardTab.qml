@@ -168,9 +168,11 @@ DapPage
         dashboardTopPanel.layout.visible = walletModelList.count 
 
         // If there are no wallets or the data has not loaded.
-        dashboardScreen.walletDefaultFrame.visible = (walletModelList.count || !walletModelList.get(walletModule.currentWalletIndex).isLoad)
+        dashboardScreen.walletDefaultFrame.visible = ((walletModelList.count || !walletModelList.get(walletModule.currentWalletIndex).isLoad) &&
+                                            walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active")
 
-        dashboardScreen.walletShowFrame.visible = (walletModelList.count && walletModelList.get(walletModule.currentWalletIndex).isLoad)
+        dashboardScreen.walletShowFrame.visible = (walletModelList.count && (walletModelList.get(walletModule.currentWalletIndex).isLoad || 
+                                                    walletModelList.get(walletModule.currentWalletIndex).statusProtected === "non-Active"))
 
         dashboardScreen.walletCreateFrame.visible = (state === "WALLETCREATE" &&  !walletModelList.count)
     }
