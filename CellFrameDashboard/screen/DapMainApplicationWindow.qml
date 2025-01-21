@@ -319,7 +319,7 @@ Rectangle {
                 showTab: true,
                 page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
 
-            if(NODE_MODE === 0)
+            if(NODE_MODE === 0) //LOCAL MODE
             {
 
                 append ({ tag: "Certificates",

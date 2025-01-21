@@ -638,12 +638,15 @@ void DapModuleWallet::rcvFee(const QVariant &rcvData)
 
 //TODO: for test
 //    QVariantMap testData;
-//    testData.insert("network",          "Backbone");
-//    testData.insert("amount",           "1.0");
-//    testData.insert("send_ticker",      "CELL");
-//    testData.insert("wallet_from",      "myWallet");
-//    testData.insert("wallet_from_addr", "Rj7J7MiX2bWy8sNyXKzkzfA45trMW5g1vMF2PfmJA6vM5dSJ97T9yip3dbniDx8SqJ7gNW2e1CPQmXGxdHx1a2rnTVeRyd21oNjKDMit");
-//    testData.insert("wallet_to",        "Rj7J7MiX2bWy8sNyY55eNdUgNwp5AEERxW5N8mVKybe7RzxcvtYyA5duV6tC33DunPSatKe6YDhRPF32VzDsQWVrCbtGgiBUDAbpmhJM");
+//    testData.insert("network",              "Backbone");
+//    testData.insert("amount",               "1.0");
+//    testData.insert("send_ticker",          "KEL");
+//    testData.insert("wallet_from",          "myWallet");
+//    testData.insert("wallet_from_password", "");
+//    testData.insert("wallet_from_path",     "/opt/cellframe-dashboard/data/wallets/myWallet.dwallet");
+//    testData.insert("wallet_from_addr",     "Rj7J7MiX2bWy8sNyXKzkzfA45trMW5g1vMF2PfmJA6vM5dSJ97T9yip3dbniDx8SqJ7gNW2e1CPQmXGxdHx1a2rnTVeRyd21oNjKDMit");
+//    testData.insert("wallet_to",            "Rj7J7MiX2bWy8sNyY55eNdUgNwp5AEERxW5N8mVKybe7RzxcvtYyA5duV6tC33DunPSatKe6YDhRPF32VzDsQWVrCbtGgiBUDAbpmhJM");
+
 //    sendTx(testData);
 }
 
@@ -818,8 +821,8 @@ void DapModuleWallet::sendTx(QVariantMap data)
         txData.insert(Dap::KeysParam::TOKEN_NATIVE,    nativeToken);
         txData.insert(Dap::KeysParam::AMOUNT,          data.value("amount").toString());
         txData.insert(Dap::KeysParam::WALLET_NAME,     data.value("wallet_from").toString());
-//        txData.insert(Dap::KeysParam::WALLET_PATH,     data.value("wallet_from_path").toString());
-        txData.insert(Dap::KeysParam::WALLET_PATH,     QString("path_to_my_wallet")); //TODO
+        txData.insert(Dap::KeysParam::WALLET_PATH,     data.value("wallet_from_path").toString());
+        txData.insert(Dap::KeysParam::WALLET_PASSWORD, data.value("wallet_from_password").toString());
         txData.insert(Dap::KeysParam::ADDR_FROM,       data.value("wallet_from_addr").toString());
         txData.insert(Dap::KeysParam::ADDR_TO,         data.value("wallet_to").toString());
         txData.insert(Dap::KeysParam::TOKEN_TICKER,    data.value("send_ticker").toString());
@@ -829,8 +832,8 @@ void DapModuleWallet::sendTx(QVariantMap data)
         QVariantMap mapData;
         mapData.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
         mapData.insert(Dap::CommandParamKeys::COMMAND_KEY,   "DapCreateTxCommand");
-        mapData.insert(Dap::KeysParam::TYPE_TX,              "Default");
         mapData.insert(Dap::CommandParamKeys::DATA_KEY,      docData.toJson());
+        mapData.insert(Dap::KeysParam::TYPE_TX,              "Default");
 
         createTx(mapData);
     }
