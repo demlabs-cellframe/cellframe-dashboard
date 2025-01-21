@@ -204,9 +204,16 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     }
 }
 
-void DapModuleWallet::createTx(QStringList args)
+void DapModuleWallet::createTx(QVariant args)
 {
-    s_serviceCtrl->requestToService("DapCreateTransactionCommand", args);
+    if(getNodeMode() == NodeMode::REMOTE)
+    {
+        s_serviceCtrl->requestToService("DapCreateTxCommand", args);
+    }
+    else
+    {
+        s_serviceCtrl->requestToService("DapCreateTransactionCommand", args);
+    }
 }
 
 void DapModuleWallet::requestWalletTokenInfo(QStringList args)
@@ -503,20 +510,72 @@ QVariantMap DapModuleWallet::approveTx(QVariantMap data)
 
 void DapModuleWallet::sendTx(QVariantMap data)
 {
+
+    //TODO: for test
+    //    QVariantMap testData;
+    //    testData.insert("network",              "Backbone");
+    //    testData.insert("amount",               "1.0");
+    //    testData.insert("send_ticker",          "KEL");
+    //    testData.insert("wallet_from",          "myWallet");
+    //    testData.insert("wallet_from_password", "");
+    //    testData.insert("wallet_from_path",     "/opt/cellframe-dashboard/data/wallets/myWallet.dwallet");
+    //    testData.insert("wallet_from_addr",     "Rj7J7MiX2bWy8sNyXKzkzfA45trMW5g1vMF2PfmJA6vM5dSJ97T9yip3dbniDx8SqJ7gNW2e1CPQmXGxdHx1a2rnTVeRyd21oNjKDMit");
+    //    testData.insert("wallet_to",            "Rj7J7MiX2bWy8sNyY55eNdUgNwp5AEERxW5N8mVKybe7RzxcvtYyA5duV6tC33DunPSatKe6YDhRPF32VzDsQWVrCbtGgiBUDAbpmhJM");
+
+    //    sendTx(testData);
+
     MathWorker mathWorker;
-    QString net = data.value("network").toString();
-    QString feeDatoshi = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("median_fee_datoshi");
-    QString amount = mathWorker.coinsToBalance(data.value("amount")).toString();
 
-    QStringList listData;
-    listData.append(net);
-    listData.append(data.value("wallet_from").toString());
-    listData.append(data.value("wallet_to").toString());
-    listData.append(data.value("send_ticker").toString());
-    listData.append(amount);
-    listData.append(feeDatoshi);
+    QString net           = data.value("network").toString();
+    QString nativeToken   = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("fee_ticker");
+    QString feeDatoshi    = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("median_fee_datoshi");
+    QString fee           = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("median_fee_coins");
+    QString feeNet        = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_coins");
+    QString feeNetDatoshi = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_datoshi");
+    QString feeNetAddr    = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_addr");
+    QString amount        = mathWorker.coinsToBalance(data.value("amount")).toString();
 
-    createTx(listData);
+    if(getNodeMode() == NodeMode::REMOTE)
+    {
+        QJsonObject txData;
+        txData.insert(Dap::KeysParam::NETWORK_NAME,    net);
+        txData.insert(Dap::KeysParam::FEE_DATOSHI,     feeDatoshi);
+        txData.insert(Dap::KeysParam::FEE,             fee);
+        txData.insert(Dap::KeysParam::FEE_NET,         feeNet);
+        txData.insert(Dap::KeysParam::FEE_NET_DATOSHI, feeNetDatoshi);
+        txData.insert(Dap::KeysParam::FEE_NET_ADDR,    feeNetAddr);
+        txData.insert(Dap::KeysParam::AMOUNT_DATOSHI,  amount);
+        txData.insert(Dap::KeysParam::TOKEN_NATIVE,    nativeToken);
+        txData.insert(Dap::KeysParam::AMOUNT,          data.value("amount").toString());
+        txData.insert(Dap::KeysParam::WALLET_NAME,     data.value("wallet_from").toString());
+        txData.insert(Dap::KeysParam::WALLET_PATH,     data.value("wallet_from_path").toString());
+        txData.insert(Dap::KeysParam::WALLET_PASSWORD, data.value("wallet_from_password").toString());
+        txData.insert(Dap::KeysParam::ADDR_FROM,       data.value("wallet_from_addr").toString());
+        txData.insert(Dap::KeysParam::ADDR_TO,         data.value("wallet_to").toString());
+        txData.insert(Dap::KeysParam::TOKEN_TICKER,    data.value("send_ticker").toString());
+
+        QJsonDocument docData(txData);
+
+        QVariantMap mapData;
+        mapData.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
+        mapData.insert(Dap::CommandParamKeys::COMMAND_KEY,   "DapCreateTxCommand");
+        mapData.insert(Dap::CommandParamKeys::DATA_KEY,      docData.toJson());
+        mapData.insert(Dap::KeysParam::TYPE_TX,              "Default");
+
+        createTx(mapData);
+    }
+    else
+    {
+        QStringList listData;
+        listData.append(net);
+        listData.append(data.value("wallet_from").toString());
+        listData.append(data.value("wallet_to").toString());
+        listData.append(data.value("send_ticker").toString());
+        listData.append(amount);
+        listData.append(feeDatoshi);
+
+        createTx(listData);
+    }
 }
 
 void DapModuleWallet::setWalletTokenModel(const QString& network)

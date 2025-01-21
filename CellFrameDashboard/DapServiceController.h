@@ -107,6 +107,8 @@
 #include "handlers/DapSrvStakeRemove.h"
 #include "handlers/DapWebBlockList.h"
 
+#include "handlers/DapCreateTxCommand.h"
+
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -243,6 +245,7 @@ signals:
     void transactionCreated(const QVariant& aResult);
     void rcvTXCondCreateCommand(const QVariant& rcvData);
     void rcvFee(const QVariant& rcvData);
+    void rcvTxCreated(const QVariant& rcvData);
 
     /*Node*/
     void nodeRestart();
