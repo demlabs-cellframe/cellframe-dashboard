@@ -44,27 +44,40 @@ INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$SDK_INSTALL_PATH/include/modules/chain/ \
                 $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
 
-LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/global_db/libdap_global_db.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/net/link_manager/libdap_link_manager.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/wallet/libdap_chain_wallet.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/chain/libdap_chain.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/channel/chain-net-srv/libdap_stream_ch_chain_net_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/net/srv/libdap_chain_net_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/channel/chain-net-srv/libdap_stream_ch_chain_net_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/channel/chain-net/libdap_stream_ch_chain_net.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/mempool/libdap_chain_mempool.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/service/stake/libdap_chain_net_srv_stake.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/service/xchange/libdap_chain_net_srv_xchange.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/service/voting/libdap_chain_net_srv_voting.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/consensus/esbocs/libdap_chain_cs_esbocs.a
+LIBS += $$SDK_INSTALL_PATH/lib/modules/type/blocks/libdap_chain_cs_blocks.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/client/libdap_client.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/link_manager/libdap_link_manager.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/enc_server/libdap_enc_server.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/http_server/libdap_http_server.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
-LIBS += $$SDK_INSTALL_PATH/lib/modules/wallet/libdap_chain_wallet.a
-LIBS += $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a
-LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
-LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/cli_server/libdap_cli_server.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/rpc_core/libdap_json_rpc_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/stream/ch/libdap_stream_ch.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/stream/stream/libdap_stream.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/stream/session/libdap_session.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/global_db/libdap_global_db.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/io/libdap_io.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
+LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP-plainc*.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
+LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
@@ -138,7 +151,7 @@ linux-* {
 }
 
 win32  {
-    LIBS += -lntdll -lpsapi -lmagic -lmqrt -lshlwapi -lregex -ltre -lintl -liconv -lbcrypt -lcrypt32 -lsecur32 -luser32 -lws2_32 -lole32
+    LIBS += -lntdll -lpsapi -lmqrt -lshlwapi -lregex -ltre -lintl -liconv -lbcrypt -lcrypt32 -lsecur32 -luser32 -lws2_32 -lole32
     CONFIG(debug, debug|release) {
             TARGET_PATH = $$OUT_PWD/debug/$${TARGET}.exe
     }
