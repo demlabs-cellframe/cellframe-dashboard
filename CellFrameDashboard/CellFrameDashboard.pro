@@ -64,7 +64,6 @@ LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap-XKCP*.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a
 LIBS += $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/json_rpc/libdap_json_rpc.a
-LIBS += $$SDK_INSTALL_PATH/lib/dap/net/server/notify_server/libdap_notify_srv.a
 LIBS += $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a
 
 win32 {
