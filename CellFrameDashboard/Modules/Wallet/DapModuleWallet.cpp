@@ -295,7 +295,7 @@ void DapModuleWallet::requestWalletInfo(const QString& key)
 
 void DapModuleWallet::createTx(QVariant args)
 {
-    if(getNodeMode() == REMOTE)
+    if(getNodeMode() == NodeMode::REMOTE)
     {
         s_serviceCtrl->requestToService("DapCreateTxCommand", args);
     }
@@ -805,7 +805,7 @@ void DapModuleWallet::sendTx(QVariantMap data)
     QString amount        = mathWorker.coinsToBalance(data.value("amount")).toString();
     QString nativeToken   = m_feeInfo[net].validatorFee["fee_ticker"];
 
-    if(getNodeMode() == REMOTE)
+    if(getNodeMode() == NodeMode::REMOTE)
     {
         QJsonObject txData;
         txData.insert(Dap::KeysParam::NETWORK_NAME,    net);
@@ -818,6 +818,8 @@ void DapModuleWallet::sendTx(QVariantMap data)
         txData.insert(Dap::KeysParam::TOKEN_NATIVE,    nativeToken);
         txData.insert(Dap::KeysParam::AMOUNT,          data.value("amount").toString());
         txData.insert(Dap::KeysParam::WALLET_NAME,     data.value("wallet_from").toString());
+//        txData.insert(Dap::KeysParam::WALLET_PATH,     data.value("wallet_from_path").toString());
+        txData.insert(Dap::KeysParam::WALLET_PATH,     QString("path_to_my_wallet")); //TODO
         txData.insert(Dap::KeysParam::ADDR_FROM,       data.value("wallet_from_addr").toString());
         txData.insert(Dap::KeysParam::ADDR_TO,         data.value("wallet_to").toString());
         txData.insert(Dap::KeysParam::TOKEN_TICKER,    data.value("send_ticker").toString());
