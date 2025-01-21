@@ -150,11 +150,6 @@ DapRectangleLitAndShaded
                     model: walletModelInfo
                     defaultText: qsTr("Networks")
 
-                    Component.onCompleted:
-                    {
-                        walletModule.getComission(displayText)
-                    }
-
                     onCurrantDisplayTextChanged:
                     {
                         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
@@ -599,8 +594,6 @@ DapRectangleLitAndShaded
                 textNotEnoughTokensWarning.visible = true
                 buttonSend.visible = true
             }
-            if(comboboxNetwork.displayText !== "")
-                walletModule.getComission(dapComboboxNetwork.displayText)
 
             balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                                  + " " + dapComboBoxToken.displayText

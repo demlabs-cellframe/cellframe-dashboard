@@ -233,7 +233,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapCertificateManagerCommands,        QObject*>("DapCertificateManagerCommands",             "certificateManagerOperationResult",     nullptr);
 
     /*History*/
-    addServiceGeneric<DapGetAllWalletHistoryCommand,        QObject*>("DapGetAllWalletHistoryCommand",             "allWalletHistoryReceived",              nullptr);
+    addServiceGeneric<DapGetWalletHistoryCommand,        QObject*>("DapGetWalletHistoryCommand",             "allWalletHistoryReceived",              nullptr);
 
     /*Other*/
     addServiceGeneric<DapExportLogCommand,                  QObject*>("DapExportLogCommand",                       "exportLogs",                            nullptr);
@@ -333,13 +333,13 @@ void DapServiceController::initAdditionalParamrtrsService()
         DapGetWalletInfoCommand* command = dynamic_cast<DapGetWalletInfoCommand*>(m_transceivers["DapGetWalletInfoCommand"]);
         connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletInfoCommand::queueDataUpdate);
     }
-    if(m_transceivers.contains("DapGetAllWalletHistoryCommand"))
+    if(m_transceivers.contains("DapGetWalletHistoryCommand"))
     {
-        DapGetAllWalletHistoryCommand* command = dynamic_cast<DapGetAllWalletHistoryCommand*>(m_transceivers["DapGetAllWalletHistoryCommand"]);
-        connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetAllWalletHistoryCommand::queueDataUpdate);
-        connect(controller, &DapTransactionQueueController::newTransactionAdded, command, &DapGetAllWalletHistoryCommand::transactionFromQueudAdded);
-        connect(command, &DapGetAllWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
-        connect(command, &DapGetAllWalletHistoryCommand::transactionMoved,  controller, &DapTransactionQueueController::updateInfoTransaction);
+        DapGetWalletHistoryCommand* command = dynamic_cast<DapGetWalletHistoryCommand*>(m_transceivers["DapGetWalletHistoryCommand"]);
+        connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetWalletHistoryCommand::queueDataUpdate);
+        connect(controller, &DapTransactionQueueController::newTransactionAdded, command, &DapGetWalletHistoryCommand::transactionFromQueudAdded);
+        connect(command, &DapGetWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
+        connect(command, &DapGetWalletHistoryCommand::transactionMoved,  controller, &DapTransactionQueueController::updateInfoTransaction);
     }
 }
 

@@ -57,7 +57,6 @@ QtObject {
     function updateAllWallets()
     {
         dapModelWallets.clear()
-        // logicMainApp.requestToService("DapGetWalletsInfoCommand", "");
     }
 
     function updateCurrentWallet()
@@ -356,7 +355,7 @@ QtObject {
                 network_array += model.get(i).address + ":"
                 network_array += name + "/"
             }
-            // requestToService("DapGetAllWalletHistoryCommand",
+            // requestToService("DapGetWalletHistoryCommand",
             //                  network_array, update, isLastActions)
         }
     }

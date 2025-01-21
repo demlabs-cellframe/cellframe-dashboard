@@ -54,11 +54,6 @@ DapBottomScreen{
                     textInputRecipientWalletAddress.text,tokenData.tokenName,
                     amount, commission)
             }
-            else
-            {
-                walletModule.startUpdateFee()
-                console.log("Start update fee timer")
-            }
         }
     }
 
@@ -311,8 +306,6 @@ DapBottomScreen{
                             walletMessagePopup.smartOpen(
                                         qsTr("Confirming the transaction"),
                                         qsTr("Attention, the transaction fee will be") + feeMsg)
-
-                            walletModule.stopUpdateFee()
                             console.log("Stop update fee timer")
                         }
                         else

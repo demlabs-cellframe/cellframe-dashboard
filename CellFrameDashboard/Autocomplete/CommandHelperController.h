@@ -24,7 +24,7 @@ signals:
 
 public slots:
     void tryListGetting(const QString& text, int cursorPosition);
-    void tryDataUpdate();
+    // void tryDataUpdate();
 private:
     DapServiceController  *s_serviceCtrl;
     HelpDictionaryController* m_helpController = nullptr;

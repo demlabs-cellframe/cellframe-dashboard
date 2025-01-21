@@ -86,20 +86,6 @@ DapPage
     dapRightPanelFrame.visible: false
     dapRightPanel.initialItem: emptyRightPanel
 
-    Connections
-    {
-        target: modulesController
-        function onWalletsListUpdated()
-        {
-            logicExplorer.historyUpdate()
-        }
-
-        function onCurrentWalletNameChanged()
-        {
-            logicExplorer.historyUpdate()
-        }
-    }
-
     Component.onCompleted:
     {
         modelHistory.setFilterString()

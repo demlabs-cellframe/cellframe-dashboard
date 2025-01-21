@@ -31,16 +31,10 @@ public:
     ConfigWorker* getConfigWorker() {return m_configWorker;}
 
     QSettings* getSettings() {return s_settings;}
-    void tryStartModules() { emit initDone(); }
-    void setCurrentWallet(const QPair<int,QString>& dataWallet);
     void setWalletList(const QStringList& walletList);
-    const QStringList& getWalletList() const { return m_walletList; }
-    int getCurrentWalletIndex() const { return m_currentWalletIndex; }
-    const QString& getCurrentWalletName() const { return m_currentWalletName; }
 
     void initModules();
     void initWorkers();
-    void restoreIndex();
 
     void addModule(const QString &key, DapAbstractModule *p_module);
     DapAbstractModule* getModule(const QString &key);
@@ -49,15 +43,7 @@ public:
     QObject* getWorker(const QString &key);
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
 
-
-
     DapServiceController *s_serviceCtrl;   
-
-    Q_PROPERTY (int currentWalletIndex READ currentWalletIndex WRITE setCurrentWalletIndex NOTIFY currentWalletIndexChanged)
-    int currentWalletIndex(){return m_currentWalletIndex;}
-    void setCurrentWalletIndex(int newIndex);
-    Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
-    QString currentWalletName(){return m_currentWalletName;}
 
     Q_PROPERTY (bool isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
     bool isNodeWorking(){return m_isNodeWorking;}
@@ -75,7 +61,6 @@ public:
     Q_INVOKABLE QString getCurrentNetwork() const {return m_currentNetworkName;}
     void setCurrentNetwork(const QString& name);
 public slots:
-    Q_INVOKABLE void updateListWallets();
     void setNodeLoadProgress(int progress);
     void setIsNodeWorking(bool);
 
@@ -86,19 +71,14 @@ public slots:
 signals:
     void initDone();
 
-    void walletsListUpdated();
-    void netListUpdated();
-    void currentWalletIndexChanged();
-    void currentWalletNameChanged();
     void currentNetworkChanged(QString netName);
-    void sigFeeRcv(const QVariant &rcvData);
-
-    void feeUpdateChanged();
 
     void nodeWorkingChanged();
     void nodeLoadProgressChanged();
 
     void sigNotifyControllerIsInit();
+private slots:
+    void readyReceiveData();
 private:
     void cleareProgressInfo();
 private:
@@ -117,7 +97,6 @@ private:
     StringWorker * m_stringWorker;
     MathWorker * m_mathWorker;
 
-    QTimer *m_timerUpdateData;
     QSettings *s_settings;
 
     bool m_firstDataLoad{false}; 
@@ -128,9 +107,6 @@ private:
     // Need to know it was first launch or restore after reboot node
     int m_lastProgress = 0;
 
-    QStringList m_walletList;
-    int m_currentWalletIndex{-1};
-    QString m_currentWalletName{""};
     QString m_currentNetworkName = "";
 
     ConfigWorker *m_configWorker = nullptr;

@@ -239,7 +239,6 @@ DapRecoveryWalletRightPanelForm
             var wallet = jsonDocument.result
             commandResult.success = wallet.success
             commandResult.message = wallet.message
-            walletModule.timerUpdateFlag(true);
 
             navigator.doneWalletFunc()
         }

@@ -26,7 +26,7 @@ ComboBox {
             dexModule.tokenPairModelCountChanged(count)
         }
         dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
-        walletModule.updateBalanceDEX()
+        dexModule.updateBalance()
     }
 
     Connections
@@ -35,7 +35,7 @@ ComboBox {
         function onCurrentTokenPairChanged()
         {
             dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
-            walletModule.updateBalanceDEX()
+            dexModule.updateBalance()
         }
     }
 

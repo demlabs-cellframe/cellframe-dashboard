@@ -18,16 +18,6 @@ Page
     property bool isToken: false
     signal sellBuyChanged()
 
-    Component.onCompleted:
-    {
-        walletModule.startUpdateFee()
-    }
-
-    Component.onDestruction:
-    {
-        walletModule.stopUpdateFee()
-    }
-
     Item
     {
 
@@ -161,13 +151,7 @@ Page
                     fields.updateForms()
                 }
 
-            }
-
-            Connections
-            {
-                target: walletModule
-
-                function onCurrantBalanceDEXChanged()
+                function onCurrantBalanceChanged()
                 {
                     buySellSwitcher.setSelected("first")
                     setBalanceText(dexModule.token2)
@@ -264,7 +248,7 @@ Page
                     {
                         var resultAmount = isSell ? fields.amount.textValue : fields.total.textValue
                         var resultTokenName = isSell ? fields.amount.textToken : fields.total.textToken 
-                        var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
+                        var walletResult = dexModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                         console.log("Wallet: " + walletResult)
                         if(walletResult.code === 0)
                         {
@@ -311,7 +295,7 @@ Page
     }
     function setBalanceText(token)
     {
-        var value = walletModule.getBalanceDEX(token)
+        var value = dexModule.getBalance(token)
         fields.balance = value
         textBalance.text = value + " " + token
         logicStock.currantBalance = value

@@ -181,7 +181,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalanceDEX(dexModule.token1)
+                        text: walletModule.getBalance(dexModule.token1)
                     }
 
                     Rectangle
@@ -398,7 +398,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalanceDEX(dexModule.token2)
+                        text: walletModule.getBalance(dexModule.token2)
                     }
 
                     Item
@@ -880,7 +880,7 @@ Page
             {
                 var resultAmount = sellText.text
                 var resultTokenName = dexModule.token1
-                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
+                var walletResult = dexModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                 console.log("Wallet: " + walletResult)
 
                 if(walletResult.code === 0)

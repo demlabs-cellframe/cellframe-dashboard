@@ -383,8 +383,8 @@ DapRectangleLitAndShaded
         modelHistory.setLastActions(true)
         if (walletModule.currentWalletIndex >=0 &&
             walletModule.currentWalletIndex < walletModelList.count &&
-            modulesController.currentWalletName !== txExplorerModule.walletName)
-            txExplorerModule.setWalletName(modulesController.currentWalletName)
+            walletController.currentWalletName !== txExplorerModule.walletName)
+            txExplorerModule.setWalletName(walletController.currentWalletName)
         lastHistoryLength = 0
         txExplorerModule.updateHistory(true)
     }

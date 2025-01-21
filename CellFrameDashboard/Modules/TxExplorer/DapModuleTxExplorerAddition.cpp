@@ -1,6 +1,6 @@
 #include "DapModuleTxExplorerAddition.h"
 #include <QQmlContext>
-
+#include "DapDataManagerController.h"
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -16,11 +16,11 @@ DapModuleTxExplorerAddition::DapModuleTxExplorerAddition(DapModulesController *p
 
 void DapModuleTxExplorerAddition::setWalletName(QString str)
 {
-    DapModuleTxExplorer::setWalletName(str);
-    if (m_walletName != str)
-    {
-        m_historyProxyModel->resetCount();
-    }
+    // DapModuleTxExplorer::setWalletName(str);
+    // if (m_walletName != str)
+    // {
+    //     m_historyProxyModel->resetCount();
+    // }
 }
 
 void DapModuleTxExplorerAddition::setHistoryModel(const QVariant &rcvData)
@@ -37,13 +37,13 @@ void DapModuleTxExplorerAddition::setHistoryModel(const QVariant &rcvData)
     if (!doc.isObject())
         return;
 
-    if (doc["walletName"].toString() != m_modulesCtrl->getCurrentWalletName())
-    {
-        qWarning() << "ERROR"
-                   << "walletName" << doc["walletName"].toString() << m_walletName
-                   << "isLastActions" << doc["isLastActions"].toBool() << m_isLastActions;
-        return;
-    }
+    // if (doc["walletName"].toString() != m_modulesCtrl->getManagerController()->getCurrentWallet().second)
+    // {
+    //     qWarning() << "ERROR"
+    //                << "walletName" << doc["walletName"].toString() << m_walletName
+    //                << "isLastActions" << doc["isLastActions"].toBool() << m_isLastActions;
+    //     return;
+    // }
 
     QList<DapHistoryModel::Item> historyResult;
 

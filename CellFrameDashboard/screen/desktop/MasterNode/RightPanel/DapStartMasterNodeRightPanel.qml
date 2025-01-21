@@ -750,13 +750,11 @@ DapRectangleLitAndShaded
     Component.onCompleted:
     {
         logicMainApp.requestToService("DapCertificateManagerCommands", 1); // 1 - Get List Certificates
-        walletModule.startUpdateFee()
         defaultNewCertificateName()
     }
     
     Component.onDestruction:
     {
-        walletModule.stopUpdateFee()
         nodeMasterModule.clearCertificate();
     }
 

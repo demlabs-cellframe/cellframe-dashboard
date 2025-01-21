@@ -97,7 +97,7 @@ Controls.DapTopPanel
 //             Layout.minimumWidth: 220
 // //            Layout.leftMargin: 4
 //             Layout.leftMargin: 19
-//             fullText: modulesController.currentWalletName
+//             fullText: walletController.currentWalletName
 
 //             textFont: mainFont.dapFont.regular14
 //         }
@@ -140,22 +140,22 @@ Controls.DapTopPanel
             {
                 if (tokenComboBox.currentIndex < 0)
                 {
-                    walletModule.setCurrentTokenDEX(defaultText)
+                    dexModule.setCurrentToken(defaultText)
                 }
                 else
                 {
-                    walletModule.setCurrentTokenDEX(getModelData(popupListView.currentIndex, mainTextRole))
+                    dexModule.setCurrentToken(getModelData(popupListView.currentIndex, mainTextRole))
                 }
             }
 
             onCurrantDisplayTextChanged:
             {
-                walletModule.setCurrentTokenDEX(text)
+                dexModule.setCurrentToken(text)
             }
 
             onCurrentIndexChanged: 
             {
-                walletModule.setCurrentTokenDEX(displayText)
+                dexModule.setCurrentToken(displayText)
                 updateBalance()
             }
 
@@ -165,7 +165,7 @@ Controls.DapTopPanel
                 function onListTokenChanged()
                 {
                     var cur_token = dexTokenModel.getFirstToken()
-                    walletModule.setCurrentTokenDEX(cur_token)
+                    dexModule.setCurrentToken(cur_token)
                     tokenComboBox.displayText = cur_token
                 }
             }
@@ -202,7 +202,7 @@ Controls.DapTopPanel
                 id: textWalletBalance
                 anchors.fill: parent
                 textFont: mainFont.dapFont.regular16
-                fullText: walletModule.balanceDEX
+                fullText: dexModule.balance
             }
         }
     }

@@ -121,7 +121,7 @@ Item
 
                 DapButton
                 {
-                    enabled: !modulesController.isNodeWorking ? false : walletModule.balanceDEX ? true : false
+                    enabled: !modulesController.isNodeWorking ? false : dexModule.balance ? true : false
                     id: createOrderButton
                     Layout.fillWidth: visible
                     implicitHeight: 36
