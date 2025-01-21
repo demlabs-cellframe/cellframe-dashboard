@@ -106,6 +106,7 @@
 #include "handlers/DapNodeDel.h"
 #include "handlers/DapSrvStakeRemove.h"
 #include "handlers/DapWebBlockList.h"
+#include "handlers/DapGetListWalletsByPathCommand.h"
 
 
 #ifdef Q_OS_WIN
@@ -201,6 +202,7 @@ signals:
 //    void rcvGetOnceWalletInfoCommand(const QVariant& rcvData);
 //    void walletTokensReceived(const QVariant& walletTokens);
 //    void walletAddressesReceived(const QVariant& walletAddresses);
+    void rcvWalletListByPath(const QVariant& rcvData);
 
     /*Xchange*/
     void rcvXchangeTxList(const QVariant& rcvData);

@@ -160,6 +160,7 @@ void DapServiceController::registerCommand()
 //    addServiceGeneric<DapGetWalletAddressesCommand,         QObject*>("DapGetWalletAddressesCommand",              "walletAddressesReceived",               nullptr);
 //    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
 //    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
+    addServiceGeneric<DapGetListWalletsByPathCommand,       QObject*>("DapGetListWalletsByPathCommand",             "rcvWalletListByPath",                  nullptr);
 
     /*Xchange*/
     addServiceGeneric<DapGetXchangeTxList,                  QObject*>("DapGetXchangeTxList",                       "rcvXchangeTxList",                      nullptr);

@@ -45,25 +45,28 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
     for(const QJsonValue &value: walletArray)
     {
         QJsonObject tmpObject = value.toObject();
-        if(tmpObject.contains("name") && tmpObject.contains("status"))
+        if(tmpObject.contains("name") && tmpObject.contains("path"))
         {
             QString walletName = tmpObject["name"].toString();
-            if(!walletName.isEmpty())
+            if(walletName.isEmpty())
             {
-                if(m_walletsInfo.contains(walletName))
-                {
-                    m_walletsInfo[walletName].status = tmpObject["status"].toString();
-                    isUpdateWallet = true;
-                }
-                else
-                {
-                    CommonWallet::WalletInfo tmpWallet;
-                    tmpWallet.walletName = walletName;
-                    tmpWallet.status = tmpObject["status"].toString();
-                    m_walletsInfo.insert(walletName, std::move(tmpWallet));
-                    isUpdateWallet = true;
-                }
+                continue;
             }
+
+            if(m_walletsInfo.contains(walletName))
+            {
+                m_walletsInfo[walletName].path = tmpObject["path"].toString();
+                isUpdateWallet = true;
+            }
+            else
+            {
+                CommonWallet::WalletInfo tmpWallet;
+                tmpWallet.walletName = walletName;
+                tmpWallet.path = tmpObject["path"].toString();
+                m_walletsInfo.insert(walletName, std::move(tmpWallet));
+                isUpdateWallet = true;
+            }
+
             tmpWallets.append(walletName);
         }
     }
@@ -234,7 +237,7 @@ void DapWalletsManagerRemote::updateInfoWallets()
 
 void DapWalletsManagerRemote::updateListWallets()
 {
-    m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", QStringList());
+    m_modulesController->getServiceController()->requestToService("DapGetListWalletsByPathCommand", QStringList());
 }
 
 void DapWalletsManagerRemote::requestWalletInfo(const QString& walletName, const QString& network)
