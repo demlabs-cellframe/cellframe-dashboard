@@ -226,6 +226,17 @@ DapPage
 
         walletModule.statusProcessing = true
         txExplorerModule.statusProcessing = true
+
+//        var dataTx = {
+//        "network"           : "Backbone",
+//        "amount"            : "1.0",
+//        "send_ticker"       : "CELL",
+//        "wallet_from"       : "myWallet",
+//        "wallet_from_addr"  : "Rj7J7MiX2bWy8sNyXKzkzfA45trMW5g1vMF2PfmJA6vM5dSJ97T9yip3dbniDx8SqJ7gNW2e1CPQmXGxdHx1a2rnTVeRyd21oNjKDMit",
+//        "wallet_to"         : "Rj7J7MiX2bWy8sNyY55eNdUgNwp5AEERxW5N8mVKybe7RzxcvtYyA5duV6tC33DunPSatKe6YDhRPF32VzDsQWVrCbtGgiBUDAbpmhJM"
+//        }
+
+//        walletModule.sendTx(dataTx)
     }
 
     Component.onDestruction:

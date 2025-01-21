@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "DapServiceController.h"
+#include "node_globals/NodeGlobals.h"
 
 class DapAbstractModule : public QObject
 {
