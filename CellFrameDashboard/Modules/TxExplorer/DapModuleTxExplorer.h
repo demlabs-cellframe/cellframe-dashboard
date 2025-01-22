@@ -12,12 +12,8 @@
 class DapModuleTxExplorer : public DapAbstractModule
 {
     Q_OBJECT
-
-    // Q_PROPERTY(QString walletName     READ walletName      WRITE setWalletName)
 public:
     explicit DapModuleTxExplorer(DapModulesController * modulesCtrl);
-
-    // QString walletName() const { return m_walletName; }
 
     Q_INVOKABLE void clearHistory();
     Q_INVOKABLE void updateHistory();

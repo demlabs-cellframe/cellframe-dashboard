@@ -206,7 +206,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 
 void DapModuleWallet::createTx(QVariant args)
 {
-    if(getNodeMode() == NodeMode::REMOTE)
+    if(DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::REMOTE)
     {
         s_serviceCtrl->requestToService("DapCreateTxCommand", args);
     }
@@ -535,7 +535,7 @@ void DapModuleWallet::sendTx(QVariantMap data)
     QString feeNetAddr    = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_addr");
     QString amount        = mathWorker.coinsToBalance(data.value("amount")).toString();
 
-    if(getNodeMode() == NodeMode::REMOTE)
+    if(DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::REMOTE)
     {
         QJsonObject txData;
         txData.insert(Dap::KeysParam::NETWORK_NAME,    net);

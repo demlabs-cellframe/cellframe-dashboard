@@ -183,7 +183,7 @@ void DapModuleTxExplorer::updateHistory()
         return;
     }
 
-    QString nodeMade = getNodeMode() == NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     if(m_timerRequest->isActive())
     {
         m_timerRequest->stop();

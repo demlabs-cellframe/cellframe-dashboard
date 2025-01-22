@@ -6,7 +6,7 @@ DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 
 void DapNotifyController::init()
 {
-    if(getNodeMode()==LOCAL)
+    if(DapNodeMode::getNodeMode()==DapNodeMode::LOCAL)
     {
         m_node_notify = std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel>(cellframe_node::getCellframeNodeInterface("local")->openNotificationChannel());
 
