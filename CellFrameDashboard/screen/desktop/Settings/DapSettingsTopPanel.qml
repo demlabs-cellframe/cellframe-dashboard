@@ -123,6 +123,7 @@ Controls.DapTopPanel
             Layout.alignment: Qt.AlignRight
             Layout.leftMargin: 45
             spacing: 2
+            visible: app.getNodeMode() === 0
 
             RowLayout{
                 spacing: 8
@@ -220,6 +221,7 @@ Controls.DapTopPanel
             RowLayout
             {
                 Layout.alignment: Qt.AlignLeft
+                visible: app.getNodeMode() === 0
                 Text {
                     horizontalAlignment: Text.AlignLeft
 

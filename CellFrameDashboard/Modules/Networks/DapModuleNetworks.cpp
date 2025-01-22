@@ -12,8 +12,15 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     m_netListModel->setStringList({"All"});
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("netListModel", m_netListModel);
 
-    connect(this, &DapModuleNetworks::sigNetLoadProgress, m_modulesCtrl, &DapModulesController::setNodeLoadProgress);
-    connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
+    if(DapNodeMode::g_node_mode == DapNodeMode::LOCAL)
+    {
+        connect(this, &DapModuleNetworks::sigNetLoadProgress, m_modulesCtrl, &DapModulesController::setNodeLoadProgress);
+        connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
+    }
+    else
+    {
+        m_modulesCtrl->setIsNodeWorking(true);
+    }
 
     auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
     connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal, this, &DapModuleNetworks::deleteNetworksSlot);

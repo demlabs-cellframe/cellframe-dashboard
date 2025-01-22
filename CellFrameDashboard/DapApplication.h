@@ -22,6 +22,8 @@
 #include "DapNodePathManager.h"
 #include "NotifyController/DapNotifyController.h"
 
+#include "node_globals/NodeGlobals.h"
+
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #endif
@@ -42,11 +44,18 @@ public:
 
     Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
 
+    Q_INVOKABLE void setNodeMode(int mode){DapNodeMode::setNodeMode((DapNodeMode::NodeMode)mode);}
+    Q_INVOKABLE int getNodeMode(){return (int)DapNodeMode::getNodeMode();}
+    Q_INVOKABLE void setDontShowNodeModeFlag();
+    Q_INVOKABLE bool getDontShowNodeModeFlag(){return m_dontShowNodeModeFlag;}
+
     DapModulesController *s_modulesInit;
 
 private:
     void setContextProperties();
     void registerQmlTypes();
+
+    bool m_dontShowNodeModeFlag{false};
 
     CommandHelperController* m_commandHelper = nullptr;
 

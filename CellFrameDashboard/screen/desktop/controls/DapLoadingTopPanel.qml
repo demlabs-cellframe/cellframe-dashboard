@@ -80,11 +80,11 @@ DapTopPanel
             anchors.leftMargin: 56
             font: mainFont.dapFont.regular14
             color: currTheme.white
-            text: !cellframeNodeWrapper.nodeServiceLoaded ? qsTr("The node services are disabled. They can be enabled in the Settings tab.") :
-                           percentLoading >= 100 || doneDelay ? qsTr("The node has loaded") :
-                                               percentLoading ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
-                            cellframeNodeWrapper.nodeInstalled ? qsTr("The node is currently being launched. Receving data from the node"):
-                                                                qsTr("Node is not installed")
+            text: !cellframeNodeWrapper.nodeServiceLoaded  ? qsTr("The node services are disabled. They can be enabled in the Settings tab.") :
+                       percentLoading >= 100 || doneDelay  ? qsTr("The node has loaded") :
+                                           percentLoading  ? qsTr("The node is currently being launched ") + percentLoading + "/100%":
+                       cellframeNodeWrapper.nodeInstalled  ? qsTr("The node is currently being launched. Receving data from the node"):
+                                                             qsTr("Node is not installed")
 
         }
 
