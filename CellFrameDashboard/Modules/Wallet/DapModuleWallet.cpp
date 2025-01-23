@@ -58,8 +58,22 @@ void DapModuleWallet::walletListChangedSlot()
     if(!m_isFirstUpdate)
     {
         QString walletSaved = getSavedWallet();
-        int indexSave = getIndexWallet(walletSaved);
-        setCurrentWallet(indexSave);
+        if(!walletsInfo.isEmpty())
+        {
+            if(!walletSaved.isEmpty())
+            {
+                int indexSave = getIndexWallet(walletSaved);
+                setCurrentWallet(indexSave);
+            }
+            else
+            {
+                setCurrentWallet(0);
+            }
+        }
+        else
+        {
+            setCurrentWallet(-1);
+        }
         m_isFirstUpdate = true;
     }
     else if(walletsInfo.isEmpty())
@@ -80,6 +94,7 @@ void DapModuleWallet::walletListChangedSlot()
 
 void DapModuleWallet::walletInfoChangedSlot(const QString& walletName, const QString& networkName)
 {
+    auto curWall = getCurrentWallet().second;
     if(getCurrentWallet().second != walletName)
     {
         return;

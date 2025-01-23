@@ -13,11 +13,15 @@ protected:
 private slots:
     void walletsListReceived(const QVariant &rcvData);
     void rcvWalletInfo(const QVariant &rcvData);
+    void rcvWalletAddress(const QVariant &rcvData);
 
     void updateListWallets();
-    void requestWalletInfo(const QString &walletName, const QString &network);
+    void requestWalletInfo(const QString &walletAddr, const QString &network);
+    void requestWalletAddress(const QString& walletName, const QString &path);
 private:
+    void updateAddressWallets();
     void updateInfoWallets();
+    void setIsLoad(CommonWallet::WalletInfo& wallet, bool isLoad);
 private:
     QTimer* m_walletsListTimer = nullptr;
     QTimer* m_timerUpdateWallet = nullptr;

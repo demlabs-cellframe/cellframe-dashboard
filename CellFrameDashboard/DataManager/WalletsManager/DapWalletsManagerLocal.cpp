@@ -53,22 +53,25 @@ void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
         if(tmpObject.contains("name") && tmpObject.contains("status"))
         {
             QString walletName = tmpObject["name"].toString();
-            if(!walletName.isEmpty())
+            if(walletName.isEmpty())
             {
-                if(m_walletsInfo.contains(walletName))
-                {
-                    m_walletsInfo[walletName].status = tmpObject["status"].toString();
-                    isUpdateWallet = true;
-                }
-                else
-                {
-                    CommonWallet::WalletInfo tmpWallet;
-                    tmpWallet.walletName = walletName;
-                    tmpWallet.status = tmpObject["status"].toString();
-                    m_walletsInfo.insert(walletName, std::move(tmpWallet));
-                    isUpdateWallet = true;
-                }
+                continue;
             }
+
+            if(m_walletsInfo.contains(walletName))
+            {
+                m_walletsInfo[walletName].status = tmpObject["status"].toString();
+                isUpdateWallet = true;
+            }
+            else
+            {
+                CommonWallet::WalletInfo tmpWallet;
+                tmpWallet.walletName = walletName;
+                tmpWallet.status = tmpObject["status"].toString();
+                m_walletsInfo.insert(walletName, std::move(tmpWallet));
+                isUpdateWallet = true;
+            }
+
             tmpWallets.append(walletName);
         }
     }
@@ -109,7 +112,7 @@ void DapWalletsManagerLocal::rcvWalletInfo(const QVariant &rcvData)
 
     QJsonObject inObject = document.object();
 
-    QString walletName = inObject.value("walletName").toString();
+    QString walletName = inObject.value("walletIdent").toString();
     QString networkName = inObject.value("networkName").toString();
 
     QJsonObject netObject = inObject.value("network").toObject();

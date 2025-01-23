@@ -42,16 +42,9 @@ void DapNetworksManagerLocal::slotRcvNotifyNetList(QJsonDocument doc)
 
 void DapNetworksManagerLocal::updateNetworkList(const QStringList& list)
 {
-    auto getDifference = [] (const QStringList list1, const QStringList list2) -> QStringList
-    {
-        QSet<QString> setList1(list1.begin(), list1.end());
-        QSet<QString> setList2(list2.begin(), list2.end());
-        return setList1.subtract(setList2).toList();
-    };
-
     if(!DapCommonMethods::isEqualStringList(m_netList, list))
     {
-        QStringList diffForDelete = getDifference(m_netList, list);
+        QStringList diffForDelete = DapCommonMethods::getDifference(m_netList, list);
         // TODO: If new networks need to be identified.
         // QStringList diffForNew = getDifference(list, m_netList);
 

@@ -38,9 +38,8 @@
 #include "handlers/DapNetworkGoToCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapExportLogCommand.h"
-#include "handlers/DapGetWalletAddressesCommand.h"
+#include "handlers/DapGetWalletAddressCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
-//#include "models/DapWalletModel.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
@@ -202,7 +201,8 @@ signals:
     void rcvActivateOrDeactivateReply(const QVariant& rcvData);
 //    void rcvGetOnceWalletInfoCommand(const QVariant& rcvData);
 //    void walletTokensReceived(const QVariant& walletTokens);
-//    void walletAddressesReceived(const QVariant& walletAddresses);
+    void walletAddressReceived(const QVariant& walletAddresses);
+    void rcvWalletListByPath(const QVariant& rcvData);
 
     /*Xchange*/
     void rcvXchangeTxList(const QVariant& rcvData);
