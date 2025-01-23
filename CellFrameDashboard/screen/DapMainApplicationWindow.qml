@@ -662,8 +662,8 @@ Rectangle {
 
     Component.onCompleted:
     {
-        if(!app.getDontShowNodeModeFlag())
-            firstSelectNodeModePopup.show()
+//        if(!app.getDontShowNodeModeFlag())
+//            firstSelectNodeModePopup.show()
 
         dAppsModule.getListPlugins();
 

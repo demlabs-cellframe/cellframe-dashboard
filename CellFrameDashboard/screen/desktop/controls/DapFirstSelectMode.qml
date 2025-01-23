@@ -73,7 +73,7 @@ Item{
 
             RowLayout
             {
-                property int selected: 1
+                property int selected: app.getNodeMode()
 
                 id: modeLayout
                 Layout.topMargin: 16

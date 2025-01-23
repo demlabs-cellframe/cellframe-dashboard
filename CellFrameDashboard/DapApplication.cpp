@@ -121,8 +121,9 @@ void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
     m_serviceController->requestToService(sName.toString(), sArgs);
 }
 
-void DapApplication::setDontShowNodeModeFlag()
+void DapApplication::setDontShowNodeModeFlag(bool isDontShow)
 {
+    m_dontShowNodeModeFlag = isDontShow;
     QSettings().setValue("dontShowNodeModeFlag", m_dontShowNodeModeFlag);
 }
 

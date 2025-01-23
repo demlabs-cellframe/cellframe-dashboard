@@ -37,7 +37,7 @@ Page
 
             DapLoadingPanel
             {
-                spinerEnabled: nodeConfigToolController.statusProcessNode
+                spinerEnabled: cellframeNodeWrapper.nodeRunning
                 anchors.topMargin: tokensShowHeader.height
             }
 
