@@ -137,16 +137,16 @@ const int USING_NOTIFY = 0;
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {
-    int argc2 = argc;
-    char** argv2 = new char*[argc];
+//    int argc2 = argc;
+//    char** argv2 = new char*[argc];
 
-    for(int i=0; i<argc; ++i)
-    {
-        argv2[i] = new char[strlen(argv[i])+1];
-        strcpy(argv2[i],argv[i]);
-    }
+//    for(int i=0; i<argc; ++i)
+//    {
+//        argv2[i] = new char[strlen(argv[i])+1];
+//        strcpy(argv2[i],argv[i]);
+//    }
 
-    QApplication *temp = new QApplication(argc2, argv2);
+    QApplication *temp = new QApplication(argc, argv);
 
     int maxWidth = DapApplication::primaryScreen()->availableGeometry().width();
     int maxHeight = DapApplication::primaryScreen()->availableGeometry().height();
@@ -178,12 +178,12 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     qDebug() << "window_scale" << QString::number(scale, 'f', 1).toDouble();
 
-    for(int i=0; i<argc; ++i)
-    {
-        delete [] argv2[i];
-    }
+//    for(int i=0; i<argc; ++i)
+//    {
+//        delete [] argv2[i];
+//    }
 
-    delete [] argv2;
+//    delete [] argv2;
 
     return QString::number(scale, 'f', 1).toLocal8Bit();
 }
@@ -212,6 +212,15 @@ int main(int argc, char *argv[])
     int result = RESTART_CODE;
     while (result == RESTART_CODE)
     {
+        int argc2 = argc;
+        char** argv2 = new char*[argc];
+
+        for(int i=0; i<argc; ++i)
+        {
+            argv2[i] = new char[strlen(argv[i])+1];
+            strcpy(argv2[i],argv[i]);
+        }
+
         /// CHANGE SKIN - BEGIN TEMPORARY CODE
         auto projectSkin = QSettings().value("project_skin", "").toString();
 
@@ -230,8 +239,8 @@ int main(int argc, char *argv[])
         /// CHANGE SKIN - END
 
         qDebug() << "New app start";
-        qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
-        DapApplication * app = new DapApplication(argc, argv);
+        qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc2, argv2));
+        DapApplication * app = new DapApplication(argc2, argv2);
 
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
@@ -276,7 +285,14 @@ int main(int argc, char *argv[])
         result = app->exec();
         app->quit();
         delete app;
+
+        for(int i=0; i<argc; ++i)
+        {
+            delete [] argv2[i];
+        }
+        delete [] argv2;
     }
+
 
     DapLogger::deleteLogger();
     return result;

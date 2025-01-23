@@ -662,10 +662,11 @@ Rectangle {
 
     Component.onCompleted:
     {
-        if(!app.getDontShowNodeModeFlag())
-            firstSelectNodeModePopup.show()
+//        if(!app.getDontShowNodeModeFlag())
+//            firstSelectNodeModePopup.show()
 
-        dAppsModule.getListPlugins();
+        if(app.getNodeMode() === 0) //local
+            dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
@@ -743,6 +744,7 @@ Rectangle {
             logicMainApp.rcvWebConnectRequest(site, index)
         }
     }
+
     Connections{
         target: dAppsModule
         function onRcvListPlugins(m_pluginsList)

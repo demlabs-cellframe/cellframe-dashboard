@@ -538,19 +538,30 @@ void DapModuleWallet::sendTx(QVariantMap data)
 
     //    sendTx(testData);
 
-    MathWorker mathWorker;
-
     QString net           = data.value("network").toString();
+    QString walletName    = data.value("wallet_from").toString();
+    QString addrTo        = data.value("wallet_to").toString();
+    QString amount        = data.value("amount").toString();
+    QString sendTicker    = data.value("send_ticker").toString();
+
     QString nativeToken   = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("fee_ticker");
     QString feeDatoshi    = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("median_fee_datoshi");
     QString fee           = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("median_fee_coins");
     QString feeNet        = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_coins");
     QString feeNetDatoshi = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_datoshi");
     QString feeNetAddr    = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_addr");
-    QString amount        = mathWorker.coinsToBalance(data.value("amount")).toString();
+
+
+    MathWorker mathWorker;
+    amount = mathWorker.balanceToCoins(mathWorker.coinsToBalance(amount)).toString();
+
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::REMOTE)
     {
+        QString walletPath     = getWalletManager()->getWalletsInfo()[walletName].path + "/" + walletName + ".dwallet";
+        QString walletPassword = ""; //don't use
+        QString walletAddress  = getWalletManager()->getWalletsInfo()[walletName].walletInfo[net].address;
+
         QJsonObject txData;
         txData.insert(Dap::KeysParam::NETWORK_NAME,    net);
         txData.insert(Dap::KeysParam::FEE_DATOSHI,     feeDatoshi);
@@ -560,13 +571,13 @@ void DapModuleWallet::sendTx(QVariantMap data)
         txData.insert(Dap::KeysParam::FEE_NET_ADDR,    feeNetAddr);
         txData.insert(Dap::KeysParam::AMOUNT_DATOSHI,  amount);
         txData.insert(Dap::KeysParam::TOKEN_NATIVE,    nativeToken);
-        txData.insert(Dap::KeysParam::AMOUNT,          data.value("amount").toString());
-        txData.insert(Dap::KeysParam::WALLET_NAME,     data.value("wallet_from").toString());
-        txData.insert(Dap::KeysParam::WALLET_PATH,     data.value("wallet_from_path").toString());
-        txData.insert(Dap::KeysParam::WALLET_PASSWORD, data.value("wallet_from_password").toString());
-        txData.insert(Dap::KeysParam::ADDR_FROM,       data.value("wallet_from_addr").toString());
-        txData.insert(Dap::KeysParam::ADDR_TO,         data.value("wallet_to").toString());
-        txData.insert(Dap::KeysParam::TOKEN_TICKER,    data.value("send_ticker").toString());
+        txData.insert(Dap::KeysParam::AMOUNT,          amount);
+        txData.insert(Dap::KeysParam::WALLET_NAME,     walletName);
+        txData.insert(Dap::KeysParam::WALLET_PATH,     walletPath);
+        txData.insert(Dap::KeysParam::WALLET_PASSWORD, walletPassword);//don't use
+        txData.insert(Dap::KeysParam::ADDR_FROM,       walletAddress);
+        txData.insert(Dap::KeysParam::ADDR_TO,         addrTo);
+        txData.insert(Dap::KeysParam::TOKEN_TICKER,    sendTicker);
 
         QJsonDocument docData(txData);
 
@@ -582,9 +593,9 @@ void DapModuleWallet::sendTx(QVariantMap data)
     {
         QStringList listData;
         listData.append(net);
-        listData.append(data.value("wallet_from").toString());
-        listData.append(data.value("wallet_to").toString());
-        listData.append(data.value("send_ticker").toString());
+        listData.append(walletName);
+        listData.append(addrTo);
+        listData.append(sendTicker);
         listData.append(amount);
         listData.append(feeDatoshi);
 

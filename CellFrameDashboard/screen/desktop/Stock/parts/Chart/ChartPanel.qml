@@ -517,7 +517,7 @@ Item
             DapLoadingPanel
             {
                 visible: !dexModule.isReadyDataPair
-                spinerEnabled: nodeConfigToolController.statusProcessNode
+                spinerEnabled:  app.getNodeMode() === 0 ? cellframeNodeWrapper.nodeRunning : false
             }
         }
     }

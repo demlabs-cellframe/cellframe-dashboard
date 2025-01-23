@@ -91,7 +91,6 @@ DapPage
         modelHistory.setFilterString()
         modelHistory.setCurrentStatus(currentStatus)
         modelHistory.setLastActions(false)
-        logicExplorer.historyUpdate()
         txExplorerModule.statusProcessing = true
     }
 

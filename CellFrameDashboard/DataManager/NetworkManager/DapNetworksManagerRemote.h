@@ -11,8 +11,10 @@ protected:
     void initManager() override;
 private slots:
     void networkListRespond(const QVariant &rcvData);
+    void networksStatesRespond(const QVariant &rcvData);
 
 private:
     void requestNetworkList();
+    void requestNetworskInfo();
 };
 

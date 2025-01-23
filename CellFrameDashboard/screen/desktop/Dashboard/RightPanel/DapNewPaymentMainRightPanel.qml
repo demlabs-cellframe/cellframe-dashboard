@@ -138,7 +138,6 @@ DapNewPaymentMainRightPanelForm
             "amount"            : dapTextInputAmountPayment.text,
             "send_ticker"       : dapComboBoxToken.displayText,
             "wallet_from"       : walletInfo.name,
-            "wallet_from_addr"  : walletInfo.address,
             "wallet_to"         : dapTextInputRecipientWalletAddress.text}
 
             console.info(dataTx)
