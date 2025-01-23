@@ -89,7 +89,7 @@ void DapNetworksManagerLocal::slotRcvNotifyNetsInfo(QJsonDocument doc)
 
     QList<NetworkLoadProgress> netsLoadList;
 
-    for(const QString &key : keys)
+    for(const QString &key : qAsConst(keys))
     {
         QJsonObject netObject = obj[key].toObject();
 

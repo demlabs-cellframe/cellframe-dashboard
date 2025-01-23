@@ -29,6 +29,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
 
     m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
+    setNodeMode(QSettings().value("node_mode", DapNodeMode::REMOTE).toInt());
 
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 //    qDebug()<<m_nodeWrapper->nodeInstalled();
@@ -119,6 +120,12 @@ void DapApplication::startService()
 void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
 {
     m_serviceController->requestToService(sName.toString(), sArgs);
+}
+
+void DapApplication::setNodeMode(int mode)
+{
+    QSettings().setValue("node_mode", mode);
+    DapNodeMode::setNodeMode((DapNodeMode::NodeMode)mode);
 }
 
 void DapApplication::setDontShowNodeModeFlag(bool isDontShow)

@@ -44,7 +44,7 @@ public:
 
     Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
 
-    Q_INVOKABLE void setNodeMode(int mode){DapNodeMode::setNodeMode((DapNodeMode::NodeMode)mode);}
+    Q_INVOKABLE void setNodeMode(int mode);
     Q_INVOKABLE int getNodeMode(){return (int)DapNodeMode::getNodeMode();}
     Q_INVOKABLE void setDontShowNodeModeFlag(bool isDontShow);
     Q_INVOKABLE bool getDontShowNodeModeFlag(){return m_dontShowNodeModeFlag;}

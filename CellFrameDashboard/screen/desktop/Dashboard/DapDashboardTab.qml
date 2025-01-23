@@ -34,7 +34,6 @@ DapPage
     {
         "name": "",
         "network": "",
-        "address": "",
         "chain": "",
         "signature_type": "",
         "recovery_hash": ""

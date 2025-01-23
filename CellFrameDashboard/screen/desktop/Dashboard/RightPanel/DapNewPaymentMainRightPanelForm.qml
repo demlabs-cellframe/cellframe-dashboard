@@ -346,7 +346,7 @@ DapRectangleLitAndShaded
                         var data = {
                         "network"      : dapComboboxNetwork.displayText,
                         "percent"      : 25,
-                        "send_ticker"   : dapComboBoxToken.displayText,
+                        "send_ticker"  : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
                         var res = walletModule.calculatePrecentAmount(data);

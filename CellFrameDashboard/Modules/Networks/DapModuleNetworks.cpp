@@ -23,11 +23,11 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     }
 
     auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
-    connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal, this, &DapModuleNetworks::deleteNetworksSlot);
-    connect(networkManager, &DapNetworksManagerLocal::updateNetworkInfoSignal, this, &DapModuleNetworks::updateModelInfo);
-    connect(networkManager, &DapNetworksManagerLocal::isConnectedChanged, this, &DapModuleNetworks::slotNotifyIsConnected);
-    connect(networkManager, &DapNetworksManagerLocal::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
-    connect(networkManager, &DapNetworksManagerLocal::networkListChanged, this, &DapModuleNetworks::networkListChangedSlot);
+    connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal,    this, &DapModuleNetworks::deleteNetworksSlot);
+    connect(networkManager, &DapNetworksManagerBase::updateNetworkInfoSignal,  this, &DapModuleNetworks::updateModelInfo);
+    connect(networkManager, &DapNetworksManagerLocal::isConnectedChanged,      this, &DapModuleNetworks::slotNotifyIsConnected);
+    connect(networkManager, &DapNetworksManagerLocal::sigUpdateItemNetLoad,    this, &DapModuleNetworks::slotUpdateItemNetLoad);
+    connect(networkManager, &DapNetworksManagerLocal::networkListChanged,      this, &DapModuleNetworks::networkListChangedSlot);
 }
 
 DapModuleNetworks::~DapModuleNetworks()

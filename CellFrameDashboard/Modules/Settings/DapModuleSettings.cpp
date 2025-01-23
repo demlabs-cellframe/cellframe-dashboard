@@ -13,7 +13,8 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     {
         initConnect();
         s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");
-        checkVersion();
+        if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+            checkVersion();
         setStatusInit(true);
     });
 

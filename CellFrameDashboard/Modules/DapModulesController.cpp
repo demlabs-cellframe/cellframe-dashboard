@@ -65,16 +65,20 @@ void DapModulesController::initModules()
     addModule("walletModule", m_skinWallet ? new DapModuleWalletAddition(this) : new DapModuleWallet(this));
     addModule("dexModule", new DapModuleDexLightPanel(this));
     addModule("txExplorerModule", m_skinWallet ? new DapModuleTxExplorerAddition(this) : new DapModuleTxExplorer(this));
-    addModule("certificatesModule", new DapModuleCertificates(this));
-//    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
-    addModule("consoleModule", new DapModuleConsole(this));
-    addModule("logsModule", new DapModuleLog(this));
     addModule("settingsModule", new DapModuleSettings(this));
-    addModule("dAppsModule", new DapModuledApps(this));
-    addModule("diagnosticsModule", new DapModuleDiagnostics(this));
-    addModule("ordersModule", new DapModuleOrders(this));
-    addModule("nodeMasterModule", new DapModuleMasterNode(this));
     addModule("networksModule", new DapModuleNetworks(this));
+    addModule("dAppsModule", new DapModuledApps(this));
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
+        addModule("certificatesModule", new DapModuleCertificates(this));
+        addModule("consoleModule", new DapModuleConsole(this));
+        addModule("logsModule", new DapModuleLog(this));
+        addModule("diagnosticsModule", new DapModuleDiagnostics(this));
+        addModule("ordersModule", new DapModuleOrders(this));
+        addModule("nodeMasterModule", new DapModuleMasterNode(this));
+    }
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 
