@@ -112,7 +112,7 @@ void DapWalletsManagerLocal::rcvWalletInfo(const QVariant &rcvData)
 
     QJsonObject inObject = document.object();
 
-    QString walletName = inObject.value("walletName").toString();
+    QString walletName = inObject.value("walletIdent").toString();
     QString networkName = inObject.value("networkName").toString();
 
     QJsonObject netObject = inObject.value("network").toObject();

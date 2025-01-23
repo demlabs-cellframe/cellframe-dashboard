@@ -157,10 +157,9 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapMoveWalletCommand,                 QObject*>("DapMoveWalletCommand",                      "moveWalletCommandReceived",             nullptr);
     addServiceGeneric<DapCreatePassForWallet,               QObject*>("DapCreatePassForWallet",                    "passwordCreated",                       nullptr);
     addServiceGeneric<DapWalletActivateOrDeactivateCommand, QObject*>("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",          nullptr);
-//    addServiceGeneric<DapGetWalletAddressesCommand,         QObject*>("DapGetWalletAddressesCommand",              "walletAddressesReceived",               nullptr);
+    addServiceGeneric<DapGetWalletAddressCommand,           QObject*>("DapGetWalletAddressCommand",                "walletAddressReceived",                 nullptr);
 //    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
 //    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
-    addServiceGeneric<DapGetListWalletsByPathCommand,       QObject*>("DapGetListWalletsByPathCommand",             "rcvWalletListByPath",                  nullptr);
 
     /*Xchange*/
     addServiceGeneric<DapGetXchangeTxList,                  QObject*>("DapGetXchangeTxList",                       "rcvXchangeTxList",                      nullptr);
