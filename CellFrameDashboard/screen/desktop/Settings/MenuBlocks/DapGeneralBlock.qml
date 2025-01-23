@@ -224,6 +224,56 @@ ColumnLayout
                 font: mainFont.dapFont.regular14
                 color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
+                 text: qsTr("Node connect mode")
+            }
+            DapSwitch
+            {
+                id: switchNodeModeTab
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                Layout.preferredHeight: 26
+                Layout.preferredWidth: 46
+
+                indicatorSize: 30
+
+                backgroundColor: currTheme.mainBackground
+                borderColor: currTheme.reflectionLight
+                shadowColor: currTheme.shadowColor
+
+                checked: app.getNodeMode()
+
+                function toggle() {
+                    if(app.getNodeMode() === 0)
+                        app.setNodeMode(1)//remote
+                    else
+                        app.setNodeMode(0)//local
+
+                    Qt.exit(RESTART_CODE)
+                }
+            }
+        }
+    }
+
+    Item
+    {
+        visible: !app.getNodeMode()
+        height: 60
+        Layout.fillWidth: true
+        RowLayout
+        {
+            anchors.fill: parent
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
+
+            Text
+            {
+                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                font: mainFont.dapFont.regular14
+                color: currTheme.white
+                verticalAlignment: Qt.AlignVCenter
                  text: qsTr("Node service enable")
             }
             DapSwitch
@@ -288,7 +338,7 @@ ColumnLayout
         Layout.topMargin: 10
         Layout.bottomMargin: 20
 
-        visible: switchTab.checked && (CURRENT_OS !== "macos")
+        visible: !app.getNodeMode() ? switchTab.checked && (CURRENT_OS !== "macos") : false
 
         textButton: cellframeNodeWrapper.nodeRunning ? qsTr("Stop Node") : qsTr("Start Node")
 
@@ -308,6 +358,7 @@ ColumnLayout
         Layout.fillWidth: true
         height: 30
         color: currTheme.mainBackground
+        visible: false
 
         Text
         {
@@ -341,6 +392,8 @@ ColumnLayout
 
     DapSelectorSwitch
     {
+        visible: false
+
         id: skinSwitcher
         Layout.leftMargin: 16
         Layout.rightMargin: 16

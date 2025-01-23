@@ -11,7 +11,7 @@ DapDataManagerController::DapDataManagerController(DapModulesController* moduleC
 {
     qRegisterMetaType<NetworkInfo>();
 
-    if(getNodeMode()==LOCAL)
+    if(DapNodeMode::getNodeMode()==DapNodeMode::LOCAL)
     {
         m_networksManager = new DapNetworksManagerLocal(moduleController);
         m_walletsManager = new DapWalletsManagerLocal(moduleController);

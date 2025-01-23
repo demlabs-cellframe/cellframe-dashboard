@@ -82,19 +82,19 @@ ApplicationWindow
         params.initSize()
     }
 
-    Connections
-    {
-        target: dapServiceController
+//    Connections
+//    {
+//        target: dapServiceController
 
-        function onClientActivated()
-        {
-            if(window.visibility === Window.Hidden)
-                params.restoreWindow()
-            else
-                params.hideWindow()
+//        function onClientActivated()
+//        {
+//            if(window.visibility === Window.Hidden)
+//                params.restoreWindow()
+//            else
+//                params.hideWindow()
 
-        }
-    }
+//        }
+//    }
 
 /*    Connections {
         target: systemTray

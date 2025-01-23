@@ -381,10 +381,6 @@ DapRectangleLitAndShaded
     {
         modelHistory.setNetworkFilter(nodeMasterModule.currentNetwork)
         modelHistory.setLastActions(true)
-        if (walletModule.currentWalletIndex >=0 &&
-            walletModule.currentWalletIndex < walletModelList.count &&
-            walletController.currentWalletName !== txExplorerModule.walletName)
-            txExplorerModule.setWalletName(walletController.currentWalletName)
         lastHistoryLength = 0
         txExplorerModule.updateHistory(true)
     }

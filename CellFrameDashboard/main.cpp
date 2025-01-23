@@ -135,8 +135,6 @@ int DEFAULT_HEIGHT = 720;
 
 const int USING_NOTIFY = 0;
 
-int NODE_MODE = (int)getNodeMode();
-
 QByteArray scaleCalculate(int argc, char *argv[])
 {
     int argc2 = argc;
@@ -261,7 +259,6 @@ int main(int argc, char *argv[])
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
         context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
         context->setContextProperty("CURRENT_OS", QVariant::fromValue(os));
-        context->setContextProperty("NODE_MODE", QVariant::fromValue(NODE_MODE));
 
         //const QUrl url(QStringLiteral("qrc:/main.qml"));
         QString pathMainQML = QStringLiteral("qrc:/main.qml");

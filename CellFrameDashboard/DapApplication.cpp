@@ -28,6 +28,8 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
 
+    m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
+
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 //    qDebug()<<m_nodeWrapper->nodeInstalled();
 //    qDebug()<<m_nodeWrapper->nodeServiceLoaded();
@@ -117,6 +119,11 @@ void DapApplication::startService()
 void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
 {
     m_serviceController->requestToService(sName.toString(), sArgs);
+}
+
+void DapApplication::setDontShowNodeModeFlag()
+{
+    QSettings().setValue("dontShowNodeModeFlag", m_dontShowNodeModeFlag);
 }
 
 void DapApplication::setContextProperties()

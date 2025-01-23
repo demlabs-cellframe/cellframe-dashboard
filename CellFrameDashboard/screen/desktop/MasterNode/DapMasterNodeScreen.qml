@@ -239,7 +239,6 @@ Page
     {
         if(wallet !== "") {
             walletModule.setCurrentWallet(wallet)
-            txExplorerModule.setWalletName(wallet)
             walletModule.updateWalletList()
         }
     }

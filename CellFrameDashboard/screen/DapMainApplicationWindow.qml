@@ -185,6 +185,13 @@ Rectangle {
         z: 10
     }
 
+    DapFirstSelectMode{
+        id: firstSelectNodeModePopup
+        anchors.fill: parent
+        visible: false
+        z: 20
+    }
+
     property alias infoItem: popupInfo
 
     signal menuTabChanged()
@@ -319,7 +326,7 @@ Rectangle {
                 showTab: true,
                 page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
 
-            if(NODE_MODE === 0) //LOCAL MODE
+            if(app.getNodeMode() === 0) //LOCAL MODE
             {
 
                 append ({ tag: "Certificates",
@@ -655,6 +662,9 @@ Rectangle {
 
     Component.onCompleted:
     {
+        if(!app.getDontShowNodeModeFlag())
+            firstSelectNodeModePopup.show()
+
         dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
@@ -703,8 +713,6 @@ Rectangle {
     {
         target: dapServiceController
 
-        function onSignalStateSocket(status) {logicMainApp.rcvStateNotify(status)}
-
         function onTransactionRemoved(rcvData)
         {
             var jsonDocument = JSON.parse(rcvData)
@@ -733,12 +741,6 @@ Rectangle {
         function onRcvWebConenctRequest(site, index)
         {
             logicMainApp.rcvWebConnectRequest(site, index)
-        }
-
-        function onSignalXchangeOrderListReceived(rcvData)
-        {
-            console.log("onSignalXchangeOrderListReceived")
-            logicMainApp.rcvOpenOrders(rcvData)
         }
     }
     Connections{
