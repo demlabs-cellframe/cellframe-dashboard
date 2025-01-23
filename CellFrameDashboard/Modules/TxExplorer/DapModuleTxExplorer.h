@@ -36,7 +36,6 @@ protected:
     QTimer *m_timerHistoryUpdate = nullptr;
     QTimer *m_timerRequest = nullptr;
     DapHistoryProxyModel *m_historyProxyModel = nullptr;
-    DapModulesController  *m_modulesCtrl;
     DapHistoryModel *m_historyModel = nullptr;
 
     bool isSendReqeust{false};

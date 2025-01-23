@@ -15,7 +15,6 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     , m_timerHistoryUpdate(new QTimer(this))
     , m_timerRequest(new QTimer(this))
     , m_historyProxyModel(new DapHistoryProxyModel())
-    , m_modulesCtrl(parent)
     , m_historyModel(new DapHistoryModel)
 {
     m_historyProxyModel->setSourceModel(m_historyModel);

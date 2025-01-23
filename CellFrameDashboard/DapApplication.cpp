@@ -19,9 +19,10 @@ const int OS_WIN_FLAG = 0;
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
-    , m_serviceController(&DapServiceController::getInstance())
+    , m_engine(new QQmlApplicationEngine())
+    , m_serviceController(new DapServiceController())
     , dateWorker(new DateWorker(this))
-    , translator(new QMLTranslator(&m_engine, this))
+    , translator(new QMLTranslator(m_engine, this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -35,6 +36,8 @@ DapApplication::DapApplication(int &argc, char **argv)
 //    qDebug()<<m_nodeWrapper->nodeServiceLoaded();
 //    qDebug()<<m_nodeWrapper->nodeRunning();
 //    qDebug()<<m_nodeWrapper->nodeVersion();
+
+    connect(m_serviceController, &QThread::finished, m_serviceController, &QObject::deleteLater);
 
     m_serviceController->start();
 #ifdef Q_OS_ANDROID
@@ -50,31 +53,36 @@ DapApplication::DapApplication(int &argc, char **argv)
     qDebug() << "DapApplication" << "currentLanguageName" << lang;
     translator->setLanguage(lang);
 
-    m_commandHelper = new CommandHelperController();
-    s_modulesInit = new DapModulesController(qmlEngine());
-    // connect(s_modulesInit, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
-    // connect(s_modulesInit, &DapModulesController::netListUpdated,     m_commandHelper, &CommandHelperController::tryDataUpdate);
+    m_commandHelper = new CommandHelperController(m_serviceController);
+    m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
+    // connect(m_modulesController, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
+    // connect(m_modulesController, &DapModulesController::netListUpdated,     m_commandHelper, &CommandHelperController::tryDataUpdate);
 
     s_dapNotifyController = new DapNotifyController();
-    s_modulesInit->setNotifyCtrl(s_dapNotifyController);
+    m_modulesController->setNotifyCtrl(s_dapNotifyController);
     s_dapNotifyController->init();
 
     this->registerQmlTypes();
     this->setContextProperties();
+
 }
 
 DapApplication::~DapApplication()
 {
+    delete m_modulesController;
     delete m_commandHelper;
-
-    qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
-
-    m_serviceController->disconnectAll();
+    m_engine->deleteLater();
+    delete m_nodeWrapper;
+    delete s_dapNotifyController;
+    delete dateWorker;
+    delete translator;
+    m_serviceController->quit();
+    m_serviceController->wait();
 }
 
 QQmlApplicationEngine *DapApplication::qmlEngine()
 {
-    return &m_engine;
+    return m_engine;
 }
 
 void DapApplication::setClipboardText(const QString &text)
@@ -105,7 +113,6 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
     qmlRegisterType<DapVPNOrdersController>("VPNOrdersController", 1,0, "VPNOrdersController");
-
 }
 
 void DapApplication::startService()
@@ -128,12 +135,12 @@ void DapApplication::setDontShowNodeModeFlag()
 
 void DapApplication::setContextProperties()
 {
-    m_engine.rootContext()->setContextProperty("app", this);
-    m_engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
-    m_engine.rootContext()->setContextProperty("pt", 1);
+    m_engine->rootContext()->setContextProperty("app", this);
+    m_engine->rootContext()->setContextProperty("dapServiceController", m_serviceController);
+    m_engine->rootContext()->setContextProperty("pt", 1);
 
-    m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
-    m_engine.rootContext()->setContextProperty("translator", translator);
-    m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
-    m_engine.rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
+    m_engine->rootContext()->setContextProperty("commandHelperController", m_commandHelper);
+    m_engine->rootContext()->setContextProperty("translator", translator);
+    m_engine->rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
+    m_engine->rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
 }

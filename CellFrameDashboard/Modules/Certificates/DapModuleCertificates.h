@@ -18,7 +18,6 @@ public:
 
 
 private:
-    DapModulesController  *m_modulesCtrl;
     QString m_pathCert;
     QString m_filePrefix;
 

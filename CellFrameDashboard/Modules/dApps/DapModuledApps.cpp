@@ -5,7 +5,6 @@
 
 DapModuledApps::DapModuledApps(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
 {
 //    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
 //    {

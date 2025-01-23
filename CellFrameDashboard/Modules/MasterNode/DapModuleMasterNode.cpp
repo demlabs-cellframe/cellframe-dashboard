@@ -9,7 +9,6 @@ Q_DECLARE_METATYPE(QList<int>)
 
 DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_stakeDelegate(new DapStakeDelegate(s_serviceCtrl))
     , m_srvStakeInvalidate(new DapSrvStakeInvalidateStage(s_serviceCtrl))
     , m_waitingPermission(new DapWaitingPermission(s_serviceCtrl))

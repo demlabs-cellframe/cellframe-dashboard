@@ -10,7 +10,7 @@ class CommandHelperController : public QObject
 {
     Q_OBJECT
 public:
-    explicit CommandHelperController(QObject *parent = nullptr);
+    explicit CommandHelperController(DapServiceController *serviceController, QObject *parent = nullptr);
     ~CommandHelperController();
 
     bool isDictionary();

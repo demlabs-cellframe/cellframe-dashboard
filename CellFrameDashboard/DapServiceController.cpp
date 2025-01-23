@@ -10,11 +10,19 @@ DapServiceController::DapServiceController(QObject *apParent)
 DapServiceController::~DapServiceController()
 {
     delete m_web3Controll;
+    // for(auto item: m_transceivers)
+    // {
+    //     delete item;
+    // }
+
     DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
     if(controller)
     {
         controller->deleteTransactionController();
     }
+
+    delete m_reqularRequestsCtrl;
+    delete m_pServer;
 
     if(m_threadRegular)
     {
@@ -22,9 +30,6 @@ DapServiceController::~DapServiceController()
         m_threadRegular->wait();
         delete m_threadRegular;
     }
-
-    quit();
-    wait();
 }
 
 void DapServiceController::run()
@@ -68,14 +73,6 @@ void DapServiceController::setReadingChains(bool bReadingChains)
 {
     m_bReadingChains = bReadingChains;
     emit readingChainsChanged(bReadingChains);
-}
-
-/// Get an instance of a class.
-/// @return Instance of a class.
-DapServiceController &DapServiceController::getInstance()
-{
-    static DapServiceController instance;
-    return instance;
 }
 
 /// Disconnect all signals

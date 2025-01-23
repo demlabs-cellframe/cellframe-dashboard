@@ -3,7 +3,6 @@
 
 DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_timerVersionCheck(new QTimer())
     , m_timerTimeoutService(new QTimer())
 {
@@ -22,6 +21,7 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
 
 DapModuleSettings::~DapModuleSettings()
 {
+    DapNodePathManager::getInstance().disconnect();
     delete m_timerVersionCheck;
     delete m_timerTimeoutService;
 }

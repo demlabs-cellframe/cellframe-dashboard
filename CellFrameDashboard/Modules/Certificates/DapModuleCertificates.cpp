@@ -2,7 +2,6 @@
 
 DapModuleCertificates::DapModuleCertificates(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_pathCert(CellframeNodeConfig::instance()->getDefaultCADir() + "/")
 {
 

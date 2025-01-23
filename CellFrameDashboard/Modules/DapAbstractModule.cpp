@@ -1,10 +1,17 @@
 #include "DapAbstractModule.h"
+#include "DapModulesController.h"
 
-DapAbstractModule::DapAbstractModule(QObject *parent)
+DapAbstractModule::DapAbstractModule(DapModulesController *parent)
     :QObject(parent)
-    , s_serviceCtrl(&DapServiceController::getInstance())
 {
+    s_serviceCtrl = parent->getServiceController();
+    m_modulesCtrl = parent;
+}
 
+DapAbstractModule::~DapAbstractModule()
+{
+    s_serviceCtrl = nullptr;
+    m_modulesCtrl= nullptr;
 }
 
 QByteArray DapAbstractModule::convertJsonResult(const QByteArray &data)
@@ -61,3 +68,4 @@ void DapAbstractModule::setStatusInit(bool status)
     m_statusInit = status;
     emit statusInitChanged();
 }
+

@@ -7,7 +7,6 @@
 
 DapModuleDex::DapModuleDex(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_tokenPairsModel(new DapTokenPairModel())
     , m_ordersModel(new DapOrderHistoryModel())
     , m_proxyModel(new OrdersHistoryProxyModel())
@@ -63,9 +62,9 @@ DapModuleDex::~DapModuleDex()
     delete m_allTakenPairsUpdateTimer;
     delete m_curentTokenPairUpdateTimer;
     delete m_ordersHistoryUpdateTimer;
-    delete m_tokenPairsCash;
-    delete m_ordersHistoryCash;
-    delete m_txListCash;
+    if(m_tokenPairsCash) delete m_tokenPairsCash;
+    if(m_ordersHistoryCash) delete m_ordersHistoryCash;
+    if(m_txListCash) delete m_txListCash;
 }
 
 void DapModuleDex::onInit()

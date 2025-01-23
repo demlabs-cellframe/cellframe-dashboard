@@ -136,19 +136,14 @@ class DapServiceController : public QThread
 {
     Q_OBJECT
     Q_DISABLE_COPY(DapServiceController)
-    explicit DapServiceController(QObject *apParent = nullptr);
 
 public:
     void run();
-
+    explicit DapServiceController(QObject *apParent = nullptr);
     ~DapServiceController();
-    Q_INVOKABLE static DapServiceController &getInstance();
+    // Q_INVOKABLE static DapServiceController &getInstance();
     Q_INVOKABLE void disconnectAll();
 
-    /// Send request to service.
-    /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
-    /// @param asServiceName Service name.
-    /// @param arg1...arg10 Parametrs.
     Q_INVOKABLE void requestToService(const QString& asServiceName, const QVariant &args = QVariant());
 
     Q_PROPERTY(bool ReadingChains MEMBER m_bReadingChains READ getReadingChains WRITE setReadingChains NOTIFY readingChainsChanged)

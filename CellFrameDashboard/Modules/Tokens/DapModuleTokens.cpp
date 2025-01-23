@@ -1,8 +1,6 @@
 #include "DapModuleTokens.h"
 
-DapModuleTokens::DapModuleTokens(DapModulesController *modulesCtrl, DapAbstractModule *parent)
+DapModuleTokens::DapModuleTokens(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , s_serviceCtrl(&DapServiceController::getInstance())
-    , s_modulesCtrl(modulesCtrl)
 {
 }

@@ -6,7 +6,6 @@
 
 DapModuleConsole::DapModuleConsole(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
 {
     m_currentMode = (ConsoleMode)QSettings().value("ConsoleMode", 0).toInt();
     connect(s_serviceCtrl, &DapServiceController::cmdRunned, this, &DapModuleConsole::getAnswer);

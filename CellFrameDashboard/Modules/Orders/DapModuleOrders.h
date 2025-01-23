@@ -45,7 +45,6 @@ private:
     };
     int m_currentTab {VPN};
 
-    DapModulesController* m_modulesCtrl;
     QTimer *m_timerUpdateOrders;
 
     QPair <bool, bool> s_statusModel{false,false};

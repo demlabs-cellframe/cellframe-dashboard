@@ -274,6 +274,7 @@ int main(int argc, char *argv[])
         app->qmlEngine()->load(url);
         DapNodePathManager::getInstance().checkNeedDownload();
         result = app->exec();
+        app->quit();
         delete app;
     }
 

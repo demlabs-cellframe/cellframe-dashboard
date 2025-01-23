@@ -95,7 +95,6 @@ private:
 
     void updateUrlUpdateNode();
 private:
-    DapModulesController  *m_modulesCtrl;
     QTimer *m_timerVersionCheck;
     QTimer *m_timerTimeoutService;
 

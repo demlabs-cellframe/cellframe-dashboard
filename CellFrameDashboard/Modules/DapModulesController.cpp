@@ -24,10 +24,10 @@
 
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
 
-DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent)
+DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, QObject *parent)
     : QObject(parent)
     , s_appEngine(appEngine)
-    , s_serviceCtrl(&DapServiceController::getInstance())
+    , s_serviceCtrl(serviceController)
     , m_managerController(new DapDataManagerController(this))
     , s_settings(new QSettings(this))
 {

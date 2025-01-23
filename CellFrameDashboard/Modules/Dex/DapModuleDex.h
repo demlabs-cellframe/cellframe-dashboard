@@ -149,8 +149,6 @@ protected:
 
     void updateDexTokenModel();
 protected:
-
-    DapModulesController  *m_modulesCtrl = nullptr;
     DapTokenPairModel* m_tokenPairsModel = nullptr;
 
     DapOrderHistoryModel *m_ordersModel = nullptr;
@@ -166,9 +164,9 @@ protected:
     QTimer* m_curentTokenPairUpdateTimer = nullptr;
     QTimer* m_ordersHistoryUpdateTimer = nullptr;
 
-    QByteArray* m_tokenPairsCash;
-    QByteArray* m_ordersHistoryCash;
-    QByteArray* m_txListCash;
+    QByteArray* m_tokenPairsCash = nullptr;
+    QByteArray* m_ordersHistoryCash = nullptr;
+    QByteArray* m_txListCash = nullptr;
     QList<DEX::Order> m_ordersHistory;
     QMap<QString, QHash<QString, DEX::TXList>> m_txListsforWallet;
 

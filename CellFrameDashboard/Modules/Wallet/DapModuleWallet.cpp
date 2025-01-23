@@ -8,7 +8,6 @@
 
 DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_tokenModel(new DapTokensWalletModel())
     , m_walletModel(new DapListWalletsModel())
     , m_infoWallet (new DapInfoWalletModel())

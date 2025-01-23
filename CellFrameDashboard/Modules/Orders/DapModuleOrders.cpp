@@ -4,7 +4,6 @@ static DapOrdersModel *s_ordersModel = DapOrdersModel::global();
 
 DapModuleOrders::DapModuleOrders(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_timerUpdateOrders(new QTimer())
 {
 

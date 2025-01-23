@@ -23,7 +23,7 @@ class DapModulesController : public QObject
 {
     Q_OBJECT
 public:
-    DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent = nullptr);
+    DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, QObject *parent = nullptr);
     ~DapModulesController();
 
     DapServiceController* getServiceController() const {return s_serviceCtrl;}

@@ -99,7 +99,6 @@ private:
     DapWalletsManagerBase* getWalletManager() const;
 
 protected:
-    DapModulesController* m_modulesCtrl;
     DapTokensWalletModel* m_tokenModel = nullptr;
     QByteArray m_walletListTest;
 

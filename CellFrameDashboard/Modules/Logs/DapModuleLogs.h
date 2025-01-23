@@ -70,7 +70,6 @@ private:
     QString getLogFileName(QString folder, LogType type);
 
 private:
-    DapModulesController* m_modulesCtrl;
     DapLogsReader * m_logReader;
     QTimer *m_timerCheckLogFile = nullptr;
 

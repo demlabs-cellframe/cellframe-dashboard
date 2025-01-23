@@ -17,7 +17,6 @@ static LogModel *s_logModel = LogModel::global();
 
 DapModuleLog::DapModuleLog(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_logReader(new DapLogsReader(this))
     , m_timerCheckLogFile(new QTimer())
 //    , nodeLog(getNodeLogPath(), "cellframe-node", false)

@@ -34,22 +34,17 @@ class DapApplication : public QApplication
 
 public:
     DapApplication(int &argc, char **argv);
-
     ~DapApplication();
 
     QQmlApplicationEngine *qmlEngine();
 
     Q_INVOKABLE void setClipboardText(const QString &text);
     Q_INVOKABLE void startService();
-
     Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
-
-    Q_INVOKABLE void setNodeMode(int mode){DapNodeMode::setNodeMode((DapNodeMode::NodeMode)mode);}
+    Q_INVOKABLE void setNodeMode(int mode){ DapNodeMode::setNodeMode((DapNodeMode::NodeMode)mode);}
     Q_INVOKABLE int getNodeMode(){return (int)DapNodeMode::getNodeMode();}
     Q_INVOKABLE void setDontShowNodeModeFlag();
-    Q_INVOKABLE bool getDontShowNodeModeFlag(){return m_dontShowNodeModeFlag;}
-
-    DapModulesController *s_modulesInit;
+    Q_INVOKABLE bool getDontShowNodeModeFlag(){return m_dontShowNodeModeFlag;}   
 
 private:
     void setContextProperties();
@@ -57,15 +52,14 @@ private:
 
     bool m_dontShowNodeModeFlag{false};
 
+    DapModulesController *m_modulesController;
     CommandHelperController* m_commandHelper = nullptr;
 
-    QQmlApplicationEngine m_engine;
-    DapServiceController* m_serviceController;
+    QQmlApplicationEngine* m_engine;
+    DapServiceController* m_serviceController = nullptr;
     CellframeNodeQmlWrapper* m_nodeWrapper;
     DapNotifyController * s_dapNotifyController;
-
     DateWorker   *dateWorker;
-
     QMLTranslator * translator;
 };
 

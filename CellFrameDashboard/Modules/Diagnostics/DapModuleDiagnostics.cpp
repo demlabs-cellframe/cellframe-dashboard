@@ -1,9 +1,7 @@
 #include "DapModuleDiagnostics.h"
 
-DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *modulesCtrl, DapAbstractModule *parent)
+DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , s_serviceCtrl(&DapServiceController::getInstance())
-    , s_modulesCtrl(modulesCtrl)
 {
     s_flagSendData        = m_settings.value("SendData").toBool();
     s_node_list_selected  = m_settings.value("s_node_list_selected").toJsonDocument();

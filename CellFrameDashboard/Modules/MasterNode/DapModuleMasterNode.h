@@ -244,7 +244,6 @@ private:
     QString getStageString(LaunchStage stage) const;
     QString launchStageString(LaunchStage value);
 private:
-    DapModulesController  *m_modulesCtrl;
     DapStakeDelegate* m_stakeDelegate = nullptr;
     DapSrvStakeInvalidateStage* m_srvStakeInvalidate = nullptr;
     DapWaitingPermission* m_waitingPermission = nullptr;

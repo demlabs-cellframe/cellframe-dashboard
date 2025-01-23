@@ -46,7 +46,6 @@ private:
     void clearAll();
 
 private:
-    DapModulesController  *m_modulesCtrl = nullptr;
     DapNetworkModel *m_networkModel = nullptr;
     DapStringListModel* m_netListModel = nullptr;
 };

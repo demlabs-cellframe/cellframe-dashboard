@@ -4,7 +4,6 @@
 
 DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     :DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_networkModel(new DapNetworkModel())
     , m_netListModel(new DapStringListModel)
 {
