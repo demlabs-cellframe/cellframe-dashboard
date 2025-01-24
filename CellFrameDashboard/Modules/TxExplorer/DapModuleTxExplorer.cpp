@@ -227,7 +227,7 @@ QString DapModuleTxExplorer::getNewLastNetwork()
                 m_lastNetworkName.append(netList[i]);
                 break;
             }
-            else if(i == netList.size() + 1)
+            else if(i == netList.size() - 1)
             {
                 m_lastNetworkName.clear();
             }
