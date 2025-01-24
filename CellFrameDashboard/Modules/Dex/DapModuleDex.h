@@ -164,9 +164,9 @@ protected:
     QTimer* m_curentTokenPairUpdateTimer = nullptr;
     QTimer* m_ordersHistoryUpdateTimer = nullptr;
 
-    QByteArray* m_tokenPairsCash = nullptr;
-    QByteArray* m_ordersHistoryCash = nullptr;
-    QByteArray* m_txListCash = nullptr;
+    QByteArray m_tokenPairsCash;
+    QByteArray m_ordersHistoryCash;
+    QByteArray m_txListCash;
     QList<DEX::Order> m_ordersHistory;
     QMap<QString, QHash<QString, DEX::TXList>> m_txListsforWallet;
 
