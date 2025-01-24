@@ -312,9 +312,9 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
 {
     CommonWallet::WalletInfo wallet;
 
-    if(walletObject.contains("name"))
+    if(walletObject.contains(Dap::JsonKeys::NAME))
     {
-        wallet.walletName = walletObject["name"].toString();
+        wallet.walletName = walletObject[Dap::JsonKeys::NAME].toString();
     }
     else
     {
@@ -334,9 +334,9 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
             QJsonObject networkObject = networkValue.toObject();
             CommonWallet::WalletNetworkInfo networkInfo;
 
-            if(networkObject.contains("address"))
+            if(networkObject.contains(Dap::JsonKeys::ADDRESS))
             {
-                networkInfo.address = networkObject["address"].toString();
+                networkInfo.address = networkObject[Dap::JsonKeys::ADDRESS].toString();
             }
             else
             {
@@ -344,9 +344,9 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
                 continue;
             }
 
-            if(networkObject.contains("name"))
+            if(networkObject.contains(Dap::JsonKeys::NAME))
             {
-                networkInfo.network = networkObject["name"].toString();
+                networkInfo.network = networkObject[Dap::JsonKeys::NAME].toString();
             }
             else
             {
@@ -354,9 +354,9 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
                 continue;
             }
 
-            if(networkObject.contains("tokens"))
+            if(networkObject.contains(Dap::JsonKeys::TOKENS))
             {
-                for(const QJsonValue& tokenValue: networkObject["tokens"].toArray())
+                for(const QJsonValue& tokenValue: networkObject[Dap::JsonKeys::TOKENS].toArray())
                 {
                     QJsonObject tokenObject = tokenValue.toObject();
                     CommonWallet::WalletTokensInfo token;
@@ -365,18 +365,18 @@ CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& wal
                     {
                         token.value = tokenObject["coins"].toString();
                     }
-                    if(tokenObject.contains("datoshi"))
+                    if(tokenObject.contains(Dap::JsonKeys::DATOSHI))
                     {
-                        token.datoshi = tokenObject["datoshi"].toString();
+                        token.datoshi = tokenObject[Dap::JsonKeys::DATOSHI].toString();
                     }
-                    if(tokenObject.contains("name"))
+                    if(tokenObject.contains(Dap::JsonKeys::NAME))
                     {
-                        token.ticker = tokenObject["name"].toString();
-                        token.tokenName = tokenObject["name"].toString();
+                        token.ticker = tokenObject[Dap::JsonKeys::NAME].toString();
+                        token.tokenName = tokenObject[Dap::JsonKeys::NAME].toString();
                     }
-                    if(tokenObject.contains("availableDatoshi"))
+                    if(tokenObject.contains(Dap::JsonKeys::AVAILABLE_DATOSHI))
                     {
-                        token.availableDatoshi = tokenObject["availableDatoshi"].toString();
+                        token.availableDatoshi = tokenObject[Dap::JsonKeys::AVAILABLE_DATOSHI].toString();
                     }
                     if(tokenObject.contains("availableCoins"))
                     {

@@ -48,9 +48,9 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
     for(const QJsonValue &value: walletArray)
     {
         QJsonObject tmpObject = value.toObject();
-        if(tmpObject.contains("name") && tmpObject.contains("path"))
+        if(tmpObject.contains(Dap::JsonKeys::NAME) && tmpObject.contains(Dap::JsonKeys::PATH))
         {
-            QString walletName = tmpObject["name"].toString();
+            QString walletName = tmpObject[Dap::JsonKeys::NAME].toString();
             if(walletName.isEmpty())
             {
                 continue;
@@ -58,16 +58,16 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
 
             if(m_walletsInfo.contains(walletName))
             {
-                m_walletsInfo[walletName].status = tmpObject["status"].toString();
-                m_walletsInfo[walletName].path = tmpObject["path"].toString();
+                m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
+                m_walletsInfo[walletName].path = tmpObject[Dap::JsonKeys::PATH].toString();
                 isUpdateWallet = true;
             }
             else
             {
                 CommonWallet::WalletInfo tmpWallet;
                 tmpWallet.walletName = walletName;
-                tmpWallet.path = tmpObject["path"].toString();
-                tmpWallet.status = tmpObject["status"].toString();
+                tmpWallet.path = tmpObject[Dap::JsonKeys::PATH].toString();
+                tmpWallet.status = tmpObject[Dap::JsonKeys::STATUS].toString();
                 m_walletsInfo.insert(walletName, std::move(tmpWallet));
                 isUpdateWallet = true;
             }
@@ -235,13 +235,13 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
 
     QJsonObject inObject = document.object();
 
-    QString walletIdent = inObject.value("walletIdent").toString();
-    QString networkName = inObject.value("networkName").toString();
+    QString walletIdent = inObject.value(Dap::JsonKeys::WALLET_IDENT).toString();
+    QString networkName = inObject.value(Dap::JsonKeys::NETWORK_NAME).toString();
 
-    QJsonObject netObject = inObject.value("network").toObject();
-    QString netWalletAddress = netObject.value("address").toString();
+    QJsonObject netObject = inObject.value(Dap::JsonKeys::NETWORK).toObject();
+    QString netWalletAddress = netObject.value(Dap::JsonKeys::ADDRESS).toString();
 
-    QJsonArray tokens = netObject.value("tokens").toArray();
+    QJsonArray tokens = netObject.value(Dap::JsonKeys::TOKENS).toArray();
     CommonWallet::WalletNetworkInfo netInfo;
     netInfo.network = networkName;
     netInfo.address = netWalletAddress;
@@ -249,12 +249,12 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
     {
         auto object = value.toObject();
         CommonWallet::WalletTokensInfo token;
-        token.tokenName = object.value("tokenName").toString();
-        token.value = object.value("balance").toString();
-        token.availableCoins = object.value("availableCoins").toString();
-        token.availableDatoshi = object.value("availableDatoshi").toString();
-        token.datoshi = object.value("datoshi").toString();
-        token.ticker = object.value("tokenName").toString();
+        token.tokenName = object.value(Dap::JsonKeys::TOKEN_NAME).toString();
+        token.value = object.value(Dap::JsonKeys::BALANCE).toString();
+        token.availableCoins = object.value(Dap::JsonKeys::AVAILABLE_COINS).toString();
+        token.availableDatoshi = object.value(Dap::JsonKeys::AVAILABLE_DATOSHI).toString();
+        token.datoshi = object.value(Dap::JsonKeys::DATOSHI).toString();
+        token.ticker = object.value(Dap::JsonKeys::TOKEN_NAME).toString();
         token.network = networkName;
         netInfo.networkInfo.append(std::move(token));
     }

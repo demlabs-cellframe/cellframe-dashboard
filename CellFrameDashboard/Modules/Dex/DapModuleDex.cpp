@@ -19,9 +19,6 @@ DapModuleDex::DapModuleDex(DapModulesController *parent)
     , m_allTakenPairsUpdateTimer(new QTimer())
     , m_curentTokenPairUpdateTimer(new QTimer())
     , m_ordersHistoryUpdateTimer(new QTimer())
-    , m_tokenPairsCash(new QByteArray())
-    , m_ordersHistoryCash(new QByteArray())
-    , m_txListCash(new QByteArray())
 {
     m_tokenPairsProxyModel->setSourceModel(m_tokenPairsModel);
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
@@ -62,9 +59,6 @@ DapModuleDex::~DapModuleDex()
     delete m_allTakenPairsUpdateTimer;
     delete m_curentTokenPairUpdateTimer;
     delete m_ordersHistoryUpdateTimer;
-    if(m_tokenPairsCash) delete m_tokenPairsCash;
-    if(m_ordersHistoryCash) delete m_ordersHistoryCash;
-    if(m_txListCash) delete m_txListCash;
 }
 
 void DapModuleDex::onInit()
@@ -141,9 +135,9 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
 {
     m_isSandDapGetXchangeTokenPair = false;
     QByteArray rcvResult = convertJsonResult(rcvData.toByteArray());
-    if(*m_tokenPairsCash != rcvResult)
+    if(m_tokenPairsCash != rcvResult)
     {
-        *m_tokenPairsCash = rcvResult;
+        m_tokenPairsCash = rcvResult;
     }
     else
     {
@@ -195,9 +189,9 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     }
     updateTokenModels();
 
-    if(!m_ordersHistoryCash->isEmpty() && isFirstUpdate)
+    if(!m_ordersHistoryCash.isEmpty() && isFirstUpdate)
     {
-        setOrdersHistory(*m_ordersHistoryCash);
+        setOrdersHistory(m_ordersHistoryCash);
     }
 
     if(isFirstUpdate)
@@ -278,7 +272,7 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
     }
     else
     {
-        m_txListCash = &data;
+        m_txListCash = data;
     }
 
     auto resultObject = QJsonDocument::fromJson(data).object();
@@ -315,11 +309,11 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
 void DapModuleDex::respondOrdersHistory(const QVariant &rcvData)
 {
     QByteArray data = rcvData.toByteArray();
-    if(data == *m_ordersHistoryCash)
+    if(data == m_ordersHistoryCash)
     {
         return;
     }
-    *m_ordersHistoryCash = data;
+    m_ordersHistoryCash = data;
     //TODO: For optimization, it will be necessary to remove unnecessary models.
     setOrdersHistory(data);
     m_stockDataWorker->getOrderBookWorker()->setCurrentRate(m_currentPair.rate);
@@ -825,7 +819,7 @@ void DapModuleDex::workersUpdate()
 {
     m_stockDataWorker->getOrderBookWorker()->setTokenPair(m_currentPair);
     m_stockDataWorker->getOrderBookWorker()->setCurrentRate(m_currentPair.rate);
-    m_stockDataWorker->getOrderBookWorker()->setBookModel(*m_ordersHistoryCash);
+    m_stockDataWorker->getOrderBookWorker()->setBookModel(m_ordersHistoryCash);
     requestHistoryTokenPairs();
     m_stockDataWorker->getCandleChartWorker()->respondTokenPairsHistory(QJsonArray());
     m_proxyModel->setPairAndNetworkOrderFilter(m_currentPair.displayText, m_currentPair.network);
