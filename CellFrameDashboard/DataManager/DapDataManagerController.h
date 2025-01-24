@@ -1,10 +1,18 @@
 #pragma once
 
 #include <QObject>
+#include "node_globals/NodeGlobals.h"
+#include "Modules/DapModulesController.h"
+#include "DapTransactionManager.h"
 #include "DapNetworksManagerBase.h"
 #include "DapWalletsManagerBase.h"
-#include "Modules/DapModulesController.h"
 #include "DapFeeManagerBase.h"
+
+#include "DapNetworksManagerLocal.h"
+#include "DapNetworksManagerRemote.h"
+#include "DapWalletsManagerRemote.h"
+#include "DapWalletsManagerLocal.h"
+#include "DapFeeManager.h"
 
 class DapDataManagerController : public QObject
 {
@@ -15,6 +23,7 @@ public:
     DapNetworksManagerBase* getNetworkManager() const { return m_networksManager; }
     DapWalletsManagerBase* getWalletManager() const { return m_walletsManager; }
     DapFeeManagerBase* getFeeManager() const { return m_feeManager; }
+    DapTransactionManager* getTransactionManager() const { return m_transactionManager; }
     const QStringList &getNetworkList() const;
     const CommonWallet::FeeInfo& getFee(const QString& network);
     bool isFeeEmpty();
@@ -27,4 +36,5 @@ private:
     DapNetworksManagerBase* m_networksManager = nullptr;
     DapWalletsManagerBase* m_walletsManager = nullptr;
     DapFeeManagerBase* m_feeManager = nullptr;
+    DapTransactionManager* m_transactionManager = nullptr;
 };

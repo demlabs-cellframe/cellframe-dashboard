@@ -5,13 +5,20 @@
 #include <QDebug>
 #include <QMap>
 #include <QPair>
+#include <QStringList>
 
+#include "../DapTypes/DapCoin.h"
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
-#include "WalletRestore/wallethashmanager.h"
-#include "CommonWallet/DapWalletInfo.h"
 #include "../../Models/DapListWalletsModel.h"
 #include "../../Models/DapInfoWalletModel.h"
+
+#include "WalletRestore/wallethashmanager.h"
+#include "CommonWallet/DapWalletInfo.h"
+#include "CommandKeys.h"
+#include "DapWalletsManagerBase.h"
+#include "DapDataManagerController.h"
+#include "DapTransactionManager.h"
 
 class DapWalletsManagerBase;
 
@@ -93,10 +100,14 @@ private slots:
 
     void walletListChangedSlot();
     void walletInfoChangedSlot(const QString &walletName, const QString &networkName);
+
+    //new slot
+    void rcvDefatultTxReply(const QVariant &rcvData);
 private:
     const QPair<int,QString>& getCurrentWallet() const;
     void setCurrentWallet(const QPair<int,QString>& wallet);
     DapWalletsManagerBase* getWalletManager() const;
+    DapTransactionManager *getTransactionManager() const;
 
 protected:
     DapTokensWalletModel* m_tokenModel = nullptr;

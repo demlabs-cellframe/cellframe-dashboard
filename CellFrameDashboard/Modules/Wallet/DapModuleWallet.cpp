@@ -1,10 +1,4 @@
 #include "DapModuleWallet.h"
-#include <QStringList>
-#include "DapWalletsManagerBase.h"
-#include "DapDataManagerController.h"
-#include "../DapTypes/DapCoin.h"
-#include "CommandKeys.h"
-#include <QStringList>
 
 DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
@@ -18,10 +12,13 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletTokensModel", m_tokenModel);
 
     auto* walletsManager = getWalletManager();
+    auto* transtactionManager = getTransactionManager();
 
     connect(walletsManager, &DapWalletsManagerBase::walletListChanged, this, &DapModuleWallet::walletListChangedSlot);
     connect(walletsManager, &DapWalletsManagerBase::walletInfoChanged, this, &DapModuleWallet::walletInfoChangedSlot);
     connect(walletsManager, &DapWalletsManagerBase::currentWalletChanged, this, &DapModuleWallet::currentWalletChanged);
+
+    connect(transtactionManager, &DapTransactionManager::sigDefatultTxReply, this, &DapModuleWallet::rcvDefatultTxReply);
 
     connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
@@ -220,14 +217,7 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 
 void DapModuleWallet::createTx(QVariant args)
 {
-    if(DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::REMOTE)
-    {
-        s_serviceCtrl->requestToService("DapCreateTxCommand", args);
-    }
-    else
-    {
-        s_serviceCtrl->requestToService("DapCreateTransactionCommand", args);
-    }
+    s_serviceCtrl->requestToService("DapCreateTransactionCommand", args);
 }
 
 void DapModuleWallet::requestWalletTokenInfo(QStringList args)
@@ -273,6 +263,33 @@ void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
     QJsonObject resultObj = replyObj["result"].toObject();
 
     emit sigTxCreate(resultObj);
+}
+
+void DapModuleWallet::rcvDefatultTxReply(const QVariant &rcvData)
+{
+    //TODO add queue processing
+
+    QJsonObject rcvObj = QJsonDocument::fromJson(rcvData.toByteArray()).object();
+    QJsonObject objResult = rcvObj["result"].toArray().first().toObject();
+
+    QJsonObject reply;
+
+    if(objResult.isEmpty() || rcvObj.contains("error"))
+    {
+        reply.insert("error", rcvObj["error"].toString());
+        reply.insert("errorMessage", rcvObj["error"].toString());
+    }
+    else
+    {
+        reply.insert("toQueue", false);
+        reply.insert("success", objResult["tx_create"].toBool());
+        reply.insert("tx_hash", objResult["hash"].toString());
+        reply.insert("message", "Transaction created.");
+    }
+
+    qDebug()<<reply;
+
+    emit sigTxCreate(reply);
 }
 
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
@@ -587,7 +604,7 @@ void DapModuleWallet::sendTx(QVariantMap data)
         mapData.insert(Dap::CommandParamKeys::DATA_KEY,      docData.toJson());
         mapData.insert(Dap::KeysParam::TYPE_TX,              "Default");
 
-        createTx(mapData);
+        getTransactionManager()->sendTx(mapData);
     }
     else
     {
@@ -741,4 +758,12 @@ DapWalletsManagerBase* DapModuleWallet::getWalletManager() const
     Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
     Q_ASSERT_X(m_modulesCtrl->getManagerController()->getWalletManager(), "DapModuleWallet", "WalletManager not found");
     return m_modulesCtrl->getManagerController()->getWalletManager();
+}
+
+DapTransactionManager *DapModuleWallet::getTransactionManager() const
+{
+    Q_ASSERT_X(m_modulesCtrl, "DapModuleWallet", "ModuleController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController()->getTransactionManager(), "DapModuleWallet", "TransactionManager not found");
+    return m_modulesCtrl->getManagerController()->getTransactionManager();
 }

@@ -1,10 +1,4 @@
 #include "DapDataManagerController.h"
-#include "node_globals/NodeGlobals.h"
-#include "DapNetworksManagerLocal.h"
-#include "DapNetworksManagerRemote.h"
-#include "DapWalletsManagerRemote.h"
-#include "DapWalletsManagerLocal.h"
-#include "DapFeeManager.h"
 
 DapDataManagerController::DapDataManagerController(DapModulesController* moduleController)
     : QObject()
@@ -22,6 +16,7 @@ DapDataManagerController::DapDataManagerController(DapModulesController* moduleC
          m_walletsManager = new DapWalletsManagerRemote(moduleController);
     }
     m_feeManager = new DapFeeManager(moduleController);
+    m_transactionManager = new DapTransactionManager(moduleController);
 
     connect(m_networksManager, &DapNetworksManagerBase::networkListChanged, this, &DapDataManagerController::networkListChanged);
     connect(m_networksManager, &DapNetworksManagerBase::isConnectedChanged, this, &DapDataManagerController::isConnectedChanged);

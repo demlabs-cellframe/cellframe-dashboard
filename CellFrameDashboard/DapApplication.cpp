@@ -22,7 +22,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     , m_engine(new QQmlApplicationEngine())
     , m_serviceController(new DapServiceController())
     , dateWorker(new DateWorker(this))
-    , translator(new QMLTranslator(m_engine, this))
+    , translator(new QMLTranslator(&m_engine, this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -54,7 +54,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     qDebug() << "DapApplication" << "currentLanguageName" << lang;
     translator->setLanguage(lang);
 
-    m_commandHelper = new CommandHelperController(m_serviceController);
     m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
     // connect(m_modulesController, &DapModulesController::walletsListUpdated, m_commandHelper, &CommandHelperController::tryDataUpdate);
     // connect(m_modulesController, &DapModulesController::netListUpdated,     m_commandHelper, &CommandHelperController::tryDataUpdate);
@@ -63,27 +62,31 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_modulesController->setNotifyCtrl(s_dapNotifyController);
     s_dapNotifyController->init();
 
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        m_commandHelper = new CommandHelperController(m_serviceController);
+    }
+
     this->registerQmlTypes();
     this->setContextProperties();
-
 }
 
 DapApplication::~DapApplication()
 {
-    delete m_modulesController;
+    m_engine.deleteLater();
     delete m_commandHelper;
-    m_engine->deleteLater();
-    delete m_nodeWrapper;
-    delete s_dapNotifyController;
     delete dateWorker;
     delete translator;
+    delete m_nodeWrapper;
+    delete s_dapNotifyController;
+    delete m_modulesController;
     m_serviceController->quit();
     m_serviceController->wait();
 }
 
 QQmlApplicationEngine *DapApplication::qmlEngine()
 {
-    return m_engine;
+    return &m_engine;
 }
 
 void DapApplication::setClipboardText(const QString &text)
@@ -143,12 +146,16 @@ void DapApplication::setDontShowNodeModeFlag(bool isDontShow)
 
 void DapApplication::setContextProperties()
 {
-    m_engine->rootContext()->setContextProperty("app", this);
-    m_engine->rootContext()->setContextProperty("dapServiceController", m_serviceController);
-    m_engine->rootContext()->setContextProperty("pt", 1);
+    m_engine.rootContext()->setContextProperty("app", this);
+    m_engine.rootContext()->setContextProperty("dapServiceController", m_serviceController);
+    m_engine.rootContext()->setContextProperty("pt", 1);
 
-    m_engine->rootContext()->setContextProperty("commandHelperController", m_commandHelper);
-    m_engine->rootContext()->setContextProperty("translator", translator);
-    m_engine->rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
-    m_engine->rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
+    m_engine.rootContext()->setContextProperty("translator", translator);
+    m_engine.rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
+    m_engine.rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        m_engine.rootContext()->setContextProperty("commandHelperController", m_commandHelper);
+    }
 }

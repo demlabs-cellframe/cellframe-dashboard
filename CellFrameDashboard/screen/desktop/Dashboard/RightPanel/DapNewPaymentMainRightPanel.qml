@@ -4,6 +4,9 @@ DapNewPaymentMainRightPanelForm
 {
     Component.onCompleted:
     {
+        loadIndicator.running = false
+        dapButtonSend.enabled = true
+
         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
@@ -159,6 +162,9 @@ DapNewPaymentMainRightPanelForm
             {
                 navigator.doneNewPayment()
             }
+
+            loadIndicator.running = false
+            dapButtonSend.enabled = true
         }
 
         function onTokenModelChanged()
