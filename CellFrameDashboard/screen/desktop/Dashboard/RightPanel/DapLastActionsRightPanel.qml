@@ -47,7 +47,7 @@ DapLastActionsRightPanelForm
 
             console.log(walletModule.currentWalletName)
 
-            txExplorerModule.updateHistory(true)
+            // txExplorerModule.updateHistory(true)
         }
     }
 
@@ -57,7 +57,7 @@ DapLastActionsRightPanelForm
 
         modelHistory.setLastActions(true)
         lastHistoryLength = 0
-        txExplorerModule.updateHistory(true)
+        // txExplorerModule.updateHistory(true)
     }
 
     Component.onDestruction:

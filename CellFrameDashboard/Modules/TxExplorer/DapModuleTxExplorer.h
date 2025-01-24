@@ -12,10 +12,16 @@
 class DapModuleTxExplorer : public DapAbstractModule
 {
     Q_OBJECT
+
+    using HistoryList = QList<DapHistoryModel::Item>;
+    struct HistorySaves
+    {
+        QSet<QString> hashes;
+        HistoryList history;
+    };
 public:
     explicit DapModuleTxExplorer(DapModulesController * modulesCtrl);
 
-    Q_INVOKABLE void clearHistory();
     Q_INVOKABLE void updateHistory();
 
 signals:
@@ -24,7 +30,9 @@ signals:
 protected slots:
     virtual void setHistoryModel(const QVariant &rcvData);
     virtual void cleareData();
-
+protected:
+    bool addHistory(const QString& wallet, const HistoryList &list);
+    bool updateModelBySaves();
 private slots:
     void slotHistoryUpdate();
     void walletInfoChangedsSlot(const QString& walletName, const QString& networkName);
@@ -42,6 +50,7 @@ protected:
     QString m_lastWalletName {""};
     QStringList m_lastNetworkName;
 
+    QMap<QString, HistorySaves> m_listsWallets;
 
     const int TIME_OUT_HISTORY_UPDATE = 60000;
     const int TIME_OUT_HISTORY_REQUEST = 30000;

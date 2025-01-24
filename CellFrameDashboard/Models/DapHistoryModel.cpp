@@ -120,27 +120,12 @@ DapHistoryModel *DapHistoryModel::global()
 
 bool DapHistoryModel::updateModel(const QList<Item>& historyList)
 {
-    bool isUpdated = false;
-    for(const auto& item: historyList)
-    {
-        if(!m_hash.contains(item.tx_hash))
-        {
-            m_items->append(item);
-            m_hash.insert(item.tx_hash);
-            isUpdated = true;
-        }
-    }
-    if(isUpdated)
-    {
-        beginResetModel();
-        std::sort((*m_items).begin(), (*m_items).end(),[]
-                    (const DapHistoryModel::Item& a, const DapHistoryModel::Item& b)
-                    {
-                        return a.date_to_secs > b.date_to_secs;
-                    });
-
-        endResetModel();
-    }
+    m_items->clear();
+    beginResetModel();
+    m_items->append(historyList);
+    endResetModel();
+    emit dataChanged(index (0, 0), index (m_items->size(), 0));
+    emit sizeChanged();
     return true;
 }
 

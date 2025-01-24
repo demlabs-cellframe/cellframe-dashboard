@@ -37,7 +37,7 @@ void DapModuleTxExplorer::initConnect()
     {
         if(!m_modulesCtrl->isNodeWorking())
         {
-            this->clearHistory();
+            this->cleareData();
         }
     });
     connect(m_timerHistoryUpdate, &QTimer::timeout, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
@@ -45,21 +45,6 @@ void DapModuleTxExplorer::initConnect()
 
     auto walletManager = getWalletManager();
     connect(walletManager, &DapWalletsManagerBase::walletInfoChanged, this, &DapModuleTxExplorer::walletInfoChangedsSlot);
-    // auto walletManager = getWalletManager();
-    // connect(walletManager, &DapWalletsManagerBase::walletInfoChanged)
-//     connect(this, &DapAbstractModule::statusProcessingChanged, this, [this]
-//     {
-// //            qDebug()<<"m_statusProcessing" << m_statusProcessing;
-//         // if(m_statusProcessing)
-//         // {
-//         //     m_timerHistoryUpdate->start(10000);
-//         //     slotHistoryUpdate();
-//         // }
-//         // else
-//         // {
-//         //     m_timerHistoryUpdate->stop();
-//         // }
-//     });
 }
 
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
@@ -83,7 +68,7 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 
     QJsonArray historyArray = doc["history"].toArray();
 
-    QList<DapHistoryModel::Item> resultList;
+    HistoryList resultList;
 
     for(auto i = 0; i < historyArray.size(); i++)
     {
@@ -115,7 +100,10 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         resultList.append(std::move(itemHistory));
     }
 
-    m_historyModel->updateModel(std::move(resultList));
+    if(addHistory(walletName, resultList))
+    {
+        m_historyModel->updateModel(m_listsWallets[walletName].history);
+    }
 
     setStatusInit(true);
 
@@ -123,10 +111,45 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
     updateHistory();
 }
 
-void DapModuleTxExplorer::clearHistory()
+bool DapModuleTxExplorer::addHistory(const QString& wallet, const HistoryList& list)
 {
-    m_historyModel->clear();
-    setStatusInit(false);
+    auto& walletData = m_listsWallets[wallet];
+    bool isUpdated = false;
+    for(const auto& item: list)
+    {
+        if(!walletData.hashes.contains(item.tx_hash))
+        {
+            walletData.history.append(item);
+            walletData.hashes.insert(item.tx_hash);
+            isUpdated = true;
+        }
+    }
+    if(isUpdated)
+    {
+        auto& walletHistory = m_listsWallets[wallet].history;
+        std::sort((walletHistory).begin(), (walletHistory).end(),[]
+                  (const DapHistoryModel::Item& a, const DapHistoryModel::Item& b)
+                  {
+                      return a.date_to_secs > b.date_to_secs;
+                  });
+    }
+    return isUpdated;
+}
+
+bool DapModuleTxExplorer::updateModelBySaves()
+{
+    QString wallet = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
+    if(!wallet.isEmpty())
+    {
+        if(m_listsWallets.value(wallet).history.isEmpty())
+        {
+            return false;
+        }
+
+        m_historyModel->updateModel(m_listsWallets.value(wallet).history);
+        return true;
+    }
+    return false;
 }
 
 void DapModuleTxExplorer::cleareData()
@@ -135,10 +158,13 @@ void DapModuleTxExplorer::cleareData()
     m_lastNetworkName.clear();
     m_timerHistoryUpdate->stop();
     m_timerRequest->stop();
-    m_historyModel->clear();
     isSendReqeust = false;
     updateHistory();
-    setStatusInit(false);
+    if(!updateModelBySaves())
+    {
+        m_historyModel->clear();
+        setStatusInit(false);
+    }
 }
 
 void DapModuleTxExplorer::slotHistoryUpdate()

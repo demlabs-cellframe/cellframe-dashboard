@@ -382,7 +382,7 @@ DapRectangleLitAndShaded
         modelHistory.setNetworkFilter(nodeMasterModule.currentNetwork)
         modelHistory.setLastActions(true)
         lastHistoryLength = 0
-        txExplorerModule.updateHistory(true)
+        // txExplorerModule.updateHistory(true)
     }
 
     Component.onDestruction:

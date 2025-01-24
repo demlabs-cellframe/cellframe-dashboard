@@ -188,8 +188,8 @@ DapPage
                 navigator.popPage()
             }
             updateScreen()
-            txExplorerModule.clearHistory()
-            txExplorerModule.updateHistory(true)
+            // txExplorerModule.clearHistory()
+            // txExplorerModule.updateHistory(true)
         }
 
         function onListWalletChanged()
