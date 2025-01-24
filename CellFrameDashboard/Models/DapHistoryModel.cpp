@@ -124,8 +124,6 @@ bool DapHistoryModel::updateModel(const QList<Item>& historyList)
     beginResetModel();
     m_items->append(historyList);
     endResetModel();
-    emit dataChanged(index (0, 0), index (m_items->size(), 0));
-    emit sizeChanged();
     return true;
 }
 

@@ -20,7 +20,7 @@ private slots:
     void requestWalletAddress(const QString& walletName, const QString &path);
 private:
     void updateAddressWallets();
-    void updateInfoWallets();
+    void updateInfoWallets(const QString &walletName = "");
     void setIsLoad(CommonWallet::WalletInfo& wallet, bool isLoad);
 private:
     QTimer* m_walletsListTimer = nullptr;
