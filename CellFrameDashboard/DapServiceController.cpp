@@ -99,7 +99,7 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
             qWarning()<<QString("Transceiver " + asServiceName + " was not found");
             return;
         }
-        emit transceiver->toDataSignal(args);
+        transceiver->replyToClient(args);
     });
 
 }

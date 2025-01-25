@@ -58,7 +58,7 @@ private:
     DapModulesController *m_modulesController;
     CommandHelperController* m_commandHelper = nullptr;
 
-    QQmlApplicationEngine* m_engine;
+    QQmlApplicationEngine m_engine;
     DapServiceController* m_serviceController = nullptr;
     CellframeNodeQmlWrapper* m_nodeWrapper;
     DapNotifyController * s_dapNotifyController;

@@ -27,7 +27,6 @@ DapRectangleLitAndShaded
 
     property alias dapChainGroup: chainGroup
 
-
     property alias dapComboBoxToken: comboboxToken
 
     property alias dapFrameAmountPayment: frameAmountPayment
@@ -41,6 +40,8 @@ DapRectangleLitAndShaded
 
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
+
+    property alias loadIndicator: loadIndicator
 
     property alias balance: balance
 
@@ -527,6 +528,19 @@ DapRectangleLitAndShaded
             verticalAlignment: Text.AlignVCenter
             wrapMode: Text.WordWrap
             visible: false
+        }
+
+        DapLoadIndicator {
+            id: loadIndicator
+            Layout.alignment: Qt.AlignHCenter
+
+            Layout.bottomMargin: 20
+
+            indicatorSize: 32
+            countElements: 6
+            elementSize: 5
+
+            running: true
         }
 
         // Button "Send"
