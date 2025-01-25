@@ -80,7 +80,7 @@ void DapModuleDex::onInit()
 
     // connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
     connect(m_allTakenPairsUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTokenPairs);
-    connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, [this](){requestTXList();});
+    connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTXList);
     connect(m_curentTokenPairUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestCurrentTokenPairs);
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestHistoryOrders);
     connect(this, &DapModuleDex::txListChanged, m_proxyModel, &OrdersHistoryProxyModel::tryUpdateFilter);
@@ -851,8 +851,17 @@ void DapModuleDex::requestTokenPairs()
 {
     if(!m_isSandDapGetXchangeTokenPair)
     {
+        auto& walletInfo = getWalletManager()->getWalletsInfo().value(getWalletManager()->getCurrentWallet().second);
+        QStringList netList = walletInfo.walletInfo.keys();
+
+        QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+        QVariantMap request = {
+             {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+            ,{Dap::KeysParam::NETWORK_LIST, netList}
+        };
+
         m_isSandDapGetXchangeTokenPair = true;
-        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPair", QStringList() << "full_info" << "update");
+        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPair", request);
     }
 }
 
@@ -862,9 +871,16 @@ void DapModuleDex::requestCurrentTokenPairs()
     {
         if(!m_isSandXchangeTokenPriceAverage)
         {
+            QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+            QVariantMap request = {
+                {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+                ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
+                ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
+            };
+
             m_isSandXchangeTokenPriceAverage = true;
-            m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceAverage",
-                                                         QStringList() << m_currentPair.network << m_currentPair.token1 << m_currentPair.token2);
+            m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceAverage", request);
         }
     }
     else
@@ -904,8 +920,14 @@ void DapModuleDex::requestHistoryTokenPairs()
 {
     if(isCurrentPair())
     {
-        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceHistory",
-                                                         QStringList() << m_currentPair.network << m_currentPair.token1 << m_currentPair.token2);
+        QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+        QVariantMap request = {
+            {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+            ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+            ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
+            ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
+        };
+        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceHistory", request);
     }
     else
     {
@@ -920,13 +942,43 @@ bool DapModuleDex::isValidValue(const QString& value)
 
 void DapModuleDex::requestHistoryOrders()
 {
-    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeOrdersList", QStringList()<< m_currentPair.token1 << m_currentPair.token2);
+    auto& walletInfo = getWalletManager()->getWalletsInfo().value(getWalletManager()->getCurrentWallet().second);
+    QStringList netList = walletInfo.walletInfo.keys();
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {
+        {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+        ,{Dap::KeysParam::NETWORK_LIST, netList}
+        ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
+        ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
+    };
+    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeOrdersList", request);
 }
 
-void DapModuleDex::requestTXList(const QString& timeFrom, const QString& timeTo)
+void DapModuleDex::requestTXList()
 {
-    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTxList", QStringList() <<
-                                m_modulesCtrl->getManagerController()->getCurrentWallet().second << timeFrom << timeTo);
+    auto& walletInfo = getWalletManager()->getWalletsInfo().value(getWalletManager()->getCurrentWallet().second);
+    auto netList = walletInfo.walletInfo.keys();
+    QVariantMap networkAddresses;
+    for(const auto& net: netList)
+    {
+        QString address = walletInfo.walletInfo[net].address;
+        if(!address.isEmpty())
+        {
+            networkAddresses.insert(net, address);
+        }
+    }
+    if(networkAddresses.isEmpty())
+    {
+        qDebug() << "[DapModuleDex] No networks or wallet addresses were found.";
+        return;
+    }
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {
+                             {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                            ,{Dap::KeysParam::WALLET_ADDRESSES, networkAddresses}
+                            ,{Dap::KeysParam::WALLET_NAME, getWalletManager()->getCurrentWallet().second}
+                            };
+    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTxList", request);
 }
 
 void DapModuleDex::requestOrderPurchase(const QStringList& params)

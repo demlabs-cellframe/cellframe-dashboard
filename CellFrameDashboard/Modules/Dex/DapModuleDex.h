@@ -41,7 +41,7 @@ public:
     void requestCurrentTokenPairs();
     void requestHistoryTokenPairs();
     void requestHistoryOrders();
-    void requestTXList(const QString &timeFrom = "", const QString &timeTo = "");
+    void requestTXList();
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
 
