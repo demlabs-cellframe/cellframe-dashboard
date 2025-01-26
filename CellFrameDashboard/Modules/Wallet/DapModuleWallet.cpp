@@ -244,16 +244,25 @@ void DapModuleWallet::activateOrDeactivateWallet(const QString& walletName,
                                                  const QString& target, const QString& pass,
                                                  const QString& ttl)
 {
-    QStringList argList = QStringList() << walletName << target;
-    if(!pass.isEmpty())
+    QVariantMap req;
+    req.insert(Dap::CommandParamKeys::COMMAND_KEY, target);
+    req.insert(Dap::KeysParam::WALLET_NAME, walletName);
+    req.insert(Dap::JsonKeys::PASSWORD, pass);
+    req.insert(Dap::JsonKeys::TTL, ttl);
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::REMOTE)
     {
-        argList << pass;
+        QString walletPath = getWalletManager()->getWalletsInfo()[walletName].path + "/" + walletName + ".dwallet";
+
+        req.insert(Dap::KeysParam::WALLET_PATH, walletPath);
+        req.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
     }
-    if(!ttl.isEmpty())
+    else
     {
-        argList << ttl;
+        req.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::LOCAL_MODE);
     }
-    s_serviceCtrl->requestToService("DapWalletActivateOrDeactivateCommand", argList);
+
+    s_serviceCtrl->requestToService("DapWalletActivateOrDeactivateCommand", req);
 }
 
 void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
