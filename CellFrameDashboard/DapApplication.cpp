@@ -73,7 +73,6 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 DapApplication::~DapApplication()
 {
-    m_engine.deleteLater();
     delete m_commandHelper;
     delete dateWorker;
     delete translator;
@@ -82,6 +81,7 @@ DapApplication::~DapApplication()
     delete m_modulesController;
     m_serviceController->quit();
     m_serviceController->wait();
+    m_engine.deleteLater();
 }
 
 QQmlApplicationEngine *DapApplication::qmlEngine()

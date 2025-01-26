@@ -17,7 +17,8 @@ private slots:
 
     void updateListWallets();
     void requestWalletInfo(const QString &walletAddr, const QString &network);
-    void requestWalletAddress(const QString& walletName, const QString &path);
+    void requestWalletAddress(const QString& walletName, const QString &path, const QStringList &netList);
+    void alarmTimerSlot();
 private:
     void updateAddressWallets();
     void updateInfoWallets(const QString &walletName = "");
@@ -25,15 +26,18 @@ private:
 private:
     QTimer* m_walletsListTimer = nullptr;
     QTimer* m_timerUpdateWallet = nullptr;
-    QTimer* m_timerFeeUpdateWallet = nullptr;
+    QTimer* m_timerAlarmUpdateWallet = nullptr;
+
 
     QByteArray walletListCash;
 
     QString m_lastRequestInfoWalletName = "";
     QString m_lastRequestInfoNetworkName = "";
     bool m_isRequestInfo = false;
+    bool m_isFirstRequestCurrWall = false;
 
     const int TIME_WALLET_LIST_UPDATE = 3000;
     const int TIME_WALLET_INFO_UPDATE = 30000;
+    const int TIME_ALARM_REQUEST = 30000;
 };
 

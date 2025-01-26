@@ -8,7 +8,7 @@ DapWalletsManagerRemote::DapWalletsManagerRemote(DapModulesController *moduleCon
     : DapWalletsManagerBase(moduleController)
     , m_walletsListTimer(new QTimer())
     , m_timerUpdateWallet(new QTimer())
-    , m_timerFeeUpdateWallet(new QTimer())
+    , m_timerAlarmUpdateWallet(new QTimer())
 {
     connect(m_walletsListTimer, &QTimer::timeout, this, &DapWalletsManagerRemote::updateListWallets, Qt::QueuedConnection);
     connect(m_modulesController->getServiceController(), &DapServiceController::walletsListReceived, this, &DapWalletsManagerRemote::walletsListReceived, Qt::QueuedConnection);
@@ -17,6 +17,7 @@ DapWalletsManagerRemote::DapWalletsManagerRemote(DapModulesController *moduleCon
     connect(m_timerUpdateWallet, &QTimer::timeout, this, [this]{
         updateInfoWallets();
     });
+    connect(m_timerAlarmUpdateWallet, &QTimer::timeout, this, &DapWalletsManagerRemote::alarmTimerSlot, Qt::QueuedConnection);
 }
 
 void DapWalletsManagerRemote::initManager()
@@ -120,13 +121,13 @@ void DapWalletsManagerRemote::updateAddressWallets()
         if(m_walletsInfo[currWallet].status != Dap::WalletStatus::NON_ACTIVE_KEY)
         {
             auto& netsInfo = m_walletsInfo[currWallet].walletInfo;
-            if(netsInfo.isEmpty() &&  !netList.isEmpty())
+            if((netsInfo.isEmpty() && !netList.isEmpty()) || !DapCommonMethods::isEqualStringList(netsInfo.keys(), netList))
             {
                 for(const auto& net: qAsConst(netList))
                 {
                     addNetworkToWallet(netsInfo, net);
                 }
-                requestWalletAddress(currWallet, m_walletsInfo[currWallet].path);
+                requestWalletAddress(currWallet, m_walletsInfo[currWallet].path, m_walletsInfo[currWallet].walletInfo.keys());
                 return;
             }
             else if(!netsInfo.isEmpty())
@@ -135,7 +136,7 @@ void DapWalletsManagerRemote::updateAddressWallets()
                 {
                     if(item.address.isEmpty())
                     {
-                        requestWalletAddress(currWallet, m_walletsInfo[currWallet].path);
+                        requestWalletAddress(currWallet, m_walletsInfo[currWallet].path, m_walletsInfo[currWallet].walletInfo.keys());
                         return;
                     }
                 }
@@ -150,7 +151,7 @@ void DapWalletsManagerRemote::updateAddressWallets()
             continue;
         }
         auto& netInfoArray = m_walletsInfo[wallet].walletInfo;
-        if(netInfoArray.isEmpty())
+        if(netInfoArray.isEmpty() || !DapCommonMethods::isEqualStringList(netInfoArray.keys(), netList))
         {
             for(const auto& network : netList)
             {
@@ -161,7 +162,7 @@ void DapWalletsManagerRemote::updateAddressWallets()
         {
             if(netInfo.address.isEmpty())
             {
-                requestWalletAddress(wallet, m_walletsInfo[wallet].path);
+                requestWalletAddress(wallet, m_walletsInfo[wallet].path, netInfoArray.keys());
                 return;
             }
         }
@@ -212,6 +213,7 @@ void DapWalletsManagerRemote::rcvWalletAddress(const QVariant &rcvData)
     if(QString currWallet = m_currentWallet.second; currWallet == walletName && isUpdated)
     {
         updateInfoWallets(currWallet);
+        m_isFirstRequestCurrWall = true;
     }
 
     updateAddressWallets();
@@ -224,7 +226,7 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
         return;
     }
     m_isRequestInfo = false;
-
+    m_timerAlarmUpdateWallet->stop();
     auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
     QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
 
@@ -237,6 +239,16 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
 
     QString walletIdent = inObject.value(Dap::JsonKeys::WALLET_IDENT).toString();
     QString networkName = inObject.value(Dap::JsonKeys::NETWORK_NAME).toString();
+
+    QString walletName;
+    for(const auto& key: m_walletsInfo.keys())
+    {
+        if(m_walletsInfo[key].walletInfo.contains(networkName) &&
+            m_walletsInfo[key].walletInfo.value(networkName).address == walletIdent)
+        {
+            walletName = key;
+        }
+    }
 
     QJsonObject netObject = inObject.value(Dap::JsonKeys::NETWORK).toObject();
     QString netWalletAddress = netObject.value(Dap::JsonKeys::ADDRESS).toString();
@@ -257,16 +269,6 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
         token.ticker = object.value(Dap::JsonKeys::TOKEN_NAME).toString();
         token.network = networkName;
         netInfo.networkInfo.append(std::move(token));
-    }
-
-    QString walletName;
-    for(const auto& key: m_walletsInfo.keys())
-    {
-        if(m_walletsInfo[key].walletInfo.contains(networkName) &&
-            m_walletsInfo[key].walletInfo.value(networkName).address == walletIdent)
-        {
-            walletName = key;
-        }
     }
 
     if(walletName.isEmpty())
@@ -332,8 +334,25 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
     updateInfoWallets();
 }
 
+void DapWalletsManagerRemote::alarmTimerSlot()
+{
+    qDebug() << QString("[DapWalletsManagerRemote] ALARM The waiting time for requesting information about wallet %1 of network %2 has been exceeded.")
+                    .arg(m_lastRequestInfoWalletName, m_lastRequestInfoNetworkName);
+    if(!m_isRequestInfo)
+    {
+        return;
+    }
+    m_isRequestInfo = false;
+    m_timerAlarmUpdateWallet->stop();
+    updateInfoWallets();
+}
+
 void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
 {
+    if(m_isRequestInfo)
+    {
+        return;
+    }
     m_timerUpdateWallet->stop();
     auto netList = m_modulesController->getManagerController()->getNetworkList();
     if(netList.isEmpty() || m_walletsInfo.isEmpty())
@@ -378,16 +397,26 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
             int walletIndex = walletList.indexOf(m_lastRequestInfoWalletName);
             if(walletList.size() - 1  == walletIndex)
             {
-                m_lastRequestInfoNetworkName.clear();
-                m_lastRequestInfoWalletName.clear();
-                m_timerUpdateWallet->start(TIME_WALLET_INFO_UPDATE);
-                return;
+                if(m_isFirstRequestCurrWall)
+                {
+                    m_isFirstRequestCurrWall = false;
+                    m_lastRequestInfoNetworkName = netList[0];
+                    m_lastRequestInfoWalletName = m_walletsInfo.firstKey();
+                }
+                else
+                {
+                    m_lastRequestInfoNetworkName.clear();
+                    m_lastRequestInfoWalletName.clear();
+                    m_timerUpdateWallet->start(TIME_WALLET_INFO_UPDATE);
+                    return;
+                }
             }
             else
             {
                 int index = getNextWalletIndex(walletIndex + 1);
                 m_lastRequestInfoWalletName = walletList[index];
                 m_lastRequestInfoNetworkName = netList[0];
+                m_isFirstRequestCurrWall = false;
             }
         }
         else
@@ -417,11 +446,12 @@ void DapWalletsManagerRemote::requestWalletInfo(const QString& walletAddr, const
     m_isRequestInfo = true;
     m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", QStringList() << walletAddr << network <<
                                                                   Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
+
+    m_timerAlarmUpdateWallet->start(TIME_ALARM_REQUEST);
 }
 
-void DapWalletsManagerRemote::requestWalletAddress(const QString& walletName, const QString& path)
+void DapWalletsManagerRemote::requestWalletAddress(const QString& walletName, const QString& path, const QStringList& netList)
 {
-    auto netList = m_modulesController->getManagerController()->getNetworkList();
     QVariantMap requestMap = {{Dap::KeysParam::NETWORK_LIST, netList}
                              ,{Dap::KeysParam::WALLET_PATH, path}
                              ,{Dap::KeysParam::WALLET_NAME, walletName}};
