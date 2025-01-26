@@ -38,9 +38,6 @@ DapApplication::DapApplication(int &argc, char **argv)
 //    qDebug()<<m_nodeWrapper->nodeRunning();
 //    qDebug()<<m_nodeWrapper->nodeVersion();
 
-    connect(m_serviceController, &QThread::finished, m_serviceController, &QObject::deleteLater);
-
-    m_serviceController->start();
 #ifdef Q_OS_ANDROID
     QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
                                         "com/Cellframe/Dashboard/DashboardService");
@@ -79,8 +76,7 @@ DapApplication::~DapApplication()
     delete m_nodeWrapper;
     delete s_dapNotifyController;
     delete m_modulesController;
-    m_serviceController->quit();
-    m_serviceController->wait();
+    delete m_serviceController;
     m_engine.deleteLater();
 }
 

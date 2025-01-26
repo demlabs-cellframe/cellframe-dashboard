@@ -132,7 +132,7 @@ typedef class DapRpcTCPServer DapUiService;
 typedef class DapRpcLocalServer DapUiService;
 #endif
 
-class DapServiceController : public QThread
+class DapServiceController : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(DapServiceController)

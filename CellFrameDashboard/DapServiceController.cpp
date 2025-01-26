@@ -3,8 +3,9 @@
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
-    : QThread(apParent)
+    : QObject(apParent)
 {
+    run();
 }
 
 DapServiceController::~DapServiceController()
@@ -65,8 +66,6 @@ void DapServiceController::run()
 
     qInfo() << "ServiceController started";
     emit onServiceStarted();
-
-    exec();
 }
 
 void DapServiceController::setReadingChains(bool bReadingChains)
