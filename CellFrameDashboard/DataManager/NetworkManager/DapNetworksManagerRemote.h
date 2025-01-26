@@ -1,20 +1,23 @@
 #pragma once
 
 #include "DapNetworksManagerBase.h"
+#include <QTimer>
 
 class DapNetworksManagerRemote : public DapNetworksManagerBase
 {
     Q_OBJECT
 public:
     DapNetworksManagerRemote(DapModulesController* moduleController);
-protected:
-    void initManager() override;
+
 private slots:
     void networkListRespond(const QVariant &rcvData);
     void networksStatesRespond(const QVariant &rcvData);
+    void requestNetworkList();
+private:
+
+    void requestNetworskInfo();
 
 private:
-    void requestNetworkList();
-    void requestNetworskInfo();
+    QTimer* m_netListTimer = nullptr;
 };
 
