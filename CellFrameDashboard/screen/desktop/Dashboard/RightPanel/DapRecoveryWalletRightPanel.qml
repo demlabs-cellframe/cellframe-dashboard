@@ -138,16 +138,14 @@ DapRecoveryWalletRightPanelForm
 //        print("hash = ", walletInfo.recovery_hash)
         var argsRequest
         if(walletInfo.password === "")
-            argsRequest = logicMainApp.createRequestToService("DapAddWalletCommand",
-                   walletInfo.name,
+            argsRequest = [walletInfo.name,
                    walletInfo.signature_type,
-                   walletInfo.recovery_hash)
+                   walletInfo.recovery_hash]
         else
-            argsRequest = logicMainApp.createRequestToService("DapAddWalletCommand",
-                   walletInfo.name,
+            argsRequest = [walletInfo.name,
                    walletInfo.signature_type,
                    walletInfo.recovery_hash,
-                   walletInfo.password)
+                   walletInfo.password]
 
         walletModule.createWallet(argsRequest);
     }

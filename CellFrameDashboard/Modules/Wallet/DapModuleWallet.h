@@ -42,7 +42,7 @@ public:
     Q_PROPERTY(int currentWalletIndex           READ getCurrentIndex        NOTIFY currentWalletChanged)
     Q_PROPERTY(QString currentWalletName        READ getCurrentWalletName   NOTIFY currentWalletChanged)
 
-    Q_INVOKABLE void createWallet(QStringList args);
+    Q_INVOKABLE void createWallet(const QStringList &args);
     Q_INVOKABLE void removeWallet(QStringList args);
     Q_INVOKABLE void createPassword(QStringList args);
     Q_INVOKABLE virtual void setCurrentWallet(int index);
