@@ -5,7 +5,7 @@
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
-    run();
+    // run();
 }
 
 DapServiceController::~DapServiceController()
@@ -33,9 +33,10 @@ DapServiceController::~DapServiceController()
     }
 }
 
-void DapServiceController::run()
+void DapServiceController::run(DapNodeMode::NodeMode nodeMode)
 {
     m_reqularRequestsCtrl = new DapRegularRequestsController();
+    m_reqularRequestsCtrl->setNodeMode(nodeMode);
 
     DapConfigReader configReader;
 
