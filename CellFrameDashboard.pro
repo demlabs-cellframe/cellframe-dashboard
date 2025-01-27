@@ -1,14 +1,11 @@
 TEMPLATE = subdirs
 
-SUBDIRS = CellFrameDashboard \
+SUBDIRS = cellframe-sdk \
+          CellFrameDashboard \
 
-# SUBDIRS = cellframe-sdk \
-#           CellFrameDashboard \
-
-# CellFrameDashboard.depends=cellframe-sdk
+CellFrameDashboard.depends=cellframe-sdk
 
 include(config.pri)
-
 
 TRANSLATIONS += \
     Resources/Translations/Translation_ru.ts \
