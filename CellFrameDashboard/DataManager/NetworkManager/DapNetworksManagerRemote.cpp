@@ -6,13 +6,11 @@
 
 DapNetworksManagerRemote::DapNetworksManagerRemote(DapModulesController *moduleController)
     : DapNetworksManagerBase(moduleController)
+    , m_netListTimer(new QTimer())
 {
     connect(m_modulesController->getServiceController(), &DapServiceController::networksListReceived, this, &DapNetworksManagerRemote::networkListRespond);
     connect(m_modulesController->getServiceController(), &DapServiceController::networkStatesListReceived, this, &DapNetworksManagerRemote::networksStatesRespond);
-}
-
-void DapNetworksManagerRemote::initManager()
-{
+    connect(m_netListTimer, &QTimer::timeout, this, &DapNetworksManagerRemote::requestNetworkList);
     requestNetworkList();
 }
 
@@ -44,12 +42,17 @@ void DapNetworksManagerRemote::networkListRespond(const QVariant &rcvData)
     QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
     QJsonObject replyObj = replyDoc.object();
     QJsonArray resultArr = replyObj[Dap::CommandParamKeys::RESULT_KEY].toArray();
+    m_netListTimer->stop();
     if(resultArr.isEmpty())
     {
         if(!m_netList.isEmpty())
         {
             m_netList.clear();
             emit networkListChanged();
+        }
+        else
+        {
+            m_netListTimer->start(1000);
         }
         return;
     }
