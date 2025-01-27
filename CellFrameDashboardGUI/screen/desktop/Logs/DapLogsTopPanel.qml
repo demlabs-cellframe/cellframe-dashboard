@@ -10,11 +10,11 @@ Controls.DapTopPanel
 {
     id:topLogsPanel
 
-    //Export log button
+    //Export failure logs button
     Widgets.DapButton
     {
         id: exportLogButton
-        textButton: qsTr("Export log")
+        textButton: qsTr("Export failure logs")
         anchors.right: parent.right
         anchors.rightMargin: 24
         anchors.verticalCenter: parent.verticalCenter
@@ -26,7 +26,7 @@ Controls.DapTopPanel
         onClicked: exportPopup.open()
 
         Widgets.DapCustomToolTip{
-            contentText: qsTr("Export log to file")
+            contentText: qsTr("Export failure logs to file")
         }
     }
 

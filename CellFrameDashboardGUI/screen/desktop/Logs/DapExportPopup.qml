@@ -62,7 +62,7 @@ DapMessagePopup {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
 
-            text: qsTr("Export logs")
+            text: qsTr("Export failure logs")
 
 
         }
@@ -247,7 +247,7 @@ DapMessagePopup {
             Layout.minimumHeight: 36
             Layout.maximumHeight: 36
 
-            textButton: qsTr("Export logs")
+            textButton: qsTr("Export failure logs")
 
             implicitHeight: 36
             fontButton: mainFont.dapFont.medium14
@@ -286,7 +286,7 @@ DapMessagePopup {
         target: logsModule
         function onLogsExported(status)
         {
-            console.log("export log status = ", status)
+            console.log("export failure logs status = ", status)
 
             if(status)
                 dapMainWindow.infoItem.showInfo(
