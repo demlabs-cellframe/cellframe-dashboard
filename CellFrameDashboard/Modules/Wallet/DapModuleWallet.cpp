@@ -225,9 +225,19 @@ void DapModuleWallet::requestWalletTokenInfo(QStringList args)
     s_serviceCtrl->requestToService("DapGetWalletTokenInfoCommand", args);
 }
 
-void DapModuleWallet::createWallet(QStringList args)
+void DapModuleWallet::createWallet(const QStringList& args)
 {
-    s_serviceCtrl->requestToService("DapAddWalletCommand", args);
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {{Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                          ,{Dap::KeysParam::WALLET_NAME, args[0]}
+                          ,{Dap::KeysParam::SIGN, args[1]}
+                          ,{Dap::KeysParam::HASH, args[2]}};
+    if(args.size() == 4)
+    {
+        request.insert(Dap::KeysParam::WALLET_PASSWORD, args[3]);
+    }
+
+    s_serviceCtrl->requestToService("DapAddWalletCommand", request);
 }
 
 void DapModuleWallet::removeWallet(QStringList args)
