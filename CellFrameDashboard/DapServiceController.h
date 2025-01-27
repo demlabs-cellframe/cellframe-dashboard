@@ -138,7 +138,7 @@ class DapServiceController : public QObject
     Q_DISABLE_COPY(DapServiceController)
 
 public:
-    void run();
+    void run(DapNodeMode::NodeMode node);
     explicit DapServiceController(QObject *apParent = nullptr);
     ~DapServiceController();
     // Q_INVOKABLE static DapServiceController &getInstance();

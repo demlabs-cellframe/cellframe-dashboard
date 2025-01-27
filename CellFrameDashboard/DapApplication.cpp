@@ -32,6 +32,8 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
     setNodeMode(QSettings().value("node_mode", DapNodeMode::REMOTE).toInt());
 
+    m_serviceController->run((DapNodeMode::NodeMode)getNodeMode());
+
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 //    qDebug()<<m_nodeWrapper->nodeInstalled();
 //    qDebug()<<m_nodeWrapper->nodeServiceLoaded();
