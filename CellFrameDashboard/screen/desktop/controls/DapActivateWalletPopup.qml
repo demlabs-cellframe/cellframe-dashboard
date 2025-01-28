@@ -354,6 +354,7 @@ Item{
                                         8,
                                         qsTr("Wallet activated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletUnlocked.svg")
+                            walletModule.updateWalletInfo()
                             hide()
                         }
                         else

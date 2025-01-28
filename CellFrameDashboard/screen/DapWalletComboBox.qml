@@ -167,6 +167,7 @@ Item
         y: mainItem.height - height*(1/scale-1)*0.5
 
         width: mainItem.width
+
         height: popupListView.contentHeight < maximumPopupHeight ?
                     popupListView.contentHeight : maximumPopupHeight
 

@@ -8,6 +8,9 @@ class DapWalletsManagerRemote : public DapWalletsManagerBase
     Q_OBJECT
 public:
     DapWalletsManagerRemote(DapModulesController *moduleController);
+
+    void updateWalletList() override;
+    void updateWalletInfo() override;
 protected:
     void initManager() override;
 private slots:

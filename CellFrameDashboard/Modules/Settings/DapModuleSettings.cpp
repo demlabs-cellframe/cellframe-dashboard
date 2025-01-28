@@ -6,7 +6,10 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     , m_timerVersionCheck(new QTimer())
     , m_timerTimeoutService(new QTimer())
 {
-    updateUrlUpdateNode();
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        updateUrlUpdateNode();
+    }
 
     connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {

@@ -262,7 +262,7 @@ void DapModuleWallet::activateOrDeactivateWallet(const QString& walletName,
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::REMOTE)
     {
-        QString walletPath = getWalletManager()->getWalletsInfo()[walletName].path + "/" + walletName + ".dwallet";
+        QString walletPath = getWalletManager()->getWalletsInfo()[walletName].path;
 
         req.insert(Dap::KeysParam::WALLET_PATH, walletPath);
         req.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
