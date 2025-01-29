@@ -8,34 +8,48 @@ void DapNotifyController::init()
 {
     if(DapNodeMode::getNodeMode()==DapNodeMode::LOCAL)
     {
-        m_node_notify = std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel>(cellframe_node::getCellframeNodeInterface("local")->openNotificationChannel());
+        m_initTimer = new QTimer(this);
 
-        m_node_notify->addNotifyDataCallback([this](const std::string &data)
-                                             {
-                                                 rcvData(QJsonDocument::fromJson(data.c_str()).toVariant());
-                                             });
+        m_initTimer->start(5000);
+        connect(m_initTimer, &QTimer::timeout, [this]
+        {
+            qDebug()<<"Reinit notify timer tick";
+            bool isInstalled = cellframe_node::getCellframeNodeInterface("local")->nodeInstalled();
 
-        m_node_notify->addNotifyStatusCallback([this](const cellframe_node::notify::CellframeNotificationChannel::E_NOTIFY_STATUS &status)
-                                               {
-                                                   if(status != m_connectState)
-                                                   {
-                                                       m_connectState = status;
+            if(isInstalled)
+            {
+                m_initTimer->stop();
 
-                                                       if(status == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
+                m_node_notify = std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel>(cellframe_node::getCellframeNodeInterface("local")->openNotificationChannel());
+
+                m_node_notify->addNotifyDataCallback([this](const std::string &data)
+                                                     {
+                                                         rcvData(QJsonDocument::fromJson(data.c_str()).toVariant());
+                                                     });
+
+                m_node_notify->addNotifyStatusCallback([this](const cellframe_node::notify::CellframeNotificationChannel::E_NOTIFY_STATUS &status)
                                                        {
-                                                           m_isConnected = true;
-                                                           emit notifySocketStateChanged(m_isConnected);
-                                                       }
-                                                       else
-                                                       {
-                                                           m_isConnected = false;
-                                                           emit notifySocketStateChanged(m_isConnected);
-                                                       }
-                                                   }
-                                               });
+                                                           if(status != m_connectState)
+                                                           {
+                                                               m_connectState = status;
 
-        m_connectState = m_node_notify->status(); //for init
-        emit notifySocketStateChanged(m_connectState);
+                                                               if(status == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
+                                                               {
+                                                                   m_isConnected = true;
+                                                                   emit notifySocketStateChanged(m_isConnected);
+                                                               }
+                                                               else
+                                                               {
+                                                                   m_isConnected = false;
+                                                                   emit notifySocketStateChanged(m_isConnected);
+                                                               }
+                                                           }
+                                                       });
+
+                m_connectState = m_node_notify->status(); //for init
+                emit notifySocketStateChanged(m_connectState);
+            }
+        });
     }
 }
 
