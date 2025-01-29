@@ -35,13 +35,31 @@ esac
 # rm -r /opt/cellframe-node/var/lib/network/ || true
 # rm -r /opt/cellframe-node/var/lib/global_db/ || true
 # chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using dashboard
-mkdir /var/log/cellframe-dashboard/ || true
-mkdir /opt/cellframe-dashboard/data/wallet/ || true
+
+if [ ! -d /var/log/cellframe-dashboard/ ]; then
+    mkdir -p /var/log/cellframe-dashboard
+fi
 chmod -R a+rw /var/log/cellframe-dashboard/
+
+if [ ! -d /opt/cellframe-dashboard/data/ ]; then
+    mkdir -p /opt/cellframe-dashboard/data/
+fi
+
+if [ ! -d /opt/cellframe-dashboard/data/wallet/ ]; then
+    mkdir -p /opt/cellframe-dashboard/data/wallet
+fi
 chmod -R a+rw /opt/cellframe-dashboard/
 
-chmod -R a+rw /opt/cellframe-node/var/lib/wallet
-chmod -R a+rw /opt/cellframe-node/var/lib/ca
-chmod -R a+rw /opt/cellframe-node/etc/
+if [ -d /opt/cellframe-node/var/lib/wallet/ ]; then
+    chmod -R a+rw /opt/cellframe-node/var/lib/wallet/
+fi
+
+if [ -d /opt/cellframe-node/var/lib/ca/ ]; then
+    chmod -R a+rw /opt/cellframe-node/var/lib/ca/
+fi
+
+if [ -d /opt/cellframe-node/etc/ ]; then
+    chmod -R a+rw /opt/cellframe-node/etc/
+fi
 
 

@@ -138,7 +138,16 @@ const int USING_NOTIFY = 0;
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {
-    QApplication *temp = new QApplication(argc, argv);
+    int argc2 = argc;
+    char** argv2 = new char*[argc];
+
+    for(int i=0; i<argc; ++i)
+    {
+        argv2[i] = new char[strlen(argv[i])+1];
+        strcpy(argv2[i],argv[i]);
+    }
+
+    QApplication *temp = new QApplication(argc2, argv2);
 
     int maxWidth = temp->primaryScreen()->availableGeometry().width();
     int maxHeight = temp->primaryScreen()->availableGeometry().height();
@@ -167,6 +176,13 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     temp->quit();
     delete temp;
+
+    for(int i=0; i<argc; ++i)
+    {
+        delete [] argv2[i];
+    }
+
+    delete [] argv2;
 
     qDebug() << "window_scale" << QString::number(scale, 'f', 1).toDouble();
 
@@ -216,18 +232,9 @@ int main(int argc, char *argv[])
         }
         /// CHANGE SKIN - END
 
-        int argc2 = argc;
-        char** argv2 = new char*[argc];
-
-        for(int i=0; i<argc; ++i)
-        {
-            argv2[i] = new char[strlen(argv[i])+1];
-            strcpy(argv2[i],argv[i]);
-        }
-
         qDebug() << "New app start";
-        qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc2, argv2));
-        DapGuiApplication * app = new DapGuiApplication(argc2, argv2);
+        qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
+        DapGuiApplication * app = new DapGuiApplication(argc, argv);
         mainApp.setGuiApp(app);
 
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
@@ -274,13 +281,6 @@ int main(int argc, char *argv[])
         app->quit();
         delete app;
         mainApp.clearData();
-
-        for(int i=0; i<argc; ++i)
-        {
-            delete [] argv2[i];
-        }
-
-        delete [] argv2;
     }
 
 

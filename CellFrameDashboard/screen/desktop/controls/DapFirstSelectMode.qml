@@ -31,8 +31,8 @@ Item{
 
         Behavior on opacity {NumberAnimation{duration: 200}}
 
-        width: 470
-        height: 400
+        width: 417
+        height: 306
         color: currTheme.popup
         radius: currTheme.popupRadius
 
@@ -42,126 +42,155 @@ Item{
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.topMargin: 17
-            anchors.bottomMargin: 24
+            anchors.leftMargin: 32
+            anchors.rightMargin: 32
             spacing: 0
 
             Text{
+                Layout.topMargin: 32
                 Layout.fillWidth: true
-                Layout.leftMargin: 50
-                Layout.rightMargin: 50
                 Layout.alignment: Qt.AlignHCenter
                 horizontalAlignment: Text.AlignHCenter
-                text: qsTr("Select Node Mode")
+                text: qsTr("Select Node mode")
                 font: mainFont.dapFont.bold17
-                lineHeightMode: Text.FixedHeight
-                lineHeight: 17.5
-                color: currTheme.white
-                elide: Text.ElideMiddle
+                color: currTheme.lime
             }
 
-            Text{
-                Layout.topMargin: 5
-                Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Select the mode of connection to the node.\nRemote - mode for working with a remote node\nLocal - mode for working with local node (may require installation).")
-                font: mainFont.dapFont.regular14
-                lineHeightMode: Text.FixedHeight
-                lineHeight: 16
-                color: currTheme.white
-            }
-
-
-            RowLayout
-            {
-                property int selected: app.getNodeMode()
-
-                id: modeLayout
+            RowLayout{
                 Layout.topMargin: 16
-                Layout.leftMargin: 16
-                Layout.rightMargin: 16
                 Layout.alignment: Qt.AlignHCenter
-                spacing: 32
+                spacing: 0
 
-                Rectangle{
-                    width: 100
-                    height: width
+                Text{
 
-                    border.width: 1
-                    border.color: modeLayout.selected   ||
-                                  areaRemote.containsMouse ? currTheme.border
-                                                          : currTheme.mainBackground
-                    color: modeLayout.selected   ||
-                           areaRemote.containsMouse ? currTheme.secondaryBackground
-                                                   : currTheme.mainBackground
-                    radius: 8
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Local: ")
+                    font: mainFont.dapFont.regular14
+                    color: currTheme.lime
+                }
 
-                    Text{
-                        anchors.centerIn: parent
-                        text: qsTr("Remote")
-                        font: mainFont.dapFont.regular14
-                        lineHeightMode: Text.FixedHeight
-                        lineHeight: 16
+                Text{
+
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Operate node locally (may require installation)")
+                    font: mainFont.dapFont.regular14
+                    color: currTheme.white
+                }
+            }
+
+            RowLayout{
+                Layout.alignment: Qt.AlignHCenter
+                spacing: 0
+
+                Text{
+
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Remote: ")
+                    font: mainFont.dapFont.regular14
+                    color: currTheme.lime
+                }
+
+                Text{
+
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Operate node remotely")
+                    font: mainFont.dapFont.regular14
+                    color: currTheme.white
+                }
+            }
+
+
+            //--------------custom switch---------------------//
+            Rectangle{
+                property int selectedItem: app.getNodeMode()
+
+                id: customModeSwitch
+                Layout.fillWidth: true
+                Layout.topMargin: 16
+                height: 32
+
+                border.color: currTheme.input
+                color: currTheme.mainBackground
+                radius: height * 0.5
+
+                Rectangle
+                {
+                    id: firstItem
+                    x: 4
+                    anchors.verticalCenter: parent.verticalCenter
+                    z: 1
+                    color: parent.selectedItem ? "transparent"
+                                               : currTheme.mainButtonColorNormal1
+                    radius: height * 0.5
+                    width: parent.width / 2
+                    height: parent.height - 8
+
+                    Text
+                    {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: firstItem.height
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                         color: currTheme.white
+                        font: mainFont.dapFont.medium14
+                        text: qsTr("Local")
                     }
 
-                    MouseArea{
-                        id: areaRemote
+                    MouseArea {
                         anchors.fill: parent
-                        hoverEnabled: true
                         onClicked: {
-                            modeLayout.selected = 1
+                            customModeSwitch.selectedItem = 0
                         }
                     }
                 }
 
                 Rectangle
                 {
-                    width: 100
-                    height: width
+                    id: secondItem
+                    x: 4 + firstItem.width
+                    anchors.verticalCenter: parent.verticalCenter
+                    z: 1
+                    color: !parent.selectedItem ? "transparent"
+                                                : currTheme.mainButtonColorNormal0
+                    radius: height * 0.5
+                    width: parent.width / 2 - 8
+                    height: parent.height - 8
 
-                    border.width: 1
-                    border.color: !modeLayout.selected   ||
-                                  areaLocal.containsMouse ? currTheme.border
-                                                          : currTheme.mainBackground
-                    color: !modeLayout.selected   ||
-                           areaLocal.containsMouse ? currTheme.secondaryBackground
-                                                   : currTheme.mainBackground
-                    radius: 8
-
-                    Text{
-                        anchors.centerIn: parent
-                        text: qsTr("Local")
-                        font: mainFont.dapFont.regular14
-                        lineHeightMode: Text.FixedHeight
-                        lineHeight: 16
+                    Text
+                    {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: secondItem.height
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                         color: currTheme.white
+                        font: mainFont.dapFont.medium14
+                        text: qsTr("Remote")
                     }
 
-                    MouseArea{
-                        id: areaLocal
+                    MouseArea {
                         anchors.fill: parent
-                        hoverEnabled: true
                         onClicked: {
-                            modeLayout.selected = 0
+                            customModeSwitch.selectedItem = 1
                         }
                     }
                 }
             }
+            //--------------custom switch---------------------//
 
             Text{
-                Layout.topMargin: 5
+                Layout.topMargin: 8
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("*You can change the mode in the settings menu")
-                font: mainFont.dapFont.regular12
-                lineHeightMode: Text.FixedHeight
-                lineHeight: 16
-                color: currTheme.white
+                text: qsTr("You can change the mode in the settings menu")
+                font: mainFont.dapFont.regular14
+                color: currTheme.gray
             }
 
 
             RowLayout
             {
-                Layout.topMargin: 16
+                Layout.topMargin: 8
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 0
 
@@ -173,7 +202,7 @@ Item{
                     source: checked ? "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_on.png"
                                     : "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_off.png"
                     mipmap: true
-                    sourceSize: Qt.size(40,40)
+                    sourceSize: Qt.size(36,36)
 
                     MouseArea{
                         anchors.fill: parent
@@ -208,8 +237,8 @@ Item{
             {
                 id: buttonAccept
                 Layout.fillWidth: true
-                Layout.leftMargin: 24
-                Layout.rightMargin: 24
+                Layout.topMargin: 8
+                Layout.bottomMargin: 32
                 Layout.alignment: Qt.AlignBottom
                 implicitHeight: 36
                 textButton: qsTr("Accept")
@@ -218,20 +247,18 @@ Item{
                 fontButton: mainFont.dapFont.medium14
                 onClicked:
                 {
-
                     if(checkBoxImg.checked)
                     {
                         app.setDontShowNodeModeFlag(true);
                     }
 
-                    if(modeLayout.selected === app.getNodeMode())
+                    if(customModeSwitch.selectedItem === app.getNodeMode())
                     {
                         hide()
                     }
                     else
                     {
-                        app.setNodeMode(modeLayout.selected)
-                        hide()
+                        app.setNodeMode(customModeSwitch.selectedItem)
                         Qt.exit(RESTART_CODE)
                     }
                 }
