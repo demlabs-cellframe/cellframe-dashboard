@@ -30,6 +30,12 @@ ColumnLayout
         ListElement{name:"White Theme"}
     }
 
+    ListModel{
+        id: selectModeModel
+        ListElement{name:"Local"}
+        ListElement{name:"Remote"}
+    }
+
     Item
     {
         Layout.fillWidth: true
@@ -200,56 +206,119 @@ ColumnLayout
             font: mainFont.dapFont.medium12
             color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Node")
+            text: qsTr("Node connect mode")
         }
     }
 
-    Item
-    {
-        height: 60
+    //--------------custom switch---------------------//
+    Rectangle{
+        property int selectedItem: app.getNodeMode()
+
+        id: customModeSwitch
         Layout.fillWidth: true
-        RowLayout
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.bottomMargin: 16
+        Layout.topMargin: 12
+        height: 32
+
+        border.color: currTheme.input
+        color: currTheme.mainBackground
+        radius: height * 0.5
+
+        Rectangle
         {
-            anchors.fill: parent
+            id: firstItem
+            x: 4
             anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: 16
-            anchors.rightMargin: 16
+            z: 1
+            color: parent.selectedItem ? "transparent"
+                                       : currTheme.mainButtonColorNormal1
+            radius: height * 0.5
+            width: parent.width / 2
+            height: parent.height - 8
 
             Text
             {
-                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                font: mainFont.dapFont.regular14
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: firstItem.height
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: currTheme.white
-                verticalAlignment: Qt.AlignVCenter
-                 text: qsTr("Node connect mode")
+                font: mainFont.dapFont.medium14
+                text: qsTr("Local")
             }
-            DapSwitch
-            {
-                id: switchNodeModeTab
-                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                Layout.preferredHeight: 26
-                Layout.preferredWidth: 46
 
-                indicatorSize: 30
-
-                backgroundColor: currTheme.mainBackground
-                borderColor: currTheme.reflectionLight
-                shadowColor: currTheme.shadowColor
-
-                checked: app.getNodeMode()
-
-                function toggle() {
-                    if(app.getNodeMode() === 0)
-                        app.setNodeMode(1)//remote
-                    else
-                        app.setNodeMode(0)//local
-
-                    Qt.exit(RESTART_CODE)
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    customModeSwitch.selectedItem = 0
+                    customModeSwitch.clickSwitchMode()
                 }
             }
+        }
+
+        Rectangle
+        {
+            id: secondItem
+            x: 4 + firstItem.width
+            anchors.verticalCenter: parent.verticalCenter
+            z: 1
+            color: !parent.selectedItem ? "transparent"
+                                        : currTheme.mainButtonColorNormal0
+            radius: height * 0.5
+            width: parent.width / 2 - 8
+            height: parent.height - 8
+
+            Text
+            {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: secondItem.height
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: currTheme.white
+                font: mainFont.dapFont.medium14
+                text: qsTr("Remote")
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    customModeSwitch.selectedItem = 1
+                    customModeSwitch.clickSwitchMode()
+                }
+            }
+        }
+
+        function clickSwitchMode()
+        {
+            if(app.getNodeMode() !== customModeSwitch.selectedItem)
+            {
+                app.setNodeMode(customModeSwitch.selectedItem)
+                Qt.exit(RESTART_CODE)
+            }
+        }
+    }
+    //--------------custom switch---------------------//
+
+    Rectangle
+    {
+        visible: !app.getNodeMode()
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Node service")
         }
     }
 
@@ -340,7 +409,12 @@ ColumnLayout
 
         visible: !app.getNodeMode() ? switchTab.checked && (CURRENT_OS !== "macos") : false
 
-        textButton: cellframeNodeWrapper.nodeRunning ? qsTr("Stop Node") : qsTr("Start Node")
+        textButton:
+        {
+            if(app.getNodeMode() === 0)
+                return cellframeNodeWrapper.nodeRunning ? qsTr("Stop Node") : qsTr("Start Node")
+            return ""
+        }
 
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter

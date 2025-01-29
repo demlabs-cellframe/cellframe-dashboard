@@ -52,6 +52,8 @@ Function .onInit
     ${EndIf}
 	ReadRegStr $CommonDocuments HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common Documents"
 	StrCpy $ConfigPath "$CommonDocuments\${NODE_NAME}"
+    CreateDirectory "$CommonDocuments\${APP_NAME}\data"
+    CreateDirectory "$CommonDocuments\${APP_NAME}\data\wallet"
 FunctionEnd
 
 Function UninstPrev

@@ -208,6 +208,7 @@ Controls.DapTopPanel
             if(walletModule.currentWalletIndex >= 0)
             {
                  comboBoxCurrentWallet.displayText = walletModule.currentWalletName
+                updateStatusWalletInfo()
             }
         }
     }

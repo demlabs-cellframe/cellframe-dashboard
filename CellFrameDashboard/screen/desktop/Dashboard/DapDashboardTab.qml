@@ -174,6 +174,9 @@ DapPage
                                                     walletModelList.get(walletModule.currentWalletIndex).statusProtected === "non-Active"))
 
         dashboardScreen.walletCreateFrame.visible = (state === "WALLETCREATE" &&  !walletModelList.count)
+
+        if(dashboardScreen.walletShowFrame.visible)
+            dashboardScreen.walletShowFrame.listViewWallet.visible = walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
     }
 
     Connections

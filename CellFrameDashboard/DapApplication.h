@@ -1,13 +1,11 @@
 #ifndef DAPAPPLICATION_H
 #define DAPAPPLICATION_H
 
-#include <QApplication>
-#include <QQmlContext>
-#include <QQmlApplicationEngine>
-#include <QIcon>
-#include <QClipboard>
 #include <iostream>
 
+#include <QQmlApplicationEngine>
+
+#include "DapGuiApplication.h"
 #include "quickcontrols/qrcodequickitem.h"
 #include "dapvpnorderscontroller.h"
 
@@ -15,8 +13,6 @@
 #include "DapServiceController.h"
 #include "mobile/QMLClipboard.h"
 #include "Autocomplete/CommandHelperController.h"
-
-#include "Translator/qmltranslator.h"
 
 #include "CellframeNodeQmlWrapper.h"
 #include "DapNodePathManager.h"
@@ -28,12 +24,12 @@
 #include <QtAndroid>
 #endif
 
-class DapApplication : public QApplication
+class DapApplication : public QObject
 {
     Q_OBJECT
 
 public:
-    DapApplication(int &argc, char **argv);
+    DapApplication(QObject *parent = nullptr);
     ~DapApplication();
 
     QQmlApplicationEngine *qmlEngine();
@@ -47,7 +43,8 @@ public:
     Q_INVOKABLE void setDontShowNodeModeFlag(bool isDontShow);
     Q_INVOKABLE bool getDontShowNodeModeFlag(){return m_dontShowNodeModeFlag;}
 
-    DapModulesController *s_modulesInit;
+    void setGuiApp(DapGuiApplication *guiApp);
+    void clearData();
 
 private:
     void setContextProperties();
@@ -55,15 +52,16 @@ private:
 
     bool m_dontShowNodeModeFlag{false};
 
-    DapModulesController *m_modulesController;
-    CommandHelperController* m_commandHelper = nullptr;
+    DapModulesController     *m_modulesController    = nullptr;
+    CommandHelperController  *m_commandHelper        = nullptr;
 
-    QQmlApplicationEngine m_engine;
-    DapServiceController* m_serviceController = nullptr;
-    CellframeNodeQmlWrapper* m_nodeWrapper;
-    DapNotifyController * s_dapNotifyController;
-    DateWorker   *dateWorker;
-    QMLTranslator * translator;
+    QQmlApplicationEngine    *m_engine               = nullptr;
+    DapServiceController     *m_serviceController    = nullptr;
+    CellframeNodeQmlWrapper  *m_nodeWrapper          = nullptr;
+    DapNotifyController      *s_dapNotifyController  = nullptr;
+    DateWorker               *dateWorker             = nullptr;
+
+    DapGuiApplication *m_guiApp = nullptr;
 };
 
 #endif // DAPAPPLICATION_H

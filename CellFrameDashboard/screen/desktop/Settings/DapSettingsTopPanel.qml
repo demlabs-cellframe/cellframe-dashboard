@@ -147,8 +147,15 @@ Controls.DapTopPanel
                     innerWidth: 8
                     innerHeight: 8
 
-                    source: dapNotifyController.isConnected? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
-                                                             "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                    source:
+                    {
+                        if(app.getNodeMode() === 0)
+                        {
+                            return dapNotifyController.isConnected ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
+                                                                     "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                        }
+                        return "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                    }
                 }
             }
 

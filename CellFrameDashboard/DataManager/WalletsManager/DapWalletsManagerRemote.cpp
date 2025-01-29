@@ -20,6 +20,27 @@ DapWalletsManagerRemote::DapWalletsManagerRemote(DapModulesController *moduleCon
     connect(m_timerAlarmUpdateWallet, &QTimer::timeout, this, &DapWalletsManagerRemote::alarmTimerSlot, Qt::QueuedConnection);
 }
 
+void DapWalletsManagerRemote::updateWalletList()
+{
+    updateListWallets();
+}
+
+void DapWalletsManagerRemote::updateWalletInfo()
+{
+    QString currentWalletName = m_currentWallet.second;
+    auto netList = m_modulesController->getManagerController()->getNetworkList();
+    auto walletInfo = m_walletsInfo[currentWalletName].walletInfo;
+
+    for(const auto &net : netList)
+    {
+        QString address = walletInfo[net].address;
+        if(!address.isEmpty())
+        {
+            requestWalletInfo(address, net);
+        }
+    }
+}
+
 void DapWalletsManagerRemote::initManager()
 {
     updateListWallets();
@@ -59,7 +80,12 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
 
             if(m_walletsInfo.contains(walletName))
             {
-                m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
+
+                if(tmpObject[Dap::JsonKeys::STATUS].toString() != m_walletsInfo[walletName].status)
+                {
+                    m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
+                    emit walletInfoChanged(walletName);
+                }
                 m_walletsInfo[walletName].path = tmpObject[Dap::JsonKeys::PATH].toString();
                 isUpdateWallet = true;
             }
@@ -141,6 +167,10 @@ void DapWalletsManagerRemote::updateAddressWallets()
                     }
                 }
             }
+        }
+        else
+        {
+            m_walletsInfo[currWallet].walletInfo.clear();
         }
     }
 
@@ -240,13 +270,19 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
     QString walletIdent = inObject.value(Dap::JsonKeys::WALLET_IDENT).toString();
     QString networkName = inObject.value(Dap::JsonKeys::NETWORK_NAME).toString();
 
+    if(walletIdent.isEmpty())
+    {
+        qWarning() << "[DapWalletsManagerRemote] Empty wallet address for " << networkName << " network";
+        return;
+    }
+
     QString walletName;
     for(const auto& key: m_walletsInfo.keys())
     {
-        if(m_walletsInfo[key].walletInfo.contains(networkName) &&
-            m_walletsInfo[key].walletInfo.value(networkName).address == walletIdent)
+        if(m_walletsInfo.value(key).walletInfo.value(networkName).address == walletIdent)
         {
             walletName = key;
+            break;
         }
     }
 
@@ -273,7 +309,7 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
 
     if(walletName.isEmpty())
     {
-        qWarning() << "[DapWalletsManagerLocal] The list does not contain a wallet with the name " << walletName;
+        qWarning() << "[DapWalletsManagerRemote] The list does not contain a wallet with the name " << walletName;
         return;
     }
 
@@ -363,20 +399,6 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
         return;
     }
     auto walletList = m_walletsInfo.keys();
-
-    auto getNextWalletIndex = [this, &walletList](int index) -> int
-    {
-        for(; index < walletList.size();)
-        {
-            QString wallet = walletList.value(index);
-            if(m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
-            {
-                break;
-            }
-            index++;
-        }
-        return index;
-    };
     if(!walletName.isEmpty())
     {
         m_lastRequestInfoNetworkName = netList[0];
@@ -413,7 +435,19 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
             }
             else
             {
-                int index = getNextWalletIndex(walletIndex + 1);
+                int index = walletIndex + 1;
+                for(; index < walletList.size(); index++)
+                {
+                    QString wallet = walletList.value(index);
+                    if(m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
+                    {
+                        break;
+                    }
+                }
+
+                if(index >= walletList.size())
+                    index = walletList.size() - 1;
+
                 m_lastRequestInfoWalletName = walletList[index];
                 m_lastRequestInfoNetworkName = netList[0];
                 m_isFirstRequestCurrWall = false;

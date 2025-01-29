@@ -11,8 +11,6 @@ APP_NAME=Cellframe-Dashboard
 case "$1" in
     configure)
 
-    ln -sf /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service /etc/systemd/user/cellframe-dashboard.service
-    systemctl --system enable /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service
     chmod +x /opt/cellframe-dashboard/bin/*
     ln -sf /opt/cellframe-dashboard/bin/$APP_NAME /usr/local/bin/$APP_NAME
     
@@ -36,11 +34,13 @@ esac
 
 # rm -r /opt/cellframe-node/var/lib/network/ || true
 # rm -r /opt/cellframe-node/var/lib/global_db/ || true
-chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using dashboard
+# chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using dashboard
 mkdir /var/log/cellframe-dashboard/ || true
+mkdir /opt/cellframe-dashboard/data/wallet/ || true
 chmod -R a+rw /var/log/cellframe-dashboard/
+chmod -R a+rw /opt/cellframe-dashboard/
 
-service cellframe-dashboard start || true
-
-
+chmod -R a+rw /opt/cellframe-node/var/lib/wallet
+chmod -R a+rw /opt/cellframe-node/var/lib/ca
+chmod -R a+rw /opt/cellframe-node/etc/
 

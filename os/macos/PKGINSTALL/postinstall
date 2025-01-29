@@ -2,6 +2,7 @@
 
 APP_NAME=Cellframe-Dashboard
 DAP_PREFIX=/Users/$USER/Applications/Cellframe.app/Contents/Resources
+NODE_USER_RES="/Library/Application Support/CellframeNode"
 # SERVICE=com.demlabs."$APP_NAME"Service
 
 set -x
@@ -61,6 +62,14 @@ $EXEC_PREFIX/create_configs.sh /Applications/Cellframe-Dashboard.app/
 
 mkdir /var/log/cellframe-dashboard/ || true
 chmod -R a+rw /var/log/cellframe-dashboard/
+
+mkdir /Applications/Cellframe-Dashboard.app/Resources/data || true
+mkdir /Applications/Cellframe-Dashboard.app/Resources/data/wallet || true
+chmod -R a+rw /Applications/Cellframe-Dashboard.app/Resources/data
+chmod -R a+rw $NODE_USER_RES/etc
+chmod -R a+rw $NODE_USER_RES/var/lib/ca
+chmod -R a+rw $NODE_USER_RES/var/lib/wallet
+chmod -R a+rw $NODE_USER_RES/var/log
 
 sudo rm $EXEC_PREFIX/*.sh
 sudo rm /Applications/$APP_NAME.plist

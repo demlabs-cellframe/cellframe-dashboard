@@ -128,6 +128,7 @@ Item{
                                         8,
                                         qsTr("Wallet deactivated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
+                            walletModule.updateWalletInfo()
                             hide()
                         }
                         else
