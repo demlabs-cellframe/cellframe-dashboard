@@ -10,6 +10,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QTimer>
 
 #include "CellframeNode.h"
 #include "node_globals/NodeGlobals.h"
@@ -50,6 +51,7 @@ public:
     void rcvData(QVariant);
 
 private:
+    QTimer *m_initTimer;
     bool m_isConnected{false};
     bool m_connectState;
     std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel> m_node_notify;

@@ -44,3 +44,4 @@ chmod -R a+rw /opt/cellframe-node/var/lib/wallet
 chmod -R a+rw /opt/cellframe-node/var/lib/ca
 chmod -R a+rw /opt/cellframe-node/etc/
 
+
