@@ -44,6 +44,7 @@ public:
     Q_INVOKABLE bool getDontShowNodeModeFlag(){return m_dontShowNodeModeFlag;}
 
     void setGuiApp(DapGuiApplication *guiApp);
+    void clearData();
 
 private:
     void setContextProperties();

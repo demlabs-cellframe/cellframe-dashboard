@@ -24,19 +24,7 @@ DapApplication::DapApplication(QObject *parent)
 
 DapApplication::~DapApplication()
 {
-//    m_engine.deleteLater();
-
-    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
-    {
-        delete m_commandHelper;
-    }
-
-    delete dateWorker;
-//    delete translator;
-    delete m_nodeWrapper;
-    delete s_dapNotifyController;
-    delete m_modulesController;
-    delete m_serviceController;
+    clearData();
 }
 
 QQmlApplicationEngine *DapApplication::qmlEngine()
@@ -101,13 +89,6 @@ void DapApplication::setDontShowNodeModeFlag(bool isDontShow)
 
 void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 {
-    if(m_commandHelper)       delete m_commandHelper;
-    if(dateWorker)            delete dateWorker;
-    if(m_nodeWrapper)         delete m_nodeWrapper;
-    if(s_dapNotifyController) delete s_dapNotifyController;
-    if(m_modulesController)   delete m_modulesController;
-    if(m_serviceController)   delete m_serviceController;
-
     m_guiApp = guiApp;
     m_engine = guiApp->qmlEngine();
 
@@ -143,6 +124,26 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 
     this->registerQmlTypes();
     this->setContextProperties();
+}
+
+void DapApplication::clearData()
+{
+    if(dateWorker)            delete dateWorker;
+    if(m_commandHelper)       delete m_commandHelper;
+    if(m_nodeWrapper)         delete m_nodeWrapper;
+    if(s_dapNotifyController) delete s_dapNotifyController;
+    if(m_modulesController)   delete m_modulesController;
+    if(m_serviceController)   delete m_serviceController;
+
+    dateWorker            = nullptr;
+    m_commandHelper       = nullptr;
+    m_nodeWrapper         = nullptr;
+    s_dapNotifyController = nullptr;
+    m_modulesController   = nullptr;
+    m_serviceController   = nullptr;
+
+    m_guiApp = nullptr;
+    m_engine = nullptr;
 }
 
 void DapApplication::setContextProperties()

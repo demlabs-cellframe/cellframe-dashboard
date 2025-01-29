@@ -399,20 +399,6 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
         return;
     }
     auto walletList = m_walletsInfo.keys();
-
-    auto getNextWalletIndex = [this, &walletList](int index) -> int
-    {
-        for(; index < walletList.size();)
-        {
-            QString wallet = walletList.value(index);
-            if(m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
-            {
-                break;
-            }
-            index++;
-        }
-        return index;
-    };
     if(!walletName.isEmpty())
     {
         m_lastRequestInfoNetworkName = netList[0];
@@ -449,7 +435,19 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
             }
             else
             {
-                int index = getNextWalletIndex(walletIndex + 1);
+                int index = walletIndex + 1;
+                for(; index < walletList.size(); index++)
+                {
+                    QString wallet = walletList.value(index);
+                    if(m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
+                    {
+                        break;
+                    }
+                }
+
+                if(index >= walletList.size())
+                    index = walletList.size() - 1;
+
                 m_lastRequestInfoWalletName = walletList[index];
                 m_lastRequestInfoNetworkName = netList[0];
                 m_isFirstRequestCurrWall = false;
