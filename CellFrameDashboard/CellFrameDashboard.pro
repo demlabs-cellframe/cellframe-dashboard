@@ -102,6 +102,7 @@ else: !win32 {
 HEADERS += $$PWD/DapServiceController.h \
     Autocomplete/CommandHelperController.h \
     DapApplication.h \
+    DapGuiApplication.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
     Workers/mathworker.h \
@@ -120,6 +121,7 @@ SOURCES += $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     Autocomplete/CommandHelperController.cpp \
     DapApplication.cpp \
+    DapGuiApplication.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \
     Workers/mathworker.cpp \

@@ -21,6 +21,7 @@
 #include "DapLogHandler.h"
 
 #include "DapApplication.h"
+#include "DapGuiApplication.h"
 #include "systemtray.h"
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
@@ -148,8 +149,8 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     QApplication *temp = new QApplication(argc2, argv2);
 
-    int maxWidth = DapApplication::primaryScreen()->availableGeometry().width();
-    int maxHeight = DapApplication::primaryScreen()->availableGeometry().height();
+    int maxWidth = temp->primaryScreen()->availableGeometry().width();
+    int maxHeight = temp->primaryScreen()->availableGeometry().height();
 
     qDebug()<<"maxWidth" << maxWidth << "maxHeight" << maxHeight;
 
@@ -203,6 +204,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("cellframe.net");
     QCoreApplication::setApplicationName(DAP_BRAND);
 
+    DapApplication mainApp = new DapApplication();
+
     if (!SingleApplicationTest(DAP_BRAND))
         return 1;
 
@@ -231,7 +234,8 @@ int main(int argc, char *argv[])
 
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
-        DapApplication * app = new DapApplication(argc, argv);
+        DapGuiApplication * app = new DapGuiApplication(argc, argv);
+        mainApp.setGuiApp(app);
 
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
