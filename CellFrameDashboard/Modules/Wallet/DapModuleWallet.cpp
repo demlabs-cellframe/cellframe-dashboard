@@ -242,7 +242,28 @@ void DapModuleWallet::createWallet(const QStringList& args)
 
 void DapModuleWallet::removeWallet(QStringList args)
 {
-    s_serviceCtrl->requestToService("DapRemoveWalletCommand", args);
+    if(args.isEmpty())
+    {
+        return;
+    }
+    QVariantMap request;
+    auto walletsInfo = getWalletManager()->getWalletsInfo();
+    QVariantMap walletsList;
+    for(const auto& wallet: args)
+    {
+        if(!walletsInfo.contains(wallet))
+        {
+            continue;
+        }
+        QString path = walletsInfo.value(wallet).path;
+        if(!path.isEmpty())
+        {
+            path += "/";
+        }
+        walletsList.insert(wallet, path);
+    }
+    request.insert("walletList", walletsList);
+    s_serviceCtrl->requestToService("DapRemoveWalletCommand", request);
 }
 
 void DapModuleWallet::createPassword(QStringList args)
