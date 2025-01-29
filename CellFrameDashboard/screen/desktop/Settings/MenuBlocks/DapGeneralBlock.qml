@@ -210,28 +210,98 @@ ColumnLayout
         }
     }
 
-    DapSelector
-    {
-        id: modeSelector
+    //--------------custom switch---------------------//
+    Rectangle{
+        property int selectedItem: app.getNodeMode()
+
+        id: customModeSwitch
         Layout.fillWidth: true
         Layout.leftMargin: 16
         Layout.rightMargin: 16
         Layout.bottomMargin: 16
         Layout.topMargin: 12
         height: 32
-        textFont: mainFont.dapFont.regular14
-        defaultIndex: app.getNodeMode()
-        itemHorisontalBorder: 50
 
-        selectorModel: selectModeModel
-        selectorListView.interactive: false
+        border.color: currTheme.input
+        color: currTheme.mainBackground
+        radius: height * 0.5
 
-        onItemSelected:
+        Rectangle
         {
-            app.setNodeMode(currentIndex)
-            Qt.exit(RESTART_CODE)
+            id: firstItem
+            x: 4
+            anchors.verticalCenter: parent.verticalCenter
+            z: 1
+            color: parent.selectedItem ? "transparent"
+                                       : currTheme.mainButtonColorNormal1
+            radius: height * 0.5
+            width: parent.width / 2
+            height: parent.height - 8
+
+            Text
+            {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: firstItem.height
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: currTheme.white
+                font: mainFont.dapFont.medium14
+                text: qsTr("Local")
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    customModeSwitch.selectedItem = 0
+                    customModeSwitch.clickSwitchMode()
+                }
+            }
+        }
+
+        Rectangle
+        {
+            id: secondItem
+            x: 4 + firstItem.width
+            anchors.verticalCenter: parent.verticalCenter
+            z: 1
+            color: !parent.selectedItem ? "transparent"
+                                        : currTheme.mainButtonColorNormal0
+            radius: height * 0.5
+            width: parent.width / 2 - 8
+            height: parent.height - 8
+
+            Text
+            {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: secondItem.height
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: currTheme.white
+                font: mainFont.dapFont.medium14
+                text: qsTr("Remote")
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    customModeSwitch.selectedItem = 1
+                    customModeSwitch.clickSwitchMode()
+                }
+            }
+        }
+
+        function clickSwitchMode()
+        {
+            if(app.getNodeMode() !== customModeSwitch.selectedItem)
+            {
+                app.setNodeMode(customModeSwitch.selectedItem)
+                Qt.exit(RESTART_CODE)
+            }
         }
     }
+    //--------------custom switch---------------------//
 
     Rectangle
     {

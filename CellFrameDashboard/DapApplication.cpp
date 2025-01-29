@@ -72,14 +72,19 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 DapApplication::~DapApplication()
 {
-    delete m_commandHelper;
+    m_engine.deleteLater();
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        delete m_commandHelper;
+    }
+
     delete dateWorker;
     delete translator;
     delete m_nodeWrapper;
     delete s_dapNotifyController;
     delete m_modulesController;
     delete m_serviceController;
-    m_engine.deleteLater();
 }
 
 QQmlApplicationEngine *DapApplication::qmlEngine()
