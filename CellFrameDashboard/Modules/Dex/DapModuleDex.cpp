@@ -160,11 +160,10 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         DEX::InfoTokenPair tmpPair;
         QJsonObject pairObject = value.toObject();
 
-        tmpPair.token1  = pairObject["token1"].toString();
-        tmpPair.token2  = pairObject["token2"].toString();
-        tmpPair.rate    = pairObject["rate"].toString();
+        tmpPair.token1  = pairObject[Dap::KeysParam::TOKEN_1].toString();
+        tmpPair.token2  = pairObject[Dap::KeysParam::TOKEN_2].toString();
+        tmpPair.rate    = "-";
         tmpPair.network = pairObject["network"].toString();
-        tmpPair.change  = pairObject["change"].toString();
         tmpPair.displayText = tmpPair.token1 + "/" + tmpPair.token2;
 
         if(tmpPair.token1 == "BUSD"     ||
@@ -215,15 +214,15 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
     {
         return;
     }
-    if(!tokenPairObject.contains("token1") ||
-        !tokenPairObject.contains("token2") ||
+    if(!tokenPairObject.contains(Dap::KeysParam::TOKEN_1) ||
+        !tokenPairObject.contains(Dap::KeysParam::TOKEN_2) ||
         !tokenPairObject.contains("network") ||
         !tokenPairObject.contains("rate"))
     {
         qWarning() << "[respondCurrentTokenPairs] there have been changes in the response of the DapGetXchangeTokenPriceAverage command.";
         return;
     }
-    QString pairName = tokenPairObject["token1"].toString() + "/" + tokenPairObject["token2"].toString();
+    QString pairName = tokenPairObject[Dap::KeysParam::TOKEN_1].toString() + "/" + tokenPairObject[Dap::KeysParam::TOKEN_2].toString();
 
     if(m_currentPair.displayText == pairName)
     {
@@ -247,15 +246,15 @@ void DapModuleDex::respondTokenPairsHistory(const QVariant &rcvData)
     {
         return;
     }
-    if(!tokenHistoryObject.contains("history") || !tokenHistoryObject.contains("token1")
-        ||!tokenHistoryObject.contains("token2") ||!tokenHistoryObject.contains("network"))
+    if(!tokenHistoryObject.contains("history") || !tokenHistoryObject.contains(Dap::KeysParam::TOKEN_1)
+        ||!tokenHistoryObject.contains(Dap::KeysParam::TOKEN_2) ||!tokenHistoryObject.contains("network"))
     {
         qWarning() << "[respondHistoryTokenPairs] The signature of the story has probably changed";
         return;
     }
     if(m_currentPair.network != tokenHistoryObject["network"].toString()
-            || m_currentPair.token1 != tokenHistoryObject["token1"].toString()
-            || m_currentPair.token2 != tokenHistoryObject["token2"].toString())
+            || m_currentPair.token1 != tokenHistoryObject[Dap::KeysParam::TOKEN_1].toString()
+            || m_currentPair.token2 != tokenHistoryObject[Dap::KeysParam::TOKEN_2].toString())
     {
         qDebug() << "[respondHistoryTokenPairs] The current pair has changed. The story is rejected";
         return;
@@ -280,23 +279,12 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
     QJsonObject object = resultObject["result"].toObject();
     QString walletName = object["walletName"].toString();
     QJsonArray list = object["orderList"].toArray();
-    QHash<QString, DEX::TXList> result;
+    QSet<QString> result;
     for(const auto& item: list)
     {
         QJsonObject itemObject = item.toObject();
-        QString type = itemObject["type"].toString();
-
-        if(type == "proposed")
-        {
-            DEX::TXList newItem;
-            newItem.type = type;
-            newItem.status = itemObject["status"].toString();
-            QString hash = itemObject["hash"].toString();
-            if(!hash.isEmpty())
-            {
-                result.insert(hash,std::move(newItem));
-            }
-        }
+        QString hash = itemObject["hash"].toString();
+        result.insert(hash);
     }
     if(m_txListsforWallet.contains(walletName))
     {
@@ -308,16 +296,16 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
 
 void DapModuleDex::respondOrdersHistory(const QVariant &rcvData)
 {
-    QByteArray data = rcvData.toByteArray();
-    if(data == m_ordersHistoryCash)
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+    if(byteArrayData == m_ordersHistoryCash)
     {
         return;
     }
-    m_ordersHistoryCash = data;
+    m_ordersHistoryCash = byteArrayData;
     //TODO: For optimization, it will be necessary to remove unnecessary models.
-    setOrdersHistory(data);
+    setOrdersHistory(byteArrayData);
     m_stockDataWorker->getOrderBookWorker()->setCurrentRate(m_currentPair.rate);
-    m_stockDataWorker->getOrderBookWorker()->setBookModel(std::move(data));
+    m_stockDataWorker->getOrderBookWorker()->setBookModel(std::move(byteArrayData));
 
 }
 
@@ -948,8 +936,6 @@ void DapModuleDex::requestHistoryOrders()
     QVariantMap request = {
         {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
         ,{Dap::KeysParam::NETWORK_LIST, netList}
-        ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
-        ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
     };
     m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeOrdersList", request);
 }

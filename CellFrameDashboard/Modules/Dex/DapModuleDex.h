@@ -168,7 +168,7 @@ protected:
     QByteArray m_ordersHistoryCash;
     QByteArray m_txListCash;
     QList<DEX::Order> m_ordersHistory;
-    QMap<QString, QHash<QString, DEX::TXList>> m_txListsforWallet;
+    QMap<QString, QSet<QString>> m_txListsforWallet;
 
     QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
@@ -184,9 +184,9 @@ protected:
 
     int m_stepChartIndex = 0;
 
-    const int ALL_TOKEN_UPDATE_TIMEOUT = 10000;
+    const int ALL_TOKEN_UPDATE_TIMEOUT = 60000;
     const int CURRENT_TOKEN_UPDATE_TIMEOUT = 1000;
-    const int ORDERS_HISTORY_UPDATE_TIMEOUT = 5000;
+    const int ORDERS_HISTORY_UPDATE_TIMEOUT = 30000;
 
     const QRegularExpression REGULAR_VALID_VALUE = QRegularExpression(R"((?=.*[0-9])(?:\d+|\d*\.\d+)$)");
 };

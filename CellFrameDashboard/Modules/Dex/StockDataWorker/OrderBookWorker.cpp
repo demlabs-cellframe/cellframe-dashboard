@@ -203,10 +203,10 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
     auto resultObject = QJsonDocument::fromJson(json).object();
 
     allOrders.clear();
-    auto object = resultObject["result"].toObject();
-    if(object.contains(network))
+
+    if(resultObject.contains(network))
     {
-        QJsonArray orders = object[network].toArray();
+        QJsonArray orders = resultObject[network].toArray();
         for(auto j = 0; j < orders.size(); j++)
         {
             if(orders.at(j)["status"].toString() == "CLOSED")

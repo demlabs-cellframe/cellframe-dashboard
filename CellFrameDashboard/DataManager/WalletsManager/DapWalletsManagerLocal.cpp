@@ -60,8 +60,13 @@ void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
 
             if(m_walletsInfo.contains(walletName))
             {
-                m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
-                isUpdateWallet = true;
+                if(m_walletsInfo[walletName].status != tmpObject[Dap::JsonKeys::STATUS].toString())
+                {
+                    m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
+                    emit walletInfoChanged(walletName);
+                    emit walletListChanged();
+                    isUpdateWallet = true;
+                }
             }
             else
             {

@@ -13,8 +13,6 @@ Rectangle
 
     Component.onCompleted:
     {
-//        orderBookWorker.generateBookModel(2.56, 20, 0.0005)
-        // logicMainApp.requestToService("DapGetXchangeOrdersList")
         updateOrdersListTimer.start()
     }
 
@@ -38,7 +36,6 @@ Rectangle
         repeat: true
         onTriggered:
         {
-            // logicMainApp.requestToService("DapGetXchangeOrdersList")
         }
     }
 
