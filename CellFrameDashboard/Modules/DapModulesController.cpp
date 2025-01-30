@@ -33,7 +33,7 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, Dap
 {
     connect(m_managerController, &DapDataManagerController::networkListChanged, this, &DapModulesController::readyReceiveData);
 
-    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    if(DapNodeMode::getNodeMode() == DapNodeMode::REMOTE)
     {
         connect(s_serviceCtrl, &DapServiceController::onServiceStarted, this, &DapModulesController::readyReceiveData);
     }

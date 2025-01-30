@@ -216,6 +216,7 @@ void DapWalletsManagerRemote::rcvWalletAddress(const QVariant &rcvData)
     if(netArray.isEmpty())
     {
         qWarning() << "[DapWalletsManagerRemote][rcvWalletAddress] The wallet addresses were not found. wallet: "<< walletName;
+        updateWalletList();
         updateAddressWallets();
         return;
     }

@@ -12,6 +12,7 @@ DapNetworksManagerRemote::DapNetworksManagerRemote(DapModulesController *moduleC
     connect(m_modulesController->getServiceController(), &DapServiceController::networkStatesListReceived, this, &DapNetworksManagerRemote::networksStatesRespond);
     connect(m_netListTimer, &QTimer::timeout, this, &DapNetworksManagerRemote::requestNetworkList);
     requestNetworkList();
+    m_netListTimer->start(10000);
 }
 
 void DapNetworksManagerRemote::requestNetworkList()
