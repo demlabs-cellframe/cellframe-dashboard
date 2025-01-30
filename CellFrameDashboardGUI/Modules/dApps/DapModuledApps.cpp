@@ -31,6 +31,9 @@ void DapModuledApps::init()
     m_filePrefix = "file:///";
 #endif
 
+#if defined Q_OS_MACOS
+    mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
+#endif
     //dApps config file
     m_pathPluginsConfigFile = Dap::DashboardDefines::DApps::PLUGINS_CONFIG;
     m_pathPlugins = Dap::DashboardDefines::DApps::PLUGINS_PATH;
