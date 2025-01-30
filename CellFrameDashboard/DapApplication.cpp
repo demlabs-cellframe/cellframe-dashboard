@@ -98,8 +98,8 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
     m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
     setNodeMode(QSettings().value("node_mode", DapNodeMode::REMOTE).toInt());
 
+    m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
     m_serviceController->run((DapNodeMode::NodeMode)getNodeMode());
-
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 
 #ifdef Q_OS_ANDROID
@@ -110,8 +110,6 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
         "(Landroid/content/Intent;)Landroid/content/ComponentName;",
         serviceIntent.handle().object());
 #endif
-
-    m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
 
     s_dapNotifyController = new DapNotifyController();
     m_modulesController->setNotifyCtrl(s_dapNotifyController);

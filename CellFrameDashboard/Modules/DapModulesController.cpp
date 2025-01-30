@@ -32,7 +32,12 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, Dap
     , s_settings(new QSettings(this))
 {
     connect(m_managerController, &DapDataManagerController::networkListChanged, this, &DapModulesController::readyReceiveData);
-    connect(s_serviceCtrl, &DapServiceController::onServiceStarted, this, &DapModulesController::readyReceiveData);
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        connect(s_serviceCtrl, &DapServiceController::onServiceStarted, this, &DapModulesController::readyReceiveData);
+    }
+
     initWorkers();
     initModules();
     s_appEngine->rootContext()->setContextProperty("managerController", m_managerController);
