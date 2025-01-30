@@ -30,12 +30,11 @@ void DapWalletsManagerRemote::updateWalletList()
 void DapWalletsManagerRemote::updateWalletInfo()
 {
     QString currentWalletName = m_currentWallet.second;
-    auto netList = m_modulesController->getManagerController()->getNetworkList();
-    auto walletInfo = m_walletsInfo[currentWalletName].walletInfo;
+    const auto& walletInfo = m_walletsInfo[currentWalletName].walletInfo;
 
-    for(const auto &net : netList)
+    for(const auto &net : walletInfo.keys())
     {
-        QString address = walletInfo[net].address;
+        QString address = walletInfo.value(net).address;
         if(!address.isEmpty())
         {
             requestWalletInfo(address, net);
@@ -212,7 +211,6 @@ void DapWalletsManagerRemote::rcvWalletAddress(const QVariant &rcvData)
     if(netArray.isEmpty())
     {
         qWarning() << "[DapWalletsManagerRemote][rcvWalletAddress] The wallet addresses were not found. wallet: "<< walletName;
-        updateWalletList();
         updateAddressWallets();
         return;
     }
@@ -455,7 +453,8 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
             m_lastRequestInfoNetworkName = netList[netIndex + 1];
         }
     }
-    QString address = m_walletsInfo[m_lastRequestInfoWalletName].walletInfo[m_lastRequestInfoNetworkName].address;
+    QString address = m_walletsInfo.value(m_lastRequestInfoWalletName)
+                          .walletInfo.value(m_lastRequestInfoNetworkName).address;
     if(address.isEmpty())
     {
         updateAddressWallets();
