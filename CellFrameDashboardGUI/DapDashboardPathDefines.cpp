@@ -32,7 +32,6 @@ const QString DashboardDefines::CellframeNode::CONFIGWORKER_PATH = getPathOnMACO
 const QString DashboardDefines::CellframeNode::DAPMODULE_LOG = getPathOnMACOS("etc", "", true, true);
 const QString DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG = getPathOnMACOS(QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO));
 
-mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
 const QString DashboardDefines::DApps::PLUGINS_CONFIG = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
 const QString DashboardDefines::DApps::PLUGINS_PATH = QString("/tmp/Cellframe-Dashboard_dapps");
 
