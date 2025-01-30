@@ -84,16 +84,7 @@
 
 #include "TransactionQueue/DapTransactionQueueController.h"
 
-#ifdef Q_OS_WIN
-#include "registry.h"
-#define LOG_FILE    QString("%1/cellframe-node/var/log/cellframe-node.log").arg(regGetUsrPath())
-#define CMD_HISTORY QString("%1/%2/data/cmd_history.txt").arg(regGetUsrPath()).arg(DAP_BRAND)
-#endif
-
-#ifdef Q_OS_MAC
-#define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
-#define CMD_HISTORY QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/data/cmd_history.txt").arg(getenv("USER"))
-#endif
+#include "DapPathDefines.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -258,7 +249,7 @@ void DapServiceController::initServices()
 {
     m_servicePool.append(new DapCertificateManagerCommands        ("DapCertificateManagerCommands"        , nullptr ));
     m_servicePool.append(new DapActivateClientCommand             ("DapActivateClientCommand"             , nullptr ));
-    m_servicePool.append(new DapUpdateLogsCommand                 ("DapUpdateLogsCommand"                 , nullptr, LOG_FILE));
+    m_servicePool.append(new DapUpdateLogsCommand                 ("DapUpdateLogsCommand"                 , nullptr, Dap::UiSdkDefines::CellframeNode::LOG_FILE));
     m_servicePool.append(new DapAddWalletCommand                  ("DapAddWalletCommand"                  , nullptr ));
     m_servicePool.append(new DapRemoveWalletCommand               ("DapRemoveWalletCommand"               , nullptr ));
     m_servicePool.append(new DapGetWalletInfoCommand              ("DapGetWalletInfoCommand"              , nullptr ));
@@ -281,8 +272,8 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapMempoolProcessCommand             ("DapMempoolProcessCommand"             , nullptr ));
     m_servicePool.append(new DapGetAllWalletHistoryCommand        ("DapGetAllWalletHistoryCommand"        , nullptr ));
     m_servicePool.append(new DapRunCmdCommand                     ("DapRunCmdCommand"                     , nullptr ));
-    m_servicePool.append(new DapGetHistoryExecutedCmdCommand      ("DapGetHistoryExecutedCmdCommand"      , nullptr, CMD_HISTORY));
-    m_servicePool.append(new DapSaveHistoryExecutedCmdCommand     ("DapSaveHistoryExecutedCmdCommand"     , nullptr, CMD_HISTORY));
+    m_servicePool.append(new DapGetHistoryExecutedCmdCommand      ("DapGetHistoryExecutedCmdCommand"      , nullptr, Dap::UiSdkDefines::DataFolders::CMD_HISTORY_USER));
+    m_servicePool.append(new DapSaveHistoryExecutedCmdCommand     ("DapSaveHistoryExecutedCmdCommand"     , nullptr, Dap::UiSdkDefines::DataFolders::CMD_HISTORY_USER));
     m_servicePool.append(new DapNodeConfigController              ("DapNodeConfigController"              , nullptr ));
     m_servicePool.append(new DapGetListTokensCommand              ("DapGetListTokensCommand"              , nullptr ));
     m_servicePool.append(new DapTokenEmissionCommand              ("DapTokenEmissionCommand"              , nullptr ));

@@ -7,6 +7,8 @@
 
 #include <dapconfigreader.h>
 
+#include "DapDashboardPathDefines.h"
+
 #if defined (Q_OS_MACOS)
 #include "dap_common.h"
 #endif
@@ -51,24 +53,7 @@ ConfigWorker::~ConfigWorker()
 
 QString ConfigWorker::getConfigPath()
 {
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/opt/%1-node/etc").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    return QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/etc").arg(l_username);
-#elif defined (Q_OS_WIN)
-    return QString("%1/cellframe-node/etc").arg(regWGetUsrPath());
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/etc");
-#else
-    return QString();
-#endif
+    return Dap::DashboardDefines::CellframeNode::CONFIGWORKER_PATH;
 }
 
 QStringList ConfigWorker::getNetworkList()
