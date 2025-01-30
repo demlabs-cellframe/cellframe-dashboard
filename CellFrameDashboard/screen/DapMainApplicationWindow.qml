@@ -678,10 +678,14 @@ Rectangle {
 
         function onSigVersionInfo(versionResult)
         {
-            if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(settingsModule.dashboardVersion, versionResult)
+            var jsonDocument = JSON.parse(versionResult)
+
+            if(jsonDocument.hasUpdate && jsonDocument.message === "Reply version")
+                logicMainApp.rcvNewVersion(settingsModule.dashboardVersion, jsonDocument)
+            else if(!jsonDocument.hasUpdate && jsonDocument.message === "Reply version")
+                console.log("You have the latest version installed. Current version: ", settingsModule.dashboardVersion)
             else
-                console.log("The version value cannot be retrieved. Reply: ", versionResult.message)
+                console.log("The version value cannot be retrieved. Reply: ", jsonDocument.message)
         }
     }
 

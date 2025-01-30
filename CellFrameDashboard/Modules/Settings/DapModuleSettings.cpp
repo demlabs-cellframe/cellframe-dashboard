@@ -56,9 +56,10 @@ void DapModuleSettings::initConnect()
 
 }
 
-void DapModuleSettings::rcvVersionInfo(const QVariant& result)
+void DapModuleSettings::rcvVersionInfo(const QVariant& resultJson)
 {
-    auto resultObject = QJsonDocument::fromJson(result.toByteArray()).object();
+    QByteArray result = convertJsonResult(resultJson.toByteArray());
+    auto resultObject = QJsonDocument::fromJson(result).object();
 
     QJsonObject objRes = resultObject["result"].toObject();
 
@@ -178,7 +179,7 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
     {
 //        objRes["hasUpdate"] = true;
 //        emit sigVersionInfo(objRes);
-       emit sigVersionInfo(result);
+        emit sigVersionInfo(result);
         m_guiVersionRequest = false;
         emit guiRequestChanged();
     }
