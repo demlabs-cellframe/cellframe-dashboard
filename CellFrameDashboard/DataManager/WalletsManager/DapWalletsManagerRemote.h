@@ -11,8 +11,7 @@ public:
 
     void updateWalletList() override;
     void updateWalletInfo() override;
-protected:
-    void initManager() override;
+
 private slots:
     void walletsListReceived(const QVariant &rcvData);
     void rcvWalletInfo(const QVariant &rcvData);
