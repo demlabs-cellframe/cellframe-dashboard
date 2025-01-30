@@ -117,7 +117,7 @@ Page
 
                     font: mainFont.dapFont.medium18
                     color: currTheme.white
-                    text: qsTr("Wallet data loading...")
+                    text: (walletModelList.count && !networkModel.count) ? qsTr("Connecting to a node...") : qsTr("Wallet data loading...")
                 }
                 Item{Layout.fillHeight: true}
             }

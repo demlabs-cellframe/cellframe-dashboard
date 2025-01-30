@@ -19,14 +19,12 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(walletsManager, &DapWalletsManagerBase::currentWalletChanged, this, &DapModuleWallet::currentWalletChanged);
 
     connect(transtactionManager, &DapTransactionManager::sigDefatultTxReply, this, &DapModuleWallet::rcvDefatultTxReply);
-
-    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
-    {
-        m_walletHashManager->setContext(m_modulesCtrl->getAppEngine()->rootContext());
-        m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
-
-        initConnect();
-    });
+    connect(s_serviceCtrl, &DapServiceController::walletRemoved, this, &DapModuleWallet::rcvRemoveWallet, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletCreated, this, &DapModuleWallet::rcvCreateWallet, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory, Qt::QueuedConnection);
+    m_walletHashManager->setContext(m_modulesCtrl->getAppEngine()->rootContext());
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
 }
 
 DapModuleWallet::~DapModuleWallet()
@@ -36,14 +34,6 @@ DapModuleWallet::~DapModuleWallet()
     delete m_walletHashManager;
     delete m_walletModel;
     delete m_tokenModel;
-}
-
-void DapModuleWallet::initConnect()
-{
-    connect(s_serviceCtrl, &DapServiceController::walletRemoved, this, &DapModuleWallet::rcvRemoveWallet, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::walletCreated, this, &DapModuleWallet::rcvCreateWallet, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory, Qt::QueuedConnection);
 }
 
 void DapModuleWallet::walletListChangedSlot()

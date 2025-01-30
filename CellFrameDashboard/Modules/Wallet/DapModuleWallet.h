@@ -62,7 +62,6 @@ public:
     Q_INVOKABLE void activateOrDeactivateWallet(const QString& walletName,
                                                 const QString& target, const QString& pass = "", const QString& ttl = "");
 private:
-    void initConnect();
     QVariantMap getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker);
 
     const QMap<QString, CommonWallet::WalletInfo>& getWalletsInfo() const;
