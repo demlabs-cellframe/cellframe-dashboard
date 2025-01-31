@@ -181,7 +181,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalanceDEX(dexModule.token1)
+                        text: walletModule.getTokenBalance(dexModule.networkPair, dexModule.token1, walletModule.currentWalletName)
                     }
 
                     Rectangle
@@ -398,7 +398,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalanceDEX(dexModule.token2)
+                        text: walletModule.getTokenBalance(dexModule.networkPair, dexModule.token2, walletModule.currentWalletName)
                     }
 
                     Item
