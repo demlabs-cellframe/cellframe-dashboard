@@ -30,16 +30,10 @@ void DapWalletsManagerRemote::updateWalletList()
 void DapWalletsManagerRemote::updateWalletInfo()
 {
     QString currentWalletName = m_currentWallet.second;
-    const auto& walletInfo = m_walletsInfo[currentWalletName].walletInfo;
-
-    for(const auto &net : walletInfo.keys())
-    {
-        QString address = walletInfo.value(net).address;
-        if(!address.isEmpty())
-        {
-            requestWalletInfo(address, net);
-        }
-    }
+    m_isRequestInfo = false;
+    m_lastRequestInfoNetworkName.clear();
+    m_lastRequestInfoWalletName.clear();
+    updateInfoWallets(currentWalletName);
 }
 
 void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)

@@ -85,6 +85,8 @@ signals:
     void currentWalletChanged();
 
     void tokenModelChanged();
+
+    void passwordCreated(const QString& message);
 protected slots:
     virtual void rcvCreateTx(const QVariant &rcvData);
 private slots:
@@ -102,6 +104,7 @@ private slots:
 
     //new slot
     void rcvDefatultTxReply(const QVariant &rcvData);
+    void rcvPasswordCreated(const QVariant &rcvData);
 private:
     const QPair<int,QString>& getCurrentWallet() const;
     void setCurrentWallet(const QPair<int,QString>& wallet);
