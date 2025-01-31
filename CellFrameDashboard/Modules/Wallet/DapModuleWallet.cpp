@@ -23,6 +23,8 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::transactionCreated, this, &DapModuleWallet::rcvCreateTx, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::walletCreated, this, &DapModuleWallet::rcvCreateWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::passwordCreated, this, &DapModuleWallet::rcvPasswordCreated, Qt::QueuedConnection);
+
     m_walletHashManager->setContext(m_modulesCtrl->getAppEngine()->rootContext());
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
 }
@@ -258,7 +260,19 @@ void DapModuleWallet::removeWallet(QStringList args)
 
 void DapModuleWallet::createPassword(QStringList args)
 {
-    s_serviceCtrl->requestToService("DapCreatePassForWallet", args);
+    if(args.isEmpty() && args.size() != 2)
+    {
+        return;
+    }
+    QVariantMap request;
+    auto walletsInfo = getWalletManager()->getWalletsInfo();
+    request.insert(Dap::KeysParam::WALLET_NAME, args[0]);
+    request.insert(Dap::KeysParam::WALLET_PASSWORD, args[1]);
+    request.insert(Dap::KeysParam::WALLET_PATH, walletsInfo.value(args[0]).path);
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL
+                           ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    request.insert(Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade);
+    s_serviceCtrl->requestToService("DapCreatePassForWallet", request);
 }
 
 void DapModuleWallet::activateOrDeactivateWallet(const QString& walletName,
@@ -796,4 +810,12 @@ DapTransactionManager *DapModuleWallet::getTransactionManager() const
     Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
     Q_ASSERT_X(m_modulesCtrl->getManagerController()->getTransactionManager(), "DapModuleWallet", "TransactionManager not found");
     return m_modulesCtrl->getManagerController()->getTransactionManager();
+}
+
+void DapModuleWallet::rcvPasswordCreated(const QVariant &rcvData)
+{
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+
+    QString result = byteArrayData.constData();
+    emit passwordCreated(result);
 }

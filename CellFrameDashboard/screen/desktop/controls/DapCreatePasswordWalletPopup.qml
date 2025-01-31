@@ -213,14 +213,14 @@ Item
                     selected: true
                     onClicked:
                     {
-                        logicMainApp.requestToService("DapCreatePassForWallet", nameWallet, textInputPasswordWallet.text)
+                        walletModule.createPassword([nameWallet, textInputPasswordWallet.text])
                     }
                 }
             }
 
              Connections
              {
-                 target: dapServiceController
+                 target: walletModule
                  function onPasswordCreated(rcvData)
                  {
                      if(rcvData === "Success")
