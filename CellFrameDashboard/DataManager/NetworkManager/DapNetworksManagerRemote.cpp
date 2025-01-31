@@ -73,6 +73,7 @@ void DapNetworksManagerRemote::networkListRespond(const QVariant &rcvData)
         emit updateNetworkInfoSignal(networkItem);
     }
 
+    m_netListTimer->start(60000);
     requestNetworskInfo();
 }
 

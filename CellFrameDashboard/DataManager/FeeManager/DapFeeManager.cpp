@@ -4,8 +4,11 @@
 DapFeeManager::DapFeeManager(DapModulesController *moduleController)
     : DapFeeManagerBase(moduleController)
     , m_feeUpdateTimer(new QTimer())
+    , m_rcvFeeTimeout(new QTimer())
 {
     connect(m_feeUpdateTimer, &QTimer::timeout, this, &DapFeeManager::updateFee, Qt::QueuedConnection);
+    connect(m_rcvFeeTimeout, &QTimer::timeout, this, &DapFeeManager::slotRcvFeeTimeout, Qt::QueuedConnection);
+
     connect(m_modulesController->getServiceController(), &DapServiceController::rcvFee, this, &DapFeeManager::rcvFee, Qt::QueuedConnection);
 }
 
@@ -49,7 +52,10 @@ void DapFeeManager::updateFee()
 void DapFeeManager::requestFee(const QString &network)
 {
     m_isRequestData = true;
-    m_modulesController->getServiceController()->requestToService("DapGetFeeCommand", QStringList() << network);
+    QString currentMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+
+    m_modulesController->getServiceController()->requestToService("DapGetFeeCommand", QStringList() << network << Dap::CommandParamKeys::NODE_MODE_KEY << currentMode);
+    m_rcvFeeTimeout->start(TIME_FEE_TIMEOUT);
 }
 
 void DapFeeManager::rcvFee(const QVariant &rcvData)
@@ -70,6 +76,8 @@ void DapFeeManager::rcvFee(const QVariant &rcvData)
         qDebug() << "[DapModuleWallet] The list of networks is empty";
         return;
     }
+
+    m_rcvFeeTimeout->stop();
 
     for(const auto& networkName: feeObject.keys())
     {
@@ -110,7 +118,12 @@ void DapFeeManager::rcvFee(const QVariant &rcvData)
             m_feeInfo.insert(networkName, std::move(tmpFeeInfo));
             emit feeUpdated(networkName);
         }
-
     }
+    updateFee();
+}
+
+void DapFeeManager::slotRcvFeeTimeout()
+{
+    m_lastNatworkRequest.clear();
     updateFee();
 }

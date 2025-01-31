@@ -208,18 +208,18 @@ DapPage
         }
     }
 
-    Connections
-    {
-        target: modulesController
+//    Connections
+//    {
+//        target: modulesController
 
-        function onNodeWorkingChanged()
-        {
-            if(modulesController.isNodeWorking)
-            {
-                txExplorerModule.clearHistory()
-            }
-        }
-    }
+//        function onNodeWorkingChanged()
+//        {
+//            if(modulesController.isNodeWorking)
+//            {
+//                txExplorerModule.clearHistory()
+//            }
+//        }
+//    }
 
     Component.onCompleted:
     {
