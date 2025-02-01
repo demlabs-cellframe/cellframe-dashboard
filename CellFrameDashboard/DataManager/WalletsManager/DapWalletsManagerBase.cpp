@@ -11,5 +11,6 @@ void DapWalletsManagerBase::setCurrentWallet(const QPair<int,QString>& wallet)
         return;
     }
     m_currentWallet = wallet;
+    currentWalletChangedSlot();
     emit currentWalletChanged();
 }

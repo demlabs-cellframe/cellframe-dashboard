@@ -18,8 +18,12 @@ private slots:
 
     void updateListWallets();
     void requestWalletInfo(const QString &walletName, const QString &network);
+
+protected slots:
+    void currentWalletChangedSlot() override;
+
 private:
-    void updateInfoWallets();
+    void updateInfoWallets(const QString &walletName = "");
 private:
     QTimer* m_walletsListTimer = nullptr;
     QTimer* m_timerUpdateWallet = nullptr;
@@ -27,7 +31,7 @@ private:
 
     QByteArray walletListCash;
 
-    QString m_lastRequestInfoWalletName = "";
+    QStringList m_requestInfoWallets = {};
     QString m_lastRequestInfoNetworkName = "";
     bool m_isRequestInfo = false;
 

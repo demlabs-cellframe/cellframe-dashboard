@@ -24,6 +24,8 @@ signals:
     void currentWalletChanged();
     void walletListChanged();
     void walletInfoChanged(const QString& walletName, const QString& networkName = "");
+protected slots:
+    virtual void currentWalletChangedSlot() {}
 protected:
     QMap<QString, CommonWallet::WalletInfo> m_walletsInfo;
     QPair<int,QString> m_currentWallet = {-1, ""};
