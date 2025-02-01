@@ -10,6 +10,12 @@ DapCreateWalletForm
                 qsTr("Enter the wallet name using Latin letters, dashes, underscore or numbers.")
             console.warn("Empty wallet name")
         }
+        else if(walletModule.isConteinListWallets(dapTextInputNameWallet.text))
+        {
+            dapWalletNameWarning.text =
+                qsTr("A wallet with that name already exists.")
+            console.warn("A wallet with that name already exists.", dapTextInputNameWallet.text)
+        }
         else if(logicWallet.walletType === "Protected" && dapTextInputPassword.length < 4)
         {
             dapWalletNameWarning.text =

@@ -796,6 +796,11 @@ void DapModuleWallet::setCurrentWallet(const QPair<int,QString>& wallet)
     walletsManager->setCurrentWallet(wallet);
 }
 
+bool DapModuleWallet::isConteinListWallets(const QString& walletName)
+{
+    return getWalletManager()->getWalletsInfo().contains(walletName);
+}
+
 DapWalletsManagerBase* DapModuleWallet::getWalletManager() const
 {
     Q_ASSERT_X(m_modulesCtrl, "DapModuleWallet", "ModuleController not found");
