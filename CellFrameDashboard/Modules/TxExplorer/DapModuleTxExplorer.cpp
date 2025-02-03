@@ -135,14 +135,6 @@ bool DapModuleTxExplorer::addHistory(const QString& wallet, const HistoryList& l
             {
                 iter->tx_status = item.status;
             }
-            // for(auto& itemHistory: walletData.history)
-            // {
-            //     if(itemHistory.tx_hash == item.tx_hash)
-            //     {
-            //         itemHistory.status = item.status;
-            //         break;
-            //     }
-            // }
             walletData.hashes[item.tx_hash] = item.status;
             isUpdated = true;
         }
