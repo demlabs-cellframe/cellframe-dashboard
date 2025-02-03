@@ -16,7 +16,8 @@ class DapModuleTxExplorer : public DapAbstractModule
     using HistoryList = QList<DapHistoryModel::Item>;
     struct HistorySaves
     {
-        QSet<QString> hashes;
+        ///    hash    status
+        QHash<QString, QString> hashes;
         HistoryList history;
     };
 public:

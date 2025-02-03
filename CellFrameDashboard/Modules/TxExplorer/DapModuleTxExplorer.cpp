@@ -120,7 +120,22 @@ bool DapModuleTxExplorer::addHistory(const QString& wallet, const HistoryList& l
         if(!walletData.hashes.contains(item.tx_hash))
         {
             walletData.history.append(item);
-            walletData.hashes.insert(item.tx_hash);
+            walletData.hashes.insert(item.tx_hash, item.status);
+            isUpdated = true;
+        }
+        else if(walletData.hashes[item.tx_hash] != item.status)
+        {
+            QList<DapHistoryModel::Item>::Iterator iter = std::find_if(walletData.history.begin(), walletData.history.end(),
+                [&item](const DapHistoryModel::Item& itemHistory)
+                {
+                    return itemHistory.tx_hash == item.tx_hash;
+            });
+
+            if(iter != walletData.history.end())
+            {
+                iter->tx_status = item.status;
+            }
+            walletData.hashes[item.tx_hash] = item.status;
             isUpdated = true;
         }
     }
