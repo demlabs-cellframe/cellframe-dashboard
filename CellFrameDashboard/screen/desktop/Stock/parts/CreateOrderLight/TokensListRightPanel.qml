@@ -94,6 +94,8 @@ Page
             }
 
             Keys.onReturnPressed: focus = true
+
+            Component.onCompleted: forceActiveFocus()
         }
 
         Rectangle
