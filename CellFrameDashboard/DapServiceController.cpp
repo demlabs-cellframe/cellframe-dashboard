@@ -21,8 +21,6 @@ DapServiceController::~DapServiceController()
     {
         controller->deleteTransactionController();
     }
-
-    delete m_reqularRequestsCtrl;
     delete m_pServer;
 
     if(m_threadRegular)
@@ -33,10 +31,8 @@ DapServiceController::~DapServiceController()
     }
 }
 
-void DapServiceController::run(DapNodeMode::NodeMode nodeMode)
+void DapServiceController::run()
 {
-    m_reqularRequestsCtrl = new DapRegularRequestsController();
-    m_reqularRequestsCtrl->setNodeMode(nodeMode);
 
     DapConfigReader configReader;
 
@@ -45,10 +41,6 @@ void DapServiceController::run(DapNodeMode::NodeMode nodeMode)
     m_pServer = new DapUiService(this);
 
     m_threadRegular = new QThread();
-    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
-    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
-    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
-    m_threadRegular->start();
 
     if(m_transceivers.isEmpty())
     {
@@ -56,7 +48,6 @@ void DapServiceController::run(DapNodeMode::NodeMode nodeMode)
     }
 
     initAdditionalParamrtrsService();
-    m_reqularRequestsCtrl->start();
 
     m_web3Controll = new DapWebControllerForService(this);
     m_web3Controll->rcvFrontendConnectStatus(true);
@@ -67,6 +58,15 @@ void DapServiceController::run(DapNodeMode::NodeMode nodeMode)
 
     qInfo() << "ServiceController started";
     emit onServiceStarted();
+    QtConcurrent::run([]{
+        DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+        if(!controller)
+        {
+            qWarning() << "DapTransactionQueueController have a problem";
+            return;
+        }
+        controller->onInit();
+    });
 }
 
 void DapServiceController::setReadingChains(bool bReadingChains)
@@ -111,8 +111,6 @@ void DapServiceController::addService(const QString& name, const QString& signal
         qWarning()<<QString("service with name " + name + " already exist");
         return;
     }
-
-    commandService->setRegularController(m_reqularRequestsCtrl);
 
     connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant reply)
     {
@@ -249,7 +247,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapUpdateLogsCommand,                 QObject *, QString> ("DapUpdateLogsCommand",                    "logUpdated",                   nullptr, LOG_FILE);
     addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
     addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, CMD_HISTORY);
-    
+
     connect(this, &DapServiceController::tokensListReceived, [this] (const QVariant& tokensResult)
     {
         if(!tokensResult.isValid())
@@ -305,7 +303,7 @@ void DapServiceController::initAdditionalParamrtrsService()
         return;
     }
 
-    connect(this, &DapServiceController::onServiceStarted, controller, &DapTransactionQueueController::onInit);
+    // connect(this, &DapServiceController::onServiceStarted, controller, &DapTransactionQueueController::onInit);
 
     if(m_transceivers.contains("MempoolCheckCommand"))
     {

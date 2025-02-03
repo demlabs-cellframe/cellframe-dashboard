@@ -89,6 +89,8 @@ void DapApplication::setDontShowNodeModeFlag(bool isDontShow)
 
 void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 {
+
+
     m_guiApp = guiApp;
     m_engine = guiApp->qmlEngine();
 
@@ -99,7 +101,7 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
     setNodeMode(QSettings().value("node_mode", DapNodeMode::REMOTE).toInt());
 
     m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
-    m_serviceController->run((DapNodeMode::NodeMode)getNodeMode());
+    m_serviceController->run();
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 
 #ifdef Q_OS_ANDROID
