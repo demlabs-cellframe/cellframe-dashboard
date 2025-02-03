@@ -152,6 +152,10 @@ linux-* {
     gui_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += gui_target
     BUILD_FLAG = static
+
+    share_target.files = $$PWD/../os/debian/share/
+    share_target.path = /opt/cellframe-dashboard/
+    INSTALLS += share_target
 }
 
 win32  {
