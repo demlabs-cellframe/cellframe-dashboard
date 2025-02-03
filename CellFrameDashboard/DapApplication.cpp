@@ -111,13 +111,12 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
         serviceIntent.handle().object());
 #endif
 
-    s_dapNotifyController = new DapNotifyController();
-    m_modulesController->setNotifyCtrl(s_dapNotifyController);
-    s_dapNotifyController->init();
-
     if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
     {
         m_commandHelper = new CommandHelperController(m_serviceController);
+        s_dapNotifyController = new DapNotifyController();
+        m_modulesController->setNotifyCtrl(s_dapNotifyController);
+        s_dapNotifyController->init();
     }
 
     this->registerQmlTypes();
@@ -151,10 +150,14 @@ void DapApplication::setContextProperties()
     m_engine->rootContext()->setContextProperty("pt", 1);
 
     m_engine->rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
+
+
+    m_engine->rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
     m_engine->rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
     {
         m_engine->rootContext()->setContextProperty("commandHelperController", m_commandHelper);
+        m_engine->rootContext()->setContextProperty("dapNotifyController", s_dapNotifyController);
     }
 }
