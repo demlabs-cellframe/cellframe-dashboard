@@ -15,8 +15,8 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     {
         initConnect();
         s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");
-        if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
-            checkVersion();
+//        if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+        checkVersion();
         setStatusInit(true);
     });
 
@@ -61,119 +61,136 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& resultJson)
     QByteArray result = convertJsonResult(resultJson.toByteArray());
     auto resultObject = QJsonDocument::fromJson(result).object();
 
-    QJsonObject objRes = resultObject["result"].toObject();
-
+//    QJsonObject objRes = resultObject["result"].toObject();
 //    qDebug()<<objRes["message"].toString();
 
-    if(objRes["message"].toString().contains("error"))
+    if(resultObject["message"].toString().contains("error"))
     {
-        qWarning()<<objRes["message"].toString();
+        qWarning()<<resultObject["message"].toString();
     }
-    else if(objRes["message"].toString().contains("node"))
+    else if(resultObject["message"].toString().contains("node"))
     {
-        QString ver = objRes["lastVersion"].toString();
+        QString ver = resultObject["lastVersion"].toString();
         if(ver.isEmpty() || m_nodeVersion == ver)
         {
             return;
         }
-        m_nodeVersion = ver;
-        if(m_nodeVersion.isEmpty())
+
+        if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
         {
-            if(nodeUpdateType::DOWNLOAD != m_nodeUpdateType)
+            m_nodeVersion = ver;
+
+            if(m_nodeVersion.isEmpty())
             {
-                setNodeUpdateType(nodeUpdateType::NONE);
-            }
-        }
-        emit nodeVersionChanged();
-
-        if(m_nodeVersion == QString(MAX_NODE_VERSION))
-        {
-            setNodeUpdateType(nodeUpdateType::EQUAL);
-            return;
-        }
-        int minMinor, maxMinor, minMaj, maxMaj, minPat, maxPat, min, maj, pat;
-        QRegularExpression regular(R"([0-9]{0,6}.[0-9]{0,6}-[0-9]{0,6})");
-        auto separateData = [regular](const QString& ver, int& pat, int& min, int& maj) -> bool
-        {
-            if(!ver.contains(regular))
-            {
-                return false;
-            }
-            auto tmpMain = ver.split('.');
-            if(tmpMain.size() != 2) return false;
-
-            auto tmpPat = tmpMain[1].split('-');
-            if(tmpPat.size() != 2) return false;
-
-            pat = tmpPat[1].toInt();
-            min = tmpPat[0].toInt();
-            maj = tmpMain[0].toInt();
-            return true;
-        };
-
-        if(!separateData(QString(MIN_NODE_VERSION), minPat, minMinor, minMaj))
-        {
-            qDebug() << "[DapModuleSettings] Problems parsing the minimum allowed version of a node";
-            return;
-        }
-        if(!separateData(QString(MAX_NODE_VERSION), maxPat, maxMinor, maxMaj))
-        {
-            qDebug() << "[DapModuleSettings] Problems parsing the maximum allowed version of a node";
-            return;
-        }
-        if(!separateData(m_nodeVersion, pat, min, maj))
-        {
-            qDebug() << "[DapModuleSettings] Problems parsing the current allowed version of a node";
-            return;
-        }
-
-        auto comaperVer = [](const int cur, const int min, const int max) -> nodeUpdateType
-        {
-            if(cur == max && cur == min)
-            {
-                return nodeUpdateType::EQUAL;
-            }
-            else if(cur <= max && cur >= min)
-            {
-                if(cur < max)
+                if(nodeUpdateType::DOWNLOAD != m_nodeUpdateType)
                 {
-                    return nodeUpdateType::UPDATE;
+                    setNodeUpdateType(nodeUpdateType::NONE);
                 }
-                else
+            }
+            emit nodeVersionChanged();
+
+            if(m_nodeVersion == QString(MAX_NODE_VERSION))
+            {
+                setNodeUpdateType(nodeUpdateType::EQUAL);
+                return;
+            }
+
+            int minMinor, maxMinor, minMaj, maxMaj, minPat, maxPat, min, maj, pat;
+            QRegularExpression regular(R"([0-9]{0,6}.[0-9]{0,6}-[0-9]{0,6})");
+            auto separateData = [regular](const QString& ver, int& pat, int& min, int& maj) -> bool
+            {
+                if(!ver.contains(regular))
+                {
+                    return false;
+                }
+                auto tmpMain = ver.split('.');
+                if(tmpMain.size() != 2) return false;
+
+                auto tmpPat = tmpMain[1].split('-');
+                if(tmpPat.size() != 2) return false;
+
+                pat = tmpPat[1].toInt();
+                min = tmpPat[0].toInt();
+                maj = tmpMain[0].toInt();
+                return true;
+            };
+
+            if(!separateData(QString(MIN_NODE_VERSION), minPat, minMinor, minMaj))
+            {
+                qDebug() << "[DapModuleSettings] Problems parsing the minimum allowed version of a node";
+                return;
+            }
+            if(!separateData(QString(MAX_NODE_VERSION), maxPat, maxMinor, maxMaj))
+            {
+                qDebug() << "[DapModuleSettings] Problems parsing the maximum allowed version of a node";
+                return;
+            }
+            if(!separateData(m_nodeVersion, pat, min, maj))
+            {
+                qDebug() << "[DapModuleSettings] Problems parsing the current allowed version of a node";
+                return;
+            }
+
+            auto comaperVer = [](const int cur, const int min, const int max) -> nodeUpdateType
+            {
+                if(cur == max && cur == min)
                 {
                     return nodeUpdateType::EQUAL;
                 }
-            }
-            else if(cur < min)
+                else if(cur <= max && cur >= min)
+                {
+                    if(cur < max)
+                    {
+                        return nodeUpdateType::UPDATE;
+                    }
+                    else
+                    {
+                        return nodeUpdateType::EQUAL;
+                    }
+                }
+                else if(cur < min)
+                {
+                    return nodeUpdateType::LESS;
+                }
+
+                return nodeUpdateType::MORE;
+            };
+
+            auto majorType = comaperVer(maj, minMaj, maxMaj);
+            if(majorType != nodeUpdateType::EQUAL)
             {
-                return nodeUpdateType::LESS;
+                setNodeUpdateType(majorType);
+                emit needNodeUpdateSignal();
+                return;
             }
+            auto minorType = comaperVer(min, minMinor, maxMinor);
+            if(minorType != nodeUpdateType::EQUAL)
+            {
+                setNodeUpdateType(minorType);
+                emit needNodeUpdateSignal();
+                return;
+            }
+            auto patType = comaperVer(pat, minPat, maxPat);
+            if(patType != nodeUpdateType::EQUAL)
+            {
+                setNodeUpdateType(patType);
+                emit needNodeUpdateSignal();
+                return;
+            }
+            setNodeUpdateType(nodeUpdateType::EQUAL);
+        }
+        else
+        {
+            if(resultObject["lastVersion"].toString().contains("cellframe-node version"))
+            {
+                QJsonObject objRes = QJsonDocument::fromJson(resultObject["lastVersion"].toVariant().toByteArray()).object();
+                QString dirtVersion = objRes["result"].toArray().first().toObject()["status"].toString();
+                QString resVer = dirtVersion.remove("cellframe-node version").simplified();
 
-            return nodeUpdateType::MORE;
-        };
-
-        auto majorType = comaperVer(maj, minMaj, maxMaj);
-        if(majorType != nodeUpdateType::EQUAL)
-        {
-            setNodeUpdateType(majorType);
-            emit needNodeUpdateSignal();
-            return;
+                m_nodeVersion = resVer;
+                emit nodeVersionChanged();
+            }
         }
-        auto minorType = comaperVer(min, minMinor, maxMinor);
-        if(minorType != nodeUpdateType::EQUAL)
-        {
-            setNodeUpdateType(minorType);
-            emit needNodeUpdateSignal();
-            return;
-        }
-        auto patType = comaperVer(pat, minPat, maxPat);
-        if(patType != nodeUpdateType::EQUAL)
-        {
-            setNodeUpdateType(patType);
-            emit needNodeUpdateSignal();
-            return;
-        }
-        setNodeUpdateType(nodeUpdateType::EQUAL);
     }
     else
     {
