@@ -216,6 +216,7 @@ ComboBox {
                                 if(control.popup.opened)
                                 {
                                     search.textField.text = ""
+                                    search.textField.forceActiveFocus()
                                 }
                             }
                         }

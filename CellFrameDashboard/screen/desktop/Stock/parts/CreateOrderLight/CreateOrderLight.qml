@@ -181,7 +181,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalance(dexModule.token1)
+                        text: dexModule.getBalance(dexModule.token1)
                     }
 
                     Rectangle
@@ -398,7 +398,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalance(dexModule.token2)
+                        text: dexModule.getBalance(dexModule.token2)
                     }
 
                     Item
