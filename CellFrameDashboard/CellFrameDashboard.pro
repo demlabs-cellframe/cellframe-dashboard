@@ -52,9 +52,9 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
     $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a \
     $$SDK_INSTALL_PATH/lib/modules/channel/chain-net-srv/libdap_stream_ch_chain_net_srv.a \
     $$SDK_INSTALL_PATH/lib/modules/net/srv/libdap_chain_net_srv.a \
-    $$SDK_INSTALL_PATH/lib/modules/net/srv/libdap_chain_net_srv.a \
     $$SDK_INSTALL_PATH/lib/modules/channel/chain-net-srv/libdap_stream_ch_chain_net_srv.a \
     $$SDK_INSTALL_PATH/lib/modules/channel/chain-net/libdap_stream_ch_chain_net.a \
+    $$SDK_INSTALL_PATH/lib/modules/net/srv/libdap_chain_net_srv.a \
     $$SDK_INSTALL_PATH/lib/modules/mempool/libdap_chain_mempool.a \
     $$SDK_INSTALL_PATH/lib/modules/service/stake/libdap_chain_net_srv_stake.a \
     $$SDK_INSTALL_PATH/lib/modules/service/xchange/libdap_chain_net_srv_xchange.a \
