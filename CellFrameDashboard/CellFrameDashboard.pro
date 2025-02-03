@@ -50,8 +50,8 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
     $$SDK_INSTALL_PATH/lib/modules/wallet/libdap_chain_wallet.a \
     $$SDK_INSTALL_PATH/lib/modules/chain/libdap_chain.a \
     $$SDK_INSTALL_PATH/lib/modules/common/libdap_chain_common.a \
-    -Wl,-start-group $$SDK_INSTALL_PATH/lib/modules/channel/chain-net-srv/libdap_stream_ch_chain_net_srv.a \
-    $$SDK_INSTALL_PATH/lib/modules/net/srv/libdap_chain_net_srv.a -Wl,-end-group \
+    $$SDK_INSTALL_PATH/lib/modules/channel/chain-net-srv/libdap_stream_ch_chain_net_srv.a \
+    $$SDK_INSTALL_PATH/lib/modules/net/srv/libdap_chain_net_srv.a \
     $$SDK_INSTALL_PATH/lib/modules/net/srv/libdap_chain_net_srv.a \
     $$SDK_INSTALL_PATH/lib/modules/channel/chain-net-srv/libdap_stream_ch_chain_net_srv.a \
     $$SDK_INSTALL_PATH/lib/modules/channel/chain-net/libdap_stream_ch_chain_net.a \
