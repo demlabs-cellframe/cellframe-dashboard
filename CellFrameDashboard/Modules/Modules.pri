@@ -71,6 +71,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Diagnostics/AbstractDiagnostic.cpp \
     $$PWD/Tokens/DapModuleTokens.cpp \
     $$PWD/TxExplorer/DapModuleTxExplorerAddition.cpp \
+    $$PWD/Wallet/BalanceFuncHelper.cpp \
     $$PWD/Wallet/DapModuleWalletAddition.cpp \
     $$PWD/dApps/DapDappsHelpFunctions.cpp \
     $$PWD/dApps/DapDappsNetworkManager.cpp \

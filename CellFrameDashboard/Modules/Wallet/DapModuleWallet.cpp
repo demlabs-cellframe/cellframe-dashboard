@@ -352,225 +352,22 @@ void DapModuleWallet::rcvHistory(const QVariant &rcvData)
     emit sigHistory(rcvData);
 }
 
-CommonWallet::WalletInfo DapModuleWallet::creatInfoObject(const QJsonObject& walletObject)
-{
-    CommonWallet::WalletInfo wallet;
-
-    if(walletObject.contains(Dap::JsonKeys::NAME))
-    {
-        wallet.walletName = walletObject[Dap::JsonKeys::NAME].toString();
-    }
-    else
-    {
-        qWarning() << "[creatInfoObject] No wallet name";
-        return CommonWallet::WalletInfo();
-    }
-
-    if(walletObject.contains("status"))
-    {
-        wallet.status = walletObject["status"].toString();
-    }
-    wallet.isLoad = true;
-    if(walletObject.contains("networks"))
-    {
-        for(const QJsonValue& networkValue: walletObject["networks"].toArray())
-        {
-            QJsonObject networkObject = networkValue.toObject();
-            CommonWallet::WalletNetworkInfo networkInfo;
-
-            if(networkObject.contains(Dap::JsonKeys::ADDRESS))
-            {
-                networkInfo.address = networkObject[Dap::JsonKeys::ADDRESS].toString();
-            }
-            else
-            {
-                qWarning() << "The wallet address is missing on the network or the input data has changed";
-                continue;
-            }
-
-            if(networkObject.contains(Dap::JsonKeys::NAME))
-            {
-                networkInfo.network = networkObject[Dap::JsonKeys::NAME].toString();
-            }
-            else
-            {
-                qWarning() << "The network name is missing or the input data has changed";
-                continue;
-            }
-
-            if(networkObject.contains(Dap::JsonKeys::TOKENS))
-            {
-                for(const QJsonValue& tokenValue: networkObject[Dap::JsonKeys::TOKENS].toArray())
-                {
-                    QJsonObject tokenObject = tokenValue.toObject();
-                    CommonWallet::WalletTokensInfo token;
-                    token.network = networkInfo.network;
-                    if(tokenObject.contains("coins"))
-                    {
-                        token.value = tokenObject["coins"].toString();
-                    }
-                    if(tokenObject.contains(Dap::JsonKeys::DATOSHI))
-                    {
-                        token.datoshi = tokenObject[Dap::JsonKeys::DATOSHI].toString();
-                    }
-                    if(tokenObject.contains(Dap::JsonKeys::NAME))
-                    {
-                        token.ticker = tokenObject[Dap::JsonKeys::NAME].toString();
-                        token.tokenName = tokenObject[Dap::JsonKeys::NAME].toString();
-                    }
-                    if(tokenObject.contains(Dap::JsonKeys::AVAILABLE_DATOSHI))
-                    {
-                        token.availableDatoshi = tokenObject[Dap::JsonKeys::AVAILABLE_DATOSHI].toString();
-                    }
-                    if(tokenObject.contains("availableCoins"))
-                    {
-                        token.availableCoins = tokenObject["availableCoins"].toString();
-                    }                    
-                    networkInfo.networkInfo.append(token);
-                }
-            }
-
-            wallet.walletInfo.insert(networkInfo.network, networkInfo);
-        }
-    }
-    return wallet;
-}
-
-QVariantMap DapModuleWallet::getFee(QString network)
-{
-    QVariantMap mapResult;
-
-    if(m_modulesCtrl->getManagerController()->isFeeEmpty())
-    {
-        mapResult.insert("error", (int)DAP_RCV_FEE_ERROR);
-        mapResult.insert("fee_ticker","UNKNOWN");
-        mapResult.insert("network_fee", "0.00");
-        mapResult.insert("validator_fee", "0.05");
-        return mapResult;
-    }
-
-    const CommonWallet::FeeInfo& fee = m_modulesCtrl->getManagerController()->getFee(network);
-    mapResult.insert("error", (int)DAP_NO_ERROR);
-    mapResult.insert("fee_ticker", fee.validatorFee.value("fee_ticker"));
-    mapResult.insert("network_fee", fee.netFee.value("fee_coins"));
-    mapResult.insert("validator_fee", fee.validatorFee.value("median_fee_coins"));
-
-    return mapResult;
-}
-
-QVariantMap DapModuleWallet::getAvailableBalance(QVariantMap data)
-{
-    QVariantMap mapResult;
-
-    if(m_modulesCtrl->getManagerController()->isFeeEmpty())
-    {
-        mapResult.insert("error", (int)DAP_RCV_FEE_ERROR);
-        mapResult.insert("availBalance", "0.00");
-        return mapResult;
-    }
-
-    DapErrors err{DAP_NO_ERROR};
-    QVariant availBalance{"0.00"};
-
-    MathWorker mathWorker;
-    StringWorker stringWorker;
-
-    QString walletName = data.value("wallet_name").toString();
-    QString network    = data.value("network").toString();
-    QString sendTicker = data.value("send_ticker").toString();
-
-    const CommonWallet::FeeInfo& fee = m_modulesCtrl->getManagerController()->getFee(network);
-    QString feeTicker  = fee.validatorFee.value("fee_ticker");
-
-    QVariantMap balances = getBalanceInfo(walletName, network, feeTicker, sendTicker);
-    if(balances.isEmpty())
-    {
-        mapResult.insert("error", (int)DAP_NO_TOKENS);
-        mapResult.insert("availBalance", "0.00");
-        return mapResult;
-    }
-
-    QString balancePayFee = balances.value("balancePayFeeCoins").toString();
-    QString balanceDatoshi = balances.value("balanceSendDatoshi").toString();
-
-    QVariant commission = mathWorker.sumCoins(fee.netFee.value("fee_datoshi"),
-                                              fee.validatorFee.value("median_fee_datoshi"),
-                                              false);
-
-    if(!stringWorker.testAmount(balancePayFee, commission.toString()))
-    {
-        mapResult.insert("error", (int)DAP_NOT_ENOUGHT_TOKENS_FOR_PAY_FEE);
-        mapResult.insert("availBalance", balancePayFee);
-        mapResult.insert("feeSum", commission.toString());
-
-        return mapResult;
-    }
-    else
-    {
-        QVariant comissionDatoshi = mathWorker.coinsToBalance(commission);
-        if(sendTicker == feeTicker)
-            availBalance = mathWorker.subCoins(balanceDatoshi, comissionDatoshi, true);
-        else
-            availBalance = balanceDatoshi;
-    }
-
-    mapResult.insert("error", err);
-    mapResult.insert("availBalance", availBalance);
-
-    return mapResult;
-}
-
-QVariant DapModuleWallet::calculatePrecentAmount(QVariantMap data)
-{
-    MathWorker mathWorker;
-    int percent = data.value("percent").toInt();
-    QVariantMap balanceInfo = getAvailableBalance(data);
-
-    if(balanceInfo.value("error").toInt() == (int)DAP_NO_ERROR)
-    {
-        QVariant availBalance = balanceInfo.value("availBalance");
-
-        QVariant resAmount;
-
-        switch (percent) {
-        case 25:
-            resAmount = mathWorker.divDatoshi(availBalance, "4", false); break;
-        case 50:
-            resAmount = mathWorker.divDatoshi(availBalance, "2", false); break;
-        case 75:
-        {
-            QVariant val1 = mathWorker.divDatoshi(availBalance, "2", true);
-            QVariant val2 = mathWorker.divDatoshi(availBalance, "4", true);
-            resAmount = mathWorker.sumCoins(val1,val2,false);
-            break;
-        }
-        case 100:
-            resAmount = mathWorker.divDatoshi(availBalance, "1", false); break;
-        default:
-            break;
-        }
-
-        return resAmount;
-    }
-
-    return "0.00";
-}
-
 QVariantMap DapModuleWallet::approveTx(QVariantMap data)
 {
-    StringWorker stringWorker;
-    MathWorker mathWorker;
-
     QString amount = data.value("amount").toString();
+    amount = amount.contains(".")?
+             amount.indexOf(".") == amount.length()-1 ? amount + "0": amount : amount + ".0";
     QVariantMap balanceInfo = getAvailableBalance(data);
-    QVariant availBalanceDatoshi = balanceInfo.value("availBalance");
-    QString availBalance = mathWorker.balanceToCoins(availBalanceDatoshi).toString();
+    QString availBalance = balanceInfo.value("availBalance").toString();
 
     DapErrors err = (DapErrors)balanceInfo.value("error").toInt();
 
     if(err == DAP_NO_ERROR)
     {
-        if(!stringWorker.testAmount(availBalance, amount))
+        Dap::Coin availableBalance(availBalance);
+        Dap::Coin amountValue(amount);
+        QString result = (availableBalance - amountValue).toCoinsString();
+        if(result.isEmpty() || result == "0" || result == "0.0" || result == "0.00")
             err = DAP_NOT_ENOUGHT_TOKENS;
 
         QVariantMap mapResult;
@@ -612,10 +409,8 @@ void DapModuleWallet::sendTx(QVariantMap data)
     QString feeNetDatoshi = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_datoshi");
     QString feeNetAddr    = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_addr");
 
-
     MathWorker mathWorker;
     amount = mathWorker.balanceToCoins(mathWorker.coinsToBalance(amount)).toString();
-
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::REMOTE)
     {
@@ -671,91 +466,6 @@ void DapModuleWallet::setWalletTokenModel(const QString& network)
     m_tokenModel->setDataFromOtherModel(model->getData());
 
     emit tokenModelChanged();
-}
-
-QVariantMap DapModuleWallet::getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker)
-{
-    auto& walletsInfo = getWalletsInfo();
-    if(!walletsInfo.contains(name))
-    {
-        qWarning()<< "Wallet is not found: " << name;
-        return QVariantMap();
-    }
-
-    const CommonWallet::WalletInfo& wallet = walletsInfo[name];
-
-    if(!wallet.walletInfo.contains(network))
-    {
-        qWarning()<< "Network is not found: " << network << " in " << name;
-        return QVariantMap();
-    }
-
-    const CommonWallet::WalletNetworkInfo& tokens = wallet.walletInfo[network];
-
-
-    QString balancePayFeeDatoshi = "", balancePayFeeCoins = "";
-    QString balanceDatoshi = "", balanceCoins = "";
-    for(const auto& item: tokens.networkInfo)
-    {
-        if(item.tokenName == feeTicker)
-        {
-            balancePayFeeDatoshi = item.datoshi;
-            balancePayFeeCoins   = item.value;
-        }
-        if(item.tokenName == sendTicker)
-        {
-            balanceDatoshi = item.datoshi;
-            balanceCoins   = item.value;
-        }
-    }
-
-    if(balancePayFeeDatoshi.isEmpty() || balancePayFeeCoins.isEmpty() ||
-        balanceDatoshi.isEmpty()       || balanceCoins.isEmpty()       ||
-        tokens.networkInfo.isEmpty())
-    {
-        qWarning()<< "No tokens"       << "\n"                  <<
-            "network: "                << network               <<
-            "feeToken: "               << feeTicker             <<
-            "sendToken: "              << sendTicker            <<
-            "walletName: "             << name                  <<
-            "balancePayFeeDatoshi: "   << balancePayFeeDatoshi  <<
-            "balancePayFeeCoins: "     << balancePayFeeCoins    <<
-            "balanceDatoshi: "         << balanceDatoshi        <<
-            "balanceCoins: "           << balanceCoins;
-        return QVariantMap();
-    }
-
-    QVariantMap mapResult;
-    mapResult.insert("balancePayFeeDatoshi", balancePayFeeDatoshi);
-    mapResult.insert("balancePayFeeCoins"  , balancePayFeeCoins);
-    mapResult.insert("balanceSendDatoshi"  , balanceDatoshi);
-    mapResult.insert("balanceSendCoins"    , balanceCoins);
-
-    return mapResult;
-}
-
-QString DapModuleWallet::getTokenBalance(const QString& network, const QString& tokenName, const QString& walletName) const
-{
-    auto& walletsInfo = getWalletsInfo();
-    QString name = walletName.isEmpty() ? getCurrentWallet().second : walletName;
-    if(!walletsInfo.contains(name))
-    {
-        return QString("0.0");
-    }
-    const auto& info = walletsInfo[name];
-    if(!info.walletInfo.contains(network))
-    {
-        return QString("0.0");
-    }
-
-    for(const auto& tokenInfo: info.walletInfo[network].networkInfo)
-    {
-        if(tokenInfo.ticker == tokenName)
-        {
-            return tokenInfo.value;
-        }
-    }
-    return QString("0.0");
 }
 
 QString DapModuleWallet::getAddressWallet(const QString &network, const QString& walletName) const

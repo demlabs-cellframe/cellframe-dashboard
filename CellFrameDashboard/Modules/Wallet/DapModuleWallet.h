@@ -63,12 +63,9 @@ public:
                                                 const QString& target, const QString& pass = "", const QString& ttl = "");
     Q_INVOKABLE bool isConteinListWallets(const QString& walletName);
 private:
-    QVariantMap getBalanceInfo(QString name, QString network, QString feeTicker, QString sendTicker);
-
     const QMap<QString, CommonWallet::WalletInfo>& getWalletsInfo() const;
 protected:
     virtual void setNewCurrentWallet(const QPair<int, QString> newWallet);
-    virtual CommonWallet::WalletInfo creatInfoObject(const QJsonObject& walletObject);
     QString getSavedWallet();
     int getIndexWallet(const QString& walletName) const;
 
