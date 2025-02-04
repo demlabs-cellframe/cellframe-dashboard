@@ -40,7 +40,6 @@ private slots:
 private:
     QString convertProgress(QJsonObject obj);
 
-    void updateItemModel(const NetworkInfo& info);
     int getIndexItemModel(QString netName);
 
     void clearAll();

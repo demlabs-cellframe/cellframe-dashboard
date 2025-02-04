@@ -53,8 +53,11 @@ void DapModuleNetworks::goOffline(QString net)
 void DapModuleNetworks::networkListChangedSlot()
 {
     QStringList list = {"All"};
-    list.append(m_modulesCtrl->getManagerController()->getNetworkList());
+    QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
+    list.append(netList);
     m_netListModel->setStringList(std::move(list));
+
+    m_networkModel->updateListModel(netList);
 }
 
 void DapModuleNetworks::deleteNetworksSlot(const QStringList& list)
@@ -79,21 +82,7 @@ void DapModuleNetworks::updateModelInfo(const NetworkInfo& info)
     }
     else
     {
-        updateItemModel(info);
-    }
-}
-
-void DapModuleNetworks::updateItemModel(const NetworkInfo& info)
-{
-    int idx = getIndexItemModel(info.networkName);
-
-    if(idx >= 0)
-    {
-        m_networkModel->set(idx, info);
-    }
-    else
-    {
-        m_networkModel->add(info);
+        m_networkModel->updateModel(info);
     }
 }
 

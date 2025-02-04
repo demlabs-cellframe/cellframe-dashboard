@@ -34,7 +34,6 @@ void DapNetworksManagerRemote::requestNetworskInfo()
 
     for(const auto &net: qAsConst(m_netList)) req.append(net);
 
-
     m_modulesController->getServiceController()->requestToService("DapGetNetworksStateCommand", req);
 }
 
@@ -63,16 +62,18 @@ void DapNetworksManagerRemote::networkListRespond(const QVariant &rcvData)
         QString network = itemValue.toString();
         netList.append(network);
     }
-    m_netList = netList;
-    emit networkListChanged();
-
-    for(const QString& network: qAsConst(netList))
+    if(m_netList != netList)
     {
-        NetworkInfo networkItem;
-        networkItem.networkName  = network;
-        emit updateNetworkInfoSignal(networkItem);
-    }
+        m_netList = netList;
+        emit networkListChanged();
 
+        for(const QString& network: qAsConst(netList))
+        {
+            NetworkInfo networkItem;
+            networkItem.networkName  = network;
+            emit updateNetworkInfoSignal(networkItem);
+        }
+    }
     m_netListTimer->start(60000);
     requestNetworskInfo();
 }
