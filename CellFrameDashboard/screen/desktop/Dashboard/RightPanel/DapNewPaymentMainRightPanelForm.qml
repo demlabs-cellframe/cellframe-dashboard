@@ -328,7 +328,7 @@ DapRectangleLitAndShaded
                         font: mainFont.dapFont.regular16
 
                         onCurrentTextChanged: {
-                            textInputAmountPayment.text = "0.0"
+                            textInputAmountPayment.text = ""
                         }
                     }
                 }
@@ -354,7 +354,7 @@ DapRectangleLitAndShaded
                     {
                         if(button25.selected)
                         {
-                            textInputAmountPayment.text = "0.0"
+                            textInputAmountPayment.text = ""
                             return
                         }
 
@@ -390,7 +390,7 @@ DapRectangleLitAndShaded
                     {
                         if(button50.selected)
                         {
-                            textInputAmountPayment.text = "0.0"
+                            textInputAmountPayment.text = ""
                             return
                         }
                         button25.selected = false
@@ -425,7 +425,7 @@ DapRectangleLitAndShaded
                     {
                         if(button75.selected)
                         {
-                            textInputAmountPayment.text = "0.0"
+                            textInputAmountPayment.text = ""
                             return
                         }
                         button25.selected = false
@@ -460,7 +460,7 @@ DapRectangleLitAndShaded
                     {
                         if(button100.selected)
                         {
-                            textInputAmountPayment.text = "0.0"
+                            textInputAmountPayment.text = ""
                             return
                         }
 
