@@ -54,7 +54,7 @@ void DapFeeManager::requestFee(const QString &network)
     m_isRequestData = true;
     QString currentMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
 
-    m_modulesController->getServiceController()->requestToService("DapGetFeeCommand", QStringList() << network << Dap::CommandParamKeys::NODE_MODE_KEY << currentMode);
+    m_modulesController->sendRequestToService("DapGetFeeCommand", QStringList() << network << Dap::CommandParamKeys::NODE_MODE_KEY << currentMode);
     m_rcvFeeTimeout->start(TIME_FEE_TIMEOUT);
 }
 

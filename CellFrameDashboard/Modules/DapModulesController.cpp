@@ -19,23 +19,24 @@
 #include "MasterNode/DapModuleMasterNode.h"
 #include "Networks/DapModuleNetworks.h"
 #include "DapDataManagerController.h"
+#include "DapApplication.h"
 
 #include "Models/DapWalletListModel.h"
 
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
 
-DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, QObject *parent)
+DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, DapApplication *applicationManager, QObject *parent)
     : QObject(parent)
-    , s_appEngine(appEngine)
-    , s_serviceCtrl(serviceController)
+    , m_appManager(applicationManager)
     , m_managerController(new DapDataManagerController(this))
+    , s_appEngine(appEngine)
     , s_settings(new QSettings(this))
 {
     connect(m_managerController, &DapDataManagerController::networkListChanged, this, &DapModulesController::readyReceiveData);
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::REMOTE)
     {
-        connect(s_serviceCtrl, &DapServiceController::onServiceStarted, this, &DapModulesController::readyReceiveData);
+        connect(m_appManager->getServiceController(), &DapServiceController::onServiceStarted, this, &DapModulesController::readyReceiveData);
     }
 
     initWorkers();
@@ -163,6 +164,33 @@ void DapModulesController::setNotifyCtrl(DapNotifyController *notifyController)
     m_notifyCtrl = notifyController;
 
     emit sigNotifyControllerIsInit();
+}
+
+DapServiceController* DapModulesController::getServiceController() const
+{
+    if(m_appManager)
+    {
+        return m_appManager->getServiceController();
+    }
+
+    return nullptr;
+}
+
+DapApplication* DapModulesController::getAppManager() const
+{
+    return m_appManager;
+}
+
+void DapModulesController::sendRequestToService(const QString& asServiceName, const QVariant &args)
+{
+    if(m_appManager)
+    {
+        m_appManager->requestToService(asServiceName, args);
+    }
+    else
+    {
+        qWarning() << QString("[DapModulesController] the appManager has not been initialized. command %1 is rejected. ").arg(asServiceName);
+    }
 }
 
 //Wallets

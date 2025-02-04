@@ -37,17 +37,17 @@ DapModuleNetworks::~DapModuleNetworks()
 
 void DapModuleNetworks::goSync(QString net)
 {
-    s_serviceCtrl->requestToService("DapNetworkSingleSyncCommand",QStringList()<<net);
+    m_modulesCtrl->sendRequestToService("DapNetworkSingleSyncCommand",QStringList()<<net);
 }
 
 void DapModuleNetworks::goOnline(QString net)
 {
-    s_serviceCtrl->requestToService("DapNetworkGoToCommand",QStringList()<<net<<"online");
+    m_modulesCtrl->sendRequestToService("DapNetworkGoToCommand",QStringList()<<net<<"online");
 }
 
 void DapModuleNetworks::goOffline(QString net)
 {
-    s_serviceCtrl->requestToService("DapNetworkGoToCommand",QStringList()<<net<<"offline");
+    m_modulesCtrl->sendRequestToService("DapNetworkGoToCommand",QStringList()<<net<<"offline");
 }
 
 void DapModuleNetworks::networkListChangedSlot()

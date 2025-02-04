@@ -2,8 +2,8 @@
 #include "../DapTypes/DapCoin.h"
 #include "../DapMasterNodeKeys.h"
 
-DapSrvStakeInvalidateStage::DapSrvStakeInvalidateStage(DapServiceController *serviceController)
-    :DapAbstractMasterNodeCommand(serviceController)
+DapSrvStakeInvalidateStage::DapSrvStakeInvalidateStage(DapModulesController *modulesController)
+    :DapAbstractMasterNodeCommand(modulesController)
     , m_checkStakeTimer(new QTimer())
 {
     connect(m_serviceController, &DapServiceController::rcvSrvStakeInvalidate, this, &DapSrvStakeInvalidateStage::respondStakeInvalidate);
@@ -50,7 +50,7 @@ void DapSrvStakeInvalidateStage::stakeInvalidate(const QVariantMap& masterNodeIn
 
     Dap::Coin fee256 = m_masterNodeInfo.value(MasterNode::STAKE_FEE_KEY).toString();
     QString feeDatoshi = fee256.toDatoshiString();
-    m_serviceController->requestToService("DapSrvStakeInvalidate", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
+    m_modulesController->sendRequestToService("DapSrvStakeInvalidate", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
                                                                                  << m_masterNodeInfo.value(MasterNode::STAKE_HASH_KEY).toString()
                                                                                  << m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()
                                                                                  << feeDatoshi
@@ -74,7 +74,7 @@ void DapSrvStakeInvalidateStage::checkStake()
 {
     if(m_masterNodeInfo.contains(MasterNode::QUEUE_INVALIDATE_HASH_KEY))
     {
-        m_serviceController->requestToService("DapCheckQueueTransactionCommand", QStringList()
+        m_modulesController->sendRequestToService("DapCheckQueueTransactionCommand", QStringList()
                                               << m_masterNodeInfo.value(MasterNode::QUEUE_INVALIDATE_HASH_KEY).toString()
                                               << m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()
                                               << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString());
@@ -149,7 +149,7 @@ void DapSrvStakeInvalidateStage::mempoolCheck()
 {
     if(m_masterNodeInfo.contains(MasterNode::STAKE_INVALIDATE_HASH_KEY))
     {
-        m_serviceController->requestToService("MempoolCheckCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
+        m_modulesController->sendRequestToService("MempoolCheckCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
                                               << m_masterNodeInfo.value(MasterNode::STAKE_INVALIDATE_HASH_KEY).toString());
     }
     else

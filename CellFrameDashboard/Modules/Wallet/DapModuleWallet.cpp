@@ -209,12 +209,12 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
 
 void DapModuleWallet::createTx(QVariant args)
 {
-    s_serviceCtrl->requestToService("DapCreateTransactionCommand", args);
+    m_modulesCtrl->sendRequestToService("DapCreateTransactionCommand", args);
 }
 
 void DapModuleWallet::requestWalletTokenInfo(QStringList args)
 {
-    s_serviceCtrl->requestToService("DapGetWalletTokenInfoCommand", args);
+    m_modulesCtrl->sendRequestToService("DapGetWalletTokenInfoCommand", args);
 }
 
 void DapModuleWallet::createWallet(const QStringList& args)
@@ -229,7 +229,7 @@ void DapModuleWallet::createWallet(const QStringList& args)
         request.insert(Dap::KeysParam::WALLET_PASSWORD, args[3]);
     }
 
-    s_serviceCtrl->requestToService("DapAddWalletCommand", request);
+    m_modulesCtrl->sendRequestToService("DapAddWalletCommand", request);
 }
 
 void DapModuleWallet::removeWallet(QStringList args)
@@ -255,7 +255,7 @@ void DapModuleWallet::removeWallet(QStringList args)
         walletsList.insert(wallet, path);
     }
     request.insert("walletList", walletsList);
-    s_serviceCtrl->requestToService("DapRemoveWalletCommand", request);
+    m_modulesCtrl->sendRequestToService("DapRemoveWalletCommand", request);
 }
 
 void DapModuleWallet::createPassword(QStringList args)
@@ -272,7 +272,7 @@ void DapModuleWallet::createPassword(QStringList args)
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL
                            ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     request.insert(Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade);
-    s_serviceCtrl->requestToService("DapCreatePassForWallet", request);
+    m_modulesCtrl->sendRequestToService("DapCreatePassForWallet", request);
 }
 
 void DapModuleWallet::activateOrDeactivateWallet(const QString& walletName,
@@ -297,7 +297,7 @@ void DapModuleWallet::activateOrDeactivateWallet(const QString& walletName,
         req.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::LOCAL_MODE);
     }
 
-    s_serviceCtrl->requestToService("DapWalletActivateOrDeactivateCommand", req);
+    m_modulesCtrl->sendRequestToService("DapWalletActivateOrDeactivateCommand", req);
 }
 
 void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)

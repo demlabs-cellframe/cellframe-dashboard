@@ -17,7 +17,7 @@ DapNetworksManagerRemote::DapNetworksManagerRemote(DapModulesController *moduleC
 
 void DapNetworksManagerRemote::requestNetworkList()
 {
-    m_modulesController->getServiceController()->requestToService("DapGetListNetworksCommand", QStringList()
+    m_modulesController->sendRequestToService("DapGetListNetworksCommand", QStringList()
                                                                 << Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
 }
 
@@ -35,7 +35,7 @@ void DapNetworksManagerRemote::requestNetworskInfo()
     for(const auto &net: qAsConst(m_netList)) req.append(net);
 
 
-    m_modulesController->getServiceController()->requestToService("DapGetNetworksStateCommand", req);
+    m_modulesController->sendRequestToService("DapGetNetworksStateCommand", req);
 }
 
 void DapNetworksManagerRemote::networkListRespond(const QVariant &rcvData)

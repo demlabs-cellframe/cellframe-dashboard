@@ -289,11 +289,11 @@ void DapWalletsManagerLocal::updateInfoWallets(const QString &walletName)
 
 void DapWalletsManagerLocal::updateListWallets()
 {
-    m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", QStringList());
+    m_modulesController->sendRequestToService("DapGetListWalletsCommand", QStringList());
 }
 
 void DapWalletsManagerLocal::requestWalletInfo(const QString& walletName, const QString& network)
 {
     m_isRequestInfo = true;
-    m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", QStringList() << walletName << network);
+    m_modulesController->sendRequestToService("DapGetWalletInfoCommand", QStringList() << walletName << network);
 }

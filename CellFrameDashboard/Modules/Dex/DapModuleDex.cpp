@@ -849,7 +849,7 @@ void DapModuleDex::requestTokenPairs()
         };
 
         m_isSandDapGetXchangeTokenPair = true;
-        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPair", request);
+        m_modulesCtrl->sendRequestToService("DapGetXchangeTokenPair", request);
     }
 }
 
@@ -868,7 +868,7 @@ void DapModuleDex::requestCurrentTokenPairs()
             };
 
             m_isSandXchangeTokenPriceAverage = true;
-            m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceAverage", request);
+            m_modulesCtrl->sendRequestToService("DapGetXchangeTokenPriceAverage", request);
         }
     }
     else
@@ -915,7 +915,7 @@ void DapModuleDex::requestHistoryTokenPairs()
             ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
             ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
         };
-        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceHistory", request);
+        m_modulesCtrl->sendRequestToService("DapGetXchangeTokenPriceHistory", request);
     }
     else
     {
@@ -937,7 +937,7 @@ void DapModuleDex::requestHistoryOrders()
         {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
         ,{Dap::KeysParam::NETWORK_LIST, netList}
     };
-    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeOrdersList", request);
+    m_modulesCtrl->sendRequestToService("DapGetXchangeOrdersList", request);
 }
 
 void DapModuleDex::requestTXList()
@@ -964,24 +964,24 @@ void DapModuleDex::requestTXList()
                             ,{Dap::KeysParam::WALLET_ADDRESSES, networkAddresses}
                             ,{Dap::KeysParam::WALLET_NAME, getWalletManager()->getCurrentWallet().second}
                             };
-    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTxList", request);
+    m_modulesCtrl->sendRequestToService("DapGetXchangeTxList", request);
 }
 
 void DapModuleDex::requestOrderPurchase(const QStringList& params)
 {
-    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderPurchase", params);
+    m_modulesCtrl->sendRequestToService("DapXchangeOrderPurchase", params);
 }
 
 void DapModuleDex::requestOrderCreate(const QStringList& params)
 {
-    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderCreate", params);
+    m_modulesCtrl->sendRequestToService("DapXchangeOrderCreate", params);
 }
 
 void DapModuleDex::requestOrderDelete(const QString& network, const QString& hash, const QString& fee, const QString& tokenName, const QString& amount)
 {
     Dap::Coin feeInt = fee;
     QString feeDatoshi = feeInt.toDatoshiString();
-    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove",
+    m_modulesCtrl->sendRequestToService("DapXchangeOrderRemove",
                                             QStringList() << network << hash <<
                                             m_modulesCtrl->getManagerController()->getCurrentWallet().second << feeDatoshi << tokenName << amount);
 }

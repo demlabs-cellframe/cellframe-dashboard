@@ -96,7 +96,7 @@ void DapModuleLog::exportLog(QString newPath, int type, QString period)
 #endif
 //    qDebug()<< newPath << type << period;
     QString originPath = getLogPath(LogType(type));
-    s_serviceCtrl->requestToService("DapExportLogCommand",QStringList()
+    m_modulesCtrl->sendRequestToService("DapExportLogCommand",QStringList()
                                     <<QString(originPath)
                                     <<QString(newPath)
                                     <<QString(period));

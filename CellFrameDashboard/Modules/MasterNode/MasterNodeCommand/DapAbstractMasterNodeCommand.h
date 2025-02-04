@@ -3,6 +3,7 @@
 #include <QObject>
 #include <functional>
 #include "DapServiceController.h"
+#include "DapModulesController.h"
 
 class DapAbstractMasterNodeCommand : public QObject
 {
@@ -11,7 +12,7 @@ public:
     using StopCreationCallback = std::function<void(int, const QString&)>;
     using StageComplatedCallback = std::function<void()>;
 
-    DapAbstractMasterNodeCommand(DapServiceController *serviceController);
+    DapAbstractMasterNodeCommand(DapModulesController *modulesController);
     ~DapAbstractMasterNodeCommand();
     virtual void cencelRegistration();
 
@@ -26,6 +27,7 @@ protected:
     void setMasterNodeInfo(const QVariantMap& masterNodeInfo) { m_masterNodeInfo = masterNodeInfo; }
     void addDataMasterNodeInfo(const QString& key, const QVariant& data);
 protected:
+    DapModulesController* m_modulesController = nullptr;
     DapServiceController* m_serviceController = nullptr;
 
     QVariantMap m_masterNodeInfo;

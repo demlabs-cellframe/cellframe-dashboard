@@ -14,7 +14,7 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         initConnect();
-        s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");
+        m_modulesCtrl->sendRequestToService("DapVersionController", QStringList()<<"version");
 //        if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
         checkVersion();
         setStatusInit(true);
@@ -225,7 +225,7 @@ QString DapModuleSettings::getUrlUpload()
 void DapModuleSettings::checkVersion()
 {
     m_timerVersionCheck->stop();
-    s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version node");
+    m_modulesCtrl->sendRequestToService("DapVersionController", QStringList()<<"version node");
     m_timerVersionCheck->start(30000);
 }
 
@@ -236,7 +236,7 @@ void DapModuleSettings::guiVersionRequest()
         m_guiVersionRequest = true;
         emit guiRequestChanged();
         m_timerTimeoutService->stop();
-        s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");
+        m_modulesCtrl->sendRequestToService("DapVersionController", QStringList()<<"version");
         m_timerTimeoutService->start(10000);
     }
 }
@@ -253,7 +253,7 @@ void DapModuleSettings::timeoutVersionInfo()
 
 void DapModuleSettings::clearNodeData()
 {
-    s_serviceCtrl->requestToService("DapRemoveChainsOrGdbCommand", QStringList()<<"");
+    m_modulesCtrl->sendRequestToService("DapRemoveChainsOrGdbCommand", QStringList()<<"");
 //    s_serviceCtrl->requestToService("DapNodeRestart", QStringList()<<"");
     m_clearDataProcessing = true;
     clearDataProcessingChanged();

@@ -9,11 +9,11 @@ Q_DECLARE_METATYPE(QList<int>)
 
 DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_stakeDelegate(new DapStakeDelegate(s_serviceCtrl))
-    , m_srvStakeInvalidate(new DapSrvStakeInvalidateStage(s_serviceCtrl))
-    , m_waitingPermission(new DapWaitingPermission(s_serviceCtrl))
-    , m_updateConfig(new DapUpdateConfigStage(s_serviceCtrl))
-    , m_nodeDelStage(new DapNodeDelStage(s_serviceCtrl))
+    , m_stakeDelegate(new DapStakeDelegate(parent))
+    , m_srvStakeInvalidate(new DapSrvStakeInvalidateStage(parent))
+    , m_waitingPermission(new DapWaitingPermission(parent))
+    , m_updateConfig(new DapUpdateConfigStage(parent))
+    , m_nodeDelStage(new DapNodeDelStage(parent))
 {
     auto setStageCallback = [this](DapAbstractMasterNodeCommand* stage)
     {
@@ -32,12 +32,12 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
 
     connect(m_modulesCtrl->getManagerController(), &DapDataManagerController::networkListChanged, this, &DapModuleMasterNode::networkListUpdateSlot);
 
-    connect(s_serviceCtrl, &DapServiceController::certificateManagerOperationResult, this, &DapModuleMasterNode::respondCreateCertificate);
-    connect(s_serviceCtrl, &DapServiceController::rcvAddNode, this, &DapModuleMasterNode::addedNode);
-    connect(s_serviceCtrl, &DapServiceController::networkStatusReceived, this, &DapModuleMasterNode::respondNetworkStatus);
-    connect(s_serviceCtrl, &DapServiceController::rcvNodeListCommand, this, &DapModuleMasterNode::respondNodeListCommand);
-    connect(s_serviceCtrl, &DapServiceController::createdStakeOrder, this, &DapModuleMasterNode::respondCreatedStakeOrder);
-    connect(s_serviceCtrl, &DapServiceController::moveWalletCommandReceived, this, &DapModuleMasterNode::respondMoveWalletCommand);
+    connect(m_modulesCtrl->getServiceController(), &DapServiceController::certificateManagerOperationResult, this, &DapModuleMasterNode::respondCreateCertificate);
+    connect(m_modulesCtrl->getServiceController(), &DapServiceController::rcvAddNode, this, &DapModuleMasterNode::addedNode);
+    connect(m_modulesCtrl->getServiceController(), &DapServiceController::networkStatusReceived, this, &DapModuleMasterNode::respondNetworkStatus);
+    connect(m_modulesCtrl->getServiceController(), &DapServiceController::rcvNodeListCommand, this, &DapModuleMasterNode::respondNodeListCommand);
+    connect(m_modulesCtrl->getServiceController(), &DapServiceController::createdStakeOrder, this, &DapModuleMasterNode::respondCreatedStakeOrder);
+    connect(m_modulesCtrl->getServiceController(), &DapServiceController::moveWalletCommandReceived, this, &DapModuleMasterNode::respondMoveWalletCommand);
 
     connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, &DapModuleMasterNode::workNodeChanged);
 
@@ -458,7 +458,7 @@ void DapModuleMasterNode::createCertificate()
         return;
     }
     qInfo() << "[DapModuleMasterNode] [Creating a master node] A " << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString() << " certificate is being created";
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "2"
+    m_modulesCtrl->sendRequestToService("DapCertificateManagerCommands", QStringList() << "2"
                                                                                    << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()
                                                                                    << m_currentStartMaster[MasterNode::CERT_SIGN_KEY].toString()
                                                                                    << "public");
@@ -466,12 +466,12 @@ void DapModuleMasterNode::createCertificate()
 
 void DapModuleMasterNode::getHashCertificate(const QString& certName)
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "10" << certName);
+    m_modulesCtrl->sendRequestToService("DapCertificateManagerCommands", QStringList() << "10" << certName);
 }
 
 void DapModuleMasterNode::addNode()
 {
-    s_serviceCtrl->requestToService("DapAddNodeCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
+    m_modulesCtrl->sendRequestToService("DapAddNodeCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
 }
 
 void DapModuleMasterNode::createStakeOrder()
@@ -483,7 +483,7 @@ void DapModuleMasterNode::createStakeOrder()
     }
     Dap::Coin feeCoin(m_currentStartMaster[MasterNode::FEE_KEY].toString());
     QString feeDatoshi = feeCoin.toDatoshiString();
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList()
+    m_modulesCtrl->sendRequestToService("DapCreateStakeOrder", QStringList()
                                                            << m_currentStartMaster[MasterNode::NETWORK_KEY].toString()
                                                            << feeDatoshi
                                                            << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString());
@@ -493,7 +493,7 @@ void DapModuleMasterNode::createStakeOrderForMasterNode(const QString& fee, cons
 {
     Dap::Coin feeCoin(fee);
     QString feeDatoshi = feeCoin.toDatoshiString();
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList() << m_currentNetwork << feeDatoshi << certName << "from" << MasterNode::MASTER_NODE_KEY); // master_node - For identification FROM
+    m_modulesCtrl->sendRequestToService("DapCreateStakeOrder", QStringList() << m_currentNetwork << feeDatoshi << certName << "from" << MasterNode::MASTER_NODE_KEY); // master_node - For identification FROM
 }
 
 void DapModuleMasterNode::getInfoNode()
@@ -501,7 +501,7 @@ void DapModuleMasterNode::getInfoNode()
     if(!m_isNetworkStatusRequest)
     {
         m_isNetworkStatusRequest = true;
-        s_serviceCtrl->requestToService("DapGetNetworkStatusCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
+        m_modulesCtrl->sendRequestToService("DapGetNetworkStatusCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
     }
 }
 
@@ -510,20 +510,20 @@ void DapModuleMasterNode::getNodeLIst()
     if(!m_isNodeListRequest)
     {
         m_isNodeListRequest = true;
-        s_serviceCtrl->requestToService("DapNodeListCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
+        m_modulesCtrl->sendRequestToService("DapNodeListCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
     }
 }
 
 void DapModuleMasterNode::getInfoCertificate()
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "1");
+    m_modulesCtrl->sendRequestToService("DapCertificateManagerCommands", QStringList() << "1");
 }
 
 void DapModuleMasterNode::moveCertificate(const QString& path)
 {
     if(path.isEmpty())
     {
-        s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
+        m_modulesCtrl->sendRequestToService("DapCertificateManagerCommands", QStringList() << "11"
                                                                                        << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()
                                                                                        << m_currentStartMaster[MasterNode::CERT_PATH_KEY].toString());
     }
@@ -534,7 +534,7 @@ void DapModuleMasterNode::moveCertificate(const QString& path)
         {
             qDebug() << "[DapModuleMasterNode] [moveCertificate] We are trying to move the certificate.";
             m_certMovedKeyRequest = true;
-            s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
+            m_modulesCtrl->sendRequestToService("DapCertificateManagerCommands", QStringList() << "11"
                                                                                            << cert.first
                                                                                            << cert.second);
         }
@@ -553,7 +553,7 @@ void DapModuleMasterNode::moveWallet(const QString& path)
     {
         qDebug() << "[DapModuleMasterNode] [moveWallet] We are trying to move the wallet.";
         m_walletMovedKeyRequest = true;
-        s_serviceCtrl->requestToService("DapMoveWalletCommand", QStringList() << wallet.first
+        m_modulesCtrl->sendRequestToService("DapMoveWalletCommand", QStringList() << wallet.first
                                                                               << wallet.second);
     }
     else
@@ -565,7 +565,7 @@ void DapModuleMasterNode::moveWallet(const QString& path)
 
 void DapModuleMasterNode::dumpCertificate(const QString& type)
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "3" << m_certName << m_certPath
+    m_modulesCtrl->sendRequestToService("DapCertificateManagerCommands", QStringList() << "3" << m_certName << m_certPath
                                                                                    << "from" << "master_node"
                                                                                    << "type" << type);
 }
@@ -587,7 +587,7 @@ void DapModuleMasterNode::clearCertificate()
 
 void DapModuleMasterNode::tryRestartNode()
 {
-    s_serviceCtrl->requestToService("DapNodeRestart", QStringList());
+    m_modulesCtrl->sendRequestToService("DapNodeRestart", QStringList());
 }
 
 void DapModuleMasterNode::respondCreatedStakeOrder(const QVariant &rcvData)

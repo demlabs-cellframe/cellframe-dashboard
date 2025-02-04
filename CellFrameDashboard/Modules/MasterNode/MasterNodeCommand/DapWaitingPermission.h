@@ -8,7 +8,7 @@ class DapWaitingPermission : public DapAbstractMasterNodeCommand
 {
     Q_OBJECT
 public:
-    DapWaitingPermission(DapServiceController *serviceController);
+    DapWaitingPermission(DapModulesController *modulesController);
     ~DapWaitingPermission();
 
     void startWaitingPermission(const QVariantMap& masterNodeInfo);

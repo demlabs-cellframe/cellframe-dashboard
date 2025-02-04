@@ -1,5 +1,6 @@
 #include "DapAbstractDataManager.h"
 #include "Modules/DapModulesController.h"
+#include "DapApplication.h"
 
 DapAbstractDataManager::DapAbstractDataManager(DapModulesController *moduleController)
     : QObject{}

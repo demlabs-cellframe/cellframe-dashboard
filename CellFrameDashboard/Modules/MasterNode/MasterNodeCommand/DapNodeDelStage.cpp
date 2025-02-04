@@ -1,8 +1,8 @@
 #include "DapNodeDelStage.h"
 #include "../DapMasterNodeKeys.h"
 
-DapNodeDelStage::DapNodeDelStage(DapServiceController *serviceController)
-    :DapAbstractMasterNodeCommand(serviceController)
+DapNodeDelStage::DapNodeDelStage(DapModulesController *modulesController)
+    :DapAbstractMasterNodeCommand(modulesController)
 {
     connect(m_serviceController, &DapServiceController::rcvNodeDel, this, &DapNodeDelStage::deletedNode);
 }
@@ -10,7 +10,7 @@ DapNodeDelStage::DapNodeDelStage(DapServiceController *serviceController)
 void DapNodeDelStage::tryDeleteNode(const QVariantMap& masterNodeInfo)
 {
     setMasterNodeInfo(masterNodeInfo);
-    m_serviceController->requestToService("DapNodeDel", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
+    m_modulesController->sendRequestToService("DapNodeDel", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
                                                                       << m_masterNodeInfo.value(MasterNode::NODE_ADDR_KEY).toString());
 }
 

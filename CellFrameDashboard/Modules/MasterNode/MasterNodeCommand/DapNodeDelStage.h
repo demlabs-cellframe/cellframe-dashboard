@@ -7,7 +7,7 @@ class DapNodeDelStage : public DapAbstractMasterNodeCommand
 {
     Q_OBJECT
 public:
-    DapNodeDelStage(DapServiceController *serviceController);
+    DapNodeDelStage(DapModulesController *modulesController);
 
     void tryDeleteNode(const QVariantMap& masterNodeInfo);
 private slots:

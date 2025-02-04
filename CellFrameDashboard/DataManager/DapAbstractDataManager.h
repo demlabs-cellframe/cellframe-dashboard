@@ -3,6 +3,7 @@
 #include <QObject>
 
 class DapModulesController;
+class DapApplication;
 
 class DapAbstractDataManager : public QObject
 {

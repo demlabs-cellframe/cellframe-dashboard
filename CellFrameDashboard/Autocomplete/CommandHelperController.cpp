@@ -1,12 +1,13 @@
 #include "CommandHelperController.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <DapApplication.h>
 
-CommandHelperController::CommandHelperController(DapServiceController* serviceController, QObject *parent)
-    : QObject{parent}
+CommandHelperController::CommandHelperController(DapServiceController* serviceController, DapApplication *parent)
+    : QObject{}
     , s_serviceCtrl(serviceController)
     , m_helpController(new HelpDictionaryController())
-
+    , m_appManager(parent)
 {
     loadDictionary();
     loadData();
@@ -56,17 +57,17 @@ void CommandHelperController::tryListGetting(const QString& text, int cursorPosi
 
 void CommandHelperController::loadNewDictionary()
 {
-    s_serviceCtrl->requestToService("DapDictionaryCommand", "getNewDictionary");
+    m_appManager->requestToService("DapDictionaryCommand", "getNewDictionary");
 }
 
 void CommandHelperController::loadDictionary()
 {
-    s_serviceCtrl->requestToService("DapDictionaryCommand", "getDictionary");
+    m_appManager->requestToService("DapDictionaryCommand", "getDictionary");
 }
 
 void CommandHelperController::loadData()
 {
-    s_serviceCtrl->requestToService("DapDictionaryCommand", "getData");
+    m_appManager->requestToService("DapDictionaryCommand", "getData");
 }
 
 // void CommandHelperController::tryDataUpdate()

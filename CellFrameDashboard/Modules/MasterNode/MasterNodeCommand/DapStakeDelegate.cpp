@@ -2,8 +2,8 @@
 #include "../DapTypes/DapCoin.h"
 #include "../DapMasterNodeKeys.h"
 
-DapStakeDelegate::DapStakeDelegate(DapServiceController *serviceController)
-    :DapAbstractMasterNodeCommand(serviceController)
+DapStakeDelegate::DapStakeDelegate(DapModulesController *modulesController)
+    :DapAbstractMasterNodeCommand(modulesController)
     , m_checkStakeTimer(new QTimer())
 {
     connect(m_serviceController, &DapServiceController::srvStakeDelegateCreated, this, &DapStakeDelegate::respondStakeDelegate);
@@ -55,7 +55,7 @@ void DapStakeDelegate::stakeDelegate(const QVariantMap& masterNodeInfo)
 
     Dap::Coin fee256 = m_masterNodeInfo.value(MasterNode::STAKE_FEE_KEY).toString();
     QString feeDatoshi = fee256.toDatoshiString();
-    m_serviceController->requestToService("DapSrvStakeDelegateCommand", QStringList() << m_masterNodeInfo.value(MasterNode::CERT_NAME_KEY).toString()
+    m_modulesController->sendRequestToService("DapSrvStakeDelegateCommand", QStringList() << m_masterNodeInfo.value(MasterNode::CERT_NAME_KEY).toString()
                                                                                 << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
                                                                                 << m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()
                                                                                 << valueDatoshi
@@ -78,7 +78,7 @@ void DapStakeDelegate::checkStake()
 {
     if(m_masterNodeInfo.contains(MasterNode::QUEUE_HASH_KEY))
     {
-        m_serviceController->requestToService("DapCheckQueueTransactionCommand", QStringList()
+        m_modulesController->sendRequestToService("DapCheckQueueTransactionCommand", QStringList()
                                         << m_masterNodeInfo.value(MasterNode::QUEUE_HASH_KEY).toString()
                                         << m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()
                                         << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString());
@@ -152,7 +152,7 @@ void DapStakeDelegate::mempoolCheck()
 {
     if(m_masterNodeInfo.contains(MasterNode::STAKE_HASH_KEY))
     {
-        m_serviceController->requestToService("MempoolCheckCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
+        m_modulesController->sendRequestToService("MempoolCheckCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
                                         << m_masterNodeInfo.value(MasterNode::STAKE_HASH_KEY).toString());
     }
     else

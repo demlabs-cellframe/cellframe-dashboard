@@ -8,7 +8,7 @@ DapTransactionManager::DapTransactionManager(DapModulesController *moduleControl
 
 void DapTransactionManager::sendTx(QVariantMap txData)
 {
-    m_modulesController->getServiceController()->requestToService("DapCreateTxCommand", txData);
+    m_modulesController->sendRequestToService("DapCreateTxCommand", txData);
 }
 
 void DapTransactionManager::rcvTxReply(const QVariant &reply)

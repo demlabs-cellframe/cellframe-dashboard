@@ -9,7 +9,7 @@ class DapUpdateConfigStage : public DapAbstractMasterNodeCommand
 {
     Q_OBJECT
 public:
-    DapUpdateConfigStage(DapServiceController *serviceController);
+    DapUpdateConfigStage(DapModulesController *modulesController);
 
     void updateConfigForRegistration(const QVariantMap& masterNodeInfo);
     void updateConfigForCancel(const QVariantMap& masterNodeInfo, const QMap<QString, QVariantMap>& allMasterNode);

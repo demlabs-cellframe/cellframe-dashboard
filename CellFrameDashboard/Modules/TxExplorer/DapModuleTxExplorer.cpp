@@ -236,7 +236,7 @@ void DapModuleTxExplorer::updateHistory()
                             {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
                             };
 
-    s_serviceCtrl->requestToService("DapGetWalletHistoryCommand", request);
+    m_modulesCtrl->sendRequestToService("DapGetWalletHistoryCommand", request);
     m_timerRequest->start(TIME_OUT_HISTORY_REQUEST);
     isSendReqeust = true;
 }

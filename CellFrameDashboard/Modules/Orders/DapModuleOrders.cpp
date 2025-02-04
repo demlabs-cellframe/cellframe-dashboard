@@ -20,12 +20,7 @@ DapModuleOrders::DapModuleOrders(DapModulesController *parent)
 
 DapModuleOrders::~DapModuleOrders()
 {
-    disconnect(s_serviceCtrl, &DapServiceController::ordersListReceived, this, &DapModuleOrders::rcvOrdersList);
-    disconnect(s_serviceCtrl, &DapServiceController::rcvXchangeOrderList,this, &DapModuleOrders::rcvXchangeOrderList);
-    disconnect(s_serviceCtrl, &DapServiceController::createdVPNOrder,this, &DapModuleOrders::rcvCreateVPNOrder);
-    disconnect(s_serviceCtrl, &DapServiceController::createdStakeOrder,this, &DapModuleOrders::rcvCreateStakeOrder);
-
-    disconnect(m_timerUpdateOrders, &QTimer::timeout, this, &DapModuleOrders::slotUpdateOrders);
+    disconnect();
 
     delete m_timerUpdateOrders;
 }
@@ -49,7 +44,7 @@ void DapModuleOrders::setNodeAddrFilterText(const QString &nodeAddr)
 
 void DapModuleOrders::getOrdersList()
 {
-    s_serviceCtrl->requestToService("DapGetListOrdersCommand");
+    m_modulesCtrl->sendRequestToService("DapGetListOrdersCommand");
 
     QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
@@ -57,7 +52,7 @@ void DapModuleOrders::getOrdersList()
         {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
         ,{Dap::KeysParam::NETWORK_LIST, netList}
     };
-    s_serviceCtrl->requestToService("DapGetXchangeOrdersList", request);
+    m_modulesCtrl->sendRequestToService("DapGetXchangeOrdersList", request);
 }
 
 void DapModuleOrders::rcvXchangeOrderList(const QVariant &rcvData)
@@ -134,7 +129,7 @@ void DapModuleOrders::initConnect()
 
 void DapModuleOrders::createStakeOrder(QStringList args)
 {
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", args);
+    m_modulesCtrl->sendRequestToService("DapCreateStakeOrder", args);
 }
 
 void DapModuleOrders::createVPNOrder(QStringList args)
@@ -152,7 +147,7 @@ void DapModuleOrders::createVPNOrder(QStringList args)
                                 "continent", args[10]};
 
     
-    s_serviceCtrl->requestToService("DapCreateVPNOrder", resultParams);
+    m_modulesCtrl->sendRequestToService("DapCreateVPNOrder", resultParams);
 }
 
 void DapModuleOrders::slotUpdateOrders()

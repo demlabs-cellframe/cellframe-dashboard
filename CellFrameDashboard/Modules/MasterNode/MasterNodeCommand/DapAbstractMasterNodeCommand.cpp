@@ -1,8 +1,10 @@
 #include "DapAbstractMasterNodeCommand.h"
 
-DapAbstractMasterNodeCommand::DapAbstractMasterNodeCommand(DapServiceController *serviceController)
-    :m_serviceController(serviceController)
-{}
+DapAbstractMasterNodeCommand::DapAbstractMasterNodeCommand(DapModulesController *modulesController)
+    :m_modulesController(modulesController)
+{
+    m_serviceController = m_modulesController->getServiceController();
+}
 
 DapAbstractMasterNodeCommand::~DapAbstractMasterNodeCommand()
 {}

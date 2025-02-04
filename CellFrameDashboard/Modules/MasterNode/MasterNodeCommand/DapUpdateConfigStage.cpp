@@ -2,8 +2,8 @@
 #include "CellframeNode.h"
 #include "../DapMasterNodeKeys.h"
 
-DapUpdateConfigStage::DapUpdateConfigStage(DapServiceController *serviceController)
-:DapAbstractMasterNodeCommand(serviceController)
+DapUpdateConfigStage::DapUpdateConfigStage(DapModulesController *modulesController)
+:DapAbstractMasterNodeCommand(modulesController)
 {}
 
 void DapUpdateConfigStage::updateConfigForRegistration(const QVariantMap& masterNodeInfo)

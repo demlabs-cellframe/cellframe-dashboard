@@ -461,14 +461,14 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
 
 void DapWalletsManagerRemote::updateListWallets()
 {
-    m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", QStringList() <<
+    m_modulesController->sendRequestToService("DapGetListWalletsCommand", QStringList() <<
                                                                  Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
 }
 
 void DapWalletsManagerRemote::requestWalletInfo(const QString& walletAddr, const QString& network)
 {
     m_isRequestInfo = true;
-    m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", QStringList() << walletAddr << network <<
+    m_modulesController->sendRequestToService("DapGetWalletInfoCommand", QStringList() << walletAddr << network <<
                                                                   Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
 
     m_timerAlarmUpdateWallet->start(TIME_ALARM_REQUEST);
@@ -481,5 +481,5 @@ void DapWalletsManagerRemote::requestWalletAddress(const QString& walletName, co
                              ,{Dap::KeysParam::WALLET_NAME, walletName}};
 
 
-    m_modulesController->getServiceController()->requestToService("DapGetWalletAddressCommand", requestMap);
+    m_modulesController->sendRequestToService("DapGetWalletAddressCommand", requestMap);
 }

@@ -21,11 +21,8 @@ DapRectangleLitAndShaded
     property alias dapComboBoxTokenModel: comboboxToken.model
 
     property alias dapComboboxNetwork: comboboxNetwork
-    property alias dapComboboxChain: comboboxChain
 
     property alias dapWalletMessagePopup: walletMessagePopup
-
-    property alias dapChainGroup: chainGroup
 
     property alias dapComboBoxToken: comboboxToken
 
@@ -155,42 +152,6 @@ DapRectangleLitAndShaded
                     {
                         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
                         updateWindow()
-                    }
-                }
-            }
-
-            RowLayout
-            {
-                id: chainGroup
-
-                Layout.fillWidth: true
-                Layout.minimumHeight: 40 
-                Layout.maximumHeight: 40 
-                visible: false
-
-                Text
-                {
-                    Layout.fillWidth: true
-                    color: currTheme.white
-                    text: qsTr("Chain:")
-                    font: mainFont.dapFont.regular14
-                    horizontalAlignment: Text.AlignLeft
-                }
-
-                Rectangle
-                {
-                    width: 200 
-                    height: 40 
-                    color: "transparent"
-
-                    DapCustomComboBox
-                    {
-                        id: comboboxChain
-
-                        anchors.centerIn: parent
-                        anchors.fill: parent
-
-                        font: mainFont.dapFont.regular16
                     }
                 }
             }

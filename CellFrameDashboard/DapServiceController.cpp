@@ -3,7 +3,7 @@
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
-    : QObject(apParent)
+    : QThread(apParent)
 {
     // run();
 }
@@ -23,24 +23,22 @@ DapServiceController::~DapServiceController()
     }
     delete m_pServer;
 
-    if(m_threadRegular)
-    {
-        m_threadRegular->quit();
-        m_threadRegular->wait();
-        delete m_threadRegular;
-    }
+    // if(m_threadRegular)
+    // {
+    //     m_threadRegular->quit();
+    //     m_threadRegular->wait();
+    //     delete m_threadRegular;
+    // }
 }
 
 void DapServiceController::run()
 {
-
+    qDebug() << "[TEST] run thread: " << thread();
     DapConfigReader configReader;
-
-    m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
 
     m_pServer = new DapUiService(this);
 
-    m_threadRegular = new QThread();
+    // m_threadRegular = new QThread();
 
     if(m_transceivers.isEmpty())
     {
@@ -67,26 +65,16 @@ void DapServiceController::run()
         }
         controller->onInit();
     });
-}
-
-void DapServiceController::setReadingChains(bool bReadingChains)
-{
-    m_bReadingChains = bReadingChains;
-    emit readingChainsChanged(bReadingChains);
-}
-
-/// Disconnect all signals
-void DapServiceController::disconnectAll()
-{
-    disconnect(this, 0, 0, 0);
+    this->exec();
 }
 
 /// Send request to service.
 /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
 /// @param asServiceName Service name.
 /// @param arg1...arg10 Parametrs.
-void DapServiceController::requestToService(const QString &asServiceName, const QVariant &args)
+void DapServiceController::requestToServiceSlot(const QString &asServiceName, const QVariant &args)
 {
+    qDebug() << "[TEST] app thread: " << thread();
     if(!m_transceivers.contains(asServiceName))
     {
         qWarning()<<QString("Command " + asServiceName + " was not found");
@@ -272,23 +260,23 @@ void DapServiceController::registerCommand()
     });
 }
 
-void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
-{
-    QList<QStringList> list;
-    QVariantList lists = transactions.toList();
-    for (const QVariant& listVariant : lists) {
-        QStringList strList = listVariant.toStringList();
-        list.append(strList);
-    }
-    QVariantList variantList;
-    for (const QStringList& strList : list) {
-        QVariant variant = QVariant::fromValue(strList);
-        variantList.append(variant);
-    }
+// void DapServiceController::tryRemoveTransactions(const QVariant& transactions)
+// {
+//     QList<QStringList> list;
+//     QVariantList lists = transactions.toList();
+//     for (const QVariant& listVariant : lists) {
+//         QStringList strList = listVariant.toStringList();
+//         list.append(strList);
+//     }
+//     QVariantList variantList;
+//     for (const QStringList& strList : list) {
+//         QVariant variant = QVariant::fromValue(strList);
+//         variantList.append(variant);
+//     }
 
-    QVariant finalVariant = QVariant::fromValue(variantList);
-    this->requestToService("DapRemoveTransactionsQueueCommand", finalVariant);
-}
+//     QVariant finalVariant = QVariant::fromValue(variantList);
+//     this->requestToService("DapRemoveTransactionsQueueCommand", finalVariant);
+// }
 
 void DapServiceController::initAdditionalParamrtrsService()
 {
@@ -302,8 +290,6 @@ void DapServiceController::initAdditionalParamrtrsService()
         qWarning() << "DapTransactionQueueController have a problem";
         return;
     }
-
-    // connect(this, &DapServiceController::onServiceStarted, controller, &DapTransactionQueueController::onInit);
 
     if(m_transceivers.contains("MempoolCheckCommand"))
     {

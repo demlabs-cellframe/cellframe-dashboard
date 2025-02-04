@@ -18,7 +18,7 @@ const int OS_WIN_FLAG = 0;
 #endif
 
 DapApplication::DapApplication(QObject *parent)
-    :QObject(parent)
+    : QObject(parent)
 {
 }
 
@@ -35,6 +35,30 @@ QQmlApplicationEngine *DapApplication::qmlEngine()
 void DapApplication::setClipboardText(const QString &text)
 {
     m_guiApp->clipboard()->setText(text);
+}
+
+void DapApplication::requestToService(const QString& asServiceName, const QVariant &args)
+{
+    qDebug() << "[TEST] app thread: " << thread();
+    emit requestToServiceSignal(asServiceName, args);
+}
+
+void DapApplication::tryRemoveTransactions(const QVariant& transactions)
+{
+    QList<QStringList> list;
+    QVariantList lists = transactions.toList();
+    for (const QVariant& listVariant : lists) {
+        QStringList strList = listVariant.toStringList();
+        list.append(strList);
+    }
+    QVariantList variantList;
+    for (const QStringList& strList : list) {
+        QVariant variant = QVariant::fromValue(strList);
+        variantList.append(variant);
+    }
+
+    QVariant finalVariant = QVariant::fromValue(variantList);
+    this->requestToService("DapRemoveTransactionsQueueCommand", finalVariant);
 }
 
 void DapApplication::registerQmlTypes()
@@ -70,10 +94,10 @@ void DapApplication::startService()
 #endif
 }
 
-void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
-{
-    m_serviceController->requestToService(sName.toString(), sArgs);
-}
+// void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
+// {
+//     // m_serviceController->requestToService(sName.toString(), sArgs);
+// }
 
 void DapApplication::setNodeMode(int mode)
 {
@@ -89,19 +113,24 @@ void DapApplication::setDontShowNodeModeFlag(bool isDontShow)
 
 void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 {
-
-
     m_guiApp = guiApp;
     m_engine = guiApp->qmlEngine();
 
+    // m_serviceController = new DapServiceController();
+    // m_threadService = new QThread();
     m_serviceController = new DapServiceController();
+    connect(this, &DapApplication::requestToServiceSignal, m_serviceController, &DapServiceController::requestToServiceSlot);
+    m_serviceController->start();
+    // m_serviceController->moveToThread(m_threadService);
+
+
     dateWorker = new DateWorker(this);
 
     m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
     setNodeMode(QSettings().value("node_mode", DapNodeMode::REMOTE).toInt());
 
-    m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
-    m_serviceController->run();
+    m_modulesController = new DapModulesController(qmlEngine(), this);
+    // m_serviceController->run();
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 
 #ifdef Q_OS_ANDROID
@@ -115,7 +144,7 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
     {
-        m_commandHelper = new CommandHelperController(m_serviceController);
+        m_commandHelper = new CommandHelperController(m_serviceController, this);
         s_dapNotifyController = new DapNotifyController();
         m_modulesController->setNotifyCtrl(s_dapNotifyController);
         s_dapNotifyController->init();
@@ -133,6 +162,9 @@ void DapApplication::clearData()
     if(s_dapNotifyController) delete s_dapNotifyController;
     if(m_modulesController)   delete m_modulesController;
     if(m_serviceController)   delete m_serviceController;
+
+    // m_serviceController->quit();
+    // m_serviceController->wait();
 
     dateWorker            = nullptr;
     m_commandHelper       = nullptr;

@@ -20,7 +20,7 @@ void DapModuleConsole::runCommand(const QString &command)
     args.append("isConsole");
     args.append((int)m_currentMode);
 
-    s_serviceCtrl->requestToService("DapRunCmdCommand", args);
+    m_modulesCtrl->sendRequestToService("DapRunCmdCommand", args);
 }
 
 void DapModuleConsole::getAnswer(const QVariant &answer)

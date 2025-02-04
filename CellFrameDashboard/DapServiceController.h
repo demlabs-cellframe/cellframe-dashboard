@@ -131,32 +131,27 @@ typedef class DapRpcTCPServer DapUiService;
 typedef class DapRpcLocalServer DapUiService;
 #endif
 
-class DapServiceController : public QObject
+class DapServiceController : public QThread
 {
     Q_OBJECT
     Q_DISABLE_COPY(DapServiceController)
 
-public:
-    void run();
+public:  
     explicit DapServiceController(QObject *apParent = nullptr);
     ~DapServiceController();
-    // Q_INVOKABLE static DapServiceController &getInstance();
-    Q_INVOKABLE void disconnectAll();
 
-    Q_INVOKABLE void requestToService(const QString& asServiceName, const QVariant &args = QVariant());
+    // Q_INVOKABLE void tryRemoveTransactions(const QVariant& transactions);
 
-    Q_PROPERTY(bool ReadingChains MEMBER m_bReadingChains READ getReadingChains WRITE setReadingChains NOTIFY readingChainsChanged)
-    Q_INVOKABLE void setReadingChains(bool bReadingChains);
-    bool getReadingChains() const {return m_bReadingChains;}
-
-    Q_INVOKABLE void tryRemoveTransactions(const QVariant& transactions);
-
+public slots:
+    void requestToServiceSlot(const QString& asServiceName, const QVariant &args);
 signals:
     void readingChainsChanged(bool bReadingChains);
     void webConnectRespond(bool accept, int index);
     void rcvWebConenctRequest(QString site, int index);
 
     void onServiceStarted();
+protected:
+    void run() override;
 private slots:
     void registerCommand();
 
@@ -174,10 +169,8 @@ private:
     DapUiService        *m_pServer {nullptr};
     DapWebControllerForService *m_web3Controll;
 
-    bool m_bReadingChains;
-
     QMap<QString, DapRpcService*> m_transceivers;
-    QThread* m_threadRegular;
+    // QThread* m_threadRegular;
 
 ///------RCV HANDLERS SIGNALS------///
 signals:

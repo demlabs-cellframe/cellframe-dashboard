@@ -1,8 +1,8 @@
 #include "DapWaitingPermission.h"
 #include "../DapMasterNodeKeys.h"
 
-DapWaitingPermission::DapWaitingPermission(DapServiceController *serviceController)
-    :DapAbstractMasterNodeCommand(serviceController)
+DapWaitingPermission::DapWaitingPermission(DapModulesController *modulesController)
+    :DapAbstractMasterNodeCommand(modulesController)
     , m_listKeysTimer(new QTimer())
 {
     connect(m_serviceController, &DapServiceController::rcvGetListKeysCommand, this, &DapWaitingPermission::respondListKeys);
@@ -23,7 +23,7 @@ void DapWaitingPermission::startWaitingPermission(const QVariantMap &masterNodeI
 
 void DapWaitingPermission::getListKeys()
 {
-    m_serviceController->requestToService("DapGetListKeysCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString());
+    m_modulesController->sendRequestToService("DapGetListKeysCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString());
 }
 
 void DapWaitingPermission::respondListKeys(const QVariant &rcvData)

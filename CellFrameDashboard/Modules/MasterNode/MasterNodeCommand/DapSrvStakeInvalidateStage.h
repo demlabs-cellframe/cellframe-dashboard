@@ -7,7 +7,7 @@ class DapSrvStakeInvalidateStage : public DapAbstractMasterNodeCommand
 {
     Q_OBJECT
 public:
-    DapSrvStakeInvalidateStage(DapServiceController *serviceController);
+    DapSrvStakeInvalidateStage(DapModulesController *modulesController);
 
     void stakeInvalidate(const QVariantMap& masterNodeInfo);
     void checkStakeInvalidate(const QVariantMap& masterNodeInfo);

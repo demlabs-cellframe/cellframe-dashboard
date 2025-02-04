@@ -88,3 +88,5 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.cpp \
     $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.cpp \
     $$PWD/MasterNode/DapModuleMasterNode.cpp 
+
+INCLUDEPATH += $$PWD

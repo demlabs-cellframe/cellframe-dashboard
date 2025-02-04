@@ -3,9 +3,9 @@
 
 DapAbstractModule::DapAbstractModule(DapModulesController *parent)
     :QObject(parent)
+    , m_modulesCtrl(parent)
 {
-    s_serviceCtrl = parent->getServiceController();
-    m_modulesCtrl = parent;
+    s_serviceCtrl = m_modulesCtrl->getServiceController();
 }
 
 DapAbstractModule::~DapAbstractModule()

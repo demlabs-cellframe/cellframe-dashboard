@@ -7,7 +7,7 @@ class DapStakeDelegate : public DapAbstractMasterNodeCommand
 {
     Q_OBJECT
 public:
-    DapStakeDelegate(DapServiceController *serviceController);
+    DapStakeDelegate(DapModulesController *modulesController);
     ~DapStakeDelegate();
 
     void stakeDelegate(const QVariantMap& masterNodeInfo);

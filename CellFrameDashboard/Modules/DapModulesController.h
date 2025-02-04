@@ -18,15 +18,19 @@
 #include "../NotifyController/DapNotifyController.h"
 
 class DapDataManagerController;
+class DapApplication;
 
 class DapModulesController : public QObject
 {
     Q_OBJECT
 public:
-    DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, QObject *parent = nullptr);
+    DapModulesController(QQmlApplicationEngine *appEngine, DapApplication* applicationManager, QObject *parent = nullptr);
     ~DapModulesController();
 
-    DapServiceController* getServiceController() const {return s_serviceCtrl;}
+    DapServiceController* getServiceController() const;
+    DapApplication* getAppManager() const;
+    void sendRequestToService(const QString& asServiceName, const QVariant &args = QVariant());
+
     void setConfigWorker(ConfigWorker* worker) {m_configWorker = worker;}
     ConfigWorker* getConfigWorker() {return m_configWorker;}
 
@@ -42,8 +46,6 @@ public:
     void addWorker(const QString &key, QObject *p_worker);
     QObject* getWorker(const QString &key);
     QQmlApplicationEngine* getAppEngine() {return s_appEngine;}
-
-    DapServiceController *s_serviceCtrl;   
 
     Q_PROPERTY (bool isNodeWorking READ isNodeWorking NOTIFY nodeWorkingChanged)
     bool isNodeWorking(){return m_isNodeWorking;}
@@ -82,12 +84,13 @@ private slots:
 private:
     void cleareProgressInfo();
 private:
-
+    DapApplication* m_appManager = nullptr;
     //Other
     DapNotifyController * m_notifyCtrl;
     DapDataManagerController* m_managerController = nullptr;
 
     QQmlApplicationEngine *s_appEngine;
+
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
     QMap<QString, QObject*> m_listWorkers;

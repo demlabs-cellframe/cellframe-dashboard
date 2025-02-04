@@ -8,10 +8,6 @@ DapNewPaymentMainRightPanelForm
         dapButtonSend.enabled = true
 
         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
-        if (dapServiceController.ReadingChains)
-            dapChainGroup.visible = true
-        else
-            dapChainGroup.visible = false
 
         dapTextNotEnoughTokensWarning.text = ""
         balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value

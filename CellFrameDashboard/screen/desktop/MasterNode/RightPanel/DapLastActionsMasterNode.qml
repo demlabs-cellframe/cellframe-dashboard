@@ -333,7 +333,7 @@ DapRectangleLitAndShaded
                             if(statusText.text === "Queued")
                             {
                                 var stringLists = [[network, wallet_name, date_to_secs]]
-                                    dapServiceController.tryRemoveTransactions(stringLists)
+                                    app.tryRemoveTransactions(stringLists)
                             }
                             else
                             {
