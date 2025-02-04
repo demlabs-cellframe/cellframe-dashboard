@@ -23,7 +23,6 @@
 
 #include "handlers/DapAbstractCommand.h"
 
-#include "RequestController/DapRegularRequestsController.h"
 #include "DapWebControllerForService.h"
 
 #include "handlers/DapQuitApplicationCommand.h"
@@ -138,7 +137,7 @@ class DapServiceController : public QObject
     Q_DISABLE_COPY(DapServiceController)
 
 public:
-    void run(DapNodeMode::NodeMode node);
+    void run();
     explicit DapServiceController(QObject *apParent = nullptr);
     ~DapServiceController();
     // Q_INVOKABLE static DapServiceController &getInstance();
@@ -169,10 +168,9 @@ private:
 
     template <typename ServiceType, typename... TArgs>
     void addServiceGeneric(const QString& name, const QString& signalName, TArgs... ctr_args);
-    
+
     void initAdditionalParamrtrsService();
 private:
-    DapRegularRequestsController *m_reqularRequestsCtrl;
     DapUiService        *m_pServer {nullptr};
     DapWebControllerForService *m_web3Controll;
 
