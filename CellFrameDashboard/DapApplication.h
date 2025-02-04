@@ -38,6 +38,9 @@ public:
     Q_INVOKABLE void startService();
     Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
 
+    Q_INVOKABLE void setRPCAddress(QString address);
+    Q_INVOKABLE QString getRPCAddress(){return QString::fromStdString(DapNodeMode::getRPCAddress());}
+    Q_INVOKABLE void resetRPCAddress();
     Q_INVOKABLE void setNodeMode(int mode);
     Q_INVOKABLE int getNodeMode(){return (int)DapNodeMode::getNodeMode();}
     Q_INVOKABLE void setDontShowNodeModeFlag(bool isDontShow);

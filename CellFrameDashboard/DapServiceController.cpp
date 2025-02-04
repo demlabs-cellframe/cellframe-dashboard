@@ -10,7 +10,7 @@ DapServiceController::DapServiceController(QObject *apParent)
 
 DapServiceController::~DapServiceController()
 {
-    delete m_web3Controll;
+    if(m_web3Controll) delete m_web3Controll;
     // for(auto item: m_transceivers)
     // {
     //     delete item;

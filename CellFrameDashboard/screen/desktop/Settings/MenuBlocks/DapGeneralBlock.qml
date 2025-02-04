@@ -305,6 +305,117 @@ ColumnLayout
 
     Rectangle
     {
+        visible: app.getNodeMode()
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("RPC node address")
+        }
+    }
+
+    Item
+    {
+        visible: app.getNodeMode()
+        height: 70
+        Layout.fillWidth: true
+
+        DapTextField
+        {
+            id: inputRpcAddress
+            anchors.fill: parent
+            anchors.margins: 16
+            placeholderText: "http://..."
+            text: app.getRPCAddress()
+            font: mainFont.dapFont.regular14
+            horizontalAlignment: Text.AlignLeft
+            borderWidth: 1
+            borderRadius: 4
+            selectByMouse: true
+
+            DapContextMenu{}
+        }
+    }
+
+    RowLayout
+    {
+        Layout.fillWidth: true
+        Layout.margins: 16
+        Layout.topMargin: 0
+        height: 40
+        visible: app.getNodeMode()
+        spacing: 16
+
+        DapButton
+        {
+            id: setAddress
+
+            focus: false
+
+            Layout.fillWidth: true
+
+            Layout.minimumHeight: 26
+            Layout.maximumHeight: 26
+
+//            Layout.leftMargin: 16
+//            Layout.rightMargin: 16
+//            Layout.topMargin: 10
+//            Layout.bottomMargin: 20
+            enabled: app.getRPCAddress() !== inputRpcAddress.text
+
+            textButton: qsTr("Set")
+
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText: Text.AlignHCenter
+
+            onClicked:
+            {
+                app.setRPCAddress(inputRpcAddress.text)
+                resetAddress.enabled = app.getRPCAddress() !== "rpc.cellframe.net"
+                enabled = app.getRPCAddress() !== inputRpcAddress.text
+
+//                Qt.exit(RESTART_CODE)
+            }
+        }
+
+        DapButton
+        {
+            id: resetAddress
+
+            focus: false
+
+            Layout.fillWidth: true
+
+            Layout.minimumHeight: 26
+            Layout.maximumHeight: 26
+
+            enabled: app.getRPCAddress() !== "rpc.cellframe.net"
+
+            textButton: qsTr("Reset")
+
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText: Text.AlignHCenter
+
+            onClicked: {
+                app.resetRPCAddress()
+                inputRpcAddress.text = app.getRPCAddress()
+                resetAddress.enabled = app.getRPCAddress() !== "rpc.cellframe.net"
+
+//                Qt.exit(RESTART_CODE)
+            }
+        }
+    }
+
+    Rectangle
+    {
         visible: !app.getNodeMode()
         Layout.fillWidth: true
         height: 30

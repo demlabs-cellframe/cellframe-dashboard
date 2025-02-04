@@ -75,6 +75,18 @@ void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
     m_serviceController->requestToService(sName.toString(), sArgs);
 }
 
+void DapApplication::setRPCAddress(QString address)
+{
+    QSettings().setValue("rpc_address", address);
+    DapNodeMode::setRPCAddress(address.toStdString());
+}
+
+void DapApplication::resetRPCAddress()
+{
+    QSettings().setValue("rpc_address", "rpc.cellframe.net");
+    DapNodeMode::resetRPCAddress();
+}
+
 void DapApplication::setNodeMode(int mode)
 {
     QSettings().setValue("node_mode", mode);
@@ -89,8 +101,6 @@ void DapApplication::setDontShowNodeModeFlag(bool isDontShow)
 
 void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 {
-
-
     m_guiApp = guiApp;
     m_engine = guiApp->qmlEngine();
 
@@ -99,6 +109,7 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 
     m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
     setNodeMode(QSettings().value("node_mode", DapNodeMode::REMOTE).toInt());
+    setRPCAddress(QSettings().value("rpc_address", "rpc.cellframe.net").toString());
 
     m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
     m_serviceController->run();
