@@ -181,8 +181,16 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& resultJson)
         }
         else
         {
-            m_nodeVersion = ver;
-            emit nodeVersionChanged();
+            if(resultObject["lastVersion"].toString().contains("cellframe-node version"))
+            {
+                QJsonObject objRes = QJsonDocument::fromJson(resultObject["lastVersion"].toVariant().toByteArray()).object();
+                QString dirtVersion = objRes["result"].toArray().first().toObject()["status"].toString();
+                QString resVer = dirtVersion.remove("cellframe-node version").simplified();
+
+                m_nodeVersion = resVer;
+                emit nodeVersionChanged();
+            }
+
         }
     }
     else
