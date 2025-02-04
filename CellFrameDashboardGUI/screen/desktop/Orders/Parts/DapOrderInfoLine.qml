@@ -1,10 +1,12 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.12
+import "qrc:/widgets"
+
 RowLayout {
     id: control
 
     property alias name: textName.text
-    property alias value: textValue.text
+    property alias value: textValue.fullText
     height: 15
     Layout.maximumWidth: 296
 
@@ -22,15 +24,18 @@ RowLayout {
         Layout.fillWidth: true
     }
 
-    Text {
+    DapBigText
+    {
         id: textValue
-
         Layout.alignment: Qt.AlignRight
         Layout.fillHeight: true
-
-        font:  mainFont.dapFont.regular12
-        elide: Text.ElideRight
-        horizontalAlignment: Qt.AlignRight
-        color: currTheme.white
+        Layout.maximumWidth: 250
+        width: textValue.textElement.implicitWidth
+        height: parent.height
+        textFont: mainFont.dapFont.regular12
+        fullText: name
+        textElement.elide: Text.ElideRight
+        textElement.horizontalAlignment: Qt.AlignRight
+        textElement.color: currTheme.white
     }
 }

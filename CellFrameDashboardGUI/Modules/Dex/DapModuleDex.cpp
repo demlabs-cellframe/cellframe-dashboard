@@ -147,9 +147,8 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
 
         tmpPair.token1  = pairObject["token1"].toString();
         tmpPair.token2  = pairObject["token2"].toString();
-        tmpPair.rate    = pairObject["rate"].toString();
+        tmpPair.rate    = "-";
         tmpPair.network = pairObject["network"].toString();
-        tmpPair.change  = pairObject["change"].toString();
         tmpPair.displayText = tmpPair.token1 + "/" + tmpPair.token2;
 
         if(tmpPair.token1 == "BUSD"     ||
@@ -276,23 +275,12 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
     QJsonObject object = document.object();
     QString walletName = object["walletName"].toString();
     QJsonArray list = object["orderList"].toArray();
-    QHash<QString, DEX::TXList> result;
+    QSet<QString> result;
     for(const auto& item: list)
     {
         QJsonObject itemObject = item.toObject();
-        QString type = itemObject["type"].toString();
-
-        if(type == "proposed")
-        {
-            DEX::TXList newItem;
-            newItem.type = type;
-            newItem.status = itemObject["status"].toString();
-            QString hash = itemObject["hash"].toString();
-            if(!hash.isEmpty())
-            {
-                result.insert(hash,std::move(newItem));
-            }
-        }
+        QString hash = itemObject["hash"].toString();
+        result.insert(hash);
     }
     if(m_txListsforWallet.contains(walletName))
     {

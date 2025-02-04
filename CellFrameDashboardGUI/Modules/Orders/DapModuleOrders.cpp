@@ -213,9 +213,9 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
                 itemOrder.direction     = obj["direction"].toString() == "SERV_DIR_SELL" ? "SELL" : "BUY";
                 itemOrder.created       = obj["created"].toString();
                 itemOrder.srv_uid       = obj["srv_uid"].toString();
-                itemOrder.price         = obj["price"].toString();
-                itemOrder.price_unit    = obj["price_unit"].toString();
-                itemOrder.price_token   = obj["price_token"].toString();
+                itemOrder.price         = obj["price coins"].toString();
+                itemOrder.price_unit    = obj["price unit"].toString();
+                itemOrder.price_token   = obj["price token"].toString();
                 itemOrder.node_addr     = obj["node_addr"].toString();
                 itemOrder.node_location = obj["node_location"].toString();
                 itemOrder.tx_cond_hash  = obj["tx_cond_hash"].toString();
