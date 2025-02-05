@@ -13,6 +13,7 @@ public:
     void updateWalletInfo() override;
 
 private slots:
+    void clearAndUpdateDataSlot();
     void walletsListReceived(const QVariant &rcvData);
     void rcvWalletInfo(const QVariant &rcvData);
     void rcvWalletAddress(const QVariant &rcvData);
@@ -31,7 +32,7 @@ private:
     QTimer* m_timerAlarmUpdateWallet = nullptr;
 
 
-    QByteArray walletListCash;
+    QByteArray m_walletListCash;
 
     QString m_lastRequestInfoWalletName = "";
     QString m_lastRequestInfoNetworkName = "";

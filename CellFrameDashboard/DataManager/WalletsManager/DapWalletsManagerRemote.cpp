@@ -10,6 +10,7 @@ DapWalletsManagerRemote::DapWalletsManagerRemote(DapModulesController *moduleCon
     , m_timerUpdateWallet(new QTimer())
     , m_timerAlarmUpdateWallet(new QTimer())
 {
+    connect(m_modulesController, &DapModulesController::sigUpdateData, this, &DapWalletsManagerRemote::clearAndUpdateDataSlot);
     connect(m_walletsListTimer, &QTimer::timeout, this, &DapWalletsManagerRemote::updateListWallets, Qt::QueuedConnection);
     connect(m_modulesController->getServiceController(), &DapServiceController::walletsListReceived, this, &DapWalletsManagerRemote::walletsListReceived, Qt::QueuedConnection);
     connect(m_modulesController->getServiceController(), &DapServiceController::walletReceived, this, &DapWalletsManagerRemote::rcvWalletInfo, Qt::QueuedConnection);
@@ -39,11 +40,11 @@ void DapWalletsManagerRemote::updateWalletInfo()
 void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
 {
     auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
-    if(walletListCash == byteArrayData)
+    if(m_walletListCash == byteArrayData)
     {
         return;
     }
-    walletListCash = byteArrayData;
+    m_walletListCash = byteArrayData;
 
     QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
     if(document.isNull() || document.isEmpty())
@@ -482,4 +483,20 @@ void DapWalletsManagerRemote::requestWalletAddress(const QString& walletName, co
 
 
     m_modulesController->getServiceController()->requestToService("DapGetWalletAddressCommand", requestMap);
+}
+
+void DapWalletsManagerRemote::clearAndUpdateDataSlot()
+{
+    m_walletsInfo.clear();
+    m_walletsListTimer->stop();
+    m_timerUpdateWallet->stop();
+    m_timerAlarmUpdateWallet->stop();
+    m_walletListCash.clear();
+    m_lastRequestInfoWalletName.clear();
+    m_lastRequestInfoNetworkName.clear();
+    m_isRequestInfo = false;
+    m_isFirstRequestCurrWall = false;
+
+    updateListWallets();
+    m_walletsListTimer->start(TIME_WALLET_LIST_UPDATE);
 }

@@ -8,6 +8,7 @@ DapNetworksManagerRemote::DapNetworksManagerRemote(DapModulesController *moduleC
     : DapNetworksManagerBase(moduleController)
     , m_netListTimer(new QTimer())
 {
+    connect(m_modulesController, &DapModulesController::sigUpdateData, this, &DapNetworksManagerRemote::clearAndUpdateDataSlot);
     connect(m_modulesController->getServiceController(), &DapServiceController::networksListReceived, this, &DapNetworksManagerRemote::networkListRespond);
     connect(m_modulesController->getServiceController(), &DapServiceController::networkStatesListReceived, this, &DapNetworksManagerRemote::networksStatesRespond);
     connect(m_netListTimer, &QTimer::timeout, this, &DapNetworksManagerRemote::requestNetworkList);
@@ -104,4 +105,13 @@ void DapNetworksManagerRemote::networksStatesRespond(const QVariant &rcvData)
         emit updateNetworkInfoSignal(netInfo);
     }
     qDebug()<<"";
+}
+
+void DapNetworksManagerRemote::clearAndUpdateDataSlot()
+{
+    m_netList.clear();
+    m_netsLoadProgress.clear();
+    m_netListTimer->stop();
+    requestNetworkList();
+    m_netListTimer->start(10000);
 }

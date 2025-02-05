@@ -49,7 +49,13 @@ void DapModuleTxExplorer::initConnect()
 
 void DapModuleTxExplorer::slotUpdateData()
 {
-    //TODO:reset and update data
+    m_timerHistoryUpdate->stop();
+    m_timerRequest->stop();
+    m_historyModel->clear();
+    m_listsWallets.clear();
+    setStatusInit(false);
+    isSendReqeust = false;
+    updateHistory();
 }
 
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)

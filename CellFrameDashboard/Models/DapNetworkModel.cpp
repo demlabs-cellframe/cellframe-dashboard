@@ -200,7 +200,9 @@ void DapNetworkModel::updateListModel(const QStringList& netList)
     {
         if(!netList.contains((*m_items)[i].networkName))
         {
+            beginResetModel();
             m_items->removeAt(i);
+            endResetModel();
         }
     }
     emit dataChanged(index(0, 0), index(m_items->size(), 0));

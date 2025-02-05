@@ -144,6 +144,14 @@ void DapListWalletsModel::updateWallets(const QMap<QString, CommonWallet::Wallet
     emit sizeChanged();
 }
 
+void DapListWalletsModel::clear()
+{
+    beginResetModel();
+    m_items.clear();
+    endResetModel();
+    emit sizeChanged();
+}
+
 ItemListWalletBridge::ItemListWalletBridge (ItemListWalletBridge::Data *a_data)
     : d (a_data)
 {

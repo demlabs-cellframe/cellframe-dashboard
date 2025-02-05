@@ -10,6 +10,7 @@ public:
     DapNetworksManagerRemote(DapModulesController* moduleController);
 
 private slots:
+    void clearAndUpdateDataSlot();
     void networkListRespond(const QVariant &rcvData);
     void networksStatesRespond(const QVariant &rcvData);
     void requestNetworkList();

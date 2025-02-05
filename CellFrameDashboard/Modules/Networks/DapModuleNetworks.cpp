@@ -37,7 +37,7 @@ DapModuleNetworks::~DapModuleNetworks()
 
 void DapModuleNetworks::slotUpdateData()
 {
-    //TODO:reset and update data
+    m_networkModel->clear();
 }
 
 void DapModuleNetworks::goSync(QString net)

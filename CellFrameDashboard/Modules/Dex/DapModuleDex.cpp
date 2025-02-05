@@ -63,7 +63,9 @@ DapModuleDex::~DapModuleDex()
 
 void DapModuleDex::slotUpdateData()
 {
-    //TODO:reset and update data
+    m_tokenPairsModel->clear();
+    m_ordersModel->clear();
+    m_netListModel->clear();
 }
 
 void DapModuleDex::onInit()

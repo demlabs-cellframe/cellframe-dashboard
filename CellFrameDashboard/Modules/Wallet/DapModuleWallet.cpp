@@ -35,12 +35,14 @@ DapModuleWallet::~DapModuleWallet()
 
     delete m_walletHashManager;
     delete m_walletModel;
+    delete m_infoWallet;
     delete m_tokenModel;
 }
 
 void DapModuleWallet::slotUpdateData()
 {
-    //TODO:reset and update data
+    m_walletModel->clear();
+    m_infoWallet->clear();
 }
 
 void DapModuleWallet::walletListChangedSlot()
