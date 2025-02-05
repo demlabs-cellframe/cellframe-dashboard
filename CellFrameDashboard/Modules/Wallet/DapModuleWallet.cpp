@@ -38,6 +38,11 @@ DapModuleWallet::~DapModuleWallet()
     delete m_tokenModel;
 }
 
+void DapModuleWallet::slotUpdateData()
+{
+    //TODO:reset and update data
+}
+
 void DapModuleWallet::walletListChangedSlot()
 {
     auto& walletsInfo = getWalletsInfo();

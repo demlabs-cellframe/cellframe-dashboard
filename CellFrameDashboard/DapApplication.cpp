@@ -79,12 +79,16 @@ void DapApplication::setRPCAddress(QString address)
 {
     QSettings().setValue("rpc_address", address);
     DapNodeMode::setRPCAddress(address.toStdString());
+
+    if(m_modulesController) m_modulesController->updateModulesData();
 }
 
 void DapApplication::resetRPCAddress()
 {
     QSettings().setValue("rpc_address", "rpc.cellframe.net");
     DapNodeMode::resetRPCAddress();
+
+    if(m_modulesController) m_modulesController->updateModulesData();
 }
 
 void DapApplication::setNodeMode(int mode)

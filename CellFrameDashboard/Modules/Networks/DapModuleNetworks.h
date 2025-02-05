@@ -37,11 +37,11 @@ private slots:
 
     void slotNotifyIsConnected(bool isConnected);
 
+    void slotUpdateData() override;
+
 private:
     QString convertProgress(QJsonObject obj);
-
     int getIndexItemModel(QString netName);
-
     void clearAll();
 
 private:

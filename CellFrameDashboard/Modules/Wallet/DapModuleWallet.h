@@ -88,7 +88,7 @@ signals:
 protected slots:
     virtual void rcvCreateTx(const QVariant &rcvData);
 private slots:
-
+    void slotUpdateData() override;
     void rcvCreateWallet(const QVariant &rcvData);
     void rcvRemoveWallet(const QVariant &rcvData);
     void rcvHistory(const QVariant &rcvData);

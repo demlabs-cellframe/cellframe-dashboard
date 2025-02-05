@@ -60,6 +60,8 @@ public:
     
     Q_INVOKABLE QString getCurrentNetwork() const {return m_currentNetworkName;}
     void setCurrentNetwork(const QString& name);
+
+    void updateModulesData() {emit sigUpdateData();}
 public slots:
     void setNodeLoadProgress(int progress);
     void setIsNodeWorking(bool);
@@ -70,7 +72,7 @@ public slots:
 
 signals:
     void initDone();
-
+    void sigUpdateData();
     void currentNetworkChanged(QString netName);
 
     void nodeWorkingChanged();

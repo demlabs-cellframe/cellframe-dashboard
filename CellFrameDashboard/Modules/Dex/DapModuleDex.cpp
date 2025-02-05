@@ -61,6 +61,11 @@ DapModuleDex::~DapModuleDex()
     delete m_ordersHistoryUpdateTimer;
 }
 
+void DapModuleDex::slotUpdateData()
+{
+    //TODO:reset and update data
+}
+
 void DapModuleDex::onInit()
 {
     const auto* service = m_modulesCtrl->getServiceController();

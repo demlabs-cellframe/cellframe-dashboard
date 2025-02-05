@@ -35,6 +35,7 @@ protected:
     bool addHistory(const QString& wallet, const HistoryList &list);
     bool updateModelBySaves();
 private slots:
+    void slotUpdateData() override;
     void slotHistoryUpdate();
     void walletInfoChangedsSlot(const QString& walletName, const QString& networkName);
 private:

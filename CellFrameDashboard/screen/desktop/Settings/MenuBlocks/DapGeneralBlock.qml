@@ -382,6 +382,13 @@ ColumnLayout
                 resetAddress.enabled = app.getRPCAddress() !== "rpc.cellframe.net"
                 enabled = app.getRPCAddress() !== inputRpcAddress.text
 
+                dapMainWindow.infoItem.showInfo(
+                                            235, 0,
+                                            dapMainWindow.width * 0.5,
+                                            8,
+                                            qsTr("Address setting successful"),
+                                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+
 //                Qt.exit(RESTART_CODE)
             }
         }
@@ -408,6 +415,13 @@ ColumnLayout
                 app.resetRPCAddress()
                 inputRpcAddress.text = app.getRPCAddress()
                 resetAddress.enabled = app.getRPCAddress() !== "rpc.cellframe.net"
+
+                dapMainWindow.infoItem.showInfo(
+                                            230, 0,
+                                            dapMainWindow.width * 0.5,
+                                            8,
+                                            qsTr("Address reset successful"),
+                                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
 
 //                Qt.exit(RESTART_CODE)
             }

@@ -129,6 +129,10 @@ protected slots:
 
     void currentWalletChangedSlot();
     void walletInfoChangedSlot(const QString &walletName, const QString &networkName);
+
+private slots:
+    void slotUpdateData() override;
+
 protected:
     void onInit();
     bool isCurrentPair();

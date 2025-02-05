@@ -37,6 +37,9 @@ signals:
     void statusInitChanged();
     void statusProcessingChanged();
 
+private slots:
+    virtual void slotUpdateData(){}
+
 public:
     bool m_statusProcessing{false};
     bool m_statusInit{false};

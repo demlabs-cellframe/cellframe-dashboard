@@ -6,12 +6,16 @@ DapAbstractModule::DapAbstractModule(DapModulesController *parent)
 {
     s_serviceCtrl = parent->getServiceController();
     m_modulesCtrl = parent;
+
+    connect(m_modulesCtrl, &DapModulesController::sigUpdateData, this, &DapAbstractModule::slotUpdateData);
 }
 
 DapAbstractModule::~DapAbstractModule()
 {
+    disconnect(m_modulesCtrl, &DapModulesController::sigUpdateData, this, &DapAbstractModule::slotUpdateData);
+
     s_serviceCtrl = nullptr;
-    m_modulesCtrl= nullptr;
+    m_modulesCtrl = nullptr;
 }
 
 QByteArray DapAbstractModule::convertJsonResult(const QByteArray &data)
@@ -51,7 +55,6 @@ void DapAbstractModule::setStatusProcessing(bool status)
     m_statusProcessing = status;
     emit statusProcessingChanged();
 }
-
 
 void DapAbstractModule::setName(QString name)
 {

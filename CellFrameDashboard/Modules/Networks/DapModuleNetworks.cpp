@@ -35,6 +35,11 @@ DapModuleNetworks::~DapModuleNetworks()
     delete m_networkModel;
 }
 
+void DapModuleNetworks::slotUpdateData()
+{
+    //TODO:reset and update data
+}
+
 void DapModuleNetworks::goSync(QString net)
 {
     s_serviceCtrl->requestToService("DapNetworkSingleSyncCommand",QStringList()<<net);

@@ -47,6 +47,11 @@ void DapModuleTxExplorer::initConnect()
     connect(walletManager, &DapWalletsManagerBase::walletInfoChanged, this, &DapModuleTxExplorer::walletInfoChangedsSlot);
 }
 
+void DapModuleTxExplorer::slotUpdateData()
+{
+    //TODO:reset and update data
+}
+
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 {
     isSendReqeust = false;
