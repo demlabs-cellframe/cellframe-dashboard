@@ -197,6 +197,7 @@ void DapModuledApps::addPlugin(QVariant path, QVariant status, QVariant verifed)
         QStringList list;
 
         QString pathMainFileQml = QString(m_filePrefix + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml") ;
+        pathMainFileQml = QDir::toNativeSeparators(pathMainFileQml);
 
         list.append(name_mainFilePlugin); //name plugin
         list.append(pathMainFileQml); //path main.qml
@@ -285,7 +286,7 @@ void DapModuledApps::deletePlugin(QVariant url)
         str[1].remove(QString("/" + str[0] + ".qml"));
         str[1].remove(m_filePrefix);
 
-        QFile file(QString(m_pathPlugins + "/download/" + str[0] + ".zip"));
+        QFile file(QDir::toNativeSeparators(QString(m_pathPlugins + "/download/" + str[0] + ".zip")));
 
         if(file.exists())
             file.remove();

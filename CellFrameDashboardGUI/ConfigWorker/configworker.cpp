@@ -26,7 +26,7 @@ ConfigWorker::ConfigWorker(QObject *parent) :
 
     initConfigFiles();
 
-    QString config_path = getConfigPath() + "/cellframe-node.cfg";
+    QString config_path = QDir::toNativeSeparators(getConfigPath() + "/cellframe-node.cfg");
 
     nodeConfig = new ConfigFile(config_path);
 
@@ -113,6 +113,7 @@ void ConfigWorker::writeNodeValue(
 void ConfigWorker::writeNodePyhonPath()
 {
     QString py_path = getConfigPath().remove("/etc") + "/var/lib/plugins";
+    py_path = QDir::toNativeSeparators(py_path);
 
     nodeConfig->writeGroupValue("plugins", "py_path", py_path);
 }
@@ -186,6 +187,7 @@ void ConfigWorker::resetAllChanges()
 void ConfigWorker::initNetworkPaths()
 {
     QString config_path = getConfigPath() + "/network/";
+    config_path = QDir::toNativeSeparators(config_path);
 
 //    qDebug() << "config_path" << config_path;
 

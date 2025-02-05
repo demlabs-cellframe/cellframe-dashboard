@@ -39,14 +39,14 @@ const QString DashboardDefines::DapUiSdk::STORAGE_PATH = QString("/tmp/%1").arg(
 
 #elif defined (Q_OS_WIN)
 
-const QString DashboardDefines::CellframeNode::CONFIGWORKER_PATH = QString("%1/cellframe-node/etc").arg(regWGetUsrPath());
-const QString DashboardDefines::CellframeNode::DAPMODULE_LOG = QString("%1/cellframe-node/var/log").arg(regWGetUsrPath());
-const QString DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG = QString("%1/%2/log").arg(regWGetUsrPath()).arg(DAP_BRAND);
+const QString DashboardDefines::CellframeNode::CONFIGWORKER_PATH = QDir::toNativeSeparators(QString("%1/cellframe-node/etc").arg(regWGetUsrPath()));
+const QString DashboardDefines::CellframeNode::DAPMODULE_LOG = QDir::toNativeSeparators(QString("%1/cellframe-node/var/log").arg(regWGetUsrPath()));
+const QString DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG = QDir::toNativeSeparators(QString("%1/%2/log").arg(regWGetUsrPath()).arg(DAP_BRAND));
 
-const QString DashboardDefines::DApps::PLUGINS_CONFIG = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
-const QString DashboardDefines::DApps::PLUGINS_PATH = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
+const QString DashboardDefines::DApps::PLUGINS_CONFIG = QDir::toNativeSeparators(QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND));
+const QString DashboardDefines::DApps::PLUGINS_PATH = QDir::toNativeSeparators(QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND));
 
-const QString DashboardDefines::DapUiSdk::STORAGE_PATH = QString("%1/%2").arg(regWGetUsrPath()).arg(DAP_BRAND);
+const QString DashboardDefines::DapUiSdk::STORAGE_PATH = QDir::toNativeSeparators(QString("%1/%2").arg(regWGetUsrPath()).arg(DAP_BRAND));
 
 #else
 
