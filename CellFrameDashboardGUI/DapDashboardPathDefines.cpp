@@ -1,4 +1,5 @@
 #include "DapDashboardPathDefines.h"
+#include <QDir>
 
 namespace Dap
 {
