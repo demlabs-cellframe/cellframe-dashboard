@@ -181,7 +181,9 @@ void DapNetworkModel::updateModel(const NetworkInfo &a_item)
     {
         if(item.networkName == a_item.networkName)
         {
+            beginResetModel();
             item = a_item;
+            endResetModel();
             isUpdated = true;
             break;
         }
@@ -190,7 +192,6 @@ void DapNetworkModel::updateModel(const NetworkInfo &a_item)
     {
         add(a_item);
     }
-    emit dataChanged(index(0, 0), index(m_items->size(), 0));
 }
 
 void DapNetworkModel::updateListModel(const QStringList& netList)
