@@ -371,11 +371,14 @@ QVariantMap DapModuleWallet::approveTx(QVariantMap data)
 
     if(err == DAP_NO_ERROR)
     {
-        Dap::Coin availableBalance(availBalance);
-        Dap::Coin amountValue(amount);
-        QString result = (availableBalance - amountValue).toCoinsString();
-        if(result.isEmpty() || result == "0" || result == "0.0" || result == "0.00")
-            err = DAP_NOT_ENOUGHT_TOKENS;
+        if(availBalance != amount)
+        {
+            Dap::Coin availableBalance(availBalance);
+            Dap::Coin amountValue(amount);
+            QString result = (availableBalance - amountValue).toCoinsString();
+            if(result.isEmpty() || result == "0" || result == "0.0" || result == "0.00")
+                err = DAP_NOT_ENOUGHT_TOKENS;
+        }
 
         QVariantMap mapResult;
         mapResult.insert("error", (int)err);

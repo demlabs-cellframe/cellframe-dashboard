@@ -77,6 +77,7 @@ DapNewPaymentMainRightPanelForm
                 }
                 else
                 {
+                    dapTextNotEnoughTokensWarning.text = ""
                     var data = {
                     "network"      : dapComboboxNetwork.displayText,
                     "amount"       : dapTextInputAmountPayment.text,
