@@ -56,7 +56,7 @@ DapPage
         {
             txExplorerModule.statusProcessing = false
 
-            state = "WALLETCREATE"
+            setState("WALLETCREATE")
 
             logicWallet.restoreWalletMode = false
             dapRightPanel.push(createNewWallet)
@@ -66,8 +66,8 @@ DapPage
         {
             txExplorerModule.statusProcessing = true
 
-            state = "WALLETSHOW"
-
+            setState("WALLETSHOW")
+            console.log("[TEST] url: ", doneWallet)
             dapRightPanel.push(doneWallet)
         }
 
@@ -75,7 +75,7 @@ DapPage
         {
             txExplorerModule.statusProcessing = false
 
-            state = "WALLETCREATE"
+            setState("WALLETCREATE")
 
             logicWallet.restoreWalletMode = true
             dapRightPanel.push(createNewWallet)
@@ -117,9 +117,9 @@ DapPage
             dapRightPanel.push(lastActionsWallet)
 
             if(!walletModelList.count)
-                state = "WALLETDEFAULT"
+                setState("WALLETDEFAULT")
             else
-                state = "WALLETSHOW"
+                setState("WALLETSHOW")
 
         }
     }
@@ -141,6 +141,12 @@ DapPage
         {
             id: lastActions
         }
+
+    function setState(stateName)
+    {
+        console.log("[TEST] new state: ", stateName)
+        state = stateName
+    }
 
     state: "WALLETDEFAULT"
 

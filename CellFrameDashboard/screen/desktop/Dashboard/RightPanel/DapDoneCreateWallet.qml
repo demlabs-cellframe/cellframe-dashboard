@@ -12,6 +12,9 @@ DapRightPanelDone
 
     Component.onCompleted:
     {
+
+        console.log("[TEST] commandResult.success: ", commandResult.success)
+        console.log("[TEST] commandResult.message: ", commandResult.message)
         if(commandResult.success)
         {
             messageImage = iconOk
