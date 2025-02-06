@@ -20,5 +20,6 @@ private:
 
 private:
     QTimer* m_netListTimer = nullptr;
+    bool isSendRequest{false};
 };
 

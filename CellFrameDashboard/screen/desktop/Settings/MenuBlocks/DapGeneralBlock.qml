@@ -333,13 +333,17 @@ ColumnLayout
             id: inputRpcAddress
             anchors.fill: parent
             anchors.margins: 16
-            placeholderText: "http://..."
+            placeholderText: "<ip_address:port> or <domain_name>"
             text: app.getRPCAddress()
             font: mainFont.dapFont.regular14
             horizontalAlignment: Text.AlignLeft
             borderWidth: 1
             borderRadius: 4
             selectByMouse: true
+
+            onTextChanged: {
+                setAddress.enabled = app.getRPCAddress() !== inputRpcAddress.text
+            }
 
             DapContextMenu{}
         }

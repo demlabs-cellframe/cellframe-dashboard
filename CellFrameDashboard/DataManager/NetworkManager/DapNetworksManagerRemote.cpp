@@ -18,8 +18,12 @@ DapNetworksManagerRemote::DapNetworksManagerRemote(DapModulesController *moduleC
 
 void DapNetworksManagerRemote::requestNetworkList()
 {
-    m_modulesController->getServiceController()->requestToService("DapGetListNetworksCommand", QStringList()
+    if(!isSendRequest)
+    {
+        isSendRequest = true;
+        m_modulesController->getServiceController()->requestToService("DapGetListNetworksCommand", QStringList()
                                                                 << Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
+    }
 }
 
 void DapNetworksManagerRemote::requestNetworskInfo()
@@ -40,6 +44,8 @@ void DapNetworksManagerRemote::requestNetworskInfo()
 
 void DapNetworksManagerRemote::networkListRespond(const QVariant &rcvData)
 {
+    isSendRequest = false;
+
     QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
     QJsonObject replyObj = replyDoc.object();
     QJsonArray resultArr = replyObj[Dap::CommandParamKeys::RESULT_KEY].toArray();
@@ -104,14 +110,14 @@ void DapNetworksManagerRemote::networksStatesRespond(const QVariant &rcvData)
 
         emit updateNetworkInfoSignal(netInfo);
     }
-    qDebug()<<"";
 }
 
 void DapNetworksManagerRemote::clearAndUpdateDataSlot()
 {
+    m_netListTimer->stop();
     m_netList.clear();
     m_netsLoadProgress.clear();
-    m_netListTimer->stop();
+    isSendRequest = false;
     requestNetworkList();
     m_netListTimer->start(10000);
 }

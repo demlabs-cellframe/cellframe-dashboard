@@ -109,6 +109,7 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
     m_engine = guiApp->qmlEngine();
 
     m_serviceController = new DapServiceController();
+    m_serviceController->run();
     dateWorker = new DateWorker(this);
 
     m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
@@ -116,7 +117,6 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
     setRPCAddress(QSettings().value("rpc_address", "rpc.cellframe.net").toString());
 
     m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
-    m_serviceController->run();
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 
 #ifdef Q_OS_ANDROID

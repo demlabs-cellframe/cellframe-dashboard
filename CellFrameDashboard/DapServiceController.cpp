@@ -5,16 +5,12 @@
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
-    // run();
+
 }
 
 DapServiceController::~DapServiceController()
 {
     if(m_web3Controll) delete m_web3Controll;
-    // for(auto item: m_transceivers)
-    // {
-    //     delete item;
-    // }
 
     DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
     if(controller)
@@ -97,7 +93,6 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
         }
         transceiver->replyToClient(args);
     });
-
 }
 
 void DapServiceController::addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService)
