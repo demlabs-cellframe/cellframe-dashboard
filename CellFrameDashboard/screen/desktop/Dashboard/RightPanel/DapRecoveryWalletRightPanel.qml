@@ -235,6 +235,7 @@ DapRecoveryWalletRightPanelForm
         {
             var jsonDocument = JSON.parse(rcvData)
             var wallet = jsonDocument.result
+            console.log("wallet created request, ", wallet.message)
             commandResult.success = wallet.success
             commandResult.message = wallet.message
 

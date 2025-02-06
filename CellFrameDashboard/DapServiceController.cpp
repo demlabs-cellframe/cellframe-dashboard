@@ -81,10 +81,6 @@ void DapServiceController::disconnectAll()
     disconnect(this, 0, 0, 0);
 }
 
-/// Send request to service.
-/// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
-/// @param asServiceName Service name.
-/// @param arg1...arg10 Parametrs.
 void DapServiceController::requestToService(const QString &asServiceName, const QVariant &args)
 {
     if(!m_transceivers.contains(asServiceName))
