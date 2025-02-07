@@ -116,7 +116,7 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
     setNodeMode(QSettings().value("node_mode", DapNodeMode::REMOTE).toInt());
     setRPCAddress(QSettings().value("rpc_address", "rpc.cellframe.net").toString());
 
-    m_modulesController = new DapModulesController(qmlEngine(), m_serviceController);
+    m_modulesController = new DapModulesController(qmlEngine(), m_serviceController, m_countRestart);
     m_nodeWrapper = new CellframeNodeQmlWrapper(qmlEngine());
 
 #ifdef Q_OS_ANDROID
@@ -166,10 +166,6 @@ void DapApplication::setContextProperties()
     m_engine->rootContext()->setContextProperty("dapServiceController", m_serviceController);
     m_engine->rootContext()->setContextProperty("pt", 1);
 
-    m_engine->rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
-
-
-    m_engine->rootContext()->setContextProperty("nodePathManager", &DapNodePathManager::getInstance());
     m_engine->rootContext()->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)

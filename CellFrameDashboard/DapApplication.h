@@ -15,7 +15,6 @@
 #include "Autocomplete/CommandHelperController.h"
 
 #include "CellframeNodeQmlWrapper.h"
-#include "DapNodePathManager.h"
 #include "NotifyController/DapNotifyController.h"
 
 #include "node_globals/NodeGlobals.h"
@@ -48,6 +47,7 @@ public:
 
     void setGuiApp(DapGuiApplication *guiApp);
     void clearData();
+    void setCountRestart(int count) { m_countRestart = count; }
 
 private:
     void setContextProperties();
@@ -65,6 +65,8 @@ private:
     DateWorker               *dateWorker             = nullptr;
 
     DapGuiApplication *m_guiApp = nullptr;
+
+    int m_countRestart = 0;
 };
 
 #endif // DAPAPPLICATION_H

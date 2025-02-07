@@ -23,7 +23,7 @@ class DapModulesController : public QObject
 {
     Q_OBJECT
 public:
-    DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, QObject *parent = nullptr);
+    DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, int countRestart, QObject *parent = nullptr);
     ~DapModulesController();
 
     DapServiceController* getServiceController() const {return s_serviceCtrl;}
@@ -62,6 +62,8 @@ public:
     void setCurrentNetwork(const QString& name);
 
     void updateModulesData() {emit sigUpdateData();}
+
+    int getCountRestart() const { return m_countRestart; }
 public slots:
     void setNodeLoadProgress(int progress);
     void setIsNodeWorking(bool);
@@ -101,21 +103,23 @@ private:
 
     QSettings *s_settings;
 
-    bool m_firstDataLoad{false}; 
+
 
     QMap<QString, QMap<int, int>> m_networksLoadProgress;
     QJsonArray nodeLoadProgressJson;
     int m_nodeLoadProgress = 0;
     // Need to know it was first launch or restore after reboot node
     int m_lastProgress = 0;
+    int m_countRestart = 0;
 
     QString m_currentNetworkName = "";
 
     ConfigWorker *m_configWorker = nullptr;
 
+    bool m_firstDataLoad{false};
     bool m_isNodeWorking = false;
-
     bool m_skinWallet = false;
+
 };
 
 #endif // DAPMODULESCONTROLLER_H

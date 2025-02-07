@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
+#include "DapNodeInstallManager.h"
 
 class DapModuleSettings : public DapAbstractModule
 {
@@ -81,6 +82,9 @@ signals:
     void needNodeUpdateSignal();
 
     void nodeUrlUpdated();
+
+    void checkedUrlSignal(bool check);
+    void signalIsNeedInstallNode(bool isNeed, QString url);
 private slots:
     void rcvVersionInfo(const QVariant& result);
     void timeoutVersionInfo();
@@ -94,9 +98,17 @@ private:
     void setNodeAutorun(bool isEnable);
 
     void updateUrlUpdateNode();
+
+    QString getNodeUrl(const QString& ver = "");
+    QString getUrlForNodeDownload();
+    void tryCheckUrl(const QString& url);
+
+    void checkNeedDownload();
 private:
     QTimer *m_timerVersionCheck;
     QTimer *m_timerTimeoutService;
+
+    DapNodeInstallManager *m_instMngr;
 
     bool m_isNodeStarted = true;
     bool m_isNodeAutoRun = true;

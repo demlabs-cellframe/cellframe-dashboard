@@ -120,15 +120,9 @@
 #endif
 
 #ifdef Q_OS_ANDROID
-#include "DapRpcTCPServer.h"
-typedef class DapRpcTCPServer DapUiService;
-
 #define LOG_FILE QString("")
 #define CMD_HISTORY QString("")
 
-#else
-#include "DapRpcLocalServer.h"
-typedef class DapRpcLocalServer DapUiService;
 #endif
 
 class DapServiceController : public QObject
@@ -171,13 +165,11 @@ private:
 
     void initAdditionalParamrtrsService();
 private:
-    DapUiService        *m_pServer {nullptr};
     DapWebControllerForService *m_web3Controll;
 
     bool m_bReadingChains;
 
-    QMap<QString, DapRpcService*> m_transceivers;
-    QThread* m_threadRegular;
+    QMap<QString, DapAbstractCommand*> m_transceivers;
 
 ///------RCV HANDLERS SIGNALS------///
 signals:

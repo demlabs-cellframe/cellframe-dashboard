@@ -28,7 +28,6 @@
 #include "DapLogger.h"
 #include "DapLogHandler.h"
 
-#include "DapNodePathManager.h"
 #include "node_globals/NodeGlobals.h"
 
 #ifdef Q_OS_WIN
@@ -211,12 +210,14 @@ int main(int argc, char *argv[])
 
     dap_log_set_external_output (LOGGER_OUTPUT_STDOUT, nullptr);
     new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
-
+    int countRestart = -1;
     int result = RESTART_CODE;
     while (result == RESTART_CODE)
     {
         /// CHANGE SKIN - BEGIN TEMPORARY CODE
         auto projectSkin = QSettings().value("project_skin", "").toString();
+
+        countRestart++;
 
         if(projectSkin.isEmpty()) QSettings().setValue("project_skin", "dashboard");
         bool walletSkin = projectSkin == "wallet";
@@ -235,6 +236,7 @@ int main(int argc, char *argv[])
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
         DapGuiApplication * app = new DapGuiApplication(argc, argv);
+        mainApp.setCountRestart(countRestart);
         mainApp.setGuiApp(app);
 
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
@@ -276,7 +278,6 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
-        DapNodePathManager::getInstance().checkNeedDownload();
         result = app->exec();
         app->quit();
         delete app;

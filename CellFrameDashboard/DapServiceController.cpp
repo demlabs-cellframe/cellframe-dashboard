@@ -10,6 +10,7 @@ DapServiceController::DapServiceController(QObject *apParent)
 
 DapServiceController::~DapServiceController()
 {
+    disconnect();
     if(m_web3Controll) delete m_web3Controll;
 
     DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
@@ -17,26 +18,18 @@ DapServiceController::~DapServiceController()
     {
         controller->deleteTransactionController();
     }
-    delete m_pServer;
-
-    if(m_threadRegular)
+    for(auto* command: m_transceivers)
     {
-        m_threadRegular->quit();
-        m_threadRegular->wait();
-        delete m_threadRegular;
+        delete command;
     }
+    m_transceivers.clear();
 }
 
 void DapServiceController::run()
 {
-
     DapConfigReader configReader;
 
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
-
-    m_pServer = new DapUiService(this);
-
-    m_threadRegular = new QThread();
 
     if(m_transceivers.isEmpty())
     {
@@ -85,7 +78,7 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
         return;
     }
     QtConcurrent::run([this, asServiceName, args]{
-        DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_transceivers[asServiceName]);
+        DapAbstractCommand * transceiver = m_transceivers[asServiceName];
         if(!transceiver)
         {
             qWarning()<<QString("Transceiver " + asServiceName + " was not found");
@@ -229,12 +222,10 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapGetListKeysCommand,                QObject*>("DapGetListKeysCommand",                     "rcvGetListKeysCommand",                 nullptr);
     addServiceGeneric<DapLedgerTxHashCommand,               QObject*>("DapLedgerTxHashCommand",                    "rcvLedgerTxHashCommand",                nullptr);
     addServiceGeneric<DapGetServiceLimitsCommand,           QObject*>("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",            nullptr);
-    addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      m_pServer);
-    addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               m_pServer);
-    addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  m_pServer);
-    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapHistoryServiceInitCommand",              "historyServiceInitRcv",                 m_pServer);
-    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapWalletServiceInitCommand",               "walletsServiceInitRcv",                 m_pServer);
-    addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       m_pServer);
+    addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      nullptr);
+    addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               nullptr);
+    addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  nullptr);
+    addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       nullptr);
     addServiceGeneric<DapUpdateLogsCommand,                 QObject *, QString> ("DapUpdateLogsCommand",                    "logUpdated",                   nullptr, LOG_FILE);
     addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
     addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, CMD_HISTORY);

@@ -763,7 +763,7 @@ Rectangle {
     }
 
     Connections{
-        target: nodePathManager
+        target: settingsModule
         function onSignalIsNeedInstallNode(isNeed, url)
         {
             console.log("onSignalIsNeedInstallNode", isNeed, url)
@@ -774,15 +774,10 @@ Rectangle {
                 openPopupUpdateNode()
             }
         }
-    }
 
-    Connections
-    {
-        target: settingsModule
         function onNeedNodeUpdateSignal()
         {
             openPopupUpdateNode()
-            
         }
     }
 

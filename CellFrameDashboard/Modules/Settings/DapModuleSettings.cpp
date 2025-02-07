@@ -1,13 +1,27 @@
 #include "DapModuleSettings.h"
-#include "DapNodePathManager.h"
+
+#include <QQmlApplicationEngine>
 
 DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_timerVersionCheck(new QTimer())
     , m_timerTimeoutService(new QTimer())
+    , m_instMngr(new DapNodeInstallManager())
 {
     if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
     {
+        connect(m_modulesCtrl->getAppEngine(), &QQmlApplicationEngine::objectCreated, this, [this] (QObject *object, const QUrl &url){
+            Q_UNUSED(object)
+            Q_UNUSED(url)
+            checkNeedDownload();
+        });
+        connect(m_instMngr, &DapNodeInstallManager::singnalReadyUpdateToNode, [this] (bool isReady)
+                {
+                    emit checkedUrlSignal(isReady);
+                });
+
+        checkNeedDownload();
+
         updateUrlUpdateNode();
     }
 
@@ -25,24 +39,60 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
 
 DapModuleSettings::~DapModuleSettings()
 {
-    DapNodePathManager::getInstance().disconnect();
+    disconnect();
+    delete m_instMngr;
     delete m_timerVersionCheck;
     delete m_timerTimeoutService;
 }
 
 void DapModuleSettings::updateUrlUpdateNode()
 {
-    auto& pathManager = DapNodePathManager::getInstance();
-    connect(&pathManager, &DapNodePathManager::checkedUrlSignal, [this](bool isReady)
+    connect(this, &DapModuleSettings::checkedUrlSignal, [this](bool isReady)
             {
                 QString maxVer = QString(MAX_NODE_VERSION);
                 QString ver = isReady ? maxVer : "";
-                m_urlUpdateNode = DapNodePathManager::getInstance().getNodeUrl(ver);
+                m_urlUpdateNode = getNodeUrl(ver);
                 m_isNodeUrlUpdated = true;
                 emit nodeUrlUpdated();
             });
 
-    pathManager.tryCheckUrl(pathManager.getNodeUrl(QString(MAX_NODE_VERSION)));
+    tryCheckUrl(getNodeUrl(QString(MAX_NODE_VERSION)));
+}
+
+void DapModuleSettings::checkNeedDownload()
+{
+    /// Checking whether the node's local mode has been started.
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL && m_modulesCtrl->getCountRestart() > 1)
+    {
+        return;
+    }
+     // && !m_modulesCtrl->getCountRestart()
+    if (!cellframe_node::getCellframeNodeInterface(DapNodeMode::getNodeMode()==DapNodeMode::LOCAL ? "local":"remote")->nodeInstalled())
+    {
+        emit signalIsNeedInstallNode(true, getUrlForNodeDownload());
+    }
+    else {
+        emit signalIsNeedInstallNode(false, "");
+    }
+}
+
+void DapModuleSettings::tryCheckUrl(const QString& url)
+{
+    m_instMngr->checkUpdateNode(url);
+}
+
+QString DapModuleSettings::getUrlForNodeDownload()
+{
+    return m_instMngr->getUrlForDownload();
+}
+
+QString DapModuleSettings::getNodeUrl(const QString& ver)
+{
+    if(ver.isEmpty())
+    {
+        return getUrlForNodeDownload();
+    }
+    return m_instMngr->getUrl(ver);
 }
 
 void DapModuleSettings::initConnect()
@@ -157,24 +207,35 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& resultJson)
             };
 
             auto majorType = comaperVer(maj, minMaj, maxMaj);
+            auto emitNeedUpdate = [this]
+            {
+                /// Checking whether the node's local mode has been started.
+                if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL && m_modulesCtrl->getCountRestart() > 1)
+                {
+                    return;
+                }
+                emit needNodeUpdateSignal();
+            };
+
+
             if(majorType != nodeUpdateType::EQUAL)
             {
                 setNodeUpdateType(majorType);
-                emit needNodeUpdateSignal();
+                emitNeedUpdate();
                 return;
             }
             auto minorType = comaperVer(min, minMinor, maxMinor);
             if(minorType != nodeUpdateType::EQUAL)
             {
                 setNodeUpdateType(minorType);
-                emit needNodeUpdateSignal();
+                emitNeedUpdate();
                 return;
             }
             auto patType = comaperVer(pat, minPat, maxPat);
             if(patType != nodeUpdateType::EQUAL)
             {
                 setNodeUpdateType(patType);
-                emit needNodeUpdateSignal();
+                emitNeedUpdate();
                 return;
             }
             setNodeUpdateType(nodeUpdateType::EQUAL);
