@@ -836,7 +836,7 @@ void DapModuleDex::requestTokenPairs()
     if(!m_isSandDapGetXchangeTokenPair)
     {
         m_isSandDapGetXchangeTokenPair = true;
-        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPair", QStringList() << "full_info" << "update");
+        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPair", QStringList());
     }
 }
 
