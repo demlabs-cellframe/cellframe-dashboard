@@ -42,7 +42,8 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Wallet/WalletRestore/randomwords.h \
     $$PWD/Wallet/WalletRestore/randomfile.h \
     $$PWD/Wallet/DapModuleWallet.h \
-    $$PWD/MasterNode/DapModuleMasterNode.h 
+    $$PWD/MasterNode/DapModuleMasterNode.h  \
+    $$PWD/dApps/DapModuledApps_rework.h
 
  SOURCES += $$PWD/TxExplorer/DapModuleTxExplorer.cpp \
     $$PWD/Dex/DapModuleDexLightPanel.cpp \
@@ -85,4 +86,5 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Wallet/WalletRestore/randomwords.cpp \
     $$PWD/Wallet/WalletRestore/randomfile.cpp \
     $$PWD/Wallet/DapModuleWallet.cpp \
-    $$PWD/MasterNode/DapModuleMasterNode.cpp 
+    $$PWD/MasterNode/DapModuleMasterNode.cpp  \
+    $$PWD/dApps/DapModuledApps_rework.cpp

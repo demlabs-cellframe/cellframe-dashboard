@@ -134,7 +134,7 @@ Item
                     defaultSuffix: "qml"
                     onAccepted:
                     {
-                        dAppsModule.addPlugin(dialogSelectPlug.files[0], 0, 0);
+                        //dAppsModule.addPlugin(dialogSelectPlug.files[0], 0, 0);
     //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
     //                    messagePopup.close()
     //                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
@@ -167,7 +167,7 @@ Item
                 {
                     currentPlugin = dapAppsModel.get(dapListViewApps.currentIndex).urlPath
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
-                    dAppsModule.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    //dAppsModule.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     defaultRightPanel.setEnableButtons()
                     logicMainApp.activePlugin = currentPlugin
                 }
@@ -196,7 +196,7 @@ Item
                         logicMainApp.activePlugin = ""
                     }
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
-                    dAppsModule.installPlugin(namePlugin, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    //dAppsModule.installPlugin(namePlugin, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
@@ -227,7 +227,7 @@ Item
                         logicMainApp.activePlugin = ""
                     }
     //                    listModel.remove(listViewPlug.currentIndex)
-                    dAppsModule.deletePlugin(dapAppsModel.get(dapListViewApps.currentIndex).urlPath)
+                    //dAppsModule.deletePlugin(dapAppsModel.get(dapListViewApps.currentIndex).urlPath)
                     logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()

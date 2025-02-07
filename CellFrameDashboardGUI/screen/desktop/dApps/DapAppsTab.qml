@@ -29,16 +29,16 @@ DapPage {
 
         dapDownloadPanel.reloadButton.onClicked:
         {
-            dAppsModule.reloadDownload();
+            //dAppsModule.reloadDownload();
         }
 
         dapDownloadPanel.canceledButton.onClicked:
         {
-            dAppsModule.cancelDownload();
+            //dAppsModule.cancelDownload();
         }
         dapDownloadPanel.closeButton.onClicked:
         {
-            dAppsModule.cancelDownload();
+            //dAppsModule.cancelDownload();
         }
     }
     onRightPanel: false
@@ -47,7 +47,7 @@ DapPage {
         target: dapMainWindow
         function onModelPluginsUpdated()
         {
-            dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
+            //dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
         }
     }
 
@@ -55,16 +55,16 @@ DapPage {
         target: dAppsModule
         function onRcvProgressDownload(completed, error, progress, name, download, total, time, speed)
         {
-            dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
+            //dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
         }
         function onRcvAbort()
         {
-            dAppsLogic.rcvAbort()
+            //dAppsLogic.rcvAbort()
         }
     }
 
     Component.onCompleted:{
-        dAppsModule.updatePluginsRepository()
-        dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
+        //dAppsModule.updatePluginsRepository()
+        //dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
     }
 }
