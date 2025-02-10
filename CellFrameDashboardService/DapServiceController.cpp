@@ -266,7 +266,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapGetListNetworksCommand            ("DapGetListNetworksCommand"            , nullptr ));
     m_servicePool.append(new DapGetNetworkStatusCommand           ("DapGetNetworkStatusCommand"           , nullptr ));
     m_servicePool.append(new DapNetworkGoToCommand                ("DapNetworkGoToCommand"                , nullptr ));
-    m_servicePool.append(new DapExportLogCommand                  ("DapExportLogCommand"                  , nullptr));
+    m_servicePool.append(new DapExportLogCommand                  ("DapExportLogCommand"                  , nullptr ));
     m_servicePool.append(new DapGetWalletAddressesCommand         ("DapGetWalletAddressesCommand"         , nullptr ));
     m_servicePool.append(new DapGetListOrdersCommand              ("DapGetListOrdersCommand"              , nullptr ));
     m_servicePool.append(new DapGetNetworksStateCommand           ("DapGetNetworksStateCommand"           , nullptr ));
