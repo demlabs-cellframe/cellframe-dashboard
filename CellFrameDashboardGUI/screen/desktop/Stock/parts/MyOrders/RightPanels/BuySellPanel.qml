@@ -60,7 +60,7 @@ DapRectangleLitAndShaded {
             {
                 id: textHeader
                 text: isBuy ?
-                          qsTr("Buy ") + logic.selectedItem.tokenBuy :
+                          qsTr("Buy ") + logic.selectedItem.tokenSell :
                           qsTr("Sell ") + logic.selectedItem.tokenBuy
                 verticalAlignment: Qt.AlignLeft
                 anchors.left: itemButtonClose.right
