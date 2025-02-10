@@ -53,6 +53,8 @@ private:
     void setContextProperties();
     void registerQmlTypes();
 
+    void createPaths();
+
     bool m_dontShowNodeModeFlag{false};
 
     DapModulesController     *m_modulesController    = nullptr;

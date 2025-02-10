@@ -20,6 +20,7 @@ const int OS_WIN_FLAG = 0;
 DapApplication::DapApplication(QObject *parent)
     :QObject(parent)
 {
+    createPaths();
 }
 
 DapApplication::~DapApplication()
@@ -60,6 +61,48 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
     qmlRegisterType<DapVPNOrdersController>("VPNOrdersController", 1,0, "VPNOrdersController");
+}
+
+void DapApplication::createPaths()
+{
+    QString appDataPath = "";
+
+#ifdef Q_OS_MACOS
+    char * l_username = NULL;
+    exec_with_ret(&l_username,"whoami|tr -d '\n'");
+    if (!l_username)
+    {
+        qWarning() << "Fatal Error: Can't obtain username";
+    }
+    appDataPath = QString("/Users/%1/Library/Application\ Support/%2").arg(l_username).arg(DAP_BRAND);
+#elif defined(Q_OS_WIN)
+    appDataPath = QString("%1/%2").arg(regGetUsrPath()).arg(DAP_BRAND);
+#elif defined(Q_OS_LINUX)
+    appDataPath = QString("/opt/%2").arg(DAP_BRAND_LO);
+#endif
+
+    QDir dirApp(appDataPath);
+
+    if(!dirApp.exists())dirApp.mkpath(appDataPath);
+
+    QDir dirLogs(QString(dirApp.path() + QDir::separator() + "log" ));
+    QDir dirDapps(QString(dirApp.path() + QDir::separator() + "dapps" ));
+    QDir dirData(QString(dirApp.path() + QDir::separator() + "data" ));
+    QDir dirDataWallet(QString(dirApp.path() + QDir::separator() + "data" + QDir::separator() + "wallet"));
+    QDir dirDataWalletNode(QString(dirApp.path() + QDir::separator() + "data" + QDir::separator() + "wallet" + QDir::separator() + "node"));
+
+    if(!dirLogs.exists()) dirLogs.mkdir(".");
+    if(!dirDapps.exists()) dirDapps.mkdir(".");
+    if(!dirData.exists()) dirData.mkdir(".");
+    if(!dirDataWallet.exists()) dirDataWallet.mkdir(".");
+    if(!dirDataWalletNode.exists()) dirDataWalletNode.mkdir(".");
+
+    qDebug()<<"App Data Dirs";
+    qDebug()<<"Logs       - " << dirLogs.path();
+    qDebug()<<"Dapps      - " << dirDapps.path();
+    qDebug()<<"Data       - " << dirData.path();
+    qDebug()<<"Wallet     - " << dirDataWallet.path();
+    qDebug()<<"WalletNOde - " << dirDataWalletNode.path();
 }
 
 void DapApplication::startService()
