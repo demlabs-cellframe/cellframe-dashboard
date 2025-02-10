@@ -40,11 +40,6 @@ void DapWalletsManagerRemote::updateWalletInfo()
 void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
 {
     auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
-    // if(m_walletListCash == byteArrayData)
-    // {
-    //     return;
-    // }
-    // m_walletListCash = byteArrayData;
 
     QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
     if(document.isNull() || document.isEmpty())
@@ -77,8 +72,6 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
                     isUpdateWallet = true;
                     emit walletInfoChanged(walletName);
                 }
-
-                // m_walletsInfo[walletName].path = tmpObject[Dap::JsonKeys::PATH].toString();
             }
             else
             {
