@@ -91,11 +91,11 @@ void DapApplication::createPaths()
     QDir dirDataWallet(QString(dirApp.path() + QDir::separator() + "data" + QDir::separator() + "wallet"));
     QDir dirDataWalletNode(QString(dirApp.path() + QDir::separator() + "data" + QDir::separator() + "wallet" + QDir::separator() + "node"));
 
-    if(!dirLogs.exists()) dirLogs.mkdir(".");
-    if(!dirDapps.exists()) dirDapps.mkdir(".");
-    if(!dirData.exists()) dirData.mkdir(".");
-    if(!dirDataWallet.exists()) dirDataWallet.mkdir(".");
-    if(!dirDataWalletNode.exists()) dirDataWalletNode.mkdir(".");
+    if(!dirLogs.exists()) dirLogs.mkpath(".");
+    if(!dirDapps.exists()) dirDapps.mkpath(".");
+    if(!dirData.exists()) dirData.mkpath(".");
+    if(!dirDataWallet.exists()) dirDataWallet.mkpath(".");
+    if(!dirDataWalletNode.exists()) dirDataWalletNode.mkpath(".");
 
     qDebug()<<"App Data Dirs";
     qDebug()<<"Logs       - " << dirLogs.path();
