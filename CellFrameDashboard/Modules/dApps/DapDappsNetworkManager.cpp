@@ -54,6 +54,7 @@ void DapDappsNetworkManager::downloadFile(QString name)
 
 void DapDappsNetworkManager::onDownloadCompleted()
 {
+    qDebug() << "[Test_build] [DapDappsNetworkManager] onDownloadCompleted";
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -79,6 +80,7 @@ void DapDappsNetworkManager::onDownloadCompleted()
 
 void DapDappsNetworkManager::onReadyRead()
 {
+    qDebug() << "[Test_build] [DapDappsNetworkManager] onReadyRead";
     m_error = "Connected";
     if(m_file->exists())
     {

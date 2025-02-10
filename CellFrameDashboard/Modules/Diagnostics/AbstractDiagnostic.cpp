@@ -235,6 +235,7 @@ const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
 
 void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
 {
+    qDebug() << "[url] [AbstractDiagnostic] [on_reply_finished]";
     if(reply->url() == NETWORK_ADDR_GET_VIEW)
     {
         QByteArray data = reply->readAll();
