@@ -3,6 +3,7 @@
 #include <QList>
 #include <QMetaEnum>
 #include <QDateTime>
+#include "Modules/Dex/StockDataWorker/DapCommonDexMethods.h"
 
 struct ItemOrderHistoryBridge::Data
 {
@@ -110,6 +111,11 @@ void DapOrderHistoryModel::updateModel(const QList<DEX::Order> &data)
         m_items.clear();
         for(const auto& item: data)
         {
+            if(!DapCommonDexMethods::isCorrectAmount(item.amount))
+            {
+                continue;
+            }
+
             DapOrderHistoryModel::Item tmpItem;
             tmpItem.pair = item.side == "Buy" ? item.buyToken + "/" + item.sellToken : item.sellToken + "/" + item.buyToken;
             tmpItem.adaptivePair = item.sellTokenOrigin + "/" + item.buyTokenOrigin;
