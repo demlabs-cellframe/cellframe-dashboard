@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include "Workers/mathworker.h"
 #include <cmath>
+#include "Modules/Dex/StockDataWorker/DapCommonDexMethods.h"
 
 constexpr int bookRoundPowerDelta {7};
 
@@ -247,8 +248,12 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
                 {
                     continue;
                 }
-
                 item.amount = orders.at(j)["amount"].toString();
+                if(!DapCommonDexMethods::isCorrectAmount(item.amount))
+                {
+                    continue;
+                }
+
                 item.total = multCoins(item.amount, item.price);
 
                 item.amountCoin = item.amount;

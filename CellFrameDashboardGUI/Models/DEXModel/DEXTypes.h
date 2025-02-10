@@ -72,12 +72,6 @@ namespace DEX
         QString adaptiveSide = "";
         QString adaptivePair = "";
     };
-
-    struct TXList
-    {
-        QString status = "";
-        QString type = "";
-    };
 }
 
 #endif // DEXTYPES_H

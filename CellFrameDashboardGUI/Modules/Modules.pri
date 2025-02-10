@@ -3,6 +3,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Dex/DapModuleDexLightPanel.h \
     $$PWD/Dex/DapRegularTokenType.h \
     $$PWD/Dex/StockDataWorker/ChartTypes.h \
+    $$PWD/Dex/StockDataWorker/DapCommonDexMethods.h \
     $$PWD/Dex/StockDataWorker/MainInfoChart.h \
     $$PWD/Dex/StockDataWorker/CreateCandleChart.h \
     $$PWD/Dex/StockDataWorker/CreatingSheduleController.h \
@@ -47,6 +48,7 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Dex/DapModuleDexLightPanel.cpp \
     $$PWD/Dex/DapRegularTokenType.cpp \
     $$PWD/Dex/StockDataWorker/CreateCandleChart.cpp \
+    $$PWD/Dex/StockDataWorker/DapCommonDexMethods.cpp \
     $$PWD/Dex/StockDataWorker/MainInfoChart.cpp \
     $$PWD/Dex/StockDataWorker/CreatingSheduleController.cpp \
     $$PWD/Diagnostics/DiagtoolConnectCotroller.cpp \
