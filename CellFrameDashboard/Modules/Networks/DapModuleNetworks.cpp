@@ -67,16 +67,7 @@ void DapModuleNetworks::networkListChangedSlot()
 
 void DapModuleNetworks::deleteNetworksSlot(const QStringList& list)
 {
-    //If model contains item  - remove him.
-    //Because there is no such element in the received list of networks.
-    for(const QString &net : qAsConst(list))
-    {
-        int idx = getIndexItemModel(net);
-        if(idx >= 0)
-        {
-            m_networkModel->remove(idx);
-        }
-    }
+    m_networkModel->remove(list);
 }
 
 void DapModuleNetworks::updateModelInfo(const NetworkInfo& info)

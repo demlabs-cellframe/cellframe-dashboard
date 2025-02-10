@@ -2,6 +2,7 @@
 
 #include "DapNetworksManagerBase.h"
 #include <QTimer>
+#include "DapCommonMethods.h"
 
 class DapNetworksManagerRemote : public DapNetworksManagerBase
 {

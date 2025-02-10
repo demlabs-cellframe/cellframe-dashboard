@@ -8,6 +8,7 @@
 #include "Models/DapHistoryModel.h"
 #include "Models/DapHistoryProxyModel.h"
 #include "DapWalletsManagerBase.h"
+#include <QMutableListIterator>
 
 class DapModuleTxExplorer : public DapAbstractModule
 {
@@ -38,6 +39,7 @@ private slots:
     void slotUpdateData() override;
     void slotHistoryUpdate();
     void walletInfoChangedsSlot(const QString& walletName, const QString& networkName);
+    void deleteNetworksSlot(const QStringList& list);
 private:
     void initConnect();
     DapWalletsManagerBase* getWalletManager() const;

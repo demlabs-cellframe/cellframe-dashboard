@@ -71,6 +71,11 @@ void DapNetworksManagerRemote::networkListRespond(const QVariant &rcvData)
     }
     if(m_netList != netList)
     {
+        QStringList toRemoveList = DapCommonMethods::getDifference(m_netList, netList);
+        if(!toRemoveList.isEmpty())
+        {
+            emit deleteNetworksSignal(toRemoveList);
+        }
         m_netList = netList;
         emit networkListChanged();
 

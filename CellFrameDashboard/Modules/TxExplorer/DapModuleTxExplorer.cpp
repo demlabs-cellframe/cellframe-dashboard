@@ -31,6 +31,8 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
 
 void DapModuleTxExplorer::initConnect()
 {
+    auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
+    connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal,    this, &DapModuleTxExplorer::deleteNetworksSlot);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::historyServiceInitRcv, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
     connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, [this]()
@@ -120,6 +122,24 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 
     emit updateHistoryModel();
     updateHistory();
+}
+
+void DapModuleTxExplorer::deleteNetworksSlot(const QStringList& list)
+{
+    for(auto& item: m_listsWallets)
+    {
+        QMutableListIterator<DapHistoryModel::Item> history(item.history);
+        while(history.hasNext())
+        {
+            auto historyItem = history.next();
+            if(list.contains(historyItem.network))
+            {
+                QString hash = historyItem.tx_hash;
+                history.remove();
+                item.hashes.remove(hash);
+            }
+        }
+    }
 }
 
 bool DapModuleTxExplorer::addHistory(const QString& wallet, const HistoryList& list)

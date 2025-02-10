@@ -40,11 +40,11 @@ void DapWalletsManagerRemote::updateWalletInfo()
 void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
 {
     auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
-    if(m_walletListCash == byteArrayData)
-    {
-        return;
-    }
-    m_walletListCash = byteArrayData;
+    // if(m_walletListCash == byteArrayData)
+    // {
+    //     return;
+    // }
+    // m_walletListCash = byteArrayData;
 
     QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
     if(document.isNull() || document.isEmpty())
@@ -74,10 +74,11 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
                 if(tmpObject[Dap::JsonKeys::STATUS].toString() != m_walletsInfo[walletName].status)
                 {
                     m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
+                    isUpdateWallet = true;
                     emit walletInfoChanged(walletName);
                 }
-                m_walletsInfo[walletName].path = tmpObject[Dap::JsonKeys::PATH].toString();
-                isUpdateWallet = true;
+
+                // m_walletsInfo[walletName].path = tmpObject[Dap::JsonKeys::PATH].toString();
             }
             else
             {
@@ -101,14 +102,13 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
         }
     }
 
-    if(isUpdateWallet)
+    if(isUpdateWallet || updateWalletModel())
     {
         m_lastRequestInfoNetworkName.clear();
         m_lastRequestInfoWalletName.clear();
         updateAddressWallets();
+        emit walletListChanged();
     }
-
-    emit walletListChanged();
 }
 
 void DapWalletsManagerRemote::setIsLoad(CommonWallet::WalletInfo& wallet, bool isLoad)
@@ -371,6 +371,35 @@ void DapWalletsManagerRemote::alarmTimerSlot()
     m_isRequestInfo = false;
     m_timerAlarmUpdateWallet->stop();
     updateInfoWallets();
+}
+
+bool DapWalletsManagerRemote::updateWalletModel()
+{
+    auto netList = m_modulesController->getManagerController()->getNetworkList();
+    bool isUpdate = false;
+    for(auto& wallet: m_walletsInfo)
+    {
+        auto currentNets = wallet.walletInfo.keys();
+        if(DapCommonMethods::isEqualStringList(currentNets, netList))
+        {
+            continue;
+        }
+        QStringList toAppendList = DapCommonMethods::getDifference(netList, currentNets);
+        QStringList toRemoveList = DapCommonMethods::getDifference(currentNets, netList);
+        for(const auto& network: toAppendList)
+        {
+            CommonWallet::WalletNetworkInfo info;
+            info.network = network;
+            wallet.walletInfo.insert(network, std::move(info));
+            isUpdate = true;
+        }
+        for(const auto& network: toRemoveList)
+        {
+            wallet.walletInfo.remove(network);
+            isUpdate = true;
+        }
+    }
+    return isUpdate;
 }
 
 void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)

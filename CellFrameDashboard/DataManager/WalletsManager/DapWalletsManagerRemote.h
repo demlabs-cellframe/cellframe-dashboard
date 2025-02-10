@@ -26,6 +26,8 @@ private:
     void updateAddressWallets();
     void updateInfoWallets(const QString &walletName = "");
     void setIsLoad(CommonWallet::WalletInfo& wallet, bool isLoad);
+
+    inline bool updateWalletModel();
 private:
     QTimer* m_walletsListTimer = nullptr;
     QTimer* m_timerUpdateWallet = nullptr;

@@ -238,6 +238,19 @@ void DapNetworkModel::remove (int a_index)
     endRemoveRows();
 }
 
+void DapNetworkModel::remove(const QStringList& list)
+{
+    QMutableListIterator<DapNetworkModel::Item> nets(*m_items);
+    while(nets.hasNext())
+    {
+        auto netItem = nets.next();
+        if(list.contains(netItem.networkName))
+        {
+            nets.remove();
+        }
+    }
+}
+
 int DapNetworkModel::indexOf (const DapNetworkModel::Item &a_item) const
 {
     int index = 0;
