@@ -1,10 +1,10 @@
 #include "DapModuleOrders.h"
+#include "DapDataManagerController.h"
 
 static DapOrdersModel *s_ordersModel = DapOrdersModel::global();
 
 DapModuleOrders::DapModuleOrders(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_timerUpdateOrders(new QTimer())
 {
 
@@ -50,7 +50,14 @@ void DapModuleOrders::setNodeAddrFilterText(const QString &nodeAddr)
 void DapModuleOrders::getOrdersList()
 {
     s_serviceCtrl->requestToService("DapGetListOrdersCommand");
-    s_serviceCtrl->requestToService("DapGetXchangeOrdersList");
+
+    QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {
+        {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+        ,{Dap::KeysParam::NETWORK_LIST, netList}
+    };
+    s_serviceCtrl->requestToService("DapGetXchangeOrdersList", request);
 }
 
 void DapModuleOrders::rcvXchangeOrderList(const QVariant &rcvData)
@@ -166,10 +173,14 @@ void DapModuleOrders::setCurrentTab(int tabIndex)
 
 void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 {
-    QJsonDocument dataDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-
-    if (!dataDoc.isObject())
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+    if(document.isNull() || document.isEmpty())
+    {
         return;
+    }
+
+    QJsonObject resultObj = document.object();
 
     if(s_statusModel.first && s_statusModel.second)
     {
@@ -178,11 +189,11 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
         m_ordersModel.clear();
     }
 
-    QStringList networks = dataDoc.object().keys();
+    QStringList networks = resultObj.keys();
 
     for(const QString &network : qAsConst(networks))
     {
-        QJsonArray ordersArr = dataDoc.object()[network].toArray();
+        QJsonArray ordersArr = resultObj[network].toArray();
 
         for (auto itr = ordersArr.begin(); itr != ordersArr.end(); itr++)
         {

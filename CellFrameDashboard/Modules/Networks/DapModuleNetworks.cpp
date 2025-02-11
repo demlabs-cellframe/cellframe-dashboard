@@ -1,10 +1,9 @@
 #include "DapModuleNetworks.h"
 #include "DapDataManagerController.h"
-#include "DapNetworksManager.h"
+#include "DapNetworksManagerLocal.h"
 
 DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     :DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_networkModel(new DapNetworkModel())
     , m_netListModel(new DapStringListModel)
 {
@@ -12,21 +11,33 @@ DapModuleNetworks::DapModuleNetworks(DapModulesController *parent)
     m_netListModel->setStringList({"All"});
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("netListModel", m_netListModel);
 
-    connect(this, &DapModuleNetworks::sigNetLoadProgress, m_modulesCtrl, &DapModulesController::setNodeLoadProgress);
-    connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
+    if(DapNodeMode::g_node_mode == DapNodeMode::LOCAL)
+    {
+        connect(this, &DapModuleNetworks::sigNetLoadProgress, m_modulesCtrl, &DapModulesController::setNodeLoadProgress);
+        connect(this, &DapModuleNetworks::sigNetsLoading, m_modulesCtrl, &DapModulesController::setIsNodeWorking);
+    }
+    else
+    {
+        m_modulesCtrl->setIsNodeWorking(true);
+    }
 
     auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
-    connect(networkManager, &DapNetworksManager::deleteNetworksSignal, this, &DapModuleNetworks::deleteNetworksSlot);
-    connect(networkManager, &DapNetworksManager::updateNetworkInfoSignal, this, &DapModuleNetworks::updateModelInfo);
-    connect(networkManager, &DapNetworksManager::isConnectedChanged, this, &DapModuleNetworks::slotNotifyIsConnected);
-    connect(networkManager, &DapNetworksManager::sigUpdateItemNetLoad, this, &DapModuleNetworks::slotUpdateItemNetLoad);
-    connect(networkManager, &DapNetworksManager::networkListChanged, this, &DapModuleNetworks::networkListChangedSlot);
+    connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal,    this, &DapModuleNetworks::deleteNetworksSlot);
+    connect(networkManager, &DapNetworksManagerBase::updateNetworkInfoSignal,  this, &DapModuleNetworks::updateModelInfo);
+    connect(networkManager, &DapNetworksManagerLocal::isConnectedChanged,      this, &DapModuleNetworks::slotNotifyIsConnected);
+    connect(networkManager, &DapNetworksManagerLocal::sigUpdateItemNetLoad,    this, &DapModuleNetworks::slotUpdateItemNetLoad);
+    connect(networkManager, &DapNetworksManagerLocal::networkListChanged,      this, &DapModuleNetworks::networkListChangedSlot);
 }
 
 DapModuleNetworks::~DapModuleNetworks()
 {
     disconnect();
     delete m_networkModel;
+}
+
+void DapModuleNetworks::slotUpdateData()
+{
+    m_networkModel->clear();
 }
 
 void DapModuleNetworks::goSync(QString net)
@@ -47,22 +58,16 @@ void DapModuleNetworks::goOffline(QString net)
 void DapModuleNetworks::networkListChangedSlot()
 {
     QStringList list = {"All"};
-    list.append(m_modulesCtrl->getManagerController()->getNetworkList());
+    QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
+    list.append(netList);
     m_netListModel->setStringList(std::move(list));
+
+    m_networkModel->updateListModel(netList);
 }
 
 void DapModuleNetworks::deleteNetworksSlot(const QStringList& list)
 {
-    //If model contains item  - remove him.
-    //Because there is no such element in the received list of networks.
-    for(const QString &net : qAsConst(list))
-    {
-        int idx = getIndexItemModel(net);
-        if(idx >= 0)
-        {
-            m_networkModel->remove(idx);
-        }
-    }
+    m_networkModel->remove(list);
 }
 
 void DapModuleNetworks::updateModelInfo(const NetworkInfo& info)
@@ -73,21 +78,7 @@ void DapModuleNetworks::updateModelInfo(const NetworkInfo& info)
     }
     else
     {
-        updateItemModel(info);
-    }
-}
-
-void DapModuleNetworks::updateItemModel(const NetworkInfo& info)
-{
-    int idx = getIndexItemModel(info.networkName);
-
-    if(idx >= 0)
-    {
-        m_networkModel->set(idx, info);
-    }
-    else
-    {
-        m_networkModel->add(info);
+        m_networkModel->updateModel(info);
     }
 }
 

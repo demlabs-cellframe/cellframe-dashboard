@@ -23,7 +23,6 @@
 
 #include "handlers/DapAbstractCommand.h"
 
-#include "RequestController/DapRegularRequestsController.h"
 #include "DapWebControllerForService.h"
 
 #include "handlers/DapQuitApplicationCommand.h"
@@ -38,11 +37,10 @@
 #include "handlers/DapNetworkGoToCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapExportLogCommand.h"
-#include "handlers/DapGetWalletAddressesCommand.h"
+#include "handlers/DapGetWalletAddressCommand.h"
 #include "handlers/DapGetWalletTokenInfoCommand.h"
-//#include "models/DapWalletModel.h"
 #include "handlers/DapMempoolProcessCommand.h"
-#include "handlers/DapGetAllWalletHistoryCommand.h"
+#include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
@@ -107,6 +105,8 @@
 #include "handlers/DapSrvStakeRemove.h"
 #include "handlers/DapWebBlockList.h"
 
+#include "handlers/DapCreateTxCommand.h"
+
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -120,34 +120,23 @@
 #endif
 
 #ifdef Q_OS_ANDROID
-#include "DapRpcTCPServer.h"
-typedef class DapRpcTCPServer DapUiService;
-
 #define LOG_FILE QString("")
 #define CMD_HISTORY QString("")
 
-#else
-#include "DapRpcLocalServer.h"
-typedef class DapRpcLocalServer DapUiService;
 #endif
 
-class DapServiceController : public QThread
+class DapServiceController : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(DapServiceController)
-    explicit DapServiceController(QObject *apParent = nullptr);
 
 public:
     void run();
-
+    explicit DapServiceController(QObject *apParent = nullptr);
     ~DapServiceController();
-    Q_INVOKABLE static DapServiceController &getInstance();
+    // Q_INVOKABLE static DapServiceController &getInstance();
     Q_INVOKABLE void disconnectAll();
 
-    /// Send request to service.
-    /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
-    /// @param asServiceName Service name.
-    /// @param arg1...arg10 Parametrs.
     Q_INVOKABLE void requestToService(const QString& asServiceName, const QVariant &args = QVariant());
 
     Q_PROPERTY(bool ReadingChains MEMBER m_bReadingChains READ getReadingChains WRITE setReadingChains NOTIFY readingChainsChanged)
@@ -173,17 +162,14 @@ private:
 
     template <typename ServiceType, typename... TArgs>
     void addServiceGeneric(const QString& name, const QString& signalName, TArgs... ctr_args);
-    
+
     void initAdditionalParamrtrsService();
 private:
-    DapRegularRequestsController *m_reqularRequestsCtrl;
-    DapUiService        *m_pServer {nullptr};
     DapWebControllerForService *m_web3Controll;
 
     bool m_bReadingChains;
 
-    QMap<QString, DapRpcService*> m_transceivers;
-    QThread* m_threadRegular;
+    QMap<QString, DapAbstractCommand*> m_transceivers;
 
 ///------RCV HANDLERS SIGNALS------///
 signals:
@@ -200,7 +186,8 @@ signals:
     void rcvActivateOrDeactivateReply(const QVariant& rcvData);
 //    void rcvGetOnceWalletInfoCommand(const QVariant& rcvData);
 //    void walletTokensReceived(const QVariant& walletTokens);
-//    void walletAddressesReceived(const QVariant& walletAddresses);
+    void walletAddressReceived(const QVariant& walletAddresses);
+    void rcvWalletListByPath(const QVariant& rcvData);
 
     /*Xchange*/
     void rcvXchangeTxList(const QVariant& rcvData);
@@ -243,6 +230,7 @@ signals:
     void transactionCreated(const QVariant& aResult);
     void rcvTXCondCreateCommand(const QVariant& rcvData);
     void rcvFee(const QVariant& rcvData);
+    void rcvTxCreated(const QVariant& rcvData);
 
     /*Node*/
     void nodeRestart();

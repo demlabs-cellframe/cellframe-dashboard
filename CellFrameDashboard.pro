@@ -7,7 +7,6 @@ CellFrameDashboard.depends=cellframe-sdk
 
 include(config.pri)
 
-
 TRANSLATIONS += \
     Resources/Translations/Translation_ru.ts \
     Resources/Translations/Translation_zh.ts \

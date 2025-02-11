@@ -156,11 +156,11 @@ bool DapNetworkModel::updateNetworksInfo(const QVariant& networksStateList)
     return true;
 }
 
-int DapNetworkModel::add (const NetworkInfo& a_item)
+int DapNetworkModel::add(const NetworkInfo& a_item)
 {
     int index = m_items->size();
 
-    beginInsertRows (QModelIndex(), index, index);
+    beginInsertRows(QModelIndex(), index, index);
 
     {
         DapNetworkModel::Item item;
@@ -174,7 +174,41 @@ int DapNetworkModel::add (const NetworkInfo& a_item)
     return index;
 }
 
-void DapNetworkModel::insert (int a_index, const DapNetworkModel::Item &a_item)
+void DapNetworkModel::updateModel(const NetworkInfo &a_item)
+{
+    bool isUpdated = false;
+    for(auto& item: *m_items)
+    {
+        if(item.networkName == a_item.networkName)
+        {
+            beginResetModel();
+            item = a_item;
+            endResetModel();
+            isUpdated = true;
+            break;
+        }
+    }
+    if(!isUpdated)
+    {
+        add(a_item);
+    }
+}
+
+void DapNetworkModel::updateListModel(const QStringList& netList)
+{
+    for(int i = 0; i < m_items->size(); i++)
+    {
+        if(!netList.contains((*m_items)[i].networkName))
+        {
+            beginResetModel();
+            m_items->removeAt(i);
+            endResetModel();
+        }
+    }
+    emit dataChanged(index(0, 0), index(m_items->size(), 0));
+}
+
+void DapNetworkModel::insert(int a_index, const DapNetworkModel::Item &a_item)
 {
     beginInsertRows (QModelIndex(), a_index, a_index);
 
@@ -202,6 +236,19 @@ void DapNetworkModel::remove (int a_index)
     }
 
     endRemoveRows();
+}
+
+void DapNetworkModel::remove(const QStringList& list)
+{
+    QMutableListIterator<DapNetworkModel::Item> nets(*m_items);
+    while(nets.hasNext())
+    {
+        auto netItem = nets.next();
+        if(list.contains(netItem.networkName))
+        {
+            nets.remove();
+        }
+    }
 }
 
 int DapNetworkModel::indexOf (const DapNetworkModel::Item &a_item) const

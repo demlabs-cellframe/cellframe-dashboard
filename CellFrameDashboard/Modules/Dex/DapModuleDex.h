@@ -17,6 +17,9 @@
 #include "Models/DEXModel/TokenPairsProxyModel.h"
 #include "Models/DapStringListModel.h"
 #include "StockDataWorker/StockDataWorker.h"
+#include "DapWalletsManagerBase.h"
+#include "Models/DapTokensWalletModel.h"
+#include "Models/TokenProxyModel.h"
 
 class  DapModuleDex : public DapAbstractModule
 {
@@ -38,7 +41,7 @@ public:
     void requestCurrentTokenPairs();
     void requestHistoryTokenPairs();
     void requestHistoryOrders();
-    void requestTXList(const QString &timeFrom = "", const QString &timeTo = "");
+    void requestTXList();
     void requestOrderPurchase(const QStringList& params);
     void requestOrderCreate(const QStringList& params);
 
@@ -88,6 +91,13 @@ public:
 
     Q_INVOKABLE bool isValidValue(const QString& value);
 
+    Q_PROPERTY(QString balance        READ getBalance   NOTIFY currantBalanceChanged)
+    Q_INVOKABLE QString getBalance(const QString& tokenName = "") const;
+    Q_INVOKABLE void updateBalance();
+    Q_INVOKABLE void setCurrentToken(const QString& token);
+
+    Q_INVOKABLE QVariantMap isCreateOrder(const QString& network, const QString& amount, const QString& tokenName);
+
     void setStatusProcessing(bool status) override;
 public slots:
     virtual void setNetworkFilterText(const QString &network);
@@ -105,6 +115,7 @@ signals:
     void stepChartChanged(const int& index);
 
     void currentRateFirstTime();
+    void currantBalanceChanged();
 protected slots:
     void startInitData();
 
@@ -115,6 +126,13 @@ protected slots:
     void respondTxList(const QVariant &rcvData);
 
     void currentRateFirstTimeSlot();
+
+    void currentWalletChangedSlot();
+    void walletInfoChangedSlot(const QString &walletName, const QString &networkName);
+
+private slots:
+    void slotUpdateData() override;
+
 protected:
     void onInit();
     bool isCurrentPair();
@@ -129,9 +147,14 @@ protected:
     virtual void updateTokenModels();
 
     void setCurrentRateFromModel();
-protected:
 
-    DapModulesController  *m_modulesCtrl = nullptr;
+    const QPair<int,QString>& getCurrentWallet() const;
+    DapWalletsManagerBase* getWalletManager() const;
+
+    QStringList getListNetwork() const;
+
+    void updateDexTokenModel();
+protected:
     DapTokenPairModel* m_tokenPairsModel = nullptr;
 
     DapOrderHistoryModel *m_ordersModel = nullptr;
@@ -140,23 +163,25 @@ protected:
     DapStringListModel* m_netListModel = nullptr;
     DapStringListModel* m_rightPairListModel = nullptr;
     StockDataWorker *m_stockDataWorker = nullptr;
+    DapTokensWalletModel* m_DEXTokenModel = nullptr;
+    TokenProxyModel* m_tokenFilterModelDEX = nullptr;
 
     QTimer* m_allTakenPairsUpdateTimer = nullptr;
     QTimer* m_curentTokenPairUpdateTimer = nullptr;
     QTimer* m_ordersHistoryUpdateTimer = nullptr;
 
-    QByteArray* m_tokenPairsCash;
-    QByteArray* m_ordersHistoryCash;
-    QByteArray* m_txListCash;
+    QByteArray m_tokenPairsCash;
+    QByteArray m_ordersHistoryCash;
+    QByteArray m_txListCash;
     QList<DEX::Order> m_ordersHistory;
     QMap<QString, QSet<QString>> m_txListsforWallet;
 
     QList<DEX::InfoTokenPair> m_tokensPair;
     DEX::InfoTokenPair m_currentPair;
 
-
     QString m_networkFilter = "";
     QString m_currentNetwork = "";
+    QString m_currentTokenDEX = "";
 
     QString m_currantPriceForCreate = "";
 
@@ -167,7 +192,7 @@ protected:
 
     const int ALL_TOKEN_UPDATE_TIMEOUT = 60000;
     const int CURRENT_TOKEN_UPDATE_TIMEOUT = 1000;
-    const int ORDERS_HISTORY_UPDATE_TIMEOUT = 5000;
+    const int ORDERS_HISTORY_UPDATE_TIMEOUT = 30000;
 
     const QRegularExpression REGULAR_VALID_VALUE = QRegularExpression(R"((?=.*[0-9])(?:\d+|\d*\.\d+)$)");
 };

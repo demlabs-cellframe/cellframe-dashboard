@@ -42,6 +42,18 @@ DapRectangleLitAndShaded
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Tokens")
             }
+
+            DapUpdateButton
+            {
+                visible: app.getNodeMode()
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 8
+                onClickUpdate: {
+                    console.log("update wallets data")
+                    walletModule.updateWalletInfo();
+                }
+            }
         }
 
         ColumnLayout

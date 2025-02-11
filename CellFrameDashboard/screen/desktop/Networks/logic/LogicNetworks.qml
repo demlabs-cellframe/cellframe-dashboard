@@ -18,12 +18,17 @@ QtObject {
 
     function percentToRatio(text)
     {
-        var percent = parseFloat(text)
-        if(isNaN(percent) || percent < 0 || percent > 150)
+        if(app.getNodeMode() === 0) //local
         {
-            console.warn("Percent of processed is wrong:", text)
-            percent = 0.0
+            var percent = parseFloat(text)
+            if(isNaN(percent) || percent < 0 || percent > 150)
+            {
+                console.warn("Percent of processed is wrong:", text)
+                percent = 0.0
+            }
+            return percent / 100.0
         }
-        return percent / 100.0
+        else
+            return 1.0
     }
 }

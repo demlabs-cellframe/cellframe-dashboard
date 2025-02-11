@@ -49,14 +49,11 @@ public:
     friend class DapModulesController;
 
 public:
-    explicit DapModuleDiagnostics(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
+    explicit DapModuleDiagnostics(DapModulesController *parent = nullptr);
     ~DapModuleDiagnostics();
 
 
 private:
-    DapServiceController  *s_serviceCtrl;
-    DapModulesController  *s_modulesCtrl;
-
     QThread *s_thread;
 
     QString m_node_version{""};

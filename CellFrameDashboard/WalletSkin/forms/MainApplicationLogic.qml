@@ -57,7 +57,6 @@ QtObject {
     function updateAllWallets()
     {
         dapModelWallets.clear()
-        // logicMainApp.requestToService("DapGetWalletsInfoCommand", "");
     }
 
     function updateCurrentWallet()
@@ -356,7 +355,7 @@ QtObject {
                 network_array += model.get(i).address + ":"
                 network_array += name + "/"
             }
-            // requestToService("DapGetAllWalletHistoryCommand",
+            // requestToService("DapGetWalletHistoryCommand",
             //                  network_array, update, isLastActions)
         }
     }
@@ -445,8 +444,6 @@ QtObject {
     function updateDashboard()
     {
         Qt.openUrlExternally(urlDownload);
-//        dapServiceController.requestToService("DapVersionController", "update")
-//        updatingDashboard("The update process has started.")
     }
 
     function updatingDashboard(message)

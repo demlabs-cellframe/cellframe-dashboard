@@ -2,9 +2,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-CommandHelperController::CommandHelperController(QObject *parent)
+CommandHelperController::CommandHelperController(DapServiceController* serviceController, QObject *parent)
     : QObject{parent}
-    , s_serviceCtrl(&DapServiceController::getInstance())
+    , s_serviceCtrl(serviceController)
     , m_helpController(new HelpDictionaryController())
 
 {
@@ -69,10 +69,10 @@ void CommandHelperController::loadData()
     s_serviceCtrl->requestToService("DapDictionaryCommand", "getData");
 }
 
-void CommandHelperController::tryDataUpdate()
-{
-    s_serviceCtrl->requestToService("DapDictionaryCommand", "updateData");
-}
+// void CommandHelperController::tryDataUpdate()
+// {
+//     s_serviceCtrl->requestToService("DapDictionaryCommand", "updateData");
+// }
 
 CommandHelperController::~CommandHelperController()
 {

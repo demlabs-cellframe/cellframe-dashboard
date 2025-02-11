@@ -98,6 +98,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void updateWallets(const QMap<QString, CommonWallet::WalletInfo> &wallets);
+    void clear();
 private:
 
     DapListWalletsModel::Item &_get (int a_index);

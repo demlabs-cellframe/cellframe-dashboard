@@ -1,5 +1,5 @@
 #include "DapModuleDexLightPanel.h"
-
+#include "DapDataManagerController.h"
 #include <QJsonValue>
 
 DapModuleDexLightPanel::DapModuleDexLightPanel(DapModulesController *parent)
@@ -296,7 +296,7 @@ QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, cons
     {
         QString tokenSell = m_currentPair.token1;
         QString tokenBuy = m_currentPair.token2;
-        QString walletName = m_modulesCtrl->getCurrentWalletName();
+        QString walletName = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
         QString amountOrder = checkValue(amount);
         QString feeOrder = checkValue(fee);
         QString priceOrder = checkValue(price);

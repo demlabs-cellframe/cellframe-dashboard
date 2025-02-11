@@ -42,7 +42,7 @@ Component
         {
             id: info
             width: item_width
-            height: 190
+            height: app.getNodeMode() === 0 ? 190 : 190 - 32 //32 - height buttons and spacing
             x: 0
             y: 0
             scale: mainWindow.scale

@@ -3,45 +3,33 @@
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
-    : QThread(apParent)
+    : QObject(apParent)
 {
+
 }
 
 DapServiceController::~DapServiceController()
 {
-    delete m_web3Controll;
+    disconnect();
+    if(m_web3Controll) delete m_web3Controll;
+
     DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
     if(controller)
     {
         controller->deleteTransactionController();
     }
-
-    if(m_threadRegular)
+    for(auto* command: m_transceivers)
     {
-        m_threadRegular->quit();
-        m_threadRegular->wait();
-        delete m_threadRegular;
+        delete command;
     }
-
-    quit();
-    wait();
+    m_transceivers.clear();
 }
 
 void DapServiceController::run()
 {
-    m_reqularRequestsCtrl = new DapRegularRequestsController();
-
     DapConfigReader configReader;
 
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
-
-    m_pServer = new DapUiService(this);
-
-    m_threadRegular = new QThread();
-    m_reqularRequestsCtrl->moveToThread(m_threadRegular);
-    connect(m_threadRegular, &QThread::finished, m_reqularRequestsCtrl, &QObject::deleteLater);
-    connect(m_threadRegular, &QThread::finished, m_threadRegular, &QObject::deleteLater);
-    m_threadRegular->start();
 
     if(m_transceivers.isEmpty())
     {
@@ -49,7 +37,6 @@ void DapServiceController::run()
     }
 
     initAdditionalParamrtrsService();
-    m_reqularRequestsCtrl->start();
 
     m_web3Controll = new DapWebControllerForService(this);
     m_web3Controll->rcvFrontendConnectStatus(true);
@@ -60,8 +47,15 @@ void DapServiceController::run()
 
     qInfo() << "ServiceController started";
     emit onServiceStarted();
-
-    exec();
+    QtConcurrent::run([]{
+        DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+        if(!controller)
+        {
+            qWarning() << "DapTransactionQueueController have a problem";
+            return;
+        }
+        controller->onInit();
+    });
 }
 
 void DapServiceController::setReadingChains(bool bReadingChains)
@@ -70,24 +64,12 @@ void DapServiceController::setReadingChains(bool bReadingChains)
     emit readingChainsChanged(bReadingChains);
 }
 
-/// Get an instance of a class.
-/// @return Instance of a class.
-DapServiceController &DapServiceController::getInstance()
-{
-    static DapServiceController instance;
-    return instance;
-}
-
 /// Disconnect all signals
 void DapServiceController::disconnectAll()
 {
     disconnect(this, 0, 0, 0);
 }
 
-/// Send request to service.
-/// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
-/// @param asServiceName Service name.
-/// @param arg1...arg10 Parametrs.
 void DapServiceController::requestToService(const QString &asServiceName, const QVariant &args)
 {
     if(!m_transceivers.contains(asServiceName))
@@ -96,15 +78,14 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
         return;
     }
     QtConcurrent::run([this, asServiceName, args]{
-        DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_transceivers[asServiceName]);
+        DapAbstractCommand * transceiver = m_transceivers[asServiceName];
         if(!transceiver)
         {
             qWarning()<<QString("Transceiver " + asServiceName + " was not found");
             return;
         }
-        emit transceiver->toDataSignal(args);
+        transceiver->replyToClient(args);
     });
-
 }
 
 void DapServiceController::addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService)
@@ -114,8 +95,6 @@ void DapServiceController::addService(const QString& name, const QString& signal
         qWarning()<<QString("service with name " + name + " already exist");
         return;
     }
-
-    commandService->setRegularController(m_reqularRequestsCtrl);
 
     connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant reply)
     {
@@ -157,7 +136,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapMoveWalletCommand,                 QObject*>("DapMoveWalletCommand",                      "moveWalletCommandReceived",             nullptr);
     addServiceGeneric<DapCreatePassForWallet,               QObject*>("DapCreatePassForWallet",                    "passwordCreated",                       nullptr);
     addServiceGeneric<DapWalletActivateOrDeactivateCommand, QObject*>("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",          nullptr);
-//    addServiceGeneric<DapGetWalletAddressesCommand,         QObject*>("DapGetWalletAddressesCommand",              "walletAddressesReceived",               nullptr);
+    addServiceGeneric<DapGetWalletAddressCommand,           QObject*>("DapGetWalletAddressCommand",                "walletAddressReceived",                 nullptr);
 //    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
 //    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
 
@@ -203,6 +182,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapCreateTransactionCommandStack,     QObject*>("DapCreateTransactionCommand",               "transactionCreated",                    nullptr);
     addServiceGeneric<DapTXCondCreateCommandStack,          QObject*>("DapTXCondCreateCommand",                    "rcvTXCondCreateCommand",                nullptr);
     addServiceGeneric<DapGetFeeCommand,                     QObject*>("DapGetFeeCommand",                          "rcvFee",                                nullptr);
+    addServiceGeneric<DapCreateTxCommand,                   QObject*>("DapCreateTxCommand",                        "rcvTxCreated",                          nullptr);
 
     /*Node*/
     addServiceGeneric<DapNodeRestart,                       QObject*>("DapNodeRestart",                            "nodeRestart",                           nullptr);
@@ -232,7 +212,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapCertificateManagerCommands,        QObject*>("DapCertificateManagerCommands",             "certificateManagerOperationResult",     nullptr);
 
     /*History*/
-    addServiceGeneric<DapGetAllWalletHistoryCommand,        QObject*>("DapGetAllWalletHistoryCommand",             "allWalletHistoryReceived",              nullptr);
+    addServiceGeneric<DapGetWalletHistoryCommand,           QObject*>("DapGetWalletHistoryCommand",                "allWalletHistoryReceived",              nullptr);
 
     /*Other*/
     addServiceGeneric<DapExportLogCommand,                  QObject*>("DapExportLogCommand",                       "exportLogs",                            nullptr);
@@ -242,17 +222,14 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapGetListKeysCommand,                QObject*>("DapGetListKeysCommand",                     "rcvGetListKeysCommand",                 nullptr);
     addServiceGeneric<DapLedgerTxHashCommand,               QObject*>("DapLedgerTxHashCommand",                    "rcvLedgerTxHashCommand",                nullptr);
     addServiceGeneric<DapGetServiceLimitsCommand,           QObject*>("DapGetServiceLimitsCommand",                "rcvGetServiceLimitsCommand",            nullptr);
-
-    addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      m_pServer);
-    addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               m_pServer);
-    addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  m_pServer);
-    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapHistoryServiceInitCommand",              "historyServiceInitRcv",                 m_pServer);
-    addServiceGeneric<DapServiceInitCommand,                QObject*>("DapWalletServiceInitCommand",               "walletsServiceInitRcv",                 m_pServer);
-    addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       m_pServer);
+    addServiceGeneric<DapQuitApplicationCommand,            QObject*>("DapQuitApplicationCommand",                 "",                                      nullptr);
+    addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               nullptr);
+    addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  nullptr);
+    addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       nullptr);
     addServiceGeneric<DapUpdateLogsCommand,                 QObject *, QString> ("DapUpdateLogsCommand",                    "logUpdated",                   nullptr, LOG_FILE);
     addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
     addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, CMD_HISTORY);
-    
+
     connect(this, &DapServiceController::tokensListReceived, [this] (const QVariant& tokensResult)
     {
         if(!tokensResult.isValid())
@@ -308,7 +285,7 @@ void DapServiceController::initAdditionalParamrtrsService()
         return;
     }
 
-    connect(this, &DapServiceController::onServiceStarted, controller, &DapTransactionQueueController::onInit);
+    // connect(this, &DapServiceController::onServiceStarted, controller, &DapTransactionQueueController::onInit);
 
     if(m_transceivers.contains("MempoolCheckCommand"))
     {
@@ -333,13 +310,13 @@ void DapServiceController::initAdditionalParamrtrsService()
         DapGetWalletInfoCommand* command = dynamic_cast<DapGetWalletInfoCommand*>(m_transceivers["DapGetWalletInfoCommand"]);
         connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletInfoCommand::queueDataUpdate);
     }
-    if(m_transceivers.contains("DapGetAllWalletHistoryCommand"))
+    if(m_transceivers.contains("DapGetWalletHistoryCommand"))
     {
-        DapGetAllWalletHistoryCommand* command = dynamic_cast<DapGetAllWalletHistoryCommand*>(m_transceivers["DapGetAllWalletHistoryCommand"]);
-        connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetAllWalletHistoryCommand::queueDataUpdate);
-        connect(controller, &DapTransactionQueueController::newTransactionAdded, command, &DapGetAllWalletHistoryCommand::transactionFromQueudAdded);
-        connect(command, &DapGetAllWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
-        connect(command, &DapGetAllWalletHistoryCommand::transactionMoved,  controller, &DapTransactionQueueController::updateInfoTransaction);
+        DapGetWalletHistoryCommand* command = dynamic_cast<DapGetWalletHistoryCommand*>(m_transceivers["DapGetWalletHistoryCommand"]);
+        connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetWalletHistoryCommand::queueDataUpdate);
+        connect(controller, &DapTransactionQueueController::newTransactionAdded, command, &DapGetWalletHistoryCommand::transactionFromQueudAdded);
+        connect(command, &DapGetWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
+        connect(command, &DapGetWalletHistoryCommand::transactionMoved,  controller, &DapTransactionQueueController::updateInfoTransaction);
     }
 }
 

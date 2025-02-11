@@ -225,6 +225,6 @@ Rectangle {
             network_array += model.get(i).name + ":"
             network_array += name + "/"
         }
-        logicMainApp.requestToService("DapGetAllWalletHistoryCommand", network_array, update ? "true": "false", "false");
+        // logicMainApp.requestToService("DapGetWalletHistoryCommand", network_array, update ? "true": "false", "false");
     }
 }

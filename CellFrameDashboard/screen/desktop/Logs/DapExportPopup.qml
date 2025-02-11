@@ -25,8 +25,7 @@ DapMessagePopup {
     ListModel{
         id: logsModel
         ListElement{name: qsTr("Cellframe node logs")}
-        ListElement{name: qsTr("Dashboard service logs")}
-        ListElement{name: qsTr("Dashboard GUI logs")}
+        ListElement{name: qsTr("Dashboard logs")}
     }
 
     contentItem: Item{

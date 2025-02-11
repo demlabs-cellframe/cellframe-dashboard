@@ -17,7 +17,6 @@ static LogModel *s_logModel = LogModel::global();
 
 DapModuleLog::DapModuleLog(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_logReader(new DapLogsReader(this))
     , m_timerCheckLogFile(new QTimer())
 //    , nodeLog(getNodeLogPath(), "cellframe-node", false)
@@ -116,8 +115,8 @@ void DapModuleLog::selectLog(const QString &name)
 
     if (name == "Node")
         m_configLog.first = LogType::NodeLog;
-    if (name == "Service")
-        m_configLog.first = LogType::ServiceLog;
+//    if (name == "Service")
+//        m_configLog.first = LogType::ServiceLog;
     if (name == "GUI")
         m_configLog.first = LogType::GuiLog;
 

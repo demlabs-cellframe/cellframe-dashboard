@@ -288,6 +288,7 @@ ColumnLayout
         Layout.fillWidth: true
         height: 30
         color: currTheme.mainBackground
+        visible: app.getNodeMode() === 0
 
         Text
         {
@@ -312,6 +313,7 @@ ColumnLayout
         model: modelMenuTabStates
         clip: true
         delegate: delegateList
+        visible: app.getNodeMode() === 0
     }
 
     Item {

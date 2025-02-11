@@ -21,13 +21,14 @@
 #include "DapLogHandler.h"
 
 #include "DapApplication.h"
+#include "DapGuiApplication.h"
 #include "systemtray.h"
 #include "resizeimageprovider.h"
 #include "windowframerect.h"
 #include "DapLogger.h"
 #include "DapLogHandler.h"
 
-#include "DapNodePathManager.h"
+#include "node_globals/NodeGlobals.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -132,13 +133,6 @@ int MIN_HEIGHT = 720;
 int DEFAULT_WIDTH = 1280;
 int DEFAULT_HEIGHT = 720;
 
-//#ifdef Q_OS_MAC
-//const int USING_NOTIFY = 0;
-//#else
-//const int USING_NOTIFY = 1;
-//#endif
-
-
 const int USING_NOTIFY = 0;
 
 QByteArray scaleCalculate(int argc, char *argv[])
@@ -154,8 +148,8 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     QApplication *temp = new QApplication(argc2, argv2);
 
-    int maxWidth = DapApplication::primaryScreen()->availableGeometry().width();
-    int maxHeight = DapApplication::primaryScreen()->availableGeometry().height();
+    int maxWidth = temp->primaryScreen()->availableGeometry().width();
+    int maxHeight = temp->primaryScreen()->availableGeometry().height();
 
     qDebug()<<"maxWidth" << maxWidth << "maxHeight" << maxHeight;
 
@@ -182,14 +176,14 @@ QByteArray scaleCalculate(int argc, char *argv[])
     temp->quit();
     delete temp;
 
-    qDebug() << "window_scale" << QString::number(scale, 'f', 1).toDouble();
-
     for(int i=0; i<argc; ++i)
     {
         delete [] argv2[i];
     }
 
     delete [] argv2;
+
+    qDebug() << "window_scale" << QString::number(scale, 'f', 1).toDouble();
 
     return QString::number(scale, 'f', 1).toLocal8Bit();
 }
@@ -209,21 +203,25 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("cellframe.net");
     QCoreApplication::setApplicationName(DAP_BRAND);
 
+    DapApplication mainApp = new DapApplication();
+
     if (!SingleApplicationTest(DAP_BRAND))
         return 1;
 
     dap_log_set_external_output (LOGGER_OUTPUT_STDOUT, nullptr);
     new DapLogger (QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
-
+    int countRestart = -1;
     int result = RESTART_CODE;
     while (result == RESTART_CODE)
     {
         /// CHANGE SKIN - BEGIN TEMPORARY CODE
         auto projectSkin = QSettings().value("project_skin", "").toString();
 
+        countRestart++;
+
         if(projectSkin.isEmpty()) QSettings().setValue("project_skin", "dashboard");
         bool walletSkin = projectSkin == "wallet";
-        walletSkin = false; // TODO: BLOCKED WALLET SKIN
+/*---*/ walletSkin = false; // TODO: BLOCKED WALLET SKIN
         if(walletSkin)
         {
             qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
@@ -237,7 +235,9 @@ int main(int argc, char *argv[])
 
         qDebug() << "New app start";
         qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
-        DapApplication * app = new DapApplication(argc, argv);
+        DapGuiApplication * app = new DapGuiApplication(argc, argv);
+        mainApp.setCountRestart(countRestart);
+        mainApp.setGuiApp(app);
 
         app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
@@ -278,10 +278,12 @@ int main(int argc, char *argv[])
             }, Qt::QueuedConnection);
 
         app->qmlEngine()->load(url);
-        DapNodePathManager::getInstance().checkNeedDownload();
         result = app->exec();
+        app->quit();
         delete app;
+        mainApp.clearData();
     }
+
 
     DapLogger::deleteLogger();
     return result;

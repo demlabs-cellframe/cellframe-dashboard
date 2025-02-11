@@ -238,9 +238,6 @@ Item {
                     console.log("An order with a hash is deleted " + hash + " in the " + network + " network")
                     dexModule.requestOrderDelete(network, hash, feeStruct.validator_fee, resultTokenName, amount)
                     hide()
-                    // logicMainApp.requestToService("DapRemoveWalletCommand", nameWallet)
-                    //
-                    // walletsControllerPopup.show()
                 }
             }
         }

@@ -14,18 +14,6 @@ DapBottomScreen{
     heightForm: 372
     header.text: tokenData.tokenName
 
-    Component.onCompleted:
-    {
-        walletModule.startUpdateFee()
-        console.log("Start update fee timer")
-    }
-
-    Component.onDestruction:
-    {
-        walletModule.stopUpdateFee()
-        console.log("Stop update fee timer")
-    }
-
     dataItem:
     ColumnLayout{
         anchors.fill: parent

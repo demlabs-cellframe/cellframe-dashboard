@@ -107,9 +107,8 @@ Item{
                 fontButton: mainFont.dapFont.medium14
                 onClicked:
                 {
-                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet, "deactivate")
-                    walletModule.getWalletsInfo("true")
-                    modulesController.updateListWallets()
+                    walletModule.activateOrDeactivateWallet(nameWallet, "deactivate")
+                    walletModule.updateWalletList()
                     buttonLock.enabled = false
                 }
             }
@@ -129,6 +128,7 @@ Item{
                                         8,
                                         qsTr("Wallet deactivated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
+                            walletModule.updateWalletInfo()
                             hide()
                         }
                         else

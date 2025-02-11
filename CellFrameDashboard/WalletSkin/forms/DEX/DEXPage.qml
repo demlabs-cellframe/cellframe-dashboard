@@ -169,15 +169,6 @@ Page {
 
         updatePriceTimer.start()
 
-//        logicMainApp.requestToService("DapGetXchangeTokenPriceAverage")
-
-//        logicMainApp.requestToService("DapGetXchangeTokenPriceHistory")
-
-//        logicMainApp.requestToService("DapGetXchangeOrdersList")
-
-//        logicMainApp.requestToService("DapXchangeOrderCreate")
-
-//        logicMainApp.requestToService("DapGetXchangeTxList")
     }
 
     Component.onDestruction:

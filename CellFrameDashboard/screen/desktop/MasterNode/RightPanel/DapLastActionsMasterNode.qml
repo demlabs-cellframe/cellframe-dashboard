@@ -79,7 +79,7 @@ DapRectangleLitAndShaded
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignHCenter
             spacing: 16
-            visible: walletModelList.count > 0 ? !txExplorerModule.statusInit : false
+            visible: walletModelList.count > 0 && networkModel.count ? !txExplorerModule.statusInit : false
 
             Item{Layout.fillHeight: true}
 
@@ -381,12 +381,8 @@ DapRectangleLitAndShaded
     {
         modelHistory.setNetworkFilter(nodeMasterModule.currentNetwork)
         modelHistory.setLastActions(true)
-        if (walletModule.currentWalletIndex >=0 &&
-            walletModule.currentWalletIndex < walletModelList.count &&
-            modulesController.currentWalletName !== txExplorerModule.walletName)
-            txExplorerModule.setWalletName(modulesController.currentWalletName)
         lastHistoryLength = 0
-        txExplorerModule.updateHistory(true)
+        // txExplorerModule.updateHistory(true)
     }
 
     Component.onDestruction:

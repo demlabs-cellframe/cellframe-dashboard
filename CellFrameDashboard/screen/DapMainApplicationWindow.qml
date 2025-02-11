@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
-import VPNOrdersController 1.0
+// import VPNOrdersController 1.0
 
 import "qrc:/screen"
 import "qrc:/widgets"
@@ -185,6 +185,13 @@ Rectangle {
         z: 10
     }
 
+    DapFirstSelectMode{
+        id: firstSelectNodeModePopup
+        anchors.fill: parent
+        visible: false
+        z: 20
+    }
+
     property alias infoItem: popupInfo
 
     signal menuTabChanged()
@@ -205,10 +212,11 @@ Rectangle {
     signal checkWebRequest()
     signal openRequests()
 
-    VPNOrdersController
-    {
-        id: vpnOrdersController
-    }
+    /// TODO Restore when you need the VPN tab. Fix the QNetworkAccessManager crash
+    // VPNOrdersController
+    // {
+    //     id: vpnOrdersController
+    // }
 
 
 
@@ -301,48 +309,83 @@ Rectangle {
 
         Component.onCompleted:
         {
-        append ({ tag: "Wallet",
-            name: qsTr("Wallet"),
-            bttnIco: "icon_wallet.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
-//        append ({ tag: "DEX",
-//            name: qsTr("DEX Alpha"),
-//            bttnIco: "icon_exchange.svg",
-//            showTab: true,
-//            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
-        append ({ tag: "DEX",
-            name: qsTr("DEX"),
-            bttnIco: "icon_exchange.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
-//        append ({ tag: "DEX",
-//            name: qsTr("DEX"),
-//            bttnIco: "icon_exchange.svg",
-//            showTab: true,
-//            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+            append ({ tag: "Wallet",
+                name: qsTr("Wallet"),
+                bttnIco: "icon_wallet.svg",
+                showTab: true,
+                page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
 
+            append ({ tag: "DEX",
+                name: qsTr("DEX Beta"),
+                bttnIco: "icon_exchange.svg",
+                showTab: true,
+                page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
 
-        append ({ tag: "TX explorer",
-            name: qsTr("TX explorer"),
-            bttnIco: "icon_history.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
-        append ({ tag: "Certificates",
-            name: qsTr("Certificates"),
-            bttnIco: "icon_certificates.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Certificates/DapCertificateTab.qml"})
-        append ({ tag: "Tokens",
-            name: qsTr("Tokens"),
-            bttnIco: "icon_tokens.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
-        append ({ tag: "Orders",
-            name: qsTr("Orders"),
-            bttnIco: "icon_vpn_service.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop//Orders/DapOrdersTab.qml"})
+            append ({ tag: "TX explorer",
+                name: qsTr("TX explorer"),
+                bttnIco: "icon_history.svg",
+                showTab: true,
+                page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
+
+            if(app.getNodeMode() === 0) //LOCAL MODE
+            {
+
+                append ({ tag: "Certificates",
+                    name: qsTr("Certificates"),
+                    bttnIco: "icon_certificates.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop/Certificates/DapCertificateTab.qml"})
+
+                append ({ tag: "Tokens",
+                    name: qsTr("Tokens"),
+                    bttnIco: "icon_tokens.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
+
+                append ({ tag: "Orders",
+                    name: qsTr("Orders"),
+                    bttnIco: "icon_vpn_service.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop//Orders/DapOrdersTab.qml"})
+
+                append ({ tag: "Console",
+                    name: qsTr("Console"),
+                    bttnIco: "icon_console.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop/Console/DapConsoleTab.qml"})
+
+                append ({ tag: "Logs",
+                    name: qsTr("Logs"),
+                    bttnIco: "icon_logs.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
+
+                append ({ tag: "Master Node",
+                    name: qsTr("Master Node"),
+                    bttnIco: "icon_master_node.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
+
+                append ({ tag: "dApps",
+                    name: qsTr("dApps"),
+                    bttnIco: "icon_daaps.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
+
+                append ({ tag: "Diagnostics",
+                    name: qsTr("Diagnostics"),
+                    bttnIco: "icon_settings.svg",
+                    showTab: true,
+                    page: "qrc:/screen/desktop/Diagnostic/DapDiagnosticTab.qml"})
+
+            }
+
+            append ({ tag: "Settings",
+                name: qsTr("Settings"),
+                bttnIco: "icon_settings.svg",
+                showTab: true,
+                page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
+
 //        append ({ tag: "VPN client",
 //            name: qsTr("VPN client"),
 //            bttnIco: "icon_vpn_client.svg",
@@ -353,38 +396,6 @@ Rectangle {
 //            bttnIco: "icon_vpn_service.svg",
 //            showTab: true,
 //            page: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"})
-        append ({ tag: "Console",
-            name: qsTr("Console"),
-            bttnIco: "icon_console.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Console/DapConsoleTab.qml"})
-        append ({ tag: "Logs",
-            name: qsTr("Logs"),
-            bttnIco: "icon_logs.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
-
-       append ({ tag: "Master Node",
-            name: qsTr("Master Node"),
-            bttnIco: "icon_master_node.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/MasterNode/DapMasterNodeTab.qml"})
-
-        append ({ tag: "Settings",
-            name: qsTr("Settings"),
-            bttnIco: "icon_settings.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
-        append ({ tag: "dApps",
-            name: qsTr("dApps"),
-            bttnIco: "icon_daaps.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
-        append ({ tag: "Diagnostics",
-            name: qsTr("Diagnostics"),
-            bttnIco: "icon_settings.svg",
-            showTab: true,
-            page: "qrc:/screen/desktop/Diagnostic/DapDiagnosticTab.qml"})
 
 //            FOR DEBUG
 //        append ({ tag: "Plugin",
@@ -652,46 +663,14 @@ Rectangle {
 
     Component.onCompleted:
     {
-//        console.log("Component.onCompleted", "modelLanguages", modelLanguages)
+        if(!app.getDontShowNodeModeFlag())
+            firstSelectNodeModePopup.show()
 
-//        translator.setLanguage("ru")
-//        dapServiceController.requestToService("DapGetNetworksStateCommand")
-//        logicMainApp.requestToService("DapVersionController", "version")
-
-//        var timeTo = 10
-//        var timeFrom = 20
-//        var addr = "abcd"
-//        var net = "private"
-
-//        candleChartWorker.resetPriceData(0.0,"0.0", true)
-//        orderBookWorker.resetBookModel()
-//        //-------//OrdersHistory
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
-//        //-------//CreateOrder
-//        var tokenSell = "sell"
-//        var tokenBuy = "buy"
-//        var wallet = "tokenWallet"
-//        var coins = 100000
-//        var rate = 1
-//        dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
-        //------//GetOrdersList
-//        dapServiceController.requestToService("DapGetXchangeOrdersList")
-
-        //-------//TokenPair
-//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
-//        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
-
-        dAppsModule.getListPlugins();
+        if(app.getNodeMode() === 0) //local
+            dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
-
-//        for(var i = 0; i < 50; i++)
-//            dapServiceController.requestToService("DapWebConnectRequest", "1")
     }
 
     Connections
@@ -700,10 +679,14 @@ Rectangle {
 
         function onSigVersionInfo(versionResult)
         {
-            if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(settingsModule.dashboardVersion, versionResult)
+            var jsonDocument = JSON.parse(versionResult)
+
+            if(jsonDocument.hasUpdate && jsonDocument.message === "Reply version")
+                logicMainApp.rcvNewVersion(settingsModule.dashboardVersion, jsonDocument)
+            else if(!jsonDocument.hasUpdate && jsonDocument.message === "Reply version")
+                console.log("You have the latest version installed. Current version: ", settingsModule.dashboardVersion)
             else
-                console.log("The version value cannot be retrieved. Reply: ", versionResult.message)
+                console.log("The version value cannot be retrieved. Reply: ", jsonDocument.message)
         }
     }
 
@@ -736,8 +719,6 @@ Rectangle {
     {
         target: dapServiceController
 
-        function onSignalStateSocket(status) {logicMainApp.rcvStateNotify(status)}
-
         function onTransactionRemoved(rcvData)
         {
             var jsonDocument = JSON.parse(rcvData)
@@ -767,13 +748,8 @@ Rectangle {
         {
             logicMainApp.rcvWebConnectRequest(site, index)
         }
-
-        function onSignalXchangeOrderListReceived(rcvData)
-        {
-            console.log("onSignalXchangeOrderListReceived")
-            logicMainApp.rcvOpenOrders(rcvData)
-        }
     }
+
     Connections{
         target: dAppsModule
         function onRcvListPlugins(m_pluginsList)
@@ -788,7 +764,7 @@ Rectangle {
     }
 
     Connections{
-        target: nodePathManager
+        target: settingsModule
         function onSignalIsNeedInstallNode(isNeed, url)
         {
             console.log("onSignalIsNeedInstallNode", isNeed, url)
@@ -799,15 +775,10 @@ Rectangle {
                 openPopupUpdateNode()
             }
         }
-    }
 
-    Connections
-    {
-        target: settingsModule
         function onNeedNodeUpdateSignal()
         {
             openPopupUpdateNode()
-            
         }
     }
 

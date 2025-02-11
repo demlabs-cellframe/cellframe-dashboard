@@ -44,6 +44,18 @@ DapRectangleLitAndShaded
                 color: currTheme.white
                 text: qsTr("Last actions")
             }
+
+            DapUpdateButton
+            {
+                visible: app.getNodeMode()
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 8
+                onClickUpdate: {
+                    txExplorerModule.updateHistory()
+                    console.log("Update history")
+                }
+            }
         }
 
         ColumnLayout{
@@ -51,7 +63,7 @@ DapRectangleLitAndShaded
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignHCenter
             spacing: 16
-            visible: walletModelList.count > 0 ? !txExplorerModule.statusInit : false
+            visible: walletModelList.count > 0  && networkModel.count ? !txExplorerModule.statusInit : false
 
             Item{Layout.fillHeight: true}
 

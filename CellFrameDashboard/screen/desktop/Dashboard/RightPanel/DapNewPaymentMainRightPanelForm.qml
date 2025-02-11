@@ -27,7 +27,6 @@ DapRectangleLitAndShaded
 
     property alias dapChainGroup: chainGroup
 
-
     property alias dapComboBoxToken: comboboxToken
 
     property alias dapFrameAmountPayment: frameAmountPayment
@@ -41,6 +40,8 @@ DapRectangleLitAndShaded
 
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
+
+    property alias loadIndicator: loadIndicator
 
     property alias balance: balance
 
@@ -150,11 +151,6 @@ DapRectangleLitAndShaded
                     model: walletModelInfo
                     defaultText: qsTr("Networks")
 
-                    Component.onCompleted:
-                    {
-                        walletModule.getComission(displayText)
-                    }
-
                     onCurrantDisplayTextChanged:
                     {
                         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
@@ -260,6 +256,8 @@ DapRectangleLitAndShaded
 
         ColumnLayout
         {
+            property bool percentIsSelected: false
+
             id: frameInputAmountPayment
             Layout.fillWidth: true
             Layout.margins: 10 
@@ -293,6 +291,20 @@ DapRectangleLitAndShaded
                     borderWidth: 1
                     borderRadius: 4
                     selectByMouse: true
+
+                    onTextChanged: {
+                        if(frameInputAmountPayment.percentIsSelected)
+                            frameInputAmountPayment.percentIsSelected = false
+                        else
+                        {
+                            button25.selected = false
+                            button50.selected = false
+                            button75.selected = false
+                            button100.selected = false
+                        }
+                    }
+
+
                     DapContextMenu{}
                 }
 
@@ -316,10 +328,7 @@ DapRectangleLitAndShaded
                         font: mainFont.dapFont.regular16
 
                         onCurrentTextChanged: {
-                            button25.selected = false
-                            button50.selected = false
-                            button75.selected = false
-                            button100.selected = false
+                            textInputAmountPayment.text = ""
                         }
                     }
                 }
@@ -343,6 +352,12 @@ DapRectangleLitAndShaded
                     selected: false
                     onClicked:
                     {
+                        if(button25.selected)
+                        {
+                            textInputAmountPayment.text = ""
+                            return
+                        }
+
                         button25.selected = true
                         button50.selected = false
                         button75.selected = false
@@ -350,11 +365,12 @@ DapRectangleLitAndShaded
 
                         var data = {
                         "network"      : dapComboboxNetwork.displayText,
-                        "percent"      : 25,
-                        "send_ticker"   : dapComboBoxToken.displayText,
+                        "percent"      : "0.25",
+                        "send_ticker"  : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
                         var res = walletModule.calculatePrecentAmount(data);
+                        frameInputAmountPayment.percentIsSelected = true
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
@@ -372,6 +388,11 @@ DapRectangleLitAndShaded
                     selected: false
                     onClicked:
                     {
+                        if(button50.selected)
+                        {
+                            textInputAmountPayment.text = ""
+                            return
+                        }
                         button25.selected = false
                         button50.selected = true
                         button75.selected = false
@@ -379,11 +400,12 @@ DapRectangleLitAndShaded
 
                         var data = {
                         "network"      : dapComboboxNetwork.displayText,
-                        "percent"      : 50,
+                        "percent"      : "0.5",
                         "send_ticker"   : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
                         var res = walletModule.calculatePrecentAmount(data);
+                        frameInputAmountPayment.percentIsSelected = true
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
@@ -401,6 +423,11 @@ DapRectangleLitAndShaded
                     selected: false
                     onClicked:
                     {
+                        if(button75.selected)
+                        {
+                            textInputAmountPayment.text = ""
+                            return
+                        }
                         button25.selected = false
                         button50.selected = false
                         button75.selected = true
@@ -408,11 +435,12 @@ DapRectangleLitAndShaded
 
                         var data = {
                         "network"      : dapComboboxNetwork.displayText,
-                        "percent"      : 75,
+                        "percent"      : "0.75",
                         "send_ticker"   : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
                         var res = walletModule.calculatePrecentAmount(data);
+                        frameInputAmountPayment.percentIsSelected = true
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
@@ -430,6 +458,12 @@ DapRectangleLitAndShaded
                     selected: false
                     onClicked:
                     {
+                        if(button100.selected)
+                        {
+                            textInputAmountPayment.text = ""
+                            return
+                        }
+
                         button25.selected = false
                         button50.selected = false
                         button75.selected = false
@@ -437,11 +471,12 @@ DapRectangleLitAndShaded
 
                         var data = {
                         "network"      : dapComboboxNetwork.displayText,
-                        "percent"      : 100,
+                        "percent"      : "1.0",
                         "send_ticker"   : dapComboBoxToken.displayText,
                         "wallet_name"  : walletInfo.name}
 
                         var res = walletModule.calculatePrecentAmount(data);
+                        frameInputAmountPayment.percentIsSelected = true
                         textInputAmountPayment.text = res
                         textInputAmountPayment.cursorPosition = 0
                     }
@@ -534,6 +569,19 @@ DapRectangleLitAndShaded
             visible: false
         }
 
+        DapLoadIndicator {
+            id: loadIndicator
+            Layout.alignment: Qt.AlignHCenter
+
+            Layout.bottomMargin: 20
+
+            indicatorSize: 32
+            countElements: 6
+            elementSize: 5
+
+            running: true
+        }
+
         // Button "Send"
         DapButton
         {
@@ -599,8 +647,6 @@ DapRectangleLitAndShaded
                 textNotEnoughTokensWarning.visible = true
                 buttonSend.visible = true
             }
-            if(comboboxNetwork.displayText !== "")
-                walletModule.getComission(dapComboboxNetwork.displayText)
 
             balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                                  + " " + dapComboBoxToken.displayText

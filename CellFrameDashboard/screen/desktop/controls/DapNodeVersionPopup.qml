@@ -52,7 +52,7 @@ DapMessagePopup {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.horizontalCenter: parent.horizontalCenter
+//            anchors.verticalCenter: parent.verticalCenter
             anchors.topMargin: 32
             anchors.leftMargin: 32
             anchors.rightMargin: 32

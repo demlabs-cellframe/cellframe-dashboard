@@ -553,9 +553,14 @@ ColumnLayout {
 
     function setStatusCreateButton(total_value, price_value)
     {
-        if(price_value === "0.0" || total_value === "0.0" || total_value === "" || price_value === "")
+        if(app.getNodeMode() || !modulesController.isNodeWorking)
             return false
 
+
+        if(price_value === "0.0" || total_value === "0.0" || total_value === "" || price_value === "")
+        {
+            return false
+        }
         return true
     }
     

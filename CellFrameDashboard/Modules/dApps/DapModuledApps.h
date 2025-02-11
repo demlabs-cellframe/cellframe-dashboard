@@ -75,8 +75,7 @@ private:
     QTime m_timeRecord;
     QString m_speed, m_time;
 
-    DapModulesController  *m_modulesCtrl;
-    DapDappsNetworkManager * m_dapNetworkManager;
+    DapDappsNetworkManager * m_dapNetworkManager = nullptr;
 };
 
 #endif // DAPMODULEDAPPS_H

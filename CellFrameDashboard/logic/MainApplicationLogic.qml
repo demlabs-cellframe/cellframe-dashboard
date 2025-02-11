@@ -451,24 +451,11 @@ QtObject {
     function updateDashboard()
     {
         Qt.openUrlExternally(urlDownload);
-//        dapServiceController.requestToService("DapVersionController", "update")
-//        updatingDashboard("The update process has started.")
     }
 
     function updateNode()
     {
-//        dapServiceController.requestToService("DapVersionController", "update")
-//        updatingDashboard("The update process has started.")
     }
-
-//    function updatingDashboard(message)
-//    {
-//        messagePopupVersion.dapButtonCancel.visible = false
-//        messagePopupVersion.dapButtonOk.textButton = "Ok"
-//        messagePopupVersion.smartOpen("New version", qsTr(message))
-
-//        delay(5000,function() {Qt.quit()} )
-//    }
 
     function delay(delayTime, cb) {
         timer.interval = delayTime;

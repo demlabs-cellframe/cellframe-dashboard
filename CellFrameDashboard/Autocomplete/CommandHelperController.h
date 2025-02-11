@@ -10,7 +10,7 @@ class CommandHelperController : public QObject
 {
     Q_OBJECT
 public:
-    explicit CommandHelperController(QObject *parent = nullptr);
+    explicit CommandHelperController(DapServiceController *serviceController, QObject *parent = nullptr);
     ~CommandHelperController();
 
     bool isDictionary();
@@ -24,7 +24,7 @@ signals:
 
 public slots:
     void tryListGetting(const QString& text, int cursorPosition);
-    void tryDataUpdate();
+    // void tryDataUpdate();
 private:
     DapServiceController  *s_serviceCtrl;
     HelpDictionaryController* m_helpController = nullptr;

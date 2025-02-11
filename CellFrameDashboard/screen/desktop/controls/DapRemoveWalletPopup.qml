@@ -147,9 +147,10 @@ Item {
                     enabled: checkBox.isChecked
                     onClicked:
                     {
-                        logicMainApp.requestToService("DapRemoveWalletCommand", nameWallet)
+                        walletModule.removeWallet([nameWallet]);
+                        walletModule.updateWalletList()
                         hide()
-                        walletsControllerPopup.show()
+//                        walletsControllerPopup.show()
                     }
                 }
             }

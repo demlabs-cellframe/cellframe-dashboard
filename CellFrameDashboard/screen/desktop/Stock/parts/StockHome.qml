@@ -52,13 +52,15 @@ Item
 
         function onRcvXchangeCreate(rcvData)
         {
-            logicStock.resultCreate = rcvData
+            var jsonDoc = JSON.parse(rcvData)
+            logicStock.resultCreate = jsonDoc.result
             goToDoneCreate()
         }
 
         function onRcvXchangeOrderPurchase(rcvData)
         {
-            logicStock.resultCreate = rcvData
+            var jsonDoc = JSON.parse(rcvData)
+            logicStock.resultCreate = jsonDoc.result
             goToDoneCreate()
         }
     }
@@ -121,7 +123,7 @@ Item
 
                 DapButton
                 {
-                    enabled: !modulesController.isNodeWorking ? false : walletModule.balanceDEX ? true : false
+                    enabled: !modulesController.isNodeWorking ? false : dexModule.balance ? true : false
                     id: createOrderButton
                     Layout.fillWidth: visible
                     implicitHeight: 36

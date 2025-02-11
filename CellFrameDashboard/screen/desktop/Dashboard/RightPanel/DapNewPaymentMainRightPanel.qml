@@ -4,7 +4,9 @@ DapNewPaymentMainRightPanelForm
 {
     Component.onCompleted:
     {
-        walletModule.timerUpdateFlag(false);
+        loadIndicator.running = false
+        dapButtonSend.enabled = true
+
         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
@@ -12,7 +14,6 @@ DapNewPaymentMainRightPanelForm
             dapChainGroup.visible = false
 
         dapTextNotEnoughTokensWarning.text = ""
-        walletModule.startUpdateFee()
         balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                          + " " + dapComboBoxToken.displayText
 
@@ -27,7 +28,6 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         txExplorerModule.statusProcessing = true
-        walletModule.timerUpdateFlag(true);
         pop()
     }
 
@@ -77,6 +77,7 @@ DapNewPaymentMainRightPanelForm
                 }
                 else
                 {
+                    dapTextNotEnoughTokensWarning.text = ""
                     var data = {
                     "network"      : dapComboboxNetwork.displayText,
                     "amount"       : dapTextInputAmountPayment.text,
@@ -89,7 +90,6 @@ DapNewPaymentMainRightPanelForm
                     case 0:
                         console.log("Correct tx data")
                         console.log("dapWalletMessagePopup.smartOpen")
-                        walletModule.stopUpdateFee()
                         dapWalletMessagePopup.network = dapComboboxNetwork.displayText
                         dapWalletMessagePopup.smartOpen(
                                     qsTr("Confirming the transaction"),
@@ -128,12 +128,6 @@ DapNewPaymentMainRightPanelForm
         }
     }
 
-    Component.onDestruction:
-    {
-        console.log("The right panel for transferring funds was closed")
-        walletModule.stopUpdateFee()
-    }
-
     dapWalletMessagePopup.onSignalAccept:
     {
         console.log("dapWalletMessagePopup.onSignalAccept", accept)
@@ -144,18 +138,14 @@ DapNewPaymentMainRightPanelForm
             //create tx
 
             var dataTx = {
-            "network"      : dapComboboxNetwork.displayText,
-            "amount"       : dapTextInputAmountPayment.text,
-            "send_ticker"  : dapComboBoxToken.displayText,
-            "wallet_from"  : walletInfo.name,
-            "wallet_to"    : dapTextInputRecipientWalletAddress.text}
+            "network"           : dapComboboxNetwork.displayText,
+            "amount"            : dapTextInputAmountPayment.text,
+            "send_ticker"       : dapComboBoxToken.displayText,
+            "wallet_from"       : walletInfo.name,
+            "wallet_to"         : dapTextInputRecipientWalletAddress.text}
 
             console.info(dataTx)
             walletModule.sendTx(dataTx)
-        }
-        else
-        {
-            walletModule.startUpdateFee()
         }
     }
 
@@ -165,7 +155,6 @@ DapNewPaymentMainRightPanelForm
         function onSigTxCreate(aResult)
         {
             commandResult = aResult
-            walletModule.timerUpdateFlag(true);
             if(aResult.toQueue)
             {
                 navigator.toQueueNewPayment()
@@ -174,6 +163,9 @@ DapNewPaymentMainRightPanelForm
             {
                 navigator.doneNewPayment()
             }
+
+            loadIndicator.running = false
+            dapButtonSend.enabled = true
         }
 
         function onTokenModelChanged()

@@ -152,11 +152,17 @@ public:
     Q_INVOKABLE bool updateNetworksInfo(const QVariant& networksStateList);
 
     /// add new item to the end
-    Q_INVOKABLE int add (const NetworkInfo &a_item);
+    Q_INVOKABLE int add(const NetworkInfo &a_item);
+
+    void updateModel(const NetworkInfo &a_item);
+
+    void updateListModel(const QStringList& netList);
+
     /// add new item in the middle of the list
-    Q_INVOKABLE void insert(int a_index, const DapNetworkModel::Item &a_item);
-    /// remove one item
-    Q_INVOKABLE void remove (int a_index);
+    void insert(int a_index, const DapNetworkModel::Item &a_item);
+    /// remove items
+    void remove (int a_index);
+    void remove(const QStringList& list);
     /// find item with the same name and return it's index. otherwise returns -1
     Q_INVOKABLE int indexOf (const DapNetworkModel::Item &a_item) const;
 

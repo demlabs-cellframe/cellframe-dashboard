@@ -1,13 +1,11 @@
 #ifndef DAPAPPLICATION_H
 #define DAPAPPLICATION_H
 
-#include <QApplication>
-#include <QQmlContext>
-#include <QQmlApplicationEngine>
-#include <QIcon>
-#include <QClipboard>
 #include <iostream>
 
+#include <QQmlApplicationEngine>
+
+#include "DapGuiApplication.h"
 #include "quickcontrols/qrcodequickitem.h"
 #include "dapvpnorderscontroller.h"
 
@@ -16,48 +14,61 @@
 #include "mobile/QMLClipboard.h"
 #include "Autocomplete/CommandHelperController.h"
 
-#include "Translator/qmltranslator.h"
-
 #include "CellframeNodeQmlWrapper.h"
-#include "DapNodePathManager.h"
 #include "NotifyController/DapNotifyController.h"
+
+#include "node_globals/NodeGlobals.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #endif
 
-class DapApplication : public QApplication
+class DapApplication : public QObject
 {
     Q_OBJECT
 
 public:
-    DapApplication(int &argc, char **argv);
-
+    DapApplication(QObject *parent = nullptr);
     ~DapApplication();
 
     QQmlApplicationEngine *qmlEngine();
 
     Q_INVOKABLE void setClipboardText(const QString &text);
     Q_INVOKABLE void startService();
-
     Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
 
-    DapModulesController *s_modulesInit;
+    Q_INVOKABLE void setRPCAddress(QString address);
+    Q_INVOKABLE QString getRPCAddress(){return QString::fromStdString(DapNodeMode::getRPCAddress());}
+    Q_INVOKABLE void resetRPCAddress();
+    Q_INVOKABLE void setNodeMode(int mode);
+    Q_INVOKABLE int getNodeMode(){return (int)DapNodeMode::getNodeMode();}
+    Q_INVOKABLE void setDontShowNodeModeFlag(bool isDontShow);
+    Q_INVOKABLE bool getDontShowNodeModeFlag(){return m_dontShowNodeModeFlag;}
+
+    void setGuiApp(DapGuiApplication *guiApp);
+    void clearData();
+    void setCountRestart(int count) { m_countRestart = count; }
 
 private:
     void setContextProperties();
     void registerQmlTypes();
 
-    CommandHelperController* m_commandHelper = nullptr;
+    void createPaths();
 
-    QQmlApplicationEngine m_engine;
-    DapServiceController* m_serviceController;
-    CellframeNodeQmlWrapper* m_nodeWrapper;
-    DapNotifyController * s_dapNotifyController;
+    bool m_dontShowNodeModeFlag{false};
 
-    DateWorker   *dateWorker;
+    DapModulesController     *m_modulesController    = nullptr;
+    CommandHelperController  *m_commandHelper        = nullptr;
 
-    QMLTranslator * translator;
+    QQmlApplicationEngine    *m_engine               = nullptr;
+    DapServiceController     *m_serviceController    = nullptr;
+    CellframeNodeQmlWrapper  *m_nodeWrapper          = nullptr;
+    DapNotifyController      *s_dapNotifyController  = nullptr;
+    DateWorker               *dateWorker             = nullptr;
+
+    DapGuiApplication *m_guiApp = nullptr;
+
+    int m_countRestart = 0;
 };
 
 #endif // DAPAPPLICATION_H

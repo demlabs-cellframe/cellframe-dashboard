@@ -11,6 +11,16 @@ DapDappsNetworkManager::DapDappsNetworkManager(QString path, QString pathPlugins
     connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(onReconnect()));
 }
 
+DapDappsNetworkManager::~DapDappsNetworkManager()
+{
+    disconnect();
+    m_networkManager->disconnect();
+    m_networkManager->deleteLater();
+    m_currentReply->disconnect();
+    m_currentReply->deleteLater();
+    delete m_reconnectTimer;
+}
+
 void DapDappsNetworkManager::downloadFile(QString name)
 {
     QNetworkRequest request;
@@ -54,6 +64,7 @@ void DapDappsNetworkManager::downloadFile(QString name)
 
 void DapDappsNetworkManager::onDownloadCompleted()
 {
+    qDebug() << "[Test_build] [DapDappsNetworkManager] onDownloadCompleted";
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -79,6 +90,7 @@ void DapDappsNetworkManager::onDownloadCompleted()
 
 void DapDappsNetworkManager::onReadyRead()
 {
+    qDebug() << "[Test_build] [DapDappsNetworkManager] onReadyRead";
     m_error = "Connected";
     if(m_file->exists())
     {
@@ -193,15 +205,22 @@ void DapDappsNetworkManager::onUploadCompleted(QNetworkReply *reply)
 
 void DapDappsNetworkManager::getFiles()
 {
-    QNetworkReply *reply;
-    reply = m_networkManager->get(QNetworkRequest(QUrl(m_path)));
-    connect(reply, SIGNAL(finished()),this,SLOT(onFilesReceived()));
+    qDebug() << "[url] [DapDappsNetworkManager] getFiles";
+    m_networkManager->get(QNetworkRequest(QUrl(m_path)));
+    connect(m_networkManager, &QNetworkAccessManager::finished, this, &DapDappsNetworkManager::onFilesReceived);
 }
 
-void DapDappsNetworkManager::onFilesReceived()
+void DapDappsNetworkManager::onFilesReceived(QNetworkReply *reply)
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-
+    if(!reply)
+    {
+        return;
+    }
+    if(reply->url() != QUrl(m_path))
+    {
+        return;
+    }
+    qDebug() << "[url] [DapDappsNetworkManager] onFilesReceived";
     if (reply->error() == QNetworkReply::NoError ||
         reply->error() == QNetworkReply::ContentNotFoundError)
     {

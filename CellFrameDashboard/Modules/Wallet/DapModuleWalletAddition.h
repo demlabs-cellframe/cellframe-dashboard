@@ -29,7 +29,7 @@ public slots:
 
 private:
     void setNewCurrentWallet(const QPair<int, QString> newWallet) override;
-    void updateWalletModel(QVariant, bool isSingle) override;
+    // void updateWalletModel(QVariant, bool isSingle) override;
 
 signals:
     void currentWalletNameChanged(const QString& name);

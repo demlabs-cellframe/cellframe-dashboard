@@ -1,28 +1,16 @@
 #pragma once
 
 #include <QObject>
-#include "DapAbstractDataManager.h"
-#include "DapNetworksTypes.h"
+#include "DapNetworksManagerBase.h"
 #include "../NotifyController/DapNotifyController.h"
 
-class DapNetworksManager : public DapAbstractDataManager
+class DapNetworksManagerLocal : public DapNetworksManagerBase
 {
     Q_OBJECT
 public:
-    DapNetworksManager(DapModulesController* moduleController);
-    ~DapNetworksManager();
+    DapNetworksManagerLocal(DapModulesController* moduleController);
+    ~DapNetworksManagerLocal();
 
-    const QStringList& getNetworkList() const { return m_netList; }
-
-    const QMap<QString, NetworkLoadProgress>& getNetworkLoadProgress() const {return m_netsLoadProgress; }
-signals:
-    void deleteNetworksSignal(const QStringList& list);
-    void networkListChanged();
-
-    void updateNetworkInfoSignal(const NetworkInfo& info);
-
-    void sigUpdateItemNetLoad();
-    void isConnectedChanged(bool isConnected);
 private slots:
     void slotNotifyIsConnected(bool isConnected);
     void slotRcvNotifyNetList(QJsonDocument doc);
@@ -39,9 +27,6 @@ private:
     void updateNetworkList(const QStringList& list);
 private:
     DapNotifyController *m_notifyController = nullptr;
-    QStringList m_netList = QStringList();
-
-    QMap<QString, NetworkLoadProgress> m_netsLoadProgress;
 
     const QMap<QString, QString> STATES_STRINGS = {
         { "NET_STATE_OFFLINE", "OFFLINE"},

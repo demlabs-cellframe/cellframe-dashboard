@@ -24,13 +24,21 @@
 
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
 
-DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent)
+DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, int countRestart, QObject *parent)
     : QObject(parent)
-    , s_appEngine(appEngine)
-    , s_serviceCtrl(&DapServiceController::getInstance())
+    , s_serviceCtrl(serviceController)
     , m_managerController(new DapDataManagerController(this))
+    , s_appEngine(appEngine)
     , s_settings(new QSettings(this))
+    , m_countRestart(countRestart)
 {
+    connect(m_managerController, &DapDataManagerController::networkListChanged, this, &DapModulesController::readyReceiveData);
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::REMOTE)
+    {
+        connect(s_serviceCtrl, &DapServiceController::onServiceStarted, this, &DapModulesController::readyReceiveData);
+    }
+
     initWorkers();
     initModules();
     s_appEngine->rootContext()->setContextProperty("managerController", m_managerController);
@@ -49,21 +57,34 @@ DapModulesController::~DapModulesController()
     delete s_settings;
 }
 
+void DapModulesController::readyReceiveData()
+{
+    if(!m_firstDataLoad)
+    {
+        m_firstDataLoad = true;
+        emit initDone();
+    }
+}
+
 void DapModulesController::initModules()
 {
     addModule("walletModule", m_skinWallet ? new DapModuleWalletAddition(this) : new DapModuleWallet(this));
     addModule("dexModule", new DapModuleDexLightPanel(this));
     addModule("txExplorerModule", m_skinWallet ? new DapModuleTxExplorerAddition(this) : new DapModuleTxExplorer(this));
-    addModule("certificatesModule", new DapModuleCertificates(this));
-//    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
-    addModule("consoleModule", new DapModuleConsole(this));
-    addModule("logsModule", new DapModuleLog(this));
     addModule("settingsModule", new DapModuleSettings(this));
-    addModule("dAppsModule", new DapModuledApps(this));
-    addModule("diagnosticsModule", new DapModuleDiagnostics(this));
-    addModule("ordersModule", new DapModuleOrders(this));
-    addModule("nodeMasterModule", new DapModuleMasterNode(this));
     addModule("networksModule", new DapModuleNetworks(this));
+    addModule("dAppsModule", new DapModuledApps(this));
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
+        addModule("certificatesModule", new DapModuleCertificates(this));
+        addModule("consoleModule", new DapModuleConsole(this));
+        addModule("logsModule", new DapModuleLog(this));
+        addModule("diagnosticsModule", new DapModuleDiagnostics(this));
+        addModule("ordersModule", new DapModuleOrders(this));
+        addModule("nodeMasterModule", new DapModuleMasterNode(this));
+    }
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 
@@ -98,17 +119,6 @@ DapAbstractModule *DapModulesController::getModule(const QString &key)
         return m_listModules.value(key);
 }
 
-void DapModulesController::setCurrentWallet(const QPair<int,QString>& dataWallet)
-{
-    m_currentWalletIndex = dataWallet.first;
-    m_currentWalletName = dataWallet.second;
-}
-
-void DapModulesController::updateListWallets()
-{
-    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
-}
-
 void DapModulesController::cleareProgressInfo()
 {
     m_networksLoadProgress.clear();
@@ -138,54 +148,6 @@ void DapModulesController::setNodeLoadProgress(int progress)
 
     m_nodeLoadProgress = progress;
     emit nodeLoadProgressChanged();
-}
-
-void DapModulesController::setCurrentWalletIndex(int newIndex)
-{
-//    qDebug()<<"setCurrentWalletIndex";
-
-    if(newIndex == -1)
-    {
-        m_currentWalletIndex = newIndex;
-        m_currentWalletName = "";
-    }
-    else
-    {
-        if(m_walletListModel->size() - 1 < newIndex
-            || m_walletListModel->isEmpty()
-            || (newIndex == m_currentWalletIndex &&
-               m_walletListModel->at(newIndex).name == m_currentWalletName))
-            return ;
-
-        m_currentWalletIndex = newIndex;
-        m_currentWalletName = m_walletListModel->at(newIndex).name;
-    }
-
-    s_settings->setValue("walletName", m_currentWalletName);
-    emit currentWalletIndexChanged();
-    emit currentWalletNameChanged();
-}
-
-
-void DapModulesController::restoreIndex()
-{
-//    qDebug()<<"restoreIndex";
-    QString prevName = s_settings->value("walletName", "").toString();
-
-    if(!prevName.isEmpty())
-    {
-        for(int i = 0; i < m_walletListModel->size(); i++)
-        {
-            if(m_walletListModel->at(i).name == prevName)
-            {
-                if(i != m_currentWalletIndex)
-                    setCurrentWalletIndex(i);
-                return ;
-            }
-        }
-    }
-
-    setCurrentWalletIndex(0);
 }
 
 void DapModulesController::setCurrentNetwork(const QString& name)

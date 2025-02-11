@@ -37,16 +37,14 @@ private slots:
 
     void slotNotifyIsConnected(bool isConnected);
 
+    void slotUpdateData() override;
+
 private:
     QString convertProgress(QJsonObject obj);
-
-    void updateItemModel(const NetworkInfo& info);
     int getIndexItemModel(QString netName);
-
     void clearAll();
 
 private:
-    DapModulesController  *m_modulesCtrl = nullptr;
     DapNetworkModel *m_networkModel = nullptr;
     DapStringListModel* m_netListModel = nullptr;
 };

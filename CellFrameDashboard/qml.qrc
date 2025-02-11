@@ -410,5 +410,7 @@
         <file>Resources/BlackTheme/icons/other/no_icon.svg</file>
         <file>screen/desktop/controls/DapNodeVersionPopup.qml</file>
         <file>screen/desktop/MasterNode/parts/DapStringInfoMasterNode.qml</file>
+        <file>screen/desktop/controls/DapFirstSelectMode.qml</file>
+        <file>screen/desktop/controls/DapUpdateButton.qml</file>
     </qresource>
 </RCC>

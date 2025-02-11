@@ -6,6 +6,7 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     , m_jsonData(new QJsonDocument())
     , m_manager(new QNetworkAccessManager())
 {
+    m_manager->moveToThread(thread());
     m_diagConnectCtrl = new DiagtoolConnectCotroller();
     initJsonTmpl();
 
@@ -15,7 +16,7 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
 
     connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalDataRcv, this, &AbstractDiagnostic::rcv_diag_data);
-    connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalSocketChangeStatus, [this](bool status)
+    connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalSocketChangeStatus,this, [this](bool status)
     {
         emit diagtool_socket_change_status(status);
     });
@@ -23,6 +24,8 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
 
 AbstractDiagnostic::~AbstractDiagnostic()
 {
+    m_manager->disconnect();
+    disconnect();
     m_manager->deleteLater();
     m_diagConnectCtrl->deleteLater();
     if(m_jsonListNode) delete m_jsonListNode;
@@ -235,6 +238,11 @@ const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
 
 void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
 {
+    qDebug() << "[url] [AbstractDiagnostic] [on_reply_finished]";
+    if(!reply)
+    {
+        return;
+    }
     if(reply->url() == NETWORK_ADDR_GET_VIEW)
     {
         QByteArray data = reply->readAll();
@@ -261,6 +269,7 @@ void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
             m_jsonListNode->setArray(std::move(jsonDoc.array()));
         }
     }
+    reply->deleteLater();
 }
 
 QJsonObject AbstractDiagnostic::get_diagnostic_data_item(const QJsonDocument& jsonDoc)

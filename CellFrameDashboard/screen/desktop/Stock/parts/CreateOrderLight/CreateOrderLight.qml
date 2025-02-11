@@ -466,7 +466,7 @@ Page
 
                         onTextChanged:
                         {
-                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking
+                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking && !app.getNodeMode()
                         }
 
                         onEdited:
@@ -558,7 +558,7 @@ Page
                         onTextChanged:
                         {
                             updateErrorField(false, getWarning())
-                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking
+                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking && !app.getNodeMode()
                         }
 
                         onEdited:
@@ -875,12 +875,12 @@ Page
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
-            enabled: modulesController.isNodeWorking
+            enabled: !app.getNodeMode() && modulesController.isNodeWorking
             onClicked:
             {
                 var resultAmount = sellText.text
                 var resultTokenName = dexModule.token1
-                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
+                var walletResult = dexModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                 console.log("Wallet: " + walletResult)
 
                 if(walletResult.code === 0)

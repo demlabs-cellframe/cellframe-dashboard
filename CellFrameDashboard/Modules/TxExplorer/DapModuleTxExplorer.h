@@ -7,48 +7,56 @@
 #include "../DapModulesController.h"
 #include "Models/DapHistoryModel.h"
 #include "Models/DapHistoryProxyModel.h"
+#include "DapWalletsManagerBase.h"
+#include <QMutableListIterator>
 
 class DapModuleTxExplorer : public DapAbstractModule
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString walletName     READ walletName      WRITE setWalletName)
+    using HistoryList = QList<DapHistoryModel::Item>;
+    struct HistorySaves
+    {
+        ///    hash    status
+        QHash<QString, QString> hashes;
+        HistoryList history;
+    };
 public:
     explicit DapModuleTxExplorer(DapModulesController * modulesCtrl);
 
-    QString walletName() const { return m_walletName; }
-
-    Q_INVOKABLE void clearHistory();
-    Q_INVOKABLE void updateHistory(bool flag);
+    Q_INVOKABLE void updateHistory();
 
 signals:
     void updateHistoryModel();
 
-private slots:
-    void slotHistoryUpdate();
-
-public slots:
+protected slots:
     virtual void setHistoryModel(const QVariant &rcvData);
-
-    virtual void setWalletName(QString str);
-
+    virtual void cleareData();
+protected:
+    bool addHistory(const QString& wallet, const HistoryList &list);
+    bool updateModelBySaves();
+private slots:
+    void slotUpdateData() override;
+    void slotHistoryUpdate();
+    void walletInfoChangedsSlot(const QString& walletName, const QString& networkName);
+    void deleteNetworksSlot(const QStringList& list);
 private:
     void initConnect();
-
-private:
-    QQmlContext *context;
-    QByteArray *m_historyByteArray;
-
+    DapWalletsManagerBase* getWalletManager() const;
+    QString getNewLastNetwork();
 protected:
-    QTimer *m_timerHistoryUpdate;
+    QTimer *m_timerHistoryUpdate = nullptr;
+    QTimer *m_timerRequest = nullptr;
     DapHistoryProxyModel *m_historyProxyModel = nullptr;
-    DapModulesController  *m_modulesCtrl;
     DapHistoryModel *m_historyModel = nullptr;
 
     bool isSendReqeust{false};
-    QString m_walletName {""};
+    QString m_lastWalletName {""};
+    QStringList m_lastNetworkName;
 
+    QMap<QString, HistorySaves> m_listsWallets;
+
+    const int TIME_OUT_HISTORY_UPDATE = 60000;
+    const int TIME_OUT_HISTORY_REQUEST = 30000;
 };
-
-
 #endif // DAPMODULETXEXPLORER_H

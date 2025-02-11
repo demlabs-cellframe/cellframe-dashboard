@@ -1,30 +1,31 @@
-#include "DapNetworksManager.h"
+#include "DapNetworksManagerLocal.h"
 #include <cmath>
 #include "Modules/DapModulesController.h"
 #include <QSet>
 #include <QStringList>
+#include "DapCommonMethods.h"
 
-DapNetworksManager::DapNetworksManager(DapModulesController* moduleController)
-    : DapAbstractDataManager(moduleController)
+DapNetworksManagerLocal::DapNetworksManagerLocal(DapModulesController* moduleController)
+    : DapNetworksManagerBase(moduleController)
 {
-    connect(m_modulesController, &DapModulesController::sigNotifyControllerIsInit, this, &DapNetworksManager::initNotifyConnet);
+    connect(m_modulesController, &DapModulesController::sigNotifyControllerIsInit, this, &DapNetworksManagerLocal::initNotifyConnet);
 }
 
-void DapNetworksManager::initNotifyConnet()
+void DapNetworksManagerLocal::initNotifyConnet()
 {
     m_notifyController = m_modulesController->getNotifyCtrl();
-    connect(m_notifyController, &DapNotifyController::isConnectedChanged,   this, &DapNetworksManager::slotNotifyIsConnected);
-    connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetList,  this, &DapNetworksManager::slotRcvNotifyNetList);
-    connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapNetworksManager::slotRcvNotifyNetInfo);
-    connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapNetworksManager::slotRcvNotifyNetsInfo);
+    connect(m_notifyController, &DapNotifyController::isConnectedChanged,   this, &DapNetworksManagerLocal::slotNotifyIsConnected);
+    connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetList,  this, &DapNetworksManagerLocal::slotRcvNotifyNetList);
+    connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapNetworksManagerLocal::slotRcvNotifyNetInfo);
+    connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapNetworksManagerLocal::slotRcvNotifyNetsInfo);
 }
 
-DapNetworksManager::~DapNetworksManager()
+DapNetworksManagerLocal::~DapNetworksManagerLocal()
 {
     disconnect();
 }
 
-void DapNetworksManager::slotNotifyIsConnected(bool isConnected)
+void DapNetworksManagerLocal::slotNotifyIsConnected(bool isConnected)
 {
     if(!isConnected)
     {
@@ -33,36 +34,22 @@ void DapNetworksManager::slotNotifyIsConnected(bool isConnected)
     emit isConnectedChanged(isConnected);
 }
 
-void DapNetworksManager::slotRcvNotifyNetList(QJsonDocument doc)
+void DapNetworksManagerLocal::slotRcvNotifyNetList(QJsonDocument doc)
 {
     QStringList list = doc.toVariant().toStringList();
     updateNetworkList(list);
 }
 
-void DapNetworksManager::updateNetworkList(const QStringList& list)
+void DapNetworksManagerLocal::updateNetworkList(const QStringList& list)
 {
-    auto getDifference = [] (const QStringList list1, const QStringList list2) -> QStringList
+    if(!DapCommonMethods::isEqualStringList(m_netList, list))
     {
-        QSet<QString> setList1(list1.begin(), list1.end());
-        QSet<QString> setList2(list2.begin(), list2.end());
-        return setList1.subtract(setList2).toList();
-    };
-
-    auto isEqual = [] (const QStringList list1, const QStringList list2) -> bool
-    {
-        QSet<QString> setList1(list1.begin(), list1.end());
-        QSet<QString> setList2(list2.begin(), list2.end());
-        return setList1 == setList2;
-    };
-
-    if(!isEqual(m_netList, list))
-    {
-        QStringList diffForDelete = getDifference(m_netList, list);
+        QStringList diffForDelete = DapCommonMethods::getDifference(m_netList, list);
         // TODO: If new networks need to be identified.
         // QStringList diffForNew = getDifference(list, m_netList);
 
         m_netList = list;
-        qDebug()<<"[DapNetworksManager] Change net list: " << m_netList;
+        qDebug()<<"[DapNetworksManagerLocal] Change net list: " << m_netList;
 
         if(!diffForDelete.isEmpty())
         {
@@ -77,7 +64,7 @@ void DapNetworksManager::updateNetworkList(const QStringList& list)
 
 }
 
-void DapNetworksManager::slotRcvNotifyNetInfo(QJsonDocument doc)
+void DapNetworksManagerLocal::slotRcvNotifyNetInfo(QJsonDocument doc)
 {
     QJsonObject netObj = doc.object();
     QString netName = netObj["net"].toString();
@@ -94,7 +81,7 @@ void DapNetworksManager::slotRcvNotifyNetInfo(QJsonDocument doc)
     emit sigUpdateItemNetLoad();
 }
 
-void DapNetworksManager::slotRcvNotifyNetsInfo(QJsonDocument doc)
+void DapNetworksManagerLocal::slotRcvNotifyNetsInfo(QJsonDocument doc)
 {
     QJsonObject obj = doc.object();
     QStringList keys = obj.keys();
@@ -123,7 +110,7 @@ void DapNetworksManager::slotRcvNotifyNetsInfo(QJsonDocument doc)
     emit sigUpdateItemNetLoad();
 }
 
-void DapNetworksManager::clearAll()
+void DapNetworksManagerLocal::clearAll()
 {
     m_netsLoadProgress.clear();
     {
@@ -132,7 +119,7 @@ void DapNetworksManager::clearAll()
     }
 }
 
-NetworkInfo DapNetworksManager::getNetworkInfo(const QString& netName, const QJsonObject& itemModel)
+NetworkInfo DapNetworksManagerLocal::getNetworkInfo(const QString& netName, const QJsonObject& itemModel)
 {
     NetworkInfo networkItem;
 
@@ -163,7 +150,7 @@ NetworkInfo DapNetworksManager::getNetworkInfo(const QString& netName, const QJs
     return networkItem;
 }
 
-QString DapNetworksManager::convertState(QString state)
+QString DapNetworksManagerLocal::convertState(QString state)
 {
     if(STATES_STRINGS.contains(state))
     {
@@ -181,7 +168,7 @@ QString DapNetworksManager::convertState(QString state)
     return state;
 }
 
-QString DapNetworksManager::convertProgress(QJsonObject obj)
+QString DapNetworksManagerLocal::convertProgress(QJsonObject obj)
 {
     auto getChainPercent = [](const QJsonObject& chainObj, QString chainName) -> double
     {

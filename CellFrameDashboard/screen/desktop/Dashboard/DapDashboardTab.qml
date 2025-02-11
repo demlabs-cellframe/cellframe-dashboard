@@ -34,7 +34,6 @@ DapPage
     {
         "name": "",
         "network": "",
-        "address": "",
         "chain": "",
         "signature_type": "",
         "recovery_hash": ""
@@ -168,11 +167,16 @@ DapPage
         dashboardTopPanel.layout.visible = walletModelList.count 
 
         // If there are no wallets or the data has not loaded.
-        dashboardScreen.walletDefaultFrame.visible = (walletModelList.count || !walletModelList.get(walletModule.currentWalletIndex).isLoad)
+        dashboardScreen.walletDefaultFrame.visible = ((walletModelList.count || !walletModelList.get(walletModule.currentWalletIndex).isLoad) &&
+                                            walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active")
 
-        dashboardScreen.walletShowFrame.visible = (walletModelList.count && walletModelList.get(walletModule.currentWalletIndex).isLoad)
+        dashboardScreen.walletShowFrame.visible = (walletModelList.count && (walletModelList.get(walletModule.currentWalletIndex).isLoad || 
+                                                    walletModelList.get(walletModule.currentWalletIndex).statusProtected === "non-Active"))
 
         dashboardScreen.walletCreateFrame.visible = (state === "WALLETCREATE" &&  !walletModelList.count)
+
+        if(dashboardScreen.walletShowFrame.visible)
+            dashboardScreen.walletShowFrame.listViewWallet.visible = walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
     }
 
     Connections
@@ -187,9 +191,8 @@ DapPage
                 navigator.popPage()
             }
             updateScreen()
-            txExplorerModule.setWalletName(walletModule.getCurrentWalletName())
-            txExplorerModule.clearHistory()
-            txExplorerModule.updateHistory(true)
+            // txExplorerModule.clearHistory()
+            // txExplorerModule.updateHistory(true)
         }
 
         function onListWalletChanged()
@@ -205,18 +208,18 @@ DapPage
         }
     }
 
-    Connections
-    {
-        target: modulesController
+//    Connections
+//    {
+//        target: modulesController
 
-        function onNodeWorkingChanged()
-        {
-            if(modulesController.isNodeWorking)
-            {
-                txExplorerModule.clearHistory()
-            }
-        }
-    }
+//        function onNodeWorkingChanged()
+//        {
+//            if(modulesController.isNodeWorking)
+//            {
+//                txExplorerModule.clearHistory()
+//            }
+//        }
+//    }
 
     Component.onCompleted:
     {
@@ -224,6 +227,17 @@ DapPage
 
         walletModule.statusProcessing = true
         txExplorerModule.statusProcessing = true
+
+//        var dataTx = {
+//        "network"           : "Backbone",
+//        "amount"            : "1.0",
+//        "send_ticker"       : "CELL",
+//        "wallet_from"       : "myWallet",
+//        "wallet_from_addr"  : "Rj7J7MiX2bWy8sNyXKzkzfA45trMW5g1vMF2PfmJA6vM5dSJ97T9yip3dbniDx8SqJ7gNW2e1CPQmXGxdHx1a2rnTVeRyd21oNjKDMit",
+//        "wallet_to"         : "Rj7J7MiX2bWy8sNyY55eNdUgNwp5AEERxW5N8mVKybe7RzxcvtYyA5duV6tC33DunPSatKe6YDhRPF32VzDsQWVrCbtGgiBUDAbpmhJM"
+//        }
+
+//        walletModule.sendTx(dataTx)
     }
 
     Component.onDestruction:

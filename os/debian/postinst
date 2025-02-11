@@ -11,8 +11,6 @@ APP_NAME=Cellframe-Dashboard
 case "$1" in
     configure)
 
-    ln -sf /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service /etc/systemd/user/cellframe-dashboard.service
-    systemctl --system enable /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service
     chmod +x /opt/cellframe-dashboard/bin/*
     ln -sf /opt/cellframe-dashboard/bin/$APP_NAME /usr/local/bin/$APP_NAME
     
@@ -36,11 +34,32 @@ esac
 
 # rm -r /opt/cellframe-node/var/lib/network/ || true
 # rm -r /opt/cellframe-node/var/lib/global_db/ || true
-chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using dashboard
-mkdir /var/log/cellframe-dashboard/ || true
+# chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using dashboard
+
+if [ ! -d /var/log/cellframe-dashboard/ ]; then
+    mkdir -p /var/log/cellframe-dashboard
+fi
 chmod -R a+rw /var/log/cellframe-dashboard/
 
-service cellframe-dashboard start || true
+if [ ! -d /opt/cellframe-dashboard/data/ ]; then
+    mkdir -p /opt/cellframe-dashboard/data/
+fi
 
+if [ ! -d /opt/cellframe-dashboard/data/wallet/ ]; then
+    mkdir -p /opt/cellframe-dashboard/data/wallet
+fi
+chmod -R a+rw /opt/cellframe-dashboard/
+
+if [ -d /opt/cellframe-node/var/lib/wallet/ ]; then
+    chmod -R a+rw /opt/cellframe-node/var/lib/wallet/
+fi
+
+if [ -d /opt/cellframe-node/var/lib/ca/ ]; then
+    chmod -R a+rw /opt/cellframe-node/var/lib/ca/
+fi
+
+if [ -d /opt/cellframe-node/etc/ ]; then
+    chmod -R a+rw /opt/cellframe-node/etc/
+fi
 
 

@@ -123,6 +123,7 @@ Controls.DapTopPanel
             Layout.alignment: Qt.AlignRight
             Layout.leftMargin: 45
             spacing: 2
+            visible: app.getNodeMode() === 0
 
             RowLayout{
                 spacing: 8
@@ -146,8 +147,15 @@ Controls.DapTopPanel
                     innerWidth: 8
                     innerHeight: 8
 
-                    source: dapNotifyController.isConnected? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
-                                                             "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                    source:
+                    {
+                        if(app.getNodeMode() === 0)
+                        {
+                            return dapNotifyController.isConnected ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
+                                                                     "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                        }
+                        return "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                    }
                 }
             }
 
@@ -220,6 +228,7 @@ Controls.DapTopPanel
             RowLayout
             {
                 Layout.alignment: Qt.AlignLeft
+//                visible: app.getNodeMode() === 0
                 Text {
                     horizontalAlignment: Text.AlignLeft
 
@@ -231,12 +240,14 @@ Controls.DapTopPanel
                     id: vesionNode
                     text: settingsModule.nodeVersion
                     font: mainFont.dapFont.regular13
-                    color: vesionNodeArea.containsMouse ? currTheme.orange : currTheme.lime
+                    color: app.getNodeMode() === 1 ? currTheme.gray
+                                                   : vesionNodeArea.containsMouse ? currTheme.orange
+                                                                                  : currTheme.lime
 
                     MouseArea{
                         id: vesionNodeArea
                         anchors.fill: parent
-                        hoverEnabled: true
+                        hoverEnabled: app.getNodeMode() === 0
                         onClicked:
                         {
                             dapMainWindow.showPopupUpdateNode()

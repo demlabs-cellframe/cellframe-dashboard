@@ -5,7 +5,6 @@
 
 DapModuledApps::DapModuledApps(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
 {
 //    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
 //    {
@@ -17,7 +16,7 @@ DapModuledApps::DapModuledApps(DapModulesController *parent)
 
 DapModuledApps::~DapModuledApps()
 {
-
+    if(m_dapNetworkManager) delete m_dapNetworkManager;
 }
 
 void DapModuledApps::init()
