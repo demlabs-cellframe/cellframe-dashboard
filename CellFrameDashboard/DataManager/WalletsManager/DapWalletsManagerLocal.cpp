@@ -45,7 +45,7 @@ void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
     }
 
     QJsonArray walletArray = document.array();
-    QStringList tmpWallets;
+    QStringList newListWallet;
 
     bool isUpdateWallet = false;
 
@@ -55,6 +55,7 @@ void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
         if(tmpObject.contains(Dap::JsonKeys::NAME) && tmpObject.contains(Dap::JsonKeys::STATUS))
         {
             QString walletName = tmpObject[Dap::JsonKeys::NAME].toString();
+            newListWallet.append(walletName);
             if(walletName.isEmpty())
             {
                 continue;
@@ -78,16 +79,17 @@ void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
                 m_walletsInfo.insert(walletName, std::move(tmpWallet));
                 isUpdateWallet = true;
             }
-
-            tmpWallets.append(walletName);
         }
     }
 
-    for(const QString &name: m_walletsInfo.keys())
+    QStringList curListWallet = m_walletsInfo.keys();
+    if(!DapCommonMethods::isEqualStringList(newListWallet, curListWallet))
     {
-        if(!tmpWallets.contains(name))
+        QStringList toRemoveList = DapCommonMethods::getDifference(curListWallet, newListWallet);
+        for(const auto& wallet: toRemoveList)
         {
-            m_walletsInfo.remove(name);
+            m_walletsInfo.remove(wallet);
+            isUpdateWallet = true;
         }
     }
 
