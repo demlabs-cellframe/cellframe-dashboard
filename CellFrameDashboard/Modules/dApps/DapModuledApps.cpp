@@ -16,7 +16,7 @@ DapModuledApps::DapModuledApps(DapModulesController *parent)
 
 DapModuledApps::~DapModuledApps()
 {
-
+    if(m_dapNetworkManager) delete m_dapNetworkManager;
 }
 
 void DapModuledApps::init()
