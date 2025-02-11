@@ -115,8 +115,8 @@ void DapModuleLog::selectLog(const QString &name)
 
     if (name == "Node")
         m_configLog.first = LogType::NodeLog;
-    if (name == "Service")
-        m_configLog.first = LogType::ServiceLog;
+//    if (name == "Service")
+//        m_configLog.first = LogType::ServiceLog;
     if (name == "GUI")
         m_configLog.first = LogType::GuiLog;
 
