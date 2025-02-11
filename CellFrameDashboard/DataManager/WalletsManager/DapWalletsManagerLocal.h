@@ -24,6 +24,7 @@ protected slots:
 
 private:
     void updateInfoWallets(const QString &walletName = "");
+    inline bool updateWalletModel();
 private:
     QTimer* m_walletsListTimer = nullptr;
     QTimer* m_timerUpdateWallet = nullptr;

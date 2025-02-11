@@ -343,6 +343,13 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
                 }
             }
         }
+
+        if(wallet.walletInfo[networkName].address.isEmpty())
+        {
+            wallet.walletInfo.insert(networkName, netInfo);
+            isUpdateNetwork = true;
+        }
+
         setIsLoad(wallet, true);
 
         if(isUpdateNetwork)

@@ -91,14 +91,42 @@ void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
         }
     }
 
-    if(isUpdateWallet)
+    if(isUpdateWallet || updateWalletModel())
     {
         m_lastRequestInfoNetworkName.clear();
         m_requestInfoWallets.clear();
         updateInfoWallets();
+        emit walletListChanged();
     }
+}
 
-    emit walletListChanged();
+bool DapWalletsManagerLocal::updateWalletModel()
+{
+    auto netList = m_modulesController->getManagerController()->getNetworkList();
+    bool isUpdate = false;
+    for(auto& wallet: m_walletsInfo)
+    {
+        auto currentNets = wallet.walletInfo.keys();
+        if(DapCommonMethods::isEqualStringList(currentNets, netList))
+        {
+            continue;
+        }
+        QStringList toAppendList = DapCommonMethods::getDifference(netList, currentNets);
+        QStringList toRemoveList = DapCommonMethods::getDifference(currentNets, netList);
+        for(const auto& network: toAppendList)
+        {
+            CommonWallet::WalletNetworkInfo info;
+            info.network = network;
+            wallet.walletInfo.insert(network, std::move(info));
+            isUpdate = true;
+        }
+        for(const auto& network: toRemoveList)
+        {
+            wallet.walletInfo.remove(network);
+            isUpdate = true;
+        }
+    }
+    return isUpdate;
 }
 
 void DapWalletsManagerLocal::rcvWalletInfo(const QVariant &rcvData)
@@ -196,6 +224,13 @@ void DapWalletsManagerLocal::rcvWalletInfo(const QVariant &rcvData)
                     isUpdateNetwork = true;
                 }
             }
+        }
+
+        if(wallet.walletInfo[networkName].address.isEmpty())
+        {
+            wallet.isLoad = true;
+            wallet.walletInfo.insert(networkName, netInfo);
+            isUpdateNetwork = true;
         }
 
         if(isUpdateNetwork)

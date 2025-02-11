@@ -148,8 +148,9 @@ Item {
                     onClicked:
                     {
                         walletModule.removeWallet([nameWallet]);
+                        walletModule.updateWalletList()
                         hide()
-                        walletsControllerPopup.show()
+//                        walletsControllerPopup.show()
                     }
                 }
             }
