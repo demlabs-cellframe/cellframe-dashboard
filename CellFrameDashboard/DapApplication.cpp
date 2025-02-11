@@ -60,7 +60,8 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
 
     qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
-    qmlRegisterType<DapVPNOrdersController>("VPNOrdersController", 1,0, "VPNOrdersController");
+    /// TODO Restore when you need the VPN tab. Fix the QNetworkAccessManager crash
+    // qmlRegisterType<DapVPNOrdersController>("VPNOrdersController", 1,0, "VPNOrdersController");
 }
 
 void DapApplication::createPaths()

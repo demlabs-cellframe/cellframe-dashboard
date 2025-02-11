@@ -1,6 +1,7 @@
 #include "dapvpnorderscontroller.h"
 
 DapVPNOrdersController::DapVPNOrdersController()
+    :QObject()
 {
     qDebug() << "[vpn_url] init";
     manager = new QNetworkAccessManager(this);

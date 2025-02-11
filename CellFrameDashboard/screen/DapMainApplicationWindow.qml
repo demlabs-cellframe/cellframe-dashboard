@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
-import VPNOrdersController 1.0
+// import VPNOrdersController 1.0
 
 import "qrc:/screen"
 import "qrc:/widgets"
@@ -212,10 +212,11 @@ Rectangle {
     signal checkWebRequest()
     signal openRequests()
 
-    VPNOrdersController
-    {
-        id: vpnOrdersController
-    }
+    /// TODO Restore when you need the VPN tab. Fix the QNetworkAccessManager crash
+    // VPNOrdersController
+    // {
+    //     id: vpnOrdersController
+    // }
 
 
 
