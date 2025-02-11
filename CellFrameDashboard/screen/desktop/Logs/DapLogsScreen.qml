@@ -138,17 +138,17 @@ Page
                         }
                     }
 
-                    SelectorItem
-                    {
-                        id: selectorService
-                        text: qsTr("Dashboard service logs")
-                        current: false
-                        onItemClicked:
-                        {
-                            if (!current)
-                                selectLog("Service")
-                        }
-                    }
+//                    SelectorItem
+//                    {
+//                        id: selectorService
+//                        text: qsTr("Dashboard service logs")
+//                        current: false
+//                        onItemClicked:
+//                        {
+//                            if (!current)
+//                                selectLog("Service")
+//                        }
+//                    }
 
                     SelectorItem
                     {
@@ -386,8 +386,8 @@ Page
         dapLogsListViewIndex = -1
 
         selectorNode.current = (logsModule.currentType === 0)
-        selectorService.current = (logsModule.currentType === 1)
-        selectorGUI.current = (logsModule.currentType === 2)
+//        selectorService.current = (logsModule.currentType === 1)
+        selectorGUI.current = (logsModule.currentType === 1)
 //        var timeString = new Date();
 //        var day = new Date(86400);
     }
@@ -591,7 +591,7 @@ Page
     function selectLog(name)
     {
         selectorNode.current = (name === "Node")
-        selectorService.current = (name === "Service")
+//        selectorService.current = (name === "Service")
         selectorGUI.current = (name === "GUI")
 
         logsModule.selectLog(name)
