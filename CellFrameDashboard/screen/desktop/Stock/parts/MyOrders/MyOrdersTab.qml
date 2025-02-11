@@ -82,13 +82,16 @@ RowLayout
 
         function onRcvXchangeOrderPurchase(rcvData)
         {
-            logicStock.resultCreate = rcvData
+            var jsonDoc = JSON.parse(rcvData)
+            logicStock.resultCreate = jsonDoc.result
             logic.changeRightPanel(orderDone)
         }
 
         function onRcvXchangeRemove(rcvData)
         {
-            if(rcvData.success)
+            var jsonDoc = JSON.parse(rcvData)
+            var resultCreate = jsonDoc.result
+            if(resultCreate.success)
             {
                 var msg = rcvData.toQueue ? qsTr("Placed to queue") : qsTr("Order removed")
                 dapMainWindow.infoItem.showInfo(
