@@ -153,7 +153,7 @@ Page
                     SelectorItem
                     {
                         id: selectorGUI
-                        text: qsTr("Dashboard GUI logs")
+                        text: qsTr("Dashboard logs")
                         current: false
                         onItemClicked:
                         {
