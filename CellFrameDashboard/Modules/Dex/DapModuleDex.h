@@ -151,6 +151,8 @@ protected:
     const QPair<int,QString>& getCurrentWallet() const;
     DapWalletsManagerBase* getWalletManager() const;
 
+    QStringList getListNetwork() const;
+
     void updateDexTokenModel();
 protected:
     DapTokenPairModel* m_tokenPairsModel = nullptr;
