@@ -846,8 +846,7 @@ void DapModuleDex::requestTokenPairs()
 {
     if(!m_isSandDapGetXchangeTokenPair)
     {
-        auto& walletInfo = getWalletManager()->getWalletsInfo().value(getWalletManager()->getCurrentWallet().second);
-        QStringList netList = walletInfo.walletInfo.keys();
+        QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
 
         QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
         QVariantMap request = {
@@ -937,8 +936,7 @@ bool DapModuleDex::isValidValue(const QString& value)
 
 void DapModuleDex::requestHistoryOrders()
 {
-    auto& walletInfo = getWalletManager()->getWalletsInfo().value(getWalletManager()->getCurrentWallet().second);
-    QStringList netList = walletInfo.walletInfo.keys();
+    QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {
         {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
