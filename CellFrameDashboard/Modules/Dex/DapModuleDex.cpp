@@ -846,7 +846,7 @@ void DapModuleDex::requestTokenPairs()
 {
     if(!m_isSandDapGetXchangeTokenPair)
     {
-        QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
+        QStringList netList = getListNetwork();
 
         QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
         QVariantMap request = {
@@ -936,7 +936,7 @@ bool DapModuleDex::isValidValue(const QString& value)
 
 void DapModuleDex::requestHistoryOrders()
 {
-    QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
+    QStringList netList = getListNetwork();
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {
         {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
@@ -1040,6 +1040,13 @@ DapWalletsManagerBase* DapModuleDex::getWalletManager() const
     Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
     Q_ASSERT_X(m_modulesCtrl->getManagerController()->getWalletManager(), "DapModuleWallet", "WalletManager not found");
     return m_modulesCtrl->getManagerController()->getWalletManager();
+}
+
+QStringList DapModuleDex::getListNetwork() const
+{
+    Q_ASSERT_X(m_modulesCtrl, "DapModuleWallet", "ModuleController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
+    return m_modulesCtrl->getManagerController()->getNetworkList();
 }
 
 QString DapModuleDex::getBalance(const QString& tokenName) const
