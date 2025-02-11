@@ -50,7 +50,7 @@ DapRectangleLitAndShaded {
             {
                 id: textHeader
                 text: isBuy ?
-                          qsTr("Buy ") + logic.selectedItem.tokenBuy :
+                          qsTr("Buy ") + logic.selectedItem.tokenSell :
                           qsTr("Sell ") + logic.selectedItem.tokenBuy
                 verticalAlignment: Qt.AlignLeft
                 anchors.left: itemButtonClose.right
@@ -75,12 +75,12 @@ DapRectangleLitAndShaded {
                 if(!isBuy)
                 {
                     var tokenBuy = logic.selectedItem.tokenBuy
-                    return walletModule.getBalance(tokenBuy) + " " + tokenBuy
+                    return dexModule.getBalance(tokenBuy) + " " + tokenBuy
                 }
                 else
                 {
                     var tokenSell = logic.selectedItem.tokenSell
-                    return walletModule.getBalance(tokenSell) + " " + tokenSell
+                    return dexModule.getBalance(tokenSell) + " " + tokenSell
                 }
             }
             textColor: currTheme.white
@@ -92,8 +92,8 @@ DapRectangleLitAndShaded {
             id: fields
             sell: !isBuy
             logicPrice: logic.selectedItem.price
-            balance: !isBuy ? walletModule.getBalance(logic.selectedItem.tokenSell)
-                                : walletModule.getBalance(logic.selectedItem.tokenBuy)
+            balance: !isBuy ? dexModule.getBalance(logic.selectedItem.tokenSell)
+                                : dexModule.getBalance(logic.selectedItem.tokenBuy)
 
             amount.textToken: dexModule.token1
             total.textToken: dexModule.token2
