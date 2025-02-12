@@ -72,7 +72,6 @@ namespace DEX
         QString adaptiveSide = "";
         QString adaptivePair = "";
     };
-
 }
 
 #endif // DEXTYPES_H
