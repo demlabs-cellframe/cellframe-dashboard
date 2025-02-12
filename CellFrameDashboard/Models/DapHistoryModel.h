@@ -216,6 +216,7 @@ public:
         QString fee;
         QString fee_token;
         QString fee_net;
+        QString queue_hash;
     };
 
     typedef QList<DapHistoryModel::Item>::Iterator Iterator;
