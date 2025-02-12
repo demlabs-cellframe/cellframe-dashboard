@@ -47,15 +47,15 @@ void DapServiceController::run()
 
     qInfo() << "ServiceController started";
     emit onServiceStarted();
-    QtConcurrent::run([]{
-        DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
-        if(!controller)
-        {
-            qWarning() << "DapTransactionQueueController have a problem";
-            return;
-        }
-        controller->onInit();
-    });
+
+    DapTransactionQueueController* controller = DapTransactionQueueController::getTransactionController();
+    if(!controller)
+    {
+        qWarning() << "DapTransactionQueueController have a problem";
+        return;
+    }
+    controller->onInit();
+    
 }
 
 void DapServiceController::setReadingChains(bool bReadingChains)
@@ -138,7 +138,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapWalletActivateOrDeactivateCommand, QObject*>("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",          nullptr);
     addServiceGeneric<DapGetWalletAddressCommand,           QObject*>("DapGetWalletAddressCommand",                "walletAddressReceived",                 nullptr);
 //    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
-//    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
+    addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
 
     /*Xchange*/
     addServiceGeneric<DapGetXchangeTxList,                  QObject*>("DapGetXchangeTxList",                       "rcvXchangeTxList",                      nullptr);
@@ -289,13 +289,13 @@ void DapServiceController::initAdditionalParamrtrsService()
 
     if(m_transceivers.contains("MempoolCheckCommand"))
     {
-        DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(m_transceivers["MempoolCheckCommand"]);
+        MempoolCheckCommand* command = dynamic_cast<MempoolCheckCommand*>(m_transceivers["MempoolCheckCommand"]);
         connect(controller, &DapTransactionQueueController::toGetTransactionData, command, &DapAbstractCommand::toDataSignal);
         connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::transactionDataReceived);
     }
     if(m_transceivers.contains("DapGetOnceWalletInfoCommand"))
     {
-        DapAbstractCommand* command = dynamic_cast<DapAbstractCommand*>(m_transceivers["DapGetOnceWalletInfoCommand"]);
+        DapGetOnceWalletInfoCommand* command = dynamic_cast<DapGetOnceWalletInfoCommand*>(m_transceivers["DapGetOnceWalletInfoCommand"]);
         connect(controller, &DapTransactionQueueController::toGetWalletInfo, command, &DapAbstractCommand::toDataSignal);
         connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::walletInfoReceived);
     }
@@ -303,7 +303,7 @@ void DapServiceController::initAdditionalParamrtrsService()
     {
         DapGetWalletsInfoCommand* command = dynamic_cast<DapGetWalletsInfoCommand*>(m_transceivers["DapGetWalletsInfoCommand"]);
         connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletsInfoCommand::queueDataUpdate);
-        connect(command, &DapGetWalletsInfoCommand::queuedUpdated,  this, &DapServiceController::sendUpdateWallets);
+        connect(command, &DapGetWalletsInfoCommand::queuedUpdated,  this, &DapServiceController::queueUpdated);
     }
     if(m_transceivers.contains("DapGetWalletInfoCommand"))
     {
@@ -315,17 +315,7 @@ void DapServiceController::initAdditionalParamrtrsService()
         DapGetWalletHistoryCommand* command = dynamic_cast<DapGetWalletHistoryCommand*>(m_transceivers["DapGetWalletHistoryCommand"]);
         connect(controller, &DapTransactionQueueController::updateHistoryForWallet, command, &DapGetWalletHistoryCommand::queueDataUpdate);
         connect(controller, &DapTransactionQueueController::newTransactionAdded, command, &DapGetWalletHistoryCommand::transactionFromQueudAdded);
-        connect(command, &DapGetWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::sendUpdateHistory);
+        connect(command, &DapGetWalletHistoryCommand::queuedUpdated,  this, &DapServiceController::queueUpdated);
         connect(command, &DapGetWalletHistoryCommand::transactionMoved,  controller, &DapTransactionQueueController::updateInfoTransaction);
     }
-}
-
-void DapServiceController::sendUpdateHistory(const QVariant& data)
-{
-    emit historyServiceInitRcv(data);
-}
-
-void DapServiceController::sendUpdateWallets(const QVariant& data)
-{
-    emit walletsServiceInitRcv(data);
 }

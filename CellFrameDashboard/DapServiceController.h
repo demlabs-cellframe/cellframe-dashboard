@@ -154,9 +154,6 @@ signals:
 private slots:
     void registerCommand();
 
-    void sendUpdateHistory(const QVariant& data);
-    void sendUpdateWallets(const QVariant& data);
-
 private:
     void addService(const QString& name, const QString& signalName, DapAbstractCommand* commandService);
 
@@ -271,8 +268,7 @@ signals:
     void rcvDictionary(const QVariant& rcvData);
     void rcvRemoveResult(const QVariant& rcvData);
     void exportLogs(const QVariant& rcvData);
-    void historyServiceInitRcv(const QVariant& rcvData);
-    void walletsServiceInitRcv(const QVariant& rcvData);
+    void queueUpdated();
     void rcvGetListKeysCommand(const QVariant& rcvData);
     void rcvLedgerTxHashCommand(const QVariant& rcvData);
     void rcvGetServiceLimitsCommand(const QVariant& rcvData);

@@ -24,6 +24,10 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     connect(s_serviceCtrl, &DapServiceController::walletCreated, this, &DapModuleWallet::rcvCreateWallet, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory, Qt::QueuedConnection);
     connect(s_serviceCtrl, &DapServiceController::passwordCreated, this, &DapModuleWallet::rcvPasswordCreated, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::queueUpdated, this, [this]
+            {
+                updateWalletInfo();
+            });
 
     m_walletHashManager->setContext(m_modulesCtrl->getAppEngine()->rootContext());
     m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);

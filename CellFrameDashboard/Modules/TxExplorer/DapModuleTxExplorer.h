@@ -19,6 +19,8 @@ class DapModuleTxExplorer : public DapAbstractModule
     {
         ///    hash    status
         QHash<QString, QString> hashes;
+        ///   network      hash
+        QMap<QString, QSet<QString>> queue;
         HistoryList history;
     };
 public:
@@ -33,7 +35,7 @@ protected slots:
     virtual void setHistoryModel(const QVariant &rcvData);
     virtual void cleareData();
 protected:
-    bool addHistory(const QString& wallet, const HistoryList &list);
+    bool addHistory(const QString& wallet, const QString &networkName, const HistoryList &list);
     bool updateModelBySaves();
 private slots:
     void slotUpdateData() override;

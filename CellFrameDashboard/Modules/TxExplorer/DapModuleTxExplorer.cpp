@@ -34,7 +34,7 @@ void DapModuleTxExplorer::initConnect()
     auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
     connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal,    this, &DapModuleTxExplorer::deleteNetworksSlot);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::historyServiceInitRcv, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::queueUpdated, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
     connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, [this]()
     {
         if(!m_modulesCtrl->isNodeWorking())
@@ -107,13 +107,14 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         itemHistory.atom         = historyArray.at(i)["atom"].toString();
         itemHistory.tx_hash      = historyArray.at(i)["tx_hash"].toString();
         itemHistory.tx_status    = historyArray.at(i)["tx_status"].toString();
+        itemHistory.queue_hash   = historyArray.at(i)["queueHash"].toString();
 
         QDateTime time = QDateTime::fromSecsSinceEpoch(itemHistory.date_to_secs);
         itemHistory.time = time.toString("hh:mm:ss");
         resultList.append(std::move(itemHistory));
     }
 
-    if(addHistory(walletName, resultList))
+    if(addHistory(walletName, networkName, resultList))
     {
         m_historyModel->updateModel(m_listsWallets[walletName].history);
     }
@@ -142,13 +143,26 @@ void DapModuleTxExplorer::deleteNetworksSlot(const QStringList& list)
     }
 }
 
-bool DapModuleTxExplorer::addHistory(const QString& wallet, const HistoryList& list)
+bool DapModuleTxExplorer::addHistory(const QString& wallet, const QString& networkName, const HistoryList& list)
 {
     auto& walletData = m_listsWallets[wallet];
     bool isUpdated = false;
+    QStringList queueList;
+    auto& currentQueueList = walletData.queue[networkName];
+
     for(const auto& item: list)
     {
-        if(!walletData.hashes.contains(item.tx_hash))
+        if(item.status == "Queued")
+        {
+            if(!currentQueueList.contains(item.queue_hash))
+            {
+                currentQueueList.insert(item.queue_hash);
+                walletData.history.append(item);
+                isUpdated = true;
+            }
+            queueList.append(item.queue_hash);
+        }
+        else if(!walletData.hashes.contains(item.tx_hash))
         {
             walletData.history.append(item);
             walletData.hashes.insert(item.tx_hash, item.status);
@@ -170,6 +184,24 @@ bool DapModuleTxExplorer::addHistory(const QString& wallet, const HistoryList& l
             isUpdated = true;
         }
     }
+
+    QStringList toRemoveList = DapCommonMethods::getDifference(currentQueueList.toList(), queueList);
+    if(!toRemoveList.isEmpty())
+    {
+        QMutableListIterator<DapHistoryModel::Item> history(walletData.history);
+        while(history.hasNext() && !toRemoveList.isEmpty())
+        {
+            auto historyItem = history.next();
+            if(toRemoveList.contains(historyItem.queue_hash))
+            {
+                QString queueHash = historyItem.queue_hash;
+                toRemoveList.removeOne(queueHash);
+                history.remove();
+                isUpdated = true;
+            }
+        }
+    }
+
     if(isUpdated)
     {
         auto& walletHistory = m_listsWallets[wallet].history;
