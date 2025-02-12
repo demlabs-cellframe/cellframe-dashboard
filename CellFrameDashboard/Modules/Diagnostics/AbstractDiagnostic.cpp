@@ -1,20 +1,31 @@
 #include "AbstractDiagnostic.h"
+#include "httplib.h"
+
+#ifdef _WIN32
+#define IGNORE_SIGPIPE()
+#else
+#include <iostream>
+#include <csignal>
+#define IGNORE_SIGPIPE() std::signal(SIGPIPE, SIG_IGN)
+#endif
+
+const QString NETWORK_ADDR = "https://telemetry.cellframe.net";
+static httplib::Client httpClient(NETWORK_ADDR.toStdString());
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     :QObject(parent)
     , m_jsonListNode(new QJsonDocument())
     , m_jsonData(new QJsonDocument())
-    , m_manager(new QNetworkAccessManager())
 {
-    m_manager->moveToThread(thread());
+    IGNORE_SIGPIPE();
+
     m_diagConnectCtrl = new DiagtoolConnectCotroller();
     initJsonTmpl();
 
     s_elapsed_timer = new QElapsedTimer();
     s_elapsed_timer->start();
 
-    connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
-
+    connect(this, &AbstractDiagnostic::sig_telemetry_data_rcv, this, &AbstractDiagnostic::on_telemetry_data_rcv);
     connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalDataRcv, this, &AbstractDiagnostic::rcv_diag_data);
     connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalSocketChangeStatus,this, [this](bool status)
     {
@@ -24,9 +35,7 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
 
 AbstractDiagnostic::~AbstractDiagnostic()
 {
-    m_manager->disconnect();
     disconnect();
-    m_manager->deleteLater();
     m_diagConnectCtrl->deleteLater();
     if(m_jsonListNode) delete m_jsonListNode;
     if(m_jsonData) delete m_jsonData;
@@ -164,10 +173,34 @@ void AbstractDiagnostic::changeDataSending(bool flagSendData)
     qDebug()<<"[changeDataSending] bytes written: " << bytes;
 }
 
+void AbstractDiagnostic::send_http_request(QString method)
+{
+    if (auto res = httpClient.Get(method.toStdString()))
+    {
+        if (res->status == httplib::StatusCode::OK_200)
+        {
+            emit sig_telemetry_data_rcv(method, QByteArray::fromStdString(res->body));
+        }
+    }
+    else
+    {
+        auto err = res.error();
+        std::cout << "HTTPS error: " << httplib::to_string(err) << std::endl;
+    }
+}
+
 void AbstractDiagnostic::update_full_data()
 {
-    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_KEYS)));
-    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_VIEW)));
+    if(s_wait_http_req)
+        return;
+
+    QtConcurrent::run([this]
+    {
+        s_wait_http_req = true;
+        send_http_request(GET_KEYS);
+        send_http_request(GET_VIEW);
+        s_wait_http_req = false;
+    });
 }
 
 const QJsonDocument AbstractDiagnostic::get_list_keys(QJsonArray& listNoMacInfo)
@@ -235,18 +268,16 @@ const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
 
     return QJsonDocument(std::move(nodesArray));
 }
-
-void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
+void AbstractDiagnostic::on_telemetry_data_rcv(QString method, QByteArray result)
 {
     qDebug() << "[url] [AbstractDiagnostic] [on_reply_finished]";
-    if(!reply)
+    if(result.isEmpty())
     {
         return;
     }
-    if(reply->url() == NETWORK_ADDR_GET_VIEW)
+    if(method == GET_VIEW)
     {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(result);
         if(!jsonDoc.isEmpty())
         {
             QJsonArray list = jsonDoc.array();
@@ -260,16 +291,14 @@ void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
             m_jsonData->setObject(std::move(resultObject));// setArray(std::move(jsonDoc.array()));
         }
     }
-    else if(reply->url() == NETWORK_ADDR_GET_KEYS)
+    else if(method == GET_KEYS)
     {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(result);
         if(!jsonDoc.isEmpty())
         {
             m_jsonListNode->setArray(std::move(jsonDoc.array()));
         }
     }
-    reply->deleteLater();
 }
 
 QJsonObject AbstractDiagnostic::get_diagnostic_data_item(const QJsonDocument& jsonDoc)
