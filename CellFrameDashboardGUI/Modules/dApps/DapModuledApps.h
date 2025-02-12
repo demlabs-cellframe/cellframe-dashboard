@@ -39,7 +39,7 @@ private:
 public slots:
 
     void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
-    void updatePluginsRepository(){m_dapNetworkManager->getFiles();};
+    void updatePluginsRepository(){m_dapNetworkManager->fetchPluginsList();};
     void addPlugin(QVariant, QVariant, QVariant);
     void installPlugin(QString, QString, QString);
     void deletePlugin(QVariant);

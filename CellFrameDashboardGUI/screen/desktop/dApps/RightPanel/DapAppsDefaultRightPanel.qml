@@ -135,6 +135,7 @@ Item
                     onAccepted:
                     {
                         //dAppsModule.addPlugin(dialogSelectPlug.files[0], 0, 0);
+                        dAppsModule.addLocalPlugin(dialogSelectPlug.files[0]);
     //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
     //                    messagePopup.close()
     //                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
@@ -168,6 +169,7 @@ Item
                     currentPlugin = dapAppsModel.get(dapListViewApps.currentIndex).urlPath
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
                     //dAppsModule.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    dAppsModule.activatePlugin(namePlugin)
                     defaultRightPanel.setEnableButtons()
                     logicMainApp.activePlugin = currentPlugin
                 }
@@ -197,6 +199,7 @@ Item
                     }
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
                     //dAppsModule.installPlugin(namePlugin, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    dAppsModule.deactivatePlugin(namePlugin)
                     logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()

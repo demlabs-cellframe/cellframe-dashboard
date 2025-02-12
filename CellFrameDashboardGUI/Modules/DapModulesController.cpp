@@ -63,7 +63,7 @@ void DapModulesController::initModules()
     addModule("logsModule", new DapModuleLog(this));
     addModule("settingsModule", new DapModuleSettings(this));
     //addModule("dAppsModule", new DapModuledApps(this));
-    addModule("dAppsModule", new DapModuledAppsRework(this));
+    addModule("dAppsModule", new DApps::DapModuledAppsRework(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("ordersModule", new DapModuleOrders(this));
     addModule("nodeMasterModule", new DapModuleMasterNode(this));

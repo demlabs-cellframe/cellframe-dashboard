@@ -52,13 +52,13 @@ void DapModuledApps::init()
 
     m_dapNetworkManager = new DapDappsNetworkManager(m_repoPlugins, m_pathPlugins);
 
-    connect(m_dapNetworkManager, SIGNAL(sigFilesReceived()), this, SLOT(onFilesReceived()));
+    connect(m_dapNetworkManager, SIGNAL(sigPluginsListFetched()), this, SLOT(onFilesReceived()));
     connect(m_dapNetworkManager, SIGNAL(sigDownloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
     connect(m_dapNetworkManager, SIGNAL(sigDownloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
     connect(m_dapNetworkManager, SIGNAL(sigAborted()), this, SLOT(onAborted()));
 
     readPluginsFile(&m_pathPluginsConfigFile);
-    m_dapNetworkManager->getFiles();
+    m_dapNetworkManager->fetchPluginsList();
 }
 
 
@@ -302,7 +302,7 @@ void DapModuledApps::deletePlugin(QVariant url)
         m_pluginsList.removeAt(number);
 
         updateFileConfig();
-        m_dapNetworkManager->getFiles();
+        m_dapNetworkManager->fetchPluginsList();
     }
 }
 

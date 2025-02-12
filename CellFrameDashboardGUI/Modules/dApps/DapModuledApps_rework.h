@@ -13,117 +13,84 @@
 #include <dap_hash.h>
 #include "zip/unpackzip.h"
 
-//namespace DApps {
+namespace DApps {
 
-// namespace Utils { // only in cpp
-// QString pkeyHash(QString &path);
-// bool checkHttps(QString path);
-// QString transformUnit(double bytes, bool isSpeed);
-// QString transformTime(quint64 seconds);
+using DappsNetworkManagerPtr = QSharedPointer<DapDappsNetworkManager>;
 
-// void parsePluginsFile(QString *path);
-// } // Utils
+class PluginManager : public QObject
+{
+    Q_OBJECT
+public:
+    struct PluginInfo
+    {
+        QString pluginPath;
+        bool isActivated;
+        bool isVerified;
+    };
+    using PluginsList = QMap<QString, PluginInfo>;
 
-// class DownloadManager : public QObject
-// {
-//     Q_OBJECT
-// public:
+    explicit PluginManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent = nullptr);
+    ~PluginManager();
 
-//     explicit DownloadManager(QObject *parent = nullptr);
+    QList<QVariant> getPluginsList() const;
 
-//     void updatePluginsRepository();
+    std::optional<PluginInfo> pluginByName(const QString& name) const;
 
-//     void cancelDownload();
-//     void reloadDownload();
-// private:
-//     const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
-//     DapDappsNetworkManager * m_dapNetworkManager;
-// };
+    void addLocalPlugin(QString name, QString localPath);
+    void updatePlugin(QString name, QString newPath);
+    void updatePlugin(QString name, bool isActivated);
+    void changeName(QString oldName, QString newName);
 
-// class PluginManager : public QObject
-// {
-//     Q_OBJECT
-// public:
-//     explicit PluginManager(QObject *parent = nullptr);
-//     //void init();
+private slots:
+    void onPluginsFetched();
 
-//     void readPluginsFile(QString *path);
-//     void updateFileConfig();
+signals:
+    void isFetched();
 
-//     void sortList();
+private:
+    void addFetchedPlugins();
+    void savePluginsToFile();
+    void initFilePath();
+    void appendLocalFile();
 
-//     bool zipManage(QString &path);
-//     bool checkDuplicates(QString name, QString verifed);
+    PluginsList m_pluginsByName;
+    DappsNetworkManagerPtr m_pDapNetworkManager;
+    QString m_pathPluginsListFile;
+};
 
-//     const QList<QVariant>& getListPlugins();
+class DownloadManager : public QObject
+{
+    Q_OBJECT
+public:
+    explicit DownloadManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent = nullptr);
+    ~DownloadManager();
 
-//     void addPlugin(QVariant, QVariant, QVariant);
-//     void installPlugin(QString, QString, QString);
-//     void deletePlugin(QVariant);
+    void startDownload(const QString& pluginName);
 
+private slots:
 
-// private:
-//     QString m_pathPlugins;
-//     QString m_pathPluginsConfigFile;
-//     QList<QVariant> m_pluginsList;
+    void onDownloadCompleted(QString path);
+    //void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
+    //void onAborted();
 
-//     DownloadManager* m_pDownloadManager;
-// };
+signals:
 
-// class DapModuledAppsRework : public DapAbstractModule
-// {
-//     Q_OBJECT
-// public:
-//     explicit DapModuledAppsRework(DapModulesController *parent = nullptr);
-//     ~DapModuledAppsRework();
+    void downloadCompleted(QString path);
 
-// public slots:
+private:
+    struct Progress
+    {
+        uint timeInterval = 0;
+        quint64 bytesDownload = 0;
+        quint64 bytesTotal = 0;
+        QTime timeRecord;
+        QString speed;
+        QString time;
+    };
 
-//     void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
-//     void updatePluginsRepository(){m_dapNetworkManager->getFiles();};
-//     void addPlugin(QVariant, QVariant, QVariant);
-//     void installPlugin(QString, QString, QString);
-//     void deletePlugin(QVariant);
-//     void cancelDownload(){m_dapNetworkManager->cancelDownload(1,0);};
-//     void reloadDownload(){m_dapNetworkManager->cancelDownload(1,1);};
-
-// signals:
-
-//     void rcvListPlugins(QList <QVariant> m_pluginsList);
-//     void rcvProgressDownload(QString progress, int completed, QString download, QString total, QString time, QString speed, QString name, QString error);
-//     void rcvAbort();
-
-// private slots:
-
-//     void onFilesReceived();
-//     void onDownloadCompleted(QString path){addPlugin(path,1,1);}; // why qml does know when download is completed?
-//     void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
-//     void onAborted(){emit rcvAbort();};
-
-// private:
-//     QString m_pathPluginsConfigFile;
-//     QString m_pathPlugins;
-//     QList <QVariant> m_pluginsList;
-//     QStringList m_buffPluginsByUrl;
-
-//     QString m_filePrefix;
-
-//     QString m_repoPlugins;
-
-//     uint m_timeInterval;
-//     quint64 m_bytesDownload;
-//     quint64 m_bytesTotal;
-//     QTime m_timeRecord;
-//     QString m_speed, m_time;
-
-//     DapModulesController  *m_modulesCtrl;
-//     DapDappsNetworkManager * m_dapNetworkManager;
-// };
-
-
-
-
-
+    DappsNetworkManagerPtr m_pDapNetworkManager;
+    Progress m_progress;
+};
 
 class DapModuledAppsRework : public DapAbstractModule
 {
@@ -132,91 +99,37 @@ public:
     explicit DapModuledAppsRework(DapModulesController *parent = nullptr);
     ~DapModuledAppsRework();
 
-    struct PluginInfo
-    {
-        QString repoUrl;
-        bool isActivated;
-        bool isVerified;
-    };
-
-private:
-    //void init();
-
-    void initPaths();
-
-    //file manage work
-    //void readPluginsFile(QString *path);
-    void updateFileConfig();
-    //void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
-    //bool zipManage(QString &path);
-    //bool checkDuplicates(QString name, QString verifed);
-    //bool checkHttps(QString path);
-
-    //QString pkeyHash(QString &path);
-
-    //QString transformUnit(double bytes, bool isSpeed);
-    //QString transformTime(quint64 seconds);
-
 public slots:
-
-    void getListPlugins();
-    //void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
-    void updatePluginsRepository(){m_dapNetworkManager->getFiles();};
-    //void addPlugin(QVariant, QVariant, QVariant);
-    //void installPlugin(QString, QString, QString);
-    //void deletePlugin(QVariant);
-    //void cancelDownload(){m_dapNetworkManager->cancelDownload(1,0);};
-    //void reloadDownload(){m_dapNetworkManager->cancelDownload(1,1);};
-
-signals:
-
-    void rcvListPlugins(QList<QString> m_pluginsList);
-    void rcvProgressDownload(QString progress, int completed, QString download, QString total, QString time, QString speed, QString name, QString error);
-    void rcvAbort();
+    void addLocalPlugin(QVariant path);
+    void activatePlugin(QString pluginName);
+    void deactivatePlugin(QString pluginName);
+    void deletePlugin(QString pluginName);
 
 private slots:
+    void onPluginManagerInit();
+    void onDownloadCompleted(QString pluginFullPathToZip);
 
-    void onFilesReceived();
-    void onDownloadCompleted(QString path){/*addPlugin(path,1,1);*/};
-    void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
-    void onAborted(){emit rcvAbort();};
+signals:
+    void pluginsUpdated(QList<QVariant> pluginsList);
 
 private:
+    void initPlatformPaths();
 
-
-    QMap<QString, PluginInfo> m_pluginsByName;
-
-    QString m_pathPluginsConfigFile;
-    QString m_pathPlugins;
-    //QList <QVariant> m_pluginsList;
-    //QStringList m_buffPluginsByUrl;
-
-    //QString m_filePrefix;
-
-    QString m_repoPlugins;
-
-    // uint m_timeInterval;
-    // quint64 m_bytesDownload;
-    // quint64 m_bytesTotal;
-    // QTime m_timeRecord;
-    // QString m_speed, m_time;
+    QString m_pluginsDownloadFolder;//to remove
+    const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
+    QString m_filePrefix;
 
     DapModulesController * m_modulesCtrl;
-    DapDappsNetworkManager * m_dapNetworkManager;
+
+    using PluginManagerPtr = QSharedPointer<PluginManager>;
+    PluginManagerPtr m_pPluginManager;
+
+    using DownloadManagerPtr = QSharedPointer<DownloadManager>;
+    DownloadManagerPtr m_pDownloadManager;
 };
 
 
 
-
-
-
-
-
-
-
-
-
-
-//} // DApps
+} // DApps
 
 #endif // DAPMODULEDAPPS_REWORK_H

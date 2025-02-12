@@ -47,24 +47,25 @@ DapPage {
         target: dapMainWindow
         function onModelPluginsUpdated()
         {
-            //dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
+            dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
         }
     }
 
-    Connections{
-        target: dAppsModule
-        function onRcvProgressDownload(completed, error, progress, name, download, total, time, speed)
-        {
-            //dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
-        }
-        function onRcvAbort()
-        {
-            //dAppsLogic.rcvAbort()
-        }
-    }
+    // Connections{
+    //     target: dAppsModule
+    //     function onRcvProgressDownload(completed, error, progress, name, download, total, time, speed)
+    //     {
+    //         dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
+    //     }
+    //     function onRcvAbort()
+    //     {
+    //         dAppsLogic.rcvAbort()
+    //     }
+    // }
 
     Component.onCompleted:{
         //dAppsModule.updatePluginsRepository()
-        //dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
+        //dAppsModule.getListPlugins()
+        dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
     }
 }

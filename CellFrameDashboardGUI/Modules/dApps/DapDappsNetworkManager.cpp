@@ -139,6 +139,16 @@ void DapDappsNetworkManager::cancelDownload(bool ok, bool reload)
     }
 }
 
+QString DapDappsNetworkManager::repoAddress() const
+{
+    return m_path;
+}
+
+QString DapDappsNetworkManager::downloadPath() const
+{
+    return m_pathPlugins;
+}
+
 void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 {
     QVariant statusCode = m_currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -191,14 +201,14 @@ void DapDappsNetworkManager::onUploadCompleted(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void DapDappsNetworkManager::getFiles()
+void DapDappsNetworkManager::fetchPluginsList()
 {
     QNetworkReply *reply;
     reply = m_networkManager->get(QNetworkRequest(QUrl(m_path)));
-    connect(reply, SIGNAL(finished()),this,SLOT(onFilesReceived()));
+    connect(reply, SIGNAL(finished()),this,SLOT(onPluginsListFetched()));
 }
 
-void DapDappsNetworkManager::onFilesReceived()
+void DapDappsNetworkManager::onPluginsListFetched()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
@@ -223,5 +233,5 @@ void DapDappsNetworkManager::onFilesReceived()
 
     reply->deleteLater();
 
-    emit sigFilesReceived();
+    emit sigPluginsListFetched();
 }
