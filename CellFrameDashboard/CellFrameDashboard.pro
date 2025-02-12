@@ -3,6 +3,9 @@ QT += qml quick widgets svg network
 include (../config.pri)
 TARGET = $${BRAND}
 
+DEFINES += CPPHTTPLIB_OPENSSL_SUPPORT
+LIBS += -lcrypto -lssl
+
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 include (../cellframe-ui-sdk/DapTypes/DapTypes.pri)

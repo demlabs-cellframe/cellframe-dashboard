@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QtMath>
+#include <QtConcurrent/QtConcurrent>
 
 #include "DiagtoolConnectCotroller.h"
 
@@ -31,11 +32,13 @@ public:
 
     bool getConnectDiagStatus(){return m_diagConnectCtrl->getConncetState();}
     void update_full_data();
+    void send_http_request(QString method);
 
 private:
     QJsonObject get_diagnostic_data_item(const QJsonDocument& jsonDoc);
     QElapsedTimer *s_elapsed_timer;
     QString s_uptime{"00:00:00"};
+    bool s_wait_http_req{false};
 
     DiagtoolConnectCotroller *m_diagConnectCtrl;
 
@@ -45,23 +48,22 @@ public:
     QJsonDocument s_full_info;
 
 
-private slots:
-    void on_reply_finished(QNetworkReply *reply);
 
+private slots:
     void rcv_diag_data(QJsonDocument diagData);
+    void on_telemetry_data_rcv(QString method, QByteArray result);
 
 protected:
-    const QString NETWORK_ADDR_GET_VIEW = "https://telemetry.cellframe.net/diag?method=view";
-    const QString NETWORK_ADDR_GET_KEYS = "https://telemetry.cellframe.net/diag?method=keys";
+    const QString GET_VIEW     = "/diag?method=view";
+    const QString GET_KEYS     = "/diag?method=keys";
 
     QJsonDocument* m_jsonListNode;
     QJsonDocument* m_jsonData;
 
-    QNetworkAccessManager* m_manager = nullptr;
-
 signals:
     void data_updated(QJsonDocument);
     void diagtool_socket_change_status(bool status);
+    void sig_telemetry_data_rcv(QString method, QByteArray result);
 };
 
 #endif // ABSTRACTDIAGNOSTIC_H

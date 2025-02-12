@@ -18,11 +18,6 @@
 #include <QTcpSocket>
 #include <QAbstractSocket>
 #include <QHostAddress>
-#include <QNetworkInterface>
-#include <QNetworkAccessManager>
-#include <QHttpPart>
-#include <QHttpMultiPart>
-#include <QNetworkReply>
 
 class DiagtoolConnectCotroller : public QObject
 {
