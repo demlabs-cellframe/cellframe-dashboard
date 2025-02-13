@@ -29,16 +29,16 @@ DapPage {
 
         dapDownloadPanel.reloadButton.onClicked:
         {
-            //dAppsModule.reloadDownload();
+            dAppsModule.reloadDownload();
         }
 
         dapDownloadPanel.canceledButton.onClicked:
         {
-            //dAppsModule.cancelDownload();
+            dAppsModule.cancelDownload();
         }
         dapDownloadPanel.closeButton.onClicked:
         {
-            //dAppsModule.cancelDownload();
+            dAppsModule.cancelDownload();
         }
     }
     onRightPanel: false
@@ -57,10 +57,10 @@ DapPage {
         {
             dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
         }
-        // function onRcvAbort()
-        // {
-        //     dAppsLogic.rcvAbort()
-        // }
+        function onRcvAbort()
+        {
+            dAppsLogic.rcvAbort()
+        }
     }
 
     Component.onCompleted:{

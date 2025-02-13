@@ -66,17 +66,20 @@ public:
     ~DownloadManager();
 
     void startDownload(const QString& pluginName);
+    void cancelDownload();
+    void reloadDownload();
 
 private slots:
 
     void onDownloadCompleted(QString path);
     void onDownloadProgress(quint64 currDownloadedBytes, quint64 totalBytes, QString nameZip, QString statusMsg);
-    //void onAborted();
+    void onAborted();
 
 signals:
 
     void downloadCompleted(QString path);
     void downloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
+    void isAborted();
 
 private:
     struct Progress
@@ -85,9 +88,8 @@ private:
         quint64 prevDownloaded = 0;
         quint64 totalBytes = 0;
         QTime timeRecord;
-        quint64 lastSpeed = 0;
-        QString speedString;
-        QString timeString;
+        QString speedStr;
+        QString timeRemainStr;
     };
 
     DappsNetworkManagerPtr m_pDapNetworkManager;
@@ -108,14 +110,19 @@ public slots:
     void deactivatePlugin(QString pluginName);
     void deletePlugin(QString pluginName);
 
+    void cancelDownload();
+    void reloadDownload();
+
 private slots:
     void onPluginManagerInit();
     void onDownloadCompleted(QString pluginFullPathToZip);
     void onDownloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
+    void onAborted();
 
 signals:
     void pluginsUpdated(QList<QVariant> pluginsList);
     void rcvProgressDownload(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
+    void rcvAbort();
 
 private:
     void initPlatformPaths();
