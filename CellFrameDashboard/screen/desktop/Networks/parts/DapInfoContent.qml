@@ -152,7 +152,9 @@ Item {
                     if(!app.getNodeMode())
                     {
                         console.log("setText()")
-                        logicNet.delay(300, function(){buttonNetwork.updateFakeButton(false)})
+                        logicNet.delay(300, function(){
+                            if(buttonNetwork) buttonNetwork.updateFakeButton(false)
+                        })
     //                    buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
                         if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
                             buttonNetwork.textBut = qsTr("On network")
