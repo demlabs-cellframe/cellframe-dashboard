@@ -35,7 +35,7 @@ bool checkHttps(QString path)
     return !endStr.isEmpty();
 }
 
-QString transformUnit(double bytes, bool isSpeed)
+QString transformUnit(double bytes, bool isSpeed = false)
 {
     QString strUnit = " B";
 
@@ -189,9 +189,7 @@ PluginManager::PluginsList readPluginsFile(QString path)
 bool zipManage(QString &path, QString pluginsFolderPath)
 {
     //TODO: Make a request to the node to confirm the hash
-    QString hash = pkeyHash(path);
-
-    //    bool result = DapZip::fileDecompression(path,m_pathPlugins);
+    //QString hash = pkeyHash(path);
 
     return DapZip::fileDecompression(path,pluginsFolderPath);
 }
@@ -370,10 +368,10 @@ void DownloadManager::startDownload(const QString& pluginName)
 {
     m_pDapNetworkManager->downloadFile(pluginName);
     m_progress.timeRecord.start();
-    m_progress.timeInterval = 0;
-    m_progress.bytesDownload = 0;
-    m_progress.time = "";
-    m_progress.speed = "";
+    m_progress.lastTimeInterval = 0;
+    m_progress.prevDownloaded = 0;
+    m_progress.timeString = "";
+    m_progress.speedString = "";
 }
 
 void DownloadManager::onDownloadCompleted(QString path)
@@ -381,9 +379,46 @@ void DownloadManager::onDownloadCompleted(QString path)
     emit downloadCompleted(path);
 }
 
-void DownloadManager::onDownloadProgress(quint64 progress, quint64 total, QString name, QString error)
+void DownloadManager::onDownloadProgress(quint64 currDownloadedBytes, quint64 totalBytes, QString nameZip, QString statusMsg)
 {
-    emit downloadProgress(progress, total, name, error);
+    bool isCompleted = false;
+    double percent;
+    QString percentStr, downloadedStr, totalStr;
+    if (totalBytes != 0)
+    {
+        quint64 timeNow = m_progress.timeRecord.elapsed();
+        m_progress.totalBytes = totalBytes;
+
+        percent = (currDownloadedBytes * 100.0)/(double)totalBytes;
+        percentStr = QString::number(percent,'f',2);
+
+        isCompleted = currDownloadedBytes == totalBytes;
+        m_progress.prevDownloaded = currDownloadedBytes;
+
+        if (timeNow - m_progress.lastTimeInterval > m_minTimeInterval)
+        {
+            quint64 deltaDownload = currDownloadedBytes - m_progress.prevDownloaded;
+            double speed = deltaDownload * 1000 / (timeNow - m_progress.lastTimeInterval);
+            m_progress.speedString = transformUnit(speed, true);
+
+            qint64 timeRemain = (totalBytes - currDownloadedBytes) / speed;
+            m_progress.timeString = transformTime(timeRemain);
+
+            m_progress.lastTimeInterval = timeNow;
+        }
+
+        downloadedStr = transformUnit((double)currDownloadedBytes);
+        totalStr = transformUnit((double)totalBytes);
+    }
+    else
+    {
+        percent = (m_progress.prevDownloaded * 100.0)/(double)m_progress.totalBytes;
+        percentStr = QString::number(percent,'f',2);
+
+        downloadedStr = transformUnit((double)m_progress.prevDownloaded,false);
+        totalStr = transformUnit((double)m_progress.totalBytes,false);
+    }
+    emit downloadProgress(isCompleted, statusMsg, percentStr, nameZip, downloadedStr, totalStr, m_progress.timeString, m_progress.speedString);
 }
 
 DapModuledAppsRework::DapModuledAppsRework(DapModulesController *parent)
@@ -399,7 +434,7 @@ DapModuledAppsRework::DapModuledAppsRework(DapModulesController *parent)
 
     connect(m_pPluginManager.data(), SIGNAL(isFetched()), this, SLOT(onPluginManagerInit()));
     connect(m_pDownloadManager.data(), SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
-    connect(m_pDownloadManager.data(), SIGNAL(downloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
+    connect(m_pDownloadManager.data(), SIGNAL(downloadProgress(bool, QString, QString, QString, QString, QString, QString, QString)), this, SLOT(onDownloadProgress(bool, QString, QString, QString, QString, QString, QString, QString)));
 }
 
 DapModuledAppsRework::~DapModuledAppsRework()
@@ -421,10 +456,9 @@ void DapModuledAppsRework::onDownloadCompleted(QString pluginFullPathToZip)
     }
 }
 
-void DapModuledAppsRework::onDownloadProgress(quint64 progress, quint64 total, QString name, QString error)
+void DapModuledAppsRework::onDownloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed)
 {
-    //rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
-    emit rcvProgressDownload(false, "no error", 50, "name", 500, 1000, 10, 2);
+    emit rcvProgressDownload(isCompleted, error, progressPercent, fileName, downloaded, total, timeRemain, speed);
 }
 
 void DapModuledAppsRework::addLocalPlugin(QVariant path)

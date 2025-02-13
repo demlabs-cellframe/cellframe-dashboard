@@ -70,27 +70,29 @@ public:
 private slots:
 
     void onDownloadCompleted(QString path);
-    void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
+    void onDownloadProgress(quint64 currDownloadedBytes, quint64 totalBytes, QString nameZip, QString statusMsg);
     //void onAborted();
 
 signals:
 
     void downloadCompleted(QString path);
-    void downloadProgress(quint64,quint64,QString,QString);
+    void downloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
 
 private:
     struct Progress
     {
-        uint timeInterval = 0;
-        quint64 bytesDownload = 0;
-        quint64 bytesTotal = 0;
+        quint64 lastTimeInterval = 0;
+        quint64 prevDownloaded = 0;
+        quint64 totalBytes = 0;
         QTime timeRecord;
-        QString speed;
-        QString time;
+        quint64 lastSpeed = 0;
+        QString speedString;
+        QString timeString;
     };
 
     DappsNetworkManagerPtr m_pDapNetworkManager;
     Progress m_progress;
+    const quint64 m_minTimeInterval = 500;
 };
 
 class DapModuledAppsRework : public DapAbstractModule
@@ -109,11 +111,11 @@ public slots:
 private slots:
     void onPluginManagerInit();
     void onDownloadCompleted(QString pluginFullPathToZip);
-    void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
+    void onDownloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
 
 signals:
     void pluginsUpdated(QList<QVariant> pluginsList);
-    void rcvProgressDownload(bool completed, QString error, quint64 progress, QString name, quint64 download, quint64 total, quint64 time, quint64 speed);
+    void rcvProgressDownload(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
 
 private:
     void initPlatformPaths();
