@@ -103,7 +103,7 @@ void DapApplication::createPaths()
     qDebug()<<"Dapps      - " << dirDapps.path();
     qDebug()<<"Data       - " << dirData.path();
     qDebug()<<"Wallet     - " << dirDataWallet.path();
-    qDebug()<<"WalletNOde - " << dirDataWalletNode.path();
+    qDebug()<<"WalletNode - " << dirDataWalletNode.path();
 }
 
 void DapApplication::startService()
