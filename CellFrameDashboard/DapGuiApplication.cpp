@@ -93,5 +93,5 @@ QString DapGuiApplication::getSkinUrl()
         return "qrc:/walletSkin/main.qml";
     }
 
-     return "qrc:/main.qml";
+    return "qrc:/main.qml";
 }
