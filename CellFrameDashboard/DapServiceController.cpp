@@ -226,6 +226,7 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapVersionController,                 QObject*>("DapVersionController",                      "versionControllerResult",               nullptr);
     addServiceGeneric<DapWebConnectRequest,                 QObject*>("DapWebConnectRequest",                      "dapWebConnectRequest",                  nullptr);
     addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       nullptr);
+    addServiceGeneric<DapMigrateWalletsCommand,             QObject*>("DapMigrateWalletsCommand",                  "rcvMigrateWallets",                     nullptr);
     addServiceGeneric<DapUpdateLogsCommand,                 QObject *, QString> ("DapUpdateLogsCommand",                    "logUpdated",                   nullptr, LOG_FILE);
     addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, CMD_HISTORY);
     addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, CMD_HISTORY);

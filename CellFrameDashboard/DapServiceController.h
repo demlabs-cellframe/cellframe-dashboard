@@ -104,6 +104,7 @@
 #include "handlers/DapNodeDel.h"
 #include "handlers/DapSrvStakeRemove.h"
 #include "handlers/DapWebBlockList.h"
+#include "handlers/DapMigrateWalletsCommand.h"
 
 #include "handlers/DapCreateTxCommand.h"
 
@@ -273,6 +274,7 @@ signals:
     void rcvLedgerTxHashCommand(const QVariant& rcvData);
     void rcvGetServiceLimitsCommand(const QVariant& rcvData);
     void rcvWebBlockList(const QVariant& rcvData);
+    void rcvMigrateWallets(const QVariant& rcvData);
 };
 
 #endif // DAPSERVICECONTROLLER_H
