@@ -1,9 +1,5 @@
 #include "DapModuledApps_rework.h"
 
-#define UNIT_KB 1024            //KB
-#define UNIT_MB 1024*1024       //MB
-#define UNIT_GB 1024*1024*1024  //GB
-
 namespace DApps {
 
 QString pkeyHash(QString &path)
@@ -37,6 +33,10 @@ bool checkHttps(QString path)
 
 QString transformUnit(double bytes, bool isSpeed = false)
 {
+    const double UNIT_KB = 1024.0;
+    const double UNIT_MB = UNIT_KB*UNIT_KB;
+    const double UNIT_GB = UNIT_MB*UNIT_KB;
+
     QString strUnit = " B";
 
     if (bytes <= 0)
