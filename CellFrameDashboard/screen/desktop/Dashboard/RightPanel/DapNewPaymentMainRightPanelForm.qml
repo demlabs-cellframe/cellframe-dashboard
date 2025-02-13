@@ -549,16 +549,15 @@ DapRectangleLitAndShaded
             }
         }
 
-        Item{Layout.fillHeight: true}
-
         Text
         {
             id: textNotEnoughTokensWarning
 
             Layout.fillWidth: true
-            Layout.bottomMargin: 12
             Layout.maximumWidth: 281
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+            Layout.topMargin: 12
+            Layout.bottomMargin: 12
 
             color: currTheme.neon
             text: qsTr("Not enough available tokens. Enter a lower value.")
@@ -569,15 +568,19 @@ DapRectangleLitAndShaded
             visible: false
         }
 
+        Item{
+            Layout.fillHeight: true
+        }
+
         DapLoadIndicator {
             id: loadIndicator
             Layout.alignment: Qt.AlignHCenter
-
-            Layout.bottomMargin: 20
+            Layout.bottomMargin: 12
 
             indicatorSize: 32
             countElements: 6
             elementSize: 5
+            visible: running
 
             running: true
         }

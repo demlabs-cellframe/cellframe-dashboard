@@ -200,8 +200,8 @@ void DapApplication::clearData()
     m_modulesController   = nullptr;
     m_serviceController   = nullptr;
 
-    m_guiApp = nullptr;
     m_engine = nullptr;
+    m_guiApp = nullptr;
 }
 
 void DapApplication::setContextProperties()

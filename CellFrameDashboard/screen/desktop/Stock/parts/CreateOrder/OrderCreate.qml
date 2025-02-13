@@ -261,38 +261,39 @@ Page
                         }
                     }
                 }
-                Connections
-                {
-                    target: fields
-                    function onPercentButtonClicked(percent)
-                    {
-                        var resBalance
-                        if(isToken)
-                        {
-                            var network = walletModule.getFee(dexModule.networkPair).network_fee
-                            var validator = walletModule.getFee(dexModule.networkPair).validator_fee
-                            resBalance = dexModule.minusCoins(fields.balance, validator)
-                            resBalance = dexModule.minusCoins(resBalance, network)
-                        }
-                        else
-                        {
-                            resBalance = fields.balance
-                        }
+//                Connections
+//                {
+//                    target: fields
+//                    function onPercentButtonClicked(percent)
+//                    {
+//                        var resBalance
+//                        if(isToken)
+//                        {
+//                            var network = walletModule.getFee(dexModule.networkPair).network_fee
+//                            var validator = walletModule.getFee(dexModule.networkPair).validator_fee
+//                            resBalance = dexModule.minusCoins(fields.balance, validator)
+//                            resBalance = dexModule.minusCoins(resBalance, network)
+//                        }
+//                        else
+//                        {
+//                            resBalance = fields.balance
+//                        }
 
-                        var result = dexModule.multCoins(resBalance, percent)
-                        if(isSell)
-                        {
-                            fields.amount.textElement.text = result
-                        }
-                        else
-                        {
-                            fields.total.textElement.text = result
-                        }
-                    }
-                }
+//                        var result = dexModule.multCoins(resBalance, percent)
+//                        if(isSell)
+//                        {
+//                            fields.amount.textElement.text = result
+//                        }
+//                        else
+//                        {
+//                            fields.total.textElement.text = result
+//                        }
+//                    }
+//                }
             }
         }
     }
+
     function setBalanceText(token)
     {
         var value = dexModule.getBalance(token)
