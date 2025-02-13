@@ -1,9 +1,5 @@
 #include <QApplication>
 #include <QGuiApplication>
-//#include <QtQml>
-//#include <QQmlApplicationEngine>
-//#include <QQmlContext>
-#include <QIcon>
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QScreen>
@@ -125,11 +121,11 @@ QByteArray scaleCalculate(int argc, char *argv[])
     scale = qMax(scale, 0.6);
 
     if (MIN_WIDTH * scale > maxWidth) {
-        scale = static_cast<double>(maxWidth) / MIN_WIDTH;
+        scale = qMin(scale, double(maxWidth) / double(MIN_WIDTH));
         qDebug() << "Adjusted scale for width:" << scale;
     }
     if (MIN_HEIGHT * scale > maxHeight) {
-        scale = qMin(scale, static_cast<double>(maxHeight) / MIN_HEIGHT);
+        scale = qMin(scale, double(maxHeight) / double(MIN_HEIGHT));
         qDebug() << "Adjusted scale for height:" << scale;
     }
 
