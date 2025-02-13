@@ -11,6 +11,7 @@
 
 #include <QCryptographicHash>
 #include <dap_hash.h>
+#include <optional>
 #include "zip/unpackzip.h"
 
 namespace DApps {
