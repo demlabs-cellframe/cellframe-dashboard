@@ -186,6 +186,15 @@ PluginManager::PluginsList readPluginsFile(QString path)
     return result;
 }
 
+bool zipManage(QString &path, QString pluginsFolderPath)
+{
+    //TODO: Make a request to the node to confirm the hash
+    QString hash = pkeyHash(path);
+
+    //    bool result = DapZip::fileDecompression(path,m_pathPlugins);
+
+    return DapZip::fileDecompression(path,pluginsFolderPath);
+}
 
 PluginManager::PluginManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent)
     : m_pDapNetworkManager(pDapDappsNetworkManager)
@@ -216,7 +225,10 @@ void PluginManager::addFetchedPlugins()
     for(auto repoPlugin : m_pDapNetworkManager->m_bufferFiles)
     {
         QString nameWithoutZip = repoPlugin.split(".zip").first();
-        if (m_pluginsByName.contains(nameWithoutZip))
+        const bool isAlreadyInstalled = m_pluginsByName.contains(nameWithoutZip) &&
+                                  m_pluginsByName.value(nameWithoutZip).isActivated &&
+                                  m_pluginsByName.value(nameWithoutZip).isVerified;
+        if (isAlreadyInstalled)
             continue;
 
         bool isVerified = true;
@@ -299,9 +311,10 @@ std::optional<PluginManager::PluginInfo> PluginManager::pluginByName(const QStri
 void PluginManager::addLocalPlugin(QString name, QString localPath)
 {
     m_pluginsByName[name] = PluginInfo{localPath, false, false};
+    savePluginsToFile();
 }
 
-void PluginManager::updatePlugin(QString name, QString newPath)
+void PluginManager::changePath(QString name, QString newPath)
 {
     if (m_pluginsByName.contains(name))
     {
@@ -310,7 +323,7 @@ void PluginManager::updatePlugin(QString name, QString newPath)
     }
 }
 
-void PluginManager::updatePlugin(QString name, bool isActivated)
+void PluginManager::changeActivation(QString name, bool isActivated)
 {
     if (m_pluginsByName.contains(name))
     {
@@ -330,11 +343,21 @@ void PluginManager::changeName(QString oldName, QString newName)
     }
 }
 
+void PluginManager::removePlugin(QString name)
+{
+    if (m_pluginsByName.contains(name))
+    {
+        m_pluginsByName.remove(name);
+        savePluginsToFile();
+        m_pDapNetworkManager->fetchPluginsList();
+    }
+}
+
 DownloadManager::DownloadManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent)
     : m_pDapNetworkManager(pDapDappsNetworkManager)
 {
     connect(m_pDapNetworkManager.data(), SIGNAL(sigDownloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
-    //connect(m_pDapNetworkManager.data(), SIGNAL(sigDownloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
+    connect(m_pDapNetworkManager.data(), SIGNAL(sigDownloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
     //connect(m_pDapNetworkManager.data(), SIGNAL(sigAborted()), this, SLOT(onAborted()));
 }
 
@@ -358,6 +381,11 @@ void DownloadManager::onDownloadCompleted(QString path)
     emit downloadCompleted(path);
 }
 
+void DownloadManager::onDownloadProgress(quint64 progress, quint64 total, QString name, QString error)
+{
+    emit downloadProgress(progress, total, name, error);
+}
+
 DapModuledAppsRework::DapModuledAppsRework(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
@@ -371,6 +399,7 @@ DapModuledAppsRework::DapModuledAppsRework(DapModulesController *parent)
 
     connect(m_pPluginManager.data(), SIGNAL(isFetched()), this, SLOT(onPluginManagerInit()));
     connect(m_pDownloadManager.data(), SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
+    connect(m_pDownloadManager.data(), SIGNAL(downloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
 }
 
 DapModuledAppsRework::~DapModuledAppsRework()
@@ -380,13 +409,22 @@ DapModuledAppsRework::~DapModuledAppsRework()
 
 void DapModuledAppsRework::onDownloadCompleted(QString pluginFullPathToZip)
 {
-    QString nameWithZip = pluginFullPathToZip.split("/").last();
-    QString nameWithoutZip = nameWithZip.split(".zip").first();
-    QString pathMainFileQml = QString(m_filePrefix + m_pluginsDownloadFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
-    m_pPluginManager->updatePlugin(nameWithZip, pathMainFileQml);
-    m_pPluginManager->updatePlugin(nameWithZip, true);
-    m_pPluginManager->changeName(nameWithZip, nameWithoutZip);
-    emit pluginsUpdated(m_pPluginManager->getPluginsList());
+    if (zipManage(pluginFullPathToZip, m_pluginsDownloadFolder))
+    {
+        QString nameWithZip = pluginFullPathToZip.split("/").last();
+        QString nameWithoutZip = nameWithZip.split(".zip").first();
+        QString pathMainFileQml = QString(m_filePrefix + m_pluginsDownloadFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
+        m_pPluginManager->changePath(nameWithZip, pathMainFileQml);
+        m_pPluginManager->changeActivation(nameWithZip, true);
+        m_pPluginManager->changeName(nameWithZip, nameWithoutZip);
+        emit pluginsUpdated(m_pPluginManager->getPluginsList());
+    }
+}
+
+void DapModuledAppsRework::onDownloadProgress(quint64 progress, quint64 total, QString name, QString error)
+{
+    //rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
+    emit rcvProgressDownload(false, "no error", 50, "name", 500, 1000, 10, 2);
 }
 
 void DapModuledAppsRework::addLocalPlugin(QVariant path)
@@ -398,11 +436,13 @@ void DapModuledAppsRework::addLocalPlugin(QVariant path)
 
     if (!m_pPluginManager->pluginByName(nameWithoutZip).has_value())
     {
-        QString pathMainFileQml = QString(m_filePrefix + m_pluginsDownloadFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
+        if (zipManage(fullPathToZipFile, m_pluginsDownloadFolder))
+        {
+            QString pathMainFileQml = QString(m_filePrefix + m_pluginsDownloadFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
+            m_pPluginManager->addLocalPlugin(nameWithoutZip, pathMainFileQml);
 
-        m_pPluginManager->addLocalPlugin(nameWithoutZip, pathMainFileQml);
-
-        emit pluginsUpdated(m_pPluginManager->getPluginsList());
+            emit pluginsUpdated(m_pPluginManager->getPluginsList());
+        }
     }
 }
 
@@ -415,8 +455,7 @@ void DapModuledAppsRework::activatePlugin(QString pluginName)
             m_pDownloadManager->startDownload(pluginName);
         else
         {
-            //addLocalPlugin(pluginName);
-            m_pPluginManager->updatePlugin(pluginName, true);
+            m_pPluginManager->changeActivation(pluginName, true);
             emit pluginsUpdated(m_pPluginManager->getPluginsList());
         }
     }
@@ -428,8 +467,28 @@ void DapModuledAppsRework::activatePlugin(QString pluginName)
 
 void DapModuledAppsRework::deactivatePlugin(QString pluginName)
 {
-    m_pPluginManager->updatePlugin(pluginName, false);
+    m_pPluginManager->changeActivation(pluginName, false);
     emit pluginsUpdated(m_pPluginManager->getPluginsList());
+}
+
+void DapModuledAppsRework::deletePlugin(QString pluginName)
+{
+    auto plOpt = m_pPluginManager->pluginByName(pluginName);
+    if (plOpt.has_value())
+    {
+        auto zipFilePath = QString(m_pluginsDownloadFolder + "/download/" + pluginName + ".zip");
+        auto pluginFolderPath = plOpt->pluginPath.remove(QString("/" + pluginName + ".qml"));
+        pluginFolderPath.remove(m_filePrefix);
+
+        QFile file(zipFilePath);
+        if(file.exists())
+            file.remove();
+
+        QDir dir(pluginFolderPath);
+        dir.removeRecursively();
+
+        m_pPluginManager->removePlugin(pluginName);
+    }
 }
 
 void DapModuledAppsRework::initPlatformPaths()

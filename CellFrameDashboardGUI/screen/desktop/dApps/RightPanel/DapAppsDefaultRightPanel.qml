@@ -231,6 +231,7 @@ Item
                     }
     //                    listModel.remove(listViewPlug.currentIndex)
                     //dAppsModule.deletePlugin(dapAppsModel.get(dapListViewApps.currentIndex).urlPath)
+                    dAppsModule.deletePlugin(dapAppsModel.get(dapListViewApps.currentIndex).name)
                     logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()

@@ -51,17 +51,17 @@ DapPage {
         }
     }
 
-    // Connections{
-    //     target: dAppsModule
-    //     function onRcvProgressDownload(completed, error, progress, name, download, total, time, speed)
-    //     {
-    //         dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
-    //     }
-    //     function onRcvAbort()
-    //     {
-    //         dAppsLogic.rcvAbort()
-    //     }
-    // }
+    Connections{
+        target: dAppsModule
+        function onRcvProgressDownload(completed, error, progress, name, download, total, time, speed)
+        {
+            dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
+        }
+        // function onRcvAbort()
+        // {
+        //     dAppsLogic.rcvAbort()
+        // }
+    }
 
     Component.onCompleted:{
         //dAppsModule.updatePluginsRepository()

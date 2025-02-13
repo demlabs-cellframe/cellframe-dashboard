@@ -37,9 +37,10 @@ public:
     std::optional<PluginInfo> pluginByName(const QString& name) const;
 
     void addLocalPlugin(QString name, QString localPath);
-    void updatePlugin(QString name, QString newPath);
-    void updatePlugin(QString name, bool isActivated);
+    void changePath(QString name, QString newPath);
+    void changeActivation(QString name, bool isActivated);
     void changeName(QString oldName, QString newName);
+    void removePlugin(QString name);
 
 private slots:
     void onPluginsFetched();
@@ -51,7 +52,6 @@ private:
     void addFetchedPlugins();
     void savePluginsToFile();
     void initFilePath();
-    void appendLocalFile();
 
     PluginsList m_pluginsByName;
     DappsNetworkManagerPtr m_pDapNetworkManager;
@@ -70,12 +70,13 @@ public:
 private slots:
 
     void onDownloadCompleted(QString path);
-    //void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
+    void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
     //void onAborted();
 
 signals:
 
     void downloadCompleted(QString path);
+    void downloadProgress(quint64,quint64,QString,QString);
 
 private:
     struct Progress
@@ -108,9 +109,11 @@ public slots:
 private slots:
     void onPluginManagerInit();
     void onDownloadCompleted(QString pluginFullPathToZip);
+    void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
 
 signals:
     void pluginsUpdated(QList<QVariant> pluginsList);
+    void rcvProgressDownload(bool completed, QString error, quint64 progress, QString name, quint64 download, quint64 total, quint64 time, quint64 speed);
 
 private:
     void initPlatformPaths();
