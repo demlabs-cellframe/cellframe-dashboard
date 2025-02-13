@@ -139,11 +139,6 @@ QByteArray scaleCalculate(int argc, char *argv[])
     return QByteArray::number(scale, 'f', 1);
 }
 
-QString setupSkin()
-{
-
-}
-
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
