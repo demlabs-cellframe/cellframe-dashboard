@@ -48,7 +48,8 @@ public:
     void setGuiApp(DapGuiApplication *guiApp);
     void clearData();
     void setCountRestart(int count) { m_countRestart = count; }
-
+private:
+    void initMigrateWallets();
 private:
     void setContextProperties();
     void registerQmlTypes();

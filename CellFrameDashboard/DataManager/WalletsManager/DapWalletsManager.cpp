@@ -1,43 +1,43 @@
-#include "DapWalletsManagerRemote.h"
+#include "DapWalletsManager.h"
 #include "DapServiceController.h"
 #include "Modules/DapModulesController.h"
 #include "DapDataManagerController.h"
 #include <QMap>
 
-DapWalletsManagerRemote::DapWalletsManagerRemote(DapModulesController *moduleController)
+DapWalletsManager::DapWalletsManager(DapModulesController *moduleController)
     : DapWalletsManagerBase(moduleController)
     , m_walletsListTimer(new QTimer())
     , m_timerUpdateWallet(new QTimer())
     , m_timerAlarmUpdateWallet(new QTimer())
 {
-    connect(m_modulesController, &DapModulesController::sigUpdateData, this, &DapWalletsManagerRemote::clearAndUpdateDataSlot);
-    connect(m_walletsListTimer, &QTimer::timeout, this, &DapWalletsManagerRemote::updateListWallets, Qt::QueuedConnection);
-    connect(m_modulesController->getServiceController(), &DapServiceController::walletsListReceived, this, &DapWalletsManagerRemote::walletsListReceived, Qt::QueuedConnection);
-    connect(m_modulesController->getServiceController(), &DapServiceController::walletReceived, this, &DapWalletsManagerRemote::rcvWalletInfo, Qt::QueuedConnection);
-    connect(m_modulesController->getServiceController(), &DapServiceController::walletAddressReceived, this, &DapWalletsManagerRemote::rcvWalletAddress, Qt::QueuedConnection);
+    connect(m_modulesController, &DapModulesController::sigUpdateData, this, &DapWalletsManager::clearAndUpdateDataSlot);
+    connect(m_walletsListTimer, &QTimer::timeout, this, &DapWalletsManager::updateListWallets, Qt::QueuedConnection);
+    connect(m_modulesController->getServiceController(), &DapServiceController::walletsListReceived, this, &DapWalletsManager::walletsListReceived, Qt::QueuedConnection);
+    connect(m_modulesController->getServiceController(), &DapServiceController::walletReceived, this, &DapWalletsManager::rcvWalletInfo, Qt::QueuedConnection);
+    connect(m_modulesController->getServiceController(), &DapServiceController::walletAddressReceived, this, &DapWalletsManager::rcvWalletAddress, Qt::QueuedConnection);
     connect(m_timerUpdateWallet, &QTimer::timeout, this, [this]{
         updateInfoWallets();
     });
-    connect(m_timerAlarmUpdateWallet, &QTimer::timeout, this, &DapWalletsManagerRemote::alarmTimerSlot, Qt::QueuedConnection);
+    connect(m_timerAlarmUpdateWallet, &QTimer::timeout, this, &DapWalletsManager::alarmTimerSlot, Qt::QueuedConnection);
     updateListWallets();
     m_walletsListTimer->start(TIME_WALLET_LIST_UPDATE);
 }
 
-void DapWalletsManagerRemote::updateWalletList()
+void DapWalletsManager::updateWalletList()
 {
     updateListWallets();
 }
 
-void DapWalletsManagerRemote::updateWalletInfo()
+void DapWalletsManager::updateWalletInfo()
 {
     QString currentWalletName = m_currentWallet.second;
     m_isRequestInfo = false;
     m_lastRequestInfoNetworkName.clear();
-    m_lastRequestInfoWalletName.clear();
+    m_requestInfoWalletsName.clear();
     updateInfoWallets(currentWalletName);
 }
 
-void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
+void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
 {
     auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
 
@@ -100,13 +100,13 @@ void DapWalletsManagerRemote::walletsListReceived(const QVariant &rcvData)
     if(isUpdateWallet || updateWalletModel())
     {
         m_lastRequestInfoNetworkName.clear();
-        m_lastRequestInfoWalletName.clear();
+        m_requestInfoWalletsName.clear();
         updateAddressWallets();
         emit walletListChanged();
     }
 }
 
-void DapWalletsManagerRemote::setIsLoad(CommonWallet::WalletInfo& wallet, bool isLoad)
+void DapWalletsManager::setIsLoad(CommonWallet::WalletInfo& wallet, bool isLoad)
 {
     if(wallet.isLoad != isLoad)
     {
@@ -115,7 +115,7 @@ void DapWalletsManagerRemote::setIsLoad(CommonWallet::WalletInfo& wallet, bool i
     }
 }
 
-void DapWalletsManagerRemote::updateAddressWallets()
+void DapWalletsManager::updateAddressWallets()
 {
     QString currWallet = m_currentWallet.second;
     auto netList = m_modulesController->getManagerController()->getNetworkList();
@@ -185,7 +185,7 @@ void DapWalletsManagerRemote::updateAddressWallets()
     updateInfoWallets();
 }
 
-void DapWalletsManagerRemote::rcvWalletAddress(const QVariant &rcvData)
+void DapWalletsManager::rcvWalletAddress(const QVariant &rcvData)
 {
     auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
     QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
@@ -200,7 +200,7 @@ void DapWalletsManagerRemote::rcvWalletAddress(const QVariant &rcvData)
     QJsonArray netArray = inObject.value(Dap::KeysParam::RESULT_ARRAY).toArray();
     if(netArray.isEmpty())
     {
-        qWarning() << "[DapWalletsManagerRemote][rcvWalletAddress] The wallet addresses were not found. wallet: "<< walletName;
+        qWarning() << "[DapWalletsManager][rcvWalletAddress] The wallet addresses were not found. wallet: "<< walletName;
         updateAddressWallets();
         return;
     }
@@ -228,13 +228,12 @@ void DapWalletsManagerRemote::rcvWalletAddress(const QVariant &rcvData)
     if(QString currWallet = m_currentWallet.second; m_walletsInfo.contains(currWallet) && currWallet == walletName && isUpdated)
     {
         updateInfoWallets(currWallet);
-        m_isFirstRequestCurrWall = true;
     }
 
     updateAddressWallets();
 }
 
-void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
+void DapWalletsManager::rcvWalletInfo(const QVariant &rcvData)
 {
     if(!m_isRequestInfo)
     {
@@ -257,7 +256,7 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
 
     if(walletIdent.isEmpty())
     {
-        qWarning() << "[DapWalletsManagerRemote] Empty wallet address for " << networkName << " network";
+        qWarning() << "[DapWalletsManager] Empty wallet address for " << networkName << " network";
         return;
     }
 
@@ -294,7 +293,7 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
 
     if(walletName.isEmpty())
     {
-        qWarning() << "[DapWalletsManagerRemote] The list does not contain a wallet with the name " << walletName;
+        qWarning() << "[DapWalletsManager] The list does not contain a wallet with the name " << walletName;
         return;
     }
 
@@ -362,10 +361,10 @@ void DapWalletsManagerRemote::rcvWalletInfo(const QVariant &rcvData)
     updateInfoWallets();
 }
 
-void DapWalletsManagerRemote::alarmTimerSlot()
+void DapWalletsManager::alarmTimerSlot()
 {
-    qDebug() << QString("[DapWalletsManagerRemote] ALARM The waiting time for requesting information about wallet %1 of network %2 has been exceeded.")
-                    .arg(m_lastRequestInfoWalletName, m_lastRequestInfoNetworkName);
+    qDebug() << QString("[DapWalletsManager] ALARM The waiting time for requesting information about wallet %1 of network %2 has been exceeded.")
+                    .arg(m_requestInfoWalletsName.last(), m_lastRequestInfoNetworkName);
     if(!m_isRequestInfo)
     {
         return;
@@ -375,7 +374,7 @@ void DapWalletsManagerRemote::alarmTimerSlot()
     updateInfoWallets();
 }
 
-bool DapWalletsManagerRemote::updateWalletModel()
+bool DapWalletsManager::updateWalletModel()
 {
     auto netList = m_modulesController->getManagerController()->getNetworkList();
     bool isUpdate = false;
@@ -404,7 +403,7 @@ bool DapWalletsManagerRemote::updateWalletModel()
     return isUpdate;
 }
 
-void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
+void DapWalletsManager::updateInfoWallets(const QString &walletName)
 {
     if(m_isRequestInfo)
     {
@@ -416,62 +415,53 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
     {
         m_timerUpdateWallet->start(1000);
         m_lastRequestInfoNetworkName.clear();
-        m_lastRequestInfoWalletName.clear();
+        m_requestInfoWalletsName.clear();
         return;
     }
     auto walletList = m_walletsInfo.keys();
     if(!walletName.isEmpty())
     {
         m_lastRequestInfoNetworkName = netList[0];
-        m_lastRequestInfoWalletName = walletName;
+        m_requestInfoWalletsName.append(walletName);
     }
     else if((!netList.contains(m_lastRequestInfoNetworkName) ||
-         !walletList.contains(m_lastRequestInfoWalletName)) ||
-        (m_lastRequestInfoNetworkName.isEmpty() || m_lastRequestInfoWalletName.isEmpty()))
+         !walletList.contains(m_requestInfoWalletsName.last())) ||
+        (m_lastRequestInfoNetworkName.isEmpty() || m_requestInfoWalletsName.isEmpty()))
     {
         m_lastRequestInfoNetworkName = netList[0];
-        m_lastRequestInfoWalletName = m_walletsInfo.firstKey();
+        if(!m_currentWallet.second.isEmpty())
+        {
+            m_requestInfoWalletsName.append(m_currentWallet.second);
+        }
+        else
+        {
+            m_requestInfoWalletsName.append(m_walletsInfo.firstKey());
+        }
     }
     else
     {
         int netIndex = netList.indexOf(m_lastRequestInfoNetworkName);
         if(netList.size() - 1 == netIndex)
         {
-            int walletIndex = walletList.indexOf(m_lastRequestInfoWalletName);
-            if(walletList.size() - 1  == walletIndex)
+            if(m_requestInfoWalletsName.size() == walletList.size())
             {
-                if(m_isFirstRequestCurrWall)
-                {
-                    m_isFirstRequestCurrWall = false;
-                    m_lastRequestInfoNetworkName = netList[0];
-                    m_lastRequestInfoWalletName = m_walletsInfo.firstKey();
-                }
-                else
-                {
-                    m_lastRequestInfoNetworkName.clear();
-                    m_lastRequestInfoWalletName.clear();
-                    m_timerUpdateWallet->start(TIME_WALLET_INFO_UPDATE);
-                    return;
-                }
+                m_lastRequestInfoNetworkName.clear();
+                m_requestInfoWalletsName.clear();
+                m_timerUpdateWallet->start(TIME_WALLET_INFO_UPDATE);
+                return;
             }
             else
             {
-                int index = walletIndex + 1;
-                for(; index < walletList.size(); index++)
+                for(const auto& wallet: walletList)
                 {
-                    QString wallet = walletList.value(index);
-                    if(m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
+                    if(!m_requestInfoWalletsName.contains(wallet)
+                        && m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
                     {
+                        m_requestInfoWalletsName.append(wallet);
+                        m_lastRequestInfoNetworkName = netList[0];
                         break;
                     }
                 }
-
-                if(index >= walletList.size())
-                    index = walletList.size() - 1;
-
-                m_lastRequestInfoWalletName = walletList[index];
-                m_lastRequestInfoNetworkName = netList[0];
-                m_isFirstRequestCurrWall = false;
             }
         }
         else
@@ -479,7 +469,7 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
             m_lastRequestInfoNetworkName = netList[netIndex + 1];
         }
     }
-    QString address = m_walletsInfo.value(m_lastRequestInfoWalletName)
+    QString address = m_walletsInfo.value(m_requestInfoWalletsName.last())
                           .walletInfo.value(m_lastRequestInfoNetworkName).address;
     if(address.isEmpty())
     {
@@ -491,22 +481,32 @@ void DapWalletsManagerRemote::updateInfoWallets(const QString &walletName)
     }
 }
 
-void DapWalletsManagerRemote::updateListWallets()
+void DapWalletsManager::updateListWallets()
 {
-    m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", QStringList() <<
-                                                                 Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
+    QStringList pathList;
+    pathList.append(Dap::UiSdkDefines::DataFolders::WALLETS_DIR);
+    pathList.append(Dap::UiSdkDefines::DataFolders::WALLETS_MIGRATE_DIR);
+    QVariantMap request = {{Dap::KeysParam::PATH_LIST, std::move(pathList)}
+                           ,{Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
+
+    m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", request);
 }
 
-void DapWalletsManagerRemote::requestWalletInfo(const QString& walletAddr, const QString& network)
+void DapWalletsManager::requestWalletInfo(const QString& walletAddr, const QString& network)
 {
     m_isRequestInfo = true;
-    m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", QStringList() << walletAddr << network <<
-                                                                  Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {{Dap::KeysParam::WALLET_NAME, m_requestInfoWalletsName.last()}
+                          ,{Dap::KeysParam::WALLET_ADDRESS, walletAddr}
+                          ,{Dap::KeysParam::NETWORK_NAME, network}
+                           ,{Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
+
+    m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", request);
 
     m_timerAlarmUpdateWallet->start(TIME_ALARM_REQUEST);
 }
 
-void DapWalletsManagerRemote::requestWalletAddress(const QString& walletName, const QString& path, const QStringList& netList)
+void DapWalletsManager::requestWalletAddress(const QString& walletName, const QString& path, const QStringList& netList)
 {
     QVariantMap requestMap = {{Dap::KeysParam::NETWORK_LIST, netList}
                              ,{Dap::KeysParam::WALLET_PATH, path}
@@ -516,17 +516,16 @@ void DapWalletsManagerRemote::requestWalletAddress(const QString& walletName, co
     m_modulesController->getServiceController()->requestToService("DapGetWalletAddressCommand", requestMap);
 }
 
-void DapWalletsManagerRemote::clearAndUpdateDataSlot()
+void DapWalletsManager::clearAndUpdateDataSlot()
 {
     m_walletsInfo.clear();
     m_walletsListTimer->stop();
     m_timerUpdateWallet->stop();
     m_timerAlarmUpdateWallet->stop();
     m_walletListCash.clear();
-    m_lastRequestInfoWalletName.clear();
+    m_requestInfoWalletsName.clear();
     m_lastRequestInfoNetworkName.clear();
     m_isRequestInfo = false;
-    m_isFirstRequestCurrWall = false;
 
     updateListWallets();
     m_walletsListTimer->start(TIME_WALLET_LIST_UPDATE);

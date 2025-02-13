@@ -154,6 +154,7 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 
     m_serviceController = new DapServiceController();
     m_serviceController->run();
+    initMigrateWallets();
     dateWorker = new DateWorker(this);
 
     m_dontShowNodeModeFlag = QSettings().value("dontShowNodeModeFlag", false).toBool();
@@ -182,6 +183,17 @@ void DapApplication::setGuiApp(DapGuiApplication *guiApp)
 
     this->registerQmlTypes();
     this->setContextProperties();
+}
+
+void DapApplication::initMigrateWallets()
+{
+    if(m_serviceController)
+    {
+        qDebug() << "[DapApplication] initMigrateWallets";
+        QVariantMap request = {{Dap::KeysParam::PATH_WALLETS_FROM, Dap::CommonKeys::DEFAULT}
+                              ,{Dap::KeysParam::PATH_WALLETS_TO, Dap::UiSdkDefines::DataFolders::WALLETS_MIGRATE_DIR}};
+        m_serviceController->requestToService("DapMigrateWalletsCommand", request);
+    }
 }
 
 void DapApplication::clearData()

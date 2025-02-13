@@ -7,9 +7,9 @@ HEADERS += $$PWD/DapDataManagerController.h \
     $$PWD/NetworkManager/DapNetworksManagerRemote.h \
     $$PWD/NetworkManager/DapNetworksTypes.h \
     $$PWD/TransactionManager/DapTransactionManager.h \
+    $$PWD/WalletsManager/DapWalletsManager.h \
     $$PWD/WalletsManager/DapWalletsManagerBase.h \
-    $$PWD/WalletsManager/DapWalletsManagerLocal.h \
-    $$PWD/WalletsManager/DapWalletsManagerRemote.h
+    $$PWD/WalletsManager/DapWalletsManagerNode.h
 
  SOURCES += $$PWD/DapDataManagerController.cpp \
     $$PWD/DapAbstractDataManager.cpp \
@@ -19,9 +19,9 @@ HEADERS += $$PWD/DapDataManagerController.h \
     $$PWD/NetworkManager/DapNetworksManagerLocal.cpp \
     $$PWD/NetworkManager/DapNetworksManagerRemote.cpp \
     $$PWD/TransactionManager/DapTransactionManager.cpp \
+    $$PWD/WalletsManager/DapWalletsManager.cpp \
     $$PWD/WalletsManager/DapWalletsManagerBase.cpp \
-    $$PWD/WalletsManager/DapWalletsManagerLocal.cpp \
-    $$PWD/WalletsManager/DapWalletsManagerRemote.cpp
+    $$PWD/WalletsManager/DapWalletsManagerNode.cpp
 
 INCLUDEPATH += $$PWD
 INCLUDEPATH += $$PWD/NetworkManager

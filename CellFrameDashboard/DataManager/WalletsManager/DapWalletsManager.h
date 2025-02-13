@@ -3,11 +3,11 @@
 #include "DapWalletsManagerBase.h"
 #include <QTimer>
 
-class DapWalletsManagerRemote : public DapWalletsManagerBase
+class DapWalletsManager : public DapWalletsManagerBase
 {
     Q_OBJECT
 public:
-    DapWalletsManagerRemote(DapModulesController *moduleController);
+    DapWalletsManager(DapModulesController *moduleController);
 
     void updateWalletList() override;
     void updateWalletInfo() override;
@@ -36,10 +36,9 @@ private:
 
     QByteArray m_walletListCash;
 
-    QString m_lastRequestInfoWalletName = "";
+    QStringList m_requestInfoWalletsName;
     QString m_lastRequestInfoNetworkName = "";
     bool m_isRequestInfo = false;
-    bool m_isFirstRequestCurrWall = false;
 
     const int TIME_WALLET_LIST_UPDATE = 3000;
     const int TIME_WALLET_INFO_UPDATE = 30000;

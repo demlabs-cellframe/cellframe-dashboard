@@ -1,35 +1,35 @@
-#include "DapWalletsManagerLocal.h"
+#include "DapWalletsManagerNode.h"
 #include "DapServiceController.h"
 #include "Modules/DapModulesController.h"
 #include "DapDataManagerController.h"
 #include <QMap>
 
-DapWalletsManagerLocal::DapWalletsManagerLocal(DapModulesController *moduleController)
+DapWalletsManagerNode::DapWalletsManagerNode(DapModulesController *moduleController)
     : DapWalletsManagerBase(moduleController)
     , m_walletsListTimer(new QTimer())
     , m_timerUpdateWallet(new QTimer())
     , m_timerFeeUpdateWallet(new QTimer())
 {
-    connect(m_walletsListTimer, &QTimer::timeout, this, &DapWalletsManagerLocal::updateListWallets, Qt::QueuedConnection);
-    connect(m_modulesController->getServiceController(), &DapServiceController::walletsListReceived, this, &DapWalletsManagerLocal::walletsListReceived, Qt::QueuedConnection);
-    connect(m_modulesController->getServiceController(), &DapServiceController::walletReceived, this, &DapWalletsManagerLocal::rcvWalletInfo, Qt::QueuedConnection);
+    connect(m_walletsListTimer, &QTimer::timeout, this, &DapWalletsManagerNode::updateListWallets, Qt::QueuedConnection);
+    connect(m_modulesController->getServiceController(), &DapServiceController::walletsListReceived, this, &DapWalletsManagerNode::walletsListReceived, Qt::QueuedConnection);
+    connect(m_modulesController->getServiceController(), &DapServiceController::walletReceived, this, &DapWalletsManagerNode::rcvWalletInfo, Qt::QueuedConnection);
     connect(m_timerUpdateWallet, &QTimer::timeout, this, [this]{
         updateInfoWallets();
     });
 }
 
-void DapWalletsManagerLocal::updateWalletList()
+void DapWalletsManagerNode::updateWalletList()
 {
     updateListWallets();
 }
 
-void DapWalletsManagerLocal::initManager()
+void DapWalletsManagerNode::initManager()
 {
     updateListWallets();
     m_walletsListTimer->start(TIME_WALLET_LIST_UPDATE);
 }
 
-void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
+void DapWalletsManagerNode::walletsListReceived(const QVariant &rcvData)
 {
     auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
     if(walletListCash == byteArrayData)
@@ -102,7 +102,7 @@ void DapWalletsManagerLocal::walletsListReceived(const QVariant &rcvData)
     }
 }
 
-bool DapWalletsManagerLocal::updateWalletModel()
+bool DapWalletsManagerNode::updateWalletModel()
 {
     auto netList = m_modulesController->getManagerController()->getNetworkList();
     bool isUpdate = false;
@@ -131,7 +131,7 @@ bool DapWalletsManagerLocal::updateWalletModel()
     return isUpdate;
 }
 
-void DapWalletsManagerLocal::rcvWalletInfo(const QVariant &rcvData)
+void DapWalletsManagerNode::rcvWalletInfo(const QVariant &rcvData)
 {
     if(!m_isRequestInfo)
     {
@@ -175,7 +175,7 @@ void DapWalletsManagerLocal::rcvWalletInfo(const QVariant &rcvData)
 
     if(!m_walletsInfo.contains(walletName))
     {
-        qWarning() << "[DapWalletsManagerLocal] The list does not contain a wallet with the name " << walletName;
+        qWarning() << "[DapWalletsManagerNode] The list does not contain a wallet with the name " << walletName;
         return;
     }
 
@@ -243,13 +243,13 @@ void DapWalletsManagerLocal::rcvWalletInfo(const QVariant &rcvData)
     updateInfoWallets();
 }
 
-void DapWalletsManagerLocal::currentWalletChangedSlot()
+void DapWalletsManagerNode::currentWalletChangedSlot()
 {
     QString currWallet = getCurrentWallet().second;
     updateInfoWallets(currWallet);
 }
 
-void DapWalletsManagerLocal::updateInfoWallets(const QString &walletName)
+void DapWalletsManagerNode::updateInfoWallets(const QString &walletName)
 {
     if(m_isRequestInfo)
     {
@@ -324,12 +324,12 @@ void DapWalletsManagerLocal::updateInfoWallets(const QString &walletName)
     }
 }
 
-void DapWalletsManagerLocal::updateListWallets()
+void DapWalletsManagerNode::updateListWallets()
 {
     m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", QStringList());
 }
 
-void DapWalletsManagerLocal::requestWalletInfo(const QString& walletName, const QString& network)
+void DapWalletsManagerNode::requestWalletInfo(const QString& walletName, const QString& network)
 {
     m_isRequestInfo = true;
     m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", QStringList() << walletName << network);

@@ -32,7 +32,6 @@
 #include "handlers/DapAddWalletCommand.h"
 #include "handlers/DapRemoveWalletCommand.h"
 #include "handlers/DapGetWalletInfoCommand.h"
-#include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetNetworkStatusCommand.h"
 #include "handlers/DapNetworkGoToCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
@@ -176,7 +175,6 @@ signals:
     void walletCreated(const QVariant& wallet);
     void walletRemoved(const QVariant& wallet);
     void walletInfoReceived(const QVariant& walletInfo);
-    void walletsReceived(const QVariant& walletList);
     void walletsListReceived(const QVariant& walletsList);
     void walletReceived(const QVariant& wallet);
     void moveWalletCommandReceived(const QVariant& rcvData);

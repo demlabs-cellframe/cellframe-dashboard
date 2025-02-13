@@ -10,8 +10,8 @@
 
 #include "DapNetworksManagerLocal.h"
 #include "DapNetworksManagerRemote.h"
-#include "DapWalletsManagerRemote.h"
-#include "DapWalletsManagerLocal.h"
+#include "DapWalletsManager.h"
+#include "DapWalletsManagerNode.h"
 #include "DapFeeManager.h"
 
 class DapDataManagerController : public QObject

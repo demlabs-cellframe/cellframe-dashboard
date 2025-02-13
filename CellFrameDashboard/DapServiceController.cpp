@@ -131,7 +131,6 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapAddWalletCommand,                  QObject*>("DapAddWalletCommand",                       "walletCreated",                         nullptr);
     addServiceGeneric<DapRemoveWalletCommand,               QObject*>("DapRemoveWalletCommand",                    "walletRemoved",                         nullptr);
     addServiceGeneric<DapGetWalletInfoCommand,              QObject*>("DapGetWalletInfoCommand",                   "walletReceived",                        nullptr);
-    addServiceGeneric<DapGetWalletsInfoCommand,             QObject*>("DapGetWalletsInfoCommand",                  "walletsReceived",                       nullptr);
     addServiceGeneric<DapGetListWalletsCommand,             QObject*>("DapGetListWalletsCommand",                  "walletsListReceived",                   nullptr);
     addServiceGeneric<DapMoveWalletCommand,                 QObject*>("DapMoveWalletCommand",                      "moveWalletCommandReceived",             nullptr);
     addServiceGeneric<DapCreatePassForWallet,               QObject*>("DapCreatePassForWallet",                    "passwordCreated",                       nullptr);
@@ -299,12 +298,6 @@ void DapServiceController::initAdditionalParamrtrsService()
         DapGetOnceWalletInfoCommand* command = dynamic_cast<DapGetOnceWalletInfoCommand*>(m_transceivers["DapGetOnceWalletInfoCommand"]);
         connect(controller, &DapTransactionQueueController::toGetWalletInfo, command, &DapAbstractCommand::toDataSignal);
         connect(command, &DapAbstractCommand::dataGetedSignal, controller, &DapTransactionQueueController::walletInfoReceived);
-    }
-    if(m_transceivers.contains("DapGetWalletsInfoCommand"))
-    {
-        DapGetWalletsInfoCommand* command = dynamic_cast<DapGetWalletsInfoCommand*>(m_transceivers["DapGetWalletsInfoCommand"]);
-        connect(controller, &DapTransactionQueueController::updateInfoForWallets, command, &DapGetWalletsInfoCommand::queueDataUpdate);
-        connect(command, &DapGetWalletsInfoCommand::queuedUpdated,  this, &DapServiceController::queueUpdated);
     }
     if(m_transceivers.contains("DapGetWalletInfoCommand"))
     {

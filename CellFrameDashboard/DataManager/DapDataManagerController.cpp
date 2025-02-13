@@ -8,13 +8,12 @@ DapDataManagerController::DapDataManagerController(DapModulesController* moduleC
     if(DapNodeMode::getNodeMode()==DapNodeMode::LOCAL)
     {
         m_networksManager = new DapNetworksManagerLocal(moduleController);
-        m_walletsManager = new DapWalletsManagerLocal(moduleController);
     }
     else
     {
          m_networksManager = new DapNetworksManagerRemote(moduleController);
-         m_walletsManager = new DapWalletsManagerRemote(moduleController);
     }
+    m_walletsManager = new DapWalletsManager(moduleController);
     m_feeManager = new DapFeeManager(moduleController);
     m_transactionManager = new DapTransactionManager(moduleController);
 

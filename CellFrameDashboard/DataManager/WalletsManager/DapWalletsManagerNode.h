@@ -3,11 +3,11 @@
 #include "DapWalletsManagerBase.h"
 #include <QTimer>
 
-class DapWalletsManagerLocal : public DapWalletsManagerBase
+class DapWalletsManagerNode : public DapWalletsManagerBase
 {
     Q_OBJECT
 public:
-    DapWalletsManagerLocal(DapModulesController *moduleController);
+    DapWalletsManagerNode(DapModulesController *moduleController);
 
     void updateWalletList() override;
 protected:
