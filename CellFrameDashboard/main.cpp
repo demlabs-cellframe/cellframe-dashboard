@@ -1,9 +1,5 @@
 #include <QApplication>
 #include <QGuiApplication>
-//#include <QtQml>
-//#include <QQmlApplicationEngine>
-//#include <QQmlContext>
-#include <QIcon>
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QScreen>
@@ -36,6 +32,59 @@ int MIN_WIDTH = 1280;
 int MIN_HEIGHT = 720;
 int DEFAULT_WIDTH = 1280;
 int DEFAULT_HEIGHT = 720;
+
+bool SingleApplicationTest(const QString &appName);
+void createDapLogger();
+QByteArray scaleCalculate(int argc, char *argv[]);
+
+int main(int argc, char *argv[])
+{
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
+    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+
+    QCoreApplication::setOrganizationName("Cellframe Network");
+    QCoreApplication::setOrganizationDomain("cellframe.net");
+    QCoreApplication::setApplicationName(DAP_BRAND);
+
+    if (!SingleApplicationTest(DAP_BRAND)) {
+        return 1;
+    }
+
+    createDapLogger();
+
+    std::unique_ptr<DapApplication> mainApp = std::make_unique<DapApplication>();
+
+    int countRestart = -1;
+    int result = RESTART_CODE;
+
+    while (result == RESTART_CODE){
+        mainApp->clearData();
+
+        countRestart++;
+
+        qDebug() << "New app start";
+        qputenv("QT_SCALE_FACTOR", scaleCalculate(argc, argv));
+        qDebug()<<argv[argc-1];
+
+        std::unique_ptr<DapGuiApplication> app = std::make_unique<DapGuiApplication>(argc, argv, RESTART_CODE, DEFAULT_WIDTH, DEFAULT_HEIGHT, MIN_WIDTH, MIN_HEIGHT);
+        mainApp->setCountRestart(countRestart);
+        mainApp->setGuiApp(app.get());
+
+        app->loadUrl();
+        result = app->exec();
+        app->qmlEngine()->deleteLater();
+        app.reset();
+    }
+
+    mainApp.reset();
+    DapLogger::deleteLogger();
+    return result;
+}
 
 bool SingleApplicationTest(const QString &appName)
 {
@@ -102,7 +151,19 @@ void createDapLogger()
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    int localArgc = argc;
+    char **localArgv = new char*[argc];
+
+    for (int i = 0; i < argc; ++i) {
+        localArgv[i] = strdup(argv[i]);
+    }
+
+    QGuiApplication app(localArgc, localArgv);
+
+    for (int i = 0; i < argc; ++i) {
+        free(localArgv[i]);
+    }
+    delete[] localArgv;
 
     QScreen *screen = app.primaryScreen();
     if (!screen) {
@@ -122,14 +183,12 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     scale = qMax(scale, 0.6);
 
-    if (MIN_WIDTH * scale > maxWidth) {
-        scale = static_cast<double>(maxWidth) / MIN_WIDTH;
-        qDebug() << "Adjusted scale for width:" << scale;
-    }
-    if (MIN_HEIGHT * scale > maxHeight) {
-        scale = qMin(scale, static_cast<double>(maxHeight) / MIN_HEIGHT);
-        qDebug() << "Adjusted scale for height:" << scale;
-    }
+    double widthScale = double(maxWidth) / double(MIN_WIDTH);
+    double heightScale = double(maxHeight) / double(MIN_HEIGHT);
+    qDebug() << "max width scale:" << widthScale;
+    qDebug() << "max height scale:" << heightScale;
+
+    scale = qMin(scale, qMin(widthScale, heightScale));
 
     settings.setValue("window_scale", scale);
     qDebug() << "Final window_scale:" << scale;
@@ -137,50 +196,3 @@ QByteArray scaleCalculate(int argc, char *argv[])
     return QByteArray::number(scale, 'f', 1);
 }
 
-int main(int argc, char *argv[])
-{
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
-    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
-
-    QCoreApplication::setOrganizationName("Cellframe Network");
-    QCoreApplication::setOrganizationDomain("cellframe.net");
-    QCoreApplication::setApplicationName(DAP_BRAND);
-
-    if (!SingleApplicationTest(DAP_BRAND)) {
-        return 1;
-    }
-
-    createDapLogger();
-
-    std::unique_ptr<DapApplication> mainApp = std::make_unique<DapApplication>();
-
-    int countRestart = -1;
-    int result = RESTART_CODE;
-
-    while (result == RESTART_CODE){
-        mainApp->clearData();
-
-        countRestart++;
-
-        qDebug() << "New app start";
-        qputenv("QT_SCALE_FACTOR", scaleCalculate(argc, argv));
-
-        std::unique_ptr<DapGuiApplication> app = std::make_unique<DapGuiApplication>(argc, argv, RESTART_CODE, DEFAULT_WIDTH, DEFAULT_HEIGHT, MIN_WIDTH, MIN_HEIGHT);
-        mainApp->setCountRestart(countRestart);
-        mainApp->setGuiApp(app.get());
-
-        app->loadUrl();
-        result = app->exec();
-        app->qmlEngine()->deleteLater();
-        app.reset();
-    }
-
-    mainApp.reset();
-    DapLogger::deleteLogger();
-    return result;
-}
