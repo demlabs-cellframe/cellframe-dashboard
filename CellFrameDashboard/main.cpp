@@ -16,8 +16,6 @@
 #include <QAndroidIntent>
 #endif
 
-#include "DapLogger.h"
-#include "DapDataLocal.h"
 #include "DapLogHandler.h"
 
 #include "DapApplication.h"

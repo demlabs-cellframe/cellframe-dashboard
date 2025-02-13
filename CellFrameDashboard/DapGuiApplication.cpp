@@ -59,7 +59,6 @@ DapGuiApplication::DapGuiApplication(int &argc, char **argv, int restartCode, in
 
 DapGuiApplication::~DapGuiApplication()
 {
-
 }
 
 QQmlApplicationEngine *DapGuiApplication::qmlEngine()
