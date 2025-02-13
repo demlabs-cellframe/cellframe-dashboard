@@ -1,5 +1,6 @@
 #include "DapModuledApps.h"
 #include <sys/stat.h>
+#include "DapDashboardPathDefines.h"
 
 #define TIME_INTERVAL 500
 
@@ -29,18 +30,12 @@ void DapModuledApps::init()
     m_filePrefix = "file:///";
 #endif
 
-    //dApps config file
-#ifdef Q_OS_LINUX
-    m_pathPluginsConfigFile = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
-    m_pathPlugins = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
-#elif defined Q_OS_MACOS
+#if defined Q_OS_MACOS
     mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
-    m_pathPluginsConfigFile = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
-    m_pathPlugins = QString("/tmp/Cellframe-Dashboard_dapps");
-#elif defined Q_OS_WIN
-    m_pathPluginsConfigFile = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
-    m_pathPlugins = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
 #endif
+    //dApps config file
+    m_pathPluginsConfigFile = Dap::DashboardDefines::DApps::PLUGINS_CONFIG;
+    m_pathPlugins = Dap::DashboardDefines::DApps::PLUGINS_PATH;
 
     QFile filePlugin(m_pathPluginsConfigFile);
     if(!filePlugin.exists())
@@ -201,6 +196,7 @@ void DapModuledApps::addPlugin(QVariant path, QVariant status, QVariant verifed)
         QStringList list;
 
         QString pathMainFileQml = QString(m_filePrefix + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml") ;
+        pathMainFileQml = QDir::toNativeSeparators(pathMainFileQml);
 
         list.append(name_mainFilePlugin); //name plugin
         list.append(pathMainFileQml); //path main.qml
@@ -289,7 +285,7 @@ void DapModuledApps::deletePlugin(QVariant url)
         str[1].remove(QString("/" + str[0] + ".qml"));
         str[1].remove(m_filePrefix);
 
-        QFile file(QString(m_pathPlugins + "/download/" + str[0] + ".zip"));
+        QFile file(QDir::toNativeSeparators(QString(m_pathPlugins + "/download/" + str[0] + ".zip")));
 
         if(file.exists())
             file.remove();

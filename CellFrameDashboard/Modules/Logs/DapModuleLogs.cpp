@@ -4,6 +4,7 @@
 #include <QRegularExpression>
 #include "loginfo.h"
 #include "qqmlcontext.h"
+#include "DapDashboardPathDefines.h"
 
 #if defined (Q_OS_MACOS)
 #include "dap_common.h"
@@ -257,62 +258,12 @@ void DapModuleLog::updateLog()
 
 QString DapModuleLog::getNodeLogPath()
 {
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/opt/%1-node/var/log").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    QDir dirOld(QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log").arg(l_username));
-    QDir dirNew("/Applications/CellframeNode.app/Contents/Resources/var/log");
-    QDir dirNewNew("/Library/Application\ Support/CellframeNode/var/log/");
-
-    if(dirNewNew.exists())
-    {
-        return dirNewNew.absolutePath();
-    }
-    else if(dirNew.exists())
-    {
-        return dirNew.absolutePath();
-    }
-    else
-    {
-        return dirOld.absolutePath();
-    }
-
-#elif defined (Q_OS_WIN)
-    return QString("%1/cellframe-node/var/log").arg(regWGetUsrPath());
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/var/log");
-#else
-    return QString();
-#endif
+    return Dap::DashboardDefines::CellframeNode::DAPMODULE_LOG;
 }
 
 QString DapModuleLog::getBrandLogPath()
 {
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    return QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_WIN)
-    return QString("%1/%2/log").arg(regWGetUsrPath()).arg(DAP_BRAND);
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/var/log");
-#else
-    return QString();
-#endif
+    return Dap::DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG;
 }
 
 LogModel::Item DapModuleLog::parseLine(const QString &line)

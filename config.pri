@@ -36,10 +36,6 @@ unix {
         CONFIG(debug, debug|release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_rwd/dist/
 
         DEFINES += DAP_OS_LINUX _GNU_SOURCE \
-	    CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\" \
-	    DAP_PATH_PREFIX=\\\"/opt/$${BRAND_BASE_LO}\\\" \
-	    LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\" \
-	    DATA_PATH=\\\"/opt/$${BRAND_LO}/data/\\\" \
 	    DAP_VERSION=\\\"$$VERSION\\\"
 
 

@@ -106,6 +106,7 @@ HEADERS += $$PWD/DapServiceController.h \
     Autocomplete/CommandHelperController.h \
     DapApplication.h \
     DapGuiApplication.h \
+    DapDashboardPathDefines.h \
     NotifyController/DapNotifyController.h \
     Workers/dateworker.h \
     Workers/mathworker.h \
@@ -125,6 +126,7 @@ SOURCES += $$PWD/main.cpp \
     Autocomplete/CommandHelperController.cpp \
     DapApplication.cpp \
     DapGuiApplication.cpp \
+    DapDashboardPathDefines.cpp \
     NotifyController/DapNotifyController.cpp \
     Workers/dateworker.cpp \
     Workers/mathworker.cpp \
