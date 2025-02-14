@@ -128,30 +128,6 @@ Page
 
                     SelectorItem
                     {
-                        id: selectorNode
-                        text: qsTr("Cellframe node logs")
-                        current: true
-                        onItemClicked:
-                        {
-                            if (!current)
-                              selectLog("Node")
-                        }
-                    }
-
-//                    SelectorItem
-//                    {
-//                        id: selectorService
-//                        text: qsTr("Dashboard service logs")
-//                        current: false
-//                        onItemClicked:
-//                        {
-//                            if (!current)
-//                                selectLog("Service")
-//                        }
-//                    }
-
-                    SelectorItem
-                    {
                         id: selectorGUI
                         text: qsTr("Dashboard logs")
                         current: false
@@ -159,6 +135,18 @@ Page
                         {
                             if (!current)
                                 selectLog("GUI")
+                        }
+                    }
+
+                    SelectorItem
+                    {
+                        id: selectorNode
+                        text: qsTr("Cellframe node logs")
+                        current: true
+                        onItemClicked:
+                        {
+                            if (!current)
+                              selectLog("Node")
                         }
                     }
 
@@ -461,6 +449,7 @@ Page
                     Layout.alignment: Qt.AlignLeft
 //                    width: 34
                     verticalAlignment: Qt.AlignVCenter
+                    wrapMode: Text.WrapAnywhere
                     font:  mainFont.dapFont.regular14
                     color: type === "WRN" ? currTheme.darkYellow :
                            type === "ERR" ? currTheme.red :
@@ -591,7 +580,6 @@ Page
     function selectLog(name)
     {
         selectorNode.current = (name === "Node")
-//        selectorService.current = (name === "Service")
         selectorGUI.current = (name === "GUI")
 
         logsModule.selectLog(name)
@@ -601,13 +589,5 @@ Page
 
         indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_reload.svg"
         animation.start()
-
-//        logsModule.updateLog()
-
-//        vertBar.size = logsModule.getScrollSize()
-//        vertBar.position = 0
-//        logsModule.setPosition(0)
-
-//        dapLogsListViewIndex = -1;
     }
 }

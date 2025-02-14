@@ -14,7 +14,7 @@ DapNetworksManagerLocal::DapNetworksManagerLocal(DapModulesController* moduleCon
 void DapNetworksManagerLocal::initNotifyConnet()
 {
     m_notifyController = m_modulesController->getNotifyCtrl();
-    connect(m_notifyController, &DapNotifyController::isConnectedChanged,   this, &DapNetworksManagerLocal::slotNotifyIsConnected);
+    connect(m_notifyController, &DapNotifyController::notifySocketStateChanged,   this, &DapNetworksManagerLocal::slotNotifyIsConnected);
     connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetList,  this, &DapNetworksManagerLocal::slotRcvNotifyNetList);
     connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetInfo,  this, &DapNetworksManagerLocal::slotRcvNotifyNetInfo);
     connect(m_notifyController, &DapNotifyController::sigNotifyRcvNetsInfo, this, &DapNetworksManagerLocal::slotRcvNotifyNetsInfo);

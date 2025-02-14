@@ -26,7 +26,7 @@ QtObject {
     readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
 
-    property bool stateNotify: false
+    property bool stateNotify: true
 
     property string lastVersion
     property bool hasUpdate
@@ -325,16 +325,16 @@ QtObject {
 //        }
 //    }
 
-    function rcvStateNotify(status)
+    function rcvStateNotify(state)
     {
         messagePopup.dapButtonCancel.visible = false
         messagePopup.dapButtonOk.textButton = "Ok"
 
-        if(stateNotify !== status)
+        if(stateNotify !== state)
         {
-            stateNotify = status
+            stateNotify = state
 
-            if(!status)
+            if(!state)
             {
                 messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
                 console.warn("ERROR NOTIFY SOCKET")

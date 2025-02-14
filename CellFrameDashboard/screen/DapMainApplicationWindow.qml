@@ -682,6 +682,16 @@ Rectangle {
 
     Connections
     {
+        target: dapNotifyController
+
+        function onNotifySocketStateChanged(state)
+        {
+            logicMainApp.rcvStateNotify(state)
+        }
+    }
+
+    Connections
+    {
         target: settingsModule
 
         function onSigVersionInfo(versionResult)
