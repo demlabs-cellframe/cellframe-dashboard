@@ -144,11 +144,6 @@ QString DapDappsNetworkManager::repoAddress() const
     return m_path;
 }
 
-QString DapDappsNetworkManager::downloadPath() const
-{
-    return m_pathPlugins;
-}
-
 void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 {
     QVariant statusCode = m_currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);

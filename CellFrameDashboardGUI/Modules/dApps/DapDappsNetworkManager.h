@@ -26,7 +26,6 @@ public:
     void cancelDownload(bool ok, bool reload);
 
     QString repoAddress() const;
-    QString downloadPath() const;
 
 private slots:
     void onDownloadCompleted();

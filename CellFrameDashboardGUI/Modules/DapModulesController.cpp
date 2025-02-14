@@ -14,7 +14,6 @@
 #include "Logs/DapModuleLogs.h"
 #include "Settings/DapModuleSettings.h"
 #include "dApps/DapModuledApps.h"
-#include "dApps/DapModuledApps_rework.h"
 #include "Diagnostics/DapModuleDiagnostics.h"
 #include "Orders/DapModuleOrders.h"
 #include "MasterNode/DapModuleMasterNode.h"
@@ -62,8 +61,7 @@ void DapModulesController::initModules()
     addModule("consoleModule", new DapModuleConsole(this));
     addModule("logsModule", new DapModuleLog(this));
     addModule("settingsModule", new DapModuleSettings(this));
-    //addModule("dAppsModule", new DapModuledApps(this));
-    addModule("dAppsModule", new DApps::DapModuledAppsRework(this));
+    addModule("dAppsModule", new DApps::DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("ordersModule", new DapModuleOrders(this));
     addModule("nodeMasterModule", new DapModuleMasterNode(this));
