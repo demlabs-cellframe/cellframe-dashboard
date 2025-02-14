@@ -89,6 +89,12 @@ void DapModuleWallet::walletListChangedSlot()
     }
 
     emit listWalletChanged();
+    auto duplicateWallets = getWalletManager()->getDuplicateWallets();
+    if(!m_isSendDoubleWallets && !duplicateWallets.isEmpty())
+    {
+        m_isSendDoubleWallets = true;
+        emit duplicateWalletsAppeared(duplicateWallets);
+    }
 }
 
 void DapModuleWallet::walletInfoChangedSlot(const QString& walletName, const QString& networkName)

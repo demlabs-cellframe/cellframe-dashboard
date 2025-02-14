@@ -171,6 +171,13 @@ Rectangle {
         z: 9
     }
 
+    DapWalletsDuplicatePopup{
+        id: walletsDuplicatePopup
+        anchors.fill: parent
+        visible: false
+        z: 9
+    }
+
     DapRemoveWalletPopup{
         id: removeWalletPopup
         anchors.fill: parent
@@ -688,6 +695,22 @@ Rectangle {
             else
                 console.log("The version value cannot be retrieved. Reply: ", jsonDocument.message)
         }
+
+        function onSignalIsNeedInstallNode(isNeed, url)
+        {
+            console.log("onSignalIsNeedInstallNode", isNeed, url)
+            if(isNeed)
+            {
+                settingsModule.nodeUpdateType = 5
+                settingsModule.setNeedDownloadNode();
+                openPopupUpdateNode()
+            }
+        }
+
+        function onNeedNodeUpdateSignal()
+        {
+            openPopupUpdateNode()
+        }
     }
 
     FontMetrics {
@@ -764,21 +787,11 @@ Rectangle {
     }
 
     Connections{
-        target: settingsModule
-        function onSignalIsNeedInstallNode(isNeed, url)
+        target: walletModule
+        function onDuplicateWalletsAppeared(wallets)
         {
-            console.log("onSignalIsNeedInstallNode", isNeed, url)
-            if(isNeed)
-            {
-                settingsModule.nodeUpdateType = 5
-                settingsModule.setNeedDownloadNode();
-                openPopupUpdateNode()
-            }
-        }
-
-        function onNeedNodeUpdateSignal()
-        {
-            openPopupUpdateNode()
+            walletsDuplicatePopup.duplicateModel.append(wallets)
+            walletsDuplicatePopup.show()
         }
     }
 

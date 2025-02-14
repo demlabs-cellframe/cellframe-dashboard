@@ -85,6 +85,7 @@ signals:
     void tokenModelChanged();
 
     void passwordCreated(const QString& message);
+    void duplicateWalletsAppeared(const QVariantList& wallets);
 protected slots:
     virtual void rcvCreateTx(const QVariant &rcvData);
 private slots:
@@ -121,6 +122,7 @@ protected:
 private:
     WalletHashManager *m_walletHashManager;
     bool m_isFirstUpdate = false;
+    bool m_isSendDoubleWallets = false;
 };
 
 #endif // DAPMODULEWALLET_H

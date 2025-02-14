@@ -22,6 +22,8 @@ public:
     const CommonWallet::WalletInfo getWalletInfo(QString walletName) const {return m_walletsInfo[walletName];}
     virtual void updateWalletList() {}
     virtual void updateWalletInfo() {}
+    const QVariantList& getDuplicateWallets() const {return m_duplicateWallets; }
+
 signals:
     void currentWalletChanged();
     void walletListChanged();
@@ -31,6 +33,8 @@ protected slots:
 protected:
     QMap<QString, CommonWallet::WalletInfo> m_walletsInfo;
     QPair<int,QString> m_currentWallet = {-1, ""};
+
+    QVariantList m_duplicateWallets;
 
 };
 

@@ -359,6 +359,7 @@
         <file>screen/desktop/Orders/Parts/DapOrdersGridView.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrderHeader.qml</file>
         <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
+        <file>screen/desktop/controls/DapWalletsDuplicatePopup.qml</file>
         <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
         <file>Resources/BlackTheme/icons/other/delete_button.svg</file>
         <file>Resources/BlackTheme/icons/other/delete_button_hover.svg</file>

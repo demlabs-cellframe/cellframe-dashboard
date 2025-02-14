@@ -51,6 +51,7 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
 
     bool isUpdateWallet = false;
     QStringList newListWallet;
+    QVariantList doubleWalletArray;
     for(const QJsonValue &value: walletArray)
     {
         QJsonObject tmpObject = value.toObject();
@@ -66,7 +67,30 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
             if(m_walletsInfo.contains(walletName))
             {
 
-                if(tmpObject[Dap::JsonKeys::STATUS].toString() != m_walletsInfo[walletName].status)
+                CommonWallet::WalletInfo tmpWallet;
+                tmpWallet.walletName = walletName;
+                tmpWallet.path = tmpObject[Dap::JsonKeys::PATH].toString();
+                tmpWallet.status = tmpObject[Dap::JsonKeys::STATUS].toString();
+
+                if(tmpWallet.path != m_walletsInfo[walletName].path)
+                {
+                    QJsonObject wallet;
+                    if(tmpWallet.path != Dap::UiSdkDefines::DataFolders::WALLETS_DIR)
+                    {
+                        wallet.insert("walletName", tmpWallet.walletName);
+                        wallet.insert("walletPath", tmpWallet.path);
+                    }
+                    else
+                    {
+                        wallet.insert("walletName", m_walletsInfo[walletName].walletName);
+                        wallet.insert("walletPath", m_walletsInfo[walletName].path);
+                        m_walletsInfo.remove(walletName);
+                        m_walletsInfo.insert(walletName, std::move(tmpWallet));
+                        isUpdateWallet = true;
+                    }
+                    doubleWalletArray.append(wallet);
+                }
+                else if(tmpWallet.status != m_walletsInfo[walletName].status)
                 {
                     m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
                     isUpdateWallet = true;
@@ -82,8 +106,12 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
                 m_walletsInfo.insert(walletName, std::move(tmpWallet));
                 isUpdateWallet = true;
             }
-
         }
+    }
+
+    if(m_duplicateWallets != doubleWalletArray)
+    {
+        m_duplicateWallets = doubleWalletArray;
     }
 
     QStringList curListWallet = m_walletsInfo.keys();
