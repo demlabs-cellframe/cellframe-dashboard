@@ -251,10 +251,10 @@ void DapWalletsManager::rcvWalletInfo(const QVariant &rcvData)
 
     QJsonObject inObject = document.object();
 
-    QString walletIdent = inObject.value(Dap::JsonKeys::WALLET_IDENT).toString();
+    QString walletAddr = inObject.value(Dap::JsonKeys::WALLET_ADDRESS).toString();
     QString networkName = inObject.value(Dap::JsonKeys::NETWORK_NAME).toString();
 
-    if(walletIdent.isEmpty())
+    if(walletAddr.isEmpty())
     {
         qWarning() << "[DapWalletsManager] Empty wallet address for " << networkName << " network";
         return;
@@ -263,7 +263,7 @@ void DapWalletsManager::rcvWalletInfo(const QVariant &rcvData)
     QString walletName;
     for(const auto& key: m_walletsInfo.keys())
     {
-        if(m_walletsInfo.value(key).walletInfo.value(networkName).address == walletIdent)
+        if(m_walletsInfo.value(key).walletInfo.value(networkName).address == walletAddr)
         {
             walletName = key;
             break;

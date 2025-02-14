@@ -5,7 +5,6 @@
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
-
 }
 
 DapServiceController::~DapServiceController()

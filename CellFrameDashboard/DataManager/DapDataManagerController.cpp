@@ -5,15 +5,17 @@ DapDataManagerController::DapDataManagerController(DapModulesController* moduleC
 {
     qRegisterMetaType<NetworkInfo>();
 
-    if(DapNodeMode::getNodeMode()==DapNodeMode::LOCAL)
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
     {
         m_networksManager = new DapNetworksManagerLocal(moduleController);
+        m_walletsManager = new DapWalletsManagerNode(moduleController);
     }
     else
     {
          m_networksManager = new DapNetworksManagerRemote(moduleController);
+         m_walletsManager = new DapWalletsManager(moduleController);
     }
-    m_walletsManager = new DapWalletsManager(moduleController);
+
     m_feeManager = new DapFeeManager(moduleController);
     m_transactionManager = new DapTransactionManager(moduleController);
 
