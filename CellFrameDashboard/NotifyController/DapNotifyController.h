@@ -24,7 +24,7 @@ public:
 
     void init();
 
-    Q_PROPERTY(bool isConnected READ isConnected NOTIFY isConnectedChanged)
+    Q_PROPERTY(bool isConnected READ isConnected NOTIFY notifySocketStateChanged)
     bool isConnected(){return m_isConnected;}
 
     void stateProcessing(QString status);
@@ -37,8 +37,6 @@ private:
 signals:
     void notifySocketStateChanged(bool connectState);
     void netStates(QVariantMap netState);
-
-    void isConnectedChanged(bool isConnected);
 
     void sigNotifyRcvNetList(QJsonDocument);
     void sigNotifyRcvNetsInfo(QJsonDocument);

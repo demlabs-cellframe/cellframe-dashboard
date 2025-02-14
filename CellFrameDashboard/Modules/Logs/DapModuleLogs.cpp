@@ -31,15 +31,6 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
         updateModel();
     });
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
-    {
-        m_configLog.first = LogType::NodeLog;
-        m_configLog.second = getLogFileName(getNodeLogPath(), m_configLog.first);
-        m_logReader->setLogType(m_configLog.second);
-        m_lastPath = m_configLog.second;
-        setStatusInit(true);
-        m_timerCheckLogFile->start(TIMEOUT_CHECK_FILE);
-    });
 
     connect(s_serviceCtrl, &DapServiceController::exportLogs, [this] (const QVariant& rcvData)
     {
@@ -47,17 +38,10 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
     });
 
     connect(m_timerCheckLogFile, &QTimer::timeout, this, &DapModuleLog::checkLogFiles);
-//    nodeLog.updateLog();
-//    guiLog.updateLog();
-//    serviceLog.updateLog();
 
-//    guiLog.updateLines(3027, bufferSize);
-
-//    nodeLog.updateLines(0, bufferSize);
-//    guiLog.updateLines(0, bufferSize);
-//    serviceLog.updateLines(0, bufferSize);
-
-//    selectLog("Node");
+    selectLog("GUI");
+    setStatusInit(true);
+    m_timerCheckLogFile->start(TIMEOUT_CHECK_FILE);
 
 //    parseLine("[04/19/23-11:07:42] [DAP] [main] *** CellFrame Node version: 5-1.381 ***");
 //    parseLine("[04/24/23-13:48:22] [ERR] [dap_client_pvt] [cl:00000000329070f0] ENC: Can't init ecnryption session, err code 138\n");
@@ -116,8 +100,6 @@ void DapModuleLog::selectLog(const QString &name)
 
     if (name == "Node")
         m_configLog.first = LogType::NodeLog;
-//    if (name == "Service")
-//        m_configLog.first = LogType::ServiceLog;
     if (name == "GUI")
         m_configLog.first = LogType::GuiLog;
 
@@ -143,9 +125,6 @@ QString DapModuleLog::getLogPath(LogType type)
     case LogType::NodeLog:
         path = getLogFileName(getNodeLogPath(), type);
         break;
-    case LogType::ServiceLog:
-        path = getLogFileName(getBrandLogPath(), type);
-        break;
     case LogType::GuiLog:
         path = getLogFileName(getBrandLogPath(), type);
         break;
@@ -166,7 +145,6 @@ QString DapModuleLog::getLogFileName(QString folder, LogType type)
     QFileInfoList folderitems(currentFolder.entryInfoList());
 
     QString prefixFileName = type == LogType::NodeLog    ? "cellframe-node"
-                             : type == LogType::ServiceLog ? "Cellframe-DashboardService"
                                                            : "Cellframe-DashboardGUI";
 
     QDateTime maxData;
