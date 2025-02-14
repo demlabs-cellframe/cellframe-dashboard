@@ -440,7 +440,7 @@ DapModuledAppsRework::DapModuledAppsRework(DapModulesController *parent)
     setStatusInit(true);
     initPlatformPaths();
 
-    auto pDapNetworkManager = QSharedPointer<DapDappsNetworkManager>::create(m_repoPlugins, m_pluginsDownloadFolder);
+    auto pDapNetworkManager = QSharedPointer<DapDappsNetworkManager>::create(m_repoPlugins, m_dappsFolder);
     m_pPluginManager = PluginManagerPtr::create(pDapNetworkManager);
     m_pDownloadManager = DownloadManagerPtr::create(pDapNetworkManager);
 
@@ -457,11 +457,11 @@ DapModuledAppsRework::~DapModuledAppsRework()
 
 void DapModuledAppsRework::onDownloadCompleted(QString pluginFullPathToZip)
 {
-    if (zipManage(pluginFullPathToZip, m_pluginsDownloadFolder))
+    if (zipManage(pluginFullPathToZip, m_dappsFolder))
     {
         QString nameWithZip = pluginFullPathToZip.split("/").last();
         QString nameWithoutZip = nameWithZip.split(".zip").first();
-        QString pathMainFileQml = QString(m_filePrefix + m_pluginsDownloadFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
+        QString pathMainFileQml = QString(m_filePrefix + m_dappsFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
         m_pPluginManager->changePath(nameWithZip, pathMainFileQml);
         m_pPluginManager->changeActivation(nameWithZip, true);
         m_pPluginManager->changeName(nameWithZip, nameWithoutZip);
@@ -488,9 +488,9 @@ void DapModuledAppsRework::addLocalPlugin(QVariant path)
 
     if (!m_pPluginManager->pluginByName(nameWithoutZip).has_value())
     {
-        if (zipManage(fullPathToZipFile, m_pluginsDownloadFolder))
+        if (zipManage(fullPathToZipFile, m_dappsFolder))
         {
-            QString pathMainFileQml = QString(m_filePrefix + m_pluginsDownloadFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
+            QString pathMainFileQml = QString(m_filePrefix + m_dappsFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
             m_pPluginManager->addLocalPlugin(nameWithoutZip, pathMainFileQml);
 
             emit pluginsUpdated(m_pPluginManager->getPluginsList());
@@ -528,7 +528,7 @@ void DapModuledAppsRework::deletePlugin(QString pluginName)
     auto plOpt = m_pPluginManager->pluginByName(pluginName);
     if (plOpt.has_value())
     {
-        auto zipFilePath = QString(m_pluginsDownloadFolder + "/download/" + pluginName + ".zip");
+        auto zipFilePath = QString(m_dappsFolder + "/download/" + pluginName + ".zip");
         auto pluginFolderPath = plOpt->pluginPath.remove(QString("/" + pluginName + ".qml"));
         pluginFolderPath.remove(m_filePrefix);
 
@@ -562,12 +562,12 @@ void DapModuledAppsRework::initPlatformPaths()
 #endif
 
 #ifdef Q_OS_LINUX
-    m_pluginsDownloadFolder = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
+    m_dappsFolder = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
 #elif defined Q_OS_MACOS
     mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
-    m_pluginsDownloadFolder = QString("/tmp/Cellframe-Dashboard_dapps");
+    m_dappsFolder = QString("/tmp/Cellframe-Dashboard_dapps");
 #elif defined Q_OS_WIN
-    m_pluginsDownloadFolder = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
+    m_dappsFolder = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
 #endif
 }
 

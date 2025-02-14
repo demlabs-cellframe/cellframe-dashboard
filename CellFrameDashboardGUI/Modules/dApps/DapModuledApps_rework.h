@@ -128,9 +128,9 @@ signals:
 private:
     void initPlatformPaths();
 
-    QString m_pluginsDownloadFolder;//to remove
-    const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
+    QString m_dappsFolder;
     QString m_filePrefix;
+    const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
 
     DapModulesController * m_modulesCtrl;
 
