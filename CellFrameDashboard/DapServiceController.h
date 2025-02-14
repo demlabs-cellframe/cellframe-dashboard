@@ -107,24 +107,6 @@
 
 #include "handlers/DapCreateTxCommand.h"
 
-
-#ifdef Q_OS_WIN
-#include "registry.h"
-#define LOG_FILE    QString("%1/cellframe-node/var/log/cellframe-node.log").arg(regGetUsrPath())
-#define CMD_HISTORY QString("%1/%2/data/cmd_history.txt").arg(regGetUsrPath()).arg(DAP_BRAND)
-#endif
-
-#ifdef Q_OS_MAC
-#define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
-#define CMD_HISTORY QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/data/cmd_history.txt").arg(getenv("USER"))
-#endif
-
-#ifdef Q_OS_ANDROID
-#define LOG_FILE QString("")
-#define CMD_HISTORY QString("")
-
-#endif
-
 class DapServiceController : public QObject
 {
     Q_OBJECT
