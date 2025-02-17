@@ -206,6 +206,7 @@
         <file>screen/desktop/Stock/parts/OrderBook/OrderBookDelegate.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderTextBlock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreateDone.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder/OrderExchangeDone.qml</file>
         <file>screen/desktop/Tokens/TokensTab.qml</file>
         <file>screen/desktop/Tokens/TokensScreen.qml</file>
         <file>screen/desktop/Tokens/logic/LogicTokens.qml</file>
