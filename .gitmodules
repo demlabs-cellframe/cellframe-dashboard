@@ -10,10 +10,6 @@
 	path = prod_build
 	url = ../prod_build_cellframe-dashboard
 	branch = master
-[submodule "web3_api"]
-	path = web3_api
-	url = https://gitlab.demlabs.net/cellframe/web3_api.git
-    branch = master
 [submodule "cellframe-sdk"]
 	path = cellframe-sdk
 	url = https://gitlab.demlabs.net/cellframe/cellframe-sdk
