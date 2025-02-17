@@ -7,7 +7,6 @@ SUBDIRS = cellframe-sdk \
 CellFrameDashboardGUI.depends=cellframe-sdk
 CellFrameDashboardService.depends=cellframe-sdk
 
-
 include(config.pri)
 
 
