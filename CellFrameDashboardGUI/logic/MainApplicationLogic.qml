@@ -215,7 +215,7 @@ QtObject {
                 for(var j = 0; j < dapModelTokens.get(i).tokens.count; j++)
                 {
                     var itm = dapModelTokens.get(i).tokens.get(j).name
-                    if(itm === "BUSD")
+                    if(itm === "BUSD" || itm === "USDT")
                     {
                         dapModelTokens.get(i).tokens.remove(j)
                         break;
