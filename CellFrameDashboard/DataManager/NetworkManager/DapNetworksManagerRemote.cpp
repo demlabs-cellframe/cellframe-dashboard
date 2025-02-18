@@ -21,19 +21,18 @@ void DapNetworksManagerRemote::requestNetworkList()
     if(!isSendRequest)
     {
         isSendRequest = true;
-        m_modulesController->getServiceController()->requestToService("DapGetListNetworksCommand", QStringList()
-                                                                << Dap::CommandParamKeys::NODE_MODE_KEY << Dap::NodeMode::REMOTE_MODE);
+        m_modulesController->getServiceController()->requestToService("DapGetListNetworksCommand", QVariantMap({{Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}}));
     }
 }
 
 void DapNetworksManagerRemote::requestNetworskInfo()
 {
 //    QVariantMap req;
-//    req.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
+//    req.insert(Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
 //    req.insert(Dap::CommandParamKeys::NETWORK_LIST,  m_netList);
 
     QStringList req;
-    req.append(Dap::CommandParamKeys::NODE_MODE_KEY);
+    req.append(Dap::KeysParam::NODE_MODE_KEY);
     req.append(Dap::NodeMode::REMOTE_MODE);
     req.append(Dap::KeysParam::NETWORK_LIST);
 

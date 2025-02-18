@@ -40,6 +40,10 @@ void DapServiceController::run()
     m_web3Controll = new DapWebControllerForService(this);
     m_web3Controll->rcvFrontendConnectStatus(true);
     m_web3Controll->setCommandList(&m_transceivers);
+
+    QStringList webPathWallets = {Dap::UiSdkDefines::DataFolders::WALLETS_DIR, Dap::UiSdkDefines::DataFolders::WALLETS_MIGRATE_DIR};
+    m_web3Controll->setPathWallets(webPathWallets);
+
     // Channel req\rep for web 3 API
     connect(this, &DapServiceController::webConnectRespond, m_web3Controll, &DapWebControll::rcvAccept);
     connect(m_web3Controll, &DapWebControllerForService::signalConnectRequest, this, &DapServiceController::rcvWebConenctRequest);
@@ -95,7 +99,7 @@ void DapServiceController::addService(const QString& name, const QString& signal
         return;
     }
 
-    connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant reply)
+    connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant& reply)
     {
         for (int idx = 0; idx < metaObject()->methodCount(); ++idx)
         {

@@ -296,7 +296,7 @@ void DapModuleTxExplorer::updateHistory()
                             {Dap::CommandParamKeys::NETWORK_KEY, network},
                             {Dap::CommandParamKeys::WALLET_ADDRESS_KEY, walletAddr},
                             {Dap::CommandParamKeys::WALLET_NAME_KEY, m_lastWalletName},
-                            {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                            {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
                             };
 
     s_serviceCtrl->requestToService("DapGetWalletHistoryCommand", request);

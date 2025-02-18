@@ -850,7 +850,7 @@ void DapModuleDex::requestTokenPairs()
 
         QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
         QVariantMap request = {
-             {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+             {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
             ,{Dap::KeysParam::NETWORK_LIST, netList}
         };
 
@@ -867,7 +867,7 @@ void DapModuleDex::requestCurrentTokenPairs()
         {
             QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
             QVariantMap request = {
-                {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
                 ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
                 ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
                 ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
@@ -916,7 +916,7 @@ void DapModuleDex::requestHistoryTokenPairs()
     {
         QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
         QVariantMap request = {
-            {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+            {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
             ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
             ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
             ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
@@ -939,7 +939,7 @@ void DapModuleDex::requestHistoryOrders()
     QStringList netList = getListNetwork();
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {
-        {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+        {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
         ,{Dap::KeysParam::NETWORK_LIST, netList}
     };
     m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeOrdersList", request);
@@ -965,7 +965,7 @@ void DapModuleDex::requestTXList()
     }
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {
-                             {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                             {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
                             ,{Dap::KeysParam::WALLET_ADDRESSES, networkAddresses}
                             ,{Dap::KeysParam::WALLET_NAME, getWalletManager()->getCurrentWallet().second}
                             };

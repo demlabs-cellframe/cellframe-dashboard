@@ -28,7 +28,11 @@ DapModuleSettings::DapModuleSettings(DapModulesController *parent)
     connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         initConnect();
-        s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");
+        QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+
+        QVariantMap request = {{Dap::KeysParam::TYPE, Dap::TypeVersionKeys::GUI_VERSION}
+                               ,{Dap::KeysParam::NODE_MODE_KEY, nodeMode}};
+        s_serviceCtrl->requestToService("DapVersionController", request);
 //        if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
         checkVersion();
         setStatusInit(true);
@@ -287,7 +291,11 @@ QString DapModuleSettings::getUrlUpload()
 void DapModuleSettings::checkVersion()
 {
     m_timerVersionCheck->stop();
-    s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version node");
+    QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+
+    QVariantMap request = {{Dap::KeysParam::TYPE, Dap::TypeVersionKeys::NODE_VERSION}
+                           ,{Dap::KeysParam::NODE_MODE_KEY, nodeMode}};
+    s_serviceCtrl->requestToService("DapVersionController", request);
     m_timerVersionCheck->start(30000);
 }
 
@@ -298,7 +306,11 @@ void DapModuleSettings::guiVersionRequest()
         m_guiVersionRequest = true;
         emit guiRequestChanged();
         m_timerTimeoutService->stop();
-        s_serviceCtrl->requestToService("DapVersionController", QStringList()<<"version");
+        QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+
+        QVariantMap request = {{Dap::KeysParam::TYPE, Dap::TypeVersionKeys::GUI_VERSION}
+                               ,{Dap::KeysParam::NODE_MODE_KEY, nodeMode}};
+        s_serviceCtrl->requestToService("DapVersionController", request);
         m_timerTimeoutService->start(10000);
     }
 }

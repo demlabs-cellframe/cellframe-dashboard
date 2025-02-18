@@ -326,7 +326,8 @@ void DapWalletsManagerNode::updateInfoWallets(const QString &walletName)
 
 void DapWalletsManagerNode::updateListWallets()
 {
-    m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", QStringList());
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::LOCAL_MODE}};
+    m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", request);
 }
 
 void DapWalletsManagerNode::requestWalletInfo(const QString& walletName, const QString& network)

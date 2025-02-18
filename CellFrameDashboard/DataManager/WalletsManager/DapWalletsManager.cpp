@@ -515,7 +515,7 @@ void DapWalletsManager::updateListWallets()
     pathList.append(Dap::UiSdkDefines::DataFolders::WALLETS_DIR);
     pathList.append(Dap::UiSdkDefines::DataFolders::WALLETS_MIGRATE_DIR);
     QVariantMap request = {{Dap::KeysParam::PATH_LIST, std::move(pathList)}
-                           ,{Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
+                           ,{Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
 
     m_modulesController->getServiceController()->requestToService("DapGetListWalletsCommand", request);
 }
@@ -527,7 +527,7 @@ void DapWalletsManager::requestWalletInfo(const QString& walletAddr, const QStri
     QVariantMap request = {{Dap::KeysParam::WALLET_NAME, m_requestInfoWalletsName.last()}
                           ,{Dap::KeysParam::WALLET_ADDRESS, walletAddr}
                           ,{Dap::KeysParam::NETWORK_NAME, network}
-                           ,{Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
+                           ,{Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
 
     m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", request);
 

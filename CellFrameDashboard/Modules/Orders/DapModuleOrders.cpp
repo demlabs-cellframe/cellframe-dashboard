@@ -54,7 +54,7 @@ void DapModuleOrders::getOrdersList()
     QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {
-        {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+        {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
         ,{Dap::KeysParam::NETWORK_LIST, netList}
     };
     s_serviceCtrl->requestToService("DapGetXchangeOrdersList", request);
