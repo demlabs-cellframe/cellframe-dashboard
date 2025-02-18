@@ -64,7 +64,8 @@ DapPage {
     }
 
     Component.onCompleted:{
-        dAppsModule.updatePluginsRepository()
+        //dAppsModule.updatePluginsRepository()
+        //dAppsModule.getListPlugins()
         dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
     }
 }
