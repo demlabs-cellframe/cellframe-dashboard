@@ -51,6 +51,11 @@ INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$SDK_INSTALL_PATH/include/modules/chain/ \
                 $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
 
+mac {
+    INCLUDEPATH += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/include/
+}                
+                
+
 CONFIG += no_lflags_merge
 
 LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
