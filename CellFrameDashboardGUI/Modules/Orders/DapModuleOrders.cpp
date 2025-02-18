@@ -191,6 +191,14 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 
             if(dexFlag && !s_statusModel.first)
             {
+
+                if(obj["sell_token"].toString() == "BUSD" ||
+                   obj["sell_token"].toString() == "USDT" ||
+                   obj["sell_token"].toString().contains("m")||
+                   obj["buy_token"].toString() == "BUSD" ||
+                   obj["buy_token"].toString() == "USDT" ||
+                   obj["buy_token"].toString().contains("m")) continue;
+
                 itemOrder.hash       = obj["order_hash"].toString();
                 itemOrder.network    = network;
                 itemOrder.created    = obj["created"].toString();

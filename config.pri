@@ -1,5 +1,5 @@
 CONFIG += c++17
-QMAKE_CFLAGS += -std=gnu11
+QMAKE_CFLAGS += -std=gnu17
 QMAKE_CFLAGS_DEBUG += -DDAP_DEBUG
 QMAKE_CXXFLAGS_DEBUG += -DDAP_DEBUG
 
@@ -14,7 +14,7 @@ VER_MIN = $$fromfile(version.mk, VERSION_MINOR)
 VER_PAT = $$fromfile(version.mk, VERSION_PATCH)
 
 DEFINES += MIN_NODE_VERSION=\\\"5.3-343\\\"
-DEFINES += MAX_NODE_VERSION=\\\"5.3-346\\\"
+DEFINES += MAX_NODE_VERSION=\\\"5.3-348\\\"
 
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe

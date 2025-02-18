@@ -8,32 +8,17 @@ QtObject {
     {
         if(!completed)
         {
-            if(!dAppsScreen.dapDownloadPanel.isOpen)
-            {
-                dAppsScreen.dapDefaultRightPanel.visible = false
-                dAppsScreen.dapDownloadPanel.visible = true
-                dAppsScreen.dapDownloadPanel.isOpen = true
-                dAppsScreen.dapDownloadPanel.progress_text.text = progress + " %";
-                dAppsScreen.dapDownloadPanel.progress_bar.currentValue = progress;
-                dAppsScreen.dapDownloadPanel.name = name;
-                dAppsScreen.dapDownloadPanel.download =  download;
-                dAppsScreen.dapDownloadPanel.total =  total;
-                dAppsScreen.dapDownloadPanel.time = time;
-                dAppsScreen.dapDownloadPanel.speed = speed;
-                dAppsScreen.dapDownloadPanel.errors.text = error;
-
-            }
-            else
-            {
-                dAppsScreen.dapDownloadPanel.progress_text.text = progress + " %";
-                dAppsScreen.dapDownloadPanel.progress_bar.currentValue = progress;
-                dAppsScreen.dapDownloadPanel.name = name;
-                dAppsScreen.dapDownloadPanel.download = download;
-                dAppsScreen.dapDownloadPanel.total = total;
-                dAppsScreen.dapDownloadPanel.time = time;
-                dAppsScreen.dapDownloadPanel.speed = speed;
-                dAppsScreen.dapDownloadPanel.errors.text = error;
-            }
+            dAppsScreen.dapDefaultRightPanel.visible = false
+            dAppsScreen.dapDownloadPanel.visible = true
+            dAppsScreen.dapDownloadPanel.isOpen = true
+            dAppsScreen.dapDownloadPanel.progress_text.text = progress + " %";
+            dAppsScreen.dapDownloadPanel.progress_bar.currentValue = progress;
+            dAppsScreen.dapDownloadPanel.name = name;
+            dAppsScreen.dapDownloadPanel.download =  download;
+            dAppsScreen.dapDownloadPanel.total =  total;
+            dAppsScreen.dapDownloadPanel.time = time;
+            dAppsScreen.dapDownloadPanel.speed = speed;
+            dAppsScreen.dapDownloadPanel.errors.text = error;
             if(error === "Connected")
             {
                  dAppsScreen.dapDownloadPanel.errors.color = currTheme.lightGreen

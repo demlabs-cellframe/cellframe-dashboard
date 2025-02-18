@@ -68,7 +68,7 @@ Controls.DapTopPanel {
                     id: area
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: Qt.openUrlExternally("https://wiki.cellframe.net/en/soft/node_commands")
+                    onClicked: Qt.openUrlExternally("https://wiki.cellframe.net/02.+Learn/Cellframe+Node/6.+CLI+Node+Commands")
                 }
 
                 DapCustomToolTip{
