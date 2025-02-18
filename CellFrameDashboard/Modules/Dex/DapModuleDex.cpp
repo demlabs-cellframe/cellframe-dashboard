@@ -173,13 +173,17 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         tmpPair.network = pairObject["network"].toString();
         tmpPair.displayText = tmpPair.token1 + "/" + tmpPair.token2;
 
+        //Filtring m-tokens, BUSD and USDT
         if(tmpPair.token1 == "BUSD"     ||
            tmpPair.token2 == "BUSD"     ||
+           tmpPair.token1 == "USDT"     ||
+           tmpPair.token2 == "USDT"     ||
            tmpPair.token1.contains("m") ||
            tmpPair.token2.contains("m"))
         {
             continue;
         }
+        //******************************//
 
         if(!netList.contains(tmpPair.network))
         {

@@ -151,6 +151,11 @@ void DapDappsNetworkManager::cancelDownload(bool ok, bool reload)
     }
 }
 
+QString DapDappsNetworkManager::repoAddress() const
+{
+    return m_path;
+}
+
 void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 {
     QVariant statusCode = m_currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -166,7 +171,7 @@ void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 
         onDownloadProgress(0,0);
         //        else
-        }
+    }
 }
 
 void DapDappsNetworkManager::onReconnect()
@@ -203,24 +208,17 @@ void DapDappsNetworkManager::onUploadCompleted(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void DapDappsNetworkManager::getFiles()
+void DapDappsNetworkManager::fetchPluginsList()
 {
-    qDebug() << "[url] [DapDappsNetworkManager] getFiles";
-    m_networkManager->get(QNetworkRequest(QUrl(m_path)));
-    connect(m_networkManager, &QNetworkAccessManager::finished, this, &DapDappsNetworkManager::onFilesReceived);
+    QNetworkReply *reply;
+    reply = m_networkManager->get(QNetworkRequest(QUrl(m_path)));
+    connect(reply, SIGNAL(finished()),this,SLOT(onPluginsListFetched()));
 }
 
-void DapDappsNetworkManager::onFilesReceived(QNetworkReply *reply)
+void DapDappsNetworkManager::onPluginsListFetched()
 {
-    if(!reply)
-    {
-        return;
-    }
-    if(reply->url() != QUrl(m_path))
-    {
-        return;
-    }
-    qDebug() << "[url] [DapDappsNetworkManager] onFilesReceived";
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+
     if (reply->error() == QNetworkReply::NoError ||
         reply->error() == QNetworkReply::ContentNotFoundError)
     {
@@ -242,5 +240,6 @@ void DapDappsNetworkManager::onFilesReceived(QNetworkReply *reply)
 
     reply->deleteLater();
 
-    emit sigFilesReceived();
+    emit sigPluginsListFetched();
 }
+

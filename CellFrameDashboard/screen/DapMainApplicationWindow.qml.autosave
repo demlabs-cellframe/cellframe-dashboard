@@ -331,7 +331,7 @@ Rectangle {
             append ({ tag: "TX explorer",
                 name: qsTr("TX explorer"),
                 bttnIco: "icon_history.svg",
-                showTab: true,
+                showTab: true,s
                 page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
 
             append ({ tag: "Tokens",

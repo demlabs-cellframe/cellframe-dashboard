@@ -15,6 +15,7 @@ Item
     id: stockHome
     signal goToRightHome()
     signal goToDoneCreate()
+    signal goToDoneExchange()
     signal goToTokensList()
     signal regularPairSwap()
 
@@ -59,9 +60,8 @@ Item
 
         function onRcvXchangeOrderPurchase(rcvData)
         {
-            var jsonDoc = JSON.parse(rcvData)
-            logicStock.resultCreate = jsonDoc.result
-            goToDoneCreate()
+            logicStock.resultCreate = rcvData
+            goToDoneExchange()
         }
     }
 
@@ -73,6 +73,12 @@ Item
     {
         changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
+
+    onGoToDoneExchange:
+    {
+        changeRightPage("CreateOrder/OrderExchangeDone.qml")
+    }
+
     onGoToTokensList:
     {
         changeRightPage(tokensListPath)

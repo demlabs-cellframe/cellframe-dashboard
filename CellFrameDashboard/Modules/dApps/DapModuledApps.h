@@ -11,7 +11,92 @@
 
 #include <QCryptographicHash>
 #include <dap_hash.h>
+#include <optional>
 #include "zip/unpackzip.h"
+
+namespace DApps {
+
+using DappsNetworkManagerPtr = QSharedPointer<DapDappsNetworkManager>;
+
+class PluginManager : public QObject
+{
+    Q_OBJECT
+public:
+    struct PluginInfo
+    {
+        QString pluginPath;
+        bool isActivated;
+        bool isVerified;
+    };
+    using PluginsList = QMap<QString, PluginInfo>;
+
+    explicit PluginManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent = nullptr);
+    ~PluginManager();
+
+    QList<QVariant> getPluginsList() const;
+
+    std::optional<PluginInfo> pluginByName(const QString& name) const;
+
+    void addLocalPlugin(QString name, QString localPath);
+    void changePath(QString name, QString newPath);
+    void changeActivation(QString name, bool isActivated);
+    void changeName(QString oldName, QString newName);
+    void removePlugin(QString name);
+
+private slots:
+    void onPluginsFetched();
+
+signals:
+    void isFetched();
+
+private:
+    void addFetchedPlugins();
+    void savePluginsToFile();
+    void initFilePath();
+
+    PluginsList m_pluginsByName;
+    DappsNetworkManagerPtr m_pDapNetworkManager;
+    QString m_pathPluginsListFile;
+};
+
+class DownloadManager : public QObject
+{
+    Q_OBJECT
+public:
+    explicit DownloadManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent = nullptr);
+    ~DownloadManager();
+
+    void startDownload(const QString& pluginName);
+    void cancelDownload();
+    void reloadDownload();
+
+private slots:
+
+    void onDownloadCompleted(QString path);
+    void onDownloadProgress(quint64 currDownloadedBytes, quint64 totalBytes, QString nameZip, QString statusMsg);
+    void onAborted();
+
+signals:
+
+    void downloadCompleted(QString path);
+    void downloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
+    void isAborted();
+
+private:
+    struct Progress
+    {
+        quint64 lastTimeInterval = 0;
+        quint64 prevDownloaded = 0;
+        quint64 totalBytes = 0;
+        QTime timeRecord;
+        QString speedStr;
+        QString timeRemainStr;
+    };
+
+    DappsNetworkManagerPtr m_pDapNetworkManager;
+    Progress m_progress;
+    const quint64 m_minTimeInterval = 500;
+};
 
 class DapModuledApps : public DapAbstractModule
 {
@@ -20,62 +105,44 @@ public:
     explicit DapModuledApps(DapModulesController *parent = nullptr);
     ~DapModuledApps();
 
-private:
-    void init();
-
-    //file manage work
-    void readPluginsFile(QString *path);
-    void updateFileConfig();
-    void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
-    bool zipManage(QString &path);
-    bool checkDuplicates(QString name, QString verifed);
-    bool checkHttps(QString path);
-
-    QString pkeyHash(QString &path);
-
-    QString transformUnit(double bytes, bool isSpeed);
-    QString transformTime(quint64 seconds);
-
 public slots:
+    void addLocalPlugin(QVariant path);
+    void activatePlugin(QString pluginName);
+    void deactivatePlugin(QString pluginName);
+    void deletePlugin(QString pluginName);
 
-    void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
-    void updatePluginsRepository(){m_dapNetworkManager->getFiles();};
-    void addPlugin(QVariant, QVariant, QVariant);
-    void installPlugin(QString, QString, QString);
-    void deletePlugin(QVariant);
-    void cancelDownload(){m_dapNetworkManager->cancelDownload(1,0);};
-    void reloadDownload(){m_dapNetworkManager->cancelDownload(1,1);};
-
-signals:
-
-    void rcvListPlugins(QList <QVariant> m_pluginsList);
-    void rcvProgressDownload(QString progress, int completed, QString download, QString total, QString time, QString speed, QString name, QString error);
-    void rcvAbort();
+    void cancelDownload();
+    void reloadDownload();
 
 private slots:
+    void onPluginManagerInit();
+    void onDownloadCompleted(QString pluginFullPathToZip);
+    void onDownloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
+    void onAborted();
 
-    void onFilesReceived();
-    void onDownloadCompleted(QString path){addPlugin(path,1,1);};
-    void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
-    void onAborted(){emit rcvAbort();};
+signals:
+    void pluginsUpdated(QList<QVariant> pluginsList);
+    void rcvProgressDownload(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed);
+    void rcvAbort();
 
 private:
-    QString m_pathPluginsConfigFile;
-    QString m_pathPlugins;
-    QList <QVariant> m_pluginsList;
-    QStringList m_buffPluginsByUrl;
+    void initPlatformPaths();
 
+    QString m_dappsFolder;
     QString m_filePrefix;
+    const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
 
-    QString m_repoPlugins;
+    DapModulesController * m_modulesCtrl;
 
-    uint m_timeInterval;
-    quint64 m_bytesDownload;
-    quint64 m_bytesTotal;
-    QTime m_timeRecord;
-    QString m_speed, m_time;
+    using PluginManagerPtr = QSharedPointer<PluginManager>;
+    PluginManagerPtr m_pPluginManager;
 
-    DapDappsNetworkManager * m_dapNetworkManager = nullptr;
+    using DownloadManagerPtr = QSharedPointer<DownloadManager>;
+    DownloadManagerPtr m_pDownloadManager;
 };
+
+
+
+} // DApps
 
 #endif // DAPMODULEDAPPS_H
