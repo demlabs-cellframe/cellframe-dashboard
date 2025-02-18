@@ -218,7 +218,6 @@ QtObject {
                     if(itm === "BUSD" || itm === "USDT")
                     {
                         dapModelTokens.get(i).tokens.remove(j)
-                        break;
                     }
                 }
             }
