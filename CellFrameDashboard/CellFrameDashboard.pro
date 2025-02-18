@@ -4,7 +4,11 @@ include (../config.pri)
 TARGET = $${BRAND}
 
 DEFINES += CPPHTTPLIB_OPENSSL_SUPPORT
-LIBS += -lcrypto -lssl
+
+isEmpty($$[OPENSSL_LINKED]) {
+    LIBS += -lssl -lcrypto
+}
+
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
@@ -229,3 +233,4 @@ mac {
     pkginstall.path = /
     INSTALLS += pkginstall
 }
+
