@@ -93,6 +93,11 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
     $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a \
     $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 
+mac {
+    LIBS += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libssl.a \
+            /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libcrypto.a 
+}   
+
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
@@ -223,7 +228,6 @@ mac {
     gui_target.CONFIG += no_check_exist
     INSTALLS += gui_target
 
-
     DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/cellframe-uninstaller \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall_icon.rsrc
@@ -238,4 +242,4 @@ mac {
     pkginstall.path = /
     INSTALLS += pkginstall
 }
-
+12
