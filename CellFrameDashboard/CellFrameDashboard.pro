@@ -50,12 +50,7 @@ INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$SDK_INSTALL_PATH/include/modules/net/ \
                 $$SDK_INSTALL_PATH/include/modules/chain/ \
                 $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
-
-mac {
-    INCLUDEPATH += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/include/
-}                
-                
-
+              
 CONFIG += no_lflags_merge
 
 LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
@@ -93,10 +88,19 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
     $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a \
     $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 
+
 mac {
-    LIBS += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libssl.a \
-            /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libcrypto.a 
-}   
+    !isEmpty($$[HOMEBREW_PREFIX]) {
+        INCLUDEPATH += $$HOMEBREW_PREFIX/opt/include/
+        LIBS += $$HOMEBREW_PREFIX/opt/lib/libssl.a
+                $$HOMEBREW_PREFIX/opt/lib/libcrypto.a
+    } else {
+        INCLUDEPATH += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/include/
+        LIBS += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libssl.a \
+                /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libcrypto.a 
+    }
+}
+  
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
