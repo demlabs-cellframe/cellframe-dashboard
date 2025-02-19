@@ -92,7 +92,7 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
 mac {
     HOMEBREW_PREFIX = $$[HOMEBREW_PREFIX]
     
-    isEmpty($$(HOMEBREW_PREFIX)) {
+    !isEmpty($$(HOMEBREW_PREFIX)) {
         INCLUDEPATH += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/include/
 
         LIBS += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libssl.a \
