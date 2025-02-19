@@ -206,11 +206,11 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
     if (!document.isObject())
         return;
 
-    allOrders.clear();
+    m_allOrders.clear();
     auto object = document.object();
-    if(object.contains(network))
+    if(object.contains(m_network))
     {
-        QJsonArray orders = object[network].toArray();
+        QJsonArray orders = object[m_network].toArray();
         for(auto j = 0; j < orders.size(); j++)
         {
             if(orders.at(j)["status"].toString() == "CLOSED")
@@ -220,12 +220,11 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
             QString tok1 = orders.at(j)["buy_token"].toString();
             QString tok2 = orders.at(j)["sell_token"].toString();
 
-            if ((tok1 == token1 && tok2 == token2) ||
-                (tok2 == token1 && tok1 == token2))
+            if ((tok1 == m_token1 && tok2 == m_token2) ||
+                (tok2 == m_token1 && tok1 == m_token2))
             {
                 OrderType type;
-
-                if (tok1 == token1)
+                if (tok1 == m_token1)
                 {
                     type = OrderType::buy;
                 }
@@ -259,7 +258,7 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
                 item.amountCoin = item.amount;
                 item.totalCoin = item.total;
 
-                allOrders.append(std::move(item));
+                m_allOrders.append(std::move(item));
             }
         }
     }
@@ -271,14 +270,16 @@ double OrderBookWorker::getfilledForPrice(bool isSell, const QString& price)
 {
     auto serchResult = [this](const QVector <OrderInfo>& model,const QString price, const QString maxValue) ->double
     {
+        double result = 0.0f;
         for(const auto& item: model)
         {
             if(item.price == price)
             {
                 QString strResult = divCoins(item.total, maxValue);
-                return roundCoinsToDouble(strResult);
+                result = roundCoinsToDouble(strResult);
             }
         }
+        return result;
     };
 
     double result;
@@ -358,18 +359,18 @@ void OrderBookWorker::checkBookRoundPower(double currentTokenPrice)
 void OrderBookWorker::setTokenPair(const QString &tok1,
     const QString &tok2, const QString &net)
 {
-    token1 = tok1;
-    token2 = tok2;
-    network = net;
+    m_token1 = tok1;
+    m_token2 = tok2;
+    m_network = net;
 
-    qDebug() << "OrderBookWorker::setTokenPair" << token1 << token2 << network;
+    qDebug() << "OrderBookWorker::setTokenPair" << m_token1 << m_token2 << m_network;
 }
 
 void OrderBookWorker::setTokenPair(const DEX::InfoTokenPair& info)
 {
-    token1 = info.token1;
-    token2 = info.token2;
-    network = info.network;
+    m_token1 = info.token1;
+    m_token2 = info.token2;
+    m_network = info.network;
 }
 
 void OrderBookWorker::setCurrentRate(const QString& rate)
@@ -382,7 +383,7 @@ void OrderBookWorker::updateBookModels()
     sellOrderModel.clear();
     buyOrderModel.clear();
 
-    for (FullOrderInfo& order : allOrders)
+    for (FullOrderInfo& order : m_allOrders)
     {
         insertBookOrder(order);
     }
