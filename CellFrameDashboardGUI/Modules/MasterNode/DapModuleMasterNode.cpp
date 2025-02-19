@@ -15,15 +15,6 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     , m_updateConfig(new DapUpdateConfigStage(s_serviceCtrl))
     , m_nodeDelStage(new DapNodeDelStage(s_serviceCtrl))
 {
-    auto setStageCallback = [this](DapAbstractMasterNodeCommand* stage)
-    {
-        stage->setStageComplatedCallback([this](){ stageComplated(); });
-        stage->setNewDataCallback([this](const QString& key, const QVariant& data){
-            m_currentStartMaster.insert(key, data);
-            saveCurrentRegistration();
-        });
-        stage->setStopCreationCallback([this](int code, const QString& message){ tryStopCreationMasterNode(code, message); });
-    };
     setStageCallback(m_stakeDelegate);
     setStageCallback(m_srvStakeInvalidate);
     setStageCallback(m_waitingPermission);
@@ -67,6 +58,53 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     {
         addNetwork(m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
     }
+
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
+        {
+            updateStakeNode();
+        });
+}
+
+void DapModuleMasterNode::updateStakeNode()
+{
+    if(m_updateStakeData)
+    {
+        return;
+    }
+    m_updateStakeData = new DapUpdateStakeData(s_serviceCtrl);
+    setStageCallback(m_updateStakeData);
+    connect(m_updateStakeData, &DapAbstractMasterNodeCommand::finished, this, [this]
+    {
+        delete m_updateStakeData;
+        m_updateStakeData = nullptr;
+        if(!m_masterNodes.isEmpty())
+        {
+            for(const auto& item: qAsConst(m_masterNodes))
+            {
+                addNetwork(item[MasterNode::NETWORK_KEY].toString());
+            }
+        }
+    });
+    m_updateStakeData->tryUpdateStakeData(m_masterNodes);
+}
+
+void DapModuleMasterNode::setStageCallback(DapAbstractMasterNodeCommand* stage)
+{
+    stage->setStageComplatedCallback([this](){ stageComplated(); });
+    stage->setNewDataCallback([this](const QString& key, const QVariant& data){
+        m_currentStartMaster.insert(key, data);
+        saveCurrentRegistration();
+    });
+    stage->setStopCreationCallback([this](int code, const QString& message){ tryStopCreationMasterNode(code, message); });
+    stage->setUpdateDataCallback([this](const QString& network, const QString& paramName, const QVariant& value){
+        if(m_masterNodes.contains(network))
+        {
+            m_masterNodes[network][paramName] = value;
+        }
+    });
+    stage->setSaveDataCallback([this]{
+        saveMasterNodeBase();
+    });
 }
 
 bool DapModuleMasterNode::checkTokenName() const
@@ -1117,7 +1155,7 @@ QString DapModuleMasterNode::getMasterNodeData(const QString& key)
         {
             return m_masterNodes[m_currentNetwork][key].toString();
         }
-        qDebug() << QString("[DapModuleMasterNode][getNodeData] Key %1 was not found. Network: ").arg(key).arg(m_currentNetwork);
+        qDebug() << QString("[DapModuleMasterNode][getNodeData] Key %1 was not found. Network: ").arg(key, m_currentNetwork);
         return QString();
     }
     qDebug() << QString("[DapModuleMasterNode][getNodeData] Network %1 is not registered").arg(m_currentNetwork);

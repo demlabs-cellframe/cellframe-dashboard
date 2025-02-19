@@ -22,7 +22,9 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/MasterNode/MasterNodeCommand/DapNodeDelStage.h \
     $$PWD/MasterNode/MasterNodeCommand/DapSrvStakeInvalidateStage.h \
     $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeListCommand.h \
     $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateStakeData.h \
     $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.h \
     $$PWD/Networks/DapModuleNetworks.h \
     $$PWD/Settings/DapModuleSettings.h \
@@ -63,7 +65,9 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/MasterNode/MasterNodeCommand/DapNodeDelStage.cpp \
     $$PWD/MasterNode/MasterNodeCommand/DapSrvStakeInvalidateStage.cpp \
     $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeListCommand.cpp \
     $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateStakeData.cpp \
     $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.cpp \
     $$PWD/Networks/DapModuleNetworks.cpp \
     $$PWD/Settings/DapModuleSettings.cpp \

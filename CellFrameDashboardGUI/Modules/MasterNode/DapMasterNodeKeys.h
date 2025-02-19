@@ -29,4 +29,6 @@ static const QString MASTER_NODE_KEY;
 static const QString MASTER_NODE_TO_CENCEL_KEY;
 static const QString ORDER_HASH_KEY;
 static const QString NODE_ADDED_KEY;
+static const QString STAKE_EFFECTIVE_VALUE_KEY;
+static const QString STAKE_RELATED_WEIGHT_KEY;
 };
