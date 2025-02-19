@@ -29,9 +29,9 @@ const QString DashboardDefines::DapUiSdk::STORAGE_PATH = QString("/opt/%1").arg(
 
 #elif defined (Q_OS_MACOS)
 
-const QString DashboardDefines::CellframeNode::CONFIGWORKER_PATH = getPathOnMACOS("var/log", "", true, true);
-const QString DashboardDefines::CellframeNode::DAPMODULE_LOG = getPathOnMACOS("etc", "", true, true);
-const QString DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG = getPathOnMACOS(QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO));
+const QString DashboardDefines::CellframeNode::CONFIGWORKER_PATH = Dap::UiSdkDefines::getPathOnMACOS("var/log", "", true, true);
+const QString DashboardDefines::CellframeNode::DAPMODULE_LOG = Dap::UiSdkDefines::getPathOnMACOS("etc", "", true, true);
+const QString DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG = Dap::UiSdkDefines::getPathOnMACOS(QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO));
 
 const QString DashboardDefines::DApps::PLUGINS_CONFIG = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
 const QString DashboardDefines::DApps::PLUGINS_PATH = QString("/tmp/Cellframe-Dashboard_dapps");
