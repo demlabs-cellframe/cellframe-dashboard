@@ -88,12 +88,12 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
     $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a \
     $$SDK_INSTALL_PATH/lib/libdap_json-c.a
 
-
 mac {
     !isEmpty($$[HOMEBREW_PREFIX]) {
-        INCLUDEPATH += $$HOMEBREW_PREFIX/opt/include/
-        LIBS += $$HOMEBREW_PREFIX/opt/lib/libssl.a
-                $$HOMEBREW_PREFIX/opt/lib/libcrypto.a
+        INCLUDEPATH += $$(HOMEBREW_PREFIX)/opt/openssl@3/include
+        LIBS += $$(HOMEBREW_PREFIX)/opt/openssl@3/lib/libssl.a
+                $$(HOMEBREW_PREFIX)/opt/openssl@3/lib/libcrypto.a
+        
     } else {
         INCLUDEPATH += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/include/
         LIBS += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libssl.a \
