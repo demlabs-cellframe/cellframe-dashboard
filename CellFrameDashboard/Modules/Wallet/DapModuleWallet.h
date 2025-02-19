@@ -57,6 +57,7 @@ public:
     Q_INVOKABLE void setWalletTokenModel(const QString& network);
     Q_INVOKABLE QString getTokenBalance(const QString &network, const QString& tokenName, const QString& walletName = "") const;
     Q_INVOKABLE QString getAddressWallet(const QString &network, const QString& walletName = "") const;
+
     Q_INVOKABLE void updateWalletList();
     Q_INVOKABLE void updateWalletInfo();
     Q_INVOKABLE void activateOrDeactivateWallet(const QString& walletName,
@@ -123,6 +124,13 @@ private:
     WalletHashManager *m_walletHashManager;
     bool m_isFirstUpdate = false;
     bool m_isSendDoubleWallets = false;
+
+    const QMap<QString, QString> m_nativeTokens = {{"Backbone", QString("CELL")}
+                                                  ,{"KelVPN",   QString("KEL")}
+                                                  ,{"raiden",   QString("tCELL")}
+                                                  ,{"riemann",  QString("tKEL")}
+                                                  ,{"mileena",  QString("tMIL")}
+                                                  ,{"subzero",  QString("tCELL")}};
 };
 
 #endif // DAPMODULEWALLET_H

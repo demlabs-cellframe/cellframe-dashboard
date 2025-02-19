@@ -421,16 +421,19 @@ void DapModuleWallet::sendTx(QVariantMap data)
     QString addrTo        = data.value("wallet_to").toString();
     QString amount        = data.value("amount").toString();
     QString sendTicker    = data.value("send_ticker").toString();
+    QString userFee       = data.value("validator_fee").toString();
 
-    QString nativeToken   = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("fee_ticker");
     QString feeDatoshi    = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("median_fee_datoshi");
     QString fee           = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("median_fee_coins");
+    QString nativeToken   = m_modulesCtrl->getManagerController()->getFee(net).validatorFee.value("fee_ticker");
     QString feeNet        = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_coins");
     QString feeNetDatoshi = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_datoshi");
     QString feeNetAddr    = m_modulesCtrl->getManagerController()->getFee(net).netFee.value("fee_addr");
 
     MathWorker mathWorker;
     amount = mathWorker.balanceToCoins(mathWorker.coinsToBalance(amount)).toString();
+    QString validatorFee         = userFee.isEmpty() || userFee == "0.0" ? fee : userFee;
+    QString validatorFeeDatoshi  = mathWorker.coinsToBalance(validatorFee).toString();
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::REMOTE)
     {
@@ -441,7 +444,7 @@ void DapModuleWallet::sendTx(QVariantMap data)
         QJsonObject txData;
         txData.insert(Dap::KeysParam::NETWORK_NAME,    net);
         txData.insert(Dap::KeysParam::FEE_DATOSHI,     feeDatoshi);
-        txData.insert(Dap::KeysParam::FEE,             fee);
+        txData.insert(Dap::KeysParam::FEE,             validatorFee);
         txData.insert(Dap::KeysParam::FEE_NET,         feeNet);
         txData.insert(Dap::KeysParam::FEE_NET_DATOSHI, feeNetDatoshi);
         txData.insert(Dap::KeysParam::FEE_NET_ADDR,    feeNetAddr);
@@ -473,7 +476,7 @@ void DapModuleWallet::sendTx(QVariantMap data)
         listData.append(addrTo);
         listData.append(sendTicker);
         listData.append(amount);
-        listData.append(feeDatoshi);
+        listData.append(validatorFeeDatoshi);
 
         createTx(listData);
     }

@@ -79,10 +79,11 @@ DapNewPaymentMainRightPanelForm
                 {
                     dapTextNotEnoughTokensWarning.text = ""
                     var data = {
-                    "network"      : dapComboboxNetwork.displayText,
-                    "amount"       : dapTextInputAmountPayment.text,
-                    "send_ticker"  : dapComboBoxToken.displayText,
-                    "wallet_name"  : walletInfo.name}
+                    "network"       : dapComboboxNetwork.displayText,
+                    "amount"        : dapTextInputAmountPayment.text,
+                    "send_ticker"   : dapComboBoxToken.displayText,
+                    "wallet_name"   : walletInfo.name,
+                    "validator_fee" : valueToFloat(dapFeeController.currentValue)}
 
                     var res = walletModule.approveTx(data);
 
@@ -103,8 +104,11 @@ DapNewPaymentMainRightPanelForm
                     case 2:
                         console.warn("Not enough tokens")
                         dapTextNotEnoughTokensWarning.text =
-                            qsTr("Not enough available tokens. Maximum value with fee = %1. Enter a lower value. Current value = %2")
-                                .arg(res.availBalance).arg(dapTextInputAmountPayment.text)
+                            qsTr("Not enough available tokens. Maximum value with fee = %1.")
+                                .arg(res.availBalance)
+//                        dapTextNotEnoughTokensWarning.text =
+//                            qsTr("Not enough available tokens. Maximum value with fee = %1. Enter a lower value. Current value = %2")
+//                                .arg(res.availBalance).arg(dapTextInputAmountPayment.text)
                         break;
                     case 3:
                         console.warn("Not enough tokens for pay fee")
@@ -142,7 +146,8 @@ DapNewPaymentMainRightPanelForm
             "amount"            : dapTextInputAmountPayment.text,
             "send_ticker"       : dapComboBoxToken.displayText,
             "wallet_from"       : walletInfo.name,
-            "wallet_to"         : dapTextInputRecipientWalletAddress.text}
+            "wallet_to"         : dapTextInputRecipientWalletAddress.text,
+            "validator_fee"     : valueToFloat(dapFeeController.currentValue)}
 
             console.info(dataTx)
             walletModule.sendTx(dataTx)

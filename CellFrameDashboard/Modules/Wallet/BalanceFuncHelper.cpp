@@ -67,9 +67,9 @@ QVariantMap DapModuleWallet::getAvailableBalance(QVariantMap data)
     DapErrors err{DAP_NO_ERROR};
     QString availBalance{"0.00"};
 
-    QString network    = data.value("network").toString();
-    QString walletName = data.value("wallet_name").toString();
-    QString sendTicker = data.value("send_ticker").toString();
+    QString network      = data.value("network").toString();
+    QString walletName   = data.value("wallet_name").toString();
+    QString sendTicker   = data.value("send_ticker").toString();
 
     const CommonWallet::FeeInfo& fee = m_modulesCtrl->getManagerController()->getFee(network);
     QString feeTicker  = fee.validatorFee.value("fee_ticker");
@@ -98,8 +98,11 @@ QVariantMap DapModuleWallet::getAvailableBalance(QVariantMap data)
 
     if(feeTicker == sendTicker)
     {
+        QString userFee = data.value("validator_fee").toString();
+        QString validatorFee = userFee.isEmpty() || userFee == "0" || userFee == "0.0" ? fee.validatorFee.value("median_fee_coins") : userFee;
+
         Dap::Coin netFee(fee.netFee.value("fee_coins"));
-        Dap::Coin validatorfee(fee.validatorFee.value("median_fee_coins"));
+        Dap::Coin validatorfee(validatorFee);
         feeSum = netFee + validatorfee;
         mapResult.insert("feeSum", feeSum.toCoinsString());
 
@@ -135,20 +138,25 @@ QVariantMap DapModuleWallet::getFee(QString network)
 {
     QVariantMap mapResult;
 
-    if(m_modulesCtrl->getManagerController()->isFeeEmpty())
+    const CommonWallet::FeeInfo& fee = m_modulesCtrl->getManagerController()->getFee(network);
+
+    if(m_modulesCtrl->getManagerController()->isFeeEmpty() || fee.validatorFee.isEmpty())
     {
         mapResult.insert("error", (int)DAP_RCV_FEE_ERROR);
-        mapResult.insert("fee_ticker","UNKNOWN");
+        mapResult.insert("fee_ticker", m_nativeTokens.value(network));
         mapResult.insert("network_fee", "0.00");
         mapResult.insert("validator_fee", "0.05");
+        mapResult.insert("min_fee_coins",  "0.000000000000000001");
+        mapResult.insert("max_validator_fee",  "100.0");
         return mapResult;
     }
 
-    const CommonWallet::FeeInfo& fee = m_modulesCtrl->getManagerController()->getFee(network);
     mapResult.insert("error", (int)DAP_NO_ERROR);
     mapResult.insert("fee_ticker", fee.validatorFee.value("fee_ticker"));
     mapResult.insert("network_fee", fee.netFee.value("fee_coins"));
     mapResult.insert("validator_fee", fee.validatorFee.value("median_fee_coins"));
+    mapResult.insert("min_validator_fee", fee.validatorFee.value("min_fee_coins"));
+    mapResult.insert("max_validator_fee", fee.validatorFee.value("max_fee_coins"));
 
     return mapResult;
 }

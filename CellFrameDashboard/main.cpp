@@ -195,4 +195,3 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     return QByteArray::number(scale, 'f', 1);
 }
-

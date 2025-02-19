@@ -278,7 +278,7 @@ Item
                 return fullHeight - y < height + conteinHeight
             }
 
-            onCurrantDisplayTextChanged:
+            onCurrentDisplayTextChanged:
             {
                 modelHistory.setNetworkFilter(displayText)
             }

@@ -64,6 +64,7 @@ public:
     void updateModulesData() {emit sigUpdateData();}
 
     int getCountRestart() const { return m_countRestart; }
+
 public slots:
     void setNodeLoadProgress(int progress);
     void setIsNodeWorking(bool);
@@ -119,7 +120,6 @@ private:
     bool m_firstDataLoad{false};
     bool m_isNodeWorking = false;
     bool m_skinWallet = false;
-
 };
 
 #endif // DAPMODULESCONTROLLER_H

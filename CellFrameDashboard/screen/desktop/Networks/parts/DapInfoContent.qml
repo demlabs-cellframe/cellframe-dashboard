@@ -151,7 +151,6 @@ Item {
                 {
                     if(!app.getNodeMode())
                     {
-                        console.log("setText()")
                         logicNet.delay(300, function(){
                             if(buttonNetwork) buttonNetwork.updateFakeButton(false)
                         })
