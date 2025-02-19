@@ -148,7 +148,7 @@ Controls.DapTopPanel
                 }
             }
 
-            onCurrantDisplayTextChanged:
+            onCurrentDisplayTextChanged:
             {
                 dexModule.setCurrentToken(text)
             }
