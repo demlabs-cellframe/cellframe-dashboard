@@ -91,8 +91,7 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
 mac {
     !isEmpty($$[HOMEBREW_PREFIX]) {
         INCLUDEPATH += $$(HOMEBREW_PREFIX)/opt/openssl@3/include
-        LIBS += $$(HOMEBREW_PREFIX)/opt/openssl@3/lib/libssl.a
-                $$(HOMEBREW_PREFIX)/opt/openssl@3/lib/libcrypto.a
+        LIBS += -L $$(HOMEBREW_PREFIX)/opt/openssl@3/lib/ -lssl -lcrypto
         
     } else {
         INCLUDEPATH += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/include/
@@ -101,6 +100,7 @@ mac {
     }
 }
   
+
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
