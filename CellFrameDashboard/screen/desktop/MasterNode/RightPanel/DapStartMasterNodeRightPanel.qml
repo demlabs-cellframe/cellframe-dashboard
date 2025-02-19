@@ -90,7 +90,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Certificate")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -147,7 +147,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: certificateLogic === "existingCertificate" ? qsTr("Select existing certificate") : qsTr("Create new certificate")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -176,7 +176,7 @@ DapRectangleLitAndShaded
                     placeholderText: qsTr("Enter certificate name")
                     height: 30
 
-                    validator: RegExpValidator { regExp: /[0-9a-z\_\:\(\)\?\@\.\s*]+/ }
+                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\.\-]+/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignLeft
 
@@ -365,7 +365,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Wallet")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -410,7 +410,7 @@ DapRectangleLitAndShaded
                 {
                     color: currTheme.white
                     text: qsTr("Fee value")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -436,12 +436,13 @@ DapRectangleLitAndShaded
             {
                 Layout.fillWidth: true
                 color: currTheme.mainBackground
-                height: 30
+                height: 0 //30
+                visible: false
                 Text
                 {
                     color: currTheme.white
                     text: qsTr("Node IP")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -454,8 +455,8 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 30
                 Layout.rightMargin: 35
-                height: 69
-
+                height: 0 //69
+                visible: false
                 DapTextField
                 {
                     id: nodeIpText
@@ -482,12 +483,13 @@ DapRectangleLitAndShaded
             {
                 Layout.fillWidth: true
                 color: currTheme.mainBackground
-                height: 30
+                height: 0 //30
+                visible: false
                 Text
                 {
                     color: currTheme.white
                     text: qsTr("Node port")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -500,8 +502,8 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.leftMargin: 30
                 Layout.rightMargin: 35
-                height: 69
-
+                height: 0 //69
+                visible: false
                 DapTextField
                 {
                     id: nodePortText
@@ -534,7 +536,7 @@ DapRectangleLitAndShaded
                     id: stakeValueHeaderText
                     color: currTheme.white
                     text: qsTr("Stake value")
-                    font: mainFont.dapFont.medium12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -554,7 +556,7 @@ DapRectangleLitAndShaded
                     label: qsTr("Balance:")
                     textColor: currTheme.white
                     textFont: mainFont.dapFont.regular11
-                    text: walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+                    text: walletModule.getTokenBalance(nodeMasterModule.currentNetwork, nodeMasterModule.stakeTokenName, walletModule.currentWalletName)
                 }
 
                 Image
@@ -692,7 +694,7 @@ DapRectangleLitAndShaded
                         "stakeFee": walletModule.getFee(nodeMasterModule.currentNetwork).validator_fee
                     }
                     var message = ""
-                    var walletBalance = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+                    var walletBalance = walletModule.getTokenBalance(nodeMasterModule.currentNetwork, nodeMasterModule.stakeTokenName, walletModule.currentWalletName)
 
                     if(certificateLogic === "existingCertificate" && certPath === "")
                     {
@@ -748,13 +750,11 @@ DapRectangleLitAndShaded
     Component.onCompleted:
     {
         logicMainApp.requestToService("DapCertificateManagerCommands", 1); // 1 - Get List Certificates
-        walletModule.startUpdateFee()
         defaultNewCertificateName()
     }
     
     Component.onDestruction:
     {
-        walletModule.stopUpdateFee()
         nodeMasterModule.clearCertificate();
     }
 
@@ -764,28 +764,28 @@ DapRectangleLitAndShaded
 
         function onCurrentWalletChanged()
         {
-            textBalance.text = walletModule.getBalanceDEX(nodeMasterModule.stakeTokenName)
+            textBalance.text = walletModule.getTokenBalance(nodeMasterModule.currentNetwork, nodeMasterModule.stakeTokenName, walletModule.currentWalletName)
         }
     }
 
     Connections
     {
         target: dapServiceController
-        onCertificateManagerOperationResult:
+        function onCertificateManagerOperationResult(rcvData)
         {
-            var currentNetwork = nodeMasterModule.currentNetwork + "."
+            var foundIndex = 0
+            var certNameFromStartMasterNode = nodeMasterModule.certNameFromStartMasterNode
             certificatesModel.clear()
-            for (var i = 0; i < result.data.length; ++i)
+            for (var i = 0; i < rcvData.data.length; ++i)
             {
-                var item = result.data[i]
-                if(item["completeBaseName"].toLowerCase().startsWith(currentNetwork.toLowerCase()))
-                {
-                    certificatesModel.append(item)
-                }
+                var item = rcvData.data[i]
+                if(item.completeBaseName === certNameFromStartMasterNode) foundIndex = i
+
+                certificatesModel.append(item)
             }
-            if(result.data.length > 0)
+            if(rcvData.data.length > 0)
             {
-                existCertificateCombobox.setCurrentIndex(0)
+                existCertificateCombobox.setCurrentIndex(foundIndex)
             }
         }
     }

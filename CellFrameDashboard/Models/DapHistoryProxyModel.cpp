@@ -11,6 +11,8 @@ bool DapHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
 
     if(source_row == 0)
     {
+        m_count = 0;
+
         m_daysSet.clear();
         m_tmpDataLastActions.clear();
         m_countDays = 0;
@@ -114,6 +116,16 @@ bool DapHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex &s
         isFilter = true;
     }
 
+    if(isNetwork && isPeriod && isLast && isStatus && isFilter)
+    {
+        m_count++;
+    }
+    if(source_row ==  model->size() - 1)
+    {
+        const_cast<DapHistoryProxyModel*>(this)->tryCountChanged();
+        m_lastCount = m_count;
+    }
+
     return isNetwork && isPeriod && isLast && isStatus && isFilter;
 }
 
@@ -202,4 +214,15 @@ bool DapHistoryProxyModel::checkText(const DapHistoryModel::Item& item, const QS
         return true;
 
     return false;
+}
+
+void DapHistoryProxyModel::tryCountChanged()
+{
+    emit countChanged(m_count);
+}
+
+void DapHistoryProxyModel::resetCount()
+{
+    m_lastCount = m_count = 0;
+    emit countChanged(m_count);
 }

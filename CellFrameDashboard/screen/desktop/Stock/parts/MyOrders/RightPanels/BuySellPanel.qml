@@ -20,16 +20,6 @@ DapRectangleLitAndShaded {
 
     property bool isBuy: logic.selectedItem.side !== "Buy"
 
-    Component.onCompleted:
-    {
-        walletModule.startUpdateFee()
-    }
-
-    Component.onDestruction:
-    {
-        walletModule.stopUpdateFee()
-    }
-
     contentData:
     ColumnLayout
     {
@@ -60,7 +50,7 @@ DapRectangleLitAndShaded {
             {
                 id: textHeader
                 text: isBuy ?
-                          qsTr("Buy ") + logic.selectedItem.tokenBuy :
+                          qsTr("Buy ") + logic.selectedItem.tokenSell :
                           qsTr("Sell ") + logic.selectedItem.tokenBuy
                 verticalAlignment: Qt.AlignLeft
                 anchors.left: itemButtonClose.right
@@ -82,16 +72,8 @@ DapRectangleLitAndShaded {
             label: qsTr("Balance:")
             text:
             {
-                if(!isBuy)
-                {
-                    var tokenBuy = logic.selectedItem.tokenBuy
-                    return walletModule.getBalanceDEX(tokenBuy) + " " + tokenBuy
-                }
-                else
-                {
-                    var tokenSell = logic.selectedItem.tokenSell
-                    return walletModule.getBalanceDEX(tokenSell) + " " + tokenSell
-                }
+                var token = logic.selectedItem.tokenBuy
+                return walletModule.getBalance(token) + " " + token
             }
             textColor: currTheme.white
             textFont: mainFont.dapFont.regular14
@@ -102,8 +84,8 @@ DapRectangleLitAndShaded {
             id: fields
             sell: !isBuy
             logicPrice: logic.selectedItem.price
-            balance: !isBuy ? walletModule.getBalanceDEX(logic.selectedItem.tokenSell)
-                                : walletModule.getBalanceDEX(logic.selectedItem.tokenBuy)
+            balance: !isBuy ? dexModule.getBalance(logic.selectedItem.tokenSell)
+                                : dexModule.getBalance(logic.selectedItem.tokenBuy)
 
             amount.textToken: dexModule.token1
             total.textToken: dexModule.token2
@@ -123,7 +105,7 @@ DapRectangleLitAndShaded {
                 var resultAmount = !isBuy ? fields.amount.textValue : fields.total.textValue
                 var resultTokenName = !isBuy ? fields.amount.textToken : fields.total.textToken 
 
-                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
+                var walletResult = dexModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                 console.log("Wallet: " + walletResult)
                 if(walletResult.code === 0)
                 {

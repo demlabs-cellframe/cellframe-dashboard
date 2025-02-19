@@ -22,7 +22,7 @@ FocusScope {
         selectByMouse: true
         font: mainFont.dapFont.regular14
 //        wrapMode: TextField.WrapAnywhere
-        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\<\>\@\[\]\{\}\+\s*]+/ }
+        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\<\>\@\[\]\{\}\+\'\"\,\s*]+/ }
         placeholderText: qsTr("Type here...")
 //        background: Rectangle
 //        {

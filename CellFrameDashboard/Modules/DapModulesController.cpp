@@ -5,9 +5,9 @@
 #include <QSettings>
 
 //***Modules***//
-#include "Wallet/DapModuleWallet.h"
+#include "Wallet/DapModuleWalletAddition.h"
 #include "Dex/DapModuleDexLightPanel.h"
-#include "TxExplorer/DapModuleTxExplorer.h"
+#include "TxExplorer/DapModuleTxExplorerAddition.h"
 #include "Certificates/DapModuleCertificates.h"
 #include "Tokens/DapModuleTokens.h"
 #include "Console/DapModuleConsole.h"
@@ -17,28 +17,31 @@
 #include "Diagnostics/DapModuleDiagnostics.h"
 #include "Orders/DapModuleOrders.h"
 #include "MasterNode/DapModuleMasterNode.h"
+#include "Networks/DapModuleNetworks.h"
+#include "DapDataManagerController.h"
 
 #include "Models/DapWalletListModel.h"
 
 static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
 
-DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent)
+DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController* serviceController, int countRestart, QObject *parent)
     : QObject(parent)
+    , s_serviceCtrl(serviceController)
+    , m_managerController(new DapDataManagerController(this))
     , s_appEngine(appEngine)
-    , s_serviceCtrl(&DapServiceController::getInstance())
     , s_settings(new QSettings(this))
-    , m_netListModel(new DapStringListModel)
+    , m_countRestart(countRestart)
 {
+    connect(m_managerController, &DapDataManagerController::networkListChanged, this, &DapModulesController::readyReceiveData);
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::REMOTE)
+    {
+        connect(s_serviceCtrl, &DapServiceController::onServiceStarted, this, &DapModulesController::readyReceiveData);
+    }
+
     initWorkers();
     initModules();
-    m_netListModel->setStringList({"All"});
-    s_appEngine->rootContext()->setContextProperty("netListModelGlobal", m_netListModel);
-    m_timerUpdateData = new QTimer(this);
-
-    getNetworkList();
-    m_timerUpdateData->start(5000);
-    connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::signalChainsLoadProgress, this, &DapModulesController::rcvChainsLoadProgress, Qt::QueuedConnection);
+    s_appEngine->rootContext()->setContextProperty("managerController", m_managerController);
 }
 
 DapModulesController::~DapModulesController()
@@ -48,27 +51,40 @@ DapModulesController::~DapModulesController()
         delete it.value();
 
     QMap<QString, QObject*>::iterator it_w = m_listWorkers.begin();
-    for(;it_w != m_listWorkers.end(); ++it)
-        delete it.value();
+    for(;it_w != m_listWorkers.end(); ++it_w)
+        delete it_w.value();
 
-    delete m_timerUpdateData;
     delete s_settings;
+}
+
+void DapModulesController::readyReceiveData()
+{
+    if(!m_firstDataLoad)
+    {
+        m_firstDataLoad = true;
+        emit initDone();
+    }
 }
 
 void DapModulesController::initModules()
 {
-    addModule("walletModule", new DapModuleWallet(this));
+    addModule("walletModule", m_skinWallet ? new DapModuleWalletAddition(this) : new DapModuleWallet(this));
     addModule("dexModule", new DapModuleDexLightPanel(this));
-    addModule("txExplorerModule", new DapModuleTxExplorer(this));
-    addModule("certificatesModule", new DapModuleCertificates(this));
-//    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
-    addModule("consoleModule", new DapModuleConsole(this));
-    addModule("logsModule", new DapModuleLog(this));
+    addModule("txExplorerModule", m_skinWallet ? new DapModuleTxExplorerAddition(this) : new DapModuleTxExplorer(this));
     addModule("settingsModule", new DapModuleSettings(this));
-    addModule("dAppsModule", new DapModuledApps(this));
-    addModule("diagnosticsModule", new DapModuleDiagnostics(this));
-    addModule("ordersModule", new DapModuleOrders(this));
-    addModule("nodeMasterModule", new DapModuleMasterNode(this));
+    addModule("networksModule", new DapModuleNetworks(this));
+    addModule("dAppsModule", new DApps::DapModuledApps(this));
+
+    if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
+    {
+        //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
+        addModule("certificatesModule", new DapModuleCertificates(this));
+        addModule("consoleModule", new DapModuleConsole(this));
+        addModule("logsModule", new DapModuleLog(this));
+        addModule("diagnosticsModule", new DapModuleDiagnostics(this));
+        addModule("ordersModule", new DapModuleOrders(this));
+        addModule("nodeMasterModule", new DapModuleMasterNode(this));
+    }
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
 
@@ -103,55 +119,6 @@ DapAbstractModule *DapModulesController::getModule(const QString &key)
         return m_listModules.value(key);
 }
 
-void DapModulesController::setCurrentWallet(const QPair<int,QString>& dataWallet)
-{
-    m_currentWalletIndex = dataWallet.first;
-    m_currentWalletName = dataWallet.second;
-}
-
-void DapModulesController::updateListWallets()
-{
-    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
-}
-
-void DapModulesController::updateListNetwork()
-{
-    s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
-}
-
-void DapModulesController::rcvNetList(const QVariant &rcvData)
-{
-    QJsonDocument replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-    QJsonObject replyObj = replyDoc.object();
-    QJsonArray netArray = replyObj["result"].toArray();
-    QStringList netList;
-    for(const auto& itemValue: netArray)
-    {
-        netList.append(itemValue.toString());
-    }
-
-    if(m_netList == netList)
-    {
-        return;
-    }
-    m_netList = netList;
-
-    cleareProgressInfo();
-
-    updateNetworkListModel();
-    emit netListUpdated();
-    if(m_netList.isEmpty() && m_isNodeWorking)
-    {
-        m_isNodeWorking = false;
-        emit nodeWorkingChanged();
-    }
-    else if(!m_netList.isEmpty() && !m_isNodeWorking)
-    {
-        m_isNodeWorking = true;
-        emit nodeWorkingChanged();
-    }
-}
-
 void DapModulesController::cleareProgressInfo()
 {
     m_networksLoadProgress.clear();
@@ -159,141 +126,58 @@ void DapModulesController::cleareProgressInfo()
     setNodeLoadProgress(0);
 }
 
-void DapModulesController::rcvChainsLoadProgress(const QVariantMap &rcvData)
+void DapModulesController::setIsNodeWorking(bool isWorking)
 {
-    if(rcvData.isEmpty())
-    {
-        setNodeLoadProgress(0);
+    if(m_isNodeWorking == isWorking)
         return;
-    }
 
-    // write all answers
-    QJsonObject obj;
-    for(const QString &key: rcvData.keys())
-        obj.insert(key, rcvData.value(key).toJsonValue());
-    nodeLoadProgressJson.append(obj);
+    if(isWorking)
+    {
+        cleareProgressInfo();
+        qInfo()<<"[NODE LOADED]";
+    }
+    m_isNodeWorking = isWorking;
 
-    // read load progress
-    if(m_netList.count() > 0) return;
-    if(!rcvData.contains("net") || !rcvData.contains("load_progress"))
-    {
-        qDebug() << "​​Missing required values 'net' or 'load_progress'." << rcvData;
-        return;
-    }
-    bool convertOk = true;
-    auto progress = rcvData["load_progress"].toInt(&convertOk);
-    auto chain =  rcvData["chain_id"].toInt();
-    int countChain = 2;
-
-    if(!convertOk)
-    {
-        qDebug() << "Progress value is not an integer." << rcvData;
-        return;
-    }
-    auto net = rcvData["net"].toString();
-    if(m_networksLoadProgress.isEmpty())
-    {
-        auto netList = NodeConfigToolController::getInstance().getConfigNetworkList();
-        for(const auto& net: netList)
-        {
-            m_networksLoadProgress.insert(net, QMap<int,int>());
-        }
-    }
-
-    if(!m_networksLoadProgress.contains(net))
-    {
-        QMap<int,int> tmpMap = {{chain, progress}};
-        m_networksLoadProgress.insert(net, std::move(tmpMap));
-        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] [ProgressInfo] node progress(New network). net: " << net << " progress: " << progress;
-    }
-    else
-    {
-        m_networksLoadProgress[net][chain] = progress;
-        qDebug() << "[DapModulesController] [rcvChainsLoadProgress] [ProgressInfo] node progress. net: " << net << " progress: " << progress;
-    }
-
-    // calc total percent of node loading
-    int total = 0;
-    for(auto netInfo: m_networksLoadProgress)
-    {
-        for(auto& progress: netInfo)
-        {
-            total += progress;
-        }
-    }
-
-    int value = total / (m_networksLoadProgress.count() * countChain);
-
-    qDebug() << "[DapModulesController] -net "<< net << " \tprogress: " << progress << " \tchain: " << chain << " \ttotal: " << total << " \t new value: " << value << " \told value: " << m_nodeLoadProgress;
-    if(value > m_nodeLoadProgress)
-    {
-        setNodeLoadProgress(value);
-    }
+    emit nodeWorkingChanged();
 }
 
 void DapModulesController::setNodeLoadProgress(int progress)
 {
+    if(m_nodeLoadProgress != progress && !m_isNodeWorking)
+        qInfo()<<"[NODE LOADING PERCENT] - " << m_nodeLoadProgress << " %";
+
     m_nodeLoadProgress = progress;
     emit nodeLoadProgressChanged();
 }
 
-void DapModulesController::updateNetworkListModel()
+void DapModulesController::setCurrentNetwork(const QString& name)
 {
-    QStringList list = {"All"};
-    list.append(m_netList);
-    m_netListModel->setStringList(std::move(list));
+    m_currentNetworkName = name;
+    this->getSettings()->setValue("networkName", name);
+    emit currentNetworkChanged(name);
 }
 
-void DapModulesController::setCurrentWalletIndex(int newIndex)
+///----NOTIFY DATA----///
+
+void DapModulesController::setNotifyCtrl(DapNotifyController *notifyController)
 {
-//    qDebug()<<"setCurrentWalletIndex";
+    m_notifyCtrl = notifyController;
 
-    if(newIndex == -1)
-    {
-        m_currentWalletIndex = newIndex;
-        m_currentWalletName = "";
-    }
-    else
-    {
-        if(m_walletListModel->size() - 1 < newIndex
-            || m_walletListModel->isEmpty()
-            || (newIndex == m_currentWalletIndex &&
-               m_walletListModel->at(newIndex).name == m_currentWalletName))
-            return ;
-
-        m_currentWalletIndex = newIndex;
-        m_currentWalletName = m_walletListModel->at(newIndex).name;
-    }
-
-    s_settings->setValue("walletName", m_currentWalletName);
-    emit currentWalletIndexChanged();
-    emit currentWalletNameChanged();
+    emit sigNotifyControllerIsInit();
 }
 
-
-void DapModulesController::restoreIndex()
+//Wallets
+void DapModulesController::slotRcvNotifyWalletList(QJsonDocument doc)
 {
-//    qDebug()<<"restoreIndex";
-    QString prevName = s_settings->value("walletName", "").toString();
 
-    if(!prevName.isEmpty())
-    {
-        for(int i = 0; i < m_walletListModel->size(); i++)
-        {
-            if(m_walletListModel->at(i).name == prevName)
-            {
-                if(i != m_currentWalletIndex)
-                    setCurrentWalletIndex(i);
-                return ;
-            }
-        }
-    }
-
-    setCurrentWalletIndex(0);
 }
 
-QString DapModulesController::getMainTokenName(const QString& network) const
+void DapModulesController::slotRcvNotifyWalletInfo(QJsonDocument doc)
 {
-    bool check = !network.isEmpty() && m_tokens.contains(network);
-    return check ? m_tokens[network] : "-";
+
+}
+
+void DapModulesController::slotRcvNotifyWalletsInfo(QJsonDocument doc)
+{
+
 }

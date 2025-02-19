@@ -19,7 +19,7 @@ ColumnLayout {
 
         if(data)
             obj = JSON.parse(data)
-        else
+        else if(diagnosticsModule.nodeList)
             obj = JSON.parse(diagnosticsModule.nodeList)
 
         nodeListModel.clear()

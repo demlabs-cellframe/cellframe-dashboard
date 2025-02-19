@@ -3,35 +3,37 @@
 #include <QQmlContext>
 #include <QRegularExpression>
 #include "../DapTypes/DapCoin.h"
+#include "DapDataManagerController.h"
 
 DapModuleDex::DapModuleDex(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_tokenPairsModel(new DapTokenPairModel())
     , m_ordersModel(new DapOrderHistoryModel())
     , m_proxyModel(new OrdersHistoryProxyModel())
     , m_tokenPairsProxyModel(new TokenPairsProxyModel())
     , m_netListModel(new DapStringListModel())
     , m_rightPairListModel(new DapStringListModel())
-    , m_stockDataWorker(new StockDataWorker(m_modulesCtrl->s_appEngine->rootContext(), this))
+    , m_stockDataWorker(new StockDataWorker(m_modulesCtrl->getAppEngine()->rootContext(), this))
+    , m_DEXTokenModel(new DapTokensWalletModel())
+    , m_tokenFilterModelDEX(new TokenProxyModel())
     , m_allTakenPairsUpdateTimer(new QTimer())
     , m_curentTokenPairUpdateTimer(new QTimer())
     , m_ordersHistoryUpdateTimer(new QTimer())
-    , m_tokenPairsCash(new QByteArray())
-    , m_ordersHistoryCash(new QByteArray())
-    , m_txListCash(new QByteArray())
 {
     m_tokenPairsProxyModel->setSourceModel(m_tokenPairsModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModelNonFilter", m_ordersModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelTokenPair", m_tokenPairsProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("ordersModelNonFilter", m_ordersModel);
     m_proxyModel->setSourceModel(m_ordersModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("ordersModel", m_proxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("dexNetModel", m_netListModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("dexRightPairModel", m_rightPairListModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("ordersModel", m_proxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("dexNetModel", m_netListModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("dexRightPairModel", m_rightPairListModel);
+    m_tokenFilterModelDEX->setSourceModel(m_DEXTokenModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("dexTokenModel", m_tokenFilterModelDEX);
+
 
     m_proxyModel->setIsHashCallback([this](const QString& hash) -> bool
     {
-        QString walletName = m_modulesCtrl->getCurrentWalletName();
+        QString walletName = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
         if(!m_txListsforWallet.contains(walletName))
         {
             return false;
@@ -57,9 +59,13 @@ DapModuleDex::~DapModuleDex()
     delete m_allTakenPairsUpdateTimer;
     delete m_curentTokenPairUpdateTimer;
     delete m_ordersHistoryUpdateTimer;
-    delete m_tokenPairsCash;
-    delete m_ordersHistoryCash;
-    delete m_txListCash;
+}
+
+void DapModuleDex::slotUpdateData()
+{
+    m_tokenPairsModel->clear();
+    m_ordersModel->clear();
+    m_netListModel->clear();
 }
 
 void DapModuleDex::onInit()
@@ -73,13 +79,19 @@ void DapModuleDex::onInit()
         connect(service, &DapServiceController::rcvXchangeOrderList, this, &DapModuleDex::respondOrdersHistory, Qt::QueuedConnection);
         connect(service, &DapServiceController::rcvXchangeTxList, this, &DapModuleDex::respondTxList, Qt::QueuedConnection);
     }
-    connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
+
+    auto* walletsManager = getWalletManager();
+
+    connect(walletsManager, &DapWalletsManagerBase::walletInfoChanged, this, &DapModuleDex::walletInfoChangedSlot);
+    connect(walletsManager, &DapWalletsManagerBase::currentWalletChanged, this, &DapModuleDex::currentWalletChangedSlot);
+
+    // connect(m_modulesCtrl, &DapModulesController::initDone, this, &DapModuleDex::startInitData);
     connect(m_allTakenPairsUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTokenPairs);
-    connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, [this](){requestTXList();});
+    connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestTXList);
     connect(m_curentTokenPairUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestCurrentTokenPairs);
     connect(m_ordersHistoryUpdateTimer, &QTimer::timeout, this, &DapModuleDex::requestHistoryOrders);
     connect(this, &DapModuleDex::txListChanged, m_proxyModel, &OrdersHistoryProxyModel::tryUpdateFilter);
-    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    connect(this, &DapAbstractModule::statusProcessingChanged, [this]
     {
         if(m_statusProcessing)
         {
@@ -94,7 +106,22 @@ void DapModuleDex::onInit()
             m_curentTokenPairUpdateTimer->stop();
         }
     });
+}
 
+void DapModuleDex::currentWalletChangedSlot()
+{
+    updateBalance();
+    updateDexTokenModel();
+}
+
+void DapModuleDex::walletInfoChangedSlot(const QString &walletName, const QString &networkName)
+{
+    Q_UNUSED(walletName)
+    if(networkName == m_currentNetwork)
+    {
+        updateBalance();
+    }
+    updateDexTokenModel();
 }
 
 bool DapModuleDex::isCurrentPair()
@@ -114,19 +141,17 @@ void DapModuleDex::startInitData()
 void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
 {
     m_isSandDapGetXchangeTokenPair = false;
-    auto tmpData = rcvData.toByteArray();
-    if(*m_tokenPairsCash != tmpData)
+    QByteArray rcvResult = convertJsonResult(rcvData.toByteArray());
+    if(m_tokenPairsCash != rcvResult)
     {
-        *m_tokenPairsCash = tmpData;
+        m_tokenPairsCash = rcvResult;
     }
     else
     {
         return;
     }
 
-    auto resultObject = QJsonDocument::fromJson(tmpData).object();
-
-    QJsonArray tokenPairsArray = resultObject["result"].toArray();
+    QJsonArray tokenPairsArray = QJsonDocument::fromJson(rcvResult).array();
     if(tokenPairsArray.isEmpty())
     {
         return;
@@ -141,12 +166,24 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     {
         DEX::InfoTokenPair tmpPair;
         QJsonObject pairObject = value.toObject();
-        tmpPair.token1  = pairObject["token1"].toString();
-        tmpPair.token2  = pairObject["token2"].toString();
-        tmpPair.rate    = pairObject["rate"].toString();
+
+        tmpPair.token1  = pairObject[Dap::KeysParam::TOKEN_1].toString();
+        tmpPair.token2  = pairObject[Dap::KeysParam::TOKEN_2].toString();
+        tmpPair.rate    = "-";
         tmpPair.network = pairObject["network"].toString();
-        tmpPair.change  = pairObject["change"].toString();
         tmpPair.displayText = tmpPair.token1 + "/" + tmpPair.token2;
+
+        //Filtring m-tokens, BUSD and USDT
+        if(tmpPair.token1 == "BUSD"     ||
+           tmpPair.token2 == "BUSD"     ||
+           tmpPair.token1 == "USDT"     ||
+           tmpPair.token2 == "USDT"     ||
+           tmpPair.token1.contains("m") ||
+           tmpPair.token2.contains("m"))
+        {
+            continue;
+        }
+        //******************************//
 
         if(!netList.contains(tmpPair.network))
         {
@@ -162,10 +199,13 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
     }
     updateTokenModels();
 
-    if(!m_ordersHistoryCash->isEmpty() && isFirstUpdate)
+    if(!m_ordersHistoryCash.isEmpty() && isFirstUpdate)
     {
-        setOrdersHistory(*m_ordersHistoryCash);
+        setOrdersHistory(m_ordersHistoryCash);
     }
+
+    if(isFirstUpdate)
+        DapModuleDex::setNetworkFilterText(netList.first());
 
     emit dexNetListChanged();
 }
@@ -185,15 +225,15 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
     {
         return;
     }
-    if(!tokenPairObject.contains("token1") ||
-        !tokenPairObject.contains("token2") ||
+    if(!tokenPairObject.contains(Dap::KeysParam::TOKEN_1) ||
+        !tokenPairObject.contains(Dap::KeysParam::TOKEN_2) ||
         !tokenPairObject.contains("network") ||
         !tokenPairObject.contains("rate"))
     {
         qWarning() << "[respondCurrentTokenPairs] there have been changes in the response of the DapGetXchangeTokenPriceAverage command.";
         return;
     }
-    QString pairName = tokenPairObject["token1"].toString() + "/" + tokenPairObject["token2"].toString();
+    QString pairName = tokenPairObject[Dap::KeysParam::TOKEN_1].toString() + "/" + tokenPairObject[Dap::KeysParam::TOKEN_2].toString();
 
     if(m_currentPair.displayText == pairName)
     {
@@ -202,6 +242,9 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
         QString time = tokenPairObject["time"].toString();
 
         m_stockDataWorker->getCandleChartWorker()->respondCurrentTokenPairs({{time, m_currentPair.rate}});
+        m_currentPair.isDataReady = true;
+        currentRateFirstTimeSlot();
+        emit isReadyDataPairChanged();
         emit currentTokenPairInfoChanged();
     }
 }
@@ -214,15 +257,15 @@ void DapModuleDex::respondTokenPairsHistory(const QVariant &rcvData)
     {
         return;
     }
-    if(!tokenHistoryObject.contains("history") || !tokenHistoryObject.contains("token1")
-        ||!tokenHistoryObject.contains("token2") ||!tokenHistoryObject.contains("network"))
+    if(!tokenHistoryObject.contains("history") || !tokenHistoryObject.contains(Dap::KeysParam::TOKEN_1)
+        ||!tokenHistoryObject.contains(Dap::KeysParam::TOKEN_2) ||!tokenHistoryObject.contains("network"))
     {
         qWarning() << "[respondHistoryTokenPairs] The signature of the story has probably changed";
         return;
     }
     if(m_currentPair.network != tokenHistoryObject["network"].toString()
-            || m_currentPair.token1 != tokenHistoryObject["token1"].toString()
-            || m_currentPair.token2 != tokenHistoryObject["token2"].toString())
+            || m_currentPair.token1 != tokenHistoryObject[Dap::KeysParam::TOKEN_1].toString()
+            || m_currentPair.token2 != tokenHistoryObject[Dap::KeysParam::TOKEN_2].toString())
     {
         qDebug() << "[respondHistoryTokenPairs] The current pair has changed. The story is rejected";
         return;
@@ -239,7 +282,7 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
     }
     else
     {
-        m_txListCash = &data;
+        m_txListCash = data;
     }
 
     auto resultObject = QJsonDocument::fromJson(data).object();
@@ -247,23 +290,12 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
     QJsonObject object = resultObject["result"].toObject();
     QString walletName = object["walletName"].toString();
     QJsonArray list = object["orderList"].toArray();
-    QHash<QString, DEX::TXList> result;
+    QSet<QString> result;
     for(const auto& item: list)
     {
         QJsonObject itemObject = item.toObject();
-        QString type = itemObject["type"].toString();
-
-        if(type == "proposed")
-        {
-            DEX::TXList newItem;
-            newItem.type = type;
-            newItem.status = itemObject["status"].toString();
-            QString hash = itemObject["hash"].toString();
-            if(!hash.isEmpty())
-            {
-                result.insert(hash,std::move(newItem));
-            }
-        }
+        QString hash = itemObject["hash"].toString();
+        result.insert(hash);
     }
     if(m_txListsforWallet.contains(walletName))
     {
@@ -275,16 +307,16 @@ void DapModuleDex::respondTxList(const QVariant &rcvData)
 
 void DapModuleDex::respondOrdersHistory(const QVariant &rcvData)
 {
-    QByteArray data = rcvData.toByteArray();
-    if(data == *m_ordersHistoryCash)
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+    if(byteArrayData == m_ordersHistoryCash)
     {
         return;
     }
-    *m_ordersHistoryCash = data;
+    m_ordersHistoryCash = byteArrayData;
     //TODO: For optimization, it will be necessary to remove unnecessary models.
-    setOrdersHistory(data);
+    setOrdersHistory(byteArrayData);
     m_stockDataWorker->getOrderBookWorker()->setCurrentRate(m_currentPair.rate);
-    m_stockDataWorker->getOrderBookWorker()->setBookModel(std::move(data));
+    m_stockDataWorker->getOrderBookWorker()->setBookModel(std::move(byteArrayData));
 
 }
 
@@ -363,7 +395,7 @@ DapModuleDex::PairFoundResultType DapModuleDex::isPair(const QString& token1, co
         return DapModuleDex::PairFoundResultType::BASE_IS_EMPTY;
     }
 
-    for(const auto& pair: m_tokensPair)
+    for(const auto& pair: qAsConst(m_tokensPair))
     {
         if(pair.network != network)
         {
@@ -629,7 +661,7 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
     {
         QString tokenSell = isSell ? m_currentPair.token1 : m_currentPair.token2;
         QString tokenBuy = !isSell ? m_currentPair.token1 : m_currentPair.token2;
-        QString walletName = m_modulesCtrl->getCurrentWalletName();
+        QString walletName = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
         QString amountOrder = checkValue(amount);
         QString feeOrder = checkValue(fee);
         if(feeOrder == "0.0")
@@ -712,7 +744,7 @@ QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount
         return result;
     };
 
-    QString walletName = m_modulesCtrl->getCurrentWalletName();
+    QString walletName = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
     QString amountOrder = checkValue(amount);
     QString feeOrder = checkValue(fee);
 
@@ -746,6 +778,10 @@ void DapModuleDex::setStepChart(const int &index)
 
 void DapModuleDex::setCurrentTokenPair(const QString& namePair, const QString& network)
 {
+    m_currentPair.reset();
+    emit isReadyDataPairChanged();
+    emit currentTokenPairInfoChanged();
+
     if(!setCurrentTokenPairVariable(namePair, network)) return;
 
     workersUpdate();
@@ -782,7 +818,7 @@ void DapModuleDex::workersUpdate()
 {
     m_stockDataWorker->getOrderBookWorker()->setTokenPair(m_currentPair);
     m_stockDataWorker->getOrderBookWorker()->setCurrentRate(m_currentPair.rate);
-    m_stockDataWorker->getOrderBookWorker()->setBookModel(*m_ordersHistoryCash);
+    m_stockDataWorker->getOrderBookWorker()->setBookModel(m_ordersHistoryCash);
     requestHistoryTokenPairs();
     m_stockDataWorker->getCandleChartWorker()->respondTokenPairsHistory(QJsonArray());
     m_proxyModel->setPairAndNetworkOrderFilter(m_currentPair.displayText, m_currentPair.network);
@@ -814,8 +850,16 @@ void DapModuleDex::requestTokenPairs()
 {
     if(!m_isSandDapGetXchangeTokenPair)
     {
+        QStringList netList = getListNetwork();
+
+        QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+        QVariantMap request = {
+             {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+            ,{Dap::KeysParam::NETWORK_LIST, netList}
+        };
+
         m_isSandDapGetXchangeTokenPair = true;
-        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPair", QStringList() << "full_info" << "update");
+        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPair", request);
     }
 }
 
@@ -825,9 +869,16 @@ void DapModuleDex::requestCurrentTokenPairs()
     {
         if(!m_isSandXchangeTokenPriceAverage)
         {
+            QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+            QVariantMap request = {
+                {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+                ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
+                ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
+            };
+
             m_isSandXchangeTokenPriceAverage = true;
-            m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceAverage",
-                                                         QStringList() << m_currentPair.network << m_currentPair.token1 << m_currentPair.token2);
+            m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceAverage", request);
         }
     }
     else
@@ -867,8 +918,14 @@ void DapModuleDex::requestHistoryTokenPairs()
 {
     if(isCurrentPair())
     {
-        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceHistory",
-                                                         QStringList() << m_currentPair.network << m_currentPair.token1 << m_currentPair.token2);
+        QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+        QVariantMap request = {
+            {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+            ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+            ,{Dap::KeysParam::TOKEN_1, m_currentPair.token1}
+            ,{Dap::KeysParam::TOKEN_2, m_currentPair.token2}
+        };
+        m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTokenPriceHistory", request);
     }
     else
     {
@@ -883,12 +940,40 @@ bool DapModuleDex::isValidValue(const QString& value)
 
 void DapModuleDex::requestHistoryOrders()
 {
-    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeOrdersList", QStringList()<< m_currentPair.token1 << m_currentPair.token2);
+    QStringList netList = getListNetwork();
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {
+        {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+        ,{Dap::KeysParam::NETWORK_LIST, netList}
+    };
+    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeOrdersList", request);
 }
 
-void DapModuleDex::requestTXList(const QString& timeFrom, const QString& timeTo)
+void DapModuleDex::requestTXList()
 {
-    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTxList", QStringList() << m_modulesCtrl->getCurrentWalletName() << timeFrom << timeTo);
+    auto& walletInfo = getWalletManager()->getWalletsInfo().value(getWalletManager()->getCurrentWallet().second);
+    auto netList = walletInfo.walletInfo.keys();
+    QVariantMap networkAddresses;
+    for(const auto& net: netList)
+    {
+        QString address = walletInfo.walletInfo[net].address;
+        if(!address.isEmpty())
+        {
+            networkAddresses.insert(net, address);
+        }
+    }
+    if(networkAddresses.isEmpty())
+    {
+        qDebug() << "[DapModuleDex] No networks or wallet addresses were found.";
+        return;
+    }
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {
+                             {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                            ,{Dap::KeysParam::WALLET_ADDRESSES, networkAddresses}
+                            ,{Dap::KeysParam::WALLET_NAME, getWalletManager()->getCurrentWallet().second}
+                            };
+    m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTxList", request);
 }
 
 void DapModuleDex::requestOrderPurchase(const QStringList& params)
@@ -905,5 +990,235 @@ void DapModuleDex::requestOrderDelete(const QString& network, const QString& has
 {
     Dap::Coin feeInt = fee;
     QString feeDatoshi = feeInt.toDatoshiString();
-    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", QStringList() << network << hash << m_modulesCtrl->getCurrentWalletName() << feeDatoshi << tokenName << amount);
+    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove",
+                                            QStringList() << network << hash <<
+                                            m_modulesCtrl->getManagerController()->getCurrentWallet().second << feeDatoshi << tokenName << amount);
+}
+
+void DapModuleDex::currentRateFirstTimeSlot()
+{
+    for(auto& item: m_tokensPair)
+    {
+        if(item.token1 != m_currentPair.token1 || item.token2 != m_currentPair.token2)
+        {
+            continue;
+        }
+
+        if(item.rate == "-")
+        {
+            emit currentRateFirstTime();
+        }
+        item.rate = m_currentPair.rate;
+        item.rate_double = m_currentPair.rate_double;
+        return;
+    }
+}
+
+void DapModuleDex::setCurrentRateFromModel()
+{
+    for(auto& item: m_tokensPair)
+    {
+        if(item.token1 != m_currentPair.token1 || item.token2 != m_currentPair.token2)
+        {
+            continue;
+        }
+        m_currentPair.rate = item.rate;
+        m_currentPair.rate_double = item.rate_double;
+    }
+}
+
+void DapModuleDex::updateBalance()
+{
+    emit currantBalanceChanged();
+}
+
+const QPair<int,QString>& DapModuleDex::getCurrentWallet() const
+{
+    auto* walletsManager = getWalletManager();
+    return walletsManager->getCurrentWallet();
+}
+
+DapWalletsManagerBase* DapModuleDex::getWalletManager() const
+{
+    Q_ASSERT_X(m_modulesCtrl, "DapModuleWallet", "ModuleController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController()->getWalletManager(), "DapModuleWallet", "WalletManager not found");
+    return m_modulesCtrl->getManagerController()->getWalletManager();
+}
+
+QStringList DapModuleDex::getListNetwork() const
+{
+    Q_ASSERT_X(m_modulesCtrl, "DapModuleWallet", "ModuleController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
+    return m_modulesCtrl->getManagerController()->getNetworkList();
+}
+
+QString DapModuleDex::getBalance(const QString& tokenName) const
+{
+    auto& data = m_DEXTokenModel->getData();
+    for(auto& item: data)
+    {
+        if((item.network == m_tokenFilterModelDEX->getCurrentNetwork()
+             || m_tokenFilterModelDEX->getCurrentNetwork().isEmpty()))
+        {
+            if((tokenName.isEmpty() && m_currentTokenDEX == item.tokenName)
+                || (!tokenName.isEmpty() && tokenName == item.tokenName))
+            {
+                return item.value;
+            }
+        }
+    }
+    return tokenName.isEmpty() ? "" : "0.0";
+}
+
+void DapModuleDex::setCurrentToken(const QString& token)
+{
+    m_currentTokenDEX = token;
+    updateBalance();
+}
+
+QVariantMap DapModuleDex::isCreateOrder(const QString& network, const QString& amount, const QString& tokenName)
+{
+    /// result message
+    /// 0 - OK
+    /// 1 - Error, network not found
+    /// 2 - Error. It is not possible to pay the Internet fee
+    /// 3 - Error. It is not possible to pay the Validate fee
+    /// 4 - Error. It is not possible to pay
+    ///
+
+    auto resultMap = [&](int number, const QString& message = "",  const QString& firstValue = "", const QString& secondValue = "") -> QVariantMap
+    {
+        QVariantMap mapResult;
+        mapResult.insert("code", number);
+        mapResult.insert("firstValue", firstValue);
+        mapResult.insert("secondValue", secondValue);
+        mapResult.insert("message", message);
+
+        return mapResult;
+    };
+
+    auto checkValue = [](const QString& str) -> QString
+    {
+        if(str.isEmpty())
+        {
+            return str;
+        }
+        QString result = str;
+        if(!str.contains('.'))
+        {
+            result.append(".0");
+        }
+        return result;
+    };
+
+    QString normalAmount = checkValue(amount);
+
+    const auto& infoWallet = getWalletManager()->getWalletsInfo().value(getCurrentWallet().second);
+    if(!infoWallet.walletInfo.contains(network))
+    {
+        return resultMap(1, tr("Error, network not found"));
+    }
+    const auto& infoNetwork = infoWallet.walletInfo[network];
+
+    auto getCoins = [&infoNetwork](const QString& ticker) -> QString
+    {
+        auto itemIt = std::find_if(infoNetwork.networkInfo.begin(), infoNetwork.networkInfo.end(), [&ticker](const CommonWallet::WalletTokensInfo& item){
+            return item.ticker == ticker;
+        });
+
+        return itemIt != infoNetwork.networkInfo.end() ? itemIt->value : QString();
+    };
+
+    const auto& feeInfo = m_modulesCtrl->getManagerController()->getFee(network);
+
+    QString netFeeTicker;
+    QString netFee;
+    if(feeInfo.netFee.contains("fee_ticker") && feeInfo.netFee.contains("fee_coins"))
+    {
+        netFeeTicker = feeInfo.netFee["fee_ticker"];
+        netFee = feeInfo.netFee["fee_coins"];
+    }
+
+    Dap::Coin result = normalAmount;
+
+
+    if(!netFee.isEmpty() && netFee != "0.0")
+    {
+        Dap::Coin net = netFee;
+        if(netFeeTicker == tokenName)
+        {
+            result = net + result;
+        }
+        else
+        {
+            QString netValue = getCoins(netFeeTicker);
+            if(!netValue.isEmpty())
+            {
+                Dap::Coin value = netValue;
+                if(value < net)
+                {
+                    return resultMap(2, tr("Error. It is not possible to pay the Internet fee"), value.toCoinsString(), net.toCoinsString());
+                }
+            }
+        }
+    }
+
+    QString valFeeTicker;
+    QString valFee;
+    if(feeInfo.validatorFee.contains("fee_ticker") && feeInfo.validatorFee.contains("median_fee_coins"))
+    {
+        valFeeTicker = feeInfo.validatorFee["fee_ticker"];
+        valFee = feeInfo.validatorFee["median_fee_coins"];
+    }
+
+    if(!valFee.isEmpty() && valFee != "0.0")
+    {
+        Dap::Coin fee = valFee;
+
+        if(valFeeTicker == tokenName)
+        {
+            result = fee + result;
+        }
+        else
+        {
+            QString netValue = getCoins(valFeeTicker);
+            if(!netValue.isEmpty())
+            {
+                Dap::Coin value = netValue;
+                if(value < fee)
+                {
+                    return resultMap(3, tr("Error. It is not possible to pay the Validate fee"), value.toCoinsString(), fee.toCoinsString());
+                }
+            }
+        }
+    }
+
+    QString currentValue = getCoins(tokenName);
+
+    Dap::Coin value = currentValue;
+
+    qDebug() << "value = " << value.toCoinsString() << " result = " << result.toCoinsString();
+    if(value < result)
+    {
+        return resultMap(4, tr("Error. It is not possible to pay"), value.toCoinsString(), result.toCoinsString());
+    }
+
+    return resultMap(0, "OK");
+}
+
+void DapModuleDex::updateDexTokenModel()
+{
+    QList<CommonWallet::WalletTokensInfo> tokenInfoConteiner;
+    auto& walletsInfo = getWalletManager()->getWalletsInfo();
+    if(walletsInfo.contains(getCurrentWallet().second))
+    {
+        for(const auto& networkItem: walletsInfo[getCurrentWallet().second].walletInfo)
+        {
+            tokenInfoConteiner.append(networkItem.networkInfo);
+        }
+    }
+
+    m_DEXTokenModel->updateAllToken(tokenInfoConteiner);
+    m_tokenFilterModelDEX->updateCount();
 }

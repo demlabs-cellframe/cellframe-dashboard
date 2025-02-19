@@ -1,18 +1,18 @@
 #include "DapModuleOrders.h"
+#include "DapDataManagerController.h"
 
 static DapOrdersModel *s_ordersModel = DapOrdersModel::global();
 
 DapModuleOrders::DapModuleOrders(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_timerUpdateOrders(new QTimer())
 {
 
     m_ordersProxyModel.setSourceModel(&m_ordersModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrders", s_ordersModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelOrdersProxy", &m_ordersProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelOrders", s_ordersModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelOrdersProxy", &m_ordersProxyModel);
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
     {
         initConnect();
     });
@@ -50,7 +50,14 @@ void DapModuleOrders::setNodeAddrFilterText(const QString &nodeAddr)
 void DapModuleOrders::getOrdersList()
 {
     s_serviceCtrl->requestToService("DapGetListOrdersCommand");
-    s_serviceCtrl->requestToService("DapGetXchangeOrdersList");
+
+    QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {
+        {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+        ,{Dap::KeysParam::NETWORK_LIST, netList}
+    };
+    s_serviceCtrl->requestToService("DapGetXchangeOrdersList", request);
 }
 
 void DapModuleOrders::rcvXchangeOrderList(const QVariant &rcvData)
@@ -104,7 +111,7 @@ void DapModuleOrders::initConnect()
             this, &DapModuleOrders::slotUpdateOrders,
             Qt::QueuedConnection);
 
-    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    connect(this, &DapAbstractModule::statusProcessingChanged, [this]
     {
         qDebug()<<"m_statusProcessing" << m_statusProcessing;
         if(m_statusProcessing)
@@ -166,10 +173,14 @@ void DapModuleOrders::setCurrentTab(int tabIndex)
 
 void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 {
-    QJsonDocument dataDoc = QJsonDocument::fromJson(rcvData.toByteArray());
-
-    if (!dataDoc.isObject())
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+    if(document.isNull() || document.isEmpty())
+    {
         return;
+    }
+
+    QJsonObject resultObj = document.object();
 
     if(s_statusModel.first && s_statusModel.second)
     {
@@ -178,11 +189,11 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
         m_ordersModel.clear();
     }
 
-    QStringList networks = dataDoc.object().keys();
+    QStringList networks = resultObj.keys();
 
     for(const QString &network : qAsConst(networks))
     {
-        QJsonArray ordersArr = dataDoc.object()[network].toArray();
+        QJsonArray ordersArr = resultObj[network].toArray();
 
         for (auto itr = ordersArr.begin(); itr != ordersArr.end(); itr++)
         {
@@ -191,6 +202,14 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
 
             if(dexFlag && !s_statusModel.first)
             {
+
+                if(obj["sell_token"].toString() == "BUSD" ||
+                   obj["sell_token"].toString() == "USDT" ||
+                   obj["sell_token"].toString().contains("m")||
+                   obj["buy_token"].toString() == "BUSD" ||
+                   obj["buy_token"].toString() == "USDT" ||
+                   obj["buy_token"].toString().contains("m")) continue;
+
                 itemOrder.hash       = obj["order_hash"].toString();
                 itemOrder.network    = network;
                 itemOrder.created    = obj["created"].toString();
@@ -213,9 +232,9 @@ void DapModuleOrders::modelProcessing(const QVariant &rcvData, bool dexFlag)
                 itemOrder.direction     = obj["direction"].toString() == "SERV_DIR_SELL" ? "SELL" : "BUY";
                 itemOrder.created       = obj["created"].toString();
                 itemOrder.srv_uid       = obj["srv_uid"].toString();
-                itemOrder.price         = obj["price"].toString();
-                itemOrder.price_unit    = obj["price_unit"].toString();
-                itemOrder.price_token   = obj["price_token"].toString();
+                itemOrder.price         = obj["price coins"].toString();
+                itemOrder.price_unit    = obj["price unit"].toString();
+                itemOrder.price_token   = obj["price token"].toString();
                 itemOrder.node_addr     = obj["node_addr"].toString();
                 itemOrder.node_location = obj["node_location"].toString();
                 itemOrder.tx_cond_hash  = obj["tx_cond_hash"].toString();

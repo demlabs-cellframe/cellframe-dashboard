@@ -18,6 +18,7 @@ RowLayout
     property string detailOpen: "../RightPanels/DetailsOpen.qml"
     property string detailHistory: "../RightPanels/DetailsHistory.qml"
     property string orderDone: "../../CreateOrder/OrderCreateDone.qml"
+    property string orderExchangeDone: "../../CreateOrder/OrderExchangeDone.qml"
 
     property string currentPair: "All pairs"
     property string currentSide: "Both"
@@ -68,22 +69,6 @@ RowLayout
         logic.changeMainPage(screen)
 
     Component.onCompleted: {
-        var net = tokenPairsWorker.tokenNetwork
-        var address = ""
-
-//        var model = dapModelWallets.get(logicMainApp.currentIndex).networks
-
-//        for (var i = 0; i < model.count; ++i)
-//        {
-//            if (model.get(i).name === net)
-//                address = model.get(i).address
-//        }
-
-        console.log("dapServiceController.requestToService", "DapGetXchangeTxList",
-                    net, address)
-        // logicMainApp.requestToService("DapGetXchangeTxList",
-        //     "GetOrdersPrivate", net, address, "", "")
-
         logic.initOrdersModels()
         logic.initPairModelFilter()
 //        logic.changeMainPage(openOrders)
@@ -99,12 +84,14 @@ RowLayout
         function onRcvXchangeOrderPurchase(rcvData)
         {
             logicStock.resultCreate = rcvData
-            logic.changeRightPanel(orderDone)
+            logic.changeRightPanel(orderExchangeDone)
         }
 
         function onRcvXchangeRemove(rcvData)
         {
-            if(rcvData.success)
+            var jsonDoc = JSON.parse(rcvData)
+            var resultCreate = jsonDoc.result
+            if(resultCreate.success)
             {
                 var msg = rcvData.toQueue ? qsTr("Placed to queue") : qsTr("Order removed")
                 dapMainWindow.infoItem.showInfo(

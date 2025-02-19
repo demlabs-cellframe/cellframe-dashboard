@@ -97,17 +97,19 @@ DapPage
 
         function onSigVersionInfo(versionResult)
         {
+            var jsonDocument = JSON.parse(versionResult)
+
             if(settingsModule.guiRequest)
             {
-                if(versionResult.message === "Service not found")
+                if(jsonDocument.message === "Service not found")
                 {
                     messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), "", "", qsTr("Service not found"))
                 }
-                else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+                else if(!jsonDocument.hasUpdate && jsonDocument.message === "Reply version")
                     logicMainApp.rcvReplyVersion()
-                else if(versionResult.message !== "" && versionResult.hasUpdate)
+                else if(jsonDocument.message !== "" && jsonDocument.hasUpdate)
                 {
-                    messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), settingsModule.dashboardVersion, versionResult.lastVersion, "")
+                    messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), settingsModule.dashboardVersion, jsonDocument.lastVersion, "")
                 }
             }
         }

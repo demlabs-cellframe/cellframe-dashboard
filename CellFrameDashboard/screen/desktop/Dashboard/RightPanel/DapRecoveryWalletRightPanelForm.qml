@@ -157,6 +157,7 @@ DapRectangleLitAndShaded
             Layout.minimumHeight: 120
             Layout.maximumHeight: 120
             Layout.alignment: Qt.AlignHCenter
+            Layout.maximumWidth: 318
 
             columns: 3
 

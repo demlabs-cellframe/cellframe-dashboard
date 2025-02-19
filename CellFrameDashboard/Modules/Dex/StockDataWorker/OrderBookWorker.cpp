@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include "Workers/mathworker.h"
 #include <cmath>
+#include "Modules/Dex/StockDataWorker/DapCommonDexMethods.h"
 
 constexpr int bookRoundPowerDelta {7};
 
@@ -200,10 +201,13 @@ int OrderBookWorker::compareCoins(const QString& val1, const QString& val2)
 
 void OrderBookWorker::setBookModel(const QByteArray &json)
 {
-    auto resultObject = QJsonDocument::fromJson(json).object();
+    QJsonDocument document = QJsonDocument::fromJson(json);
+
+    if (!document.isObject())
+        return;
 
     allOrders.clear();
-    auto object = resultObject["result"].toObject();
+    auto object = document.object();
     if(object.contains(network))
     {
         QJsonArray orders = object[network].toArray();
@@ -244,8 +248,12 @@ void OrderBookWorker::setBookModel(const QByteArray &json)
                 {
                     continue;
                 }
-
                 item.amount = orders.at(j)["amount"].toString();
+                if(!DapCommonDexMethods::isCorrectAmount(item.amount))
+                {
+                    continue;
+                }
+
                 item.total = multCoins(item.amount, item.price);
 
                 item.amountCoin = item.amount;

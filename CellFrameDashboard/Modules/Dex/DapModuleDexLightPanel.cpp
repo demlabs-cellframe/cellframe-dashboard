@@ -1,5 +1,5 @@
 #include "DapModuleDexLightPanel.h"
-
+#include "DapDataManagerController.h"
 #include <QJsonValue>
 
 DapModuleDexLightPanel::DapModuleDexLightPanel(DapModulesController *parent)
@@ -9,8 +9,8 @@ DapModuleDexLightPanel::DapModuleDexLightPanel(DapModulesController *parent)
     , m_regTokenPairsModel(new DapTokenPairModel())
 {
     m_tokenProxyModel->setSourceModel(m_tokensModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokensList", m_tokenProxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelTokenPairRegular", m_regTokenPairsModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelTokensList", m_tokenProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelTokenPairRegular", m_regTokenPairsModel);
     m_proxyModel->setIsRegularType(isRegularTypePanel());
 }
 
@@ -34,7 +34,7 @@ void DapModuleDexLightPanel::updateRegularModels()
     QString sellTokenName = m_currentPair.token1;
     QString network = m_currentPair.network;
     QMap<QString, QString> tmpDataSell, tmpDataBuy;
-    for(const auto& item: m_tokensPair)
+    for(const auto& item: qAsConst(m_tokensPair))
     {
         if(item.network != network) continue;
 
@@ -124,6 +124,7 @@ void DapModuleDexLightPanel::setCurrentTokenSell(const QString& token)
     else
     {
         m_currentPair.token1 = token;
+        setCurrentRateFromModel();
     }
     workersUpdate();
     emit currentTokenPairChanged();
@@ -144,6 +145,7 @@ void DapModuleDexLightPanel::setCurrentTokenBuy(const QString& token)
     else
     {
         m_currentPair.token2 = token;
+        setCurrentRateFromModel();
     }
     workersUpdate();
     emit currentTokenPairChanged();
@@ -161,7 +163,7 @@ void DapModuleDexLightPanel::setTypePanel(const QString& type)
 
     if(!isRegularTypePanel())
     {
-        for(const auto& item: m_tokensPair)
+        for(const auto& item: qAsConst(m_tokensPair))
         {
             if(item.network == m_currentPair.network)
             {
@@ -225,7 +227,7 @@ void DapModuleDexLightPanel::setNetworkFilterText(const QString &network)
         {
             return;
         }
-        for(const auto& item: m_tokensPair)
+        for(const auto& item: qAsConst(m_tokensPair))
         {
             if(item.network == network)
             {
@@ -294,7 +296,7 @@ QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, cons
     {
         QString tokenSell = m_currentPair.token1;
         QString tokenBuy = m_currentPair.token2;
-        QString walletName = m_modulesCtrl->getCurrentWalletName();
+        QString walletName = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
         QString amountOrder = checkValue(amount);
         QString feeOrder = checkValue(fee);
         QString priceOrder = checkValue(price);

@@ -267,6 +267,8 @@ Popup {
 
                 onClicked:
                 {
+                    loadIndicator.running = true
+                    dapButtonSend.enabled = false
                     dialog.close()
                     signalAccept(true)
                     isLoading = false

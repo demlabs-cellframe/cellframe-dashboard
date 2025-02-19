@@ -6,12 +6,11 @@
 
 DapModuleConsole::DapModuleConsole(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
 {
     m_currentMode = (ConsoleMode)QSettings().value("ConsoleMode", 0).toInt();
     connect(s_serviceCtrl, &DapServiceController::cmdRunned, this, &DapModuleConsole::getAnswer);
 
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelConsoleCommand", model);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelConsoleCommand", model);
 }
 
 void DapModuleConsole::runCommand(const QString &command)
@@ -22,13 +21,11 @@ void DapModuleConsole::runCommand(const QString &command)
     args.append((int)m_currentMode);
 
     s_serviceCtrl->requestToService("DapRunCmdCommand", args);
-
-    if(!command.contains("-password"))
-        s_serviceCtrl->notifyService("DapSaveHistoryExecutedCmdCommand", args);
 }
 
 void DapModuleConsole::getAnswer(const QVariant &answer)
 {
+    qDebug()<<"DapModuleConsole::getAnswer " << answer;
     QVariantList list = answer.toList();
 
     if (list.size() < 2)
@@ -37,13 +34,13 @@ void DapModuleConsole::getAnswer(const QVariant &answer)
     model << QVariant::fromValue(
                  ConsoleInfo(list.at(0).toString(), list.at(1).toString()));
 
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelConsoleCommand", model);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelConsoleCommand", model);
 }
 
 void DapModuleConsole::clearModel()
 {
     model.clear();
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelConsoleCommand", model);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelConsoleCommand", model);
 
 }
 

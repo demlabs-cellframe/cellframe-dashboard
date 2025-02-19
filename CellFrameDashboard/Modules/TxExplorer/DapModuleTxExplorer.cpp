@@ -1,6 +1,6 @@
 #include "DapModuleTxExplorer.h"
 #include <QQmlContext>
-
+#include "DapDataManagerController.h"
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -12,89 +12,76 @@
 
 DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_timerHistoryUpdate(new QTimer(this))
-    , m_historyModel(new DapHistoryModel)
+    , m_timerRequest(new QTimer(this))
     , m_historyProxyModel(new DapHistoryProxyModel())
-    , m_historyByteArray(new QByteArray())
+    , m_historyModel(new DapHistoryModel)
 {
     m_historyProxyModel->setSourceModel(m_historyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelHistory", m_historyProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelLastActions", m_historyProxyModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("modelHistory", m_historyProxyModel);
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(m_modulesCtrl, &DapModulesController::initDone, this, [this] ()
     {
         initConnect();
-        updateHistory(true);
+        updateHistory();
     });
-    connect(m_modulesCtrl, &DapModulesController::currentWalletNameChanged, [this] ()
-            {
-                this->setWalletName(m_modulesCtrl->getCurrentWalletName());
-            });
+    connect(m_modulesCtrl->getManagerController()->getWalletManager(), &DapWalletsManagerBase::currentWalletChanged, this, &DapModuleTxExplorer::cleareData);
 }
 
 void DapModuleTxExplorer::initConnect()
 {
+    auto* networkManager = m_modulesCtrl->getManagerController()->getNetworkManager();
+    connect(networkManager, &DapNetworksManagerLocal::deleteNetworksSignal,    this, &DapModuleTxExplorer::deleteNetworksSlot);
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
-    connect(s_serviceCtrl, &DapServiceController::historyServiceInitRcv, this, &DapModuleTxExplorer::setHistoryModel, Qt::QueuedConnection);
-    connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, [this]()
+    connect(s_serviceCtrl, &DapServiceController::queueUpdated, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
+    connect(m_modulesCtrl, &DapModulesController::nodeWorkingChanged, this, [this]()
     {
         if(!m_modulesCtrl->isNodeWorking())
         {
-            this->clearHistory();
+            this->cleareData();
         }
     });
     connect(m_timerHistoryUpdate, &QTimer::timeout, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
+    connect(m_timerRequest, &QTimer::timeout, this, &DapModuleTxExplorer::slotHistoryUpdate, Qt::QueuedConnection);
 
-    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
-    {
-//            qDebug()<<"m_statusProcessing" << m_statusProcessing;
-        if(m_statusProcessing)
-        {
-            m_timerHistoryUpdate->start(10000);
-            slotHistoryUpdate();
-//            sendCurrentHistoryModel();
-        }
-        else
-        {
-            m_timerHistoryUpdate->stop();
-            //setStatusInit(false);
-        }
-    });
+    auto walletManager = getWalletManager();
+    connect(walletManager, &DapWalletsManagerBase::walletInfoChanged, this, &DapModuleTxExplorer::walletInfoChangedsSlot);
+}
+
+void DapModuleTxExplorer::slotUpdateData()
+{
+    m_timerHistoryUpdate->stop();
+    m_timerRequest->stop();
+    m_historyModel->clear();
+    m_listsWallets.clear();
+    setStatusInit(false);
+    isSendReqeust = false;
+    updateHistory();
 }
 
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 {
     isSendReqeust = false;
+    m_timerRequest->stop();
     auto historyByte = rcvData.toByteArray();
-    if(*m_historyByteArray == historyByte)
-    {
-        return;
-    }
-    *m_historyByteArray = historyByte;
-
-    if(rcvData.toString() == "isEqual")
-        return;
 
     QJsonDocument doc = QJsonDocument::fromJson(historyByte);
 
     if (!doc.isObject())
         return;
 
-    if (doc["walletName"].toString() != m_walletName /*||
-        doc["isLastActions"].toBool() != m_isLastActions */)
-    {
-        qWarning() << "ERROR"
-                   << "walletName" << doc["walletName"].toString() << m_walletName;
+    QString walletName = doc["walletName"].toString();
+    QString networkName = doc["networkName"].toString();
 
+    if(m_modulesCtrl->getManagerController()->getCurrentWallet().second != walletName)
+    {
         return;
     }
 
-    m_historyModel->clear();
-
     QJsonArray historyArray = doc["history"].toArray();
 
-    QList<DapHistoryModel::Item> resultList;
+    HistoryList resultList;
 
     for(auto i = 0; i < historyArray.size(); i++)
     {
@@ -120,62 +107,243 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         itemHistory.atom         = historyArray.at(i)["atom"].toString();
         itemHistory.tx_hash      = historyArray.at(i)["tx_hash"].toString();
         itemHistory.tx_status    = historyArray.at(i)["tx_status"].toString();
+        itemHistory.queue_hash   = historyArray.at(i)["queueHash"].toString();
 
         QDateTime time = QDateTime::fromSecsSinceEpoch(itemHistory.date_to_secs);
         itemHistory.time = time.toString("hh:mm:ss");
         resultList.append(std::move(itemHistory));
-        
     }
 
-    std::sort(resultList.begin(), resultList.end(),[]
-              (const DapHistoryModel::Item& a, const DapHistoryModel::Item& b)
-              {
-                  return a.date_to_secs > b.date_to_secs;
-              });
-    m_historyModel->updateModel(std::move(resultList));
+    if(addHistory(walletName, networkName, resultList))
+    {
+        m_historyModel->updateModel(m_listsWallets[walletName].history);
+    }
 
     setStatusInit(true);
 
     emit updateHistoryModel();
+    updateHistory();
 }
 
-void DapModuleTxExplorer::clearHistory()
+void DapModuleTxExplorer::deleteNetworksSlot(const QStringList& list)
 {
-    m_historyModel->clear();
-    setStatusInit(false);
-    m_historyByteArray->clear();
-}
-
-void DapModuleTxExplorer::setWalletName(QString str)
-{
-//    qDebug() << "DapModuleTxExplorer::setWalletName" << str;
-
-    if (m_walletName != str)
+    for(auto& item: m_listsWallets)
     {
-        m_walletName = str;
+        QMutableListIterator<DapHistoryModel::Item> history(item.history);
+        while(history.hasNext())
+        {
+            auto historyItem = history.next();
+            if(list.contains(historyItem.network))
+            {
+                QString hash = historyItem.tx_hash;
+                history.remove();
+                item.hashes.remove(hash);
+            }
+        }
+    }
+}
 
+bool DapModuleTxExplorer::addHistory(const QString& wallet, const QString& networkName, const HistoryList& list)
+{
+    auto& walletData = m_listsWallets[wallet];
+    bool isUpdated = false;
+    QStringList queueList;
+    auto& currentQueueList = walletData.queue[networkName];
+
+    for(const auto& item: list)
+    {
+        if(item.status == "Queued")
+        {
+            if(!currentQueueList.contains(item.queue_hash))
+            {
+                currentQueueList.insert(item.queue_hash);
+                walletData.history.append(item);
+                isUpdated = true;
+            }
+            queueList.append(item.queue_hash);
+        }
+        else if(!walletData.hashes.contains(item.tx_hash))
+        {
+            walletData.history.append(item);
+            walletData.hashes.insert(item.tx_hash, item.status);
+            isUpdated = true;
+        }
+        else if(walletData.hashes[item.tx_hash] != item.status)
+        {
+            QList<DapHistoryModel::Item>::Iterator iter = std::find_if(walletData.history.begin(), walletData.history.end(),
+                [&item](const DapHistoryModel::Item& itemHistory)
+                {
+                    return itemHistory.tx_hash == item.tx_hash;
+            });
+
+            if(iter != walletData.history.end())
+            {
+                iter->status = item.status;
+            }
+            walletData.hashes[item.tx_hash] = item.status;
+            isUpdated = true;
+        }
+    }
+
+    QStringList toRemoveList = DapCommonMethods::getDifference(currentQueueList.toList(), queueList);
+    if(!toRemoveList.isEmpty())
+    {
+        QMutableListIterator<DapHistoryModel::Item> history(walletData.history);
+        while(history.hasNext() && !toRemoveList.isEmpty())
+        {
+            auto historyItem = history.next();
+            if(toRemoveList.contains(historyItem.queue_hash))
+            {
+                QString queueHash = historyItem.queue_hash;
+                toRemoveList.removeOne(queueHash);
+                history.remove();
+                isUpdated = true;
+            }
+        }
+    }
+
+    if(isUpdated)
+    {
+        auto& walletHistory = m_listsWallets[wallet].history;
+        std::sort((walletHistory).begin(), (walletHistory).end(),[]
+                  (const DapHistoryModel::Item& a, const DapHistoryModel::Item& b)
+                  {
+                      return a.date_to_secs > b.date_to_secs;
+                  });
+    }
+    return isUpdated;
+}
+
+bool DapModuleTxExplorer::updateModelBySaves()
+{
+    QString wallet = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
+    if(!wallet.isEmpty())
+    {
+        if(m_listsWallets.value(wallet).history.isEmpty())
+        {
+            return false;
+        }
+
+        m_historyModel->updateModel(m_listsWallets.value(wallet).history);
+        return true;
+    }
+    return false;
+}
+
+void DapModuleTxExplorer::cleareData()
+{
+    m_lastWalletName.clear();
+    m_lastNetworkName.clear();
+    m_timerHistoryUpdate->stop();
+    m_timerRequest->stop();
+    isSendReqeust = false;
+    updateHistory();
+    if(!updateModelBySaves())
+    {
         m_historyModel->clear();
-        isSendReqeust = false;
-        updateHistory(true);
         setStatusInit(false);
     }
 }
 
-
 void DapModuleTxExplorer::slotHistoryUpdate()
 {
-    updateHistory(false);
+    updateHistory();
 }
 
-void DapModuleTxExplorer::updateHistory(bool flag)
+void DapModuleTxExplorer::updateHistory()
 {
-    QString currantWalletName = m_modulesCtrl->currentWalletName();
+    if(isSendReqeust)
+    {
+        return;
+    }
+    QString currantWalletName = m_modulesCtrl->getManagerController()->getCurrentWallet().second;
+    if(m_lastWalletName != currantWalletName)
+    {
+        m_lastWalletName = currantWalletName;
+    }
+    if(m_lastWalletName.isEmpty())
+    {
+        return;
+    }
+    auto& walletInfo = getWalletManager()->getWalletsInfo().value(m_lastWalletName);
+    if(walletInfo.status == Dap::WalletStatus::NON_ACTIVE_KEY || walletInfo.walletInfo.isEmpty())
+    {
+        return;
+    }
+    QString network = getNewLastNetwork();
+    if(network.isEmpty())
+    {
+        qDebug() << QString("[DapModuleTxExplorer] The history survey for wallet %1 is completed").arg(m_lastWalletName);
+        m_lastWalletName.clear();
+        m_timerHistoryUpdate->start(TIME_OUT_HISTORY_UPDATE);
+        return;
+    }
 
-    if((currantWalletName.isEmpty() && (m_modulesCtrl->getCurrentWalletIndex() < 0)) || isSendReqeust)
-        return ;
+    QString walletAddr = walletInfo.walletInfo.value(network).address;
+    if(walletAddr.isEmpty())
+    {
+        qWarning() << QString("[DapModuleTxExplorer] Wallet address not found. wallet: %1 network: %2").arg(m_lastWalletName).arg(network);
+        return;
+    }
 
-    m_timerHistoryUpdate->stop();
-    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->getCurrentWalletName() << flag << false);
-    m_timerHistoryUpdate->start(10000);
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    if(m_timerRequest->isActive())
+    {
+        m_timerRequest->stop();
+    }
+
+    QVariantMap request = {
+                            {Dap::CommandParamKeys::NETWORK_KEY, network},
+                            {Dap::CommandParamKeys::WALLET_ADDRESS_KEY, walletAddr},
+                            {Dap::CommandParamKeys::WALLET_NAME_KEY, m_lastWalletName},
+                            {Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
+                            };
+
+    s_serviceCtrl->requestToService("DapGetWalletHistoryCommand", request);
+    m_timerRequest->start(TIME_OUT_HISTORY_REQUEST);
     isSendReqeust = true;
+}
+
+void DapModuleTxExplorer::walletInfoChangedsSlot(const QString& walletName, const QString& networkName)
+{
+    auto walletManager = getWalletManager();
+    if(walletManager->getCurrentWallet().second == walletName && !isSendReqeust)
+    {
+        updateHistory();
+    }
+}
+
+QString DapModuleTxExplorer::getNewLastNetwork()
+{
+    auto& walletInfo = getWalletManager()->getWalletsInfo().value(m_lastWalletName);
+    auto netList = walletInfo.walletInfo.keys();
+    if(m_lastNetworkName.isEmpty())
+    {
+        m_lastNetworkName.append(netList.first());
+    }
+    else
+    {
+        for(int i = 0; i < netList.size(); i++)
+        {
+            if(!m_lastNetworkName.contains(netList[i]) &&
+                !walletInfo.walletInfo[netList[i]].address.isEmpty())
+            {
+                m_lastNetworkName.append(netList[i]);
+                break;
+            }
+            else if(i == netList.size() - 1)
+            {
+                m_lastNetworkName.clear();
+            }
+        }
+    }
+    return m_lastNetworkName.isEmpty() ? QString() : m_lastNetworkName.last();
+}
+
+DapWalletsManagerBase* DapModuleTxExplorer::getWalletManager() const
+{
+    Q_ASSERT_X(m_modulesCtrl, "DapModuleWallet", "ModuleController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController(), "DapModuleWallet", "ManagerController not found");
+    Q_ASSERT_X(m_modulesCtrl->getManagerController()->getWalletManager(), "DapModuleWallet", "WalletManager not found");
+    return m_modulesCtrl->getManagerController()->getWalletManager();
 }

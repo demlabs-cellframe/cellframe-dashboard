@@ -76,12 +76,12 @@ DapRectangleLitAndShaded {
                     verticalAlignment: Text.AlignVCenter
                     font: mainFont.dapFont.medium12
                     text: qsTr("Info")
-                    opacity: if (root.infoTitleTextVisible || root.infoTitleTextVisibleClick) return 1; else return 0
+                    opacity: root.infoTitleTextVisible || root.infoTitleTextVisibleClick? 1 : 0
                     color: currTheme.white
 
                     Behavior on opacity {
                         NumberAnimation {
-                            duration: 100
+                            duration: 150
                         }
                     }
                 }
@@ -158,15 +158,22 @@ DapRectangleLitAndShaded {
                                 maximumLineCount: 1
                                 color: currTheme.white
 
-                                property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.lime : currTheme.white
+                                // property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.lime : currTheme.white
 
-                                onColorPropertyChanged: textTimer.start()
+                                // onColorPropertyChanged: textTimer.start()
 
-                                Timer {
-                                    id: textTimer
-                                        interval: 300
-                                        onTriggered: certificateNameText.color = certificateNameText.colorProperty
-                                    }
+                                ColorAnimation on color {
+                                    to: currTheme.lime
+                                    duration: 150
+                                    running: delegateClicked._entered || model.selected
+                                }
+
+                                ColorAnimation on color {
+                                    to: currTheme.white
+                                    duration: 150
+                                    running: !delegateClicked._entered && !model.selected
+                                }
+
 
                                 DapCustomToolTip{
                                     visible: delegateClicked.containsMouse ?  certificateNameText.implicitWidth > certificateNameText.width ? true : false : false
@@ -189,13 +196,13 @@ DapRectangleLitAndShaded {
                                 mipmap: true
                                 source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.png"
 
-                                opacity: if (model.selected || delegateClicked._entered) return 1; else return 0
+                                opacity: model.selected || delegateClicked._entered ? 1 : 0
 
                                 onOpacityChanged: root.infoTitleTextVisible = opacity
 
                                 Behavior on opacity {
                                     NumberAnimation {
-                                        duration: 300
+                                        duration: 50
                                     }
                                 }
 

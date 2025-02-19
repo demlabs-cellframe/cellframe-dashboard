@@ -7,7 +7,7 @@ DapLogsReader::DapLogsReader(QObject *parent)
     : QObject{parent}
     , m_timerLogUpdate(new QTimer(this))
 {
-    connect(m_timerLogUpdate, &QTimer::timeout, [=] {
+    connect(m_timerLogUpdate, &QTimer::timeout, [this] {
         updateLogList();
     });
 }

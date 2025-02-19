@@ -37,7 +37,7 @@ Page
 
             DapLoadingPanel
             {
-                spinerEnabled: true
+                spinerEnabled: cellframeNodeWrapper.nodeRunning
                 anchors.topMargin: tokensShowHeader.height
             }
 
@@ -59,7 +59,17 @@ Page
                         font: mainFont.dapFont.bold14
                         color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
-                        text: qsTr("Tokens")
+                        text: qsTr("List of all available tokens in the networks")
+                    }
+                    Text
+                    {
+                        font: mainFont.dapFont.regular14
+                        color: currTheme.white
+                        text: qsTr("Total Supply")
+                        horizontalAlignment: Text.AlignRight
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 16
                     }
                 }
 
@@ -136,7 +146,7 @@ Page
                                             anchors.fill: parent
                                             textFont: mainFont.dapFont.regular14
                                             textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
-                                            fullText: mathWorker.balanceToCoins(current_supply)
+                                            fullText: total_supply === 0.0 || total_supply === "0.0"  || total_supply === "0" || total_supply === 0 ? "Unlimited" : mathWorker.balanceToCoins(total_supply)
                                             horizontalAlign: Text.AlignRight
                                         }
                                     }

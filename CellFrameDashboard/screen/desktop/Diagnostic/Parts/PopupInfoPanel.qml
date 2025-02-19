@@ -71,15 +71,9 @@ Item {
 
                     Text{
 
-                        text: qsTr("System information ")
+                        text: qsTr("System information")
                         font: mainFont.dapFont.bold14
                         color: currTheme.white
-
-                    }
-                    Text{
-                        text: qsTr("(You can select information you allow to send)")
-                        font: mainFont.dapFont.bold14
-                        color: currTheme.gray
 
                     }
                     Item{Layout.fillWidth: true}
@@ -181,30 +175,18 @@ Item {
                         TextInfoElement{
                             title: qsTr("System uptime: ")
                             content: system.uptime
-                            _switch.visible: true
-                            _switch.onCheckedChanged: diagnosticsModule.flagSendSysTime = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendSysTime
                         }
                         TextInfoElement{
                             title: qsTr("Dashboard uptime: ")
                             content: system.uptime_dashboard
-                            _switch.visible: true
-                            _switch.onCheckedChanged: diagnosticsModule.flagSendDahsTime = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendDahsTime
                         }
                         TextInfoElement{
                             title: qsTr("Memory: ")
                             content: system.memory.total
-                            _switch.visible: true
-                            _switch.onCheckedChanged: diagnosticsModule.flagSendMemory = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendMemory
                         }
                         TextInfoElement{
                             title: qsTr("Memory free: ")
                             content: system.memory.free
-                            _switch.visible: true
-                            _switch.onCheckedChanged: diagnosticsModule.flagSendMemoryFree = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendMemoryFree
                         }
 
                         Item{Layout.fillHeight: true}

@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
+#include "DapNodeInstallManager.h"
 
 class DapModuleSettings : public DapAbstractModule
 {
@@ -24,13 +25,13 @@ public:
     ~DapModuleSettings();
 
     Q_PROPERTY(QString nodeVersion READ nodeVersion NOTIFY nodeVersionChanged)
-    Q_INVOKABLE QString nodeVersion(){return m_nodeVersion;};
+    Q_INVOKABLE QString nodeVersion(){return m_nodeVersion;}
 
     Q_PROPERTY(QString dashboardVersion READ dashboardVersion NOTIFY dashboardVersionChanged)
-    Q_INVOKABLE QString dashboardVersion(){return m_dashboardVersion;};
+    Q_INVOKABLE QString dashboardVersion(){return m_dashboardVersion;}
 
     Q_PROPERTY(bool guiRequest READ guiRequest NOTIFY guiRequestChanged)
-    Q_INVOKABLE bool guiRequest(){return m_guiVersionRequest;};
+    Q_INVOKABLE bool guiRequest(){return m_guiVersionRequest;}
 
     Q_PROPERTY(bool clearDataProcessing READ clearDataProcessing NOTIFY clearDataProcessingChanged)
     Q_INVOKABLE bool clearDataProcessing(){return m_isNodeAutoRun;}
@@ -81,6 +82,9 @@ signals:
     void needNodeUpdateSignal();
 
     void nodeUrlUpdated();
+
+    void checkedUrlSignal(bool check);
+    void signalIsNeedInstallNode(bool isNeed, QString url);
 private slots:
     void rcvVersionInfo(const QVariant& result);
     void timeoutVersionInfo();
@@ -94,10 +98,17 @@ private:
     void setNodeAutorun(bool isEnable);
 
     void updateUrlUpdateNode();
+
+    QString getNodeUrl(const QString& ver = "");
+    QString getUrlForNodeDownload();
+    void tryCheckUrl(const QString& url);
+
+    void checkNeedDownload();
 private:
-    DapModulesController  *m_modulesCtrl;
     QTimer *m_timerVersionCheck;
     QTimer *m_timerTimeoutService;
+
+    DapNodeInstallManager *m_instMngr;
 
     bool m_isNodeStarted = true;
     bool m_isNodeAutoRun = true;

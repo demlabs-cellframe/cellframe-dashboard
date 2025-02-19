@@ -9,16 +9,6 @@ Item
 {
     anchors.fill: parent
 
-    Component.onCompleted:
-    {
-        walletModule.startUpdateFee()
-    }
-
-    Component.onDestruction:
-    {
-        walletModule.stopUpdateFee()
-    }
-
     // Header
     Item
     {

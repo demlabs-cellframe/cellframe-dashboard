@@ -7,8 +7,6 @@ import "qrc:/widgets"
 
 Page
 {
-//    anchors.fill: parent
-
     background: Rectangle {
         color: "transparent"
     }
@@ -20,6 +18,7 @@ Page
 
         DapRectangleLitAndShaded
         {
+            visible: app.getNodeMode() === 0
             id:extensionsBlock
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
@@ -198,8 +197,8 @@ Page
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
             Layout.minimumHeight:  105
-            Layout.maximumHeight: (parent.height - parent.spacing) / 2
-
+            Layout.maximumHeight: !app.getNodeMode() ? (parent.height - parent.spacing) / 2
+                                                     : parent.height
 
             Layout.preferredHeight: contentData.implicitHeight
 

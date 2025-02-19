@@ -15,6 +15,8 @@ ComboBox {
 
     property string defaultText: qsTr("Undefined")
 
+    signal pairClicked(var displayText, var token1, var token2, var network)
+
     spacing: 0
 
     onCountChanged:
@@ -24,7 +26,7 @@ ComboBox {
             dexModule.tokenPairModelCountChanged(count)
         }
         dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
-        walletModule.updateBalanceDEX()
+        dexModule.updateBalance()
     }
 
     Connections
@@ -33,7 +35,7 @@ ComboBox {
         function onCurrentTokenPairChanged()
         {
             dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
-            walletModule.updateBalanceDEX()
+            dexModule.updateBalance()
         }
     }
 
@@ -63,20 +65,20 @@ ComboBox {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                Text
-                {
-                    anchors.left: parent.left
-                    anchors.leftMargin: 148
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: rate
-                    color: menuDelegate.highlighted ?
-                               currTheme.mainBackground :
-                               currTheme.white
-                    font: mainFont.dapFont.regular13
-                    elide: Text.ElideRight
-                    verticalAlignment: Text.AlignVCenter
-                }
+//                Text
+//                {
+//                    anchors.left: parent.left
+//                    anchors.leftMargin: 148
+//                    anchors.right: parent.right
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    text: rate
+//                    color: menuDelegate.highlighted ?
+//                               currTheme.mainBackground :
+//                               currTheme.white
+//                    font: mainFont.dapFont.regular13
+//                    elide: Text.ElideRight
+//                    verticalAlignment: Text.AlignVCenter
+//                }
 
                 Rectangle{
                     anchors.left: parent.left
@@ -92,13 +94,8 @@ ComboBox {
                     hoverEnabled: true
                     onClicked:
                     {
-                        dexModule.setCurrentTokenPair(displayText, network)
-
-                        dexTokenModel.setNewPairFilter(token1, token2, network)
-                        walletModule.updateBalanceDEX()
-                        control.popup.close()
+                        pairClicked(displayText, token1, token2, network)
                     }
-
                 }
             }
 
@@ -219,6 +216,7 @@ ComboBox {
                                 if(control.popup.opened)
                                 {
                                     search.textField.text = ""
+                                    search.textField.forceActiveFocus()
                                 }
                             }
                         }
@@ -244,14 +242,14 @@ ComboBox {
                                 color: currTheme.white
 
                             }
-                            Text{
-                                anchors.left: parent.left
-                                anchors.leftMargin: 132
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Price")
-                                font: mainFont.dapFont.medium12
-                                color: currTheme.white
-                            }
+//                            Text{
+//                                anchors.left: parent.left
+//                                anchors.leftMargin: 132
+//                                anchors.verticalCenter: parent.verticalCenter
+//                                text: qsTr("Price")
+//                                font: mainFont.dapFont.medium12
+//                                color: currTheme.white
+//                            }
                         }
                     }
                 }

@@ -76,8 +76,8 @@ Page
                 dexModule.orderType = ordersRateType.get(currentIndex).techName
 
                 ordersModule.currentTab = currentIndex
-
-                currantRate = dexModule.currentRate
+                setCurrentRate(dexModule.currentRate)
+                updateBuyField()
                 rateRectagleTextUpdate()
             }
 
@@ -181,7 +181,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalanceDEX(dexModule.token1)
+                        text: walletModule.getTokenBalance(dexModule.networkPair, dexModule.token1, walletModule.currentWalletName)
                     }
 
                     Rectangle
@@ -292,7 +292,7 @@ Page
                         }
                     }
 
-                    Component.onCompleted: 
+                    Component.onCompleted:
                     {
                         sellText.text = dexModule.sellValueField
                     }
@@ -333,14 +333,26 @@ Page
 
                     onClicked:
                     {
-                        sellText.setText(buyText.text)
-                        currantRate = dexModule.invertValue(currantRate)
-                        dexModule.swapTokens();
+                        swapPair()
                     }
 
                     onContainsMouseChanged:
                     {
                         animArrowIcon.rotation = containsMouse ? -180 : 0
+                    }
+
+                    Connections{
+                        target: stockHome
+                        function onRegularPairSwap(){
+                            arrowMouseArea.swapPair()
+                        }
+                    }
+
+                    function swapPair()
+                    {
+                        setCurrentRate(dexModule.invertValue(currantRate))
+                        sellText.setText(buyText.text)
+                        dexModule.swapTokens();
                     }
                 }
             }
@@ -386,7 +398,7 @@ Page
                         label: qsTr("Balance:")
                         textColor: currTheme.white
                         textFont: mainFont.dapFont.regular11
-                        text: walletModule.getBalanceDEX(dexModule.token2)
+                        text: walletModule.getTokenBalance(dexModule.networkPair, dexModule.token2, walletModule.currentWalletName)
                     }
 
                     Item
@@ -454,12 +466,12 @@ Page
 
                         onTextChanged:
                         {
-                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking
+                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking && !app.getNodeMode()
                         }
 
                         onEdited:
                         {
-                            currantRate = dexModule.divCoins(buyText.text, sellText.text)
+                            setCurrentRate(dexModule.divCoins(sellText.text, buyText.text))
                             rateRectagleTextUpdate()
                         }
                     }
@@ -515,7 +527,7 @@ Page
                             hoverEnabled: true
                             onClicked:
                             {
-                                currantRate = dexModule.currentRate
+                                setCurrentRate(dexModule.currentRate)
                                 priceText.setText(dexModule.currentRate)
                                 isInvert = false
                                 rateRectagleTextUpdate()
@@ -546,7 +558,7 @@ Page
                         onTextChanged:
                         {
                             updateErrorField(false, getWarning())
-                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking
+                            createButton.enabled = isFieldOK() && modulesController.isNodeWorking && !app.getNodeMode()
                         }
 
                         onEdited:
@@ -579,7 +591,8 @@ Page
                                 tmpValue = tmpValue = substrings[0] + ".0"
                             }
 
-                            currantRate = tmpValue
+                            setCurrentRate(tmpValue)
+                            updateBuyField()
                         }
                     }
                     Rectangle
@@ -626,7 +639,7 @@ Page
                     }
                 }
                 Component.onCompleted: {
-                    currantRate = dexModule.currentRate
+                    setCurrentRate(dexModule.currentRate)
                     priceText.setText(dexModule.currentRate)
                     isInvert = false
                     rateRectagleTextUpdate()
@@ -835,6 +848,7 @@ Page
                     wrapMode: Text.WordWrap
                     lineHeight: 16
                     lineHeightMode: Text.FixedHeight
+                    elide: Text.ElideRight
                 }
 
                 DapLoadingPanel
@@ -861,12 +875,12 @@ Page
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
-            enabled: modulesController.isNodeWorking
-            onClicked: 
+            enabled: !app.getNodeMode() && modulesController.isNodeWorking
+            onClicked:
             {
                 var resultAmount = sellText.text
                 var resultTokenName = dexModule.token1
-                var walletResult = walletModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
+                var walletResult = dexModule.isCreateOrder(dexModule.networkPair, resultAmount, resultTokenName)
                 console.log("Wallet: " + walletResult)
 
                 if(walletResult.code === 0)
@@ -917,13 +931,13 @@ Page
 
     function miniRateFieldUpdate()
     {
-        miniRateText.text = "1 " + dexModule.token1 + " = "
-        miniRateText2.fullText = currantRate + " " + dexModule.token2
-    }    
+        miniRateText.text = "1.0 " + dexModule.token1 + " = "
+        miniRateText2.fullText = toActualRate(currantRate) + " " + dexModule.token2
+    }
 
     function updateBuyField()
     {
-        buyText.setText(dexModule.multCoins(sellText.text, currantRate))
+        buyText.setText(dexModule.divCoins(sellText.text, currantRate))
     }
 
     function findIndexByTechName(techName)
@@ -969,11 +983,11 @@ Page
             var persentInt = parseInt(percent)
             if(persentInt > 20)
             {
-                var level = isLow ? qsTr("higher") : qsTr("chip")
-                var costStr = isLow ? qsTr("lower") : qsTr("expensive")
+                var level = isLow ? qsTr("higher") : qsTr("lower")
+                var costStr = isLow ? qsTr("cheap") : qsTr("expensive")
 
-                result = qsTr("Limit price is ") + level + " " + percent + "% " + qsTr(" than the market. You will be selling your ") + dexModule.token1 + qsTr(" exceedingly ") + costStr
-            }            
+                result = qsTr("Limit price is ")  + percent + "% " + level + qsTr(" than the market. You will be selling your ") + dexModule.token1 + qsTr(" exceedingly ") + costStr
+            }
         }
 
         if(dexModule.token1.substring(0,1)==="m")
@@ -1002,6 +1016,16 @@ Page
         return false;
     }
 
+    function toActualRate(rate)
+    {
+        return isInvert ? rate : dexModule.invertValue(rate)
+    }
+
+    function setCurrentRate(rate)
+    {
+        currantRate = rate
+    }
+
     Connections
     {
         target: dexModule
@@ -1010,7 +1034,7 @@ Page
         {
             if(!dexModule.isSwapTokens)
             {
-                currantRate = dexModule.currentRate
+                setCurrentRate(dexModule.currentRate)
                 priceText.setText(dexModule.currentRate)
             }
             else
@@ -1023,6 +1047,14 @@ Page
             updateBuyField()
 
             updateErrorField(false, getWarning())
+        }
+
+        function onCurrentRateFirstTime()
+        {
+            setCurrentRate(dexModule.currentRate)
+            rateRectagleTextUpdate()
+            miniRateFieldUpdate()
+            updateBuyField()
         }
     }
 }

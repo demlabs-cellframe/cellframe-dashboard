@@ -102,6 +102,13 @@ bool OrdersHistoryProxyModel::filterAcceptsRow(int source_row, const QModelIndex
 
     bool isNetwork = m_network.isEmpty() || m_network == item.network;
 
+   qDebug()<< "isType" << isType;
+   qDebug()<< "isAffilation" << isAffilation;
+   qDebug()<< "isStatus" << isStatus;
+   qDebug()<< "isPeriod" << isPeriod;
+   qDebug()<< "isPair" << isPair;
+   qDebug()<< "isNetwork" << isNetwork;
+
     return isType && isAffilation && isStatus && isPeriod && isPair && isNetwork;
 }
 

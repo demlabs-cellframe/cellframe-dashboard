@@ -29,9 +29,9 @@ DapRectangleLitAndShaded
     {
         console.log("NodeBlock.onCompleted")
 
-        configWorker.resetAllChanges()
+        //configWorker.resetAllChanges()
 
-        var netList = configWorker.getNetworkList()
+        //var netList = configWorker.getNetworkList()
 
         for(var i = 0; i < netList.length; ++i)
             networkModel.append(
@@ -84,7 +84,7 @@ DapRectangleLitAndShaded
             console.log("warningPopup", "onSave")
             edited = false
 
-            configWorker.saveAllChanges()
+            //configWorker.saveAllChanges()
             logicMainApp.requestToService("DapNodeRestart");
 
             navigator.popPage()
@@ -94,7 +94,7 @@ DapRectangleLitAndShaded
             console.log("warningPopup", "onReset")
             edited = false
 
-            configWorker.resetAllChanges()
+            //configWorker.resetAllChanges()
 
             mainPage.updateAll()
         }
@@ -121,7 +121,7 @@ DapRectangleLitAndShaded
             onClosePage:
             {
                 console.log("NodeBlock", "onClosePage")
-                configWorker.resetAllChanges()
+                //configWorker.resetAllChanges()
             }
         }
 
@@ -175,6 +175,16 @@ DapRectangleLitAndShaded
 
                 SettingsCheckBoxItem
                 {
+                    mainTextMessage: qsTr("Debug mode cli")
+                    checked: true
+                    node: true
+                    groupName: "cli-server"
+                    valueName: "debug_more"
+                    defaultValue: false
+                }
+
+                SettingsCheckBoxItem
+                {
                     mainTextMessage: qsTr("Accept connections")
                     checked: true
                     node: true
@@ -190,32 +200,11 @@ DapRectangleLitAndShaded
                     node: true
                     groupName: "server"
                     valueName: "listen_address"
-                    defaultValue: "0.0.0.0"
+                    defaultValue: "[0.0.0.0:8079]"
 
                     onClicked:
                     {
                         textEditPopup.parameterName = qsTr("Server address")
-                        textEditPopup.parameterValue = secondTextMessage
-                        textEditPopup.node = node
-                        textEditPopup.groupName = groupName
-                        textEditPopup.valueName = valueName
-
-                        root.dapRightPanel.push(textEditPopup)
-                    }
-                }
-
-                SettingsArrowItem
-                {
-                    mainTextMessage: qsTr("Server port to listen on")
-
-                    node: true
-                    groupName: "server"
-                    valueName: "listen_port_tcp"
-                    defaultValue: "8079"
-
-                    onClicked:
-                    {
-                        textEditPopup.parameterName = qsTr("Server port")
                         textEditPopup.parameterValue = secondTextMessage
                         textEditPopup.node = node
                         textEditPopup.groupName = groupName
@@ -232,32 +221,11 @@ DapRectangleLitAndShaded
                     node: true
                     groupName: "notify_server"
                     valueName: "listen_address"
-                    defaultValue: "127.0.0.1"
+                    defaultValue: "[127.0.0.1:8080]"
 
                     onClicked:
                     {
                         textEditPopup.parameterName = qsTr("Notify server address")
-                        textEditPopup.parameterValue = secondTextMessage
-                        textEditPopup.node = node
-                        textEditPopup.groupName = groupName
-                        textEditPopup.valueName = valueName
-
-                        root.dapRightPanel.push(textEditPopup)
-                    }
-                }
-
-                SettingsArrowItem
-                {
-                    mainTextMessage: qsTr("Notify server port to listen on")
-
-                    node: true
-                    groupName: "notify_server"
-                    valueName: "listen_port"
-                    defaultValue: "8080"
-
-                    onClicked:
-                    {
-                        textEditPopup.parameterName = qsTr("Notify server port")
                         textEditPopup.parameterValue = secondTextMessage
                         textEditPopup.node = node
                         textEditPopup.groupName = groupName
@@ -287,7 +255,7 @@ DapRectangleLitAndShaded
 
                     Component.onCompleted:
                     {
-                        updateAvailable = configWorker.checkUpdate(true, "")
+                        //updateAvailable = configWorker.checkUpdate(true, "")
 
                         console.log("ResetUpdateButtons", "checkUpdate",
                                     updateAvailable)
@@ -301,7 +269,7 @@ DapRectangleLitAndShaded
 
                     onUpdateClicked:
                     {
-                        configWorker.updateFile(true, "")
+                        //configWorker.updateFile(true, "")
 
                         updateAvailable = false
                         mainPage.updateAll()
@@ -424,7 +392,7 @@ DapRectangleLitAndShaded
 
                 Component.onCompleted:
                 {
-                    updateAvailable = configWorker.checkUpdate(false, network)
+                    ///updateAvailable = configWorker.checkUpdate(false, network)
 
                     console.log("ResetUpdateButtons", "checkUpdate", network,
                                 updateAvailable)

@@ -211,13 +211,29 @@ Item
 
                 onCurrentIndexChanged:
                 {
-                    walletModule.updateBalanceDEX()
+                    dexModule.updateBalance()
                 }
 
                 Component.onCompleted:
                 {
                     dexTokenModel.setNewPairFilter(dexModule.token1, dexModule.token2, dexModule.networkPair)
-                    walletModule.updateBalanceDEX()
+                    dexModule.updateBalance()
+                }
+
+                onPairClicked:
+                {
+                    if(dexModule.typePanel === "regular")
+                    {
+                        regularPairSwap()
+                    }
+                    else
+                    {
+                        dexModule.setCurrentTokenPair(displayText, network)
+                        dexTokenModel.setNewPairFilter(token1, token2, network)
+                        dexModule.updateBalance()
+                    }
+
+                    pairBox.popup.close()
                 }
 
                 DapLoadingPanel
@@ -263,7 +279,7 @@ Item
             Item
             {
                 id: rateArea
-                width: 240
+                width: dexModule.isReadyDataPair ? 240 : 500
                 height: 30
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
@@ -288,7 +304,8 @@ Item
                     textFont: mainFont.dapFont.regular24
                     textColor: currTheme.green
                     textElement.elide: Text.ElideRight
-                    fullText: dexModule.currentRate
+                    fullText: dexModule.isReadyDataPair ? dexModule.currentRate
+                                                        : "Preparing data..."
                 }
             }
 
@@ -299,6 +316,7 @@ Item
                 height: 33
                 anchors.left: rateArea.right
                 anchors.leftMargin: 37
+                visible: dexModule.isReadyDataPair
 
                 Text
                 {
@@ -329,6 +347,7 @@ Item
                 height: 33
                 anchors.left: hightArea.right
                 anchors.leftMargin: 40
+                visible: dexModule.isReadyDataPair
 
                 Text
                 {
@@ -497,7 +516,8 @@ Item
 
             DapLoadingPanel
             {
-                spinerEnabled: true
+                visible: !dexModule.isReadyDataPair
+                spinerEnabled:  app.getNodeMode() === 0 ? cellframeNodeWrapper.nodeRunning : false
             }
         }
     }

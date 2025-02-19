@@ -28,6 +28,7 @@ Page
         clip: true
     }
 
+
     function changeMainPage(page)
     {
         mainStackView.clear()

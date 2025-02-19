@@ -14,8 +14,6 @@ Page
     property string currentStakeToken: "-"
     property string currentMainToken: "-"
 
-    property bool isStageUpdateNetworks: false
-
     id: dapMasterNodeScreen
 
     background: Rectangle
@@ -65,15 +63,7 @@ Page
                 interactive: false
                 onCurrentIndexChanged:
                 {
-                    if(!isStageUpdateNetworks)
-                    {
-                        nodeMasterModule.currentNetwork = networkTabsModel.get(currentIndex).net
-                        dapMasterNodeScreen.state = networkTabsModel.get(currentIndex).isMaster ? "IS_MASTER_SCREEN" : "DEFAULT_SCREEN"
-                    }
-                    else
-                    {
-                        isStageUpdateNetworks = false
-                    }
+                    tryStateChange()
                 }
 
                 delegate:
@@ -168,7 +158,7 @@ Page
                 anchors.fill: parent
                 anchors.topMargin: tabsView.height
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                // ScrollBar.vertical.policy: ScrollBar.AlwaysOn
                 clip: true
 
                 contentData:
@@ -206,7 +196,7 @@ Page
     function updateNetworkTabs()
     {
         var arr = JSON.parse(nodeMasterModule.networksList)
-        isStageUpdateNetworks = true;
+
         networkTabsModel.clear()
         networkTabsModel.append(arr)
 
@@ -222,12 +212,9 @@ Page
                     break
                 }
             }
-            if(indexFound < 0) indexFound = 0
-            tabsView.currentIndex = indexFound
         }
         else if(networkTabsModel.count)
         {
-            indexFound = -1
             for(; i < networkTabsModel.count; ++i)
             {
                 if(networkTabsModel.get(i).net === nodeMasterModule.currentNetwork)
@@ -236,18 +223,35 @@ Page
                     break
                 }
             }
-            if(indexFound < 0) indexFound = 0
+        }
+        if(networkTabsModel.count)
+        {
+            if(indexFound <= 0) indexFound = 0
             tabsView.currentIndex = indexFound
         }
-
+        else
+        {
+            console.log("[MasterNodeScreen] Network mpdel is empty")
+        }
     }
 
     function changeCurrentWallet(wallet)
     {
         if(wallet !== "") {
             walletModule.setCurrentWallet(wallet)
-            txExplorerModule.setWalletName(wallet)
-            walletModule.getWalletsInfo("true")
+            walletModule.updateWalletList()
+        }
+    }
+
+    function tryStateChange()
+    {
+        var currentIndex = tabsView.currentIndex
+        nodeMasterModule.currentNetwork = networkTabsModel.get(currentIndex).net
+        console.log("[MasterNodeScreen] new current network: ", nodeMasterModule.currentNetwork, ", index: ", currentIndex)
+        var state = networkTabsModel.get(currentIndex).isMaster ? "IS_MASTER_SCREEN" : "DEFAULT_SCREEN"
+        if(dapMasterNodeScreen.state !== state)
+        {
+            dapMasterNodeScreen.state = state
         }
     }
 
@@ -264,6 +268,11 @@ Page
         function onNetworksListChanged()
         {
             updateNetworkTabs()
+        }
+        
+        function onMasterNodeCreated()
+        {
+            tryStateChange()
         }
     }
 }

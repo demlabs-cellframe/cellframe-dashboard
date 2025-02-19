@@ -1,37 +1,10 @@
 #include "DapModuleDiagnostics.h"
-#include <algorithm>
-#include <QJsonValue>
 
-namespace sendFlagsData
-{
-
-bool flagSendData;
-
-bool flagSendSysTime;
-bool flagSendDahsTime;
-bool flagSendMemory;
-bool flagSendMemoryFree;
-
-}
-
-DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *modulesCtrl, DapAbstractModule *parent)
+DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , s_serviceCtrl(&DapServiceController::getInstance())
-    , s_modulesCtrl(modulesCtrl)
 {
-    sendFlagsData::flagSendData       = m_settings.value("SendData").toBool();
-    sendFlagsData::flagSendSysTime    = m_settings.value("SendSysTime").toBool();
-    sendFlagsData::flagSendDahsTime   = m_settings.value("SendDahsTime").toBool();
-    sendFlagsData::flagSendMemory     = m_settings.value("SendMemory").toBool();
-    sendFlagsData::flagSendMemoryFree = m_settings.value("SendMemoryFree").toBool();
-    s_node_list_selected              = m_settings.value("s_node_list_selected").toJsonDocument();
-
-    s_uptime_timer = new QTimer();
-    connect(s_uptime_timer, &QTimer::timeout,
-            this, &DapModuleDiagnostics::slot_uptime,
-            Qt::QueuedConnection);
-
-    s_uptime_timer->start(1000);
+    s_flagSendData        = m_settings.value("SendData").toBool();
+    s_node_list_selected  = m_settings.value("s_node_list_selected").toJsonDocument();
 
     s_node_list_timer = new QTimer();
     connect(s_node_list_timer, &QTimer::timeout,
@@ -39,124 +12,56 @@ DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *modulesCtrl, Da
             Qt::QueuedConnection);
     s_node_list_timer->start(5000);
 
-    s_elapsed_timer = new QElapsedTimer();
-    s_elapsed_timer->start();
-
     s_thread = new QThread(this);
-
-#ifdef Q_OS_LINUX
-    m_diagnostic = new LinuxDiagnostic();
-#elif defined Q_OS_WIN
-    m_diagnostic = new WinDiagnostic();
-#elif defined Q_OS_MAC
-    m_diagnostic = new MacDiagnostic();
-#endif
-
+    m_diagnostic = new AbstractDiagnostic();
     m_diagnostic->moveToThread(s_thread);
     s_thread->start();
+
+    connect(m_diagnostic, &AbstractDiagnostic::diagtool_socket_change_status,
+            this, &DapModuleDiagnostics::slot_connect_status_changed,
+            Qt::QueuedConnection);
 
     connect(m_diagnostic, &AbstractDiagnostic::data_updated,
             this, &DapModuleDiagnostics::slot_diagnostic_data,
             Qt::QueuedConnection);
 
-    m_diagnostic->start_diagnostic();
-    m_diagnostic->start_write(sendFlagsData::flagSendData);
-
     m_diagnostic->set_node_list(s_node_list_selected);
     slot_update_node_list();
 
-    s_serviceCtrl->requestToService("DapVersionController", "version node");
-    connect(s_serviceCtrl, &DapServiceController::versionControllerResult, [=] (const QVariant& versionResult)
-    {
-        auto resultObject = QJsonDocument::fromJson(versionResult.toByteArray()).object();
-
-        QJsonObject obj_result = resultObject["result"].toObject();
-        if(obj_result["message"] == "Reply node version")
-            m_node_version = obj_result["lastVersion"].toString();
-    });
+    m_diagnostic->changeDataSending(s_flagSendData);
+    s_socketConnectStatus = m_diagnostic->getConnectDiagStatus();
+    emit socketConnectStatusChanged();
 }
 
 DapModuleDiagnostics::~DapModuleDiagnostics()
 {
-    delete s_uptime_timer;
-    delete s_elapsed_timer;
-
     s_thread->quit();
     s_thread->wait();
     delete m_diagnostic;
     delete s_thread;
 }
 
+void DapModuleDiagnostics::slot_connect_status_changed(bool status)
+{
+    s_socketConnectStatus = status;
+    if(s_socketConnectStatus)
+        m_diagnostic->changeDataSending(s_flagSendData);
+
+    emit socketConnectStatusChanged();
+}
+
 void DapModuleDiagnostics::slot_diagnostic_data(QJsonDocument data)
 {
-    //insert uptime dashboard into system info
-    QJsonObject obj = data.object();
-    QJsonObject system = data["system"].toObject();
-    QJsonObject sys_mem = system["memory"].toObject();
-    QJsonObject proc = data["process"].toObject();
-
-    system.insert("uptime_dashboard", s_uptime);
-
-    if(!sendFlagsData::flagSendDahsTime)
-        system.insert("uptime_dashboard", "blocked");
-    if(!sendFlagsData::flagSendSysTime)
-        system.insert("uptime", "blocked");
-    if(!sendFlagsData::flagSendMemory)
-        sys_mem.insert("total", "blocked");
-    if(!sendFlagsData::flagSendMemoryFree)
-        sys_mem.insert("free", "blocked");
-
-
-    system.insert("time_update_unix", QDateTime::currentSecsSinceEpoch());
-    system.insert("memory",sys_mem);
-    obj.insert("system",system);
-
-    if(proc["status"].toString() == "Offline") //if node offline - clear version
-        m_node_version = "";
-    else if(m_node_version.isEmpty())
-        s_serviceCtrl->requestToService("DapVersionController", "version node");
-
-    proc.insert("version", m_node_version);
-    obj.insert("process",proc);
-    data.setObject(obj);
-
-    m_diagnostic->s_full_info.setObject(obj);
-
-    // calculate sizes
-
-    if(sys_mem["total"].toString() != "blocked")
-        sys_mem.insert("total", m_diagnostic->get_memory_string(sys_mem["total"].toString().toUInt()));
-    if(sys_mem["free"].toString() != "blocked")
-        sys_mem.insert("free", m_diagnostic->get_memory_string(sys_mem["free"].toString().toUInt()));
-
-    proc.insert("memory_use_value", m_diagnostic->get_memory_string(proc["memory_use_value"].toString().toUInt()));
-    proc.insert("log_size", m_diagnostic->get_memory_string(proc["log_size"].toString().toUInt()));
-    proc.insert("DB_size", m_diagnostic->get_memory_string(proc["DB_size"].toString().toUInt()));
-    proc.insert("chain_size", m_diagnostic->get_memory_string(proc["chain_size"].toString().toUInt()));
-
-    system.insert("memory",sys_mem);
-    obj.insert("system",system);
-    obj.insert("process",proc);
-    data.setObject(obj);
-
     emit signalDiagnosticData(data.toJson()); // sig update gui local data
 }
 
-void DapModuleDiagnostics::slot_uptime()
-{
-    s_uptime = m_diagnostic->get_uptime_string(s_elapsed_timer->elapsed()/1000);
-}
 void DapModuleDiagnostics::slot_update_node_list()
 {
-#ifdef NETWORK_DIAGNOSTIC
     QJsonArray listNoMacInfo;
     QJsonDocument data = m_diagnostic->get_list_data(listNoMacInfo);
     QJsonDocument keys = m_diagnostic->get_list_keys(listNoMacInfo);
     try_update_data(keys, data);
     m_diagnostic->update_full_data();
-#else
-    try_update_data(m_diagnostic->get_list_nodes(), m_diagnostic->read_data());
-#endif
 }
 
 void DapModuleDiagnostics::try_update_data(const QJsonDocument list, const QJsonDocument data)
@@ -285,6 +190,11 @@ QByteArray DapModuleDiagnostics::dataSelectedNodes() const
     return s_data_selected_nodes.toJson();
 }
 
+QByteArray DapModuleDiagnostics::getDiagData() const
+{
+    return m_diagnostic->get_full_info().toJson();
+}
+
 int DapModuleDiagnostics::trackedNodesCount() const
 {
     return s_node_list_selected.array().count();
@@ -295,76 +205,25 @@ int DapModuleDiagnostics::allNodesCount() const
     return s_node_list.array().count();
 }
 
-
 bool DapModuleDiagnostics::flagSendData() const
 {
-    return sendFlagsData::flagSendData;
+    return s_flagSendData;
+}
+
+bool DapModuleDiagnostics::socketConnectStatus() const
+{
+    return s_socketConnectStatus;
 }
 
 void DapModuleDiagnostics::setflagSendData (const bool &flagSendData)
 {
-    if(sendFlagsData::flagSendData == flagSendData)
+    if(s_flagSendData == flagSendData)
         return;
 
-    sendFlagsData::flagSendData = flagSendData;
-    m_settings.setValue("SendData", flagSendData);
-    m_diagnostic->start_write(sendFlagsData::flagSendData);
+    s_flagSendData = flagSendData;
+
+    m_settings.setValue("SendData", s_flagSendData);
+    m_diagnostic->changeDataSending(s_flagSendData);
     emit flagSendDataChanged();
-}
-
-bool DapModuleDiagnostics::flagSendSysTime() const
-{
-    return sendFlagsData::flagSendSysTime;
-}
-
-void DapModuleDiagnostics::setFlagSendSysTime (const bool &flagSendSysTime)
-{
-    m_flag_stop_send_data = true;
-    sendFlagsData::flagSendSysTime = flagSendSysTime;
-    m_settings.setValue("SendSysTime", flagSendSysTime);
-    emit flagSendSysTimeChanged();
-    m_flag_stop_send_data = false;
-}
-
-bool DapModuleDiagnostics::flagSendDahsTime() const
-{
-    return sendFlagsData::flagSendDahsTime;
-}
-
-void DapModuleDiagnostics::setFlagSendDahsTime (const bool &flagSendDahsTime)
-{
-    m_flag_stop_send_data = true;
-    sendFlagsData::flagSendDahsTime = flagSendDahsTime;
-    m_settings.setValue("SendDahsTime", flagSendDahsTime);
-    emit flagSendDahsTimeChanged();
-    m_flag_stop_send_data = false;
-}
-
-bool DapModuleDiagnostics::flagSendMemory() const
-{
-    return sendFlagsData::flagSendMemory;
-}
-
-void DapModuleDiagnostics::setFlagSendMemory (const bool &flagSendMemory)
-{
-    m_flag_stop_send_data = true;
-    sendFlagsData::flagSendMemory = flagSendMemory;
-    m_settings.setValue("SendMemory", flagSendMemory);
-    emit flagSendMemoryChanged();
-    m_flag_stop_send_data = false;
-}
-
-bool DapModuleDiagnostics::flagSendMemoryFree() const
-{
-    return sendFlagsData::flagSendMemoryFree;
-}
-
-void DapModuleDiagnostics::setFlagSendMemoryFree (const bool &flagSendMemoryFree)
-{
-    m_flag_stop_send_data = true;
-    sendFlagsData::flagSendMemoryFree = flagSendMemoryFree;
-    m_settings.setValue("SendMemoryFree", flagSendMemoryFree);
-    emit flagSendMemoryFreeChanged();
-    m_flag_stop_send_data = false;
 }
 

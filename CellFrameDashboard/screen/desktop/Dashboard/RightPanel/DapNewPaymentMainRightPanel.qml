@@ -4,7 +4,9 @@ DapNewPaymentMainRightPanelForm
 {
     Component.onCompleted:
     {
-        walletModule.timerUpdateFlag(false);
+        loadIndicator.running = false
+        dapButtonSend.enabled = true
+
         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
@@ -12,7 +14,6 @@ DapNewPaymentMainRightPanelForm
             dapChainGroup.visible = false
 
         dapTextNotEnoughTokensWarning.text = ""
-        walletModule.startUpdateFee()
         balance.fullText = walletTokensModel.get(dapComboBoxToken.displayText).value
                          + " " + dapComboBoxToken.displayText
 
@@ -27,7 +28,6 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         txExplorerModule.statusProcessing = true
-        walletModule.timerUpdateFlag(true);
         pop()
     }
 
@@ -55,12 +55,6 @@ DapNewPaymentMainRightPanelForm
                 console.warn("An attempt to transfer tokens to your address.")
                 dapTextNotEnoughTokensWarning.text = qsTr("Error. An attempt to transfer tokens to your address.")
             }
-            else if (dapFeeController.currentValue === "")
-            {
-                console.warn("Need value of fee")
-                dapTextNotEnoughTokensWarning.text = qsTr("Need value of fee")
-            }
-
             else if (dapTextInputRecipientWalletAddress.text.length != 104 && dapTextInputRecipientWalletAddress.text != "null")
             {
                 console.log("Wrong address length")
@@ -83,11 +77,13 @@ DapNewPaymentMainRightPanelForm
                 }
                 else
                 {
+                    dapTextNotEnoughTokensWarning.text = ""
                     var data = {
-                    "network"      : dapComboboxNetwork.displayText,
-                    "amount"       : dapTextInputAmountPayment.text,
-                    "send_ticker"  : dapComboBoxToken.displayText,
-                    "wallet_name"  : walletInfo.name}
+                    "network"       : dapComboboxNetwork.displayText,
+                    "amount"        : dapTextInputAmountPayment.text,
+                    "send_ticker"   : dapComboBoxToken.displayText,
+                    "wallet_name"   : walletInfo.name,
+                    "validator_fee" : valueToFloat(dapFeeController.currentValue)}
 
                     var res = walletModule.approveTx(data);
 
@@ -95,18 +91,10 @@ DapNewPaymentMainRightPanelForm
                     case 0:
                         console.log("Correct tx data")
                         console.log("dapWalletMessagePopup.smartOpen")
-                        if(showNetFeePopup)
-                        {
-                            walletModule.stopUpdateFee()
-                            dapWalletMessagePopup.network = dapComboboxNetwork.displayText
-                            dapWalletMessagePopup.smartOpen(
-                                        qsTr("Confirming the transaction"),
-                                        qsTr("Attention, the transaction fee will be "))
-                        }
-                        else
-                        {
-                            dapWalletMessagePopup.signalAccept(true)
-                        }
+                        dapWalletMessagePopup.network = dapComboboxNetwork.displayText
+                        dapWalletMessagePopup.smartOpen(
+                                    qsTr("Confirming the transaction"),
+                                    qsTr("Attention, the transaction fee will be held "))
                         break;
                     case 1:
                         console.warn("Rcv fee error")
@@ -116,8 +104,11 @@ DapNewPaymentMainRightPanelForm
                     case 2:
                         console.warn("Not enough tokens")
                         dapTextNotEnoughTokensWarning.text =
-                            qsTr("Not enough available tokens. Maximum value with fee = %1. Enter a lower value. Current value = %2")
-                                .arg(res.availBalance).arg(dapTextInputAmountPayment.text)
+                            qsTr("Not enough available tokens. Maximum value with fee = %1.")
+                                .arg(res.availBalance)
+//                        dapTextNotEnoughTokensWarning.text =
+//                            qsTr("Not enough available tokens. Maximum value with fee = %1. Enter a lower value. Current value = %2")
+//                                .arg(res.availBalance).arg(dapTextInputAmountPayment.text)
                         break;
                     case 3:
                         console.warn("Not enough tokens for pay fee")
@@ -141,12 +132,6 @@ DapNewPaymentMainRightPanelForm
         }
     }
 
-    Component.onDestruction:
-    {
-        console.log("The right panel for transferring funds was closed")
-        walletModule.stopUpdateFee()
-    }
-
     dapWalletMessagePopup.onSignalAccept:
     {
         console.log("dapWalletMessagePopup.onSignalAccept", accept)
@@ -157,18 +142,15 @@ DapNewPaymentMainRightPanelForm
             //create tx
 
             var dataTx = {
-            "network"      : dapComboboxNetwork.displayText,
-            "amount"       : dapTextInputAmountPayment.text,
-            "send_ticker"  : dapComboBoxToken.displayText,
-            "wallet_from"  : walletInfo.name,
-            "wallet_to"    : dapTextInputRecipientWalletAddress.text}
+            "network"           : dapComboboxNetwork.displayText,
+            "amount"            : dapTextInputAmountPayment.text,
+            "send_ticker"       : dapComboBoxToken.displayText,
+            "wallet_from"       : walletInfo.name,
+            "wallet_to"         : dapTextInputRecipientWalletAddress.text,
+            "validator_fee"     : valueToFloat(dapFeeController.currentValue)}
 
             console.info(dataTx)
             walletModule.sendTx(dataTx)
-        }
-        else
-        {
-            walletModule.startUpdateFee()
         }
     }
 
@@ -178,7 +160,6 @@ DapNewPaymentMainRightPanelForm
         function onSigTxCreate(aResult)
         {
             commandResult = aResult
-            walletModule.timerUpdateFlag(true);
             if(aResult.toQueue)
             {
                 navigator.toQueueNewPayment()
@@ -187,6 +168,9 @@ DapNewPaymentMainRightPanelForm
             {
                 navigator.doneNewPayment()
             }
+
+            loadIndicator.running = false
+            dapButtonSend.enabled = true
         }
 
         function onTokenModelChanged()

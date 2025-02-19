@@ -3,6 +3,7 @@ import QtQml 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
+import Qt.labs.settings 1.0
 import "../../controls"
 import "qrc:/widgets"
 
@@ -27,6 +28,12 @@ ColumnLayout
         id: themeModel
         ListElement{name:"Dark Theme"}
         ListElement{name:"White Theme"}
+    }
+
+    ListModel{
+        id: selectModeModel
+        ListElement{name:"Local"}
+        ListElement{name:"Remote"}
     }
 
     Item
@@ -199,12 +206,254 @@ ColumnLayout
             font: mainFont.dapFont.medium12
             color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Node")
+            text: qsTr("Node connect mode")
+        }
+    }
+
+    //--------------custom switch---------------------//
+    Rectangle{
+        property int selectedItem: app.getNodeMode()
+
+        id: customModeSwitch
+        Layout.fillWidth: true
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.bottomMargin: 16
+        Layout.topMargin: 12
+        height: 32
+
+        border.color: currTheme.input
+        color: currTheme.mainBackground
+        radius: height * 0.5
+
+        Rectangle
+        {
+            id: firstItem
+            x: 4
+            anchors.verticalCenter: parent.verticalCenter
+            z: 1
+            color: parent.selectedItem ? "transparent"
+                                       : currTheme.mainButtonColorNormal1
+            radius: height * 0.5
+            width: parent.width / 2
+            height: parent.height - 8
+
+            Text
+            {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: firstItem.height
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: currTheme.white
+                font: mainFont.dapFont.medium14
+                text: qsTr("Local")
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    customModeSwitch.selectedItem = 0
+                    customModeSwitch.clickSwitchMode()
+                }
+            }
+        }
+
+        Rectangle
+        {
+            id: secondItem
+            x: 4 + firstItem.width
+            anchors.verticalCenter: parent.verticalCenter
+            z: 1
+            color: !parent.selectedItem ? "transparent"
+                                        : currTheme.mainButtonColorNormal0
+            radius: height * 0.5
+            width: parent.width / 2 - 8
+            height: parent.height - 8
+
+            Text
+            {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: secondItem.height
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: currTheme.white
+                font: mainFont.dapFont.medium14
+                text: qsTr("Remote")
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    customModeSwitch.selectedItem = 1
+                    customModeSwitch.clickSwitchMode()
+                }
+            }
+        }
+
+        function clickSwitchMode()
+        {
+            if(app.getNodeMode() !== customModeSwitch.selectedItem)
+            {
+                app.setNodeMode(customModeSwitch.selectedItem)
+                Qt.exit(RESTART_CODE)
+            }
+        }
+    }
+    //--------------custom switch---------------------//
+
+    Rectangle
+    {
+        visible: app.getNodeMode()
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("RPC node address")
         }
     }
 
     Item
     {
+        visible: app.getNodeMode()
+        height: 70
+        Layout.fillWidth: true
+
+        DapTextField
+        {
+            id: inputRpcAddress
+            anchors.fill: parent
+            anchors.margins: 16
+            placeholderText: "<ip_address:port> or <domain_name>"
+            text: app.getRPCAddress()
+            font: mainFont.dapFont.regular14
+            horizontalAlignment: Text.AlignLeft
+            borderWidth: 1
+            borderRadius: 4
+            selectByMouse: true
+
+            onTextChanged: {
+                setAddress.enabled = app.getRPCAddress() !== inputRpcAddress.text
+            }
+
+            DapContextMenu{}
+        }
+    }
+
+    RowLayout
+    {
+        Layout.fillWidth: true
+        Layout.margins: 16
+        Layout.topMargin: 0
+        height: 40
+        visible: app.getNodeMode()
+        spacing: 16
+
+        DapButton
+        {
+            id: setAddress
+
+            focus: false
+
+            Layout.fillWidth: true
+
+            Layout.minimumHeight: 26
+            Layout.maximumHeight: 26
+
+//            Layout.leftMargin: 16
+//            Layout.rightMargin: 16
+//            Layout.topMargin: 10
+//            Layout.bottomMargin: 20
+            enabled: app.getRPCAddress() !== inputRpcAddress.text
+
+            textButton: qsTr("Set")
+
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText: Text.AlignHCenter
+
+            onClicked:
+            {
+                app.setRPCAddress(inputRpcAddress.text)
+                resetAddress.enabled = app.getRPCAddress() !== "rpc.cellframe.net"
+                enabled = app.getRPCAddress() !== inputRpcAddress.text
+
+                dapMainWindow.infoItem.showInfo(
+                                            235, 0,
+                                            dapMainWindow.width * 0.5,
+                                            8,
+                                            qsTr("Address setting successful"),
+                                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+
+//                Qt.exit(RESTART_CODE)
+            }
+        }
+
+        DapButton
+        {
+            id: resetAddress
+
+            focus: false
+
+            Layout.fillWidth: true
+
+            Layout.minimumHeight: 26
+            Layout.maximumHeight: 26
+
+            enabled: app.getRPCAddress() !== "rpc.cellframe.net"
+
+            textButton: qsTr("Reset")
+
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText: Text.AlignHCenter
+
+            onClicked: {
+                app.resetRPCAddress()
+                inputRpcAddress.text = app.getRPCAddress()
+                resetAddress.enabled = app.getRPCAddress() !== "rpc.cellframe.net"
+
+                dapMainWindow.infoItem.showInfo(
+                                            230, 0,
+                                            dapMainWindow.width * 0.5,
+                                            8,
+                                            qsTr("Address reset successful"),
+                                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+
+//                Qt.exit(RESTART_CODE)
+            }
+        }
+    }
+
+    Rectangle
+    {
+        visible: !app.getNodeMode()
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Node service")
+        }
+    }
+
+    Item
+    {
+        visible: !app.getNodeMode()
         height: 60
         Layout.fillWidth: true
         RowLayout
@@ -238,23 +487,23 @@ ColumnLayout
                 borderColor: currTheme.reflectionLight
                 shadowColor: currTheme.shadowColor
 
-                checked: nodeConfigToolController.statusServiceNode
+                checked: cellframeNodeWrapper.nodeServiceLoaded
 
                 function toggle() {
-                    if(nodeConfigToolController.statusServiceNode)
-                        nodeConfigToolController.swithServiceEnabled(false)
+                    if(cellframeNodeWrapper.nodeServiceLoaded)
+                        cellframeNodeWrapper.disableNodeService()
                     else
-                        nodeConfigToolController.swithServiceEnabled(true)
+                        cellframeNodeWrapper.enableNodeService()
                 }
 
                 Connections
                 {
-                    target: nodeConfigToolController
-                    function onStatusServiceNodeChanged()
+                    target: cellframeNodeWrapper
+                    function onSignalServiceLoadedChange()
                     {
-                        if(switchTab.checked !== nodeConfigToolController.statusServiceNode)
+                        if(switchTab.checked !== cellframeNodeWrapper.nodeServiceLoaded)
                         {
-                            switchTab.checked = nodeConfigToolController.statusServiceNode
+                            switchTab.checked = cellframeNodeWrapper.nodeServiceLoaded
 
                             if (switchTab.state == "on" && !switchTab.checked)
                             {
@@ -287,28 +536,93 @@ ColumnLayout
         Layout.topMargin: 10
         Layout.bottomMargin: 20
 
-        visible: switchTab.checked && (CURRENT_OS !== "macos")
+        visible: !app.getNodeMode() ? switchTab.checked && (CURRENT_OS !== "macos") : false
 
-        textButton: nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
+        textButton:
+        {
+            if(app.getNodeMode() === 0)
+                return cellframeNodeWrapper.nodeRunning ? qsTr("Stop Node") : qsTr("Start Node")
+            return ""
+        }
 
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
         onClicked: {
-            if(nodeConfigToolController.statusProcessNode)
-                nodeConfigToolController.stopNode()
+            if(cellframeNodeWrapper.nodeRunning)
+                cellframeNodeWrapper.stopNode()
             else
-                nodeConfigToolController.startNode()
+                cellframeNodeWrapper.startNode()
         }
+    }
 
-//        Connections
-//        {
-//            target: nodeConfigToolController
-//            function onStatusProcessNodeChanged()
-//            {
-//                startStopNode.textButton = nodeConfigToolController.statusProcessNode ? qsTr("Stop Node") : qsTr("Start Node")
-//            }
-//        }
+    Rectangle
+    {
+        Layout.fillWidth: true
+        height: 30
+        color: currTheme.mainBackground
+        visible: false
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
+            color: currTheme.white
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Skin")
+        }
+    }
+
+    Settings
+    {
+        id: skinSettings
+        property string project_skin: ""
+
+        Component.onCompleted:
+        {
+            if(project_skin == "wallet")
+            {
+                skinSwitcher.setSelected("second")
+            }
+            else
+            {
+                skinSwitcher.setSelected("first")
+            }
+        }
+    }
+
+    DapSelectorSwitch
+    {
+        visible: false
+
+        id: skinSwitcher
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.topMargin: 10
+        Layout.bottomMargin: 20
+        height: 35
+        firstName: qsTr("Dashboard")
+        secondName: qsTr("Wallet")
+        firstColor: currTheme.green
+        secondColor: currTheme.red
+        itemHorisontalBorder: 16
+
+        onToggled:
+        {
+            var walletSkin = secondSelected
+            if (walletSkin)
+            {
+                skinSettings.setValue("project_skin", "wallet")
+                Qt.exit(RESTART_CODE)
+            }
+            else
+            {
+                skinSettings.setValue("project_skin", "dashboard")
+                Qt.exit(RESTART_CODE)
+            }
+        }
     }
 
     Connections

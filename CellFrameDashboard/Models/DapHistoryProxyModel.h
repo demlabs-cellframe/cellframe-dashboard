@@ -16,6 +16,16 @@ public:
     Q_INVOKABLE void setLastActions(bool flag);
     Q_INVOKABLE void setCurrentStatus(const QString& str);
     Q_INVOKABLE void setFilterString(const QString &str = "");
+
+    Q_PROPERTY(int count READ getCount WRITE countChanged)
+    Q_INVOKABLE int getCount(){return m_count;}
+    void resetCount();
+
+    Q_INVOKABLE int getLastDays(){return m_countLastDays;}
+
+signals:
+    void countChanged(int& count);
+
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
@@ -34,7 +44,12 @@ private:
     bool m_isRange = false;
     bool m_isLastActions = true;
 
+    void tryCountChanged();
+
+    mutable int m_lastCount = 0;
+    mutable int m_count = 0;
     mutable int m_countDays = 0;
+    mutable int m_countLastDays = 0;
     mutable QString m_tmpDataLastActions = "";
 
     const QString LAST_ACTIONS_TEXT = "LastActions";

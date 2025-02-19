@@ -4,6 +4,7 @@
 #include <QRegularExpression>
 #include "loginfo.h"
 #include "qqmlcontext.h"
+#include "DapDashboardPathDefines.h"
 
 #if defined (Q_OS_MACOS)
 #include "dap_common.h"
@@ -17,7 +18,6 @@ static LogModel *s_logModel = LogModel::global();
 
 DapModuleLog::DapModuleLog(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , m_modulesCtrl(parent)
     , m_logReader(new DapLogsReader(this))
     , m_timerCheckLogFile(new QTimer())
 //    , nodeLog(getNodeLogPath(), "cellframe-node", false)
@@ -25,39 +25,23 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
 //    , serviceLog(getBrandLogPath(), "Cellframe-DashboardService", true)
 //    , currentLog(&nodeLog)
 {
-    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("logModel", s_logModel);
+    m_modulesCtrl->getAppEngine()->rootContext()->setContextProperty("logModel", s_logModel);
 
-    connect(m_logReader, &DapLogsReader::sigLogUpdated, [=] {
+    connect(m_logReader, &DapLogsReader::sigLogUpdated, [this] {
         updateModel();
     });
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
-    {
-        m_configLog.first = LogType::NodeLog;
-        m_configLog.second = getLogFileName(getNodeLogPath(), m_configLog.first);
-        m_logReader->setLogType(m_configLog.second);
-        m_lastPath = m_configLog.second;
-        setStatusInit(true);
-        m_timerCheckLogFile->start(TIMEOUT_CHECK_FILE);
-    });
 
-    connect(s_serviceCtrl, &DapServiceController::exportLogs, [=] (const QVariant& rcvData)
+    connect(s_serviceCtrl, &DapServiceController::exportLogs, [this] (const QVariant& rcvData)
     {
         emit logsExported(rcvData.toBool());
     });
 
     connect(m_timerCheckLogFile, &QTimer::timeout, this, &DapModuleLog::checkLogFiles);
-//    nodeLog.updateLog();
-//    guiLog.updateLog();
-//    serviceLog.updateLog();
 
-//    guiLog.updateLines(3027, bufferSize);
-
-//    nodeLog.updateLines(0, bufferSize);
-//    guiLog.updateLines(0, bufferSize);
-//    serviceLog.updateLines(0, bufferSize);
-
-//    selectLog("Node");
+    selectLog("GUI");
+    setStatusInit(true);
+    m_timerCheckLogFile->start(TIMEOUT_CHECK_FILE);
 
 //    parseLine("[04/19/23-11:07:42] [DAP] [main] *** CellFrame Node version: 5-1.381 ***");
 //    parseLine("[04/24/23-13:48:22] [ERR] [dap_client_pvt] [cl:00000000329070f0] ENC: Can't init ecnryption session, err code 138\n");
@@ -116,8 +100,6 @@ void DapModuleLog::selectLog(const QString &name)
 
     if (name == "Node")
         m_configLog.first = LogType::NodeLog;
-    if (name == "Service")
-        m_configLog.first = LogType::ServiceLog;
     if (name == "GUI")
         m_configLog.first = LogType::GuiLog;
 
@@ -143,16 +125,13 @@ QString DapModuleLog::getLogPath(LogType type)
     case LogType::NodeLog:
         path = getLogFileName(getNodeLogPath(), type);
         break;
-    case LogType::ServiceLog:
-        path = getLogFileName(getBrandLogPath(), type);
-        break;
     case LogType::GuiLog:
         path = getLogFileName(getBrandLogPath(), type);
         break;
     default:
         break;
     }
-
+//    qDebug()<<"[DapModuleLog::getLogPath] " << path;
     return path;
 }
 
@@ -166,7 +145,6 @@ QString DapModuleLog::getLogFileName(QString folder, LogType type)
     QFileInfoList folderitems(currentFolder.entryInfoList());
 
     QString prefixFileName = type == LogType::NodeLog    ? "cellframe-node"
-                             : type == LogType::ServiceLog ? "Cellframe-DashboardService"
                                                            : "Cellframe-DashboardGUI";
 
     QDateTime maxData;
@@ -258,53 +236,12 @@ void DapModuleLog::updateLog()
 
 QString DapModuleLog::getNodeLogPath()
 {
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/opt/%1-node/var/log").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    QDir dirOld(QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log").arg(l_username));
-    QDir dirNew("/Applications/CellframeNode.app/Contents/Resources/var/log");
-
-    if(dirNew.exists())
-        return dirNew.absolutePath();
-    else
-        return dirOld.absolutePath();
-
-#elif defined (Q_OS_WIN)
-    return QString("%1/cellframe-node/var/log").arg(regWGetUsrPath());
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/var/log");
-#else
-    return QString();
-#endif
+    return Dap::DashboardDefines::CellframeNode::DAPMODULE_LOG;
 }
 
 QString DapModuleLog::getBrandLogPath()
 {
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    return QString("/var/log/%1-dashboard").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_WIN)
-    return QString("%1/%2/log").arg(regWGetUsrPath()).arg(DAP_BRAND);
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/var/log");
-#else
-    return QString();
-#endif
+    return Dap::DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG;
 }
 
 LogModel::Item DapModuleLog::parseLine(const QString &line)

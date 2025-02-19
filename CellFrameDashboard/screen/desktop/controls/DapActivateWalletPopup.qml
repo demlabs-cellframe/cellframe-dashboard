@@ -136,41 +136,34 @@ Item{
                 Layout.fillWidth: true
                 Layout.leftMargin: 18
                 Layout.rightMargin: 24
-                height: 69
+                height: 70
                 color: "transparent"
 
                 DapTextField
                 {
                     id: textInputPasswordWallet
-
-                    echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
-
-
-                    anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Password")
+
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignLeft
-                    anchors.fill: parent
-                    anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
-                    anchors.topMargin: 20
-                    anchors.bottomMargin: 29
-                    anchors.rightMargin: 24
-
                     validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
-//                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*]+/ }
+                    echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
+                    passwordChar: "•"
+                    height: 26
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.topMargin: 18
                     bottomLineVisible: true
-                    bottomLineSpacing: 8
-
-                    bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
-                    bottomLine.anchors.rightMargin: -24
-                    indicator.anchors.rightMargin: -24
-
+                    bottomLineSpacing: 5
+                    bottomLine.anchors.leftMargin: 8
+                    bottomLine.anchors.rightMargin: 0
+                    indicatorTopMargin: 2
                     indicatorVisible: true
                     indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
                     indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
                     indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
                     indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
-
                     selectByMouse: true
                     DapContextMenu{isActiveCopy: false}
                 }
@@ -338,17 +331,17 @@ Item{
                 enabled: textInputPasswordWallet.text.length
                 onClicked:
                 {
-                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"activate", textInputPasswordWallet.text, ttl)
-                    walletModule.getWalletsInfo("true")
-                    modulesController.updateListWallets()
-
+                    walletModule.activateOrDeactivateWallet(nameWallet,"activate", textInputPasswordWallet.text, ttl)
+                    walletModule.updateWalletList()
                 }
             }
 
             Connections{
                 target: dapServiceController
-                function onRcvActivateOrDeactivateReply(rcvData){
-                    if(rcvData.cmd === "activate")
+                function onRcvActivateOrDeactivateReply(jsonData)
+                {
+                    var rcvData = JSON.parse(jsonData).result
+                    if(rcvData.cmd !== "deactivate")
                     {
                         if(rcvData.success){
                             textInputPasswordWallet.bottomLine.color = currTheme.input
@@ -361,8 +354,11 @@ Item{
                                         8,
                                         qsTr("Wallet activated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletUnlocked.svg")
+                            walletModule.updateWalletInfo()
                             hide()
-                        }else{
+                        }
+                        else
+                        {
                             textInputPasswordWallet.bottomLine.color = currTheme.red
                             textError.visible = true
                             activatingSignal(nameWallet, false)

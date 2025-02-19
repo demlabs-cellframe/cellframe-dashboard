@@ -215,6 +215,7 @@ ColumnLayout {
 
     OrderTextBlock
     {
+        property bool percentIsSelected: false
         id: amount
         Layout.fillWidth: true
         Layout.topMargin: 12
@@ -225,7 +226,12 @@ ColumnLayout {
         border.color: isMToken(amount.textToken) ? currTheme.textColorYellow : currTheme.input
         onEdited:
         {
-            setPercentButtons(false, false, false, false)
+            if(amount.percentIsSelected)
+                amount.percentIsSelected = false
+            else
+            {
+                setPercentButtons(false, false, false, false)
+            }
 
             var tmpPriceValue = removeZerosAndDots(price.textValue)
             var tmpAmountValue = removeZerosAndDots(textValue)
@@ -264,19 +270,15 @@ ColumnLayout {
             selected: false
             onClicked:
             {
+                if(button25.selected)
+                {
+                    amount.textElement.text = ""
+                    total.textElement.text = ""
+                    return
+                }
+
                 setPercentButtons(true, false, false, false)
-
-                percentButtonClicked("0.25")
-
-                if(limitType === "STOP_LIMIT")
-                {
-                    amount.setRealValue(
-                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.25)
-                }
-                else
-                {
-                    setPercentValue("0.25")
-                }
+                calculatePersent("0.25")
             }
         }
 
@@ -292,19 +294,15 @@ ColumnLayout {
             selected: false
             onClicked:
             {
+                if(button50.selected)
+                {
+                    amount.textElement.text = ""
+                    total.textElement.text = ""
+                    return
+                }
+
                 setPercentButtons(false, true, false, false)
-
-                percentButtonClicked("0.5")
-
-                if(limitType === "STOP_LIMIT")
-                {
-                    amount.setRealValue(
-                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.5)
-                }
-                else
-                {
-                    setPercentValue("0.5")
-                }
+                calculatePersent("0.5")
             }
         }
 
@@ -320,19 +318,15 @@ ColumnLayout {
             selected: false
             onClicked:
             {
+                if(button75.selected)
+                {
+                    amount.textElement.text = ""
+                    total.textElement.text = ""
+                    return
+                }
+
                 setPercentButtons(false, false, true, false)
-
-                percentButtonClicked("0.75")
-
-                if(limitType === "STOP_LIMIT")
-                {
-                    amount.setRealValue(
-                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice) * 0.75)
-                }
-                else
-                {
-                    setPercentValue("0.75")
-                }
+                calculatePersent("0.75")
             }
         }
 
@@ -348,19 +342,15 @@ ColumnLayout {
             selected: false
             onClicked:
             {
+                if(button100.selected)
+                {
+                    amount.textElement.text = ""
+                    total.textElement.text = ""
+                    return
+                }
+
                 setPercentButtons(false, false, false, true)
-
-                percentButtonClicked("1.0")
-
-                if(limitType === "STOP_LIMIT")
-                {
-                    amount.setRealValue(
-                                (logicStock.selectedTokenBalanceWallet / candleChartWorker.currentTokenPrice))
-                }
-                else
-                {
-                    setPercentValue("1.0")
-                }
+                calculatePersent("1.0")
             }
         }
     }
@@ -400,7 +390,12 @@ ColumnLayout {
         visible: limitType !== "STOP_LIMIT"
         onEdited:
         {
-            setPercentButtons(false, false, false, false)
+            if(amount.percentIsSelected)
+                amount.percentIsSelected = false
+            else
+            {
+                setPercentButtons(false, false, false, false)
+            }
 
             var tmpPriceValue = removeZerosAndDots(price.textValue)
             var tmpAmountValue = removeZerosAndDots(textValue)
@@ -545,22 +540,61 @@ ColumnLayout {
 
     function setPercentButtons(sel25, sel50, sel75, sel100)
     {
+        if(sel25 || sel50 || sel75 || sel100)
+            amount.percentIsSelected = true
+
         button25.selected = sel25
         button50.selected = sel50
         button75.selected = sel75
         button100.selected = sel100
     }
 
+    function calculatePersent(percent)
+    {
+        var data = {
+        "network"      : dexModule.networkPair,
+        "percent"      : percent,
+        "send_ticker"  : sell ? amount.textToken : price.textToken,
+        "wallet_name"  : walletModule.currentWalletName}
+
+        var res = walletModule.calculatePrecentAmount(data);
+
+        if(sell)
+        {
+            amount.textElement.text = res
+            amount.textElement.cursorPosition = amount.textElement.length
+        }
+        else
+        {
+            total.textElement.text = res
+            total.textElement.cursorPosition = total.textElement.length
+        }
+    }
+
     function setStatusCreateButton(total_value, price_value)
     {
-        if(price_value === "0.0" || total_value === "0.0" || total_value === "" || price_value === "")
+        if(app.getNodeMode() || !modulesController.isNodeWorking)
             return false
 
+        if(price_value === "0.0" || total_value === "0.0" || total_value === "" || price_value === "")
+        {
+            return false
+        }
         return true
     }
     
     function removeZerosAndDots(inputString) 
     {
         return inputString.replace(/[0.]/g, '');
+    }
+
+    Connections
+    {
+        target: dexModule
+
+        function onCurrentRateFirstTime()
+        {
+            updateTokensField()
+        }
     }
 }

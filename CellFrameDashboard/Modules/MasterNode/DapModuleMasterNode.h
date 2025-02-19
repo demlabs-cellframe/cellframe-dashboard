@@ -6,25 +6,20 @@
 #include <QMap>
 #include <QList>
 #include <QVariantMap>
+#include <QMetaEnum>
 
 #include "DapServiceController.h"
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
-#include "ConfigWorker/configfile.h"
+#include "MasterNodeCommand/DapSrvStakeInvalidateStage.h"
+#include "MasterNodeCommand/DapStakeDelegate.h"
+#include "MasterNodeCommand/DapWaitingPermission.h"
+#include "MasterNodeCommand/DapUpdateConfigStage.h"
+#include "MasterNodeCommand/DapNodeDelStage.h"
+#include "DapMasterNodeKeys.h"
 
 class DapModuleMasterNode : public DapAbstractModule
 {
-    enum LaunchStage
-    {
-        CHECK_PUBLIC_KEY = 0,
-        UPDATE_CONFIG,
-        RESTARTING_NODE,
-        ADDINNG_NODE_DATA,
-        SENDING_STAKE,
-        SEND_FORM,
-        ORDER_VALIDATOR
-    };
-
     enum TransctionStage
     {
         UNKNOWN = 0,
@@ -72,6 +67,23 @@ class DapModuleMasterNode : public DapAbstractModule
 
     Q_OBJECT
 public:
+    enum LaunchStage
+    {
+        CHECK_PUBLIC_KEY = 0,
+        UPDATE_CONFIG,
+        RESTARTING_NODE,
+        ADDINNG_NODE_DATA,
+        SENDING_STAKE,
+        SEND_FORM,
+        ORDER_VALIDATOR,
+        ORDER_REMOVE,
+        BACK_CONFIG,
+        BACK_STAKE,
+        NODE_REMOVE
+    };
+    Q_ENUM(LaunchStage)
+
+public:
     explicit DapModuleMasterNode(DapModulesController *parent);
 
     Q_PROPERTY(QString stakeTokenName READ stakeTokenName NOTIFY currentNetworkChanged)
@@ -89,6 +101,9 @@ public:
 
     Q_PROPERTY(int creationStage READ creationStage NOTIFY creationStageChanged)
     int creationStage() const;
+
+    Q_PROPERTY(QString certNameFromStartMasterNode READ certNameFromStartMasterNode NOTIFY certNameFromStartMasterNodeChanged)
+    QString certNameFromStartMasterNode() const { return m_currentStartMaster.isEmpty() ? QString() : m_currentStartMaster[MasterNode::NETWORK_KEY].toString();}
 
     Q_INVOKABLE int startMasterNode(const QVariantMap& value);
 
@@ -116,7 +131,7 @@ public:
 
     Q_INVOKABLE QVariant getDataRegistration(const QString& nameData) const;
 
-    Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeStarted)
+    Q_PROPERTY(bool isRegistrationNode READ getIsRegistrationNode NOTIFY registrationNodeChanged)
     bool getIsRegistrationNode() const {return !m_startStage.isEmpty();}
 
     Q_PROPERTY(bool isSandingDataStage READ isSandingDataStage NOTIFY creationStageChanged)
@@ -125,7 +140,11 @@ public:
     Q_PROPERTY(bool isMasterNode READ isMasterNode NOTIFY masterNodeChanged)
     bool isMasterNode() const;
 
+    Q_PROPERTY(bool isStartRegistration READ isStartRegistration NOTIFY isStartRegistrationChanged)
+    bool isStartRegistration() const { return !m_currentStartMaster.contains(MasterNode::MASTER_NODE_TO_CENCEL_KEY); }
+
     Q_INVOKABLE QString getMasterNodeData(const QString& key);
+    Q_INVOKABLE QString getMasterNodeDataByNetwork(const QString& network, const QString& key);
 
     Q_INVOKABLE void moveCertificate(const QString& path = "");
     Q_INVOKABLE void moveWallet(const QString& path = "");
@@ -133,7 +152,7 @@ public:
     Q_INVOKABLE void createStakeOrderForMasterNode(const QString& fee, const QString& certName);
     Q_INVOKABLE bool isUploadCertificate();
     Q_INVOKABLE QList<int> getFullStepsLoader() const;
-    Q_INVOKABLE void stopAndClearRegistration();
+    Q_INVOKABLE void cencelRegistration();
     Q_INVOKABLE void continueRegistrationNode();
 
     Q_PROPERTY(int currentStage READ getCurrentStage NOTIFY creationStageChanged)
@@ -146,6 +165,7 @@ public:
     Q_INVOKABLE int getErrorMessage(){return m_errorCode;}
 signals:
     void currentNetworkChanged();
+    void certNameFromStartMasterNodeChanged();
     void currentWalletNameChanged();
     void creationStageChanged();
     void masterNodeCreated();
@@ -156,17 +176,18 @@ signals:
     void signatureChanged();
     void errorCreation(int numMessage = -1);
 
-    void registrationNodeStarted();
-    void registrationNodeStopped();
+    void registrationNodeChanged();
     void masterNodeChanged();
 
     void certMovedSignal(const int numMessage);
     void walletMovedSignal(const int numMessage);
 
     void createdStakeOrder(const bool& result);
+    void fullStageListUpdate();
+    void isStartRegistrationChanged();
+    void registrationCenceled();
 private slots:
     void respondCreateCertificate(const QVariant &rcvData);
-    void nodeRestart();
     void networkListUpdateSlot();
 
     void workNodeChanged();
@@ -174,15 +195,9 @@ private slots:
     void respondNetworkStatus(const QVariant &rcvData);
     void respondNodeListCommand(const QVariant &rcvData);
 
-    void respondStakeDelegate(const QVariant &rcvData);
-    void respondCheckStakeDelegate(const QVariant &rcvData);
-    void respondMempoolCheck(const QVariant &rcvData);
-    void respondListKeys(const QVariant &rcvData);
     void respondCreatedStakeOrder(const QVariant &rcvData);
     void respondMoveWalletCommand(const QVariant &rcvData);
 
-    void mempoolCheck();
-    void checkStake();
     void createStakeOrder();
 private:
     void createMasterNode();
@@ -191,6 +206,9 @@ private:
     void saveStageList();
     void loadStageList();
     void clearStageList();
+    void saveFullStagesList();
+    void loadFullStagesList();
+    void clearFullStagesList();
     void saveCurrentRegistration();
     void loadCurrentRegistration();
     void clearCurrentRegistration();
@@ -206,32 +224,33 @@ private:
     void tryStopCreationMasterNode(int code, const QString &message = "");
     void addNode();
 
-    void stakeDelegate();
-    void tryCheckStakeDelegate();
     void getInfoNode();
     void getNodeLIst();
 
-    void tryUpdateNetworkConfig();
     void tryRestartNode();
-    void startWaitingNode();
 
     void addNetwork(const QString &net);
     bool checkTokenName() const;
 
-    void startWaitingPermission();
-    void getListKeys();
-
     void finishRegistration();
+    void cenceledRegistration();
+
+    void setFullStageList(const QList<QPair<LaunchStage, int>>& stages);
 
     void createDemoNode();
     //    name     path
     QPair<QString, QString> parsePath(const QString& filePath, bool isCert = true);
-private:
-    DapModulesController  *m_modulesCtrl;
-    QTimer* m_checkStakeTimer = nullptr;
-    QTimer* m_listKeysTimer = nullptr;
 
-    QString m_currentNetwork = "raiden";
+    QString getStageString(LaunchStage stage) const;
+    QString launchStageString(LaunchStage value);
+private:
+    DapStakeDelegate* m_stakeDelegate = nullptr;
+    DapSrvStakeInvalidateStage* m_srvStakeInvalidate = nullptr;
+    DapWaitingPermission* m_waitingPermission = nullptr;
+    DapUpdateConfigStage* m_updateConfig = nullptr;
+    DapNodeDelStage* m_nodeDelStage = nullptr;
+
+    QString m_currentNetwork = "";
 
     QList<QVariantMap> m_startedMasterNodeList;
 
@@ -254,9 +273,6 @@ private:
     int m_errorStage = -1;
     int m_errorCode = -1;
 
-    const int TIME_OUT_CHECK_STAKE = 5000;
-    const int TIME_OUT_LIST_KEYS = 30000;
-
     const QMap<QString, QPair<QString, QString>> m_tokens = {{"Backbone", qMakePair(QString("mCELL"), QString("CELL"))},
                                                              {"KelVPN", qMakePair(QString("mKEL"), QString("KEL"))},
                                                              {"raiden", qMakePair(QString("mtCELL"), QString("tCELL"))},
@@ -266,6 +282,7 @@ private:
 
 
     QMap<QString, MasterNodeInfo> m_masterNodeInfo;
+    QList<QPair<LaunchStage, int>> m_currentFullStages;
 
     const QList<QPair<LaunchStage, int>> PATTERN_STAGE = {{LaunchStage::CHECK_PUBLIC_KEY, 0},
                                                           {LaunchStage::UPDATE_CONFIG, 1},
@@ -275,28 +292,4 @@ private:
                                                           {LaunchStage::SEND_FORM, 5},
                                                           {LaunchStage::ORDER_VALIDATOR, 6},
                                                           {LaunchStage::RESTARTING_NODE, 7}};
-
-    const QString STAKE_HASH_KEY = "stakeHash";
-    const QString QUEUE_HASH_KEY = "queueHash";
-
-    const QString IS_UPLOAD_CERT_KEY = "isUploadCert";
-    const QString CERT_NAME_KEY = "certName";
-    const QString CERT_SIGN_KEY = "sign";
-    const QString CERT_HASH_KEY = "certHash";
-    const QString CERT_PATH_KEY = "certPath";
-    const QString NODE_ADDR_KEY = "nodeAddress";
-    const QString WALLET_NAME_KEY = "walletName";
-    const QString WALLET_ADDR_KEY = "walletAddress";
-    const QString NETWORK_KEY = "network";
-    const QString FEE_KEY = "fee";
-    const QString FEE_TOKEN_KEY = "feeToken";
-    const QString NODE_IP_KEY = "nodeIP";
-    const QString PORT_KEY = "port";
-    const QString STAKE_VALUE_KEY = "stakeValue";
-    const QString STAKE_TOKEN_KEY = "stakeToken";
-    const QString STAKE_FEE_KEY = "stakeFee";
-
-    const QString CERT_LOGIC_KEY = "certLogic";
-
-    const QString MASTER_NODE_KEY = "master_node";
 };

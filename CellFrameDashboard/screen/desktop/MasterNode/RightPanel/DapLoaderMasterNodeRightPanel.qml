@@ -36,7 +36,11 @@ DapRectangleLitAndShaded
         qsTr("Publishing your node"),
         qsTr("Locking tokens"),
         qsTr("Requesting to become a master node"),
-        qsTr("Creating an order for the validator fee")
+        qsTr("Creating an order for the validator fee"),
+        qsTr("Deleting an order"),
+        qsTr("Returning the configuration settings"),
+        qsTr("Return of m-tokens"),
+        qsTr("Deleting a node")
     ]
 
     property var errorTexts: [
@@ -56,8 +60,10 @@ DapRectangleLitAndShaded
         qsTr("Couldn't copy the file."),
         qsTr("Other problems."),
         qsTr("The list of nodes has not been received."),
-        qsTr("Your node was not found in the list."),
-        qsTr("I couldn't add a node.")
+        qsTr("Node is not on the list yet. Please check its status in 15 seconds."),
+        qsTr("I couldn't add a node."),
+        qsTr("There was a problem with the return of tokens."),
+        qsTr("No stake invalidate hash found in the mempool.")
     ]
 
     ListModel
@@ -65,36 +71,7 @@ DapRectangleLitAndShaded
         id: stepsModel
         Component.onCompleted:
         {
-            if(!nodeMasterModule.isUploadCertificate())
-            {
-                loadingStagesText[0] = qsTr("Creating and verification a certificate")
-            }
-            var modelList = nodeMasterModule.getFullStepsLoader()
-
-            for(var i=0; i < modelList.length; ++i)
-            {
-                // @result:
-                // 0: no have
-                // 1: ok
-                // 2: error
-                append({name: loadingStagesText[modelList[i]],
-                           result: 0})
-            }
-
-            if(nodeMasterModule.currentStage > 0)
-            {
-                for( i = 0; i < nodeMasterModule.currentStage - 1; ++i)
-                {
-                    stepsModel.get(i).result = 1
-                }
-
-                if(nodeMasterModule.errorStage > -1)
-                {
-                    stepsModel.get(nodeMasterModule.errorStage).result = 2
-                    errorText.text = errorTexts[nodeMasterModule.errorMessage];
-                    state = "ERROR"
-                }
-            }
+            updateModelStage()
         }
     }
 
@@ -209,7 +186,14 @@ DapRectangleLitAndShaded
                 DapButton
                 {
                     id: cancelButton
-                    textButton: qsTr("Cancel")
+                    textButton: nodeMasterModule.isStartRegistration ? qsTr("Cancel") : qsTr("Ignore")
+                    enabled: {
+                        if(nodeMasterModule.creationStage === 4 && root.state === "ERROR")
+                        {
+                            return true;
+                        }
+                        return nodeMasterModule.creationStage !== 4
+                    }
                     anchors.left: parent.left
                     anchors.top: parent.top
                     implicitHeight: 36
@@ -220,8 +204,7 @@ DapRectangleLitAndShaded
                     selected: false
                     onClicked:
                     {
-                        nodeMasterModule.stopAndClearRegistration()
-                        dapRightPanel.push(baseMasterNodePanel)
+                        nodeMasterModule.cencelRegistration()
                     }
                 }
 
@@ -327,6 +310,50 @@ DapRectangleLitAndShaded
             {
                 stepsModel.get(nodeMasterModule.currentStage).result = 0
                 state = "PROCESSING"
+            }
+        }
+
+        function onFullStageListUpdate()
+        {
+            updateModelStage()
+        }
+
+        function onRegistrationCenceled()
+        {
+            dapRightPanel.push(baseMasterNodePanel)
+        }
+    }
+
+    function updateModelStage()
+    {
+        if(!nodeMasterModule.isUploadCertificate())
+        {
+            loadingStagesText[0] = qsTr("Creating and verification a certificate")
+        }
+        var modelList = nodeMasterModule.getFullStepsLoader()
+
+        for(var i=0; i < modelList.length; ++i)
+        {
+            // @result:
+            // 0: no have
+            // 1: ok
+            // 2: error
+            stepsModel.append({name: loadingStagesText[modelList[i]],
+                       result: 0})
+        }
+
+        if(nodeMasterModule.currentStage > 0)
+        {
+            for( i = 0; i < nodeMasterModule.currentStage - 1; ++i)
+            {
+                stepsModel.get(i).result = 1
+            }
+
+            if(nodeMasterModule.errorStage > -1)
+            {
+                stepsModel.get(nodeMasterModule.errorStage).result = 2
+                errorText.text = errorTexts[nodeMasterModule.errorMessage];
+                state = "ERROR"
             }
         }
     }

@@ -10,9 +10,14 @@ import "CreateOrder"
 
 Item
 {
+    property alias stockHome: stockHome
+
+    id: stockHome
     signal goToRightHome()
     signal goToDoneCreate()
+    signal goToDoneExchange()
     signal goToTokensList()
+    signal regularPairSwap()
 
     property string panelPath: ""
     property string tokensListPath: "CreateOrderLight/TokensListRightPanel.qml"
@@ -48,14 +53,15 @@ Item
 
         function onRcvXchangeCreate(rcvData)
         {
-            logicStock.resultCreate = rcvData
+            var jsonDoc = JSON.parse(rcvData)
+            logicStock.resultCreate = jsonDoc.result
             goToDoneCreate()
         }
 
         function onRcvXchangeOrderPurchase(rcvData)
         {
             logicStock.resultCreate = rcvData
-            goToDoneCreate()
+            goToDoneExchange()
         }
     }
 
@@ -67,6 +73,12 @@ Item
     {
         changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
+
+    onGoToDoneExchange:
+    {
+        changeRightPage("CreateOrder/OrderExchangeDone.qml")
+    }
+
     onGoToTokensList:
     {
         changeRightPage(tokensListPath)
@@ -117,7 +129,7 @@ Item
 
                 DapButton
                 {
-                    enabled: !modulesController.isNodeWorking ? false : walletModule.balanceDEX ? true : false
+                    enabled: !modulesController.isNodeWorking ? false : dexModule.balance ? true : false
                     id: createOrderButton
                     Layout.fillWidth: visible
                     implicitHeight: 36

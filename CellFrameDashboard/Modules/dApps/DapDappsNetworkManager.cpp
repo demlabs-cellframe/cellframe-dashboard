@@ -11,11 +11,21 @@ DapDappsNetworkManager::DapDappsNetworkManager(QString path, QString pathPlugins
     connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(onReconnect()));
 }
 
+DapDappsNetworkManager::~DapDappsNetworkManager()
+{
+    disconnect();
+    m_networkManager->disconnect();
+    m_networkManager->deleteLater();
+    m_currentReply->disconnect();
+    m_currentReply->deleteLater();
+    delete m_reconnectTimer;
+}
+
 void DapDappsNetworkManager::downloadFile(QString name)
 {
     QNetworkRequest request;
     request.setUrl(QUrl(m_path + name));
-
+    qDebug() << "[Test_build] [DapDappsNetworkManager] tryRequest";
     m_fileName = name;
     QString path = m_pathPlugins + "/download/" + m_fileName;
     m_file = new QFile(path);
@@ -54,12 +64,14 @@ void DapDappsNetworkManager::downloadFile(QString name)
 
 void DapDappsNetworkManager::onDownloadCompleted()
 {
+    qDebug() << "[Test_build] [DapDappsNetworkManager] onDownloadCompleted";
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     QString path = m_pathPlugins + "/download/" + m_fileName;
 
-    if (reply->error() == QNetworkReply::NoError)
+    if (reply->error() == QNetworkReply::NoError ||
+        reply->error() == QNetworkReply::ContentNotFoundError)
     {
         m_file->flush();
         m_file->close();
@@ -78,6 +90,7 @@ void DapDappsNetworkManager::onDownloadCompleted()
 
 void DapDappsNetworkManager::onReadyRead()
 {
+    qDebug() << "[Test_build] [DapDappsNetworkManager] onReadyRead";
     m_error = "Connected";
     if(m_file->exists())
     {
@@ -138,6 +151,11 @@ void DapDappsNetworkManager::cancelDownload(bool ok, bool reload)
     }
 }
 
+QString DapDappsNetworkManager::repoAddress() const
+{
+    return m_path;
+}
+
 void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 {
     QVariant statusCode = m_currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
@@ -153,7 +171,7 @@ void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 
         onDownloadProgress(0,0);
         //        else
-        }
+    }
 }
 
 void DapDappsNetworkManager::onReconnect()
@@ -190,18 +208,19 @@ void DapDappsNetworkManager::onUploadCompleted(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void DapDappsNetworkManager::getFiles()
+void DapDappsNetworkManager::fetchPluginsList()
 {
     QNetworkReply *reply;
     reply = m_networkManager->get(QNetworkRequest(QUrl(m_path)));
-    connect(reply, SIGNAL(finished()),this,SLOT(onFilesReceived()));
+    connect(reply, SIGNAL(finished()),this,SLOT(onPluginsListFetched()));
 }
 
-void DapDappsNetworkManager::onFilesReceived()
+void DapDappsNetworkManager::onPluginsListFetched()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
-    if (reply->error() == QNetworkReply::NoError)
+    if (reply->error() == QNetworkReply::NoError ||
+        reply->error() == QNetworkReply::ContentNotFoundError)
     {
         QByteArray content= reply->readAll();
         QTextCodec *codec = QTextCodec::codecForName("utf8");
@@ -221,5 +240,6 @@ void DapDappsNetworkManager::onFilesReceived()
 
     reply->deleteLater();
 
-    emit sigFilesReceived();
+    emit sigPluginsListFetched();
 }
+

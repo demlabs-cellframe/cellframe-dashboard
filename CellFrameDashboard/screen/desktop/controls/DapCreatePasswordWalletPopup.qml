@@ -1,4 +1,4 @@
-import QtQuick 2.4
+ import QtQuick 2.4
 import QtQml 2.12
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
@@ -39,7 +39,7 @@ Item
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 298
-        height: 279
+        height: 324
 
         color: currTheme.popup
         radius: currTheme.popupRadius
@@ -72,39 +72,91 @@ Item
             Rectangle
             {
                 Layout.fillWidth: true
-                Layout.leftMargin: 32
+                Layout.leftMargin: 26
                 Layout.rightMargin: 32
-                Layout.topMargin: 24
-                height: 24
+                height: 32
                 color: "transparent"
 
                 DapTextField
                 {
                     id: textInputPasswordWallet
-
-                    echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
-
-                    anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Password")
+
                     font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignLeft
-                    anchors.fill: parent
-                    anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0
-
-                    validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s\-]+/}
+                    validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
+                    echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
+                    passwordChar: "•"
+                    height: 24
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.topMargin: 21
                     bottomLineVisible: true
-                    bottomLineSpacing: 2
-
-                    bottomLine.anchors.leftMargin: echoMode === TextInput.Password && length ? 1 : 7
+                    bottomLineSpacing: 6
+                    bottomLine.anchors.leftMargin: 6
+                    bottomLine.anchors.rightMargin: 0
+                    indicatorTopMargin: 2
                     indicatorVisible: true
                     indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
                     indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
                     indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
                     indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
+                    selectByMouse: true
+                    DapContextMenu{isActiveCopy: false}
 
                     onTextChanged:
                     {
-                        text.length < 4 ? continueBtn.enabled = false : continueBtn.enabled = true
+                        if(textInputPasswordConfirmWallet.text == textInputPasswordWallet.text)
+                            text.length < 4 ? continueBtn.enabled = false : continueBtn.enabled = true
+                        else
+                            continueBtn.enabled = false
+                    }
+                }
+            }
+
+            Rectangle
+            {
+                Layout.fillWidth: true
+                Layout.leftMargin: 26
+                Layout.rightMargin: 32
+                height: 60
+                color: "transparent"
+
+                DapTextField
+                {
+                    id: textInputPasswordConfirmWallet
+                    placeholderText: qsTr("Password (Confirmation)")
+                    font: mainFont.dapFont.regular14
+                    horizontalAlignment: Text.AlignLeft
+                    validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s]+/}
+                    echoMode: indicator.isActive ? TextInput.Normal : TextInput.Password
+                    passwordChar: "•"
+                    height: 24
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.topMargin: 33
+                    bottomLineVisible: true
+                    bottomLineSpacing: 6
+                    bottomLine.anchors.leftMargin: 6
+                    bottomLine.anchors.rightMargin: 0
+                    indicatorTopMargin: 2
+                    indicatorVisible: true
+
+                    indicatorSourceDisabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHide.svg"
+                    indicatorSourceEnabled: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShow.svg"
+                    indicatorSourceDisabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeHideHover.svg"
+                    indicatorSourceEnabledHover: "qrc:/Resources/BlackTheme/icons/other/icon_eyeShowHover.svg"
+                    selectByMouse: true
+                    DapContextMenu{isActiveCopy: false}
+
+                    onTextChanged:
+                    {
+                        if(textInputPasswordConfirmWallet.text == textInputPasswordWallet.text)
+                            text.length < 4 ? continueBtn.enabled = false : continueBtn.enabled = true
+                        else
+                            continueBtn.enabled = false
                     }
                 }
             }
@@ -114,9 +166,9 @@ Item
                 id: textExpired
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignCenter
-                Layout.topMargin: 24
-                Layout.leftMargin: 38
-                Layout.rightMargin: 38
+                Layout.topMargin: 25
+                Layout.leftMargin: 32
+                Layout.rightMargin: 32
                 color: currTheme.white
                 text: qsTr("After confirmation, you will be required to enter your password every time you use the wallet")
                 font: mainFont.dapFont.regular14
@@ -161,14 +213,14 @@ Item
                     selected: true
                     onClicked:
                     {
-                        logicMainApp.requestToService("DapCreatePassForWallet", nameWallet, textInputPasswordWallet.text)
+                        walletModule.createPassword([nameWallet, textInputPasswordWallet.text])
                     }
                 }
             }
 
              Connections
              {
-                 target: dapServiceController
+                 target: walletModule
                  function onPasswordCreated(rcvData)
                  {
                      if(rcvData === "Success")
@@ -233,11 +285,17 @@ Item
 
     function show(name_wallet)
     {
+        if(textInputPasswordConfirmWallet.indicator.isActive)
+            textInputPasswordConfirmWallet.indicator.programClick()
+        if(textInputPasswordWallet.indicator.isActive)
+            textInputPasswordWallet.indicator.programClick()
+
         continueBtn.enabled = false
         textInputPasswordWallet.bottomLine.color = currTheme.input
         visible = true
         nameWallet = name_wallet
         textInputPasswordWallet.text = ""
+        textInputPasswordConfirmWallet.text = ""
         backgroundFrame.opacity = 0.4
         farmeActivate.opacity = 1
     }

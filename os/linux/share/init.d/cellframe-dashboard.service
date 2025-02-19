@@ -1,0 +1,15 @@
+[Unit]
+Description=Cellframe Dashboard Service
+After=network.target
+
+[Service]
+Type=forking
+OOMScoreAdjust=-1000
+#PIDFile=/opt/cellframe-dashboard/Cellframe-DashboardService.pid
+WorkingDirectory=/opt/cellframe-dashboard/
+ExecStart=/opt/cellframe-dashboard/bin/Cellframe-DashboardService -D
+ExecStop=/opt/cellframe-dashboard/bin/Cellframe-DashboardService --stop
+Restart=always
+
+[Install] 
+WantedBy=multi-user.target

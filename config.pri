@@ -1,5 +1,5 @@
-CONFIG += c++11
-QMAKE_CFLAGS += -std=gnu11
+CONFIG += c++17
+QMAKE_CFLAGS += -std=gnu17
 QMAKE_CFLAGS_DEBUG += -DDAP_DEBUG
 QMAKE_CXXFLAGS_DEBUG += -DDAP_DEBUG
 
@@ -13,8 +13,8 @@ VER_MAJ = $$fromfile(version.mk, VERSION_MAJOR)
 VER_MIN = $$fromfile(version.mk, VERSION_MINOR)
 VER_PAT = $$fromfile(version.mk, VERSION_PATCH)
 
-DEFINES += MIN_NODE_VERSION=\\\"5.3-277\\\"
-DEFINES += MAX_NODE_VERSION=\\\"5.3-277\\\"
+DEFINES += MIN_NODE_VERSION=\\\"5.3-343\\\"
+DEFINES += MAX_NODE_VERSION=\\\"5.3-348\\\"
 
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe
@@ -32,14 +32,10 @@ unix {
     linux-* {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
-		CONFIG(debug, debug|release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_rwd/dist/
-    	CONFIG(release, debug|release) SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_release/dist/
+        CONFIG(release, debug|release) SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_release/dist/
+        CONFIG(debug, debug|release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_linux_rwd/dist/
 
         DEFINES += DAP_OS_LINUX _GNU_SOURCE \
-	    CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\" \
-	    DAP_PATH_PREFIX=\\\"/opt/$${BRAND_BASE_LO}\\\" \
-	    LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\" \
-	    DATA_PATH=\\\"/opt/$${BRAND_LO}/data/\\\" \
 	    DAP_VERSION=\\\"$$VERSION\\\"
 
 
@@ -76,10 +72,19 @@ unix {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
         CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_release/dist/
-		CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_rwd/dist/
+        CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_osx_rwd/dist/
 
         DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
+    }
+
+    android {
+        VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
+        
+        DEFINES += DAP_VERSION=\\\"$$VERSION\\\" DAP_OS_ANDROID DAP_OS_LINUX
+
+        CONFIG(debug, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_android_debug/$$QT_ARCH/dist/
+        CONFIG(release, debug | release): SDK_INSTALL_PATH = $$OUT_PWD/../cellframe-sdk/build_android_release/$$QT_ARCH/dist/
     }
 }
 

@@ -26,7 +26,7 @@ QtObject {
     readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
 
-    property bool stateNotify: false
+    property bool stateNotify: true
 
     property string lastVersion
     property bool hasUpdate
@@ -193,60 +193,6 @@ QtObject {
         }
     }
 
-
-    function rcvNetList(networksList)
-    {
-//        console.log("net list rcv", networksList, dapNetworkModel.count, networksList.length)
-        if (!networksList.length)
-            console.error("networksList is empty")
-        else
-        {
-            var nameIndex = -1
-
-            for (var i = 0; i < networksList.length; ++i)
-            {
-//                dapNetworkModel.append({ "name" : networksList[i]})
-                if (networksList[i] === currentNetworkName)
-                    nameIndex = i
-            }
-
-            if (nameIndex >= 0)
-                currentNetwork = nameIndex
-
-            if (networksModel.count !== networksList.length || !stateNotify)
-            {
-                logicMainApp.requestToService("DapGetNetworksStateCommand")
-            }
-
-            if (dapNetworkModel.count !== networksList.length)
-            {
-                console.log("rcvNetList", "currentNetworkName", currentNetworkName)
-
-                console.info("dapNetworkModel.count", dapNetworkModel.count,
-                             "networksList.length", networksList.length)
-
-                if (currentNetwork === -1)
-                {
-                    dapServiceController.setCurrentNetwork(networksList[0]);
-                    dapServiceController.setIndexCurrentNetwork(0);
-                    currentNetwork = dapServiceController.IndexCurrentNetwork
-                }
-                else
-                {
-                    dapServiceController.setCurrentNetwork(networksList[currentNetwork]);
-                    dapServiceController.setIndexCurrentNetwork(currentNetwork);
-                }
-
-                dapNetworkModel.clear()
-                for (var i = 0; i < networksList.length; ++i)
-                    dapNetworkModel.append({ "name" : networksList[i]})
-
-//                console.info("Current network:", dapServiceController.CurrentNetwork)
-            }
-
-        }
-    }
-
     function rcvPlugins(m_pluginsList)
     {
         dapModelPlugins.clear()
@@ -259,13 +205,27 @@ QtObject {
     }
 
     function rcvTokens(tokensList)
-    {       
+    {
         if(tokensList !== "isEqual")
         {
             var jsonDocument = JSON.parse(tokensList)
             var result = jsonDocument.result
             dapModelTokens.clear()
             dapModelTokens.append(result)
+
+            for(var i = 0; i < dapModelTokens.count; i++)
+            {
+                for(var j = 0; j < dapModelTokens.get(i).tokens.count; j++)
+                {
+                    var itm = dapModelTokens.get(i).tokens.get(j).name
+                    if(itm === "BUSD" || itm === "USDT")
+                    {
+                        dapModelTokens.get(i).tokens.remove(j)
+
+                    }
+                }
+            }
+
 //            console.log(tokensList)
             modelTokensUpdated()
         }
@@ -365,27 +325,25 @@ QtObject {
 //        }
 //    }
 
-    function rcvStateNotify(isError, isFirst)
+    function rcvStateNotify(state)
     {
         messagePopup.dapButtonCancel.visible = false
         messagePopup.dapButtonOk.textButton = "Ok"
 
-        if(isError)
+        if(stateNotify !== state)
         {
-            if(isFirst)
-                messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
-            console.warn("ERROR NOTIFY SOCKET")
-            stateNotify = false
-        }
-        else
-        {
-            messagePopup.close()
-            if(isFirst)
-                console.info("CONNECT TO NOTIFY SOCKET")
+            stateNotify = state
 
-            if(!stateNotify) //TODO with notify
-                logicMainApp.requestToService("DapGetNetworksStateCommand")
-            stateNotify = true
+            if(!state)
+            {
+                messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
+                console.warn("ERROR NOTIFY SOCKET")
+            }
+            else
+            {
+                messagePopup.close()
+                console.info("CONNECT TO NOTIFY SOCKET")
+            }
         }
     }
 
@@ -493,24 +451,11 @@ QtObject {
     function updateDashboard()
     {
         Qt.openUrlExternally(urlDownload);
-//        dapServiceController.requestToService("DapVersionController", "update")
-//        updatingDashboard("The update process has started.")
     }
 
     function updateNode()
     {
-//        dapServiceController.requestToService("DapVersionController", "update")
-//        updatingDashboard("The update process has started.")
     }
-
-//    function updatingDashboard(message)
-//    {
-//        messagePopupVersion.dapButtonCancel.visible = false
-//        messagePopupVersion.dapButtonOk.textButton = "Ok"
-//        messagePopupVersion.smartOpen("New version", qsTr(message))
-
-//        delay(5000,function() {Qt.quit()} )
-//    }
 
     function delay(delayTime, cb) {
         timer.interval = delayTime;

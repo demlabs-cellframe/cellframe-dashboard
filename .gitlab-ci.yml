@@ -83,7 +83,10 @@ publish-linux:
     - amd64:debian 
     - arm64:debian
   script: 
-    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.deb --redirect-from linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*amd64.deb --redirect-with-link linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*arm64.deb --redirect-with-link linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-arm64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*amd64.deb --redirect-from linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*arm64.deb --redirect-from linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.arm64 --just-redirect
     - anybadge -l "pub linux" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
     - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
     
@@ -92,7 +95,8 @@ publish-windows:
   needs: 
     - amd64:windows 
   script: 
-    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-from windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-with-link windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-from windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
     - anybadge -l "pub windows" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
     - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg    
 
@@ -101,6 +105,7 @@ publish-macos:
   needs: 
     - amd64:macos
   script: 
-    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.pkg --redirect-from macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.pkg --redirect-with-link macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.pkg --redirect-with-link macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
     - anybadge -l "pub macos" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
-    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg    
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg

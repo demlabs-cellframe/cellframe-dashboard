@@ -1,7 +1,9 @@
 #include "dapvpnorderscontroller.h"
 
 DapVPNOrdersController::DapVPNOrdersController()
+    :QObject()
 {
+    qDebug() << "[vpn_url] init";
     manager = new QNetworkAccessManager(this);
     request.setUrl(QUrl("http://cdb0.kelvpn.com/nodelist"));
     retryConnection();
@@ -9,6 +11,7 @@ DapVPNOrdersController::DapVPNOrdersController()
 
 void DapVPNOrdersController::VPNOrdersReplyFinished()
 {
+    qDebug() << "[vpn_url] reply finished";
     disconnect(reply, &QNetworkReply::finished, this, &DapVPNOrdersController::VPNOrdersReplyFinished);
     this->disconnect(reply, SIGNAL(error(QNetworkReply::NetworkError)));
 
@@ -23,6 +26,7 @@ void DapVPNOrdersController::VPNOrdersReplyFinished()
 
 void DapVPNOrdersController::connectionError(QNetworkReply::NetworkError code)
 {
+    qDebug() << "[vpn_url] reply error";
     isError = true;
     disconnect(reply, &QNetworkReply::finished, this, &DapVPNOrdersController::VPNOrdersReplyFinished);
     this->disconnect(reply, SIGNAL(error(QNetworkReply::NetworkError)));
@@ -32,6 +36,7 @@ void DapVPNOrdersController::connectionError(QNetworkReply::NetworkError code)
 
 void DapVPNOrdersController::retryConnection()
 {
+    qDebug() << "[vpn_url] get reply";
     isError = false;
     reply = manager->get(request);
 

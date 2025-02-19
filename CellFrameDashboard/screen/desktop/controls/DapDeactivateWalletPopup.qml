@@ -107,16 +107,17 @@ Item{
                 fontButton: mainFont.dapFont.medium14
                 onClicked:
                 {
-                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet, "deactivate")
-                    walletModule.getWalletsInfo("true")
-                    modulesController.updateListWallets()
+                    walletModule.activateOrDeactivateWallet(nameWallet, "deactivate")
+                    walletModule.updateWalletList()
                     buttonLock.enabled = false
                 }
             }
 
             Connections{
                 target: dapServiceController
-                function onRcvActivateOrDeactivateReply(rcvData){
+                function onRcvActivateOrDeactivateReply(jsonData)
+                {
+                    var rcvData = JSON.parse(jsonData).result
                     if(rcvData.cmd !== "activate")
                     {
                         if(rcvData.success){
@@ -127,8 +128,11 @@ Item{
                                         8,
                                         qsTr("Wallet deactivated"),
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletLocked.svg")
+                            walletModule.updateWalletInfo()
                             hide()
-                        }else{
+                        }
+                        else
+                        {
                             console.log("Error deactivating wallet:", JSON.stringify(rcvData.message))
                             deactivatingSignal(nameWallet, false)
                             dapMainWindow.infoItem.showInfo(

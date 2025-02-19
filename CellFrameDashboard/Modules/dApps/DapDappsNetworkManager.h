@@ -18,12 +18,14 @@ class DapDappsNetworkManager : public QWidget
 
 public:
     explicit DapDappsNetworkManager(QString path, QString pathPlugins, QWidget *parent = nullptr);
-
+    ~DapDappsNetworkManager();
     void downloadFile(QString name);
     void uploadFile();
-    void getFiles();
+    void fetchPluginsList();
 
     void cancelDownload(bool ok, bool reload);
+
+    QString repoAddress() const;
 
 private slots:
     void onDownloadCompleted();
@@ -32,14 +34,14 @@ private slots:
     void onDownloadError(QNetworkReply::NetworkError);
 
     void onUploadCompleted(QNetworkReply *reply);
-    void onFilesReceived();
+    void onPluginsListFetched();
 
     void onReconnect();
 
 
 public:
 
-    QNetworkAccessManager * m_networkManager;
+    QNetworkAccessManager * m_networkManager = nullptr;
     QString m_path;
     QString m_pathPlugins;
     QString m_fileName;
@@ -61,7 +63,7 @@ signals:
 
     void sigAborted();
     void sigUploadCompleted();
-    void sigFilesReceived();
+    void sigPluginsListFetched();
 
 };
 

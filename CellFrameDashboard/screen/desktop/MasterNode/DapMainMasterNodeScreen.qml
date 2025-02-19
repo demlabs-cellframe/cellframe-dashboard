@@ -23,24 +23,22 @@ Item
             body: qsTr("A home PC, a VPS or a Raspberry Pi will be suitable.
 A mechanism has been developed to track the participation of master nodes in the consensus, which takes into account inaccessible nodes at the time of voting. Despite this, your node must be online 24/7, otherwise it will not earn validators fees.")
         }
-        ListElement
-        {
-            head: qsTr("— Linux OS or MacOS")
-            body: qsTr("At the moment, it is possible to set up a master node on Linux and MacOS. In the future, support for Windows and Android will be added as well.")
-        }
+
         ListElement
         {
             head: qsTr("— A public IP address")
             body: qsTr("While it is possible to use a private IP address, this will complicate the maintenance process. In the case of a private one, tracking of IP address changes will be required, as well as timely updates to the public node list. Otherwise, the node will not participate in consensus and will not earn validators fees.")
         }
+
         ListElement
         {
             head: qsTr("— IPv4 protocol")
             body: qsTr("The option to use an IP address with IPv6 protocol will be implemented in the future.")
         }
+
         ListElement
         {
-            head: qsTr("— Your Backbone wallet balance must have")
+            head: qsTr("— Your wallet balance must have")
             body: ""
         }
     }
@@ -112,6 +110,7 @@ A mechanism has been developed to track the participation of master nodes in the
         horizontalAligmentText: Text.AlignHCenter
         indentTextRight: 0
         fontButton: mainFont.dapFont.medium14
+        enabled: !nodeMasterModule.isRegistrationNode
         onClicked:
         {
             dapRightPanel.push(startMasterNodePanel)
@@ -120,6 +119,13 @@ A mechanism has been developed to track the participation of master nodes in the
 
     function updateText()
     {
+        var currentNetwork = nodeMasterModule.currentNetwork
+
+        if(currentNetwork === "KelVPN")
+            variableText = qsTr("At least 100000 $%1 ready for staking or at least 100 %2 (received for prior stakes in total of at least 100000 $%1)")
+        else
+            variableText = qsTr("At least 10000 $%1 ready for staking or at least 10 %2 (received for prior stakes in total of at least 10000 $%1)")
+
         textBlocks.get(textBlocks.count-1).body = variableText.arg(currentMainToken).arg(currentStakeToken)
     }
 }

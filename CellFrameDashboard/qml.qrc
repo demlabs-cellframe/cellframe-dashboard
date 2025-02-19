@@ -206,6 +206,7 @@
         <file>screen/desktop/Stock/parts/OrderBook/OrderBookDelegate.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderTextBlock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreateDone.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder/OrderExchangeDone.qml</file>
         <file>screen/desktop/Tokens/TokensTab.qml</file>
         <file>screen/desktop/Tokens/TokensScreen.qml</file>
         <file>screen/desktop/Tokens/logic/LogicTokens.qml</file>
@@ -359,6 +360,7 @@
         <file>screen/desktop/Orders/Parts/DapOrdersGridView.qml</file>
         <file>screen/desktop/Orders/Parts/DapOrderHeader.qml</file>
         <file>screen/desktop/controls/DapWalletsControllerPopup.qml</file>
+        <file>screen/desktop/controls/DapWalletsDuplicatePopup.qml</file>
         <file>Resources/BlackTheme/icons/other/remove_wallet.svg</file>
         <file>Resources/BlackTheme/icons/other/delete_button.svg</file>
         <file>Resources/BlackTheme/icons/other/delete_button_hover.svg</file>
@@ -403,10 +405,14 @@
         <file>Resources/BlackTheme/icons/other/unlock_hover_20.svg</file>
         <file>screen/desktop/MasterNode/RightPanel/DapBaseMasterNodeRightPanel.qml</file>
         <file>Resources/BlackTheme/icons/other/loader_orange.svg</file>
+        <file>Resources/BlackTheme/icons/other/disabled-node_icon.svg</file>
         <file>screen/desktop/controls/DapLoadingPanel.qml</file>
         <file>screen/desktop/controls/DapLoadingTopPanel.qml</file>
         <file>screen/desktop/MasterNode/RightPanel/DapCreateOrderMasterNode.qml</file>
         <file>Resources/BlackTheme/icons/other/no_icon.svg</file>
         <file>screen/desktop/controls/DapNodeVersionPopup.qml</file>
+        <file>screen/desktop/MasterNode/parts/DapStringInfoMasterNode.qml</file>
+        <file>screen/desktop/controls/DapFirstSelectMode.qml</file>
+        <file>screen/desktop/controls/DapUpdateButton.qml</file>
     </qresource>
 </RCC>

@@ -167,6 +167,7 @@ Item
         y: mainItem.height - height*(1/scale-1)*0.5
 
         width: mainItem.width
+
         height: popupListView.contentHeight < maximumPopupHeight ?
                     popupListView.contentHeight : maximumPopupHeight
 
@@ -294,7 +295,6 @@ Item
         if(popupListView.count !== walletModelList.count) {
             console.log("[BrokenWallet]", "setCurrentIndex.", "Different models. Repeat wallets request.", "spinner ON")
             dashboardTab.state = "WALLETDEFAULT"
-            walletModule.getWalletsInfo("true")
 //            logicWallet.spiner = true
         } else {
             console.log("[BrokenWallet]", "setCurrentIndex.", "Models is equal.", "spinner OFF")

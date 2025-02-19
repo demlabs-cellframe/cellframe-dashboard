@@ -49,7 +49,7 @@ Item {
             anchors.fill: rPopup
             source: rPopup
             color: currTheme.reflection
-            horizontalOffset: 0.5
+            horizontalOffset: 1
             verticalOffset: 1
             radius: 0
             samples: 20
@@ -108,6 +108,7 @@ Item {
 
         //Buttons
         RowLayout {
+            visible: app.getNodeMode() === 0 //local
             id:buttonsLayout
             Layout.fillWidth: true
             Layout.leftMargin: 2
@@ -118,15 +119,15 @@ Item {
             DapInfoButton {
                 id: buttonSync
                 enabled: false
+                isFakeStateButton: false
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 isSynch: true
                 onClicked:
                 {
-                    logicMainApp.requestToService("DapNetworkSingleSyncCommand", name)
-
-                    if(!USING_NOTIFY || !logicMainApp.stateNotify)
-                        logicMainApp.requestToService("DapGetNetworksStateCommand")
+                    buttonSync.updateFakeButton(true)
+                    networksModule.goSync(networkName)
+                    logicNet.delay(800, function(){buttonSync.updateFakeButton(false)})
                 }
             }
 
@@ -141,22 +142,24 @@ Item {
                     console.log("onClicked on/off network")
                     buttonNetwork.updateFakeButton(true)
                     if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
-                        logicMainApp.requestToService("DapNetworkGoToCommand", name, true)
+                        networksModule.goOnline(networkName)
                     else
-                        logicMainApp.requestToService("DapNetworkGoToCommand", name, false)
-
-                    if(!USING_NOTIFY || !logicMainApp.stateNotify)
-                        logicMainApp.requestToService("DapGetNetworksStateCommand")
+                        networksModule.goOffline(networkName)
                 }
 
                 function setText()
                 {
-                    console.log("setText()")
-                    buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
-                    if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
-                        buttonNetwork.textBut = qsTr("On network")
-                    else
-                        buttonNetwork.textBut = qsTr("Off network")
+                    if(!app.getNodeMode())
+                    {
+                        logicNet.delay(300, function(){
+                            if(buttonNetwork) buttonNetwork.updateFakeButton(false)
+                        })
+    //                    buttonNetwork.updateFakeButton(false)//buttonNetwork.isFakeStateButton = false;
+                        if (targetState !== "NET_STATE_ONLINE" && networkState !== "NET_STATE_ONLINE" )
+                            buttonNetwork.textBut = qsTr("On network")
+                        else
+                            buttonNetwork.textBut = qsTr("Off network")
+                    }
                 }
             }
         }
@@ -253,7 +256,7 @@ Item {
             Layout.preferredHeight: 15
 
             staticText.text: qsTr("Address: ")
-            dynamicText.text: nodeAddress + " "
+            dynamicText.text: address + " "
 
             DapCopyButton
             {
@@ -264,8 +267,7 @@ Item {
 
                 onCopyClicked:
                 {
-                    clipboard.setText(nodeAddress)
-
+                    clipboard.setText(address)
                 }
             }
         }
@@ -283,7 +285,7 @@ Item {
         DapNetworkNameStatusComponent
         {
             id: nameAndStatus
-            nameOfNetwork: name
+            nameOfNetwork: networkName
             stateOfNetwork: networkState
             stateOfTarget: targetState
             percentOfSync: syncPercent

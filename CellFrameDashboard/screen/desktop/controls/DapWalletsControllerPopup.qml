@@ -320,6 +320,7 @@ Item{
 
     function show()
     {
+        walletModule.updateWalletList()
         visible = true
         backgroundFrame.opacity = 0.56
         walletsFrame.opacity = 1

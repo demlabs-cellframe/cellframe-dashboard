@@ -1,88 +1,129 @@
 #include "AbstractDiagnostic.h"
+#include "httplib.h"
 
-#include <QNetworkAccessManager>
-#include <QHttpPart>
-#include <QHttpMultiPart>
-#include <QNetworkReply>
-#include <QJsonDocument>
+#ifdef _WIN32
+#define IGNORE_SIGPIPE()
+#else
+#include <iostream>
+#include <csignal>
+#define IGNORE_SIGPIPE() std::signal(SIGPIPE, SIG_IGN)
+#endif
 
-#include "NodePathManager.h"
-
-static QString group = "global.users.statistic";
+const QString NETWORK_ADDR = "https://telemetry.cellframe.net";
+static httplib::Client httpClient(NETWORK_ADDR.toStdString());
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     :QObject(parent)
-    , s_timer_update(new QTimer())
-    , s_timer_write(new QTimer())
-#ifdef NETWORK_DIAGNOSTIC
     , m_jsonListNode(new QJsonDocument())
     , m_jsonData(new QJsonDocument())
-    , m_manager(new QNetworkAccessManager())
-#endif
 {
-    nodeCli     = NodePathManager::getInstance().nodePaths.nodePath_cli;
-    nodePath    = NodePathManager::getInstance().nodePaths.nodePath;
-    nodeDirPath = NodePathManager::getInstance().nodePaths.nodeDirPath;
+    IGNORE_SIGPIPE();
 
+    m_diagConnectCtrl = new DiagtoolConnectCotroller();
+    initJsonTmpl();
 
-    connect(s_timer_write, &QTimer::timeout,
-            this, &AbstractDiagnostic::write_data,
-            Qt::QueuedConnection);
+    s_elapsed_timer = new QElapsedTimer();
+    s_elapsed_timer->start();
 
-    s_mac = get_mac();
-
-#ifdef NETWORK_DIAGNOSTIC
-
-    connect(m_manager, &QNetworkAccessManager::finished, this, &AbstractDiagnostic::on_reply_finished);
-#endif
-
-    qInfo() << "Current MAC" << s_mac.toString();
+    connect(this, &AbstractDiagnostic::sig_telemetry_data_rcv, this, &AbstractDiagnostic::on_telemetry_data_rcv);
+    connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalDataRcv, this, &AbstractDiagnostic::rcv_diag_data);
+    connect(m_diagConnectCtrl,  &DiagtoolConnectCotroller::signalSocketChangeStatus,this, [this](bool status)
+    {
+        emit diagtool_socket_change_status(status);
+    });
 }
 
 AbstractDiagnostic::~AbstractDiagnostic()
 {
-    delete s_timer_update;
-
-#ifdef NETWORK_DIAGNOSTIC
-    m_manager->deleteLater();
+    disconnect();
+    m_diagConnectCtrl->deleteLater();
     if(m_jsonListNode) delete m_jsonListNode;
     if(m_jsonData) delete m_jsonData;
-#endif
-
 }
 
-void AbstractDiagnostic::set_timeout(int timeout){
-    s_timer_update->stop();
-    s_timeout = timeout;
-    s_timer_update->start(s_timeout);
-}
-
-void AbstractDiagnostic::start_diagnostic()
+void AbstractDiagnostic::initJsonTmpl()
 {
-    s_timer_update->start(s_timeout);
+    QJsonObject proc_info;
+    QJsonObject sys_info;
+    QJsonObject full_info;
+
+    proc_info.insert("DB_size","0");
+    proc_info.insert("chain_size","0");
+    proc_info.insert("log_size","0");
+    proc_info.insert("memory_use",0);
+    proc_info.insert("memory_use_value","0");
+    proc_info.insert("name","cellframe-node");
+    proc_info.insert("status","Unknown");
+    proc_info.insert("uptime","00:00:00");
+    proc_info.insert("version","-");
+
+    QJsonObject cpuObj;
+    cpuObj.insert("load", "0");
+    sys_info.insert("CPU", cpuObj);
+    sys_info.insert("mac", "XX:XX:XX:XX:XX:XX");
+    QJsonObject memObj;
+    memObj.insert("load", "0");
+    memObj.insert("free", "0");
+    memObj.insert("total", "0");
+    sys_info.insert("memory", memObj);
+    sys_info.insert("time_update_unix", 0);
+    sys_info.insert("uptime", "");
+    sys_info.insert("uptime_diagtool", "");
+    sys_info.insert("uptime_dashboard", "");
+
+
+    full_info.insert("system", sys_info);
+    full_info.insert("process", proc_info);
+
+    s_full_info.setObject(full_info);
 }
 
-void AbstractDiagnostic::stop_diagnostic()
+void AbstractDiagnostic::rcv_diag_data(QJsonDocument diagData)
 {
-    s_timer_update->stop();
-}
+    QJsonObject obj = diagData.object();
 
-QJsonValue AbstractDiagnostic::get_mac()
-{
-    QString MAC{"unknown"};
-    foreach(QNetworkInterface netInterface, QNetworkInterface::allInterfaces())
+    QJsonObject system = diagData["system"].toObject();
+    QJsonObject sys_mem = system["memory"].toObject();
+    QJsonObject proc = diagData["process"].toObject();
+
+    auto getString = [](const QJsonValue& value) -> QString
     {
-        // Return only the first non-loopback MAC Address
-        if (!(netInterface.flags() & QNetworkInterface::IsLoopBack))
+        QString resultStr = value.toString();
+        if(resultStr.isEmpty())
         {
-            if(!netInterface.hardwareAddress().isEmpty())
+            int totalInt = value.toInt();
+            if(totalInt > 0)
             {
-                MAC = netInterface.hardwareAddress();
-                break;
+                resultStr = QString::number(totalInt);
             }
         }
-    }
-    return MAC;
+        return resultStr;
+    };
+
+    QString total = getString(sys_mem["total"]);
+    sys_mem.insert("total", get_memory_string(total.toUInt()));
+    QString free = getString(sys_mem["free"]);
+    sys_mem.insert("free", get_memory_string(free.toUInt()));
+
+    proc.insert("memory_use_value", get_memory_string(proc["memory_use_value"].toString().toUInt()));
+    proc.insert("log_size", get_memory_string(proc["log_size"].toString().toUInt()));
+    proc.insert("DB_size", get_memory_string(proc["DB_size"].toString().toUInt()));
+    proc.insert("chain_size", get_memory_string(proc["chain_size"].toString().toUInt()));
+
+    system.insert("memory",sys_mem);
+
+    //insert uptime dashboard into system info
+    s_uptime = get_uptime_string(s_elapsed_timer->elapsed()/1000);
+    system.insert("uptime_dashboard", s_uptime);
+
+    obj.insert("system",system);
+    obj.insert("process",proc);
+
+    diagData.setObject(obj);
+
+    s_full_info.setObject(obj);
+
+    emit data_updated(diagData);
 }
 
 QString AbstractDiagnostic::get_uptime_string(long sec)
@@ -100,50 +141,6 @@ QString AbstractDiagnostic::get_uptime_string(long sec)
         uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
 
     return uptime;
-}
-
-quint64 AbstractDiagnostic::get_file_size (QString flag, QString path )
-{
-    if(flag == "log")
-        path += "/var/log";
-    else
-    if (flag == "DB")
-        path += "/var/lib/global_db";
-    else
-    if (flag == "chain")
-        path += "/var/lib/network";
-    else
-        path += "";
-
-    QDir currentFolder( path );
-
-    quint64 totalsize = 0;
-
-    currentFolder.setFilter( QDir::Dirs | QDir::Files | QDir::NoSymLinks );
-    currentFolder.setSorting( QDir::Name );
-
-    QFileInfoList folderitems( currentFolder.entryInfoList() );
-
-    foreach ( QFileInfo i, folderitems ) {
-        QString iname( i.fileName() );
-        if ( iname == "." || iname == ".." || iname.isEmpty() )
-            continue;
-        if(flag == "log" && i.suffix() != "log" && !i.isDir())
-            continue;
-        else
-        if(flag == "DB" && (i.suffix() != "dat" && !i.suffix().isEmpty()) && !i.isDir())
-            continue;
-        else
-        if(flag == "chain" && i.suffix() != "dchaincell" && !i.isDir())
-            continue;
-
-        if ( i.isDir() )
-            totalsize += get_file_size("", path+"/"+iname);
-        else
-            totalsize += i.size();
-    }
-
-    return totalsize;
 }
 
 QString AbstractDiagnostic::get_memory_string(size_t num)
@@ -165,35 +162,45 @@ QString AbstractDiagnostic::get_memory_string(size_t num)
     return QString(res_val + " " + res_m);
 }
 
-void AbstractDiagnostic::start_write(bool isStart)
+void AbstractDiagnostic::changeDataSending(bool flagSendData)
 {
-    if(isStart && !s_timer_write->isActive()){
-        write_data();
-        s_timer_write->start(5000);
-    }else{
-        s_timer_write->stop();
-        remove_data();
+    if(!m_diagConnectCtrl->getConncetState()) return;
+
+    QJsonObject obj;
+    obj.insert("send_data_flag", flagSendData);
+    quint64 bytes = m_diagConnectCtrl->writeSocket(QJsonDocument(obj).toJson());
+
+    qDebug()<<"[changeDataSending] bytes written: " << bytes;
+}
+
+void AbstractDiagnostic::send_http_request(QString method)
+{
+    if (auto res = httpClient.Get(method.toStdString()))
+    {
+        if (res->status == httplib::StatusCode::OK_200)
+        {
+            emit sig_telemetry_data_rcv(method, QByteArray::fromStdString(res->body));
+        }
+    }
+    else
+    {
+        auto err = res.error();
+        std::cout << "HTTPS error: " << httplib::to_string(err) << std::endl;
     }
 }
 
-void AbstractDiagnostic::remove_data()
-{
-    QString key = s_mac.toString();
-    QProcess proc;
-    QString program = QString(nodeCli);
-    QStringList arguments;
-    arguments << "global_db" << "delete" << "-group" << QString(group) << "-key" << QString(key);
-    proc.start(program, arguments);
-    proc.waitForFinished(5000);
-    QString res = proc.readAll();
-}
-
-#ifdef NETWORK_DIAGNOSTIC
-
 void AbstractDiagnostic::update_full_data()
 {
-    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_KEYS)));
-    m_manager->get(QNetworkRequest(QUrl(NETWORK_ADDR_GET_VIEW)));
+    if(s_wait_http_req)
+        return;
+
+    QtConcurrent::run([this]
+    {
+        s_wait_http_req = true;
+        send_http_request(GET_KEYS);
+        send_http_request(GET_VIEW);
+        s_wait_http_req = false;
+    });
 }
 
 const QJsonDocument AbstractDiagnostic::get_list_keys(QJsonArray& listNoMacInfo)
@@ -207,7 +214,7 @@ const QJsonDocument AbstractDiagnostic::get_list_keys(QJsonArray& listNoMacInfo)
 
     auto isContains = [this](const QString& mac) -> bool
     {
-        for(const auto &item: s_selected_nodes_list)
+        for(const auto &item: qAsConst(s_selected_nodes_list))
         {
             if(item.toObject()["mac"].toString() == mac)
             {
@@ -246,7 +253,7 @@ const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
 
     QJsonObject list = m_jsonData->object();
     QJsonArray nodesArray;
-    for(const QJsonValue mac : s_selected_nodes_list)
+    for(const QJsonValue &mac : qAsConst(s_selected_nodes_list))
     {
         if(list.contains(mac["mac"].toString()))
         {
@@ -261,13 +268,16 @@ const QJsonDocument AbstractDiagnostic::get_list_data(QJsonArray& listNoMacInfo)
 
     return QJsonDocument(std::move(nodesArray));
 }
-
-void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
+void AbstractDiagnostic::on_telemetry_data_rcv(QString method, QByteArray result)
 {
-    if(reply->url() == NETWORK_ADDR_GET_VIEW)
+    qDebug() << "[url] [AbstractDiagnostic] [on_reply_finished]";
+    if(result.isEmpty())
     {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        return;
+    }
+    if(method == GET_VIEW)
+    {
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(result);
         if(!jsonDoc.isEmpty())
         {
             QJsonArray list = jsonDoc.array();
@@ -281,161 +291,14 @@ void AbstractDiagnostic::on_reply_finished(QNetworkReply *reply)
             m_jsonData->setObject(std::move(resultObject));// setArray(std::move(jsonDoc.array()));
         }
     }
-    else if(reply->url() == NETWORK_ADDR_GET_KEYS)
+    else if(method == GET_KEYS)
     {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(result);
         if(!jsonDoc.isEmpty())
         {
             m_jsonListNode->setArray(std::move(jsonDoc.array()));
         }
     }
-}
-#endif
-
-QJsonDocument AbstractDiagnostic::get_list_nodes()
-{
-    QJsonDocument nodes;
-    QProcess proc;
-    QString program = QString(nodeCli);
-    QStringList arguments;
-    arguments << "global_db" << "get_keys" << "-group" << QString(group);
-    proc.start(program, arguments);
-    proc.waitForFinished(5000);
-    QString res = proc.readAll();
-
-    QStringList resSplit = res.split("\n", Qt::SkipEmptyParts);
-    for(int i = 0; i < resSplit.count(); i++)
-        resSplit[i] = resSplit[i].simplified();
-
-    resSplit.sort();
-
-    static QRegExp re = QRegExp(R"(^[\da-fA-F]{2}(:[\da-fA-F]{2}){5}$)");
-
-    QJsonArray nodes_array;
-
-    for(int i = 0; i < s_selected_nodes_list.count(); i++ )
-    {
-        bool isContains = false;
-        for(int j = 0; j < resSplit.count(); j++)
-        {
-            if(re.exactMatch(resSplit[j]))
-            {
-                if(resSplit[j] == s_selected_nodes_list.at(i).toObject()["mac"].toString())
-                {
-                    isContains = true;
-                    break;
-                }
-            }
-        }
-        if(!isContains)
-            s_selected_nodes_list.removeAt(i);
-
-    }
-
-    foreach (QString node, resSplit)
-    {
-        if(node != s_mac.toString()
-            && re.exactMatch(node)
-            && !check_contains(s_selected_nodes_list, node, "mac"))
-        {
-            QJsonObject obj;
-            obj.insert("mac", node);
-            nodes_array.append(obj);
-        }
-    }
-
-    nodes.setArray(nodes_array);
-
-    return nodes;
-}
-
-void AbstractDiagnostic::write_data()
-{
-    {
-        QJsonObject mainObject = s_full_info.object();
-
-        if(mainObject.contains("process"))
-        {
-            QString info;
-            QJsonObject processObject = mainObject["process"].toObject();
-            info = "Process info:";
-            if(processObject.contains("DB_size"))
-            {
-                info += QString(" DB_size- " + processObject["DB_size"].toString());
-            }
-            if(processObject.contains("chain_size"))
-            {
-                info += QString(" Chain size - " + processObject["chain_size"].toString());
-            }
-            if(processObject.contains("log_size"))
-            {
-                info += QString(" Log size - " + processObject["log_size"].toString());
-            }
-            if(processObject.contains("status"))
-            {
-                info += QString(" Status - " + processObject["status"].toString());
-            }
-            qInfo() << info;
-        }
-        if(mainObject.contains("system"))
-        {
-            QString info;
-            QJsonObject systemObject = mainObject["system"].toObject();
-            info = "System info:";
-            if(systemObject.contains("memory"))
-            {
-                QJsonObject memoryObject = systemObject["memory"].toObject();
-                info += QString(" memory free - " + memoryObject["free"].toString());
-                info += QString(" memory load - " + memoryObject["load"].toString());
-                info += QString(" memory total - " + memoryObject["total"].toString());
-            }
-            qInfo() << info;
-        }
-    }
-
-#ifdef NETWORK_DIAGNOSTIC
-
-    QString urls = NETWORK_ADDR_SENDER;
-    QUrl url = QUrl(urls);
-
-    QNetworkAccessManager * mgr = new QNetworkAccessManager();
-
-    //TODO: Crash on r ptr
-//    connect(mgr, &QNetworkAccessManager::finished, this, [=](QNetworkReply*r)
-//    {
-//        if(QNetworkReply::NetworkError::NoError !=  r->error())
-//        {
-//            qWarning() << "data sent " << urls << " " << r->error();
-//        }
-//    });
-    connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,  SLOT(deleteLater()));
-
-    auto req = QNetworkRequest(url);
-    req.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
-    QString key = s_mac.toString();
-    QJsonDocument docBuff = s_full_info;
-    QJsonObject obj = docBuff.object();
-    obj.insert("mac",key);
-    docBuff.setObject(obj);
-    mgr->post(req, docBuff.toJson());
-#else
-    if(s_full_info.isEmpty() || s_full_info.isNull())
-        return;
-
-    QJsonDocument docBuff = s_full_info;
-
-    QString key = s_mac.toString();
-
-    QProcess proc;
-    QString program = QString(nodeCli);
-    QStringList arguments;
-    arguments << "global_db" << "write" << "-group" << QString(group)
-              << "-key" << QString(key) << "-value" << QByteArray(docBuff.toJson());
-    proc.start(program, arguments);
-    proc.waitForFinished(5000);
-
-#endif
 }
 
 QJsonObject AbstractDiagnostic::get_diagnostic_data_item(const QJsonDocument& jsonDoc)
@@ -482,48 +345,6 @@ QJsonObject AbstractDiagnostic::get_diagnostic_data_item(const QJsonDocument& js
     return obj;
 }
 
-QJsonDocument AbstractDiagnostic::read_data()
-{
-    QJsonArray nodes_array;
-    QJsonDocument nodes_doc;
-
-    for(QJsonValue mac : s_selected_nodes_list)
-    {
-        QString key = mac["mac"].toString();
-
-        QProcess proc;
-        QString program = QString(nodeCli);
-        QStringList arguments;
-        arguments << "global_db" << "read" << "-group" << QString(group)
-                  << "-key" << QString(key);
-        proc.start(program, arguments);
-        proc.waitForFinished(5000);
-        QString res = proc.readAll().simplified();
-
-        if(res.isEmpty() || res.contains("not found") || res.contains("error") || res.contains("err"))
-        {
-            qWarning() << res;
-            continue;
-        }
-
-        QJsonParseError err;
-        QJsonDocument doc = QJsonDocument::fromJson(res.split("data:")[1].toStdString().data(), &err);
-        if(err.error == QJsonParseError::NoError && !doc.isEmpty())
-        {
-            QJsonObject obj = get_diagnostic_data_item(doc);
-            doc.setObject(obj);
-
-            nodes_array.append(doc.object());
-        }
-        else
-            qWarning()<<err.errorString();
-    }
-
-    nodes_doc.setArray(nodes_array);
-
-    return nodes_doc;
-}
-
 void AbstractDiagnostic::set_node_list(QJsonDocument arr){
     qInfo()<<"AbstractDiagnostic::set_node_list" << arr;
     s_selected_nodes_list = arr.array();
@@ -539,30 +360,4 @@ bool AbstractDiagnostic::check_contains(QJsonArray array, QString item, QString 
     }
 
     return false;
-}
-
-QJsonObject AbstractDiagnostic::roles_processing()
-{
-    QJsonObject rolesObject;
-
-    QDir currentFolder("/opt/cellframe-node/etc/network");
-
-    currentFolder.setFilter( QDir::Dirs | QDir::Files | QDir::NoSymLinks );
-    currentFolder.setSorting( QDir::Name );
-
-    QFileInfoList folderitems( currentFolder.entryInfoList() );
-
-    foreach ( QFileInfo i, folderitems ) {
-        QString iname( i.fileName() );
-        if ( iname == "." || iname == ".." || iname.isEmpty() )
-            continue;
-        if(i.suffix() == "cfg" && !i.isDir())
-        {
-            QSettings config(i.absoluteFilePath(), QSettings::IniFormat);
-
-            rolesObject.insert(i.completeBaseName(), config.value("node-role", "unknown").toString());
-        }
-    }
-
-    return rolesObject;
 }

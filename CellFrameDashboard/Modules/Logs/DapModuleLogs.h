@@ -18,12 +18,11 @@ public:
 
     enum LogType{
         NodeLog = 0,
-        ServiceLog = 1,
-        GuiLog = 2
+        GuiLog = 1
     };
 
     Q_PROPERTY(int currentType READ currentType NOTIFY currentTypeChanged)
-    Q_INVOKABLE int currentType(){return m_configLog.first;};
+    Q_INVOKABLE int currentType(){return m_configLog.first;}
 
     Q_PROPERTY(bool flagLogUpdate READ flagLogUpdate WRITE setFlagLogUpdate NOTIFY flagLogUpdateChanged)
     Q_INVOKABLE bool flagLogUpdate();
@@ -70,7 +69,6 @@ private:
     QString getLogFileName(QString folder, LogType type);
 
 private:
-    DapModulesController* m_modulesCtrl;
     DapLogsReader * m_logReader;
     QTimer *m_timerCheckLogFile = nullptr;
 

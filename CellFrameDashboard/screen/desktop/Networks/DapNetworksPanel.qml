@@ -5,7 +5,7 @@ import "qrc:/widgets"
 import "parts"
 import "logic"
 
-Item {
+Rectangle {
 
     property alias dapNetworkList: networkList
 
@@ -19,17 +19,8 @@ Item {
     id: control
     y: parent.height - height
     width: parent.width
-    height: 40
-
-    Timer {
-        id: idNetworkPanelTimer
-        interval: /*logicMainApp.autoUpdateInterval*/5000; running: true; repeat: true
-        onTriggered: {
-            if(!USING_NOTIFY)
-                logicMainApp.requestToService("DapGetNetworksStateCommand")
-            logicMainApp.requestToService("DapGetListNetworksCommand")
-        }
-    }
+//    height: 40
+    color: currTheme.mainBackground
 
     RowLayout
     {
@@ -77,7 +68,7 @@ Item {
             signal closePopups()
             property bool isRight:true
             id: networkList
-            model: networksModel
+            model: networkModel
             highlightMoveDuration : 200
 
             orientation: ListView.Horizontal
@@ -130,10 +121,7 @@ Item {
                 networkList.isRight = true
             }
         }
-
     }
-
-
 
     onWidthChanged:
     {
@@ -141,33 +129,4 @@ Item {
         networkList.currentIndex = cur_index
         networkList.closePopups()
     }
-
-    Component.onCompleted: logicMainApp.requestToService("DapGetListNetworksCommand")
-
-    Connections
-    {
-        target: dapServiceController
-
-        function onSignalNetState(netState)
-        {
-            if(USING_NOTIFY)
-                logicNet.notifyModelUpdate(netState)
-        }
-
-        function onNetworkStatesListReceived(rcvData)
-        {
-            var jsonDocument = JSON.parse(rcvData)
-            var result = jsonDocument.result
-
-            if (!logicNet.isNetworkListsEqual(networksModel, result)) {
-                networkList.closePopups()
-            }
-
-
-            logicNet.modelUpdate(result)
-            logicNet.updateContentInAllOpenedPopups(networksModel)
-        }
-    }
-
-
 }

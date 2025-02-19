@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.2
 import "../controls"
 import "qrc:/widgets"
 
+import qmlclipboard 1.0
+
 DapRectangleLitAndShaded
 {
     property alias listViewWallet: listViewWallet
@@ -12,6 +14,10 @@ DapRectangleLitAndShaded
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
+
+    QMLClipboard{
+        id: clipboard
+    }
 
     contentData:
     ColumnLayout
@@ -35,6 +41,18 @@ DapRectangleLitAndShaded
                 color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Tokens")
+            }
+
+            DapUpdateButton
+            {
+                visible: app.getNodeMode()
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 8
+                onClickUpdate: {
+                    console.log("update wallets data")
+                    walletModule.updateWalletInfo();
+                }
             }
         }
 
@@ -114,7 +132,7 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
             clip: true
             visible: walletModelList.get(walletModule.currentWalletIndex).statusProtected !== "non-Active"
-            model:walletModelInfo
+            model: walletModelInfo
 
             delegate: delegateTokenView
         }
@@ -142,46 +160,96 @@ DapRectangleLitAndShaded
 
                         Text
                         {
-                            Layout.fillWidth: true
+//                            Layout.fillWidth: true
+                            Layout.minimumWidth: 100
                             font: mainFont.dapFont.medium12
                             color: currTheme.white
                             verticalAlignment: Qt.AlignVCenter
                             text: networkName
                         }
 
-                        Item{Layout.fillWidth: true}
-
                         Item
                         {
-                            Layout.alignment: Qt.AlignRight
-                            Layout.minimumWidth: 108
-                            Layout.maximumWidth: 108
-                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 40
+//                            Layout.maximumWidth: stockNameBlock.width
+                        }
 
-                            DapText
+                        RowLayout{
+                            id: addrLayout
+                            Layout.alignment: Qt.AlignRight
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            Layout.maximumWidth: netAddrtext.implicitWidth + textMetworkAddress.implicitWidth + networkAddressCopyButtonImage.implicitWidth + 20
+                            spacing: 8
+
+                            Text
+                            {
+                                id: netAddrtext
+                                Layout.alignment: Qt.AlignRight
+                                font: mainFont.dapFont.regular12
+                                color: currTheme.gray
+                                verticalAlignment: Qt.AlignVCenter
+                                text: "Wallet address: "
+                            }
+
+                            Text
                             {
                                 id: textMetworkAddress
-                                height: parent.height
-                                fontDapText: mainFont.dapFont.regular12
-                                color: currTheme.white
-                                fullText: address
-                                textElide: Text.ElideMiddle
-                                horizontalAlignment: Qt.AlignRight
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignRight
+                                font: mainFont.dapFont.medium12
+                                color: addrArea.containsMouse ||
+                                       addrImgArea.containsMouse ? currTheme.lime : currTheme.gray
+                                text: address
+                                elide: Text.ElideMiddle
+                                horizontalAlignment: Qt.AlignLeft
                                 verticalAlignment: Qt.AlignVCenter
-                                anchors.left: parent.left
-                                anchors.right:networkAddressCopyButton.left
-                                anchors.rightMargin: 8
+
+                                MouseArea{
+                                    id: addrArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked: {
+                                        showInfoNotification("Address copied", "check_icon.png")
+                                        clipboard.setText(address)
+                                    }
+                                }
                             }
 
-                            DapCopyButton
+                            Image
                             {
-                                id: networkAddressCopyButton
-                                onCopyClicked: textMetworkAddress.copyFullText()
-                                popupText: qsTr("Address copied")
-                                anchors.right: parent.right
-                                anchors.top: parent.top
-                                anchors.topMargin: 6
+                                id:networkAddressCopyButtonImage
+                                Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+                                width: 16
+                                height: 16
+                                mipmap: true
+                                source: addrArea.containsMouse ||
+                                        addrImgArea.containsMouse ? "qrc:/Resources/" + pathTheme + "/icons/other/copy_hover_small.svg":
+                                                                    "qrc:/Resources/" + pathTheme + "/icons/other/copy_small.svg"
+
+                                MouseArea{
+                                    id: addrImgArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked: {
+                                        showInfoNotification("Address copied", "check_icon.png")
+                                        clipboard.setText(address)
+                                    }
+                                }
                             }
+
+
+
+
+
+//                            DapCopyButton
+//                            {
+//                                id: networkAddressCopyButton
+//                                Layout.alignment: Qt.AlignRight
+//                                onCopyClicked: clipboard.setText(address)
+//                                popupText: qsTr("Address copied")
+//                            }
                         }
                     }
                 }
