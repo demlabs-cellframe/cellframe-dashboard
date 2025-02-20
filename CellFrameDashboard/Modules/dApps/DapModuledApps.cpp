@@ -1,5 +1,6 @@
 #include "DapModuledApps.h"
 #include "DapDashboardPathDefines.h"
+#include <sys/stat.h>
 
 namespace DApps {
 
