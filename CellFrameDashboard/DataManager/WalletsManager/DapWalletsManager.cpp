@@ -391,8 +391,11 @@ void DapWalletsManager::rcvWalletInfo(const QVariant &rcvData)
 
 void DapWalletsManager::alarmTimerSlot()
 {
-    qDebug() << QString("[DapWalletsManager] ALARM The waiting time for requesting information about wallet %1 of network %2 has been exceeded.")
-                    .arg(m_requestInfoWalletsName.last(), m_lastRequestInfoNetworkName);
+    if(m_requestInfoWalletsName.length())
+    {
+        qDebug() << QString("[DapWalletsManager] ALARM The waiting time for requesting information about wallet %1 of network %2 has been exceeded.")
+                        .arg(m_requestInfoWalletsName.last(), m_lastRequestInfoNetworkName);
+    }
     if(!m_isRequestInfo)
     {
         return;

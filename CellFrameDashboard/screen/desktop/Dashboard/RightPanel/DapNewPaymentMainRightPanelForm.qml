@@ -159,6 +159,9 @@ DapRectangleLitAndShaded
                     onCurrentDisplayTextChanged:
                     {
                         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
+                        frameInputAmountPayment.percentIsSelected = false
+                        textInputAmountPayment.text = ""
+                        feeController.resetFeeData()
                         updateWindow()
                     }
                 }
@@ -595,6 +598,14 @@ DapRectangleLitAndShaded
                     textInputAmountPayment.text = res
                     textInputAmountPayment.cursorPosition = 0
                 }
+            }
+
+            function resetFeeData()
+            {
+                valueName = ""
+                minimalValue = ""
+                maximumValue = ""
+                medianStr = ""
             }
 
 
