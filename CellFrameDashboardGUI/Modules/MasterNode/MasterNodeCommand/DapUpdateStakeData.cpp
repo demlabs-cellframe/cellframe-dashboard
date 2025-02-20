@@ -59,6 +59,7 @@ void DapUpdateStakeData::nodeFound(const QJsonObject& nodeInfo)
     if(valueUpdate("effective value", MasterNode::STAKE_EFFECTIVE_VALUE_KEY)) isUpdate = true;
     if(valueUpdate("stake value", MasterNode::STAKE_VALUE_KEY)) isUpdate = true;
     if(valueUpdate("related weight", MasterNode::STAKE_RELATED_WEIGHT_KEY)) isUpdate = true;
+    if(valueUpdate("tx hash", MasterNode::STAKE_HASH_KEY)) isUpdate = true;
     if(isUpdate)
     {
         saveData();
