@@ -6,6 +6,8 @@
 #include <memory>
 #include "sys/stat.h"
 
+
+
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #include <QAndroidJniObject>
@@ -17,6 +19,7 @@
 #include "DapApplication.h"
 #include "DapGuiApplication.h"
 #include "systemtray.h"
+#include <signal.h>
 
 #include "DapLogger.h"
 #include "DapLogHandler.h"
@@ -42,6 +45,8 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
+
+    signal(SIGPIPE, SIG_IGN);
 
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_ForceRasterWidgets);

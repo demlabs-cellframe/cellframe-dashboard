@@ -5,7 +5,9 @@ TARGET = $${BRAND}
 
 DEFINES += CPPHTTPLIB_OPENSSL_SUPPORT
 
-isEmpty($$[OPENSSL_LINKED]) {
+OPENSSL_LINKED = $$[OPENSSL_LINKED]
+
+!isEmpty($$(OPENSSL_LINKED)) {
     LIBS += -lssl -lcrypto
 }
 

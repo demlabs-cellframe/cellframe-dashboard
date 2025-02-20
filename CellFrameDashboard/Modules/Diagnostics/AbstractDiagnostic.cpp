@@ -1,14 +1,6 @@
 #include "AbstractDiagnostic.h"
 #include "httplib.h"
 
-#ifdef _WIN32
-#define IGNORE_SIGPIPE()
-#else
-#include <iostream>
-#include <csignal>
-#define IGNORE_SIGPIPE() std::signal(SIGPIPE, SIG_IGN)
-#endif
-
 const QString NETWORK_ADDR = "https://telemetry.cellframe.net";
 static httplib::Client httpClient(NETWORK_ADDR.toStdString());
 
@@ -17,8 +9,6 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     , m_jsonListNode(new QJsonDocument())
     , m_jsonData(new QJsonDocument())
 {
-    IGNORE_SIGPIPE();
-
     m_diagConnectCtrl = new DiagtoolConnectCotroller();
     initJsonTmpl();
 
