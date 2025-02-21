@@ -5,7 +5,6 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     , m_jsonListNode(new QJsonDocument())
     , m_jsonData(new QJsonDocument())
 {
-    signal(SIGPIPE, SIG_IGN);
     m_diagConnectCtrl = new DiagtoolConnectCotroller();
     initJsonTmpl();
 
