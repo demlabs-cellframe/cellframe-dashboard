@@ -6,6 +6,7 @@
 #include <QtConcurrent/QtConcurrent>
 
 #include "DiagtoolConnectCotroller.h"
+#include "httplib.h"
 
 class AbstractDiagnostic : public QObject
 {
@@ -38,7 +39,8 @@ private:
     QJsonObject get_diagnostic_data_item(const QJsonDocument& jsonDoc);
     QElapsedTimer *s_elapsed_timer;
     QString s_uptime{"00:00:00"};
-    bool s_wait_http_req{false};
+
+    std::atomic<bool> s_wait_http_req{false};
 
     DiagtoolConnectCotroller *m_diagConnectCtrl;
 
@@ -54,6 +56,7 @@ private slots:
     void on_telemetry_data_rcv(QString method, QByteArray result);
 
 protected:
+    const QString NETWORK_ADDR = "https://telemetry.cellframe.net";
     const QString GET_VIEW     = "/diag?method=view";
     const QString GET_KEYS     = "/diag?method=keys";
 

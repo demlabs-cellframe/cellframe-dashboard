@@ -159,6 +159,9 @@ DapRectangleLitAndShaded
                     onCurrentDisplayTextChanged:
                     {
                         walletModule.setWalletTokenModel(dapComboboxNetwork.displayText)
+                        frameInputAmountPayment.percentIsSelected = false
+                        textInputAmountPayment.text = ""
+                        feeController.resetFeeData()
                         updateWindow()
                     }
                 }
@@ -597,11 +600,19 @@ DapRectangleLitAndShaded
                 }
             }
 
+            function resetFeeData()
+            {
+                valueName = ""
+                minimalValue = ""
+                maximumValue = ""
+                medianStr = ""
+            }
+
 
             function getFeeData()
             {
                 var resFee = walletModule.getFee(dapComboboxNetwork.displayText)
-                if(resFee.validator_fee !== "" && resFee.network_fee !== "")
+                if(resFee.validator_fee !== "" && resFee.network_fee !== "" && resFee.fee_ticker !== "")
                 {
                     valueName = resFee.fee_ticker
                     minimalValue = resFee.min_validator_fee
