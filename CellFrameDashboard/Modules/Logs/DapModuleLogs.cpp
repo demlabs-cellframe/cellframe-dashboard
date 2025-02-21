@@ -236,12 +236,12 @@ void DapModuleLog::updateLog()
 
 QString DapModuleLog::getNodeLogPath()
 {
-    return Dap::DashboardDefines::CellframeNode::DAPMODULE_LOG;
+    return Dap::UiSdkDefines::CellframeNode::LOG_FILE;
 }
 
 QString DapModuleLog::getBrandLogPath()
 {
-    return Dap::DashboardDefines::CellframeNode::DAPMODULE_BRAND_LOG;
+    return Dap::DashboardDefines::DashboardStorage::LOG_PATH;
 }
 
 LogModel::Item DapModuleLog::parseLine(const QString &line)

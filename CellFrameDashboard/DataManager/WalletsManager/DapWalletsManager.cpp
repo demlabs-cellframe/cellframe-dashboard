@@ -1,4 +1,5 @@
 #include "DapWalletsManager.h"
+#include "DapDashboardPathDefines.h"
 #include "DapServiceController.h"
 #include "Modules/DapModulesController.h"
 #include "DapDataManagerController.h"
@@ -75,7 +76,7 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
                 if(tmpWallet.path != m_walletsInfo[walletName].path)
                 {
                     QJsonObject wallet;
-                    if(tmpWallet.path != Dap::UiSdkDefines::DataFolders::WALLETS_DIR)
+                    if(tmpWallet.path != Dap::DashboardDefines::DashboardStorage::WALLET_PATH)
                     {
                         wallet.insert("walletName", tmpWallet.walletName);
                         wallet.insert("walletPath", tmpWallet.path);
@@ -391,8 +392,11 @@ void DapWalletsManager::rcvWalletInfo(const QVariant &rcvData)
 
 void DapWalletsManager::alarmTimerSlot()
 {
-    qDebug() << QString("[DapWalletsManager] ALARM The waiting time for requesting information about wallet %1 of network %2 has been exceeded.")
-                    .arg(m_requestInfoWalletsName.last(), m_lastRequestInfoNetworkName);
+    if(m_requestInfoWalletsName.length())
+    {
+        qDebug() << QString("[DapWalletsManager] ALARM The waiting time for requesting information about wallet %1 of network %2 has been exceeded.")
+                        .arg(m_requestInfoWalletsName.last(), m_lastRequestInfoNetworkName);
+    }
     if(!m_isRequestInfo)
     {
         return;
@@ -512,8 +516,8 @@ void DapWalletsManager::updateInfoWallets(const QString &walletName)
 void DapWalletsManager::updateListWallets()
 {
     QStringList pathList;
-    pathList.append(Dap::UiSdkDefines::DataFolders::WALLETS_DIR);
-    pathList.append(Dap::UiSdkDefines::DataFolders::WALLETS_MIGRATE_DIR);
+    pathList.append(Dap::DashboardDefines::DashboardStorage::WALLET_PATH);
+    pathList.append(Dap::DashboardDefines::DashboardStorage::WALLET_NODE_PATH);
     QVariantMap request = {{Dap::KeysParam::PATH_LIST, std::move(pathList)}
                            ,{Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
 

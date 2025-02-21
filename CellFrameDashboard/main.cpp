@@ -4,9 +4,6 @@
 #include <QSharedMemory>
 #include <QScreen>
 #include <memory>
-#include "sys/stat.h"
-
-
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -18,13 +15,11 @@
 
 #include "DapApplication.h"
 #include "DapGuiApplication.h"
-#include "systemtray.h"
 #include <signal.h>
 
 #include "DapLogger.h"
 #include "DapLogHandler.h"
-
-#include "node_globals/NodeGlobals.h"
+#include "DapDashboardPathDefines.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -39,6 +34,7 @@ int DEFAULT_HEIGHT = 720;
 bool SingleApplicationTest(const QString &appName);
 void createDapLogger();
 QByteArray scaleCalculate(int argc, char *argv[]);
+void blocksignal(int signal_to_block /* i.e. SIGPIPE */ );
 
 int main(int argc, char *argv[])
 {
@@ -46,6 +42,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+    blocksignal(SIGPIPE);
 
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
@@ -90,6 +87,21 @@ int main(int argc, char *argv[])
     return result;
 }
 
+void blocksignal(int signal_to_block /* i.e. SIGPIPE */ )
+{
+#ifdef Q_OS_LINUX
+    sigset_t set;
+    sigset_t old_state;
+
+    sigprocmask(SIG_BLOCK, NULL, &old_state);
+
+    set = old_state;
+    sigaddset(&set, signal_to_block);
+
+    sigprocmask(SIG_BLOCK, &set, NULL);
+#endif
+}
+
 bool SingleApplicationTest(const QString &appName)
 {
     static QSystemSemaphore semaphore("<" + appName + " uniq semaphore id>", 1);
@@ -122,7 +134,7 @@ bool SingleApplicationTest(const QString &appName)
 void createDapLogger()
 {
     dap_log_set_external_output(LOGGER_OUTPUT_STDOUT, nullptr);
-    auto *dapLogger = new DapLogger(QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
+    auto *dapLogger = new DapLogger(QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE, Dap::DashboardDefines::DashboardStorage::LOG_PATH);
     QString logPath = dapLogger->getPathToFile();
 
 #if defined(QT_DEBUG) && defined(ANDROID)
