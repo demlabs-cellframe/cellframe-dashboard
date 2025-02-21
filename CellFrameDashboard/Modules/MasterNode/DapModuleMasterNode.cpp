@@ -517,7 +517,10 @@ void DapModuleMasterNode::getNodeLIst()
     if(!m_isNodeListRequest)
     {
         m_isNodeListRequest = true;
-        s_serviceCtrl->requestToService("DapNodeListCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
+        QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+        QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMode}
+                           ,{Dap::KeysParam::NETWORK_NAME, m_currentStartMaster[MasterNode::NETWORK_KEY].toString()}};
+        s_serviceCtrl->requestToService("DapNodeListCommand", request );
     }
 }
 

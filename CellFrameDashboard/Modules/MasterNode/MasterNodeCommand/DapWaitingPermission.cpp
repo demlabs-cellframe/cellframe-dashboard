@@ -23,6 +23,9 @@ void DapWaitingPermission::startWaitingPermission(const QVariantMap &masterNodeI
 
 void DapWaitingPermission::getListKeys()
 {
+    QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMode}
+                           ,{Dap::KeysParam::NETWORK_NAME, m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()}};
     m_serviceController->requestToService("DapGetListKeysCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString());
 }
 

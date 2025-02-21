@@ -95,7 +95,7 @@ Item {
                 enabled: textInputNameCertificate.length > 0 ? true : false
 
                 onClicked:
-                {
+                { 
                     var createCertRequest = {"certCommandNumber": DapCertificateCommands.CreateCertificate,
                                             "certName": certName,
                                             "signCert": certType,
