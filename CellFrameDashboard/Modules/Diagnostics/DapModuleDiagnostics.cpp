@@ -10,7 +10,7 @@ DapModuleDiagnostics::DapModuleDiagnostics(DapModulesController *parent)
     connect(s_node_list_timer, &QTimer::timeout,
             this, &DapModuleDiagnostics::slot_update_node_list,
             Qt::QueuedConnection);
-    s_node_list_timer->start(5000);
+    s_node_list_timer->start(10000);
 
     s_thread = new QThread(this);
     m_diagnostic = new AbstractDiagnostic();
