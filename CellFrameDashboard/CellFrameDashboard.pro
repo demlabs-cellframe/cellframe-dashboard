@@ -7,7 +7,7 @@ DEFINES += CPPHTTPLIB_OPENSSL_SUPPORT
 
 OPENSSL_LINKED = $$[OPENSSL_LINKED]
 
-isEmpty($$(OPENSSL_LINKED)) {
+!isEmpty($$(OPENSSL_LINKED)) {
     LIBS += -lssl -lcrypto
 }
 
