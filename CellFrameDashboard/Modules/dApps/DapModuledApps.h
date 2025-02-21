@@ -129,6 +129,7 @@ private:
     void initPlatformPaths();
 
     QString m_dappsFolder;
+    QString m_dappsDownloadFolder;
     QString m_filePrefix;
     const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
 

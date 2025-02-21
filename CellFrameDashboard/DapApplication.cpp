@@ -17,6 +17,9 @@ const int OS_WIN_FLAG = 0;
 #include <QAndroidIntent>
 #endif
 
+#include "DapDashboardPathDefines.h"
+using namespace Dap::DashboardDefines;
+
 DapApplication::DapApplication(QObject *parent)
     :QObject(parent)
 {
@@ -66,34 +69,18 @@ void DapApplication::registerQmlTypes()
 
 void DapApplication::createPaths()
 {
-    QString appDataPath = "";
+    QDir dirApp(DashboardStorage::STORAGE_PATH);
+    QDir dirLogs(DashboardStorage::LOG_PATH);
+    QDir dirDapps(DashboardStorage::DAPPS_PATH);
+    QDir dirDappsDownload(DashboardStorage::DAPPS_DOWNLOAD_PATH);
+    QDir dirData(DashboardStorage::DATA_PATH);
+    QDir dirDataWallet(DashboardStorage::WALLET_PATH);
+    QDir dirDataWalletNode(DashboardStorage::WALLET_NODE_PATH);
 
-#ifdef Q_OS_MACOS
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-    }
-    appDataPath = QString("/Users/%1/Library/Application\ Support/%2").arg(l_username).arg(DAP_BRAND);
-#elif defined(Q_OS_WIN)
-    appDataPath = QString("%1/%2").arg(regGetUsrPath()).arg(DAP_BRAND);
-#elif defined(Q_OS_LINUX)
-    appDataPath = QString("/opt/%2").arg(DAP_BRAND_LO);
-#endif
-
-    QDir dirApp(appDataPath);
-
-    if(!dirApp.exists())dirApp.mkpath(appDataPath);
-
-    QDir dirLogs(QString(dirApp.path() + QDir::separator() + "log" ));
-    QDir dirDapps(QString(dirApp.path() + QDir::separator() + "dapps" ));
-    QDir dirData(QString(dirApp.path() + QDir::separator() + "data" ));
-    QDir dirDataWallet(QString(dirApp.path() + QDir::separator() + "data" + QDir::separator() + "wallet"));
-    QDir dirDataWalletNode(QString(dirApp.path() + QDir::separator() + "data" + QDir::separator() + "wallet" + QDir::separator() + "node"));
-
+    if(!dirApp.exists())dirApp.mkpath(".");
     if(!dirLogs.exists()) dirLogs.mkpath(".");
     if(!dirDapps.exists()) dirDapps.mkpath(".");
+    if(!dirDappsDownload.exists()) dirDappsDownload.mkpath(".");
     if(!dirData.exists()) dirData.mkpath(".");
     if(!dirDataWallet.exists()) dirDataWallet.mkpath(".");
     if(!dirDataWalletNode.exists()) dirDataWalletNode.mkpath(".");
@@ -191,7 +178,7 @@ void DapApplication::initMigrateWallets()
     {
         qDebug() << "[DapApplication] initMigrateWallets";
         QVariantMap request = {{Dap::KeysParam::PATH_WALLETS_FROM, Dap::CommonKeys::DEFAULT}
-                              ,{Dap::KeysParam::PATH_WALLETS_TO, Dap::UiSdkDefines::DataFolders::WALLETS_MIGRATE_DIR}};
+                              ,{Dap::KeysParam::PATH_WALLETS_TO, Dap::DashboardDefines::DashboardStorage::WALLET_NODE_PATH}};
         m_serviceController->requestToService("DapMigrateWalletsCommand", request);
     }
 }

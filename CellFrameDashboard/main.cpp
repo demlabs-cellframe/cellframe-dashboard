@@ -4,7 +4,6 @@
 #include <QSharedMemory>
 #include <QScreen>
 #include <memory>
-#include "sys/stat.h"
 
 
 
@@ -18,13 +17,12 @@
 
 #include "DapApplication.h"
 #include "DapGuiApplication.h"
-#include "systemtray.h"
 #include <signal.h>
 
 #include "DapLogger.h"
 #include "DapLogHandler.h"
+#include "DapDashboardPathDefines.h"
 
-#include "node_globals/NodeGlobals.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -123,7 +121,7 @@ bool SingleApplicationTest(const QString &appName)
 void createDapLogger()
 {
     dap_log_set_external_output(LOGGER_OUTPUT_STDOUT, nullptr);
-    auto *dapLogger = new DapLogger(QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
+    auto *dapLogger = new DapLogger(QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE, Dap::DashboardDefines::DashboardStorage::LOG_PATH);
     QString logPath = dapLogger->getPathToFile();
 
 #if defined(QT_DEBUG) && defined(ANDROID)

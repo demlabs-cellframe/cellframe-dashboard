@@ -1,6 +1,7 @@
 #include "DapModuledApps.h"
-#include "DapDashboardPathDefines.h"
 #include <sys/stat.h>
+#include "DapDashboardPathDefines.h"
+using namespace Dap;
 
 namespace DApps {
 
@@ -264,15 +265,9 @@ void PluginManager::savePluginsToFile()
 }
 
 void PluginManager::initFilePath()
-{
-#ifdef Q_OS_LINUX
-    m_pathPluginsListFile = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
-#elif defined Q_OS_MACOS
-    mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
-    m_pathPluginsListFile = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
-#elif defined Q_OS_WIN
-    m_pathPluginsListFile = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
-#endif
+{  
+    m_pathPluginsListFile = DashboardDefines::DApps::PLUGINS_CONFIG;
+
     QFile filePlugin(m_pathPluginsListFile);
     if(!filePlugin.exists())
     {
@@ -442,7 +437,7 @@ DapModuledApps::DapModuledApps(DapModulesController *parent)
     setStatusInit(true);
     initPlatformPaths();
 
-    auto pDapNetworkManager = QSharedPointer<DapDappsNetworkManager>::create(m_repoPlugins, m_dappsFolder);
+    auto pDapNetworkManager = QSharedPointer<DapDappsNetworkManager>::create(m_repoPlugins, m_dappsDownloadFolder);
     m_pPluginManager = PluginManagerPtr::create(pDapNetworkManager);
     m_pDownloadManager = DownloadManagerPtr::create(pDapNetworkManager);
 
@@ -530,7 +525,7 @@ void DapModuledApps::deletePlugin(QString pluginName)
     auto plOpt = m_pPluginManager->pluginByName(pluginName);
     if (plOpt.has_value())
     {
-        auto zipFilePath = QString(m_dappsFolder + "/download/" + pluginName + ".zip");
+        auto zipFilePath = QString(m_dappsDownloadFolder + pluginName + ".zip");
         auto pluginFolderPath = plOpt->pluginPath.remove(QString("/" + pluginName + ".qml"));
         pluginFolderPath.remove(m_filePrefix);
 
@@ -563,14 +558,8 @@ void DapModuledApps::initPlatformPaths()
     m_filePrefix = "file:///";
 #endif
 
-#ifdef Q_OS_LINUX
-    m_dappsFolder = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
-#elif defined Q_OS_MACOS
-    mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
-    m_dappsFolder = QString("/tmp/Cellframe-Dashboard_dapps");
-#elif defined Q_OS_WIN
-    m_dappsFolder = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
-#endif
+    m_dappsFolder = DashboardDefines::DApps::PLUGINS_PATH;
+    m_dappsDownloadFolder = DashboardDefines::DApps::PLUGINS_DOWNLOAD_PATH;
 }
 
 void DapModuledApps::onPluginManagerInit()
