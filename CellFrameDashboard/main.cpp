@@ -42,7 +42,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+#ifdef Q_OS_LINUX
     blocksignal(SIGPIPE);
+#endif
 
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
@@ -89,7 +91,6 @@ int main(int argc, char *argv[])
 
 void blocksignal(int signal_to_block /* i.e. SIGPIPE */ )
 {
-#ifdef Q_OS_LINUX
     sigset_t set;
     sigset_t old_state;
 
@@ -99,7 +100,6 @@ void blocksignal(int signal_to_block /* i.e. SIGPIPE */ )
     sigaddset(&set, signal_to_block);
 
     sigprocmask(SIG_BLOCK, &set, NULL);
-#endif
 }
 
 bool SingleApplicationTest(const QString &appName)
