@@ -53,7 +53,7 @@ ConfigWorker::~ConfigWorker()
 
 QString ConfigWorker::getConfigPath()
 {
-    return Dap::DashboardDefines::CellframeNode::CONFIGWORKER_PATH;
+    return Dap::UiSdkDefines::CellframeNode::CONFIG_PATH;
 }
 
 QStringList ConfigWorker::getNetworkList()
