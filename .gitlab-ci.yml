@@ -27,7 +27,6 @@ amd64:macos:
     image: demlabs/macos/amd64:qt5
     before_script: /opt/buildtools/prepare_environment.sh amd64-osx
     script:
-      - export OPENSSL_LINKED=1
       - ./prod_build/build.sh --target osx release
       - ./prod_build/pack.sh --target osx release --sign /opt/buildtools/sign/macos/demlabs.sh
       - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.pkg
