@@ -284,8 +284,6 @@ DapRectangleLitAndShaded
 
     Component.onCompleted:
     {
-        //logicMainApp.requestToService("DapCertificateManagerCommands", 1)
-        //logicMainApp.requestToService("DapGetListTokensCommand","")
         ordersModule.currentTab = 2
         ordersModule.statusProcessing = true
 

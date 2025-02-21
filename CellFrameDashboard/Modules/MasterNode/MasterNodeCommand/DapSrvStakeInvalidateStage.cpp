@@ -149,8 +149,12 @@ void DapSrvStakeInvalidateStage::mempoolCheck()
 {
     if(m_masterNodeInfo.contains(MasterNode::STAKE_INVALIDATE_HASH_KEY))
     {
-        m_serviceController->requestToService("MempoolCheckCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
-                                              << m_masterNodeInfo.value(MasterNode::STAKE_INVALIDATE_HASH_KEY).toString());
+        QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+        QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                               ,{Dap::KeysParam::NETWORK_NAME, m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()}
+                               ,{Dap::KeysParam::TX_HASH, m_masterNodeInfo.value(MasterNode::STAKE_INVALIDATE_HASH_KEY).toString()}};
+
+        m_serviceController->requestToService("MempoolCheckCommand", request);
     }
     else
     {

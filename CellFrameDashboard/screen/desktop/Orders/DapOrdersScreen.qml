@@ -160,4 +160,14 @@ Page {
             model: modelOrders
         }
     }
+
+    Component.onCompleted:
+    {
+        ordersModule.statusProcessing = true
+    }
+
+    Component.onDestruction:
+    {
+        ordersModule.statusProcessing = false
+    }
 }

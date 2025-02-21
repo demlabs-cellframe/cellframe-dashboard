@@ -30,7 +30,7 @@ public:
     int currentTab() const
     { return m_currentTab; }
 
-
+    void setStatusProcessing(bool status) override;
 public slots:
     void setCurrentTab(int tabIndex);
     void setPkeyFilterText(const QString &pkey);

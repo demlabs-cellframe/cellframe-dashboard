@@ -9,9 +9,7 @@ Item {
 //    property bool requestRunning: false
 
     Component.onCompleted: {
-        logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                              , DapCertificateCommands.GetSertificateList
-                                              );
+        certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.GetSertificateList})
     }
 
     Connections
@@ -162,13 +160,17 @@ Item {
     function createCertificate(certName, certType, metaData){     //metaData  is array of { type, , value }
         console.info("FLOWPOINT createCertificate", certName, certType)
 
-        logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                              , DapCertificateCommands.CreateCertificate
-                                              , certName, certType
-                                              , JSON.stringify(metaData));
-        logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                              , DapCertificateCommands.GetSertificateList
-                                              );
+        var createCertRequest = {"certCommandNumber": DapCertificateCommands.CreateCertificate,
+                                "certName": certName,
+                                "signCert": certType
+                                }
+
+        for (var key in metaData) {
+            createCertRequest[key] = metaData[key]
+        }
+        certificatesModule.requestCommand(createCertRequest)
+        certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.GetSertificateList})
+
     }
 
 
@@ -178,9 +180,10 @@ Item {
         console.info("FLOWPOINT dumpCertificate, index", index)
 
         if (cert) {
-            logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                  , DapCertificateCommands.DumpCertifiacate
-                                                  , cert.completeBaseName, cert.filePath);   //completeBaseName
+
+            certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.DumpCertifiacate,
+                                              "certName": cert.completeBaseName,
+                                              "pathCert": cert.filePath})
         } else
             console.error("not valid index", index)
     }
@@ -192,12 +195,11 @@ Item {
 
         if (cert) {
             var certName = cert.completeBaseName
-            logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                  , DapCertificateCommands.ExportPublicCertificateToFile
-                                                  , certName, certName + "_public" );
-            logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                  , DapCertificateCommands.GetSertificateList
-                                                  );
+
+            certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.ExportPublicCertificateToFile,
+                                              "certName": certName,
+                                              "newCertName": certName + "_public"})
+            certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.GetSertificateList})
         } else
             console.error("not valid index", index)
     }
@@ -209,12 +211,13 @@ Item {
 
         if (cert && dapServiceController.CurrentNetwork !== "") {
 //            requestRunning = true           //долгий запрос, требует индикации
-            logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                  , DapCertificateCommands.ExportPublicCertificateToMempool
-                                                  , dapServiceController.CurrentNetwork, cert.completeBaseName);
-            logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                  , DapCertificateCommands.GetSertificateList
-                                                  );
+
+            // logicMainApp.requestToService(DapCertificateCommands.serviceName
+            //                                       , DapCertificateCommands.ExportPublicCertificateToMempool
+            //                                       , dapServiceController.CurrentNetwork, cert.completeBaseName);
+            // logicMainApp.requestToService(DapCertificateCommands.serviceName
+            //                                       , DapCertificateCommands.GetSertificateList
+            //                                       );
         } else
             console.error("not valid index or network", index, dapServiceController.CurrentNetwork)
     }
@@ -227,12 +230,10 @@ Item {
 
         if (cert)
         {
-            logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                  , DapCertificateCommands.DeleteCertificate
-                                                  , cert.filePath);
-            logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                  , DapCertificateCommands.GetSertificateList
-                                                  );
+            certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.ExportPublicCertificateToFile,
+                                              "pathCert": cert.filePath})
+            certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.GetSertificateList})
+
         }
 
         else

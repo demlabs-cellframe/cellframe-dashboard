@@ -49,14 +49,14 @@ void DapModuleOrders::setNodeAddrFilterText(const QString &nodeAddr)
 
 void DapModuleOrders::getOrdersList()
 {
-    s_serviceCtrl->requestToService("DapGetListOrdersCommand");
-
     QStringList netList = m_modulesCtrl->getManagerController()->getNetworkList();
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {
         {Dap::KeysParam::NODE_MODE_KEY, nodeMade}
         ,{Dap::KeysParam::NETWORK_LIST, netList}
     };
+    s_serviceCtrl->requestToService("DapGetListOrdersCommand", request);
+
     s_serviceCtrl->requestToService("DapGetXchangeOrdersList", request);
 }
 
@@ -111,25 +111,46 @@ void DapModuleOrders::initConnect()
             this, &DapModuleOrders::slotUpdateOrders,
             Qt::QueuedConnection);
 
-    connect(this, &DapAbstractModule::statusProcessingChanged, [this]
+    // connect(this, &DapAbstractModule::statusProcessingChanged, [this]
+    // {
+    //     qDebug()<<"m_statusProcessing" << m_statusProcessing;
+    //     if(m_statusProcessing)
+    //     {
+    //         if(s_statusModel.first && s_statusModel.second && s_ordersModel->size())
+    //         {
+    //             setStatusInit(true);
+    //             slotUpdateOrders();
+    //         }
+    //         else
+    //             slotUpdateOrders();
+    //     }
+    //     else
+    //     {
+    //         m_timerUpdateOrders->stop();
+    //         setStatusInit(false);
+    //     }
+    // });
+}
+
+void DapModuleOrders::setStatusProcessing(bool status)
+{
+    DapAbstractModule::setStatusProcessing(status);
+    qDebug()<<"m_statusProcessing" << m_statusProcessing;
+    if(m_statusProcessing)
     {
-        qDebug()<<"m_statusProcessing" << m_statusProcessing;
-        if(m_statusProcessing)
+        if(s_statusModel.first && s_statusModel.second && s_ordersModel->size())
         {
-            if(s_statusModel.first && s_statusModel.second && s_ordersModel->size())
-            {
-                setStatusInit(true);
-                slotUpdateOrders();
-            }
-            else
-                slotUpdateOrders();
+            setStatusInit(true);
+            slotUpdateOrders();
         }
         else
-        {
-            m_timerUpdateOrders->stop();
-            setStatusInit(false);
-        }
-    });
+            slotUpdateOrders();
+    }
+    else
+    {
+        m_timerUpdateOrders->stop();
+        setStatusInit(false);
+    }
 }
 
 void DapModuleOrders::createStakeOrder(QStringList args)

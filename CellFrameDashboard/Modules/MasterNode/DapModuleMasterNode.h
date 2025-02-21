@@ -116,7 +116,7 @@ public:
     Q_PROPERTY(QVariantMap validatorData READ validatorData NOTIFY validatorDataChanged)
     QVariantMap validatorData() const;
 
-    Q_INVOKABLE bool tryGetInfoCertificate(const QString& filePath, const QString &type = "private");
+    Q_INVOKABLE bool tryGetInfoCertificate(const QString& filePath, const QString &type = Dap::CategoryCert::USER_CERT);
     Q_INVOKABLE void clearCertificate();
 
     Q_INVOKABLE QString getMasterNodeCertName();

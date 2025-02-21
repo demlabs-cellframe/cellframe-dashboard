@@ -105,8 +105,9 @@ DapPage
                             "Certificate is imported",
                             "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
 
-                logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                            , DapCertificateCommands.GetSertificateList);
+                certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.GetSertificateList})
+                // logicMainApp.requestToService(DapCertificateCommands.serviceName
+                //                             , DapCertificateCommands.GetSertificateList);
             }
             else
             {

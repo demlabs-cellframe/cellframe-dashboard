@@ -53,8 +53,9 @@ void DapFeeManager::requestFee(const QString &network)
 {
     m_isRequestData = true;
     QString currentMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
-
-    m_modulesController->getServiceController()->requestToService("DapGetFeeCommand", QStringList() << network << Dap::KeysParam::NODE_MODE_KEY << currentMode);
+    QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, network}
+                           ,{Dap::KeysParam::NODE_MODE_KEY, currentMode}};
+    m_modulesController->getServiceController()->requestToService("DapGetFeeCommand", request);
     m_rcvFeeTimeout->start(TIME_FEE_TIMEOUT);
 }
 
