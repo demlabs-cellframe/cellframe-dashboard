@@ -5,6 +5,7 @@
 #include <QScreen>
 #include <memory>
 #include "sys/stat.h"
+#include <signal.h>
 
 
 
@@ -19,7 +20,6 @@
 #include "DapApplication.h"
 #include "DapGuiApplication.h"
 #include "systemtray.h"
-#include <signal.h>
 
 #include "DapLogger.h"
 #include "DapLogHandler.h"
@@ -39,6 +39,7 @@ int DEFAULT_HEIGHT = 720;
 bool SingleApplicationTest(const QString &appName);
 void createDapLogger();
 QByteArray scaleCalculate(int argc, char *argv[]);
+void blocksignal(int signal_to_block /* i.e. SIGPIPE */ );
 
 int main(int argc, char *argv[])
 {
@@ -46,7 +47,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-    signal(SIGPIPE, SIG_IGN);
+    blocksignal(SIGPIPE);
 
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setAttribute(Qt::AA_ForceRasterWidgets);
@@ -89,6 +90,21 @@ int main(int argc, char *argv[])
     mainApp.reset();
     DapLogger::deleteLogger();
     return result;
+}
+
+void blocksignal(int signal_to_block /* i.e. SIGPIPE */ )
+{
+#ifndef Q_OS_WIN
+    sigset_t set;
+    sigset_t old_state;
+
+    sigprocmask(SIG_BLOCK, NULL, &old_state);
+
+    set = old_state;
+    sigaddset(&set, signal_to_block);
+
+    sigprocmask(SIG_BLOCK, &set, NULL);
+#endif
 }
 
 bool SingleApplicationTest(const QString &appName)
