@@ -34,7 +34,21 @@ int DEFAULT_HEIGHT = 720;
 bool SingleApplicationTest(const QString &appName);
 void createDapLogger();
 QByteArray scaleCalculate(int argc, char *argv[]);
-void blocksignal(int signal_to_block /* i.e. SIGPIPE */ );
+
+#ifdef Q_OS_LINUX
+void blocksignal(int signal_to_block /* i.e. SIGPIPE */ )
+{
+    sigset_t set;
+    sigset_t old_state;
+
+    sigprocmask(SIG_BLOCK, NULL, &old_state);
+
+    set = old_state;
+    sigaddset(&set, signal_to_block);
+
+    sigprocmask(SIG_BLOCK, &set, NULL);
+}
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -87,19 +101,6 @@ int main(int argc, char *argv[])
     mainApp.reset();
     DapLogger::deleteLogger();
     return result;
-}
-
-void blocksignal(int signal_to_block /* i.e. SIGPIPE */ )
-{
-    sigset_t set;
-    sigset_t old_state;
-
-    sigprocmask(SIG_BLOCK, NULL, &old_state);
-
-    set = old_state;
-    sigaddset(&set, signal_to_block);
-
-    sigprocmask(SIG_BLOCK, &set, NULL);
 }
 
 bool SingleApplicationTest(const QString &appName)
