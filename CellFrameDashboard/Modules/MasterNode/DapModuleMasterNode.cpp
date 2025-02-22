@@ -478,7 +478,11 @@ void DapModuleMasterNode::getHashCertificate(const QString& certName)
 
 void DapModuleMasterNode::addNode()
 {
-    s_serviceCtrl->requestToService("DapAddNodeCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
+    QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                           ,{Dap::KeysParam::NETWORK_NAME, m_currentStartMaster[MasterNode::NETWORK_KEY].toString()}};
+
+    s_serviceCtrl->requestToService("DapAddNodeCommand", request);
 }
 
 void DapModuleMasterNode::createStakeOrder()

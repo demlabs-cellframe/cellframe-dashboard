@@ -31,14 +31,12 @@ void DapNetworksManagerRemote::requestNetworskInfo()
 //    req.insert(Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
 //    req.insert(Dap::CommandParamKeys::NETWORK_LIST,  m_netList);
 
-    QStringList req;
-    req.append(Dap::KeysParam::NODE_MODE_KEY);
-    req.append(Dap::NodeMode::REMOTE_MODE);
-    req.append(Dap::KeysParam::NETWORK_LIST);
+    QString nodeMade = Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                           ,{Dap::KeysParam::NETWORK_LIST, m_netList}};
 
-    for(const auto &net: qAsConst(m_netList)) req.append(net);
 
-    m_modulesController->getServiceController()->requestToService("DapGetNetworksStateCommand", req);
+    m_modulesController->getServiceController()->requestToService("DapGetNetworksStateCommand", request);
 }
 
 void DapNetworksManagerRemote::networkListRespond(const QVariant &rcvData)
