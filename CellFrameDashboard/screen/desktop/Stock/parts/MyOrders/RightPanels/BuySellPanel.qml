@@ -72,16 +72,8 @@ DapRectangleLitAndShaded {
             label: qsTr("Balance:")
             text:
             {
-                if(!isBuy)
-                {
-                    var tokenBuy = logic.selectedItem.tokenBuy
-                    return dexModule.getBalance(tokenBuy) + " " + tokenBuy
-                }
-                else
-                {
-                    var tokenSell = logic.selectedItem.tokenSell
-                    return dexModule.getBalance(tokenSell) + " " + tokenSell
-                }
+                var token = logic.selectedItem.tokenBuy
+                return walletModule.getBalanceDEX(token) + " " + token
             }
             textColor: currTheme.white
             textFont: mainFont.dapFont.regular14

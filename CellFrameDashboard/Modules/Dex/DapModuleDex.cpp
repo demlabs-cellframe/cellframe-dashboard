@@ -173,13 +173,17 @@ void DapModuleDex::respondTokenPairs(const QVariant &rcvData)
         tmpPair.network = pairObject["network"].toString();
         tmpPair.displayText = tmpPair.token1 + "/" + tmpPair.token2;
 
+        //Filtring m-tokens, BUSD and USDT
         if(tmpPair.token1 == "BUSD"     ||
            tmpPair.token2 == "BUSD"     ||
+           tmpPair.token1 == "USDT"     ||
+           tmpPair.token2 == "USDT"     ||
            tmpPair.token1.contains("m") ||
            tmpPair.token2.contains("m"))
         {
             continue;
         }
+        //******************************//
 
         if(!netList.contains(tmpPair.network))
         {
@@ -233,8 +237,13 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
 
     if(m_currentPair.displayText == pairName)
     {
-        m_currentPair.rate = tokenPairObject["rate"].toString();
-        m_currentPair.rate_double = m_currentPair.rate.toDouble();
+        QString rate = tokenPairObject["rate"].toString();
+        if(rate != m_currentPair.rate)
+        {
+            m_currentPair.rate = tokenPairObject["rate"].toString();
+            m_currentPair.rate_double = m_currentPair.rate.toDouble();
+            workersUpdate();
+        }
         QString time = tokenPairObject["time"].toString();
 
         m_stockDataWorker->getCandleChartWorker()->respondCurrentTokenPairs({{time, m_currentPair.rate}});
@@ -1020,6 +1029,7 @@ void DapModuleDex::setCurrentRateFromModel()
         }
         m_currentPair.rate = item.rate;
         m_currentPair.rate_double = item.rate_double;
+        break;
     }
 }
 

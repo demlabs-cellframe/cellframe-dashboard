@@ -21,9 +21,11 @@ public:
     ~DapDappsNetworkManager();
     void downloadFile(QString name);
     void uploadFile();
-    void getFiles();
+    void fetchPluginsList();
 
     void cancelDownload(bool ok, bool reload);
+
+    QString repoAddress() const;
 
 private slots:
     void onDownloadCompleted();
@@ -61,7 +63,7 @@ signals:
 
     void sigAborted();
     void sigUploadCompleted();
-    void sigFilesReceived();
+    void sigPluginsListFetched();
 
 };
 

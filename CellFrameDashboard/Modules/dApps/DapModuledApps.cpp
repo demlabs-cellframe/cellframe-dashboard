@@ -2,316 +2,9 @@
 #include <sys/stat.h>
 #include "DapDashboardPathDefines.h"
 
-#define TIME_INTERVAL 500
+namespace DApps {
 
-DapModuledApps::DapModuledApps(DapModulesController *parent)
-    : DapAbstractModule(parent)
-{
-//    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
-//    {
-        setStatusInit(true);
-        init();
-
-//    });
-}
-
-DapModuledApps::~DapModuledApps()
-{
-    if(m_dapNetworkManager) delete m_dapNetworkManager;
-}
-
-void DapModuledApps::init()
-{
-    m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
-
-#if !defined(Q_OS_WIN)
-    m_filePrefix = "file://";
-#else
-    m_filePrefix = "file:///";
-#endif
-
-#if defined Q_OS_MACOS
-    mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
-#endif
-    //dApps config file
-    m_pathPluginsConfigFile = Dap::DashboardDefines::DApps::PLUGINS_CONFIG;
-    m_pathPlugins = Dap::DashboardDefines::DApps::PLUGINS_PATH;
-
-    QFile filePlugin(m_pathPluginsConfigFile);
-    if(!filePlugin.exists())
-    {
-        if(filePlugin.open(QIODevice::WriteOnly))
-            filePlugin.close();
-    }
-
-    m_dapNetworkManager = new DapDappsNetworkManager(m_repoPlugins, m_pathPlugins);
-
-    connect(m_dapNetworkManager, SIGNAL(sigFilesReceived()), this, SLOT(onFilesReceived()));
-    connect(m_dapNetworkManager, SIGNAL(sigDownloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
-    connect(m_dapNetworkManager, SIGNAL(sigDownloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
-    connect(m_dapNetworkManager, SIGNAL(sigAborted()), this, SLOT(onAborted()));
-
-    readPluginsFile(&m_pathPluginsConfigFile);
-    m_dapNetworkManager->getFiles();
-}
-
-
-void DapModuledApps::onFilesReceived()
-{
-    m_buffPluginsByUrl = m_dapNetworkManager->m_bufferFiles;
-
-    m_dapNetworkManager->m_bufferFiles.erase(
-        m_dapNetworkManager->m_bufferFiles.begin(),
-        m_dapNetworkManager->m_bufferFiles.end());
-
-    if(m_buffPluginsByUrl.count())
-    {
-        QList <QStringList> appendList;
-        for(int i = 0; i < m_buffPluginsByUrl.length(); i++)
-        {
-            if(m_pluginsList.count())
-            {
-                for(int j = 0; j < m_pluginsList.length(); j++)
-                {
-                    QStringList str = m_pluginsList[j].toStringList();
-
-                    if(str[0] == m_buffPluginsByUrl[i])
-                    {
-                        if(!str[3].toInt())
-                        {
-                            str[3] = "1";
-                            m_pluginsList.removeAt(j);
-                            m_pluginsList.append(str);
-                        }
-                    }
-                    else
-                    {
-                        QStringList list;
-                        list.append(m_buffPluginsByUrl[i]);
-                        list.append(m_repoPlugins);
-                        list.append("0");
-                        list.append("1");
-                        appendList.append(list);
-                    }
-                }
-            }
-            else
-            {
-                QStringList list;
-                list.append(m_buffPluginsByUrl[i]);
-                list.append(m_repoPlugins);
-                list.append("0");
-                list.append("1");
-                appendList.append(list);
-            }
-        }
-
-        for(int i = 0; i < appendList.length(); i++)
-        {
-            bool ok = true;
-            for(int j = 0; j < m_pluginsList.length(); j++)
-            {
-                QStringList str = m_pluginsList[j].toStringList();
-                QStringList str2 = appendList[i];
-
-                if(str[0].remove(".zip") == str2[0].remove(".zip") && str[3].toInt())
-                {
-                    ok = false;
-                    break;
-                }
-            }
-            if(ok)
-                m_pluginsList.append(appendList[i]);
-        }
-        m_buffPluginsByUrl.erase(m_buffPluginsByUrl.begin(), m_buffPluginsByUrl.end());
-    }
-    else
-        qWarning()<<"No dApps in repository";
-
-    updateFileConfig();
-    getListPlugins();
-}
-
-void DapModuledApps::onDownloadProgress(quint64 prog, quint64 total, QString name, QString error)
-{
-    if(total)
-    {
-        double percent_progress = ((double)prog * 100.0)/(double)total;
-        QString progress = QString::number(percent_progress,'f',2);
-
-        int completed = progress == "100.00"? 1 : 0;
-
-        quint64 deltaDownload = prog - m_bytesDownload;
-        m_bytesDownload = prog;
-        m_bytesTotal = total;
-        uint timeNow = m_timeRecord.elapsed();
-
-        if(timeNow - m_timeInterval > TIME_INTERVAL)
-        {
-            //speed
-            qint64 ispeed = deltaDownload * 1000 / (timeNow - m_timeInterval);
-            m_speed = transformUnit((double)ispeed, true);
-            // time;
-            qint64 timeRemain = (total - prog) / ispeed;
-            m_time = transformTime(timeRemain);
-
-            m_timeInterval = timeNow;
-        }
-
-        QString downloadTransform, totalTransform;
-        downloadTransform = transformUnit((double)m_bytesDownload,false);
-        totalTransform = transformUnit((double)m_bytesTotal,false);
-
-        //    qDebug()<< progress << " - " << completed << " - " << downloadTransform << " - " << totalTransform << " - " << time << " - " << speed;
-
-        emit rcvProgressDownload(progress, completed, downloadTransform, totalTransform, m_time, m_speed, name, error);
-    }
-    else
-    {
-        double percent_progress = ((double)m_bytesDownload * 100.0)/(double)m_bytesTotal;
-        QString progress = QString::number(percent_progress,'f',2);
-
-        QString downloadTransform, totalTransform;
-        downloadTransform = transformUnit((double)m_bytesDownload,false);
-        totalTransform = transformUnit((double)m_bytesTotal,false);
-
-        emit rcvProgressDownload(progress, 0, downloadTransform, totalTransform, "0", "0", name, error);
-    }
-
-    //    qDebug()<<total << " - " << progress << "%" << " - "  <<completed;
-}
-
-
-void DapModuledApps::addPlugin(QVariant path, QVariant status, QVariant verifed)
-{
-
-    QString path_plug = path.toString();
-    QStringList splitPath = path.toString().split("/");
-    QString name_mainFilePlugin = splitPath.last().remove(".zip");
-
-    path_plug.remove(m_filePrefix);
-
-    if(checkDuplicates(name_mainFilePlugin, verifed.toString()) && zipManage(path_plug))
-    {
-        QStringList list;
-
-        QString pathMainFileQml = QString(m_filePrefix + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml") ;
-        pathMainFileQml = QDir::toNativeSeparators(pathMainFileQml);
-
-        list.append(name_mainFilePlugin); //name plugin
-        list.append(pathMainFileQml); //path main.qml
-        list.append(status.toString()); //instal or not install
-        list.append("0"); // verefied
-
-        m_pluginsList.append(list);
-
-
-        QFile file(m_pathPluginsConfigFile);
-
-        if(file.open(QIODevice::Append))
-        {
-            QTextStream out(&file);
-            out<<"["<<list[0]<<"]"<<"\n";
-            out<<"path = "<<list[1]<<"\n";
-            out<<"status = "<<list[2]<<"\n";
-            out<<"verifed = " << list[3] <<"\n";
-            file.close();
-        }
-        else
-            qWarning() << "dApps Config not open. " << file.errorString();
-
-        if(status.toInt())
-            installPlugin(name_mainFilePlugin,status.toString(), verifed.toString());
-
-        getListPlugins();
-    }
-}
-
-
-void DapModuledApps::installPlugin(QString name, QString status, QString verifed)
-{
-    QStringList str;
-    int i;
-    bool ok = false;
-
-    for(i = 0; i < m_pluginsList.length(); i++)
-    {
-        str = m_pluginsList.value(i).toStringList();
-        if(str[0] == name){
-            ok = true;
-            break;
-        }
-    }
-    if(!ok)
-        qWarning()<< "Extension search error";
-    else
-    {
-        if(checkHttps(str[1]))
-        {
-            m_dapNetworkManager->downloadFile(str[0]);
-            m_timeRecord.start();
-            m_timeInterval = 0;
-            m_bytesDownload = 0;
-            m_time = "";
-            m_speed = "";
-        }
-        else
-        {
-            m_pluginsList.removeAt(i);
-            str[2] = status;
-            str[3] = verifed;
-            m_pluginsList.append(str);
-            updateFileConfig();
-            getListPlugins();
-        }
-    }
-}
-
-void DapModuledApps::deletePlugin(QVariant url)
-{
-    int number;
-    bool ok = false;
-    for(number = 0; number < m_pluginsList.length(); number++)
-    {
-        if(m_pluginsList.value(number).toStringList()[1] == url.toString())
-        {
-            ok = true;
-            break;
-        }
-    }
-    if(ok)
-    {
-        QStringList str = m_pluginsList.value(number).toStringList();
-        str[1].remove(QString("/" + str[0] + ".qml"));
-        str[1].remove(m_filePrefix);
-
-        QFile file(QDir::toNativeSeparators(QString(m_pathPlugins + "/download/" + str[0] + ".zip")));
-
-        if(file.exists())
-            file.remove();
-
-
-        QDir dir(str[1]);
-        dir.removeRecursively();
-
-        m_pluginsList.removeAt(number);
-
-        updateFileConfig();
-        m_dapNetworkManager->getFiles();
-    }
-}
-
-bool DapModuledApps::zipManage(QString &path)
-{
-    //TODO: Make a request to the node to confirm the hash
-    QString hash = pkeyHash(path);
-
-    //    bool result = DapZip::fileDecompression(path,m_pathPlugins);
-
-    return DapZip::fileDecompression(path,m_pathPlugins);
-}
-
-QString DapModuledApps::pkeyHash(QString &path)
+QString pkeyHash(QString &path)
 {
     QFile file(path);
     QByteArray fileData;
@@ -330,41 +23,559 @@ QString DapModuledApps::pkeyHash(QString &path)
     return ret;
 }
 
-bool DapModuledApps::checkDuplicates(QString name, QString verifed)
+bool checkHttps(QString path)
 {
-    int ind = 10000;
-    bool ok = true;
-    for(int i = 0; i < m_pluginsList.length(); i++)
-    {
-        QStringList str = m_pluginsList[i].toStringList();
-        QString checkName = m_pluginsList[i].toStringList()[0].remove(".zip");
-
-        if(name == checkName && verifed.toInt())
-            ind = i;
-
-        if(name == str[0])
-        {
-            ok = false;
-            break;
-        }
-    }
-
-    if(ind != 10000)
-    {
-        m_pluginsList.removeAt(ind);
-    }
-    return ok;
-}
-
-bool DapModuledApps::checkHttps(QString path)
-{
-
     QStringList findWord = {"https://"};
     QString findReg = '(' + findWord.join('|') + ')';
     QRegularExpression re(findReg);
     QString endStr = re.match(path).capturedTexts().join(' ');
 
     return !endStr.isEmpty();
+}
+
+QString transformUnit(double bytes, bool isSpeed = false)
+{
+    const double UNIT_KB = 1024.0;
+    const double UNIT_MB = UNIT_KB*UNIT_KB;
+    const double UNIT_GB = UNIT_MB*UNIT_KB;
+
+    QString strUnit = " B";
+
+    if (bytes <= 0)
+    {
+        bytes = 0;
+    }
+    else if (bytes < UNIT_KB)
+    {
+    }
+    else if (bytes < UNIT_MB)
+    {
+        bytes /= UNIT_KB;
+        strUnit = " KB";
+    }
+    else if (bytes < UNIT_GB)
+    {
+        bytes /= UNIT_MB;
+        strUnit = " MB";
+    }
+    else if (bytes > UNIT_GB)
+    {
+        bytes /= UNIT_GB;
+        strUnit = " GB";
+    }
+
+    if (isSpeed)
+    {
+        strUnit += "/S";
+    }
+    return QString("%1%2").arg(QString::number(bytes, 'f',2)).arg(strUnit);
+}
+
+QString transformTime(quint64 seconds)
+{
+    QString strValue;
+    QString strSpacing(" ");
+    if (seconds <= 0)
+    {
+        strValue = QString("%1s").arg(0);
+    }
+    else if (seconds < 60)
+    {
+        strValue = QString("%1s").arg(seconds);
+    }
+    else if (seconds < 60 * 60)
+    {
+        int nMinute = seconds / 60;
+        int nSecond = seconds - nMinute * 60;
+
+        strValue = QString("%1m").arg(nMinute);
+
+        if (nSecond > 0)
+            strValue += strSpacing + QString("%1s").arg(nSecond);
+    }
+    else if (seconds < 60 * 60 * 24)
+    {
+        int nHour = seconds / (60 * 60);
+        int nMinute = (seconds - nHour * 60 * 60) / 60;
+        int nSecond = seconds - nHour * 60 * 60 - nMinute * 60;
+
+        strValue = QString("%1h").arg(nHour);
+
+        if (nMinute > 0)
+            strValue += strSpacing + QString("%1m").arg(nMinute);
+
+        if (nSecond > 0)
+            strValue += strSpacing + QString("%1s").arg(nSecond);
+    }
+    else
+    {
+        int nDay = seconds / (60 * 60 * 24);
+        int nHour = (seconds - nDay * 60 * 60 * 24) / (60 * 60);
+        int nMinute = (seconds - nDay * 60 * 60 * 24 - nHour * 60 * 60) / 60;
+        int nSecond = seconds - nDay * 60 * 60 * 24 - nHour * 60 * 60 - nMinute * 60;
+
+        strValue = QString("%1d").arg(nDay);
+
+        if (nHour > 0)
+            strValue += strSpacing + QString("%1h").arg(nHour);
+
+        if (nMinute > 0)
+            strValue += strSpacing + QString("%1m").arg(nMinute);
+
+        if (nSecond > 0)
+            strValue += strSpacing + QString("%1s").arg(nSecond);
+    }
+
+    return strValue;
+}
+
+PluginManager::PluginsList readPluginsFile(QString path)
+{
+    QFile file(path);
+    QString readFile;
+    PluginManager::PluginsList result;
+
+    if(file.open(QIODevice::ReadOnly))
+    {
+        while(!file.atEnd())
+        {
+            QString plName;
+            PluginManager::PluginInfo plInfo;
+
+            for(int i = 0; i < 4 ; i++ )
+            {
+                readFile = file.readLine();
+
+                if (readFile.size() == 0)
+                {
+                    qWarning() << "[dApps] config file is not correct";
+                    break;
+                }
+
+                if(i == 0)
+                {
+                    readFile = readFile.split('[')[1];
+                    readFile = readFile.split(']')[0];
+
+                    plName = readFile.trimmed();
+                }
+                else if(i == 1)
+                {
+                    readFile = readFile.split("path")[1];
+                    readFile = readFile.split('=')[1];
+
+                    plInfo.pluginPath = readFile.trimmed();
+                }
+                else if(i == 2)
+                {
+                    readFile = readFile.split("status")[1];
+                    readFile = readFile.split('=')[1];
+
+                    plInfo.isActivated = QVariant(readFile.trimmed()).toBool();
+                }
+                else if(i == 3)
+                {
+                    readFile = readFile.split("verifed")[1];
+                    readFile = readFile.split('=')[1];
+
+                    plInfo.isVerified = QVariant(readFile.trimmed()).toBool();
+                }
+            }
+            result.insert(plName, plInfo);
+        }
+        file.close();
+    }
+    return result;
+}
+
+bool zipManage(QString &path, QString pluginsFolderPath)
+{
+    //TODO: Make a request to the node to confirm the hash
+    //QString hash = pkeyHash(path);
+
+    return DapZip::fileDecompression(path,pluginsFolderPath);
+}
+
+PluginManager::PluginManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent)
+    : m_pDapNetworkManager(pDapDappsNetworkManager)
+{
+    initFilePath();
+    m_pluginsByName = readPluginsFile(m_pathPluginsListFile);
+    connect(m_pDapNetworkManager.data(), SIGNAL(sigPluginsListFetched()), this, SLOT(onPluginsFetched()));
+    m_pDapNetworkManager->fetchPluginsList();
+}
+
+PluginManager::~PluginManager()
+{
 
 }
 
+void PluginManager::onPluginsFetched()
+{
+    addFetchedPlugins();
+    savePluginsToFile();
+    emit isFetched();
+}
+
+void PluginManager::addFetchedPlugins()
+{
+    if (m_pDapNetworkManager->m_bufferFiles.empty())
+        qWarning()<<"No dApps in repository";
+
+    for(auto repoPlugin : m_pDapNetworkManager->m_bufferFiles)
+    {
+        QString nameWithoutZip = repoPlugin.split(".zip").first();
+        const bool isAlreadyInstalled = m_pluginsByName.contains(nameWithoutZip) &&
+                                        m_pluginsByName.value(nameWithoutZip).isActivated &&
+                                        m_pluginsByName.value(nameWithoutZip).isVerified;
+        if (isAlreadyInstalled)
+            continue;
+
+        bool isVerified = true;
+        m_pluginsByName[repoPlugin] = PluginInfo{m_pDapNetworkManager->repoAddress(), false, isVerified};
+    }
+    m_pDapNetworkManager->m_bufferFiles.clear();
+}
+
+void PluginManager::savePluginsToFile()
+{
+    initFilePath();
+    QFile file(m_pathPluginsListFile);
+
+    if(file.open(QIODevice::WriteOnly))
+    {
+        QTextStream out(&file);
+        for (auto it = m_pluginsByName.keyValueBegin(); it != m_pluginsByName.keyValueEnd(); ++it)
+        {
+            const auto& pluginName = it->first;
+            const auto& pluginInfo = it->second;
+            if(!checkHttps(pluginInfo.pluginPath))
+            {
+                out << "[" << pluginName << "]" << "\n";
+                out << "path = " << pluginInfo.pluginPath << "\n";
+                out << "status = " <<  QVariant(pluginInfo.isActivated).toString() << "\n";
+                out << "verifed = " << QVariant(pluginInfo.isVerified).toString() << "\n";
+            }
+        }
+        file.close();
+    }
+    else
+        qWarning() << "dApps Config not open. " << file.errorString();
+}
+
+void PluginManager::initFilePath()
+{
+#ifdef Q_OS_LINUX
+    m_pathPluginsListFile = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
+#elif defined Q_OS_MACOS
+    mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
+    m_pathPluginsListFile = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
+#elif defined Q_OS_WIN
+    m_pathPluginsListFile = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
+#endif
+    QFile filePlugin(m_pathPluginsListFile);
+    if(!filePlugin.exists())
+    {
+        if(filePlugin.open(QIODevice::WriteOnly))
+            filePlugin.close();
+    }
+}
+
+QList<QVariant> PluginManager::getPluginsList() const
+{
+    QList<QVariant> result;
+    for (auto it = m_pluginsByName.keyValueBegin(); it != m_pluginsByName.keyValueEnd(); ++it)
+    {
+        const auto& pluginName = it->first;
+        const auto& pluginInfo = it->second;
+
+        QStringList item;
+        item.append(pluginName);
+        item.append(pluginInfo.pluginPath);
+        item.append(QVariant(static_cast<int>(pluginInfo.isActivated)).toString());
+        item.append(QVariant(static_cast<int>(pluginInfo.isVerified)).toString());
+
+        result.append(item);
+    }
+    return result;
+}
+
+std::optional<PluginManager::PluginInfo> PluginManager::pluginByName(const QString& name) const
+{
+    if (m_pluginsByName.contains(name))
+        return m_pluginsByName.value(name);
+
+    return std::nullopt;
+}
+
+void PluginManager::addLocalPlugin(QString name, QString localPath)
+{
+    m_pluginsByName[name] = PluginInfo{localPath, false, false};
+    savePluginsToFile();
+}
+
+void PluginManager::changePath(QString name, QString newPath)
+{
+    if (m_pluginsByName.contains(name))
+    {
+        m_pluginsByName[name].pluginPath = newPath;
+        savePluginsToFile();
+    }
+}
+
+void PluginManager::changeActivation(QString name, bool isActivated)
+{
+    if (m_pluginsByName.contains(name))
+    {
+        m_pluginsByName[name].isActivated = isActivated;
+        savePluginsToFile();
+    }
+}
+
+void PluginManager::changeName(QString oldName, QString newName)
+{
+    if (m_pluginsByName.contains(oldName))
+    {
+        auto plInfo = m_pluginsByName[oldName];
+        m_pluginsByName.remove(oldName);
+        m_pluginsByName.insert(newName, plInfo);
+        savePluginsToFile();
+    }
+}
+
+void PluginManager::removePlugin(QString name)
+{
+    if (m_pluginsByName.contains(name))
+    {
+        m_pluginsByName.remove(name);
+        savePluginsToFile();
+        m_pDapNetworkManager->fetchPluginsList();
+    }
+}
+
+DownloadManager::DownloadManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QObject *parent)
+    : m_pDapNetworkManager(pDapDappsNetworkManager)
+{
+    connect(m_pDapNetworkManager.data(), SIGNAL(sigDownloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
+    connect(m_pDapNetworkManager.data(), SIGNAL(sigDownloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
+    connect(m_pDapNetworkManager.data(), SIGNAL(sigAborted()), this, SLOT(onAborted()));
+}
+
+DownloadManager::~DownloadManager()
+{
+
+}
+
+void DownloadManager::startDownload(const QString& pluginName)
+{
+    m_pDapNetworkManager->downloadFile(pluginName);
+    m_progress.timeRecord.start();
+}
+
+void DownloadManager::cancelDownload()
+{
+    m_pDapNetworkManager->cancelDownload(true, false);
+}
+
+void DownloadManager::reloadDownload()
+{
+    m_pDapNetworkManager->cancelDownload(true, true);
+}
+
+void DownloadManager::onDownloadCompleted(QString path)
+{
+    emit downloadCompleted(path);
+}
+
+void DownloadManager::onDownloadProgress(quint64 currDownloadedBytes, quint64 totalBytes, QString nameZip, QString statusMsg)
+{
+    bool isCompleted = false;
+    double percent;
+    QString percentStr, downloadedStr, totalStr;
+    if (totalBytes != 0)
+    {
+        quint64 timeNow = m_progress.timeRecord.elapsed();
+        m_progress.totalBytes = totalBytes;
+
+        percent = (currDownloadedBytes * 100.0)/(double)totalBytes;
+        percentStr = QString::number(percent,'f',2);
+
+        isCompleted = currDownloadedBytes == totalBytes;
+
+        if (timeNow - m_progress.lastTimeInterval > m_minTimeInterval)
+        {
+            quint64 deltaDownload = currDownloadedBytes - m_progress.prevDownloaded;
+            double speed = deltaDownload * 1000 / (timeNow - m_progress.lastTimeInterval);
+            m_progress.speedStr = transformUnit(speed, true);
+
+            qint64 timeRemain = (totalBytes - currDownloadedBytes) / speed;
+            m_progress.timeRemainStr = transformTime(timeRemain);
+
+            m_progress.lastTimeInterval = timeNow;
+            m_progress.prevDownloaded = currDownloadedBytes;
+        }
+
+        downloadedStr = transformUnit((double)currDownloadedBytes);
+        totalStr = transformUnit((double)totalBytes);
+    }
+    else
+    {
+        isCompleted = true;
+        percent = (m_progress.prevDownloaded * 100.0)/(double)m_progress.totalBytes;
+        percentStr = QString::number(percent,'f',2);
+
+        downloadedStr = transformUnit((double)m_progress.prevDownloaded, false);
+        totalStr = transformUnit((double)m_progress.totalBytes, false);
+    }
+    emit downloadProgress(isCompleted, statusMsg, percentStr, nameZip, downloadedStr, totalStr, m_progress.timeRemainStr, m_progress.speedStr);
+}
+
+void DownloadManager::onAborted()
+{
+    emit isAborted();
+}
+
+DapModuledApps::DapModuledApps(DapModulesController *parent)
+    : DapAbstractModule(parent)
+    , m_modulesCtrl(parent)
+{
+    setStatusInit(true);
+    initPlatformPaths();
+
+    auto pDapNetworkManager = QSharedPointer<DapDappsNetworkManager>::create(m_repoPlugins, m_dappsFolder);
+    m_pPluginManager = PluginManagerPtr::create(pDapNetworkManager);
+    m_pDownloadManager = DownloadManagerPtr::create(pDapNetworkManager);
+
+    connect(m_pPluginManager.data(), SIGNAL(isFetched()), this, SLOT(onPluginManagerInit()));
+    connect(m_pDownloadManager.data(), SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
+    connect(m_pDownloadManager.data(), SIGNAL(downloadProgress(bool, QString, QString, QString, QString, QString, QString, QString)), this, SLOT(onDownloadProgress(bool, QString, QString, QString, QString, QString, QString, QString)));
+    connect(m_pDownloadManager.data(), SIGNAL(isAborted()), this, SLOT(onAborted()));
+}
+
+DapModuledApps::~DapModuledApps()
+{
+
+}
+
+void DapModuledApps::onDownloadCompleted(QString pluginFullPathToZip)
+{
+    if (zipManage(pluginFullPathToZip, m_dappsFolder))
+    {
+        QString nameWithZip = pluginFullPathToZip.split("/").last();
+        QString nameWithoutZip = nameWithZip.split(".zip").first();
+        QString pathMainFileQml = QString(m_filePrefix + m_dappsFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
+        m_pPluginManager->changePath(nameWithZip, pathMainFileQml);
+        m_pPluginManager->changeActivation(nameWithZip, true);
+        m_pPluginManager->changeName(nameWithZip, nameWithoutZip);
+        emit pluginsUpdated(m_pPluginManager->getPluginsList());
+    }
+}
+
+void DapModuledApps::onDownloadProgress(bool isCompleted, QString error, QString progressPercent, QString fileName, QString downloaded, QString total, QString timeRemain, QString speed)
+{
+    emit rcvProgressDownload(isCompleted, error, progressPercent, fileName, downloaded, total, timeRemain, speed);
+}
+
+void DapModuledApps::onAborted()
+{
+    emit rcvAbort();
+}
+
+void DapModuledApps::addLocalPlugin(QVariant path)
+{
+    QString fullPathToZipFile = path.toString();
+    fullPathToZipFile.remove(m_filePrefix);
+    QStringList splitPath = path.toString().split("/");
+    QString nameWithoutZip = splitPath.last().remove(".zip");
+
+    if (!m_pPluginManager->pluginByName(nameWithoutZip).has_value())
+    {
+        if (zipManage(fullPathToZipFile, m_dappsFolder))
+        {
+            QString pathMainFileQml = QString(m_filePrefix + m_dappsFolder + "/" + nameWithoutZip + "/" + nameWithoutZip +".qml") ;
+            m_pPluginManager->addLocalPlugin(nameWithoutZip, pathMainFileQml);
+
+            emit pluginsUpdated(m_pPluginManager->getPluginsList());
+        }
+    }
+}
+
+void DapModuledApps::activatePlugin(QString pluginName)
+{
+    auto pluginOpt = m_pPluginManager->pluginByName(pluginName);
+    if (pluginOpt.has_value())
+    {
+        if (checkHttps(pluginOpt->pluginPath))
+            m_pDownloadManager->startDownload(pluginName);
+        else
+        {
+            m_pPluginManager->changeActivation(pluginName, true);
+            emit pluginsUpdated(m_pPluginManager->getPluginsList());
+        }
+    }
+    else
+    {
+        qWarning()<< "Extension search error";
+    }
+}
+
+void DapModuledApps::deactivatePlugin(QString pluginName)
+{
+    m_pPluginManager->changeActivation(pluginName, false);
+    emit pluginsUpdated(m_pPluginManager->getPluginsList());
+}
+
+void DapModuledApps::deletePlugin(QString pluginName)
+{
+    auto plOpt = m_pPluginManager->pluginByName(pluginName);
+    if (plOpt.has_value())
+    {
+        auto zipFilePath = QString(m_dappsFolder + "/download/" + pluginName + ".zip");
+        auto pluginFolderPath = plOpt->pluginPath.remove(QString("/" + pluginName + ".qml"));
+        pluginFolderPath.remove(m_filePrefix);
+
+        QFile file(zipFilePath);
+        if(file.exists())
+            file.remove();
+
+        QDir dir(pluginFolderPath);
+        dir.removeRecursively();
+
+        m_pPluginManager->removePlugin(pluginName);
+    }
+}
+
+void DapModuledApps::cancelDownload()
+{
+    m_pDownloadManager->cancelDownload();
+}
+
+void DapModuledApps::reloadDownload()
+{
+    m_pDownloadManager->reloadDownload();
+}
+
+void DapModuledApps::initPlatformPaths()
+{
+#if !defined(Q_OS_WIN)
+    m_filePrefix = "file://";
+#else
+    m_filePrefix = "file:///";
+#endif
+
+#ifdef Q_OS_LINUX
+    m_dappsFolder = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
+#elif defined Q_OS_MACOS
+    mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
+    m_dappsFolder = QString("/tmp/Cellframe-Dashboard_dapps");
+#elif defined Q_OS_WIN
+    m_dappsFolder = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
+#endif
+}
+
+void DapModuledApps::onPluginManagerInit()
+{
+    emit pluginsUpdated(m_pPluginManager->getPluginsList());
+}
+
+} // DApps

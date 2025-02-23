@@ -785,11 +785,11 @@ Rectangle {
 
     Connections{
         target: dAppsModule
-        function onRcvListPlugins(m_pluginsList)
+        function onPluginsUpdated(pluginsList)
         {
             console.log("onRcvListPlugins")
-            console.log("Plugins count:", m_pluginsList.length)
-            logicMainApp.rcvPlugins(m_pluginsList)
+            console.log("Plugins count:", pluginsList.length)
+            logicMainApp.rcvPlugins(pluginsList)
 
             modelPluginsUpdated()
             logicMainApp.updateModelAppsTab()

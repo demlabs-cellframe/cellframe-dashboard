@@ -18,6 +18,7 @@ RowLayout
     property string detailOpen: "../RightPanels/DetailsOpen.qml"
     property string detailHistory: "../RightPanels/DetailsHistory.qml"
     property string orderDone: "../../CreateOrder/OrderCreateDone.qml"
+    property string orderExchangeDone: "../../CreateOrder/OrderExchangeDone.qml"
 
     property string currentPair: "All pairs"
     property string currentSide: "Both"

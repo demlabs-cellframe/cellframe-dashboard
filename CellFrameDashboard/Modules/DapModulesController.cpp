@@ -73,7 +73,7 @@ void DapModulesController::initModules()
     addModule("txExplorerModule", m_skinWallet ? new DapModuleTxExplorerAddition(this) : new DapModuleTxExplorer(this));
     addModule("settingsModule", new DapModuleSettings(this));
     addModule("networksModule", new DapModuleNetworks(this));
-    addModule("dAppsModule", new DapModuledApps(this));
+    // addModule("dAppsModule", new DapModuledApps(this));
 
     if(DapNodeMode::getNodeMode() == DapNodeMode::LOCAL)
     {

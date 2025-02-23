@@ -5,7 +5,6 @@ QtObject {
     property var  currentWalletIndex: -1
     property var  prevIndex: -1
     property var  activePlugin: ""
-    property var currentNetwork: -1
 
     property string nodeVersion:""
 
@@ -18,7 +17,6 @@ QtObject {
     property string menuTabStates: ""
 
     property string currentWalletName: ""
-    property string currentNetworkName: ""
 
     property int currentLanguageIndex: 0
     property string currentLanguageName: "en"
@@ -26,7 +24,7 @@ QtObject {
     readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
 
-    property bool stateNotify: true
+    property bool stateNotify: false
 
     property string lastVersion
     property bool hasUpdate
@@ -205,23 +203,21 @@ QtObject {
     }
 
     function rcvTokens(tokensList)
-    {       
+    {
         if(tokensList !== "isEqual")
         {
             var jsonDocument = JSON.parse(tokensList)
-            var result = jsonDocument.result
             dapModelTokens.clear()
-            dapModelTokens.append(result)
+            dapModelTokens.append(jsonDocument)
 
             for(var i = 0; i < dapModelTokens.count; i++)
             {
                 for(var j = 0; j < dapModelTokens.get(i).tokens.count; j++)
                 {
                     var itm = dapModelTokens.get(i).tokens.get(j).name
-                    if(itm === "BUSD")
+                    if(itm === "BUSD" || itm === "USDT")
                     {
                         dapModelTokens.get(i).tokens.remove(j)
-                        break;
                     }
                 }
             }
@@ -337,11 +333,11 @@ QtObject {
             if(!state)
             {
                 messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
-                console.warn("ERROR NOTIFY SOCKET")
-            }
-            else
-            {
-                messagePopup.close()
+            console.warn("ERROR NOTIFY SOCKET")
+        }
+        else
+        {
+            messagePopup.close()
                 console.info("CONNECT TO NOTIFY SOCKET")
             }
         }
@@ -363,20 +359,22 @@ QtObject {
             // remove last ';'
             result = result.slice(0,-1);
             blocklist = blocklist.slice(0,-1);
-            // dapServiceController.webConnectRespond(true, indexUser)
+
+            notifyService("DapWebBlockList", blocklist);
         }
 
         return result;
     }
 
-    function rcvWebConnectRequest(site, index)
+    function rcvWebConnectRequest(rcvData)
     {
+        var data = JSON.parse(rcvData)
         console.log("[rcvWebConnectRequest] Received a signal from Web3")
         var isEqual = false
         //filtering equeal sites requests
         for(var i = 0; i < dapMessageBuffer.count; i++)
         {
-            if(dapMessageBuffer.get(i).site === site){
+            if(dapMessageBuffer.get(i).site === data[0]){
                 isEqual = true
                 break;
             }
@@ -385,13 +383,14 @@ QtObject {
         var isContains = false;
         for(var j = 0; j < dapWebSites.count; j++)
         {
-            if(dapWebSites.get(j).site === site)
+            if(dapWebSites.get(j).site === data[0])
             {
                 isContains = true
                 if(!dapWebSites.get(j).enabled)
                 {
-                    dapServiceController.webConnectRespond(false, index)
-                    dapMessageLogBuffer.append({infoText: "The site " + site + " requests permission to work with your wallet",
+//                    var rcv = [false, data[1]]
+                    notifyService("DapWebConnectRequest",false, data[1])
+                    dapMessageLogBuffer.append({infoText: "The site " + data[0] + " requests permission to work with your wallet",
                                                 date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
                                                 reply: "Denied"})
                     return
@@ -400,14 +399,14 @@ QtObject {
         }
 
         if(!isContains)
-            dapWebSites.append({site:site,
+            dapWebSites.append({site:data[0],
                                 enabled: true})
 
         if(!isEqual)
         {
             requestsMessageCounter++
-            dapMessageBuffer.append({indexRequest: index,
-                                     site: site,
+            dapMessageBuffer.append({indexRequest: data[1],
+                                     site: data[0],
                                      date: getDate("yyyy-MM-dd, hh:mm ap")})
 
             if(!isOpenRequests)
@@ -419,7 +418,7 @@ QtObject {
                     webPopup.setDisplayText(isSingle, requestsMessageCounter, -1)
                 }else{
                     isSingle = true
-                    webPopup.setDisplayText(isSingle, site, index)
+                    webPopup.setDisplayText(isSingle, data[0], data[1])
                 }
                 if(!webPopup.isOpen)
                     webPopup.open()
@@ -517,5 +516,30 @@ QtObject {
         }
 
         app.requestToService(service, args);
+    }
+
+    function notifyService()
+    {
+        var service
+        var args = []
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            if(i == 0)
+                service = arguments[i]
+            else
+            {
+                args.push(arguments[i])
+            }
+        }
+
+        var count  = args.length ? 10 - args.length : 0
+        while(count)
+        {
+            args.push("");
+            count--;
+        }
+
+        app.notifyService(service, args);
     }
 }

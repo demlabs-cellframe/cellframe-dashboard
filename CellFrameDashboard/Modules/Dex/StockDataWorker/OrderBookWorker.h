@@ -75,16 +75,16 @@ private:
     inline double roundCoinsToDouble(const QString& value, int round = 3);
     inline int compareCoins(const QString& val1, const QString& val2);
 private:
-    QString token1 {""};
-    QString token2 {""};
-    QString network {""};
+    QString m_token1 {""};
+    QString m_token2 {""};
+    QString m_network {""};
 
     Dap::Coin m_currentRate;
 
     QVector <OrderInfo> sellOrderModel;
     QVector <OrderInfo> buyOrderModel;
 
-    QVector <FullOrderInfo> allOrders;
+    QVector <FullOrderInfo> m_allOrders;
 
     QVariantList buyModel;
     QVariantList sellModel;
