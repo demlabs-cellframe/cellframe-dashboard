@@ -34,7 +34,7 @@ private slots:
     void onDownloadError(QNetworkReply::NetworkError);
 
     void onUploadCompleted(QNetworkReply *reply);
-    void onFilesReceived(QNetworkReply *reply);
+    void onPluginsListFetched();
 
     void onReconnect();
 

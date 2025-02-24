@@ -323,7 +323,7 @@ Rectangle {
                 page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
 
             append ({ tag: "DEX",
-                name: qsTr("DEX Beta"),
+                name: qsTr("DEX"),
                 bttnIco: "icon_exchange.svg",
                 showTab: true,
                 page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
@@ -334,6 +334,12 @@ Rectangle {
                 showTab: true,
                 page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
 
+            append ({ tag: "Tokens",
+                name: qsTr("Tokens"),
+                bttnIco: "icon_tokens.svg",
+                showTab: true,
+                page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
+
             if(app.getNodeMode() === 0) //LOCAL MODE
             {
 
@@ -343,11 +349,6 @@ Rectangle {
                     showTab: true,
                     page: "qrc:/screen/desktop/Certificates/DapCertificateTab.qml"})
 
-                append ({ tag: "Tokens",
-                    name: qsTr("Tokens"),
-                    bttnIco: "icon_tokens.svg",
-                    showTab: true,
-                    page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
 
                 append ({ tag: "Orders",
                     name: qsTr("Orders"),
@@ -673,8 +674,8 @@ Rectangle {
         if(!app.getDontShowNodeModeFlag())
             firstSelectNodeModePopup.show()
 
-        if(app.getNodeMode() === 0) //local
-            dAppsModule.getListPlugins();
+//        if(app.getNodeMode() === 0) //local
+//            dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()

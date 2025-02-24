@@ -1,24 +1,10 @@
 #include "AbstractDiagnostic.h"
-#include "httplib.h"
-
-#ifdef _WIN32
-#define IGNORE_SIGPIPE()
-#else
-#include <iostream>
-#include <csignal>
-#define IGNORE_SIGPIPE() std::signal(SIGPIPE, SIG_IGN)
-#endif
-
-const QString NETWORK_ADDR = "https://telemetry.cellframe.net";
-static httplib::Client httpClient(NETWORK_ADDR.toStdString());
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     :QObject(parent)
     , m_jsonListNode(new QJsonDocument())
     , m_jsonData(new QJsonDocument())
 {
-    IGNORE_SIGPIPE();
-
     m_diagConnectCtrl = new DiagtoolConnectCotroller();
     initJsonTmpl();
 
@@ -175,30 +161,62 @@ void AbstractDiagnostic::changeDataSending(bool flagSendData)
 
 void AbstractDiagnostic::send_http_request(QString method)
 {
-    if (auto res = httpClient.Get(method.toStdString()))
+    httplib::Client httpClient(NETWORK_ADDR.toStdString());
+//    httpClient.enable_server_certificate_verification(false); //disable check CA
+    httpClient.set_follow_location(true);  // Auto redirect
+    httpClient.set_keep_alive(false);  // Disable keep-alive
+    httpClient.set_tcp_nodelay(true);  // Disable delay send pack
+
+    httpClient.set_connection_timeout(10, 0);
+    httpClient.set_read_timeout(10, 0);
+    httpClient.set_write_timeout(10, 0);
+
+    auto res = httpClient.Get(method.toStdString());
+
+    if (res)
     {
         if (res->status == httplib::StatusCode::OK_200)
         {
             emit sig_telemetry_data_rcv(method, QByteArray::fromStdString(res->body));
         }
+        else
+        {
+            std::cerr << "HTTPS error: " << res->status << " (" << res->reason << ")" << std::endl;
+        }
     }
     else
     {
         auto err = res.error();
-        std::cout << "HTTPS error: " << httplib::to_string(err) << std::endl;
+        std::cerr << "HTTPS error: " << httplib::to_string(err) << std::endl;
+
+        if (err == httplib::Error::SSLLoadingCerts)
+        {
+            std::cerr << "SSL CA: Check certificates" << std::endl;
+        }
+        else if (err == httplib::Error::Connection)
+        {
+            std::cerr << "Connect: The server is unavailable or closing the connection" << std::endl;
+        }
+        else if (err == httplib::Error::Read)
+        {
+            std::cerr << "Read: The server may have closed the connection unexpectedly" << std::endl;
+        }
     }
 }
 
 void AbstractDiagnostic::update_full_data()
 {
-    if(s_wait_http_req)
+    if (s_wait_http_req.exchange(true))
         return;
 
-    QtConcurrent::run([this]
-    {
-        s_wait_http_req = true;
-        send_http_request(GET_KEYS);
-        send_http_request(GET_VIEW);
+    QtConcurrent::run([this] {
+
+        auto future1 = QtConcurrent::run([this] { send_http_request(GET_KEYS); });
+        auto future2 = QtConcurrent::run([this] { send_http_request(GET_VIEW); });
+
+        future1.waitForFinished();
+        future2.waitForFinished();
+
         s_wait_http_req = false;
     });
 }

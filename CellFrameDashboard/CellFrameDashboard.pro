@@ -4,7 +4,13 @@ include (../config.pri)
 TARGET = $${BRAND}
 
 DEFINES += CPPHTTPLIB_OPENSSL_SUPPORT
-LIBS += -lcrypto -lssl
+
+OPENSSL_LINKED = $$[OPENSSL_LINKED]
+linux {
+!isEmpty($$(OPENSSL_LINKED)) {
+    LIBS += -lssl -lcrypto
+}
+}
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
@@ -46,7 +52,7 @@ INCLUDEPATH +=  $$SDK_INSTALL_PATH/include/dap/core/ \
                 $$SDK_INSTALL_PATH/include/modules/net/ \
                 $$SDK_INSTALL_PATH/include/modules/chain/ \
                 $$PWD/../cellframe-sdk/dap-sdk/3rdparty/ \
-
+              
 CONFIG += no_lflags_merge
 
 LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
@@ -83,6 +89,25 @@ LIBS += $$SDK_INSTALL_PATH/lib/modules/net/libdap_chain_net.a \
     $$SDK_INSTALL_PATH/lib/dap/crypto/libdap_crypto_kyber512.a \
     $$SDK_INSTALL_PATH/lib/dap/core/libdap_core.a \
     $$SDK_INSTALL_PATH/lib/libdap_json-c.a
+
+
+mac {
+    HOMEBREW_PREFIX = $$[HOMEBREW_PREFIX]
+    
+    !isEmpty($$(HOMEBREW_PREFIX)) {
+        INCLUDEPATH += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/include/
+
+        LIBS += /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libssl.a \
+                /opt/osxcross/macports/pkgs/opt/local/libexec/openssl3/lib/libcrypto.a
+
+    } else {
+
+        INCLUDEPATH += $$(HOMEBREW_PREFIX)/opt/openssl@3/include    
+        LIBS += -L $$(HOMEBREW_PREFIX)/opt/openssl@3/lib/ -lssl -lcrypto
+     
+    }
+}
+  
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
@@ -214,7 +239,6 @@ mac {
     gui_target.CONFIG += no_check_exist
     INSTALLS += gui_target
 
-
     DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/cellframe-uninstaller \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall \
 	$$_PRO_FILE_PWD_/../os/macos/uninstall_icon.rsrc
@@ -229,3 +253,4 @@ mac {
     pkginstall.path = /
     INSTALLS += pkginstall
 }
+12

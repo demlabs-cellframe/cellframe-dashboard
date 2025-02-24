@@ -4,7 +4,6 @@
 #include <QSharedMemory>
 #include <QScreen>
 #include <memory>
-#include "sys/stat.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -16,12 +15,11 @@
 
 #include "DapApplication.h"
 #include "DapGuiApplication.h"
-#include "systemtray.h"
+#include <signal.h>
 
 #include "DapLogger.h"
 #include "DapLogHandler.h"
-
-#include "node_globals/NodeGlobals.h"
+#include "DapDashboardPathDefines.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -37,10 +35,29 @@ bool SingleApplicationTest(const QString &appName);
 void createDapLogger();
 QByteArray scaleCalculate(int argc, char *argv[]);
 
+#ifdef Q_OS_LINUX
+void blocksignal(int signal_to_block /* i.e. SIGPIPE */ )
+{
+    sigset_t set;
+    sigset_t old_state;
+
+    sigprocmask(SIG_BLOCK, NULL, &old_state);
+
+    set = old_state;
+    sigaddset(&set, signal_to_block);
+
+    sigprocmask(SIG_BLOCK, &set, NULL);
+}
+#endif
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
+#ifdef Q_OS_LINUX
+    blocksignal(SIGPIPE);
 #endif
 
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
@@ -118,7 +135,7 @@ bool SingleApplicationTest(const QString &appName)
 void createDapLogger()
 {
     dap_log_set_external_output(LOGGER_OUTPUT_STDOUT, nullptr);
-    auto *dapLogger = new DapLogger(QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE);
+    auto *dapLogger = new DapLogger(QApplication::instance(), "GUI", 10, TypeLogCleaning::FULL_FILE_SIZE, Dap::DashboardDefines::DashboardStorage::LOG_PATH);
     QString logPath = dapLogger->getPathToFile();
 
 #if defined(QT_DEBUG) && defined(ANDROID)
@@ -195,4 +212,3 @@ QByteArray scaleCalculate(int argc, char *argv[])
 
     return QByteArray::number(scale, 'f', 1);
 }
-

@@ -1,5 +1,5 @@
 #include "DapServiceController.h"
-
+#include "DapDashboardPathDefines.h"
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
@@ -41,7 +41,7 @@ void DapServiceController::run()
     m_web3Controll->rcvFrontendConnectStatus(true);
     m_web3Controll->setCommandList(&m_transceivers);
 
-    QStringList webPathWallets = {Dap::UiSdkDefines::DataFolders::WALLETS_DIR, Dap::UiSdkDefines::DataFolders::WALLETS_MIGRATE_DIR};
+    QStringList webPathWallets = {Dap::DashboardDefines::DashboardStorage::WALLET_PATH, Dap::DashboardDefines::DashboardStorage::WALLET_NODE_PATH};
     m_web3Controll->setPathWallets(webPathWallets);
 
     // Channel req\rep for web 3 API
@@ -230,8 +230,8 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapWebBlockList,                      QObject*>("DapWebBlockList",                           "rcvWebBlockList",                       nullptr);
     addServiceGeneric<DapMigrateWalletsCommand,             QObject*>("DapMigrateWalletsCommand",                  "rcvMigrateWallets",                     nullptr);
     addServiceGeneric<DapUpdateLogsCommand,                 QObject *, QString> ("DapUpdateLogsCommand",                    "logUpdated",                   nullptr, Dap::UiSdkDefines::CellframeNode::LOG_FILE);
-    addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, Dap::UiSdkDefines::DataFolders::CMD_HISTORY_USER);
-    addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, Dap::UiSdkDefines::DataFolders::CMD_HISTORY_USER);
+    addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, Dap::UiSdkDefines::DEFAULT_DATA_PATH); //TODO
+    addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, Dap::UiSdkDefines::DEFAULT_DATA_PATH); //TODO
 
     connect(this, &DapServiceController::tokensListReceived, [this] (const QVariant& tokensResult)
     {

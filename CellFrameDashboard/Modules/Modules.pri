@@ -89,4 +89,4 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/Wallet/WalletRestore/randomwords.cpp \
     $$PWD/Wallet/WalletRestore/randomfile.cpp \
     $$PWD/Wallet/DapModuleWallet.cpp \
-    $$PWD/MasterNode/DapModuleMasterNode.cpp
+    $$PWD/MasterNode/DapModuleMasterNode.cpp 

@@ -98,7 +98,7 @@ DapPage
 
     Timer {
         id: updateTokensTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        interval: 600000; running: false; repeat: true //10 min timeout
         onTriggered:
         {
             console.log("TOKENS TIMER TICK")

@@ -27,7 +27,7 @@ void DapDappsNetworkManager::downloadFile(QString name)
     request.setUrl(QUrl(m_path + name));
     qDebug() << "[Test_build] [DapDappsNetworkManager] tryRequest";
     m_fileName = name;
-    QString path = m_pathPlugins + "/download/" + m_fileName;
+    QString path = m_pathPlugins + m_fileName;
     m_file = new QFile(path);
 
     quint64 data;
@@ -68,7 +68,7 @@ void DapDappsNetworkManager::onDownloadCompleted()
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
     QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    QString path = m_pathPlugins + "/download/" + m_fileName;
+    QString path = m_pathPlugins + m_fileName;
 
     if (reply->error() == QNetworkReply::NoError ||
         reply->error() == QNetworkReply::ContentNotFoundError)
@@ -92,7 +92,7 @@ void DapDappsNetworkManager::onReadyRead()
 {
     qDebug() << "[Test_build] [DapDappsNetworkManager] onReadyRead";
     m_error = "Connected";
-    if(m_file->exists())
+    if(m_file && m_file->exists())
     {
         if(m_currentReply->size())
         {
@@ -171,7 +171,7 @@ void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 
         onDownloadProgress(0,0);
         //        else
-        }
+    }
 }
 
 void DapDappsNetworkManager::onReconnect()
@@ -210,22 +210,15 @@ void DapDappsNetworkManager::onUploadCompleted(QNetworkReply *reply)
 
 void DapDappsNetworkManager::fetchPluginsList()
 {
-    qDebug() << "[url] [DapDappsNetworkManager] getFiles";
-    m_networkManager->get(QNetworkRequest(QUrl(m_path)));
-    connect(m_networkManager, &QNetworkAccessManager::finished, this, &DapDappsNetworkManager::onFilesReceived);
+    QNetworkReply *reply;
+    reply = m_networkManager->get(QNetworkRequest(QUrl(m_path)));
+    connect(reply, SIGNAL(finished()),this,SLOT(onPluginsListFetched()));
 }
 
-void DapDappsNetworkManager::onFilesReceived(QNetworkReply *reply)
+void DapDappsNetworkManager::onPluginsListFetched()
 {
-    if(!reply)
-    {
-        return;
-    }
-    if(reply->url() != QUrl(m_path))
-    {
-        return;
-    }
-    qDebug() << "[url] [DapDappsNetworkManager] onFilesReceived";
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+
     if (reply->error() == QNetworkReply::NoError ||
         reply->error() == QNetworkReply::ContentNotFoundError)
     {
@@ -249,3 +242,4 @@ void DapDappsNetworkManager::onFilesReceived(QNetworkReply *reply)
 
     emit sigPluginsListFetched();
 }
+

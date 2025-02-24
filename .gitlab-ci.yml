@@ -41,6 +41,7 @@ amd64:debian:
     image: demlabs/debian/amd64:qt5
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script: 
+      - export OPENSSL_LINKED=1
       - ./prod_build/build.sh --target linux release
       - ./prod_build/pack.sh --target linux release
       - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
@@ -55,6 +56,7 @@ arm64:debian:
     image: demlabs/debian/arm64:qt5
     before_script: /opt/buildtools/prepare_environment.sh arm64-linux
     script: 
+      - export OPENSSL_LINKED=1
       - ./prod_build/build.sh --target linux release
       - ./prod_build/pack.sh --target linux release
       - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
