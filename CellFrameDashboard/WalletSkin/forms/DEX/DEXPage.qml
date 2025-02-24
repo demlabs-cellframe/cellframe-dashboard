@@ -245,8 +245,8 @@ Page {
         onTriggered:
         {
 //            console.log("PAIR TIMER TICK")
-            logicMainApp.requestToService("DapGetXchangeTokenPair",
-                "full_info", "update")
+            // logicMainApp.requestToService("DapGetXchangeTokenPair",
+            //     "full_info", "update")
         }
     }
 
