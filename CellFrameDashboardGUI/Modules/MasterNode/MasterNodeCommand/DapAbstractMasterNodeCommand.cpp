@@ -32,6 +32,22 @@ void DapAbstractMasterNodeCommand::stageComplated()
     }
 }
 
+void DapAbstractMasterNodeCommand::updateMasterNodeData(const QString& network, const QString& paramName, const QVariant& value)
+{
+    if(m_updateDataCallback)
+    {
+        m_updateDataCallback(network, paramName, value);
+    }
+}
+
+void DapAbstractMasterNodeCommand::saveData()
+{
+    if(m_saveDataCallback)
+    {
+        m_saveDataCallback();
+    }
+}
+
 void DapAbstractMasterNodeCommand::cencelRegistration()
 {
     m_masterNodeInfo.clear();
