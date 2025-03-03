@@ -7,9 +7,9 @@ DEFINES += CPPHTTPLIB_OPENSSL_SUPPORT
 
 OPENSSL_LINKED = $$[OPENSSL_LINKED]
 linux {
-!isEmpty($$(OPENSSL_LINKED)) {
-    LIBS += -lssl -lcrypto
-}
+    !isEmpty($$(OPENSSL_LINKED)) {
+        LIBS += -lssl -lcrypto
+    }
 }
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
@@ -253,4 +253,3 @@ mac {
     pkginstall.path = /
     INSTALLS += pkginstall
 }
-12
