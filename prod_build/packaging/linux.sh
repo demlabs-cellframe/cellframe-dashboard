@@ -41,6 +41,8 @@ PACK()
     
     if [ "${BUILD_TYPE}" = "rwd" ]; then
         PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-rwd_${ARCH}.deb"
+    if [ "${BUILD_TYPE}" = "debug" ]; then
+        PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-debug_${ARCH}.deb"
     else
         PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_${ARCH}.deb"
     fi
