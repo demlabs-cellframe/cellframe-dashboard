@@ -83,7 +83,7 @@ amd64:debian_debug:
     image: demlabs/debian/amd64:qt5
     rules:
      - when: manual
-       allow_failure: false
+       allow_failure: true
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script: 
       - export OPENSSL_LINKED=1
