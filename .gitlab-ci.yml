@@ -37,7 +37,7 @@ amd64:macos:
 
 amd64:debian:
     extends: .build
-    image: demlabs/debian/amd64:qt5
+    image: demlabs/debian/amd64:qt5-ssltest
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script: 
       - export OPENSSL_LINKED=1
