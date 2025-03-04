@@ -129,7 +129,7 @@ DapRectangleLitAndShaded {
                     title.text: qsTr("To")
                     content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
                     title.color: currTheme.gray
-                    copyButton.visible: detailsModel.get(0).direction === "to" ? true : false
+                    copyButton.visible: detailsModel.get(0).direction === "to" && detailsModel.get(0).address !== "null" ? true : false
                 }
                 TextDetailsTx {
                     title.text: qsTr("Token")

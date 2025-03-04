@@ -36,7 +36,13 @@ void DapNetworksManager::slotNotifyIsConnected(bool isConnected)
 void DapNetworksManager::slotRcvNotifyNetList(QJsonDocument doc)
 {
     QStringList list = doc.toVariant().toStringList();
-    updateNetworkList(list);
+
+    if(list.length() && list.first() == "notify_timeout"){
+        m_modulesController->setIsNodeWorking(true);
+    }
+    else{
+        updateNetworkList(list);
+    }
 }
 
 void DapNetworksManager::updateNetworkList(const QStringList& list)

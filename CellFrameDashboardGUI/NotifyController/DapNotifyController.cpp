@@ -3,9 +3,11 @@
 #include "qjsonobject.h"
 #include "DapNodePathManager.h"
 
-DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
+DapNotifyController::DapNotifyController(QObject * parent)
+    : QObject(parent)
+    , m_timerCheckNetPack(new QTimer())
 {
-
+    connect(m_timerCheckNetPack, &QTimer::timeout, this, &DapNotifyController::timeoutNetRcv);
 }
 
 void DapNotifyController::init()
@@ -29,11 +31,13 @@ void DapNotifyController::stateProcessing(QString status)
 
         if(status != QAbstractSocket::SocketState::ConnectedState)
         {
+            m_timerCheckNetPack->stop();
             m_isConnected = false;
             emit socketState(m_connectState, true, true);
         }
         else
         {
+            m_timerCheckNetPack->start(5000);
             m_isConnected = true;
             emit socketState(m_connectState, false, false);
         }
@@ -64,8 +68,11 @@ void DapNotifyController::rcvData(QVariant data)
         {
             QJsonDocument result = parseData(className, resObj, "networks", true);
 
-            if(!result.isEmpty())
+            if(!result.isEmpty() && result.array().count())
+            {
+                m_timerCheckNetPack->stop();
                 emit sigNotifyRcvNetList(result);
+            }
         }
         else if(className ==  "NetsInfo")
         {
@@ -134,4 +141,10 @@ QJsonDocument DapNotifyController::parseData(QString className, const QJsonObjec
     }
 
     return result;
+}
+
+void DapNotifyController::timeoutNetRcv()
+{
+    qWarning()<<"Timeout waiting notify: net list";
+    emit sigNotifyRcvNetList(QJsonDocument(QJsonArray{"notify_timeout"})); //send empty net list
 }

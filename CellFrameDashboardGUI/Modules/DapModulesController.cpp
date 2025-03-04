@@ -33,6 +33,7 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     , m_managerController(new DapDataManagerController(this))
     , s_settings(new QSettings(this))
 {
+    setNodeLoadProgress(0);
     initWorkers();
     initModules();
     s_appEngine->rootContext()->setContextProperty("managerController", m_managerController);
