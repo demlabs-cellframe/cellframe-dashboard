@@ -37,7 +37,7 @@ amd64:macos:
 
 amd64:debian:
     extends: .build
-    image: demlabs/debian/amd64:qt5
+    image: demlabs/debian/amd64:qt5-testssl
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script: 
       - export OPENSSL_LINKED=1
@@ -72,11 +72,29 @@ amd64:windows:
     script:
       - ./prod_build/build.sh --target windows release
       - ./prod_build/pack.sh --target windows release --sign /opt/buildtools/sign/windows/cellframe-dashboard.sh
-      - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.exe 
-
+      - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.exe     
     artifacts:
       paths:
         - build_*/*.exe
+
+ #==================DEBUG BUILDS=====================
+amd64:debian_debug:
+    extends: .build
+    image: demlabs/debian/amd64:qt5
+    rules:
+     - when: manual
+       allow_failure: true
+    before_script: /opt/buildtools/prepare_environment.sh amd64-linux
+    script: 
+      - export OPENSSL_LINKED=1
+      - ./prod_build/build.sh --target linux debug
+      - ./prod_build/pack.sh --target linux debug
+      - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
+    artifacts:
+      paths:
+        - build_*/*.deb    
   
   #=================PUBLISH KELVPN===================
 publish-linux:
