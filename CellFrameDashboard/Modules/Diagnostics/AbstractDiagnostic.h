@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtMath>
 #include <QtConcurrent/QtConcurrent>
+#include <QMutex>
 
 #include "DiagtoolConnectCotroller.h"
 #include "httplib.h"
@@ -43,6 +44,7 @@ private:
     std::atomic<bool> s_wait_http_req{false};
 
     DiagtoolConnectCotroller *m_diagConnectCtrl;
+    QMutex m_mtxTelemetryReq;
 
 public:
     QJsonArray s_selected_nodes_list;

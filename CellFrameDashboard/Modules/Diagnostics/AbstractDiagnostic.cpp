@@ -161,8 +161,9 @@ void AbstractDiagnostic::changeDataSending(bool flagSendData)
 
 void AbstractDiagnostic::send_http_request(QString method)
 {
+    m_mtxTelemetryReq.lock();
     httplib::Client httpClient(NETWORK_ADDR.toStdString());
-//    httpClient.enable_server_certificate_verification(false); //disable check CA
+//    httpClient.enable_server_certificate_verification(false); //Disable check CA
     httpClient.set_follow_location(true);  // Auto redirect
     httpClient.set_keep_alive(false);  // Disable keep-alive
     httpClient.set_tcp_nodelay(true);  // Disable delay send pack
@@ -172,6 +173,7 @@ void AbstractDiagnostic::send_http_request(QString method)
     httpClient.set_write_timeout(10, 0);
 
     auto res = httpClient.Get(method.toStdString());
+    m_mtxTelemetryReq.unlock();
 
     if (res)
     {
@@ -210,13 +212,8 @@ void AbstractDiagnostic::update_full_data()
         return;
 
     QtConcurrent::run([this] {
-
-        auto future1 = QtConcurrent::run([this] { send_http_request(GET_KEYS); });
-        auto future2 = QtConcurrent::run([this] { send_http_request(GET_VIEW); });
-
-        future1.waitForFinished();
-        future2.waitForFinished();
-
+        send_http_request(GET_KEYS);
+        send_http_request(GET_VIEW);
         s_wait_http_req = false;
     });
 }
