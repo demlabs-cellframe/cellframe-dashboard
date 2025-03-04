@@ -43,6 +43,7 @@ protected:
   Q_PROPERTY (QString fee           READ fee           WRITE setFee           NOTIFY feeChanged)
   Q_PROPERTY (QString fee_token     READ fee_token     WRITE setFee_token     NOTIFY fee_tokenChanged)
   Q_PROPERTY (QString fee_net       READ fee_net       WRITE setFee_net       NOTIFY fee_netChanged)
+  Q_PROPERTY (QString fee_validator READ fee_validator WRITE setFee_validator NOTIFY fee_validatorChanged)
   Q_PROPERTY (QString x_value       READ x_value       WRITE setX_Value       NOTIFY x_valueChanged)
   Q_PROPERTY (QString x_token       READ x_token       WRITE setX_token       NOTIFY x_tokenChanged)
   Q_PROPERTY (QString x_direction   READ x_direction   WRITE setX_direction   NOTIFY x_directionChanged)
@@ -139,6 +140,10 @@ public:
 
   Q_INVOKABLE QString fee_net() const;
   Q_INVOKABLE void setFee_net (const QString &fee_net);
+
+  Q_INVOKABLE QString fee_validator() const;
+  Q_INVOKABLE void setFee_validator (const QString &fee_validator);
+
 protected:
   bool _beginSetValue();
   void _endSetValue();
@@ -171,6 +176,7 @@ signals:
   void feeChanged();
   void fee_tokenChanged();
   void fee_netChanged();
+  void fee_validatorChanged();
   /// @}
 
   /****************************************//**
@@ -229,7 +235,8 @@ public:
     x_direction,    
     fee,
     fee_token,
-    fee_net
+    fee_net,
+    fee_validator
   };
   Q_ENUM(FieldId)
 
@@ -258,6 +265,7 @@ public:
     QString fee;
     QString fee_token;
     QString fee_net;
+    QString fee_validator;
   };
 
   typedef QList<DapHistoryModel::Item>::Iterator Iterator;
