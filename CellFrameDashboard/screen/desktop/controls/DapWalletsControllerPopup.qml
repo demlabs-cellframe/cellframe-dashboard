@@ -174,6 +174,7 @@ Item{
 
                             DapCustomToolTip
                             {
+                                bottomRect.visible: false
                                 contentText: qsTr("Imported from node");
                                 visible: migrateArea.containsMouse
                             }
@@ -206,6 +207,7 @@ Item{
 
                             DapCustomToolTip
                             {
+                                bottomRect.visible: falses
                                 visible: protectArea.containsMouse
                                 contentText: statusProtected === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet")
                             }
@@ -250,6 +252,7 @@ Item{
 
                             DapCustomToolTip
                             {
+                                bottomRect.visible: false
                                 visible: area.containsMouse
                                 contentText:  !removeIcon.isProtected ? qsTr("Delete wallet") : qsTr("You must unlock the wallet before you can delete it.")
                             }
