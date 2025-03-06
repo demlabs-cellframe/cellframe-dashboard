@@ -16,9 +16,10 @@ class ItemListWalletBridge : public QObject
 protected:
     struct Data;
 
-    Q_PROPERTY (QString walletName              READ walletName             NOTIFY walletNameChanged)
-    Q_PROPERTY (QString statusProtected           READ statusProtected          NOTIFY statusProtectedChanged)
-    Q_PROPERTY (bool isLoad                     READ isLoad                 NOTIFY isLoadChanged)
+    Q_PROPERTY (QString walletName         READ walletName        NOTIFY walletNameChanged)
+    Q_PROPERTY (QString statusProtected    READ statusProtected   NOTIFY statusProtectedChanged)
+    Q_PROPERTY (bool isLoad                READ isLoad            NOTIFY isLoadChanged)
+    Q_PROPERTY (bool isMigrate             READ isMigrate         NOTIFY isMigrateChanged)
 
 protected:
     Data *d;   
@@ -37,6 +38,7 @@ public:
     Q_INVOKABLE QString statusProtected() const;
 
     Q_INVOKABLE bool isLoad() const;
+    Q_INVOKABLE bool isMigrate() const;
 
     Q_INVOKABLE DapInfoWalletModel* walletModel() const;
 
@@ -44,6 +46,7 @@ signals:
     void walletNameChanged();
     void statusProtectedChanged();
     void isLoadChanged();
+    void isMigrateChanged();
 
 public:
     ItemListWalletBridge &operator = (const ItemListWalletBridge &a_src);
@@ -60,9 +63,10 @@ public:
 
     enum class FieldId
     {
-        invalid = -1,
+        invalid    = -1,
         walletName = Qt::DisplayRole,
         isLoad     = Qt::UserRole,
+        isMigrate,
         statusProtected,
         walletModel
     };
@@ -73,6 +77,7 @@ public:
         QString walletName = QString();
         QString statusProtected = QString();
         bool isLoad = false;
+        bool isMigrate = false;
     };
 
     using itemListType = QList<DapListWalletsModel::Item>;

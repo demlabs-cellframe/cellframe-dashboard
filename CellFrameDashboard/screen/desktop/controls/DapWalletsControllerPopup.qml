@@ -132,17 +132,18 @@ Item{
                     height: 61
                     width: walletsListView.width
 
-                    Item
+                    RowLayout
                     {
-                        width: parent.width
-                        height: 60
+                        anchors.fill: parent
+                        anchors.bottomMargin: 1
+                        spacing: 0
 
                         Item
                         {
-                            height: parent.height
-                            anchors.left: parent.left
-                            anchors.right: statusProtected !== "" ? protectIcon.left : removeIcon.left
-                            anchors.leftMargin: 24
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 24
+                            Layout.alignment: Qt.AlignLeft
 
                             DapBigText
                             {
@@ -155,17 +156,45 @@ Item{
                             }
                         }
 
+                        Item
+                        {
+                            id: migrateIcon
+                            Layout.alignment: Qt.AlignRight
+                            Layout.rightMargin: 8
+                            width: 32
+                            height: 32
+                            visible: isMigrate
+
+                            Image
+                            {
+                                anchors.centerIn: parent
+                                source: "qrc:/Resources/BlackTheme/icons/other/ic_info_orange.svg"
+                                mipmap: true
+                            }
+
+                            DapCustomToolTip
+                            {
+                                contentText: qsTr("Imported from node");
+                                visible: migrateArea.containsMouse
+                            }
+                            MouseArea
+                            {
+                                id: migrateArea
+                                hoverEnabled: true
+                                anchors.fill: parent
+                            }
+                        }
+
                         Rectangle
                         {
                             id: protectIcon
+                            Layout.alignment: Qt.AlignRight
+                            Layout.rightMargin: 8
                             width: 32
                             height: 32
                             radius: 4
                             color: protectArea.containsMouse ? currTheme.rowHover : currTheme.mainBackground
                             visible: statusProtected !== ""
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.right: parent.right
-                            anchors.rightMargin: 64
 
                             Image
                             {
@@ -177,6 +206,7 @@ Item{
 
                             DapCustomToolTip
                             {
+                                visible: protectArea.containsMouse
                                 contentText: statusProtected === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet")
                             }
 
@@ -202,14 +232,14 @@ Item{
 
                         Rectangle
                         {
+                            property bool isProtected: statusProtected === "non-Active"
                             id: removeIcon
+                            Layout.alignment: Qt.AlignRight
+                            Layout.rightMargin: 24
                             width: 32
                             height: 32
                             radius: 4
-                            color: area.containsMouse ? currTheme.rowHover : currTheme.mainBackground
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.right: parent.right
-                            anchors.rightMargin: 24
+                            color: area.containsMouse || isProtected ? currTheme.rowHover : currTheme.mainBackground
 
                             Image
                             {
@@ -218,16 +248,25 @@ Item{
                                 mipmap: true
                             }
 
+                            DapCustomToolTip
+                            {
+                                visible: area.containsMouse
+                                contentText:  !removeIcon.isProtected ? qsTr("Delete wallet") : qsTr("You must unlock the wallet before you can delete it.")
+                            }
+
                             MouseArea
                             {
                                 id: area
-                                hoverEnabled: true
                                 anchors.fill: parent
+                                hoverEnabled: true
 
                                 onClicked:
                                 {
-                                    walletsFrame.opacity = 0.0
-                                    removeWalletPopup.show(walletName)
+                                    if(!removeIcon.isProtected)
+                                    {
+                                        walletsFrame.opacity = 0.0
+                                        removeWalletPopup.show(walletName)
+                                    }
                                 }
                             }
                         }  
@@ -235,6 +274,7 @@ Item{
 
                     Rectangle
                     {
+                        anchors.bottom: parent.bottom
                         width: parent.width
                         height: 1
                         color: currTheme.mainBackground

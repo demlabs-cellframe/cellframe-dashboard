@@ -22,10 +22,11 @@ struct ItemListWalletBridge::Data
 
 static const QHash<QString, DapListWalletsModel::DapListWalletsModel::FieldId> s_fieldIdMap =
     {
-        {"walletName",  DapListWalletsModel::FieldId::walletName},
-        {"statusProtected",      DapListWalletsModel::FieldId::statusProtected},
-        {"isLoad",      DapListWalletsModel::FieldId::isLoad},
-        {"walletModel", DapListWalletsModel::FieldId::walletModel},
+        {"walletName",      DapListWalletsModel::FieldId::walletName},
+        {"statusProtected", DapListWalletsModel::FieldId::statusProtected},
+        {"isLoad",          DapListWalletsModel::FieldId::isLoad},
+        {"isMigrate",       DapListWalletsModel::FieldId::isMigrate},
+        {"walletModel",     DapListWalletsModel::FieldId::walletModel},
     };
 
 DapListWalletsModel::DapListWalletsModel (QObject *a_parent)
@@ -80,8 +81,9 @@ QVariant DapListWalletsModel::data (const QModelIndex &index, int role) const
     case DapListWalletsModel::FieldId::invalid: break;
 
     case DapListWalletsModel::FieldId::walletName:      return item.walletName;
-    case DapListWalletsModel::FieldId::statusProtected:   return item.statusProtected;
+    case DapListWalletsModel::FieldId::statusProtected: return item.statusProtected;
     case DapListWalletsModel::FieldId::isLoad:          return item.isLoad;
+    case DapListWalletsModel::FieldId::isMigrate:       return item.isMigrate;
     }
     return QVariant();
 }
@@ -136,6 +138,7 @@ void DapListWalletsModel::updateWallets(const QMap<QString, CommonWallet::Wallet
         item.walletName = tmpWallet.walletName;
         item.statusProtected = tmpWallet.status;
         item.isLoad = tmpWallet.isLoad;
+        item.isMigrate = tmpWallet.isMigrate;
         m_items.append(std::move(item));
     }
 
@@ -159,6 +162,7 @@ ItemListWalletBridge::ItemListWalletBridge (ItemListWalletBridge::Data *a_data)
         return;
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemListWalletBridge::walletNameChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemListWalletBridge::isLoadChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemListWalletBridge::isMigrateChanged);
     connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemListWalletBridge::statusProtectedChanged);
 }
 
@@ -197,6 +201,11 @@ QString ItemListWalletBridge::statusProtected() const
 bool ItemListWalletBridge::isLoad() const
 {
     return (d && d->item) ? d->item->isLoad : false;
+}
+
+bool ItemListWalletBridge::isMigrate() const
+{
+    return (d && d->item) ? d->item->isMigrate : false;
 }
 
 DapInfoWalletModel* ItemListWalletBridge::walletModel() const
