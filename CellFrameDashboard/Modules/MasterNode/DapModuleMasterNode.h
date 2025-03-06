@@ -11,11 +11,13 @@
 #include "DapServiceController.h"
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
+#include "ConfigWorker/configfile.h"
 #include "MasterNodeCommand/DapSrvStakeInvalidateStage.h"
 #include "MasterNodeCommand/DapStakeDelegate.h"
 #include "MasterNodeCommand/DapWaitingPermission.h"
 #include "MasterNodeCommand/DapUpdateConfigStage.h"
 #include "MasterNodeCommand/DapNodeDelStage.h"
+#include "MasterNodeCommand/DapUpdateStakeData.h"
 #include "DapMasterNodeKeys.h"
 
 class DapModuleMasterNode : public DapAbstractModule
@@ -243,12 +245,17 @@ private:
 
     QString getStageString(LaunchStage stage) const;
     QString launchStageString(LaunchStage value);
+
+    void updateStakeNode();
+    void setStageCallback(DapAbstractMasterNodeCommand* stage);
 private:
+    DapModulesController  *m_modulesCtrl;
     DapStakeDelegate* m_stakeDelegate = nullptr;
     DapSrvStakeInvalidateStage* m_srvStakeInvalidate = nullptr;
     DapWaitingPermission* m_waitingPermission = nullptr;
     DapUpdateConfigStage* m_updateConfig = nullptr;
     DapNodeDelStage* m_nodeDelStage = nullptr;
+    DapUpdateStakeData* m_updateStakeData = nullptr;
 
     QString m_currentNetwork = "";
 

@@ -237,8 +237,13 @@ void DapModuleDex::respondCurrentTokenPairs(const QVariant &rcvData)
 
     if(m_currentPair.displayText == pairName)
     {
-        m_currentPair.rate = tokenPairObject["rate"].toString();
-        m_currentPair.rate_double = m_currentPair.rate.toDouble();
+        QString rate = tokenPairObject["rate"].toString();
+        if(rate != m_currentPair.rate)
+        {
+            m_currentPair.rate = tokenPairObject["rate"].toString();
+            m_currentPair.rate_double = m_currentPair.rate.toDouble();
+            workersUpdate();
+        }
         QString time = tokenPairObject["time"].toString();
 
         m_stockDataWorker->getCandleChartWorker()->respondCurrentTokenPairs({{time, m_currentPair.rate}});
@@ -1024,6 +1029,7 @@ void DapModuleDex::setCurrentRateFromModel()
         }
         m_currentPair.rate = item.rate;
         m_currentPair.rate_double = item.rate_double;
+        break;
     }
 }
 

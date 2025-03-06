@@ -48,8 +48,12 @@ signals:
 public:
     void rcvData(QVariant);
 
+private slots:
+    void timeoutNetRcv();
+
 private:
     QTimer *m_initTimer;
+    QTimer *m_timerCheckNetPack;
     bool m_isConnected{false};
     bool m_connectState;
     std::shared_ptr<cellframe_node::notify::CellframeNotificationChannel> m_node_notify;

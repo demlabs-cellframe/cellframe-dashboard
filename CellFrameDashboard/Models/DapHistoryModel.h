@@ -22,7 +22,7 @@ protected:
     Q_PROPERTY (QString network       READ network       WRITE setNetwork       NOTIFY networkChanged)
     Q_PROPERTY (QString wallet_name   READ wallet_name   WRITE setWallet_name   NOTIFY wallet_nameChanged)
     Q_PROPERTY (QString date          READ date          WRITE setDate          NOTIFY dateChanged)
-    Q_PROPERTY (qint64 date_to_secs   READ date_to_secs  WRITE setDate_to_secs  NOTIFY date_to_secsChanged)
+    Q_PROPERTY (qint64  date_to_secs  READ date_to_secs  WRITE setDate_to_secs  NOTIFY date_to_secsChanged)
     Q_PROPERTY (QString time          READ time          WRITE setTime          NOTIFY timeChanged)
     Q_PROPERTY (QString address       READ address       WRITE setAddress       NOTIFY addressChanged)
     Q_PROPERTY (QString status        READ status        WRITE setStatus        NOTIFY statusChanged)
@@ -35,6 +35,8 @@ protected:
     Q_PROPERTY (QString fee           READ fee           WRITE setFee           NOTIFY feeChanged)
     Q_PROPERTY (QString fee_token     READ fee_token     WRITE setFee_token     NOTIFY fee_tokenChanged)
     Q_PROPERTY (QString fee_net       READ fee_net       WRITE setFee_net       NOTIFY fee_netChanged)
+    Q_PROPERTY (QString fee_validator READ fee_validator WRITE setFee_validator NOTIFY fee_validatorChanged)
+    Q_PROPERTY (QString queue_hash    READ queue_hash    WRITE setQueue_hash    NOTIFY queue_hashChanged)
     Q_PROPERTY (QString x_value       READ x_value       WRITE setX_Value       NOTIFY x_valueChanged)
     Q_PROPERTY (QString x_token       READ x_token       WRITE setX_token       NOTIFY x_tokenChanged)
     Q_PROPERTY (QString x_direction   READ x_direction   WRITE setX_direction   NOTIFY x_directionChanged)
@@ -116,6 +118,13 @@ public:
 
     Q_INVOKABLE QString fee_net() const;
     Q_INVOKABLE void setFee_net (const QString &fee_net);
+
+    Q_INVOKABLE QString fee_validator() const;
+    Q_INVOKABLE void setFee_validator (const QString &fee_validator);
+
+    Q_INVOKABLE QString queue_hash() const;
+    Q_INVOKABLE void setQueue_hash (const QString &queue_hash);
+
 protected:
     bool _beginSetValue();
     void _endSetValue();
@@ -143,6 +152,8 @@ signals:
     void feeChanged();
     void fee_tokenChanged();
     void fee_netChanged();
+    void fee_validatorChanged();
+    void queue_hashChanged();
 
 public:
     QVariant operator [] (const QString &a_valueName);
@@ -165,8 +176,8 @@ public:
     // item fields
     enum class FieldId
     {
-        invalid = -1,
-        tx_status = Qt::DisplayRole,
+        invalid     = -1,
+        tx_status   = Qt::DisplayRole,
         tx_hash     = Qt::UserRole,
         atom,
         network,
@@ -187,7 +198,9 @@ public:
         x_direction,
         fee,
         fee_token,
-        fee_net
+        fee_net,
+        fee_validator,
+        queue_hash
     };
     Q_ENUM(FieldId)
 
@@ -200,7 +213,7 @@ public:
         QString network;
         QString wallet_name;
         QString date;
-        qint64 date_to_secs;
+        qint64  date_to_secs;
         QString time;
         QString address;
         QString status;
@@ -210,13 +223,14 @@ public:
         QString m_value;
         QString m_token;
         QString m_direction;
-        QString x_value;
-        QString x_token;
-        QString x_direction;
         QString fee;
         QString fee_token;
         QString fee_net;
+        QString fee_validator;
         QString queue_hash;
+        QString x_value;
+        QString x_token;
+        QString x_direction;
     };
 
     typedef QList<DapHistoryModel::Item>::Iterator Iterator;

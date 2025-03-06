@@ -207,7 +207,7 @@ Item{
 
                             DapCustomToolTip
                             {
-                                bottomRect.visible: falses
+                                bottomRect.visible: false
                                 visible: protectArea.containsMouse
                                 contentText: statusProtected === "non-Active" ? qsTr("Unlock wallet") : qsTr("Deactivate wallet")
                             }

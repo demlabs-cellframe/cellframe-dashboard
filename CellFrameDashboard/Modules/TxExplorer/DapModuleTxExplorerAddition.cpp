@@ -52,9 +52,6 @@ void DapModuleTxExplorerAddition::setHistoryModel(const QVariant &rcvData)
     for(auto i = 0; i < historyArray.size(); i++)
     {
         DapHistoryModel::Item itemHistory;
-        itemHistory.fee_token    = historyArray.at(i)["fee_token"].toString();
-        itemHistory.fee_net      = historyArray.at(i)["fee_net"].toString();
-        itemHistory.fee          = historyArray.at(i)["fee"].toString();
         itemHistory.value        = historyArray.at(i)["value"].toString();
         itemHistory.m_value      = historyArray.at(i)["m_value"].toString();
         itemHistory.m_token      = historyArray.at(i)["m_token"].toString();
@@ -73,6 +70,16 @@ void DapModuleTxExplorerAddition::setHistoryModel(const QVariant &rcvData)
         itemHistory.atom         = historyArray.at(i)["atom"].toString();
         itemHistory.tx_hash      = historyArray.at(i)["tx_hash"].toString();
         itemHistory.tx_status    = historyArray.at(i)["tx_status"].toString();
+
+        itemHistory.fee_token     = historyArray.at(i)["fee_token"].toString();
+        itemHistory.fee_net       = historyArray.at(i)["fee_net"].toString();
+        itemHistory.fee_validator = historyArray.at(i)["fee"].toString();
+
+        Dap::Coin validatorFee(itemHistory.fee_validator);
+        Dap::Coin networkFee(itemHistory.fee_net);
+        Dap::Coin sumFee = validatorFee + networkFee;
+
+        itemHistory.fee = sumFee.toCoinsString();
 
         historyResult.append(std::move(itemHistory));
     }

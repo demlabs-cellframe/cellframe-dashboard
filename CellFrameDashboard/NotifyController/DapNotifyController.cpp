@@ -1,7 +1,11 @@
 #include "DapNotifyController.h"
 
-DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
+DapNotifyController::DapNotifyController(QObject * parent)
+    : QObject(parent)
+    , m_timerCheckNetPack(new QTimer())
 {
+    connect(m_timerCheckNetPack, &QTimer::timeout, this, &DapNotifyController::timeoutNetRcv);
+
 }
 
 void DapNotifyController::init()
@@ -35,11 +39,13 @@ void DapNotifyController::init()
 
                                                                if(status == cellframe_node::notify::CellframeNotificationChannel::CONNECTED)
                                                                {
+                                                                   m_timerCheckNetPack->stop();
                                                                    m_isConnected = true;
                                                                    emit notifySocketStateChanged(m_isConnected);
                                                                }
                                                                else
                                                                {
+                                                                   m_timerCheckNetPack->start(5000);
                                                                    m_isConnected = false;
                                                                    emit notifySocketStateChanged(m_isConnected);
                                                                }
@@ -76,8 +82,11 @@ void DapNotifyController::rcvData(QVariant data)
         {
             QJsonDocument result = parseData(className, resObj, "networks", true);
 
-            if(!result.isEmpty())
+            if(!result.isEmpty() && result.array().count())
+            {
+                m_timerCheckNetPack->stop();
                 emit sigNotifyRcvNetList(result);
+            }
         }
         else if(className ==  "NetsInfo")
         {
@@ -148,3 +157,8 @@ QJsonDocument DapNotifyController::parseData(QString className, const QJsonObjec
     return result;
 }
 
+void DapNotifyController::timeoutNetRcv()
+{
+    qWarning()<<"Timeout waiting notify: net list";
+    emit sigNotifyRcvNetList(QJsonDocument(QJsonArray{"notify_timeout"})); //send empty net list
+}

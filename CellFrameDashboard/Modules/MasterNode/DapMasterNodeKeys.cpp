@@ -25,3 +25,6 @@ const QString MasterNode::MASTER_NODE_KEY = "master_node";
 const QString MasterNode::MASTER_NODE_TO_CENCEL_KEY = "cencelMasterNode";
 const QString MasterNode::ORDER_HASH_KEY = "orderHash";
 const QString MasterNode::NODE_ADDED_KEY = "nodeAdded";
+
+const QString MasterNode::STAKE_EFFECTIVE_VALUE_KEY = "effectiveValue";
+const QString MasterNode::STAKE_RELATED_WEIGHT_KEY = "relatedWeight";

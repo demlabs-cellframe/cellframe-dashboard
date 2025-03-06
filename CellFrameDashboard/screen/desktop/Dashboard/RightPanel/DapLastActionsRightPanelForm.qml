@@ -238,12 +238,17 @@ DapRectangleLitAndShaded
                                 Component.onCompleted:
                                 {
                                     append ({
-                                                name: qsTr("Fee: "),
+                                                name: qsTr("Network fee: "),
                                                 number: fee_net ,
                                                 token_name: fee_token
                                             })
                                     append ({
                                                 name: qsTr("Validator fee: "),
+                                                number: fee_validator,
+                                                token_name: fee_token
+                                            })
+                                    append ({
+                                                name: qsTr("Total fee: "),
                                                 number: fee,
                                                 token_name: fee_token
                                             })

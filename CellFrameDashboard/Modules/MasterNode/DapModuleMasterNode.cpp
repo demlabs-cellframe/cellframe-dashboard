@@ -10,6 +10,7 @@ Q_DECLARE_METATYPE(QList<int>)
 DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_stakeDelegate(new DapStakeDelegate(s_serviceCtrl))
+    , m_modulesCtrl(parent)
     , m_srvStakeInvalidate(new DapSrvStakeInvalidateStage(s_serviceCtrl))
     , m_waitingPermission(new DapWaitingPermission(s_serviceCtrl))
     , m_updateConfig(new DapUpdateConfigStage(s_serviceCtrl))
@@ -67,6 +68,52 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
     {
         addNetwork(m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
     }
+    connect(m_modulesCtrl, &DapModulesController::initDone, [this] ()
+        {
+            updateStakeNode();
+        });
+}
+
+void DapModuleMasterNode::updateStakeNode()
+{
+    if(m_updateStakeData)
+    {
+        return;
+    }
+    m_updateStakeData = new DapUpdateStakeData(s_serviceCtrl);
+    setStageCallback(m_updateStakeData);
+    connect(m_updateStakeData, &DapAbstractMasterNodeCommand::finished, this, [this]
+    {
+        delete m_updateStakeData;
+        m_updateStakeData = nullptr;
+        if(!m_masterNodes.isEmpty())
+        {
+            for(const auto& item: qAsConst(m_masterNodes))
+            {
+                addNetwork(item[MasterNode::NETWORK_KEY].toString());
+            }
+        }
+    });
+    m_updateStakeData->tryUpdateStakeData(m_masterNodes);
+}
+
+void DapModuleMasterNode::setStageCallback(DapAbstractMasterNodeCommand* stage)
+{
+    stage->setStageComplatedCallback([this](){ stageComplated(); });
+    stage->setNewDataCallback([this](const QString& key, const QVariant& data){
+        m_currentStartMaster.insert(key, data);
+        saveCurrentRegistration();
+    });
+    stage->setStopCreationCallback([this](int code, const QString& message){ tryStopCreationMasterNode(code, message); });
+    stage->setUpdateDataCallback([this](const QString& network, const QString& paramName, const QVariant& value){
+        if(m_masterNodes.contains(network))
+        {
+            m_masterNodes[network][paramName] = value;
+        }
+    });
+    stage->setSaveDataCallback([this]{
+        saveMasterNodeBase();
+    });
 }
 
 bool DapModuleMasterNode::checkTokenName() const
