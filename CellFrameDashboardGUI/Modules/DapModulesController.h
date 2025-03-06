@@ -119,7 +119,7 @@ private:
 
     QMap<QString, QMap<int, int>> m_networksLoadProgress;
     QJsonArray nodeLoadProgressJson;
-    int m_nodeLoadProgress = 0;
+    int m_nodeLoadProgress{0};
     // Need to know it was first launch or restore after reboot node
     int m_lastProgress = 0;
 
