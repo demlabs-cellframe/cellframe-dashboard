@@ -129,7 +129,7 @@ DapRectangleLitAndShaded {
                     title.text: qsTr("To")
                     content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
                     title.color: currTheme.gray
-                    copyButton.visible: detailsModel.get(0).direction === "to" ? true : false
+                    copyButton.visible: detailsModel.get(0).direction === "to" && detailsModel.get(0).address !== "null" ? true : false
                 }
                 TextDetailsTx {
                     title.text: qsTr("Token")
@@ -142,16 +142,6 @@ DapRectangleLitAndShaded {
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: qsTr("Validator fee")
-                    content.text: detailsModel.get(0).fee + " " + detailsModel.get(0).fee_token
-                    title.color: currTheme.gray
-                }
-                TextDetailsTx {
-                    title.text: qsTr("Fee")
-                    content.text: detailsModel.get(0).fee_net + " " + detailsModel.get(0).fee_token
-                    title.color: currTheme.gray
-                }
-                TextDetailsTx {
                     title.text: detailsModel.get(0).m_direction === "from" ? qsTr("Deposited") : qsTr("Burning")
                     content.text:
                     {
@@ -161,6 +151,21 @@ DapRectangleLitAndShaded {
                     }
                     title.color: currTheme.gray
                     visible: detailsModel.get(0).m_value !== "0.0" && detailsModel.get(0).m_value !== ""
+                }
+                TextDetailsTx {
+                    title.text: qsTr("Validator fee")
+                    content.text: detailsModel.get(0).fee_validator + " " + detailsModel.get(0).fee_token
+                    title.color: currTheme.gray
+                }
+                TextDetailsTx {
+                    title.text: qsTr("Network fee")
+                    content.text: detailsModel.get(0).fee_net + " " + detailsModel.get(0).fee_token
+                    title.color: currTheme.gray
+                }
+                TextDetailsTx {
+                    title.text: qsTr("Total fee")
+                    content.text: detailsModel.get(0).fee + " " + detailsModel.get(0).fee_token
+                    title.color: currTheme.gray
                 }
                 TextDetailsTx {
                     title.text: qsTr("Atom")

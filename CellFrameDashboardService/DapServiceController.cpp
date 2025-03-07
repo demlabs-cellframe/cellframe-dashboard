@@ -80,6 +80,9 @@
 #include "handlers/stackCommand/DapSrvStakeInvalidateStack.h"
 #include "handlers/DapNodeDel.h"
 
+#include "handlers/DapCreateOrderValidatorCommand.h"
+#include "handlers/stackCommand/DapOrderCreateStakerCommandStack.h"
+
 #include "handlers/DapTransactionsInfoQueueCommand.h"
 
 #include "TransactionQueue/DapTransactionQueueController.h"
@@ -338,6 +341,8 @@ void DapServiceController::initServices()
     //New
     m_servicePool.append(new DapTransactionsInfoQueueCommand      ("DapTransactionsInfoQueueCommand"      , nullptr));
 
+    m_servicePool.append(new DapOrderCreateStakerCommandStack     ("DapOrderCreateStakerCommand"          , nullptr));
+    m_servicePool.append(new DapCreateOrderValidatorCommand       ("DapCreateOrderValidatorCommand"       , nullptr));
     for(auto& service: qAsConst(m_servicePool))
     {
         DapAbstractCommand * serviceCommand = dynamic_cast<DapAbstractCommand*>(service);

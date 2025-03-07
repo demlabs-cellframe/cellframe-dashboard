@@ -8,6 +8,8 @@
 
 #include <QDebug>
 
+#include "../DapTypes/DapCoin.h"
+
 // static DapHistoryModel *m_historyModel = DapHistoryModel::global();
 
 DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
@@ -97,27 +99,35 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
     for(auto i = 0; i < historyArray.size(); i++)
     {
         DapHistoryModel::Item itemHistory;
-        itemHistory.fee_token    = historyArray.at(i)["fee_token"].toString();
-        itemHistory.fee_net      = historyArray.at(i)["fee_net"].toString();
-        itemHistory.fee          = historyArray.at(i)["fee"].toString();
-        itemHistory.value        = historyArray.at(i)["value"].toString();
-        itemHistory.m_value      = historyArray.at(i)["m_value"].toString();
-        itemHistory.m_token      = historyArray.at(i)["m_token"].toString();
-        itemHistory.m_direction  = historyArray.at(i)["m_direction"].toString();
-        itemHistory.x_value      = historyArray.at(i)["x_value"].toString();
-        itemHistory.x_token      = historyArray.at(i)["x_token"].toString();
-        itemHistory.x_direction  = historyArray.at(i)["x_direction"].toString();
-        itemHistory.direction    = historyArray.at(i)["direction"].toString();
-        itemHistory.token        = historyArray.at(i)["token"].toString();
-        itemHistory.status       = historyArray.at(i)["status"].toString();
-        itemHistory.address      = historyArray.at(i)["address"].toString();
-        itemHistory.date_to_secs = historyArray.at(i)["date_to_secs"].toString().toLongLong();
-        itemHistory.date         = historyArray.at(i)["date"].toString();
-        itemHistory.wallet_name  = historyArray.at(i)["wallet_name"].toString();
-        itemHistory.network      = historyArray.at(i)["network"].toString();
-        itemHistory.atom         = historyArray.at(i)["atom"].toString();
-        itemHistory.tx_hash      = historyArray.at(i)["tx_hash"].toString();
-        itemHistory.tx_status    = historyArray.at(i)["tx_status"].toString();
+        itemHistory.value         = historyArray.at(i)["value"].toString();
+        itemHistory.m_value       = historyArray.at(i)["m_value"].toString();
+        itemHistory.m_token       = historyArray.at(i)["m_token"].toString();
+        itemHistory.m_direction   = historyArray.at(i)["m_direction"].toString();
+        itemHistory.x_value       = historyArray.at(i)["x_value"].toString();
+        itemHistory.x_token       = historyArray.at(i)["x_token"].toString();
+        itemHistory.x_direction   = historyArray.at(i)["x_direction"].toString();
+        itemHistory.direction     = historyArray.at(i)["direction"].toString();
+        itemHistory.token         = historyArray.at(i)["token"].toString();
+        itemHistory.status        = historyArray.at(i)["status"].toString();
+        itemHistory.address       = historyArray.at(i)["address"].toString();
+        itemHistory.date_to_secs  = historyArray.at(i)["date_to_secs"].toString().toLongLong();
+        itemHistory.date          = historyArray.at(i)["date"].toString();
+        itemHistory.wallet_name   = historyArray.at(i)["wallet_name"].toString();
+        itemHistory.network       = historyArray.at(i)["network"].toString();
+        itemHistory.atom          = historyArray.at(i)["atom"].toString();
+        itemHistory.tx_hash       = historyArray.at(i)["tx_hash"].toString();
+        itemHistory.tx_status     = historyArray.at(i)["tx_status"].toString();
+
+        itemHistory.fee_token     = historyArray.at(i)["fee_token"].toString();
+        itemHistory.fee_net       = historyArray.at(i)["fee_net"].toString();
+        itemHistory.fee_validator = historyArray.at(i)["fee"].toString();
+
+        Dap::Coin validatorFee(itemHistory.fee_validator);
+        Dap::Coin networkFee(itemHistory.fee_net);
+        Dap::Coin sumFee = validatorFee + networkFee;
+
+        itemHistory.fee = sumFee.toCoinsString();
+
 
         QDateTime time = QDateTime::fromSecsSinceEpoch(itemHistory.date_to_secs);
         itemHistory.time = time.toString("hh:mm:ss");

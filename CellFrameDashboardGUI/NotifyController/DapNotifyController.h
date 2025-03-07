@@ -34,10 +34,14 @@ public:
 private:
     QJsonDocument parseData(QString className, const QJsonObject obj, QString key, bool isArray);
 
+private slots:
+    void timeoutNetRcv();
+
 private:
     QString m_connectState;
     DapNotificationWatcher *m_watcher;
     QThread * m_threadNotify;
+    QTimer * m_timerCheckNetPack;
 
 signals:
     void sigNotifyRcvNetList(QJsonDocument);
