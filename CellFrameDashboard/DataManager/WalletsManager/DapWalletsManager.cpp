@@ -577,11 +577,11 @@ void DapWalletsManager::updateListWallets()
 void DapWalletsManager::requestWalletInfo(const QString& walletAddr, const QString& network)
 {
     m_isRequestInfo = true;
-    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {{Dap::KeysParam::WALLET_NAME, m_requestInfoWalletsName.last()}
                           ,{Dap::KeysParam::WALLET_ADDRESS, walletAddr}
                           ,{Dap::KeysParam::NETWORK_NAME, network}
-                           ,{Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
+                           ,{Dap::CommandParamKeys::NODE_MODE_KEY, nodeMode}};
 
     m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", request);
 
