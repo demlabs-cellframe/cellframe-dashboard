@@ -59,10 +59,13 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
         QString priorityPath;
         QString secondPath;
 
+        CommonWallet::WalletInfo walletInfo;
+
         WalletPathInfo()
         {
             priorityPath = "";
             secondPath = "";
+            walletInfo = CommonWallet::WalletInfo();
         }
     };
 
@@ -93,6 +96,8 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
                     pathInfo.priorityPath = Dap::DashboardDefines::DashboardStorage::WALLET_PATH;
                 else
                     pathInfo.secondPath = Dap::DashboardDefines::DashboardStorage::WALLET_NODE_PATH;
+
+                pathInfo.walletInfo = tmpWallet;
 
                 walletPaths[walletName] = pathInfo;
             }
@@ -138,6 +143,8 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
         {
             m_walletsInfo[walletPathInfoKey].isMigrate = false;
             m_walletsInfo[walletPathInfoKey].path = infoPath.priorityPath;
+            m_walletsInfo[walletPathInfoKey].walletInfo = infoPath.walletInfo.walletInfo;
+
             isUpdateWallet = true;
             emit walletInfoChanged(walletPathInfoKey);
         }
@@ -145,6 +152,8 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
         {
             m_walletsInfo[walletPathInfoKey].isMigrate = true;
             m_walletsInfo[walletPathInfoKey].path = infoPath.secondPath;
+            m_walletsInfo[walletPathInfoKey].walletInfo = infoPath.walletInfo.walletInfo;
+
             isUpdateWallet = true;
             emit walletInfoChanged(walletPathInfoKey);
         }
