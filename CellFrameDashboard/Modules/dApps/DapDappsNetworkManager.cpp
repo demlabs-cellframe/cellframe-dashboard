@@ -41,6 +41,9 @@ void DapDappsNetworkManager::downloadFile(QString name)
 
     QtConcurrent::run([this, dAppUrlName, path]()
     {
+        if (s_wait_http_req.exchange(true))
+            return;
+
         httplib::Client cli(m_path.toStdString().c_str());
         cli.enable_server_certificate_verification(false);
         cli.set_connection_timeout(5, 0);  // 5 sec timeout connect
@@ -105,6 +108,8 @@ void DapDappsNetworkManager::downloadFile(QString name)
         mtx.lock();
         if(m_file) delete m_file;
         mtx.unlock();
+
+        s_wait_http_req = false;
     });
 }
 

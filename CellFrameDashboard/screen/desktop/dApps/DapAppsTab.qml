@@ -70,5 +70,7 @@ DapPage {
         //dAppsModule.updatePluginsRepository()
         //dAppsModule.getListPlugins()
         dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
+
+        dAppsModule.updateListdApps()
     }
 }

@@ -470,6 +470,11 @@ DapModuledApps::~DapModuledApps()
 
 }
 
+void DapModuledApps::updateListdApps()
+{
+    m_pDapNetworkManager->fetchPluginsList();
+}
+
 void DapModuledApps::onDownloadCompleted(QString pluginFullPathToZip)
 {
     if (zipManage(pluginFullPathToZip, m_dappsFolder))

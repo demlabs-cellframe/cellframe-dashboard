@@ -105,6 +105,8 @@ public:
     explicit DapModuledApps(DapModulesController *parent = nullptr);
     ~DapModuledApps();
 
+    Q_INVOKABLE void updateListdApps();
+
 public slots:
     void addLocalPlugin(QVariant path);
     void activatePlugin(QString pluginName);

@@ -35,6 +35,7 @@ private slots:
 
 private:
     QMutex mtx;
+    std::atomic<bool> s_wait_http_req{false};
 
 public:
 
