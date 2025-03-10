@@ -2,154 +2,124 @@
 #include "httplib.h"
 
 DapDappsNetworkManager::DapDappsNetworkManager(QString path, QString pathPlugins, QWidget *parent)
-    : QWidget{parent}
+    : QWidget{parent}, m_path(std::move(path)), m_pathPlugins(std::move(pathPlugins)), m_reconnectTimer(new QTimer(this))
 {
-    m_path = path;
-    m_pathPlugins = pathPlugins;
-    m_networkManager = new QNetworkAccessManager(this);
-    m_reconnectTimer = new QTimer(this);
-    m_reload = false;
-    connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(onReconnect()));
+    connect(m_reconnectTimer, &QTimer::timeout, this, &DapDappsNetworkManager::onReconnect);
+    connect(this, &DapDappsNetworkManager::sigReload, this, &DapDappsNetworkManager::onReload);
 }
 
 DapDappsNetworkManager::~DapDappsNetworkManager()
 {
-    disconnect();
-    m_networkManager->disconnect();
-    m_networkManager->deleteLater();
-    m_currentReply->disconnect();
-    m_currentReply->deleteLater();
     delete m_reconnectTimer;
 }
 
 void DapDappsNetworkManager::downloadFile(QString name)
 {
-    QNetworkRequest request;
-    request.setUrl(QUrl(m_path + name));
-    qDebug() << "[Test_build] [DapDappsNetworkManager] tryRequest";
+    QString url = m_path + name;
     m_fileName = name;
     QString path = m_pathPlugins + m_fileName;
     m_file = new QFile(path);
 
-    quint64 data;
+    quint64 data = 0;
     m_bytesReceived = 0;
+    m_cancelDownload = false;
 
-    if(m_file->exists())
-    {
-        if(m_reload)
-        {
+    if (m_file->exists()) {
+        if (m_reload) {
             m_file->remove();
-            m_file->deleteLater();
+            delete m_file;
             m_file = new QFile(path);
-            m_reload = 0;
-        }
-        else
-        {
-            QFileInfo fileInfo (*m_file);
+            m_reload = false;
+        } else {
+            QFileInfo fileInfo(*m_file);
             data = fileInfo.size();
-
-            QString strRange = QString("bytes=%1-").arg(data);
-            request.setRawHeader("Range", strRange.toLatin1());
             m_bytesReceived = data;
         }
     }
 
-    m_currentReply = m_networkManager->get(request);
+    QString dAppUrlName = "/dashboard/"+name;
 
-    m_file->open(QIODevice::ReadWrite | QIODevice::Append);
-    connect(m_currentReply, &QNetworkReply::finished,this, &DapDappsNetworkManager::onDownloadCompleted);
-    connect(m_currentReply, &QNetworkReply::readyRead, this, &DapDappsNetworkManager::onReadyRead);
-    connect(m_currentReply, &QNetworkReply::downloadProgress, this, &DapDappsNetworkManager::onDownloadProgress);
-    connect(m_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onDownloadError(QNetworkReply::NetworkError)));
-}
-
-void DapDappsNetworkManager::onDownloadCompleted()
-{
-    qDebug() << "[Test_build] [DapDappsNetworkManager] onDownloadCompleted";
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-
-    QVariant statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    QString path = m_pathPlugins + m_fileName;
-
-    if (reply->error() == QNetworkReply::NoError ||
-        reply->error() == QNetworkReply::ContentNotFoundError)
+    QtConcurrent::run([this, dAppUrlName, path]()
     {
-        m_file->flush();
-        m_file->close();
-        m_fileName = "";
+        httplib::Client cli(m_path.toStdString().c_str());
+        cli.enable_server_certificate_verification(false);
+        cli.set_connection_timeout(5, 0);  // 5 sec timeout connect
+        cli.set_read_timeout(10, 0);       // 10 sec timeout ready read
 
-        emit sigDownloadCompleted(path);
-    }
-    else if(statusCode.toInt() == 416) // file download
-        emit sigDownloadCompleted(path);
+        m_file->open(QIODevice::ReadWrite | QIODevice::Append);
 
-    qInfo()<<"Reply finished. Status code: " << statusCode.toInt();
+        auto last_activity = std::chrono::steady_clock::now();
 
-    reply->deleteLater();
-    m_file->deleteLater();
-}
+        quint64 _load = m_bytesReceived;
+        quint64 _total = 0;
 
-void DapDappsNetworkManager::onReadyRead()
-{
-    qDebug() << "[Test_build] [DapDappsNetworkManager] onReadyRead";
-    m_error = "Connected";
-    if(m_file && m_file->exists())
-    {
-        if(m_currentReply->size())
-        {
-            QByteArray data = m_currentReply->readAll();
-            m_file->write(data);
+        auto resHead = cli.Head(dAppUrlName.toStdString().c_str());
+        if (resHead && resHead->status == 200) {
+            auto it = resHead->headers.find("Content-Length");
+            if (it != resHead->headers.end()) {
+                _total = std::stoull(it->second);
+            }
         }
-    }
-    else
-    {
-        cancelDownload(1,0);
-        downloadFile(m_fileName);
-    }
-}
 
-void DapDappsNetworkManager::onDownloadProgress(quint64 load, quint64 total)
-{
-    quint64 prog;
-    quint64 tot;
-    if(total)
-    {
-        prog = load + m_bytesReceived;
-        tot = total + m_bytesReceived;
-    }
-    else
-    {
-        prog = 0;
-        tot = 0;
-    }
-    if(m_reload)
-    {
-        m_error = "Connected";
-        prog = 0;
-    }
+        auto res = cli.Get(dAppUrlName.toStdString().c_str(), [this, &last_activity, &_load, &_total](const char *data, size_t data_length) {
+            if (m_cancelDownload) return false; //abort
 
-    emit sigDownloadProgress(prog, tot, m_fileName, m_error);
+            auto now = std::chrono::steady_clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - last_activity).count();
+
+            if (elapsed > 5) {
+                qWarning() << "Connection timeout: No data received for 5 seconds";
+                return false;
+            }
+
+            last_activity = now;
+
+            if (m_file->isOpen()) {
+                m_file->write(data, data_length);
+            }
+
+            _load += data_length;
+            emit sigDownloadProgress(_load, _total, m_fileName, "Connected");
+
+            return true;
+        });
+        if (res && res->status == 200) {
+            if (!m_cancelDownload) {
+                m_file->flush();
+                m_file->close();
+                emit sigDownloadCompleted(path);
+            }
+        } else {
+            qWarning() << "dApp download failed: " << (res ? res->status : -1);
+
+            if(m_reload)
+            {
+                emit sigReload();
+            }
+            else if(!m_cancelDownload)
+            {
+                emit sigDownloadProgress(_load, _total, m_fileName, "Error. Reconnecting");
+                emit sigReload();
+            }
+        }
+        mtx.lock();
+        if(m_file) delete m_file;
+        mtx.unlock();
+    });
 }
 
 void DapDappsNetworkManager::cancelDownload(bool ok, bool reload)
 {
-    if(m_currentReply)
+    m_reload = reload;
+    m_cancelDownload = true;
+
+    if(!m_reload)
     {
-        m_reload = reload;
-
-        if(m_error == "Connected")
-            m_currentReply->abort();
-
-        if(!reload)
-            emit sigAborted();
-        if(ok)
-        {
-            m_reconnectTimer->stop();
-
-            if(reload)
-                m_reconnectTimer->start(1);
-        }
+        m_reconnectTimer->stop();
+        emit sigDownloadProgress(0, 0, m_fileName, "Cancelled");
     }
+    else
+        emit sigDownloadProgress(0, 0, m_fileName, "Reloading");
 }
 
 QString DapDappsNetworkManager::repoAddress() const
@@ -157,90 +127,48 @@ QString DapDappsNetworkManager::repoAddress() const
     return m_path;
 }
 
-void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
-{
-    QVariant statusCode = m_currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    if(!(statusCode.toInt() == 416)) // !file download
-    {
-        qWarning()<<"Error Download dApp. Code: " << statusCode.toInt() << ". " << m_currentReply->errorString();
-        m_error = "Error code: " + QString::number(statusCode.toInt()) + ". " + m_currentReply->errorString();
-
-        if(statusCode == QNetworkReply::ContentConflictError || statusCode.toInt() == 0 || statusCode.toInt() == 200 || statusCode.toInt() == 206) // connections network errors
-        {
-            m_reconnectTimer->start(10000);
-        }
-
-        onDownloadProgress(0,0);
-        //        else
-    }
-}
-
 void DapDappsNetworkManager::onReconnect()
 {
     m_reconnectTimer->stop();
-    downloadFile(m_fileName);
-}
-
-void DapDappsNetworkManager::uploadFile()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, "Get Any file");
-    m_file = new QFile(fileName);
-    QFileInfo fileInfo (*m_file);
-    QUrl url(m_path + fileInfo.fileName());
-    url.setUserName("ftpuser");
-    url.setPassword("sGpawUJeC");
-    url.setPort(21);
-
-    if(m_file->open(QIODevice::ReadOnly))
-    {
-        m_networkManager->put(QNetworkRequest(url),m_file);
+    if (!m_cancelDownload) {
+        downloadFile(m_fileName);
     }
 }
 
-void DapDappsNetworkManager::onUploadCompleted(QNetworkReply *reply)
+void DapDappsNetworkManager::onReload()
 {
-    if (!reply->error())
-        qDebug()<< "good";
+    if(m_reload)
+        downloadFile(m_fileName);
     else
-        qDebug()<< reply->errorString();
-
-    m_file->close();
-    m_file->deleteLater();
-    reply->deleteLater();
+        QTimer::singleShot(1000, [this]() {downloadFile(m_fileName);});
 }
 
 void DapDappsNetworkManager::fetchPluginsList()
 {
-    QNetworkReply *reply;
-    reply = m_networkManager->get(QNetworkRequest(QUrl(m_path)));
-    connect(reply, SIGNAL(finished()),this,SLOT(onPluginsListFetched()));
-}
+    httplib::Client cli(m_path.toStdString().c_str());
+    cli.enable_server_certificate_verification(false); //Disable ssl verify
+    cli.set_follow_location(true);  // Auto redirect
+    cli.set_keep_alive(false);  // Disable keep-alive
+    cli.set_tcp_nodelay(true);  // Disable delay send pack
 
-void DapDappsNetworkManager::onPluginsListFetched()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    cli.set_connection_timeout(10, 0);
+    cli.set_read_timeout(10, 0);
+    cli.set_write_timeout(10, 0);
 
-    if (reply->error() == QNetworkReply::NoError ||
-        reply->error() == QNetworkReply::ContentNotFoundError)
-    {
-        QByteArray content= reply->readAll();
-        QTextCodec *codec = QTextCodec::codecForName("utf8");
-        QString str = codec->toUnicode(content.data());
+    httplib::Result res = cli.Get(QString("/dashboard/").toStdString());
+
+    if (res && res->status == 200) {
+        QString response = QString::fromStdString(res->body);
         QRegExp rw("[\\w+|\\s+]{,}.zip");
         int lastPos = 0;
 
-        while((lastPos = rw.indexIn(str,lastPos)) != -1)
-        {
+        while ((lastPos = rw.indexIn(response, lastPos)) != -1) {
             lastPos += rw.matchedLength();
             m_bufferFiles.append(rw.cap(0));
         }
         m_bufferFiles.removeDuplicates();
+        emit sigPluginsListFetched();
+    } else {
+        qWarning() << "Failed to fetch plugin list. Code:  " << (res ? res->status : -1 ) << ". Error: " << QString::fromStdString(httplib::to_string(res.error()));
     }
-    else
-        qWarning()<<reply->errorString();
-
-    reply->deleteLater();
-
-    emit sigPluginsListFetched();
 }
-

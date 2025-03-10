@@ -203,7 +203,6 @@ PluginManager::PluginManager(DappsNetworkManagerPtr pDapDappsNetworkManager, QOb
     initFilePath();
     m_pluginsByName = readPluginsFile(m_pathPluginsListFile);
     connect(m_pDapNetworkManager.data(), SIGNAL(sigPluginsListFetched()), this, SLOT(onPluginsFetched()));
-    m_pDapNetworkManager->fetchPluginsList();
 }
 
 PluginManager::~PluginManager()
@@ -399,6 +398,9 @@ void DownloadManager::onDownloadProgress(quint64 currDownloadedBytes, quint64 to
 
         if (timeNow - m_progress.lastTimeInterval > m_minTimeInterval)
         {
+            if(m_progress.prevDownloaded > currDownloadedBytes)
+                m_progress.prevDownloaded = 0;
+
             quint64 deltaDownload = currDownloadedBytes - m_progress.prevDownloaded;
             double speed = deltaDownload * 1000 / (timeNow - m_progress.lastTimeInterval);
             m_progress.speedStr = transformUnit(speed, true);
@@ -415,13 +417,24 @@ void DownloadManager::onDownloadProgress(quint64 currDownloadedBytes, quint64 to
     }
     else
     {
-        isCompleted = true;
+        if(statusMsg == "Error. Reconnecting")
+        {
+            isCompleted = false;
+            m_progress.timeRemainStr = "Infinity";
+            m_progress.speedStr = "0.00 B/S" ;
+        }
+        else
+            isCompleted = true;
+
         percent = (m_progress.prevDownloaded * 100.0)/(double)m_progress.totalBytes;
         percentStr = QString::number(percent,'f',2);
 
         downloadedStr = transformUnit((double)m_progress.prevDownloaded, false);
         totalStr = transformUnit((double)m_progress.totalBytes, false);
+
+
     }
+
     emit downloadProgress(isCompleted, statusMsg, percentStr, nameZip, downloadedStr, totalStr, m_progress.timeRemainStr, m_progress.speedStr);
 }
 
@@ -437,14 +450,19 @@ DapModuledApps::DapModuledApps(DapModulesController *parent)
     setStatusInit(true);
     initPlatformPaths();
 
-    auto pDapNetworkManager = QSharedPointer<DapDappsNetworkManager>::create(m_repoPlugins, m_dappsDownloadFolder);
-    m_pPluginManager = PluginManagerPtr::create(pDapNetworkManager);
-    m_pDownloadManager = DownloadManagerPtr::create(pDapNetworkManager);
+    m_pDapNetworkManager = QSharedPointer<DapDappsNetworkManager>::create(m_repoPlugins, m_dappsDownloadFolder);
+    m_pPluginManager = PluginManagerPtr::create(m_pDapNetworkManager);
+    m_pDownloadManager = DownloadManagerPtr::create(m_pDapNetworkManager);
 
     connect(m_pPluginManager.data(), SIGNAL(isFetched()), this, SLOT(onPluginManagerInit()));
     connect(m_pDownloadManager.data(), SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
     connect(m_pDownloadManager.data(), SIGNAL(downloadProgress(bool, QString, QString, QString, QString, QString, QString, QString)), this, SLOT(onDownloadProgress(bool, QString, QString, QString, QString, QString, QString, QString)));
     connect(m_pDownloadManager.data(), SIGNAL(isAborted()), this, SLOT(onAborted()));
+
+    connect(m_modulesCtrl, &DapModulesController::initDone, this, [this] ()
+    {
+        m_pDapNetworkManager->fetchPluginsList();
+    });
 }
 
 DapModuledApps::~DapModuledApps()

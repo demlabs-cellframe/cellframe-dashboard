@@ -3,6 +3,17 @@ import QtQml 2.12
 
 QtObject {
 
+    function clearData()
+    {
+        dAppsScreen.dapDownloadPanel.progress_text.text = " 0%";
+        dAppsScreen.dapDownloadPanel.progress_bar.currentValue = 0;
+        dAppsScreen.dapDownloadPanel.download =  0;
+        dAppsScreen.dapDownloadPanel.total =  0;
+        dAppsScreen.dapDownloadPanel.time = "0:00:00";
+        dAppsScreen.dapDownloadPanel.speed = 0;
+        dAppsScreen.dapDownloadPanel.errors.text = "";
+    }
+
 
     function rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
     {
@@ -42,6 +53,7 @@ QtObject {
         dAppsScreen.dapDownloadPanel.isOpen = false
         dAppsScreen.dapDownloadPanel.progress_text.text = "";
         dAppsScreen.dapDefaultRightPanel.visible = true;
+        clearData()
     }
 
     function updateFiltrApps(status)

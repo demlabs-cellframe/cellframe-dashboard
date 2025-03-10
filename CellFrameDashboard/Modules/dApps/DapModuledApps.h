@@ -131,7 +131,7 @@ private:
     QString m_dappsFolder;
     QString m_dappsDownloadFolder;
     QString m_filePrefix;
-    const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
+    const QString m_repoPlugins = "https://dapps.cellframe.net";
 
     DapModulesController * m_modulesCtrl;
 
@@ -140,6 +140,8 @@ private:
 
     using DownloadManagerPtr = QSharedPointer<DownloadManager>;
     DownloadManagerPtr m_pDownloadManager;
+
+    DappsNetworkManagerPtr m_pDapNetworkManager;
 };
 
 

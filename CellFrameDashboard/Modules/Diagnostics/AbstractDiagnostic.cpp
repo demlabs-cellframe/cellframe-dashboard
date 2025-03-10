@@ -163,7 +163,7 @@ void AbstractDiagnostic::send_http_request(QString method)
 {
     m_mtxTelemetryReq.lock();
     httplib::Client httpClient(NETWORK_ADDR.toStdString());
-//    httpClient.enable_server_certificate_verification(false); //Disable check CA
+    httpClient.enable_server_certificate_verification(false); //Disable ssl verify
     httpClient.set_follow_location(true);  // Auto redirect
     httpClient.set_keep_alive(false);  // Disable keep-alive
     httpClient.set_tcp_nodelay(true);  // Disable delay send pack

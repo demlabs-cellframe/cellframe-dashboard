@@ -3,10 +3,10 @@
 DapVPNOrdersController::DapVPNOrdersController()
     :QObject()
 {
-    qDebug() << "[vpn_url] init";
-    manager = new QNetworkAccessManager(this);
-    request.setUrl(QUrl("http://cdb0.kelvpn.com/nodelist"));
-    retryConnection();
+    // qDebug() << "[vpn_url] init";
+    // manager = new QNetworkAccessManager(this);
+    // request.setUrl(QUrl("http://cdb0.kelvpn.com/nodelist"));
+    // retryConnection();
 }
 
 void DapVPNOrdersController::VPNOrdersReplyFinished()
