@@ -239,7 +239,7 @@ void DapModuleMasterNode::createMasterNode()
         {
             createCertificate();
         }
-        else if(logic == "newCertificate")
+        else if(logic == "uploadCertificate")
         {
             moveCertificate();
         }
@@ -639,7 +639,14 @@ void DapModuleMasterNode::tryRestartNode()
 
 void DapModuleMasterNode::respondCreatedStakeOrder(const QVariant &rcvData)
 {
-    QJsonObject replyObj = rcvData.toJsonObject();
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+
+    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+    if(document.isNull() || document.isEmpty())
+    {
+        return;
+    }
+    QJsonObject replyObj = document.object();
     bool fromMasterNode = replyObj.contains("from") && replyObj["from"].toString() == MasterNode::MASTER_NODE_KEY;
 
     if(!replyObj.contains("success"))
@@ -683,7 +690,14 @@ void DapModuleMasterNode::respondCreatedStakeOrder(const QVariant &rcvData)
 
 void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 {
-    QJsonObject replyObj = rcvData.toJsonObject();
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+
+    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+    if(document.isNull() || document.isEmpty())
+    {
+        return;
+    }
+    QJsonObject replyObj = document.object();
 
     if(!replyObj.contains("command"))
     {
@@ -815,23 +829,34 @@ void DapModuleMasterNode::respondCreateCertificate(const QVariant &rcvData)
 
 void DapModuleMasterNode::addedNode(const QVariant &rcvData)
 {
-    auto result = rcvData.toString();
-    if(result.contains("successfully"))
+    QJsonDocument document = QJsonDocument::fromJson(rcvData.toByteArray());
+    QJsonObject resultObject = document.object();
+
+    if(resultObject.contains(Dap::JsonKeys::RESULT_KEY))
     {
-        qInfo() << "----The node has been added.-----";
-        getInfoNode();
+        QString result = resultObject.value(Dap::JsonKeys::RESULT_KEY).toString();
+        if(result == "successfully")
+        {
+            qInfo() << "----The node has been added.-----";
+            getInfoNode();
+            return;
+        }
     }
-    else
-    {
-        tryStopCreationMasterNode(17, "I couldn't add a node.");
-    }
+    tryStopCreationMasterNode(17, "I couldn't add a node.");
 }
 
 void DapModuleMasterNode::respondNetworkStatus(const QVariant &rcvData)
 {
     if(m_isNetworkStatusRequest)
     {
-        QJsonObject replyObj = rcvData.toJsonObject();
+        auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+
+        QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+        if(document.isNull() || document.isEmpty())
+        {
+            return;
+        }
+        QJsonObject replyObj = document.object();
         if(!replyObj.contains("name") || !replyObj.contains(MasterNode::NODE_ADDR_KEY))
         {
             tryStopCreationMasterNode( 2, "Other problems. Contact customer support.");
