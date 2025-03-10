@@ -780,7 +780,7 @@ DapRectangleLitAndShaded {
                                           textInputValue.text,
                                           certificate.displayText)
 
-                                ordersModule.createStakeOrder(argsRequest)
+                                ordersModule.createStakeOrder(networks.displayText, textInputValue.text, certificate.displayText)
                             }
                         }
                     }

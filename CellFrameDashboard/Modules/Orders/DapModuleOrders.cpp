@@ -153,9 +153,12 @@ void DapModuleOrders::setStatusProcessing(bool status)
     }
 }
 
-void DapModuleOrders::createStakeOrder(QStringList args)
+void DapModuleOrders::createStakeOrder(const QString& net, const QString& fee, const QString& certName)
 {
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", args);
+        QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, net}
+                            ,{Dap::KeysParam::FEE, fee}
+                            ,{Dap::KeysParam::CERT_NAME, certName}};
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", request);
 }
 
 void DapModuleOrders::createVPNOrder(QStringList args)

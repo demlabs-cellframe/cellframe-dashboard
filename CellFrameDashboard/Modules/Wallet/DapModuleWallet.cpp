@@ -224,14 +224,14 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     }
 }
 
-void DapModuleWallet::createTx(QVariant args)
+void DapModuleWallet::createTx(const QVariant& args)
 {
     s_serviceCtrl->requestToService("DapCreateTransactionCommand", args);
 }
 
 void DapModuleWallet::requestWalletTokenInfo(QStringList args)
 {
-    s_serviceCtrl->requestToService("DapGetWalletTokenInfoCommand", args);
+
 }
 
 void DapModuleWallet::createWallet(const QStringList& args)
@@ -470,15 +470,13 @@ void DapModuleWallet::sendTx(QVariantMap data)
     }
     else
     {
-        QStringList listData;
-        listData.append(net);
-        listData.append(walletName);
-        listData.append(addrTo);
-        listData.append(sendTicker);
-        listData.append(amount);
-        listData.append(validatorFeeDatoshi);
-
-        createTx(listData);
+        QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, net}
+                               ,{Dap::KeysParam::WALLET_NAME, walletName}
+                               ,{Dap::KeysParam::ADDR, addrTo}
+                               ,{Dap::KeysParam::TOKEN_NAME, sendTicker}
+                               ,{Dap::KeysParam::AMOUNT, amount}
+                               ,{Dap::KeysParam::FEE, validatorFeeDatoshi}};
+        createTx(request);
     }
 }
 

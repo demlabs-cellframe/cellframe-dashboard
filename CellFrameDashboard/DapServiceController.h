@@ -37,7 +37,6 @@
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletAddressCommand.h"
-#include "handlers/DapGetWalletTokenInfoCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"

@@ -715,13 +715,28 @@ QString DapModuleDex::tryCreateOrder(bool isSell, const QString& price, const QS
 
         if(suitableOrder == model.end())
         {
-            requestOrderCreate(QStringList() << m_currentPair.network << tokenSell << tokenBuy
-                                             << walletName << amountDatoshi << priceOrder << feeDatoshi);
+            QVariantMap request = {
+                {Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+                ,{Dap::KeysParam::WALLET_NAME, walletName}
+                ,{Dap::KeysParam::TOKEN_SELL, tokenSell}
+                ,{Dap::KeysParam::TOKEN_BUY, tokenBuy}
+                ,{Dap::KeysParam::AMOUNT, amountDatoshi}
+                ,{Dap::KeysParam::FEE, feeDatoshi}
+                ,{Dap::KeysParam::RATE, priceOrder}
+            };
+            requestOrderCreate(request);
         }
         else
         {
-            requestOrderPurchase(QStringList() << suitableOrder->hash << m_currentPair.network
-                                               << walletName << amountDatoshi << feeDatoshi << tokenSell);
+            QVariantMap request = {
+                {Dap::KeysParam::TX_HASH, suitableOrder->hash}
+                ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+                ,{Dap::KeysParam::WALLET_NAME, walletName}
+                ,{Dap::KeysParam::AMOUNT, amountDatoshi}
+                ,{Dap::KeysParam::FEE, feeDatoshi}
+                ,{Dap::KeysParam::TOKEN_NAME, tokenSell}
+            };
+            requestOrderPurchase(request);
         }
 
     }
@@ -759,8 +774,15 @@ QString DapModuleDex::tryExecuteOrder(const QString& hash, const QString& amount
     Dap::Coin amount256 = amountOrder;
     QString amountDatoshi = amount256.toDatoshiString();
 
-    requestOrderPurchase(QStringList() << hash << m_currentPair.network
-                                       << walletName << amountDatoshi << feeDatoshi << tokenName);
+    QVariantMap request = {
+         {Dap::KeysParam::TX_HASH, hash}
+        ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+        ,{Dap::KeysParam::WALLET_NAME, walletName}
+        ,{Dap::KeysParam::AMOUNT, amountDatoshi}
+        ,{Dap::KeysParam::FEE, feeDatoshi}
+        ,{Dap::KeysParam::TOKEN_NAME, tokenName}
+    };
+    requestOrderPurchase(request);
 
     return "OK";
 }
@@ -981,12 +1003,12 @@ void DapModuleDex::requestTXList()
     m_modulesCtrl->getServiceController()->requestToService("DapGetXchangeTxList", request);
 }
 
-void DapModuleDex::requestOrderPurchase(const QStringList& params)
+void DapModuleDex::requestOrderPurchase(const QVariantMap& params)
 {
     m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderPurchase", params);
 }
 
-void DapModuleDex::requestOrderCreate(const QStringList& params)
+void DapModuleDex::requestOrderCreate(const QVariantMap& params)
 {
     m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderCreate", params);
 }
@@ -995,9 +1017,15 @@ void DapModuleDex::requestOrderDelete(const QString& network, const QString& has
 {
     Dap::Coin feeInt = fee;
     QString feeDatoshi = feeInt.toDatoshiString();
-    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove",
-                                            QStringList() << network << hash <<
-                                            m_modulesCtrl->getManagerController()->getCurrentWallet().second << feeDatoshi << tokenName << amount);
+        QVariantMap request = {
+                             {Dap::KeysParam::NETWORK_NAME, network}
+                            ,{Dap::KeysParam::TX_HASH, hash}
+                            ,{Dap::KeysParam::WALLET_NAME, m_modulesCtrl->getManagerController()->getCurrentWallet().second}
+                            ,{Dap::KeysParam::FEE, feeDatoshi}
+                            ,{Dap::KeysParam::TOKEN_NAME, tokenName}
+                            ,{Dap::KeysParam::AMOUNT, amount}
+                            };
+    m_modulesCtrl->getServiceController()->requestToService("DapXchangeOrderRemove", request);
 }
 
 void DapModuleDex::currentRateFirstTimeSlot()

@@ -50,12 +50,12 @@ void DapSrvStakeInvalidateStage::stakeInvalidate(const QVariantMap& masterNodeIn
 
     Dap::Coin fee256 = m_masterNodeInfo.value(MasterNode::STAKE_FEE_KEY).toString();
     QString feeDatoshi = fee256.toDatoshiString();
-    m_serviceController->requestToService("DapSrvStakeInvalidate", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
-                                                                                 << m_masterNodeInfo.value(MasterNode::STAKE_HASH_KEY).toString()
-                                                                                 << m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()
-                                                                                 << feeDatoshi
-                                                                                 << valueDatoshi
-                                                                                 );
+    QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()}
+                            ,{Dap::KeysParam::TX_HASH, m_masterNodeInfo.value(MasterNode::STAKE_HASH_KEY).toString()}
+                            ,{Dap::KeysParam::WALLET_NAME, m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()}
+                            ,{Dap::KeysParam::FEE, feeDatoshi}
+                            ,{Dap::KeysParam::AMOUNT, valueDatoshi}};
+    m_serviceController->requestToService("DapSrvStakeInvalidate", request);
 }
 
 void DapSrvStakeInvalidateStage::checkStakeInvalidate(const QVariantMap& masterNodeInfo)

@@ -55,11 +55,12 @@ void DapStakeDelegate::stakeDelegate(const QVariantMap& masterNodeInfo)
 
     Dap::Coin fee256 = m_masterNodeInfo.value(MasterNode::STAKE_FEE_KEY).toString();
     QString feeDatoshi = fee256.toDatoshiString();
-    m_serviceController->requestToService("DapSrvStakeDelegateCommand", QStringList() << m_masterNodeInfo.value(MasterNode::CERT_NAME_KEY).toString()
-                                                                                << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
-                                                                                << m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()
-                                                                                << valueDatoshi
-                                                                                << feeDatoshi);
+    QVariantMap request = {{Dap::KeysParam::WALLET_NAME, m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()}
+                          ,{Dap::KeysParam::CERT_NAME, m_masterNodeInfo.value(MasterNode::CERT_NAME_KEY).toString()}
+                          ,{Dap::KeysParam::AMOUNT, valueDatoshi}
+                          ,{Dap::KeysParam::FEE, feeDatoshi}
+                          ,{Dap::KeysParam::NETWORK_NAME, m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()}};
+    m_serviceController->requestToService("DapSrvStakeDelegateCommand", request);
 }
 
 void DapStakeDelegate::tryCheckStakeDelegate(const QVariantMap& masterNodeInfo)

@@ -494,17 +494,21 @@ void DapModuleMasterNode::createStakeOrder()
     }
     Dap::Coin feeCoin(m_currentStartMaster[MasterNode::FEE_KEY].toString());
     QString feeDatoshi = feeCoin.toDatoshiString();
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList()
-                                                           << m_currentStartMaster[MasterNode::NETWORK_KEY].toString()
-                                                           << feeDatoshi
-                                                           << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString());
+    QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, m_currentStartMaster[MasterNode::NETWORK_KEY].toString()}
+                            ,{Dap::KeysParam::FEE, feeDatoshi}
+                            ,{Dap::KeysParam::CERT_NAME, m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()}};
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", request);
 }
 
 void DapModuleMasterNode::createStakeOrderForMasterNode(const QString& fee, const QString& certName)
 {
     Dap::Coin feeCoin(fee);
     QString feeDatoshi = feeCoin.toDatoshiString();
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList() << m_currentNetwork << feeDatoshi << certName << "from" << MasterNode::MASTER_NODE_KEY); // master_node - For identification FROM
+    QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, m_currentNetwork}
+                            ,{Dap::KeysParam::FEE, feeDatoshi}
+                            ,{Dap::KeysParam::CERT_NAME, certName}
+                            ,{Dap::KeysParam::FROM, MasterNode::MASTER_NODE_KEY}};
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", request); // master_node - For identification FROM
 }
 
 void DapModuleMasterNode::getInfoNode()

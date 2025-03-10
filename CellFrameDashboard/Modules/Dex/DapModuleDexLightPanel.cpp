@@ -336,13 +336,28 @@ QString DapModuleDexLightPanel::tryCreateOrderRegular(const QString& price, cons
 
         if(suitableOrder == model.end())
         {
-            requestOrderCreate(QStringList() << m_currentPair.network << tokenSell << tokenBuy
-                                             << walletName << amountDatoshi << priceOrder << feeDatoshi);
+            QVariantMap request = {
+                {Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+                ,{Dap::KeysParam::WALLET_NAME, walletName}
+                ,{Dap::KeysParam::TOKEN_SELL, tokenSell}
+                ,{Dap::KeysParam::TOKEN_BUY, tokenBuy}
+                ,{Dap::KeysParam::AMOUNT, amountDatoshi}
+                ,{Dap::KeysParam::FEE, feeDatoshi}
+                ,{Dap::KeysParam::RATE, priceOrder}
+            };
+            requestOrderCreate(request);
         }
         else
         {
-            requestOrderPurchase(QStringList() << suitableOrder->hash << m_currentPair.network
-                                               << walletName << amountDatoshi << feeDatoshi << tokenSell);
+            QVariantMap request = {
+                {Dap::KeysParam::TX_HASH, suitableOrder->hash}
+                ,{Dap::KeysParam::NETWORK_NAME, m_currentPair.network}
+                ,{Dap::KeysParam::WALLET_NAME, walletName}
+                ,{Dap::KeysParam::AMOUNT, amountDatoshi}
+                ,{Dap::KeysParam::FEE, feeDatoshi}
+                ,{Dap::KeysParam::TOKEN_NAME, tokenSell}
+            };
+            requestOrderPurchase(request);
         }
 
     }
