@@ -53,45 +53,54 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
     bool isUpdateWallet = false;
     QStringList newListWallet;
     QVariantList doubleWalletArray;
-    for(const QJsonValue &value: walletArray)
+
+    struct WalletPathInfo
+    {
+        QString priorityPath;
+        QString secondPath;
+
+        WalletPathInfo()
+        {
+            priorityPath = "";
+            secondPath = "";
+        }
+    };
+
+    QMap <QString, WalletPathInfo> walletPaths;
+
+    for(const QJsonValue &value: std::as_const(walletArray))
     {
         QJsonObject tmpObject = value.toObject();
         if(tmpObject.contains(Dap::JsonKeys::NAME) && tmpObject.contains(Dap::JsonKeys::PATH))
         {
             QString walletName = tmpObject[Dap::JsonKeys::NAME].toString();
-            newListWallet.append(walletName);
             if(walletName.isEmpty())
             {
                 continue;
             }
+            newListWallet.append(walletName);
+
+            CommonWallet::WalletInfo tmpWallet;
+            tmpWallet.walletName = walletName;
+            tmpWallet.path = tmpObject[Dap::JsonKeys::PATH].toString();
+            tmpWallet.status = tmpObject[Dap::JsonKeys::STATUS].toString();
+
+            bool isPrimatyPath = (tmpWallet.path == Dap::DashboardDefines::DashboardStorage::WALLET_PATH);
+            {
+                WalletPathInfo pathInfo = walletPaths.contains(walletName)? walletPaths.value(walletName) : WalletPathInfo();
+
+                if(isPrimatyPath)
+                    pathInfo.priorityPath = Dap::DashboardDefines::DashboardStorage::WALLET_PATH;
+                else
+                    pathInfo.secondPath = Dap::DashboardDefines::DashboardStorage::WALLET_NODE_PATH;
+
+                walletPaths[walletName] = pathInfo;
+            }
+
 
             if(m_walletsInfo.contains(walletName))
             {
-
-                CommonWallet::WalletInfo tmpWallet;
-                tmpWallet.walletName = walletName;
-                tmpWallet.path = tmpObject[Dap::JsonKeys::PATH].toString();
-                tmpWallet.status = tmpObject[Dap::JsonKeys::STATUS].toString();
-
-                if(tmpWallet.path != m_walletsInfo[walletName].path)
-                {
-                    QJsonObject wallet;
-                    if(tmpWallet.path != Dap::DashboardDefines::DashboardStorage::WALLET_PATH)
-                    {
-                        wallet.insert("walletName", tmpWallet.walletName);
-                        wallet.insert("walletPath", tmpWallet.path);
-                    }
-                    else
-                    {
-                        wallet.insert("walletName", m_walletsInfo[walletName].walletName);
-                        wallet.insert("walletPath", m_walletsInfo[walletName].path);
-                        m_walletsInfo.remove(walletName);
-                        m_walletsInfo.insert(walletName, std::move(tmpWallet));
-                        isUpdateWallet = true;
-                    }
-                    doubleWalletArray.append(wallet);
-                }
-                else if(tmpWallet.status != m_walletsInfo[walletName].status)
+                if(tmpWallet.status != m_walletsInfo[walletName].status)
                 {
                     m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
                     isUpdateWallet = true;
@@ -100,13 +109,44 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
             }
             else
             {
-                CommonWallet::WalletInfo tmpWallet;
-                tmpWallet.walletName = walletName;
-                tmpWallet.path = tmpObject[Dap::JsonKeys::PATH].toString();
-                tmpWallet.status = tmpObject[Dap::JsonKeys::STATUS].toString();
                 m_walletsInfo.insert(walletName, std::move(tmpWallet));
+                if(!isPrimatyPath)
+                    m_walletsInfo[walletName].isMigrate = true;
                 isUpdateWallet = true;
             }
+        }
+    }
+
+    //checkPaths
+    for(const QString& walletPathInfoKey: walletPaths.keys())
+    {
+        WalletPathInfo infoPath = walletPaths.value(walletPathInfoKey);
+
+        if(!infoPath.secondPath.isEmpty() && !infoPath.priorityPath.isEmpty())
+        {
+            QJsonObject wallet;
+            wallet.insert("walletName", walletPathInfoKey);
+            wallet.insert("walletPath", infoPath.secondPath);
+            doubleWalletArray.append(wallet);
+        }
+
+        if(!infoPath.priorityPath.isEmpty() && infoPath.priorityPath == m_walletsInfo[walletPathInfoKey].path)
+        {
+            continue;
+        }
+        else if(!infoPath.priorityPath.isEmpty() && infoPath.priorityPath != m_walletsInfo[walletPathInfoKey].path)
+        {
+            m_walletsInfo[walletPathInfoKey].isMigrate = false;
+            m_walletsInfo[walletPathInfoKey].path = infoPath.priorityPath;
+            isUpdateWallet = true;
+            emit walletInfoChanged(walletPathInfoKey);
+        }
+        else if(!infoPath.secondPath.isEmpty() && infoPath.secondPath != m_walletsInfo[walletPathInfoKey].path)
+        {
+            m_walletsInfo[walletPathInfoKey].isMigrate = true;
+            m_walletsInfo[walletPathInfoKey].path = infoPath.secondPath;
+            isUpdateWallet = true;
+            emit walletInfoChanged(walletPathInfoKey);
         }
     }
 
@@ -119,7 +159,7 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
     if(!DapCommonMethods::isEqualStringList(newListWallet, curListWallet))
     {
         QStringList toRemoveList = DapCommonMethods::getDifference(curListWallet, newListWallet);
-        for(const auto& wallet: toRemoveList)
+        for(const auto& wallet: std::as_const(toRemoveList))
         {
             m_walletsInfo.remove(wallet);
             isUpdateWallet = true;
@@ -134,6 +174,7 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
         emit walletListChanged();
     }
 }
+
 
 void DapWalletsManager::setIsLoad(CommonWallet::WalletInfo& wallet, bool isLoad)
 {

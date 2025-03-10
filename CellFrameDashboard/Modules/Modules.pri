@@ -24,6 +24,8 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.h \
     $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.h \
     $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeListCommand.h \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateStakeData.h \
     $$PWD/Networks/DapModuleNetworks.h \
     $$PWD/Settings/DapModuleSettings.h \
     $$PWD/Dex/DapModuleDex.h \
@@ -67,6 +69,8 @@ HEADERS += $$PWD/TxExplorer/DapModuleTxExplorer.h \
     $$PWD/MasterNode/MasterNodeCommand/DapStakeDelegate.cpp \
     $$PWD/MasterNode/MasterNodeCommand/DapUpdateConfigStage.cpp \
     $$PWD/MasterNode/MasterNodeCommand/DapWaitingPermission.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapStakeListCommand.cpp \
+    $$PWD/MasterNode/MasterNodeCommand/DapUpdateStakeData.cpp \
     $$PWD/Networks/DapModuleNetworks.cpp \
     $$PWD/Settings/DapModuleSettings.cpp \
     $$PWD/Dex/DapModuleDex.cpp \

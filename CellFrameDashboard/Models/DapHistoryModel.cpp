@@ -19,28 +19,30 @@ struct ItemHistoryBridge::Data
 
 static const QHash<QString, DapHistoryModel::DapHistoryModel::FieldId> s_fieldIdMap =
     {
-        {"tx_status",    DapHistoryModel::FieldId::tx_status},
-        {"tx_hash",      DapHistoryModel::FieldId::tx_hash},
-        {"atom",         DapHistoryModel::FieldId::atom},
-        {"network",      DapHistoryModel::FieldId::network},
-        {"wallet_name",  DapHistoryModel::FieldId::wallet_name},
-        {"date",         DapHistoryModel::FieldId::date},
-        {"date_to_secs", DapHistoryModel::FieldId::date_to_secs},
-        {"time",         DapHistoryModel::FieldId::time},
-        {"address",      DapHistoryModel::FieldId::address},
-        {"status",       DapHistoryModel::FieldId::status},
-        {"token",        DapHistoryModel::FieldId::token},
-        {"direction",    DapHistoryModel::FieldId::direction},
-        {"value",        DapHistoryModel::FieldId::value},
-        {"m_value",      DapHistoryModel::FieldId::m_value},
-        {"m_token",      DapHistoryModel::FieldId::m_token},
-        {"m_direction",  DapHistoryModel::FieldId::m_direction},
-        {"x_value",      DapHistoryModel::FieldId::x_value},
-        {"x_token",      DapHistoryModel::FieldId::x_token},
-        {"x_direction",  DapHistoryModel::FieldId::x_direction},
-        {"fee",          DapHistoryModel::FieldId::fee},
-        {"fee_token",    DapHistoryModel::FieldId::fee_token},
-        {"fee_net",      DapHistoryModel::FieldId::fee_net},
+        {"tx_status",     DapHistoryModel::FieldId::tx_status},
+        {"tx_hash",       DapHistoryModel::FieldId::tx_hash},
+        {"atom",          DapHistoryModel::FieldId::atom},
+        {"network",       DapHistoryModel::FieldId::network},
+        {"wallet_name",   DapHistoryModel::FieldId::wallet_name},
+        {"date",          DapHistoryModel::FieldId::date},
+        {"date_to_secs",  DapHistoryModel::FieldId::date_to_secs},
+        {"time",          DapHistoryModel::FieldId::time},
+        {"address",       DapHistoryModel::FieldId::address},
+        {"status",        DapHistoryModel::FieldId::status},
+        {"token",         DapHistoryModel::FieldId::token},
+        {"direction",     DapHistoryModel::FieldId::direction},
+        {"value",         DapHistoryModel::FieldId::value},
+        {"m_value",       DapHistoryModel::FieldId::m_value},
+        {"m_token",       DapHistoryModel::FieldId::m_token},
+        {"m_direction",   DapHistoryModel::FieldId::m_direction},
+        {"x_value",       DapHistoryModel::FieldId::x_value},
+        {"x_token",       DapHistoryModel::FieldId::x_token},
+        {"x_direction",   DapHistoryModel::FieldId::x_direction},
+        {"fee",           DapHistoryModel::FieldId::fee},
+        {"fee_token",     DapHistoryModel::FieldId::fee_token},
+        {"fee_net",       DapHistoryModel::FieldId::fee_net},
+        {"fee_validator", DapHistoryModel::FieldId::fee_validator},
+        {"queue_hash"   , DapHistoryModel::FieldId::queue_hash},
         };
 
 static DapHistoryModel::Item _dummy();
@@ -342,6 +344,8 @@ QVariant DapHistoryModel::_getValue (const DapHistoryModel::Item &a_item, int a_
     case DapHistoryModel::FieldId::fee:           return a_item.fee;
     case DapHistoryModel::FieldId::fee_token:     return a_item.fee_token;
     case DapHistoryModel::FieldId::fee_net:       return a_item.fee_net;
+    case DapHistoryModel::FieldId::fee_validator: return a_item.fee_validator;
+    case DapHistoryModel::FieldId::queue_hash:    return a_item.queue_hash;
     }
 
     return QVariant();
@@ -353,28 +357,31 @@ void DapHistoryModel::_setValue (DapHistoryModel::Item &a_item, int a_fieldId, c
     {
     case DapHistoryModel::FieldId::invalid: break;
 
-    case DapHistoryModel::FieldId::tx_status:     a_item.tx_status    = a_value.toString(); break;
-    case DapHistoryModel::FieldId::tx_hash:       a_item.tx_hash      = a_value.toString(); break;
-    case DapHistoryModel::FieldId::atom:          a_item.atom         = a_value.toString(); break;
-    case DapHistoryModel::FieldId::network:       a_item.network      = a_value.toString(); break;
-    case DapHistoryModel::FieldId::wallet_name:   a_item.wallet_name  = a_value.toString(); break;
-    case DapHistoryModel::FieldId::date:          a_item.date         = a_value.toString(); break;
-    case DapHistoryModel::FieldId::date_to_secs:  a_item.date_to_secs = a_value.toString().toLongLong(); break;
-    case DapHistoryModel::FieldId::time:          a_item.time         = a_value.toString(); break;
-    case DapHistoryModel::FieldId::address:       a_item.address      = a_value.toString(); break;
-    case DapHistoryModel::FieldId::status:        a_item.status       = a_value.toString(); break;
-    case DapHistoryModel::FieldId::token:         a_item.token        = a_value.toString(); break;
-    case DapHistoryModel::FieldId::direction:     a_item.direction    = a_value.toString(); break;
-    case DapHistoryModel::FieldId::value:         a_item.value        = a_value.toString(); break;
-    case DapHistoryModel::FieldId::m_value:       a_item.m_value      = a_value.toString(); break;
-    case DapHistoryModel::FieldId::m_token:       a_item.m_token      = a_value.toString(); break;
-    case DapHistoryModel::FieldId::m_direction:   a_item.m_direction  = a_value.toString(); break;
-    case DapHistoryModel::FieldId::x_value:       a_item.x_value      = a_value.toString(); break;
-    case DapHistoryModel::FieldId::x_token:       a_item.x_token      = a_value.toString(); break;
-    case DapHistoryModel::FieldId::x_direction:   a_item.x_direction  = a_value.toString(); break;    
-    case DapHistoryModel::FieldId::fee:           a_item.fee          = a_value.toString(); break;
-    case DapHistoryModel::FieldId::fee_token:     a_item.fee_token    = a_value.toString(); break;
-    case DapHistoryModel::FieldId::fee_net:       a_item.fee_net      = a_value.toString(); break;
+    case DapHistoryModel::FieldId::tx_status:     a_item.tx_status     = a_value.toString(); break;
+    case DapHistoryModel::FieldId::tx_hash:       a_item.tx_hash       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::atom:          a_item.atom          = a_value.toString(); break;
+    case DapHistoryModel::FieldId::network:       a_item.network       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::wallet_name:   a_item.wallet_name   = a_value.toString(); break;
+    case DapHistoryModel::FieldId::date:          a_item.date          = a_value.toString(); break;
+    case DapHistoryModel::FieldId::date_to_secs:  a_item.date_to_secs  = a_value.toString().toLongLong(); break;
+    case DapHistoryModel::FieldId::time:          a_item.time          = a_value.toString(); break;
+    case DapHistoryModel::FieldId::address:       a_item.address       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::status:        a_item.status        = a_value.toString(); break;
+    case DapHistoryModel::FieldId::token:         a_item.token         = a_value.toString(); break;
+    case DapHistoryModel::FieldId::direction:     a_item.direction     = a_value.toString(); break;
+    case DapHistoryModel::FieldId::value:         a_item.value         = a_value.toString(); break;
+    case DapHistoryModel::FieldId::m_value:       a_item.m_value       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::m_token:       a_item.m_token       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::m_direction:   a_item.m_direction   = a_value.toString(); break;
+    case DapHistoryModel::FieldId::x_value:       a_item.x_value       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::x_token:       a_item.x_token       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::x_direction:   a_item.x_direction   = a_value.toString(); break;
+    case DapHistoryModel::FieldId::fee:           a_item.fee           = a_value.toString(); break;
+    case DapHistoryModel::FieldId::fee_token:     a_item.fee_token     = a_value.toString(); break;
+    case DapHistoryModel::FieldId::fee_net:       a_item.fee_net       = a_value.toString(); break;
+    case DapHistoryModel::FieldId::fee_validator: a_item.fee_validator = a_value.toString(); break;
+    case DapHistoryModel::FieldId::queue_hash:    a_item.queue_hash    = a_value.toString(); break;
+
     }
 }
 
@@ -412,23 +419,32 @@ DapHistoryModel &DapHistoryModel::operator= (DapHistoryModel &&a_src)
 DapHistoryModel::Item _dummy()
 {
     return DapHistoryModel::Item
-        {
-            QString(),
-            QString(),
-            QString(),
-            QString(),
-            QString(),
-            QString(),
-            0,
-            QString(),
-            QString(),
-            QString(),
-            QString(),
-            QString(),
-            QString(),
-            QString(),
-            QString()
-        };
+    {
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        0,
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+        QString(),
+    };
 }
 
 ItemHistoryBridge::ItemHistoryBridge (ItemHistoryBridge::Data *a_data)
@@ -436,36 +452,30 @@ ItemHistoryBridge::ItemHistoryBridge (ItemHistoryBridge::Data *a_data)
 {
     if (!d || !d->model)
         return;
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::tx_statusChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::tx_hashChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::atomChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::networkChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::wallet_nameChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::dateChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::date_to_secsChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::timeChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::addressChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::statusChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::tokenChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::directionChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::valueChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::feeChanged);
-    connect (d->model, &QAbstractTableModel::dataChanged,
-            this, &ItemHistoryBridge::fee_tokenChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::tx_statusChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::tx_hashChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::atomChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::networkChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::wallet_nameChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::dateChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::date_to_secsChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::timeChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::addressChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::statusChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::tokenChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::directionChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::valueChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::m_valueChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::m_tokenChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::m_directionChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::feeChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::fee_tokenChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::fee_netChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::fee_validatorChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::queue_hashChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::x_valueChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::x_tokenChanged);
+    connect (d->model, &QAbstractTableModel::dataChanged, this, &ItemHistoryBridge::x_directionChanged);
 }
 
 ItemHistoryBridge::ItemHistoryBridge (QObject *a_parent)
@@ -730,6 +740,20 @@ void ItemHistoryBridge::setFee_token (const QString &fee_token)
     _endSetValue();
 }
 
+QString ItemHistoryBridge::queue_hash() const
+{
+    return (d && d->item) ? d->item->queue_hash : QString();
+}
+
+void ItemHistoryBridge::setQueue_hash (const QString &queue_hash)
+{
+    if (!_beginSetValue())
+        return;
+    d->item->queue_hash   = queue_hash;
+    emit queue_hashChanged();
+    _endSetValue();
+}
+
 QString ItemHistoryBridge::fee_net() const
 {
     return (d && d->item) ? d->item->fee_net : QString();
@@ -743,6 +767,21 @@ void ItemHistoryBridge::setFee_net (const QString &fee_net)
     emit fee_netChanged();
     _endSetValue();
 }
+
+QString ItemHistoryBridge::fee_validator() const
+{
+    return (d && d->item) ? d->item->fee_validator : QString();
+}
+
+void ItemHistoryBridge::setFee_validator(const QString &fee_validator)
+{
+    if (!_beginSetValue())
+        return;
+    d->item->fee_validator   = fee_validator;
+    emit fee_validatorChanged();
+    _endSetValue();
+}
+
 
 QString ItemHistoryBridge::m_direction() const
 {
@@ -831,27 +870,29 @@ QVariant ItemHistoryBridge::operator[] (const QString &a_valueName)
     switch (DapHistoryModel::FieldId (fieldId))
     {
 
-    case DapHistoryModel::FieldId::tx_status:     return tx_status();    break;
-    case DapHistoryModel::FieldId::tx_hash:       return tx_hash();      break;
-    case DapHistoryModel::FieldId::atom:          return atom();         break;
-    case DapHistoryModel::FieldId::network:       return network();      break;
-    case DapHistoryModel::FieldId::wallet_name:   return wallet_name();  break;
-    case DapHistoryModel::FieldId::date:          return date();         break;
-    case DapHistoryModel::FieldId::date_to_secs:  return date_to_secs(); break;
-    case DapHistoryModel::FieldId::address:       return address();      break;
-    case DapHistoryModel::FieldId::status:        return status();       break;
-    case DapHistoryModel::FieldId::token:         return token();        break;
-    case DapHistoryModel::FieldId::direction:     return direction();    break;
-    case DapHistoryModel::FieldId::value:         return value();        break;
-    case DapHistoryModel::FieldId::m_value:       return m_value();      break;
-    case DapHistoryModel::FieldId::m_token:       return m_token();      break;
-    case DapHistoryModel::FieldId::m_direction:   return m_direction();    break;
-    case DapHistoryModel::FieldId::x_value:       return x_value();      break;
-    case DapHistoryModel::FieldId::x_token:       return x_token();      break;
-    case DapHistoryModel::FieldId::x_direction:   return x_direction();    break;    
-    case DapHistoryModel::FieldId::fee:           return fee();          break;
-    case DapHistoryModel::FieldId::fee_token:     return fee_token();    break;
-    case DapHistoryModel::FieldId::fee_net:       return fee_net();      break;
+    case DapHistoryModel::FieldId::tx_status:     return tx_status();     break;
+    case DapHistoryModel::FieldId::tx_hash:       return tx_hash();       break;
+    case DapHistoryModel::FieldId::atom:          return atom();          break;
+    case DapHistoryModel::FieldId::network:       return network();       break;
+    case DapHistoryModel::FieldId::wallet_name:   return wallet_name();   break;
+    case DapHistoryModel::FieldId::date:          return date();          break;
+    case DapHistoryModel::FieldId::date_to_secs:  return date_to_secs();  break;
+    case DapHistoryModel::FieldId::address:       return address();       break;
+    case DapHistoryModel::FieldId::status:        return status();        break;
+    case DapHistoryModel::FieldId::token:         return token();         break;
+    case DapHistoryModel::FieldId::direction:     return direction();     break;
+    case DapHistoryModel::FieldId::value:         return value();         break;
+    case DapHistoryModel::FieldId::m_value:       return m_value();       break;
+    case DapHistoryModel::FieldId::m_token:       return m_token();       break;
+    case DapHistoryModel::FieldId::m_direction:   return m_direction();   break;
+    case DapHistoryModel::FieldId::x_value:       return x_value();       break;
+    case DapHistoryModel::FieldId::x_token:       return x_token();       break;
+    case DapHistoryModel::FieldId::x_direction:   return x_direction();   break;
+    case DapHistoryModel::FieldId::fee:           return fee();           break;
+    case DapHistoryModel::FieldId::fee_token:     return fee_token();     break;
+    case DapHistoryModel::FieldId::fee_net:       return fee_net();       break;
+    case DapHistoryModel::FieldId::fee_validator: return fee_validator(); break;
+    case DapHistoryModel::FieldId::queue_hash:    return queue_hash();    break;
 
     case DapHistoryModel::FieldId::invalid:
     default:

@@ -23,6 +23,7 @@ public:
     virtual void updateWalletList() {}
     virtual void updateWalletInfo() {}
     const QVariantList& getDuplicateWallets() const {return m_duplicateWallets; }
+    const void removeWallet(const QString &walletName);
 
 signals:
     void currentWalletChanged();

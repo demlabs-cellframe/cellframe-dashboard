@@ -14,3 +14,11 @@ void DapWalletsManagerBase::setCurrentWallet(const QPair<int,QString>& wallet)
     currentWalletChangedSlot();
     emit currentWalletChanged();
 }
+
+const void DapWalletsManagerBase::removeWallet(const QString &walletName)
+{
+    if(m_walletsInfo.contains(walletName))
+    {
+        m_walletsInfo.remove(walletName);
+    }
+}

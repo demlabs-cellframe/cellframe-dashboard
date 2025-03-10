@@ -2,9 +2,9 @@
 
 #include <QObject>
 #include <QTimer>
-#include "DapAbstractMasterNodeCommand.h"
+#include "DapStakeListCommand.h"
 
-class DapWaitingPermission : public DapAbstractMasterNodeCommand
+class DapWaitingPermission : public DapStakeListCommand
 {
     Q_OBJECT
 public:
@@ -14,10 +14,11 @@ public:
     void startWaitingPermission(const QVariantMap& masterNodeInfo);
 
     void cencelRegistration() override;
+protected:
+    void nodeFound(const QJsonObject& nodeInfo) override;
+    void errorReceived(int errorNumber, const QString& message) override;
 private slots:
-    void respondListKeys(const QVariant &rcvData);
-private:
-    void getListKeys();
+    void getListKeysRequest();
 private:
     QTimer* m_listKeysTimer = nullptr;
 

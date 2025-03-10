@@ -270,6 +270,7 @@ void DapModuleWallet::removeWallet(QStringList args)
             path += "/";
         }
         walletsList.insert(wallet, path);
+        // getWalletManager()->removeWallet(wallet);
     }
     request.insert("walletList", walletsList);
     s_serviceCtrl->requestToService("DapRemoveWalletCommand", request);

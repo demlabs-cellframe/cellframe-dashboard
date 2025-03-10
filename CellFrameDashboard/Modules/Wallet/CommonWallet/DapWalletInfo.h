@@ -31,6 +31,7 @@ namespace CommonWallet
         QString walletName = QString();
         QString status = QString();
         QString path = QString();
+        bool isMigrate = false;
         bool isLoad = false;
         // networkName info
         QMap<QString, WalletNetworkInfo> walletInfo;

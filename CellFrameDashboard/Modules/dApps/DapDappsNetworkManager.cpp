@@ -1,4 +1,5 @@
 #include "DapDappsNetworkManager.h"
+#include "httplib.h"
 
 DapDappsNetworkManager::DapDappsNetworkManager(QString path, QString pathPlugins, QWidget *parent)
     : QWidget{parent}

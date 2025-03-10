@@ -142,6 +142,7 @@ void DapModuleNetworks::slotUpdateItemNetLoad()
 
     double calc = totalProgressLoading / netsCount;
 
+    calc = calc >= 0 ? calc : 0;
     emit sigNetLoadProgress((int)calc);
 
     if(calc != 100.0)
