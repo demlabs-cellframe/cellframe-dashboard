@@ -229,6 +229,9 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapGetHistoryExecutedCmdCommand,      QObject *, QString> ("DapGetHistoryExecutedCmdCommand",         "historyExecutedCmdReceived",   nullptr, Dap::UiSdkDefines::DEFAULT_DATA_PATH); //TODO
     addServiceGeneric<DapSaveHistoryExecutedCmdCommand,     QObject *, QString> ("DapSaveHistoryExecutedCmdCommand",        "",                             nullptr, Dap::UiSdkDefines::DEFAULT_DATA_PATH); //TODO
 
+    addServiceGeneric<DapOrderCreateStakerCommandStack,     QObject*>("DapOrderCreateStakerCommand",               "rcvOrderCreateStaker",                  nullptr);
+    addServiceGeneric<DapCreateOrderValidatorCommand,       QObject*>("DapCreateOrderValidatorCommand",            "rcvCreateOrderValidator",               nullptr);
+
     connect(this, &DapServiceController::tokensListReceived, [this] (const QVariant& tokensResult)
     {
         if(!tokensResult.isValid())

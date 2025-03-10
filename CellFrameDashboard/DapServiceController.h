@@ -105,6 +105,9 @@
 #include "handlers/DapWebBlockList.h"
 #include "handlers/DapMigrateWalletsCommand.h"
 
+#include "handlers/DapCreateOrderValidatorCommand.h"
+#include "handlers/stackCommand/DapOrderCreateStakerCommandStack.h"
+
 #include "handlers/DapCreateTxCommand.h"
 
 class DapServiceController : public QObject
@@ -255,6 +258,10 @@ signals:
     void rcvGetServiceLimitsCommand(const QVariant& rcvData);
     void rcvWebBlockList(const QVariant& rcvData);
     void rcvMigrateWallets(const QVariant& rcvData);
+
+    /*Master node*/
+    void rcvOrderCreateStaker(const QVariant& rcvData);
+    void rcvCreateOrderValidator(const QVariant& rcvData);
 };
 
 #endif // DAPSERVICECONTROLLER_H
