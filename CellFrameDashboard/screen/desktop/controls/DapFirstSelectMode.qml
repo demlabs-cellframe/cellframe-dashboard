@@ -32,7 +32,7 @@ Item{
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 417
-        height: 306
+        height: notWorkTexts.visible ? 306 + notWorkTexts.height : 306
         color: currTheme.popup
         radius: currTheme.popupRadius
 
@@ -41,6 +41,7 @@ Item{
         }
 
         ColumnLayout {
+            id: layout
             anchors.fill: parent
             anchors.leftMargin: 32
             anchors.rightMargin: 32
@@ -187,6 +188,46 @@ Item{
                 color: currTheme.gray
             }
 
+            DapRectangleLitAndShaded{
+                id: notWorkTexts
+                visible: customModeSwitch.selectedItem
+                Layout.topMargin: 8
+                Layout.fillWidth: true
+                color: currTheme.secondaryBackground
+                radius: currTheme.frameRadius
+                shadowColor: currTheme.shadowColor
+                lightColor: currTheme.reflectionLight
+
+                height: 270
+
+                contentData:
+                Text
+                {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    font: mainFont.dapFont.regular11
+                    wrapMode: Text.WordWrap
+                    color: currTheme.gray
+                    text: {
+                        qsTr("• Limited functionality of Web 3 API\n") +
+                        qsTr("    - Sending conditional, JSON, and regular transactions does not work\n") +
+                        qsTr("    - Creating vote and sending votes does not work\n") +
+                        qsTr("    - Purchase of DEX orders does not work\n") +
+                        qsTr("    - Staker and validator order creation commands do not work\n") +
+                        qsTr("    - Commands for hold and take stake do not work\n") +
+                        qsTr("• Limited functionality of DEX tab\n") +
+                        qsTr("    - Create and purchase orders does not work\n") +
+                        qsTr("• Master Node tab is not supported\n") +
+                        qsTr("• Certificates tab is not supported\n") +
+                        qsTr("• Console tab is not supported\n") +
+                        qsTr("• Logs tab is not supported\n") +
+                        qsTr("• Diagnostics tab is not supported\n") +
+                        qsTr("• dApps tab is not supported\n") +
+                        qsTr("• Orders tab is not supported\n") +
+                        qsTr("• Diagnostics tab is not supported")
+                    }
+                }
+            }
 
             RowLayout
             {
