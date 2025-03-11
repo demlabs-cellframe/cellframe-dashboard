@@ -104,7 +104,7 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         itemHistory.atom         = historyArray.at(i)["atom"].toString();
         itemHistory.tx_hash      = historyArray.at(i)["tx_hash"].toString();
         itemHistory.tx_status    = historyArray.at(i)["tx_status"].toString();
-        itemHistory.queue_hash   = historyArray.at(i)["queueHash"].toString();
+        itemHistory.queue_hash   = historyArray.at(i)[Dap::KeysParam::HASH_QUEUE_KEY].toString();
 
         itemHistory.fee_token     = historyArray.at(i)["fee_token"].toString();
         itemHistory.fee_net       = historyArray.at(i)["fee_net"].toString();

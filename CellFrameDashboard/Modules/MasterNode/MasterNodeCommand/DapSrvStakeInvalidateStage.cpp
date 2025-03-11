@@ -112,7 +112,7 @@ void DapSrvStakeInvalidateStage::respondCheckStakeDelegate(const QVariant &rcvDa
         buff = resultObject[name].toString();
     };
 
-    getItem("queueHash", queueHash);
+    getItem(Dap::KeysParam::HASH_QUEUE_KEY, queueHash);
     getItem("state", state);
     getItem("txHash", txHash);
 
