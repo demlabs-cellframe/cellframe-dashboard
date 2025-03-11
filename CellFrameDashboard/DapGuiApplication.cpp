@@ -31,10 +31,10 @@ DapGuiApplication::DapGuiApplication(int &argc, char **argv, int restartCode, in
     qDebug() << "DapApplication" << "currentLanguageName" << lang;
     translator->setLanguage(lang);
 
-    m_engine.rootContext()->setContextProperty("translator", translator);
-
     qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
     qmlRegisterType<WindowFrameRect>("windowframerect", 1, 0, "WindowFrameRect");
+
+    m_engine.rootContext()->setContextProperty("translator", translator);
 
     QQmlContext *context = qmlEngine()->rootContext();
     context->setContextProperty("RESTART_CODE", QVariant::fromValue(m_restartCode));

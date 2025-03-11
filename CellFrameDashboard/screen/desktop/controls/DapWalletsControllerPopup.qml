@@ -268,7 +268,7 @@ Item{
                                     if(!removeIcon.isProtected)
                                     {
                                         walletsFrame.opacity = 0.0
-                                        removeWalletPopup.show(walletName)
+                                        removeWalletPopup.show(walletName, isMigrate)
                                     }
                                 }
                             }

@@ -5,7 +5,6 @@ import QtQuick.Layouts 1.3
 import QtQml 2.12
 import "qrc:/widgets"
 
-
 Item
 {
     property alias backgroundImage: backgroundImage
@@ -32,6 +31,10 @@ Item
         source: "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
         sourceSize: Qt.size(170, parent.height + 2)
 
+        layer.enabled: true
+        fillMode: Image.PreserveAspectFit
+        smooth: true
+
         Behavior on opacity { NumberAnimation { duration: 150 } }
     }
 
@@ -45,6 +48,12 @@ Item
             anchors.verticalCenter: parent.verticalCenter
             mipmap: true
             source: "qrc:/Resources/" + pathTheme + "/icons/navigation/" + bttnIco
+
+            layer.enabled: true
+            antialiasing: true
+            fillMode: Image.PreserveAspectFit
+            sourceSize: Qt.size(24,24)
+            smooth: true
         }
 
         Text {

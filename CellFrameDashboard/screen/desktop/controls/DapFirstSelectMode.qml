@@ -200,14 +200,19 @@ Item{
 
                 height: 270
 
+
+
                 contentData:
                 Text
                 {
                     anchors.fill: parent
                     anchors.margins: 16
-                    font: mainFont.dapFont.regular11
+                    font: mainFont.dapFont.medium11
                     wrapMode: Text.WordWrap
                     color: currTheme.gray
+                    layer.enabled: true
+                    anchors.bottomMargin: OS_WIN_FLAG ? 14 : 16
+
                     text: {
                         qsTr("• Limited functionality of Web 3 API\n") +
                         qsTr("    - Sending conditional, JSON, and regular transactions does not work\n") +
@@ -221,7 +226,6 @@ Item{
                         qsTr("• Certificates tab is not supported\n") +
                         qsTr("• Console tab is not supported\n") +
                         qsTr("• Logs tab is not supported\n") +
-                        qsTr("• Diagnostics tab is not supported\n") +
                         qsTr("• dApps tab is not supported\n") +
                         qsTr("• Orders tab is not supported\n") +
                         qsTr("• Diagnostics tab is not supported")
