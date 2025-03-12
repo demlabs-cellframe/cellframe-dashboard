@@ -340,6 +340,11 @@ DapRectangleLitAndShaded {
         }
     }
 
+    Component.onCompleted:
+    {
+        dAppsLogic.clearData()
+    }
+
 }   //root
 
 

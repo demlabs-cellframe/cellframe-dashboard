@@ -677,7 +677,7 @@ void DapModuleMasterNode::respondCreatedStakeOrder(const QVariant &rcvData)
     {
         return;
     }
-    QJsonObject replyObj = rcvData.toJsonObject();
+    QJsonObject replyObj = document.object();
     bool fromMasterNode = replyObj.contains("from") && replyObj["from"].toString() == MasterNode::MASTER_NODE_KEY;
 
     if(!replyObj.contains("success"))

@@ -59,10 +59,13 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
         QString priorityPath;
         QString secondPath;
 
+        CommonWallet::WalletInfo walletInfo;
+
         WalletPathInfo()
         {
             priorityPath = "";
             secondPath = "";
+            walletInfo = CommonWallet::WalletInfo();
         }
     };
 
@@ -93,6 +96,8 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
                     pathInfo.priorityPath = Dap::DashboardDefines::DashboardStorage::WALLET_PATH;
                 else
                     pathInfo.secondPath = Dap::DashboardDefines::DashboardStorage::WALLET_NODE_PATH;
+
+                pathInfo.walletInfo = tmpWallet;
 
                 walletPaths[walletName] = pathInfo;
             }
@@ -138,6 +143,8 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
         {
             m_walletsInfo[walletPathInfoKey].isMigrate = false;
             m_walletsInfo[walletPathInfoKey].path = infoPath.priorityPath;
+            m_walletsInfo[walletPathInfoKey].walletInfo = infoPath.walletInfo.walletInfo;
+
             isUpdateWallet = true;
             emit walletInfoChanged(walletPathInfoKey);
         }
@@ -145,6 +152,8 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
         {
             m_walletsInfo[walletPathInfoKey].isMigrate = true;
             m_walletsInfo[walletPathInfoKey].path = infoPath.secondPath;
+            m_walletsInfo[walletPathInfoKey].walletInfo = infoPath.walletInfo.walletInfo;
+
             isUpdateWallet = true;
             emit walletInfoChanged(walletPathInfoKey);
         }
@@ -568,11 +577,11 @@ void DapWalletsManager::updateListWallets()
 void DapWalletsManager::requestWalletInfo(const QString& walletAddr, const QString& network)
 {
     m_isRequestInfo = true;
-    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
     QVariantMap request = {{Dap::KeysParam::WALLET_NAME, m_requestInfoWalletsName.last()}
                           ,{Dap::KeysParam::WALLET_ADDRESS, walletAddr}
                           ,{Dap::KeysParam::NETWORK_NAME, network}
-                           ,{Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE}};
+                           ,{Dap::KeysParam::NODE_MODE_KEY, nodeMode}};
 
     m_modulesController->getServiceController()->requestToService("DapGetWalletInfoCommand", request);
 

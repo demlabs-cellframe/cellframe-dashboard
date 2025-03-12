@@ -30,15 +30,18 @@ DapPage {
         dapDownloadPanel.reloadButton.onClicked:
         {
             dAppsModule.reloadDownload();
+            dAppsLogic.clearData()
         }
 
         dapDownloadPanel.canceledButton.onClicked:
         {
             dAppsModule.cancelDownload();
+            dAppsLogic.clearData()
         }
         dapDownloadPanel.closeButton.onClicked:
         {
             dAppsModule.cancelDownload();
+            dAppsLogic.clearData()
         }
     }
     onRightPanel: false
@@ -67,5 +70,7 @@ DapPage {
         //dAppsModule.updatePluginsRepository()
         //dAppsModule.getListPlugins()
         dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
+
+        dAppsModule.updateListdApps()
     }
 }

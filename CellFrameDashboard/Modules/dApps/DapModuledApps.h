@@ -105,6 +105,8 @@ public:
     explicit DapModuledApps(DapModulesController *parent = nullptr);
     ~DapModuledApps();
 
+    Q_INVOKABLE void updateListdApps();
+
 public slots:
     void addLocalPlugin(QVariant path);
     void activatePlugin(QString pluginName);
@@ -131,7 +133,7 @@ private:
     QString m_dappsFolder;
     QString m_dappsDownloadFolder;
     QString m_filePrefix;
-    const QString m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
+    const QString m_repoPlugins = "https://dapps.cellframe.net";
 
     DapModulesController * m_modulesCtrl;
 
@@ -140,6 +142,8 @@ private:
 
     using DownloadManagerPtr = QSharedPointer<DownloadManager>;
     DownloadManagerPtr m_pDownloadManager;
+
+    DappsNetworkManagerPtr m_pDapNetworkManager;
 };
 
 

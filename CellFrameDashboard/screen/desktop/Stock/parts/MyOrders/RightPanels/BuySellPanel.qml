@@ -73,7 +73,7 @@ DapRectangleLitAndShaded {
             text:
             {
                 var token = logic.selectedItem.tokenBuy
-                return walletModule.getBalance(token) + " " + token
+                return dexModule.getBalance(token) + " " + token
             }
             textColor: currTheme.white
             textFont: mainFont.dapFont.regular14

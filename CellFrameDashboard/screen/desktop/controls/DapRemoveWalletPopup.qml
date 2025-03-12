@@ -5,6 +5,7 @@ import "qrc:/widgets"
 
 Item {
     property string nameWallet: ""
+    property bool isMigrate: false
 
     Rectangle
     {
@@ -33,7 +34,8 @@ Item {
         Behavior on opacity {NumberAnimation{duration: 200}}
 
         width: 328
-        height: 180
+        height: isMigrate ? 180 + migrateMsg.height + 16 : 180
+        // height: 280
         color: currTheme.popup
         radius: currTheme.popupRadius
 
@@ -57,47 +59,57 @@ Item {
             onClicked: hide()
         }
 
-        Item
+        ColumnLayout
         {
+            id: layout
             anchors.fill: parent
 //            spacing: 0
-
-            Item {
-                id: titleBlock
-                width: parent.width - 80
+            Text
+            {
+                Layout.leftMargin: 40
+                Layout.rightMargin: 40
+                Layout.topMargin: 24
+                Layout.fillWidth: true
                 height: 36
-                anchors.leftMargin: 40
-                anchors.rightMargin: 40
-                anchors.topMargin: 24
-                anchors.top: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Text
-                {
-                    width: parent.width
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    text: qsTr("Are you sure you would like to delete this wallet?")
-                    font: mainFont.dapFont.bold14
-                    lineHeightMode: Text.FixedHeight
-                    lineHeight: 17.5
-                    color: currTheme.white
-                    wrapMode: Text.WordWrap
-                }
+                horizontalAlignment: Text.AlignHCenter
+                text: qsTr("Are you sure you would like to delete this wallet?")
+                font: mainFont.dapFont.bold14
+                lineHeightMode: Text.FixedHeight
+                lineHeight: 17.5
+                color: currTheme.white
+                wrapMode: Text.WordWrap
             }
 
-            Item {
-                width: parent.width
+            Text
+            {
+                id: migrateMsg
+                visible: isMigrate
+                Layout.leftMargin: 24
+                Layout.rightMargin: 24
+                Layout.topMargin: 16
+                Layout.fillWidth: true
+                height: 36
+                horizontalAlignment: Text.AlignHCenter
+                text: qsTr("When the Dashboard is restarted, this wallet will be re-ported from the cellframe node.")
+                font: mainFont.dapFont.medium12
+                lineHeightMode: Text.FixedHeight
+                lineHeight: 17.5
+                color: currTheme.orange
+                wrapMode: Text.WordWrap
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
                 height: 60
-                anchors.topMargin: 3
-                anchors.top: titleBlock.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
+                Layout.topMargin: 3
+                Layout.leftMargin: 24
+                Layout.rightMargin: 24
+                spacing: 6
 
                 Image
                 {
                     id: checkBox
-                    anchors.left: parent.left
-                    anchors.leftMargin: 12
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                     sourceSize.width: 46
                     sourceSize.height: 46
                     property bool isChecked: false
@@ -112,13 +124,12 @@ Item {
                 Text
                 {
                     id: warningText
-                    width: parent.width
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                     font: mainFont.dapFont.regular12
                     color: currTheme.white
                     text: qsTr("I am sure that I want to delete this wallet")
                     wrapMode: Text.WordWrap
-                    x: 55
-                    y: 14
 
                     MouseArea{
                         anchors.fill: parent
@@ -127,31 +138,24 @@ Item {
                 }
             }
 
-            Item {
-                width: parent.width - 48
-                height: 36
-                anchors.leftMargin: 24
-                anchors.rightMargin: 24
-                anchors.bottomMargin: 24
-                anchors.bottom: parent.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
+            DapButton
+            {
+                Layout.leftMargin: 24
+                Layout.rightMargin: 24
+                Layout.bottomMargin: 24
 
-                DapButton
+                Layout.fillWidth: true
+                implicitHeight: 36
+                textButton: qsTr("Delete wallet")
+                horizontalAligmentText: Text.AlignHCenter
+                indentTextRight: 0
+                fontButton: mainFont.dapFont.regular14
+                enabled: checkBox.isChecked
+                onClicked:
                 {
-                    width: parent.width
-                    height: parent.height
-                    textButton: qsTr("Delete wallet")
-                    horizontalAligmentText: Text.AlignHCenter
-                    indentTextRight: 0
-                    fontButton: mainFont.dapFont.regular14
-                    enabled: checkBox.isChecked
-                    onClicked:
-                    {
-                        walletModule.removeWallet([nameWallet]);
-                        walletModule.updateWalletList()
-                        hide()
-//                        walletsControllerPopup.show()
-                    }
+                    walletModule.removeWallet([nameWallet]);
+                    walletModule.updateWalletList()
+                    hide()
                 }
             }
         }
@@ -190,10 +194,11 @@ Item {
         walletsControllerPopup.show()
     }
 
-    function show(name_wallet) {
+    function show(name_wallet, is_Migrate) {
         checkBox.isChecked = false
         visible = true
         nameWallet = name_wallet
+        isMigrate = is_Migrate
         backgroundFrame.opacity = 0.4
         frameRemoveDialog.opacity = 1
     }

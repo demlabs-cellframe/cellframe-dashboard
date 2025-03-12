@@ -11,6 +11,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QTimer>
+#include <QtConcurrent/QtConcurrent>
+#include <QMutex>
 
 class DapDappsNetworkManager : public QWidget
 {
@@ -20,7 +22,7 @@ public:
     explicit DapDappsNetworkManager(QString path, QString pathPlugins, QWidget *parent = nullptr);
     ~DapDappsNetworkManager();
     void downloadFile(QString name);
-    void uploadFile();
+    // void uploadFile();
     void fetchPluginsList();
 
     void cancelDownload(bool ok, bool reload);
@@ -28,16 +30,12 @@ public:
     QString repoAddress() const;
 
 private slots:
-    void onDownloadCompleted();
-    void onReadyRead();
-    void onDownloadProgress(quint64,quint64);
-    void onDownloadError(QNetworkReply::NetworkError);
-
-    void onUploadCompleted(QNetworkReply *reply);
-    void onPluginsListFetched();
-
     void onReconnect();
+    void onReload();
 
+private:
+    QMutex mtx;
+    std::atomic<bool> s_wait_http_req{false};
 
 public:
 
@@ -47,7 +45,8 @@ public:
     QString m_fileName;
     QStringList m_bufferFiles;
 
-    bool m_reload;
+    bool m_reload{false};
+    bool m_cancelDownload{false};
 
     quint64 m_bytesReceived = 0;
     QString m_error;
@@ -62,9 +61,9 @@ signals:
     void sigDownloadProgress(quint64,quint64,QString,QString);
 
     void sigAborted();
-    void sigUploadCompleted();
     void sigPluginsListFetched();
 
+    void sigReload();
 };
 
 #endif // DAPDAPPSNETWORKMANAGER_H
