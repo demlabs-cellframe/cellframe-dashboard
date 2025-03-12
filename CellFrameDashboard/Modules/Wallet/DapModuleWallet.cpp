@@ -1,4 +1,5 @@
 #include "DapModuleWallet.h"
+#include "DapDashboardPathDefines.h"
 
 DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
@@ -236,11 +237,10 @@ void DapModuleWallet::requestWalletTokenInfo(QStringList args)
 
 void DapModuleWallet::createWallet(const QStringList& args)
 {
-    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
-    QVariantMap request = {{Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade}
-                          ,{Dap::KeysParam::WALLET_NAME, args[0]}
+    QVariantMap request = {{Dap::KeysParam::WALLET_NAME, args[0]}
                           ,{Dap::KeysParam::SIGN, args[1]}
-                          ,{Dap::KeysParam::HASH, args[2]}};
+                          ,{Dap::KeysParam::HASH, args[2]}
+                          ,{Dap::KeysParam::WALLET_PATH, Dap::DashboardDefines::DashboardStorage::WALLET_PATH}};
     if(args.size() == 4)
     {
         request.insert(Dap::KeysParam::WALLET_PASSWORD, args[3]);
