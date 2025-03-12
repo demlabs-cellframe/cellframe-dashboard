@@ -494,6 +494,14 @@ void DapWalletsManager::updateInfoWallets(const QString &walletName)
     }
     m_timerUpdateWallet->stop();
     auto netList = m_modulesController->getManagerController()->getNetworkList();
+    auto appendRequestWallet = [this](const QString& walletName)
+    {
+        if(!m_requestInfoWalletsName.contains(walletName))
+        {
+            m_requestInfoWalletsName.append(walletName);
+        }
+    };
+
     if(netList.isEmpty() || m_walletsInfo.isEmpty())
     {
         m_timerUpdateWallet->start(1000);
@@ -505,21 +513,22 @@ void DapWalletsManager::updateInfoWallets(const QString &walletName)
     if(!walletName.isEmpty())
     {
         m_lastRequestInfoNetworkName = netList[0];
-        m_requestInfoWalletsName.append(walletName);
+        appendRequestWallet(walletName);
     }
     else if((!netList.contains(m_lastRequestInfoNetworkName) ||
          !walletList.contains(m_requestInfoWalletsName.last())) ||
         (m_lastRequestInfoNetworkName.isEmpty() || m_requestInfoWalletsName.isEmpty()))
     {
         m_lastRequestInfoNetworkName = netList[0];
-        if(!m_currentWallet.second.isEmpty())
+        if(!m_currentWallet.second.isEmpty() && !m_walletsInfo.contains(m_currentWallet.second))
         {
-            m_requestInfoWalletsName.append(m_currentWallet.second);
+            if(!m_walletsInfo.isEmpty())
+            {
+                setCurrentWallet({0, m_walletsInfo.firstKey()});
+            }
         }
-        else
-        {
-            m_requestInfoWalletsName.append(m_walletsInfo.firstKey());
-        }
+
+        appendRequestWallet(!m_currentWallet.second.isEmpty() ? m_currentWallet.second : m_walletsInfo.firstKey());
     }
     else
     {
@@ -540,7 +549,7 @@ void DapWalletsManager::updateInfoWallets(const QString &walletName)
                     if(!m_requestInfoWalletsName.contains(wallet)
                         && m_walletsInfo.value(wallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
                     {
-                        m_requestInfoWalletsName.append(wallet);
+                        appendRequestWallet(wallet);
                         m_lastRequestInfoNetworkName = netList[0];
                         break;
                     }
