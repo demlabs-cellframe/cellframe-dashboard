@@ -105,9 +105,10 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
 
             if(m_walletsInfo.contains(walletName))
             {
-                if(tmpWallet.status != m_walletsInfo[walletName].status)
+                QString status = m_walletsInfo.value(walletName).status;
+                if(tmpWallet.status != status)
                 {
-                    m_walletsInfo[walletName].status = tmpObject[Dap::JsonKeys::STATUS].toString();
+                    m_walletsInfo[walletName].status = tmpWallet.status;
                     isUpdateWallet = true;
                     emit walletInfoChanged(walletName);
                 }
@@ -135,11 +136,11 @@ void DapWalletsManager::walletsListReceived(const QVariant &rcvData)
             doubleWalletArray.append(wallet);
         }
 
-        if(!infoPath.priorityPath.isEmpty() && infoPath.priorityPath == m_walletsInfo[walletPathInfoKey].path)
+        if(!infoPath.priorityPath.isEmpty() && infoPath.priorityPath == m_walletsInfo.value(walletPathInfoKey).path)
         {
             continue;
         }
-        else if(!infoPath.priorityPath.isEmpty() && infoPath.priorityPath != m_walletsInfo[walletPathInfoKey].path)
+        else if(!infoPath.priorityPath.isEmpty() && infoPath.priorityPath != m_walletsInfo.value(walletPathInfoKey).path)
         {
             m_walletsInfo[walletPathInfoKey].isMigrate = false;
             m_walletsInfo[walletPathInfoKey].path = infoPath.priorityPath;
@@ -208,7 +209,7 @@ void DapWalletsManager::updateAddressWallets()
 
     if(!currWallet.isEmpty() && m_walletsInfo.contains(currWallet))
     {
-        if(m_walletsInfo[currWallet].status != Dap::WalletStatus::NON_ACTIVE_KEY)
+        if(m_walletsInfo.value(currWallet).status != Dap::WalletStatus::NON_ACTIVE_KEY)
         {
             auto& netsInfo = m_walletsInfo[currWallet].walletInfo;
             if((netsInfo.isEmpty() && !netList.isEmpty()) || !DapCommonMethods::isEqualStringList(netsInfo.keys(), netList))
@@ -240,7 +241,7 @@ void DapWalletsManager::updateAddressWallets()
 
     for(const auto& wallet: m_walletsInfo.keys())
     {
-        if(m_walletsInfo[wallet].status == Dap::WalletStatus::NON_ACTIVE_KEY)
+        if(m_walletsInfo.value(wallet).status == Dap::WalletStatus::NON_ACTIVE_KEY)
         {
             continue;
         }
@@ -256,7 +257,7 @@ void DapWalletsManager::updateAddressWallets()
         {
             if(netInfo.address.isEmpty())
             {
-                requestWalletAddress(wallet, m_walletsInfo[wallet].path, netInfoArray.keys());
+                requestWalletAddress(wallet, m_walletsInfo.value(wallet).path, netInfoArray.keys());
                 return;
             }
         }
@@ -291,7 +292,7 @@ void DapWalletsManager::rcvWalletAddress(const QVariant &rcvData)
         QString address = item.value(Dap::KeysParam::WALLET_ADDRESS).toString();
         if(m_walletsInfo.contains(walletName))
         {
-            if(m_walletsInfo[walletName].walletInfo.contains(networkName))
+            if(m_walletsInfo.value(walletName).walletInfo.contains(networkName))
             {
                 auto& netInfo = m_walletsInfo[walletName].walletInfo[networkName];
                 if(netInfo.address.isEmpty())
