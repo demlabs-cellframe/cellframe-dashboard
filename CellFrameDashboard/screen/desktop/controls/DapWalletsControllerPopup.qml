@@ -235,6 +235,7 @@ Item{
                         Rectangle
                         {
                             property bool isProtected: statusProtected === "non-Active"
+                            property bool mode: app.getNodeMode()
                             id: removeIcon
                             Layout.alignment: Qt.AlignRight
                             Layout.rightMargin: 24
@@ -242,6 +243,8 @@ Item{
                             height: 32
                             radius: 4
                             color: area.containsMouse || isProtected ? currTheme.rowHover : currTheme.mainBackground
+
+                            visible: app.getNodeMode()
 
                             Image
                             {
