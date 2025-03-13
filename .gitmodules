@@ -6,10 +6,6 @@
 	path = dap-ui-sdk
 	url = https://gitlab.demlabs.net/dap/dap-ui-sdk
 	branch = master
-[submodule "web3_api"]
-	path = web3_api
-	url = https://gitlab.demlabs.net/cellframe/web3_api.git
-    branch = master
 [submodule "cellframe-sdk"]
 	path = cellframe-sdk
 	url = https://gitlab.demlabs.net/cellframe/cellframe-sdk

@@ -95,7 +95,7 @@ private slots:
     void rcvRemoveWallet(const QVariant &rcvData);
     void rcvHistory(const QVariant &rcvData);
 
-    void createTx(QVariant args);
+    void createTx(const QVariant &args);
 
     void requestWalletTokenInfo(QStringList args);
 

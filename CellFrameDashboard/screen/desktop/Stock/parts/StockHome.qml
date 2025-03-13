@@ -60,8 +60,9 @@ Item
 
         function onRcvXchangeOrderPurchase(rcvData)
         {
-            logicStock.resultCreate = rcvData
-            goToDoneExchange()
+            var jsonDoc = JSON.parse(rcvData)
+            logicStock.resultCreate = jsonDoc.result
+            goToDoneCreate()
         }
     }
 

@@ -55,11 +55,12 @@ void DapStakeDelegate::stakeDelegate(const QVariantMap& masterNodeInfo)
 
     Dap::Coin fee256 = m_masterNodeInfo.value(MasterNode::STAKE_FEE_KEY).toString();
     QString feeDatoshi = fee256.toDatoshiString();
-    m_serviceController->requestToService("DapSrvStakeDelegateCommand", QStringList() << m_masterNodeInfo.value(MasterNode::CERT_NAME_KEY).toString()
-                                                                                << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
-                                                                                << m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()
-                                                                                << valueDatoshi
-                                                                                << feeDatoshi);
+    QVariantMap request = {{Dap::KeysParam::WALLET_NAME, m_masterNodeInfo.value(MasterNode::WALLET_NAME_KEY).toString()}
+                          ,{Dap::KeysParam::CERT_NAME, m_masterNodeInfo.value(MasterNode::CERT_NAME_KEY).toString()}
+                          ,{Dap::KeysParam::AMOUNT, valueDatoshi}
+                          ,{Dap::KeysParam::FEE, feeDatoshi}
+                          ,{Dap::KeysParam::NETWORK_NAME, m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()}};
+    m_serviceController->requestToService("DapSrvStakeDelegateCommand", request);
 }
 
 void DapStakeDelegate::tryCheckStakeDelegate(const QVariantMap& masterNodeInfo)
@@ -115,7 +116,7 @@ void DapStakeDelegate::respondCheckStakeDelegate(const QVariant &rcvData)
         buff = resultObject[name].toString();
     };
 
-    getItem("queueHash", queueHash);
+    getItem(Dap::KeysParam::HASH_QUEUE_KEY, queueHash);
     getItem("state", state);
     getItem("txHash", txHash);
 
@@ -152,8 +153,11 @@ void DapStakeDelegate::mempoolCheck()
 {
     if(m_masterNodeInfo.contains(MasterNode::STAKE_HASH_KEY))
     {
-        m_serviceController->requestToService("MempoolCheckCommand", QStringList() << m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()
-                                        << m_masterNodeInfo.value(MasterNode::STAKE_HASH_KEY).toString());
+        QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+        QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                               ,{Dap::KeysParam::NETWORK_NAME, m_masterNodeInfo.value(MasterNode::NETWORK_KEY).toString()}
+                               ,{Dap::KeysParam::TX_HASH, m_masterNodeInfo.value(MasterNode::STAKE_HASH_KEY).toString()}};
+        m_serviceController->requestToService("MempoolCheckCommand", request);
     }
     else
     {

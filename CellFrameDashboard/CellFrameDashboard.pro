@@ -21,7 +21,7 @@ include($$PWD/Modules/Modules.pri)
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt-helpers.pri)
-include (../web3_api/web3_api.pri)
+include (../cellframe-ui-sdk/web3_api/web3_api.pri)
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/cellframenode/libdap-qt-cellframe-node.pri)

@@ -83,8 +83,9 @@ RowLayout
 
         function onRcvXchangeOrderPurchase(rcvData)
         {
-            logicStock.resultCreate = rcvData
-            logic.changeRightPanel(orderExchangeDone)
+            var jsonDoc = JSON.parse(rcvData)
+            logicStock.resultCreate = jsonDoc.result
+            logic.changeRightPanel(orderDone)
         }
 
         function onRcvXchangeRemove(rcvData)

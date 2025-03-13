@@ -332,7 +332,7 @@ QtObject {
         {
             messagePopup.close()
             console.info("CONNECT SOCKET")
-            requestToService("DapGetNetworksStateCommand")
+            // requestToService("DapGetNetworksStateCommand")
         }
     }
 

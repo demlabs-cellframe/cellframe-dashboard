@@ -164,7 +164,7 @@ DapRectangleLitAndShaded
 
     Component.onCompleted:
     {
-        logicMainApp.requestToService("DapCertificateManagerCommands", 1); // 1 - Get List Certificates
+        certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.GetSertificateList}) // 1 - Get List Certificates
     }
 
     Connections

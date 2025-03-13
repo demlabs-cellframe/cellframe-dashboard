@@ -95,19 +95,13 @@ Item {
                 enabled: textInputNameCertificate.length > 0 ? true : false
 
                 onClicked:
-                {
-                    logicMainApp.requestToService("DapCertificateManagerCommands"
-                                                          , 2 //create cert command into service
-                                                          , textInputNameCertificate.text, certListModel.get(0).sign
-                                                          , getDataToJson());
+                { 
+                    var createCertRequest = {"certCommandNumber": DapCertificateCommands.CreateCertificate,
+                                            "certName": certName,
+                                            "signCert": certType,
+                                            "a0_creation_date": Qt.formatDateTime(new Date(), "dd.MM.yyyy")}
+
                     close()
-                }
-
-                function getDataToJson(){
-                    var result = { a0_creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
-
-
-                    return result
                 }
             }
         }

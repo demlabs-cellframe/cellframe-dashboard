@@ -225,19 +225,21 @@ void DapModuleWallet::setNewCurrentWallet(const QPair<int,QString> newWallet)
     }
 }
 
-void DapModuleWallet::createTx(QVariant args)
+void DapModuleWallet::createTx(const QVariant& args)
 {
     s_serviceCtrl->requestToService("DapCreateTransactionCommand", args);
 }
 
 void DapModuleWallet::requestWalletTokenInfo(QStringList args)
 {
-    s_serviceCtrl->requestToService("DapGetWalletTokenInfoCommand", args);
+
 }
 
 void DapModuleWallet::createWallet(const QStringList& args)
 {
-    QVariantMap request = {{Dap::KeysParam::WALLET_NAME, args[0]}
+    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                          ,{Dap::KeysParam::WALLET_NAME, args[0]}
                           ,{Dap::KeysParam::SIGN, args[1]}
                           ,{Dap::KeysParam::HASH, args[2]}
                           ,{Dap::KeysParam::WALLET_PATH, Dap::DashboardDefines::DashboardStorage::WALLET_PATH}};
@@ -289,7 +291,7 @@ void DapModuleWallet::createPassword(QStringList args)
     request.insert(Dap::KeysParam::WALLET_PATH, walletsInfo.value(args[0]).path);
     QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL
                            ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
-    request.insert(Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade);
+    request.insert(Dap::KeysParam::NODE_MODE_KEY, nodeMade);
     s_serviceCtrl->requestToService("DapCreatePassForWallet", request);
 }
 
@@ -308,11 +310,11 @@ void DapModuleWallet::activateOrDeactivateWallet(const QString& walletName,
         QString walletPath = getWalletManager()->getWalletsInfo()[walletName].path;
 
         req.insert(Dap::KeysParam::WALLET_PATH, walletPath);
-        req.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
+        req.insert(Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
     }
     else
     {
-        req.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::LOCAL_MODE);
+        req.insert(Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::LOCAL_MODE);
     }
 
     s_serviceCtrl->requestToService("DapWalletActivateOrDeactivateCommand", req);
@@ -462,7 +464,7 @@ void DapModuleWallet::sendTx(QVariantMap data)
         QJsonDocument docData(txData);
 
         QVariantMap mapData;
-        mapData.insert(Dap::CommandParamKeys::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
+        mapData.insert(Dap::KeysParam::NODE_MODE_KEY, Dap::NodeMode::REMOTE_MODE);
         mapData.insert(Dap::CommandParamKeys::COMMAND_KEY,   "DapCreateTxCommand");
         mapData.insert(Dap::CommandParamKeys::DATA_KEY,      docData.toJson());
         mapData.insert(Dap::KeysParam::TYPE_TX,              "Default");
@@ -471,15 +473,13 @@ void DapModuleWallet::sendTx(QVariantMap data)
     }
     else
     {
-        QStringList listData;
-        listData.append(net);
-        listData.append(walletName);
-        listData.append(addrTo);
-        listData.append(sendTicker);
-        listData.append(amount);
-        listData.append(validatorFeeDatoshi);
-
-        createTx(listData);
+        QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, net}
+                               ,{Dap::KeysParam::WALLET_NAME, walletName}
+                               ,{Dap::KeysParam::ADDR, addrTo}
+                               ,{Dap::KeysParam::TOKEN_NAME, sendTicker}
+                               ,{Dap::KeysParam::AMOUNT, amount}
+                               ,{Dap::KeysParam::FEE, validatorFeeDatoshi}};
+        createTx(request);
     }
 }
 

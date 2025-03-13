@@ -30,7 +30,7 @@ public:
     int currentTab() const
     { return m_currentTab; }
 
-
+    void setStatusProcessing(bool status) override;
 public slots:
     void setCurrentTab(int tabIndex);
     void setPkeyFilterText(const QString &pkey);
@@ -62,7 +62,7 @@ protected:
 
 public:
     void initConnect();
-    Q_INVOKABLE void createStakeOrder(QStringList args);
+    Q_INVOKABLE void createStakeOrder(const QString& net, const QString& fee, const QString& certName);
     Q_INVOKABLE void createVPNOrder(QStringList args);
 
 private:

@@ -20,3 +20,8 @@ void DapModuleCertificates::import(QString path)
     QVariant status = QFile::copy(path,m_pathCert+name);
     emit signalImportFinished(status);
 }
+
+void DapModuleCertificates::requestCommand(const QVariantMap& request)
+{
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", request);
+}

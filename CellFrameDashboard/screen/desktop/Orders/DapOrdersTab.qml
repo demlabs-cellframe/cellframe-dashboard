@@ -79,7 +79,7 @@ DapPage {
 
     Component.onCompleted:
     {
-        logicMainApp.requestToService("DapCertificateManagerCommands", 1)
+        certificatesModule.requestCommand({"certCommandNumber": DapCertificateCommands.GetSertificateList})
         logicMainApp.requestToService("DapGetListTokensCommand","")
         ordersModule.statusProcessing = true
     }

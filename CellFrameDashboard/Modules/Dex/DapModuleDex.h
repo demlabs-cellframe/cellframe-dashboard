@@ -42,8 +42,8 @@ public:
     void requestHistoryTokenPairs();
     void requestHistoryOrders();
     void requestTXList();
-    void requestOrderPurchase(const QStringList& params);
-    void requestOrderCreate(const QStringList& params);
+    void requestOrderPurchase(const QVariantMap &params);
+    void requestOrderCreate(const QVariantMap &params);
 
     Q_INVOKABLE void requestOrderDelete(const QString& network, const QString& hash, const QString &fee, const QString &tokenName, const QString &amount);
 

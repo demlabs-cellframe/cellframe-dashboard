@@ -505,20 +505,31 @@ void DapModuleMasterNode::createCertificate()
         return;
     }
     qInfo() << "[DapModuleMasterNode] [Creating a master node] A " << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString() << " certificate is being created";
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "2"
-                                                                                   << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()
-                                                                                   << m_currentStartMaster[MasterNode::CERT_SIGN_KEY].toString()
-                                                                                   << "public");
+    QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                           ,{Dap::KeysParam::SIGN_CERT, m_currentStartMaster[MasterNode::CERT_SIGN_KEY].toString()}
+                           ,{Dap::KeysParam::CERT_NAME, m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()}
+                           ,{Dap::KeysParam::CATEGORY_CERT, Dap::CategoryCert::PUBLIC}
+                           ,{Dap::KeysParam::CERT_COMAND_NAMBER, 2}};
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", request);
 }
 
 void DapModuleMasterNode::getHashCertificate(const QString& certName)
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "10" << certName);
+    QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                           ,{Dap::KeysParam::CERT_NAME, m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()}
+                           ,{Dap::KeysParam::CERT_COMAND_NAMBER, 10}};
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", request);
 }
 
 void DapModuleMasterNode::addNode()
 {
-    s_serviceCtrl->requestToService("DapAddNodeCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
+    QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                           ,{Dap::KeysParam::NETWORK_NAME, m_currentStartMaster[MasterNode::NETWORK_KEY].toString()}};
+
+    s_serviceCtrl->requestToService("DapAddNodeCommand", request);
 }
 
 void DapModuleMasterNode::createStakeOrder()
@@ -530,17 +541,21 @@ void DapModuleMasterNode::createStakeOrder()
     }
     Dap::Coin feeCoin(m_currentStartMaster[MasterNode::FEE_KEY].toString());
     QString feeDatoshi = feeCoin.toDatoshiString();
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList()
-                                                           << m_currentStartMaster[MasterNode::NETWORK_KEY].toString()
-                                                           << feeDatoshi
-                                                           << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString());
+    QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, m_currentStartMaster[MasterNode::NETWORK_KEY].toString()}
+                            ,{Dap::KeysParam::FEE, feeDatoshi}
+                            ,{Dap::KeysParam::CERT_NAME, m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()}};
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", request);
 }
 
 void DapModuleMasterNode::createStakeOrderForMasterNode(const QString& fee, const QString& certName)
 {
     Dap::Coin feeCoin(fee);
     QString feeDatoshi = feeCoin.toDatoshiString();
-    s_serviceCtrl->requestToService("DapCreateStakeOrder", QStringList() << m_currentNetwork << feeDatoshi << certName << "from" << MasterNode::MASTER_NODE_KEY); // master_node - For identification FROM
+    QVariantMap request = {{Dap::KeysParam::NETWORK_NAME, m_currentNetwork}
+                            ,{Dap::KeysParam::FEE, feeDatoshi}
+                            ,{Dap::KeysParam::CERT_NAME, certName}
+                            ,{Dap::KeysParam::FROM, MasterNode::MASTER_NODE_KEY}};
+    s_serviceCtrl->requestToService("DapCreateStakeOrder", request); // master_node - For identification FROM
 }
 
 void DapModuleMasterNode::getInfoNode()
@@ -557,22 +572,31 @@ void DapModuleMasterNode::getNodeLIst()
     if(!m_isNodeListRequest)
     {
         m_isNodeListRequest = true;
-        s_serviceCtrl->requestToService("DapNodeListCommand", QStringList() << m_currentStartMaster[MasterNode::NETWORK_KEY].toString());
+        QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::LOCAL ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+        QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMode}
+                           ,{Dap::KeysParam::NETWORK_NAME, m_currentStartMaster[MasterNode::NETWORK_KEY].toString()}};
+        s_serviceCtrl->requestToService("DapNodeListCommand", request );
     }
 }
 
 void DapModuleMasterNode::getInfoCertificate()
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "1");
+    QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                           ,{Dap::KeysParam::CERT_COMAND_NAMBER, 1}};
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", request);
 }
 
 void DapModuleMasterNode::moveCertificate(const QString& path)
 {
     if(path.isEmpty())
     {
-        s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
-                                                                                       << m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()
-                                                                                       << m_currentStartMaster[MasterNode::CERT_PATH_KEY].toString());
+        QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+        QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                               ,{Dap::KeysParam::CERT_NAME, m_currentStartMaster[MasterNode::CERT_NAME_KEY].toString()}
+                               ,{Dap::KeysParam::PATH_CERT, m_currentStartMaster[MasterNode::CERT_PATH_KEY].toString()}
+                               ,{Dap::KeysParam::CERT_COMAND_NAMBER, 11}};
+        s_serviceCtrl->requestToService("DapCertificateManagerCommands", request);
     }
     else
     {
@@ -581,9 +605,12 @@ void DapModuleMasterNode::moveCertificate(const QString& path)
         {
             qDebug() << "[DapModuleMasterNode] [moveCertificate] We are trying to move the certificate.";
             m_certMovedKeyRequest = true;
-            s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "11"
-                                                                                           << cert.first
-                                                                                           << cert.second);
+            QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+            QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                                   ,{Dap::KeysParam::CERT_NAME, cert.first}
+                                   ,{Dap::KeysParam::PATH_CERT, cert.second}
+                                   ,{Dap::KeysParam::CERT_COMAND_NAMBER, 11}};
+            s_serviceCtrl->requestToService("DapCertificateManagerCommands", request);
         }
         else
         {
@@ -612,9 +639,13 @@ void DapModuleMasterNode::moveWallet(const QString& path)
 
 void DapModuleMasterNode::dumpCertificate(const QString& type)
 {
-    s_serviceCtrl->requestToService("DapCertificateManagerCommands", QStringList() << "3" << m_certName << m_certPath
-                                                                                   << "from" << "master_node"
-                                                                                   << "type" << type);
+    QString nodeMade = Dap::NodeMode::LOCAL_MODE;
+    QVariantMap request = {{Dap::KeysParam::NODE_MODE_KEY, nodeMade}
+                           ,{Dap::KeysParam::CERT_NAME, m_certName}
+                           ,{Dap::KeysParam::PATH_CERT, m_certPath}
+                           ,{Dap::KeysParam::CATEGORY_CERT, type}
+                           ,{Dap::KeysParam::CERT_COMAND_NAMBER, 3}};
+    s_serviceCtrl->requestToService("DapCertificateManagerCommands", request);
 }
 
 bool DapModuleMasterNode::tryGetInfoCertificate(const QString& filePath, const QString& type)
@@ -881,8 +912,16 @@ void DapModuleMasterNode::respondNetworkStatus(const QVariant &rcvData)
 
 void DapModuleMasterNode::respondNodeListCommand(const QVariant &rcvData)
 {
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+
+    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+    if(document.isNull() || document.isEmpty())
+    {
+        return;
+    }
     if(m_isNodeListRequest)
     {
+
         auto replyDoc = QJsonDocument::fromJson(rcvData.toByteArray());
         QJsonObject replyObj = replyDoc.object();
         m_isNodeListRequest = false;
@@ -1036,6 +1075,13 @@ void DapModuleMasterNode::workNodeChanged()
 
 void DapModuleMasterNode::respondMoveWalletCommand(const QVariant &rcvData)
 {
+    auto byteArrayData = DapCommonMethods::convertJsonResult(rcvData.toByteArray());
+
+    QJsonDocument document = QJsonDocument::fromJson(byteArrayData);
+    if(document.isNull() || document.isEmpty())
+    {
+        return;
+    }
     if(m_walletMovedKeyRequest)
     {
         m_walletMovedKeyRequest = false;

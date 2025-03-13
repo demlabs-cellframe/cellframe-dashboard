@@ -1,5 +1,5 @@
 #include "DapServiceController.h"
-
+#include "DapDashboardPathDefines.h"
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
@@ -40,6 +40,10 @@ void DapServiceController::run()
     m_web3Controll = new DapWebControllerForService(this);
     m_web3Controll->rcvFrontendConnectStatus(true);
     m_web3Controll->setCommandList(&m_transceivers);
+
+    QStringList webPathWallets = {Dap::DashboardDefines::DashboardStorage::WALLET_PATH, Dap::DashboardDefines::DashboardStorage::WALLET_NODE_PATH};
+    m_web3Controll->setPathWallets(webPathWallets);
+
     // Channel req\rep for web 3 API
     connect(this, &DapServiceController::webConnectRespond, m_web3Controll, &DapWebControll::rcvAccept);
     connect(m_web3Controll, &DapWebControllerForService::signalConnectRequest, this, &DapServiceController::rcvWebConenctRequest);
@@ -95,7 +99,7 @@ void DapServiceController::addService(const QString& name, const QString& signal
         return;
     }
 
-    connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant reply)
+    connect(commandService, &DapAbstractCommand::dataGetedSignal, [signalName, this] (const QVariant& reply)
     {
         for (int idx = 0; idx < metaObject()->methodCount(); ++idx)
         {
@@ -135,7 +139,6 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapCreatePassForWallet,               QObject*>("DapCreatePassForWallet",                    "passwordCreated",                       nullptr);
     addServiceGeneric<DapWalletActivateOrDeactivateCommand, QObject*>("DapWalletActivateOrDeactivateCommand",      "rcvActivateOrDeactivateReply",          nullptr);
     addServiceGeneric<DapGetWalletAddressCommand,           QObject*>("DapGetWalletAddressCommand",                "walletAddressReceived",                 nullptr);
-//    addServiceGeneric<DapGetWalletTokenInfoCommand,         QObject*>("DapGetWalletTokenInfoCommand",              "walletTokensReceived",                  nullptr);
     addServiceGeneric<DapGetOnceWalletInfoCommand,          QObject*>("DapGetOnceWalletInfoCommand",               "rcvGetOnceWalletInfoCommand",           nullptr);
 
     /*Xchange*/
@@ -188,7 +191,6 @@ void DapServiceController::registerCommand()
     addServiceGeneric<DapNodeListCommand,                   QObject*>("DapNodeListCommand",                        "rcvNodeListCommand",                    nullptr);
     addServiceGeneric<DapNodeDumpCommand,                   QObject*>("DapNodeDumpCommand",                        "rcvNodeDumpCommand",                    nullptr);
     addServiceGeneric<DapGetNodeIPCommand,                  QObject*>("DapGetNodeIPCommand",                       "rcvGetNodeIPCommand",                   nullptr);
-    addServiceGeneric<DapGetNodeStatus,                     QObject*>("DapGetNodeStatus",                          "rcvGetNodeStatus",                      nullptr);
     addServiceGeneric<DapNodeDel,                           QObject*>("DapNodeDel",                                "rcvNodeDel",                            nullptr);
     addServiceGeneric<DapNodeConfigController,              QObject*>("DapNodeConfigController",                   "dapNodeConfigController",               nullptr);
 
