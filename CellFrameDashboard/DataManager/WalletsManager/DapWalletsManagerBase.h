@@ -18,8 +18,8 @@ public:
     void setCurrentWallet(const QPair<int,QString>& wallet);
 
     const QMap<QString, CommonWallet::WalletInfo>& getWalletsInfo() const {return m_walletsInfo; }
-    const CommonWallet::WalletInfo getCurrentWalletInfo() const {return m_walletsInfo[m_currentWallet.second];}
-    const CommonWallet::WalletInfo getWalletInfo(QString walletName) const {return m_walletsInfo[walletName];}
+    const CommonWallet::WalletInfo getCurrentWalletInfo() const {return m_walletsInfo.value(m_currentWallet.second);}
+    const CommonWallet::WalletInfo getWalletInfo(QString walletName) const {return m_walletsInfo.value(walletName);}
     virtual void updateWalletList() {}
     virtual void updateWalletInfo() {}
     const QVariantList& getDuplicateWallets() const {return m_duplicateWallets; }

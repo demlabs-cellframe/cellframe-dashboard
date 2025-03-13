@@ -197,10 +197,7 @@ Item{
                 radius: currTheme.frameRadius
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
-
-                height: 270
-
-
+                height:  OS_WIN_FLAG ? 290 : 270
 
                 contentData:
                 Text

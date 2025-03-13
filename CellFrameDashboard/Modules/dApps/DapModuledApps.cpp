@@ -386,7 +386,7 @@ void DownloadManager::onDownloadProgress(quint64 currDownloadedBytes, quint64 to
     bool isCompleted = false;
     double percent;
     QString percentStr, downloadedStr, totalStr;
-    if (totalBytes != 0)
+    if (totalBytes != 0 && totalBytes != currDownloadedBytes)
     {
         quint64 timeNow = m_progress.timeRecord.elapsed();
         m_progress.totalBytes = totalBytes;
