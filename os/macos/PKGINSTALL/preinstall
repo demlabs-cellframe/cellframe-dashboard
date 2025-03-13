@@ -1,1 +1,27 @@
 #!/bin/bash
+
+# Define process names
+PROCESS1="Cellframe-Dashboard"
+PROCESS2="Cellframe-DashboardService"
+
+# Function to stop a process if it is running
+stop_process() {
+    local process_name="$1"
+    if pgrep -x "$process_name" > /dev/null; then
+        echo "Stopping the process: $process_name"
+        pkill -x "$process_name"
+        if [ $? -eq 0 ]; then
+            echo "Process $process_name has been successfully stopped."
+        else
+            echo "Failed to stop the process $process_name."
+        fi
+    else
+        echo "Process $process_name is not running."
+    fi
+}
+
+# Stopping processes
+stop_process "$PROCESS1"
+stop_process "$PROCESS2"
+
+exit 0
