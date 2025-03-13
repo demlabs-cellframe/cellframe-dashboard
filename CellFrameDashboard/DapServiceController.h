@@ -82,7 +82,6 @@
 #include "handlers/DapLedgerTxHashCommand.h"
 #include "handlers/DapNodeDumpCommand.h"
 #include "handlers/DapGetNodeIPCommand.h"
-#include "handlers/DapGetNodeStatus.h"
 #include "handlers/DapGetServiceLimitsCommand.h"
 #include "handlers/DapVoitingListCommand.h"
 #include "handlers/DapVoitingDumpCommand.h"
