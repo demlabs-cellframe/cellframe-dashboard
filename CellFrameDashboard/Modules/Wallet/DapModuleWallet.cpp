@@ -237,10 +237,14 @@ void DapModuleWallet::requestWalletTokenInfo(QStringList args)
 
 void DapModuleWallet::createWallet(const QStringList& args)
 {
+    QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL
+                           ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
+
     QVariantMap request = {{Dap::KeysParam::WALLET_NAME, args[0]}
                           ,{Dap::KeysParam::SIGN, args[1]}
                           ,{Dap::KeysParam::HASH, args[2]}
-                          ,{Dap::KeysParam::WALLET_PATH, Dap::DashboardDefines::DashboardStorage::WALLET_PATH}};
+                          ,{Dap::KeysParam::WALLET_PATH, Dap::DashboardDefines::DashboardStorage::WALLET_PATH}
+                          ,{Dap::CommandParamKeys::NODE_MODE_KEY, nodeMode}};
     if(args.size() == 4)
     {
         request.insert(Dap::KeysParam::WALLET_PASSWORD, args[3]);
@@ -287,9 +291,9 @@ void DapModuleWallet::createPassword(QStringList args)
     request.insert(Dap::KeysParam::WALLET_NAME, args[0]);
     request.insert(Dap::KeysParam::WALLET_PASSWORD, args[1]);
     request.insert(Dap::KeysParam::WALLET_PATH, walletsInfo.value(args[0]).path);
-    QString nodeMade = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL
+    QString nodeMode = DapNodeMode::getNodeMode() == DapNodeMode::NodeMode::LOCAL
                            ? Dap::NodeMode::LOCAL_MODE : Dap::NodeMode::REMOTE_MODE;
-    request.insert(Dap::CommandParamKeys::NODE_MODE_KEY, nodeMade);
+    request.insert(Dap::CommandParamKeys::NODE_MODE_KEY, nodeMode);
     s_serviceCtrl->requestToService("DapCreatePassForWallet", request);
 }
 
