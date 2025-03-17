@@ -1,5 +1,5 @@
-# cellframe-dashboard
-CellFrame Dashboard
+# cellframe-wallet
+CellFrame Wallet
 
 ## Build:
 

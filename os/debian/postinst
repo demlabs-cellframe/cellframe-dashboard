@@ -3,26 +3,26 @@
 . /usr/share/debconf/confmodule
 
 DAP_CHAINS_NAME="cellframe"
-DAP_DASHBOARD_NAME="$DAP_CHAINS_NAME-dashboard"
-DAP_DASHBOARD_PREFIX="/opt/$DAP_DASHBOARD_NAME"
+DAP_WALLET_NAME="$DAP_CHAINS_NAME-wallet"
+DAP_WALLET_PREFIX="/opt/$DAP_WALLET_NAME"
 
-APP_NAME=Cellframe-Dashboard
+APP_NAME=Cellframe-Wallet
 
 case "$1" in
     configure)
 
-    chmod +x /opt/cellframe-dashboard/bin/*
-    ln -sf /opt/cellframe-dashboard/bin/$APP_NAME /usr/local/bin/$APP_NAME
+    chmod +x /opt/cellframe-wallet/bin/*
+    ln -sf /opt/cellframe-wallet/bin/$APP_NAME /usr/local/bin/$APP_NAME
     
     if ! [ -f "/usr/lib/x86_64-linux-gnu/libxcb-util.so.0" ]; then
    	 	ln /usr/lib/x86_64-linux-gnu/libxcb-util.so.1 /usr/lib/x86_64-linux-gnu/libxcb-util.so.0
 	fi
     
-    cp -f /opt/cellframe-dashboard/share/CellFrameDashboard.desktop /usr/share/applications/CellFrameDashboard.desktop
-	cp -f /opt/cellframe-dashboard/share/CellframeDashboard.png	/usr/share/pixmaps/CellframeDashboard.png
+    cp -f /opt/cellframe-wallet/share/CellFrameWallet.desktop /usr/share/applications/CellFrameWallet.desktop
+	cp -f /opt/cellframe-wallet/share/CellframeWallet.png	/usr/share/pixmaps/CellframeWallet.png
     update-menus
 
-#    echo "For start CellFrame Dashboard Service - run 'systemctl start cellframe-dashboard'"
+#    echo "For start CellFrame Wallet Service - run 'systemctl start cellframe-wallet'"
 ;;
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;
@@ -34,21 +34,21 @@ esac
 
 # rm -r /opt/cellframe-node/var/lib/network/ || true
 # rm -r /opt/cellframe-node/var/lib/global_db/ || true
-# chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using dashboard
+# chmod 777 /opt/cellframe-node/var/lib/ca #for import CA by using wallet
 
-if [ ! -d /var/log/cellframe-dashboard/ ]; then
-    mkdir -p /var/log/cellframe-dashboard
+if [ ! -d /var/log/cellframe-wallet/ ]; then
+    mkdir -p /var/log/cellframe-wallet
 fi
-chmod -R a+rw /var/log/cellframe-dashboard/
+chmod -R a+rw /var/log/cellframe-wallet/
 
-if [ ! -d /opt/cellframe-dashboard/data/ ]; then
-    mkdir -p /opt/cellframe-dashboard/data/
+if [ ! -d /opt/cellframe-wallet/data/ ]; then
+    mkdir -p /opt/cellframe-wallet/data/
 fi
 
-if [ ! -d /opt/cellframe-dashboard/data/wallet/ ]; then
-    mkdir -p /opt/cellframe-dashboard/data/wallet
+if [ ! -d /opt/cellframe-wallet/data/wallet/ ]; then
+    mkdir -p /opt/cellframe-wallet/data/wallet
 fi
-chmod -R a+rw /opt/cellframe-dashboard/
+chmod -R a+rw /opt/cellframe-wallet/
 
 if [ -d /opt/cellframe-node/var/lib/wallet/ ]; then
     chmod -R a+rw /opt/cellframe-node/var/lib/wallet/

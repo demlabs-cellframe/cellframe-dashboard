@@ -85,13 +85,13 @@ PACK()
 	echo "${ANDROID_QT_ROOT}/${ANDROID_QT_VERSION}/bin/androiddeployqt --output ${DIST_DIR} \
                                                                   --verbose \
                                                                   --release \
-                                                                  --input ${BUILD_DIR}/CellFrameDashboard/*.json SIGN_PARAMS_HIDDEN ${QT_DEPLOY_APKNAME_PARAMS}"
+                                                                  --input ${BUILD_DIR}/CellFrameWallet/*.json SIGN_PARAMS_HIDDEN ${QT_DEPLOY_APKNAME_PARAMS}"
 																
 	
 	${ANDROID_QT_ROOT}/${ANDROID_QT_VERSION}/bin/androiddeployqt --output ${DIST_DIR} \
                                                                   --verbose \
                                                                   --release \
-                                                                  --input ${BUILD_DIR}/CellFrameDashboard/*.json  \
+                                                                  --input ${BUILD_DIR}/CellFrameWallet/*.json  \
 																  ${QT_DEPLOY_SIGN_PARAMS} \
                                                                                                   ${QT_DEPLOY_APKNAME_PARAMS}
                                                      

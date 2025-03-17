@@ -1,14 +1,9 @@
 #!/bin/bash
-osascript -e "do shell script \"/Applications/Cellframe-Dashboard.app/Contents/Resources/uninstall\" with administrator privileges"
+osascript -e "do shell script \"/Applications/Cellframe-Wallet.app/Contents/Resources/uninstall\" with administrator privileges"
 
-APP_NAME=Cellframe-Dashboard
-# SERVICE=com.demlabs."$APP_NAME"Service
-NODE=com.demlabs.cellframe-node
+APP_NAME=Cellframe-Wallet
 
 echo "$HOME/Applications/Cellframe.app"
-# sudo -u $USER launchctl stop $SERVICE 
-
-sudo -u $USER launchctl stop $NODE
 
 rm -r $HOME/Applications/Cellframe.app/Contents/Resources/cache
 rm -r $HOME/Applications/Cellframe.app/Contents/Resources/etc

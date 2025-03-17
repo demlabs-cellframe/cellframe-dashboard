@@ -32,7 +32,7 @@ containsElement () {
 
 Help()
 {
-   echo "cellframe-dashboard pack"
+   echo "cellframe-wallet pack"
    echo "Usage: pack.sh [--target ${TARGETS}] [${BUILD_TYPES}]  [OPTIONS]"
    echo "--sign PATH should provide a path to file with env variables"
 }

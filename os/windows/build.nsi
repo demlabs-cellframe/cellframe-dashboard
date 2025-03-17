@@ -37,7 +37,7 @@ Var ConfigPath
 VIAddVersionKey "ProductName"		"${APP_NAME}"
 VIAddVersionKey "CompanyName"		"${PUBLISHER}"
 VIAddVersionKey "LegalCopyright"	"${PUBLISHER} 2022"
-VIAddVersionKey "FileDescription"	"Cellframe Dashboard Application"
+VIAddVersionKey "FileDescription"	"Cellframe Wallet Application"
 VIAddVersionKey "FileVersion"		"${APP_VER}"
 VIAddVersionKey "ProductVersion"	"${APP_VER}"
 VIProductVersion "${APP_VERSION}"
@@ -103,8 +103,7 @@ Section "${APP_NAME}" CORE
 	SectionIn RO
 	SetOutPath "$INSTDIR"
 !insertmacro killAll
-	File "opt/cellframe-dashboard/bin/${APP_NAME}.exe"
-;	File "opt/cellframe-dashboard/bin/${APP_NAME}Service.exe"
+	File "opt/cellframe-wallet/bin/${APP_NAME}.exe"
 
 	InitPluginsDir
 	SetOutPath "$PLUGINSDIR"
