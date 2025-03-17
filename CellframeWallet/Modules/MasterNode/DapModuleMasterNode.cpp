@@ -74,6 +74,16 @@ DapModuleMasterNode::DapModuleMasterNode(DapModulesController *parent)
         });
 }
 
+void DapModuleMasterNode::cleareMasterNodeData()
+{
+    m_currentStartMaster.clear();
+    m_masterNodes.clear();
+    m_startStage.clear();
+    clearMasterNodeBase();
+    clearCurrentRegistration();
+    clearStageList();
+}
+
 void DapModuleMasterNode::updateStakeNode()
 {
     if(m_updateStakeData)

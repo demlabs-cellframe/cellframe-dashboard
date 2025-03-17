@@ -25,7 +25,6 @@
 
 #include "DapWebControllerForService.h"
 
-#include "handlers/DapQuitApplicationCommand.h"
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
 #include "handlers/DapUpdateLogsCommand.h"
@@ -45,13 +44,11 @@
 #include "handlers/DapGetListOrdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
-#include "handlers/DapRcvNotify.h"
 #include "handlers/DapGetListWalletsCommand.h"
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
 #include "handlers/DapGetListTokensCommand.h"
 #include "handlers/DapTokenEmissionCommand.h"
-#include "handlers/DapWebConnectRequest.h"
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
 #include "handlers/DapGetXchangeOrdersList.h"
@@ -67,7 +64,6 @@
 #include "handlers/DapCreateVPNOrder.h"
 #include "handlers/DapRemoveTransactionsQueueCommand.h"
 #include "handlers/DapCheckTransactionsQueueCommand.h"
-#include "handlers/DapServiceInitCommand.h"
 #include "handlers/DapAddNodeCommand.h"
 #include "handlers/DapCheckQueueTransactionCommand.h"
 #include "handlers/DapNodeListCommand.h"
@@ -100,7 +96,6 @@
 #include "handlers/DapSrvStakeInvalidate.h"
 #include "handlers/DapNodeDel.h"
 #include "handlers/DapSrvStakeRemove.h"
-#include "handlers/DapWebBlockList.h"
 #include "handlers/DapMigrateWalletsCommand.h"
 
 #include "handlers/DapCreateOrderValidatorCommand.h"
