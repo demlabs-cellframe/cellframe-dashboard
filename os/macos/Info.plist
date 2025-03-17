@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleExecutable</key>
-	<string>Cellframe-Dashboard</string>
+	<string>Cellframe-Wallet</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Created by Qt/QMake</string>
 	<key>CFBundleIconFile</key>
-	<string>CellframeDashboard.icns</string>
+	<string>CellframeWallet.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.demlabs.Cellframe-Dashboard</string>
+	<string>com.demlabs.Cellframe-Wallet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
