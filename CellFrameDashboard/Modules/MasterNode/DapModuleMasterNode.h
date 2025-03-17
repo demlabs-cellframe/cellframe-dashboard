@@ -165,6 +165,8 @@ public:
 
     Q_PROPERTY(int errorMessage READ getErrorMessage NOTIFY errorCreation)
     Q_INVOKABLE int getErrorMessage(){return m_errorCode;}
+
+    Q_INVOKABLE void cleareMasterNodeData();
 signals:
     void currentNetworkChanged();
     void certNameFromStartMasterNodeChanged();

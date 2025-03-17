@@ -165,6 +165,26 @@ Rectangle
             }
         }
 
+        /// TODO: The button deletes the data, it is needed only for tests.
+        DapButton
+        {
+            implicitHeight: 36
+            Layout.fillWidth: true
+            textButton: qsTr("Delete all data")
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
+            fontButton: mainFont.dapFont.medium14
+            visible: true
+            defaultColorNormal0: red
+            defaultColorNormal1: red
+            defaultColorHovered0: gray
+            defaultColorHovered1: gray
+            onClicked:
+            {
+                nodeMasterModule.cleareMasterNodeData()
+            }
+        }
+
         Item { Layout.fillHeight: true }
 
     }

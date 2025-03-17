@@ -25,7 +25,6 @@
 
 #include "DapWebControllerForService.h"
 
-#include "handlers/DapQuitApplicationCommand.h"
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
 #include "handlers/DapUpdateLogsCommand.h"
