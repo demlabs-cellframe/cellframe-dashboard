@@ -29,7 +29,7 @@ amd64:macos:
     script:
       - ./prod_build/build.sh --target osx release
       - ./prod_build/pack.sh --target osx release --sign /opt/buildtools/sign/macos/demlabs.sh
-      - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*-signed.pkg
+      - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-wallet/$CI_COMMIT_REF_NAME/ build_*/*-signed.pkg
 
 
     artifacts:
@@ -45,8 +45,8 @@ amd64:debian:
       - ./prod_build/build.sh --target linux release
       - ./prod_build/pack.sh --target linux release
       - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
-      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
-      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/ build_*/*.deb 
     artifacts:
       paths:
         - build_*/*.deb
@@ -60,8 +60,8 @@ arm64:debian:
       - ./prod_build/build.sh --target linux release
       - ./prod_build/pack.sh --target linux release
       - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
-      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
-      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/ build_*/*.deb 
     artifacts:
       paths:
         - build_*/*.deb
@@ -73,7 +73,7 @@ amd64:windows:
     script:
       - ./prod_build/build.sh --target windows release
       - ./prod_build/pack.sh --target windows release --sign /opt/buildtools/sign/windows/cellframe-dashboard.sh
-      - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.exe     
+      - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-wallet/$CI_COMMIT_REF_NAME/ build_*/*.exe     
     artifacts:
       paths:
         - build_*/*.exe
@@ -91,8 +91,8 @@ amd64:debian_debug:
       - ./prod_build/build.sh --target linux debug
       - ./prod_build/pack.sh --target linux debug
       - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
-      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
-      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/ build_*/*.deb 
     artifacts:
       paths:
         - build_*/*.deb    
@@ -104,29 +104,29 @@ publish-linux:
     - amd64:debian 
     - arm64:debian
   script: 
-    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*amd64.deb --redirect-with-link linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
-    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*arm64.deb --redirect-with-link linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-arm64 --just-redirect
-    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*amd64.deb --redirect-from linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
-    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*arm64.deb --redirect-from linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.arm64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*amd64.deb --redirect-with-link linux/cellframe-wallet/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*arm64.deb --redirect-with-link linux/cellframe-wallet/$CI_COMMIT_REF_NAME/latest-arm64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*amd64.deb --redirect-from linux/cellframe-wallet/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*arm64.deb --redirect-from linux/cellframe-wallet/$CI_COMMIT_REF_NAME/latest.arm64 --just-redirect
     - anybadge -l "pub linux" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
-    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-wallet/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
     
 publish-windows:
   extends: .publish
   needs: 
     - amd64:windows 
   script: 
-    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-with-link windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
-    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-from windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-with-link windows/cellframe-wallet/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-from windows/cellframe-wallet/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
     - anybadge -l "pub windows" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
-    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg    
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-wallet/$CI_COMMIT_REF_NAME/latest ./version-badge.svg    
 
 publish-macos:
   extends: .publish
   needs: 
     - amd64:macos
   script: 
-    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*-signed.pkg --redirect-with-link macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
-    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*-signed.pkg --redirect-from macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*-signed.pkg --redirect-with-link macos/cellframe-wallet/$CI_COMMIT_REF_NAME/latest-amd64 --just-redirect
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-wallet/$CI_COMMIT_REF_NAME/  build_*/*-signed.pkg --redirect-from macos/cellframe-wallet/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
     - anybadge -l "pub macos" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
-    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-wallet/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
