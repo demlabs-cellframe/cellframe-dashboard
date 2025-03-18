@@ -2,9 +2,9 @@
 
 case "$1" in
     purge|remove|abort-upgrade|failed-upgrade|upgrade)
-    [ -f /usr/local/bin/Cellframe-Dashboard ] && rm /usr/local/bin/Cellframe-Dashboard
-    [ -f /usr/share/applications/CellFrameDashboard.desktop ] && rm /usr/share/applications/CellFrameDashboard.desktop
-    [ -f /usr/share/pixmaps/CellFrameDdashboard.ico ] && rm /usr/share/pixmaps/CellFrameDashboard.ico
+    [ -f /usr/local/bin/Cellframe-Wallet ] && rm /usr/local/bin/Cellframe-Wallet
+    [ -f /usr/share/applications/CellFrameWallet.desktop ] && rm /usr/share/applications/CellFrameWallet.desktop
+    [ -f /usr/share/pixmaps/CellFrameWallet.ico ] && rm /usr/share/pixmaps/CellFrameWallet.ico
     ;;
     *)
         echo "postrm called with unknown argument \`$1'" >&2

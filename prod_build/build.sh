@@ -38,7 +38,7 @@ esac
 
 Help()
 {
-   echo "cellframe-dashboard build"
+   echo "cellframe-wallet build"
    echo "Usage: build.sh [--target ${TARGETS}] [${BUILD_TYPES}]  [OPTIONS]"
    echo "options:   -DWHATEVER=ANYTHING will be passed to cmake as defines"
    echo

@@ -42,8 +42,8 @@ PACK()
     OUT_DIR=$3
     ARCH=$(dpkg --print-architecture)
     source "${HERE}/../version.mk"
-    PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64.exe"
-    PACKAGE_NAME_SIGNED="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64-signed.exe"
+    PACKAGE_NAME="cellframe-wallet_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64.exe"
+    PACKAGE_NAME_SIGNED="cellframe-wallet_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64-signed.exe"
 
     makensis ${DIST_DIR}/build.nsi
     mv ${DIST_DIR}/*installer.exe ${OUT_DIR}/${PACKAGE_NAME}

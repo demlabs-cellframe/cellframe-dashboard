@@ -47,7 +47,7 @@ PACK_LINUX()
     BUILD_DIR=$2
     OUT_DIR=$3
 
-	BRAND=Cellframe-Dashboard
+	BRAND=Cellframe-Wallet
 
     #USED FOR PREPARATION OF UNIFIED BUNDLE
     #all binaries and some structure files are threre
@@ -80,8 +80,8 @@ PACK_LINUX()
 	
 	#get version info
 	source "${HERE}/../version.mk"
-    PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64.pkg"
-	PACKAGE_NAME_SIGNED="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64-signed.pkg"
+    PACKAGE_NAME="cellframe-wallet_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64.pkg"
+	PACKAGE_NAME_SIGNED="cellframe-wallet_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_amd64-signed.pkg"
     echo "Building package [$PACKAGE_NAME]"
 
 	#prepare
@@ -147,7 +147,7 @@ PACK_OSX()
     BUILD_DIR=$2
     OUT_DIR=$3
 
-	BRAND=Cellframe-Dashboard
+	BRAND=Cellframe-Wallet
 
     #USED FOR PREPARATION OF UNIFIED BUNDLE
     #all binaries and some structure files are threre
@@ -156,7 +156,7 @@ PACK_OSX()
     #USED FOR PROCESSING OF PREPARED BUNDLE: BOM CREATION, ETC
     OSX_PKG_DIR=${DIST_DIR}/pkg
 
-	BRAND_OSX_BUNDLE_DIR=${DIST_DIR}/Cellframe-Dashboard.app
+	BRAND_OSX_BUNDLE_DIR=${DIST_DIR}/Cellframe-Wallet.app
 
     #prepare correct packaging structure
     mkdir -p ${PACKAGE_DIR}
@@ -175,8 +175,8 @@ PACK_OSX()
 	
 	#get version info
 	source "${HERE}/../version.mk"
-    PACKAGE_NAME="cellframe-dashboard-${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_PATCH}-amd64.pkg"
-	PACKAGE_NAME_SIGNED="cellframe-dashboard-${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_PATCH}-amd64-signed.pkg"
+    PACKAGE_NAME="cellframe-wallet-${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_PATCH}-amd64.pkg"
+	PACKAGE_NAME_SIGNED="cellframe-wallet-${VERSION_MAJOR}.${VERSION_MINOR}-${VERSION_PATCH}-amd64-signed.pkg"
     echo "Building package [$PACKAGE_NAME]"
 
 	#prepare
@@ -193,8 +193,8 @@ PACK_OSX()
 
 	
 	pkgbuild --root ${PAYLOAD_BUILD} \
-			 --component-plist ${PAYLOAD_BUILD}/../Cellframe-Dashboard.plist \
-			 --identifier "com.demlabs.CellframeDashboard" \
+			 --component-plist ${PAYLOAD_BUILD}/../Cellframe-Wallet.plist \
+			 --identifier "com.demlabs.CellframeWallet" \
 			 --version "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" \
 			 --install-location /Applications \
 			 --scripts ${SCRIPTS_BUILD} \

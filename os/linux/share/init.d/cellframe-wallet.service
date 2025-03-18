@@ -1,0 +1,15 @@
+[Unit]
+Description=Cellframe Wallet Service
+After=network.target
+
+[Service]
+Type=forking
+OOMScoreAdjust=-1000
+#PIDFile=/opt/cellframe-dashboard/Cellframe-DashboardService.pid
+WorkingDirectory=/opt/cellframe-wallet/
+ExecStart=/opt/cellframe-wallet/bin/Cellframe-WalletService -D
+ExecStop=/opt/cellframe-wallet/bin/Cellframe-WalletService --stop
+Restart=always
+
+[Install] 
+WantedBy=multi-user.target
