@@ -3,6 +3,7 @@
 # Define process names
 PROCESS1="Cellframe-Dashboard"
 PROCESS2="Cellframe-DashboardService"
+PROCESS3="Cellframe-Wallet"
 
 # Function to stop a process if it is running
 stop_process() {
@@ -23,5 +24,6 @@ stop_process() {
 # Stopping processes
 stop_process "$PROCESS1"
 stop_process "$PROCESS2"
+stop_process "$PROCESS3"
 
 exit 0
