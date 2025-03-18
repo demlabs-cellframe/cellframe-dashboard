@@ -18,8 +18,8 @@ DEFINES += MAX_NODE_VERSION=\\\"5.3-352\\\"
 
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe
-BRAND = Cellframe-Dashboard
-BRAND_LO = cellframe-dashboard
+BRAND = Cellframe-Wallet
+BRAND_LO = cellframe-wallet
 
 DEFINES += QT_DEPRECATED_WARNINGS \
     DAP_BRAND=\\\"$$BRAND\\\" \

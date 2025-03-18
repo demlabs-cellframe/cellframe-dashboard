@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=CellFrame Wallet
+Exec=/opt/cellframe-wallet/bin/Cellframe-Wallet
+Icon=/opt/cellframe-wallet/share/CellframeWallet.png
+Terminal=false
+Type=Application
+StartupWMClass=Cellframe-Wallet
+Encoding=UTF-8
+Categories=Network;Application;
+Name[ru_RU]=CellFrameWallet.desktop

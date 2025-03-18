@@ -40,17 +40,17 @@ PACK()
     source "${HERE}/../version.mk"
     
     if [ "${BUILD_TYPE}" = "rwd" ]; then
-         PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-rwd_${ARCH}.deb"
+         PACKAGE_NAME="cellframe-wallet_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-rwd_${ARCH}.deb"
     elif [ "${BUILD_TYPE}" = "debug" ]; then
-         PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-debug_${ARCH}.deb"
+         PACKAGE_NAME="cellframe-wallet_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-debug_${ARCH}.deb"
     else
-         PACKAGE_NAME="cellframe-dashboard_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_${ARCH}.deb"
+         PACKAGE_NAME="cellframe-wallet_${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}_${ARCH}.deb"
     fi
 
 
     mkdir -p ${DIST_DIR}/DEBIAN
 
-    #dashboard pkg configs
+    #wallet pkg configs
     cp ${HERE}/../os/debian/control ${DIST_DIR}/DEBIAN
     cp ${HERE}/../os/debian/preinst ${DIST_DIR}/DEBIAN
     cp ${HERE}/../os/debian/postinst ${DIST_DIR}/DEBIAN

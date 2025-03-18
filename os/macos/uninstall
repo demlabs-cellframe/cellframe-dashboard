@@ -5,7 +5,7 @@ INSTALLER_USER=$(stat -f '%Su' $HOME)
 
 LOG_FILE=/tmp/uninstall.log
 
-APP_NAME=Cellframe-Dashboard
+APP_NAME=Cellframe-Wallet
 # SERVICE=com.demlabs."$APP_NAME"Service
 NODE=com.demlabs.cellframe-node
 
@@ -32,7 +32,7 @@ sudo -u $USER launchctl unload -w $HOME/Library/LaunchAgents/$NODE.plist
 RET=0
 echo "Installation logs" > /tmp/"$APP_NAME"_Install_Logs.txt
 
-echo "Gui_check" >> /tmp/debug_dashboard.txt
+echo "Gui_check" >> /tmp/debug_wallet.txt
 if pgrep -x ""$APP_NAME"" > /dev/null
 then
     	echo "Gui is Running" >> /tmp/"$APP_NAME"_Install_Logs.txt
@@ -61,7 +61,7 @@ while read -r GuiPID; do
 	fi
 done <<< "$GuiPIDs"
 
-echo "unloading the weirdo deps" >> /tmp/debug_dashboard.txt
+echo "unloading the weirdo deps" >> /tmp/debug_wallet.txt
 
 
 # [ -e /Library/LaunchDaemons/com.demlabs."$APP_NAME"Service.plist ] && launchctl unload -w $HOME/Library/LaunchAgents/com.demlabs."$APP_NAME"Service.plist
@@ -99,7 +99,7 @@ osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
 osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
 exit 0
 
-echo "cleanup done" >> /tmp/debug_dashboard.txt
+echo "cleanup done" >> /tmp/debug_wallet.txt
 
 sudo pkgutil --forget com.demlabs.$APP_NAME
 
