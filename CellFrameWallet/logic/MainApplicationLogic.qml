@@ -437,7 +437,7 @@ QtObject {
         messagePopupVersion.dapButtonOk.textButton = "Update"
         messagePopupVersion.dapButtonCancel.textButton = "Cancel"
 
-        messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), currVer, lastVersion, "")
+        messagePopupVersion.smartOpenVersion(qsTr("Wallet update"), currVer, lastVersion, "")
     }
 
     function rcvReplyVersion()
@@ -445,7 +445,7 @@ QtObject {
         messagePopupVersion.dapButtonCancel.visible = false
         messagePopupVersion.dapButtonOk.textButton = "Ok"
 
-        messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), "", "", qsTr("You have the latest version installed."))
+        messagePopupVersion.smartOpenVersion(qsTr("Wallet update"), "", "", qsTr("You have the latest version installed."))
     }
 
     function updateDashboard()
