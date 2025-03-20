@@ -110,3 +110,17 @@ publish-macos:
     - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*-signed.pkg --redirect-from macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest.amd64 --just-redirect
     - anybadge -l "pub macos" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
     - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
+
+
+calculate_hash:
+  stage: deploy
+  script:
+    - echo "Calculating SHA-256 hash for the package"
+    - PACKAGE_PATH=$(find /builds/cellframe/cellframe-dashboard/build_osx_release/ -name "cellframe-dashboard_*_amd64-signed.pkg" | head -n 1)
+    - if [ -z "$PACKAGE_PATH" ]; then echo "Error: Package not found"; exit 1; fi
+    - echo "Found package: $PACKAGE_PATH"
+    - sha256sum "$PACKAGE_PATH" > package_hash.txt
+    - cat package_hash.txt
+  artifacts:
+    paths:
+      - package_hash.txt
