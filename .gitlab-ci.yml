@@ -30,7 +30,7 @@ amd64:macos:
       - ./prod_build/build.sh --target osx release
       - ./prod_build/pack.sh --target osx release --sign /opt/buildtools/sign/macos/demlabs.sh
       - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*-signed.pkg
-
+      - /opt/buildtools/brew.sh
 
     artifacts:
       paths:
@@ -72,7 +72,6 @@ amd64:macos:
       - ./prod_build/build.sh --target windows release
       - ./prod_build/pack.sh --target windows release --sign /opt/buildtools/sign/windows/cellframe-dashboard.sh
       - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.exe 
-      - /opt/buildtools/brew.sh
 
     artifacts:
       paths:
