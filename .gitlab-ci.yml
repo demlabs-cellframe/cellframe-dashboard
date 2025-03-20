@@ -36,7 +36,7 @@ amd64:macos:
       paths:
         - build_*/*.pkg
 
-amd64:debian:
+.amd64:debian:
     extends: .build
     image: demlabs/debian/amd64:qt5
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
@@ -50,7 +50,7 @@ amd64:debian:
       paths:
         - build_*/*.deb
 
-arm64:debian:
+.arm64:debian:
     extends: .build
     image: demlabs/debian/arm64:qt5
     before_script: /opt/buildtools/prepare_environment.sh arm64-linux
@@ -64,7 +64,7 @@ arm64:debian:
       paths:
         - build_*/*.deb
 
-amd64:windows:
+.amd64:windows:
     extends: .build
     image: demlabs/windows/amd64:qt5
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
@@ -78,7 +78,7 @@ amd64:windows:
         - build_*/*.exe
   
   #=================PUBLISH KELVPN===================
-publish-linux:
+.publish-linux:
   extends: .publish
   needs: 
     - amd64:debian 
@@ -91,7 +91,7 @@ publish-linux:
     - anybadge -l "pub linux" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
     - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
     
-publish-windows:
+.publish-windows:
   extends: .publish
   needs: 
     - amd64:windows 
