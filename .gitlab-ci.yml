@@ -35,6 +35,8 @@ amd64:macos:
     artifacts:
       paths:
         - build_*/*.pkg
+        - package_hash.txt
+        - cellframe-wallet.rb
 
 .amd64:debian:
     extends: .build
