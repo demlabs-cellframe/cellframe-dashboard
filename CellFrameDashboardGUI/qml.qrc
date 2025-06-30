@@ -70,6 +70,7 @@
         <file>screen/desktop/Console/DapConsoleScreenForm.qml</file>
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
         <file>screen/DapMessagePopup.qml</file>
+        <file>screen/DapWeb3ErrorPopup.qml</file>
         <file>logic/MainParams.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppButton.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml</file>

@@ -216,6 +216,7 @@ bool DapServiceController::start()
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
         connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
+        connect(m_web3Controll, &DapWebControll::web3ServerStartFailed, this, &DapServiceController::onWeb3ServerStartFailed);
 
         // Regular request controller
         m_reqularRequestsCtrl->start();
@@ -425,4 +426,18 @@ void DapServiceController::sendUpdateWallets(const QVariant& data)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWalletServiceInitCommand"));
     transceiver->notifyToClient(data);
+}
+
+void DapServiceController::onWeb3ServerStartFailed()
+{
+    qWarning() << "Web3 Server Start Failed - notifying GUI";
+    
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
+    if (transceiver) {
+        QJsonObject notification;
+        notification["type"] = "web3_error";
+        notification["message"] = "Web3 server start failed";
+        QJsonDocument doc(notification);
+        transceiver->notifyToClient(doc.toVariant());
+    }
 }

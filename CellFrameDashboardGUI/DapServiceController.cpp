@@ -1,6 +1,5 @@
 #include "DapServiceController.h"
 
-
 #include "DapNetworkStr.h"
 
 #include "dapconfigreader.h"
@@ -246,7 +245,7 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand",m_DAPRpcSocket))), QString("rcvActivateOrDeactivateReply")));
 
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("web3Event")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebBlockList("DapWebBlockList",m_DAPRpcSocket))), QString("dapWebBlockList")));
 
@@ -293,9 +292,23 @@ void DapServiceController::registerCommand()
         emit networksReceived(networks);
     });
 
-    connect(this, &DapServiceController::dapWebConnectRequest, [=] (const QVariant& rcvData)
+    connect(this, &DapServiceController::web3Event, [=] (const QVariant& eventData)
     {
-        qDebug()<<"Rcv web request " << rcvData;
+        qDebug() << "Web3 event received:" << eventData;
+        
+        QJsonDocument doc = QJsonDocument::fromJson(eventData.toString().toUtf8());
+        if (!doc.isNull()) {
+            QJsonObject obj = doc.object();
+            QString eventType = obj["type"].toString();
+            
+            if (eventType == "web3_error") {
+                qWarning() << "Web3 error event:" << obj["message"].toString();
+                emit web3ServerStartFailed();
+            } else if (eventType == "web3_connect") {
+                qDebug() << "Web3 connect event:" << obj["message"].toString();
+                emit dapWebConnectRequest(eventData);
+            }
+        }
     });
 
     connect(this, &DapServiceController::dapWebBlockList, [=] (const QVariant& rcvData)

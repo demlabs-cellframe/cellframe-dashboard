@@ -62,6 +62,7 @@ private slots:
     void sendConnectRequest(QString site, int index);
     void sendUpdateHistory(const QVariant&);
     void sendUpdateWallets(const QVariant&);
+    void onWeb3ServerStartFailed();
 private:
     /// Service core.
     DapUiService        *m_pServer {nullptr};
