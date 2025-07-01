@@ -59,6 +59,7 @@ Rectangle {
     property var vpnClientTokenModel: new Array()
 
     signal showPopupUpdateNode();
+    signal showWeb3ErrorPopup();
 
     MainApplicationLogic{id: logicMainApp}
     Settings
@@ -129,11 +130,18 @@ Rectangle {
 
     DapWebMessagePopup{
         id: webPopup
+        z: 10
+    }
+
+    DapWeb3ErrorPopup{
+        id: web3ErrorPopup
+        z: 10
     }
 
     DapPopupInfo
     {
         id: popupInfo
+        z: 10
     }
 
     DapTryCreatePasswordWalletPopup{
@@ -772,6 +780,13 @@ Rectangle {
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
+        function onWeb3ServerStartFailed() { 
+            console.log("Web3 server start failed - showing popup")
+            if (!web3ErrorPopup.dapCheckBox.isChecked) {
+                web3ErrorPopup.smartOpen()
+            }
+        }
+
 //         function onSignalXchangeTokenPairReceived()
 //         {
 //             console.log("onSignalXchangeTokenPairReceived")
@@ -832,7 +847,7 @@ Rectangle {
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
             messagePopupUpdateNode.height = 210
             var header = qsTr("Node latest supported version is installed")
-            var text = qsTr("You’re using the most up-to-date version of node.")
+            var text = qsTr("You're using the most up-to-date version of node.")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
         else if(type === 2)
@@ -860,7 +875,7 @@ Rectangle {
 
             messagePopupUpdateNode.textMessage.font = mainFont.dapFont.regular14
             var header = "<font color='" + currTheme.textColorYellow + "'>" + qsTr("Incompatible node version") + "</font>"
-            var text = qsTr("You’re using version ") + settingsModule.nodeVersion + qsTr(", which isn’t tested with this application and may cause issues. Downgrade to a compatible version?")
+            var text = qsTr("You're using version ") + settingsModule.nodeVersion + qsTr(", which isn't tested with this application and may cause issues. Downgrade to a compatible version?")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
         else if(type === 4) // Update
@@ -878,7 +893,7 @@ Rectangle {
             var header = "<font color='" + currTheme.сrayola + "'>" + qsTr("Node new version is available") + "</font>"
             var curVer = settingsModule.nodeVersion
             var maxVer = settingsModule.getMaxNodeVersion()
-            var text = qsTr("You’re using version ") + curVer + qsTr(". Version ") + "<font color='"  + currTheme.сrayola + "'><b>" + maxVer + "</b></font>" + qsTr(" is now available!")
+            var text = qsTr("You're using version ") + curVer + qsTr(". Version ") + "<font color='"  + currTheme.сrayola + "'><b>" + maxVer + "</b></font>" + qsTr(" is now available!")
             messagePopupUpdateNode.smartOpenVersion(header, "", "", text)
         }
         else if(type === 5) //Download

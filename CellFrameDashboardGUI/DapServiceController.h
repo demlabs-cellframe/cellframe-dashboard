@@ -258,6 +258,8 @@ signals:
     void notifyReceived(const QVariant& rcvData);
     void dapWebConnectRequest(const QVariant& rcvData);
     void dapWebBlockList(const QVariant& rcvData);
+    void web3Event(const QVariant& eventData);
+    void web3ServerStartFailed();
 //    void replyClientRequestConnect(QString, int);
 
     void rcvWordBook(const QVariant& rcvData);
