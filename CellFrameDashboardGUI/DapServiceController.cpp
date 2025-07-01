@@ -304,7 +304,7 @@ void DapServiceController::registerCommand()
             if (eventType == "web3_error") {
                 qWarning() << "Web3 error event:" << obj["message"].toString();
                 emit web3ServerStartFailed();
-            } else if (eventType == "web3_connect") {
+            } else {
                 qDebug() << "Web3 connect event:" << obj["message"].toString();
                 emit dapWebConnectRequest(eventData);
             }
