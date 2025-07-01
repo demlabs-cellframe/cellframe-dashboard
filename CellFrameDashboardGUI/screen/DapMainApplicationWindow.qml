@@ -130,15 +130,18 @@ Rectangle {
 
     DapWebMessagePopup{
         id: webPopup
+        z: 10
     }
 
     DapWeb3ErrorPopup{
         id: web3ErrorPopup
+        z: 10
     }
 
     DapPopupInfo
     {
         id: popupInfo
+        z: 10
     }
 
     DapTryCreatePasswordWalletPopup{
